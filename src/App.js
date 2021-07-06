@@ -2,7 +2,7 @@
 import Web3 from 'web3';
 import React, { useState, Component } from 'react';
 import './App.css';
-import { fUSDCxAddress, ETHxAddress, hostAddress, idaAddress, rickosheaAppAddress } from "./rinkeby_config";
+import { fUSDCxAddress, ETHxAddress, RICAddress, hostAddress, idaAddress, rickosheaAppAddress } from "./rinkeby_config";
 import { erc20ABI, sfABI, idaABI } from "./abis"
 const { web3tx, toWad, wad4human } = require("@decentral.ee/web3-helpers");
 
@@ -130,6 +130,7 @@ class App extends Component {
     // Updating token balances on UI
     this.getTokenBalance(this.state.account,fUSDCxAddress)
     this.getTokenBalance(this.state.account,ETHxAddress)
+    this.getTokenBalance(this.state.account,RICAddress)
     setInterval(() => this.getTokenBalance(this.state.account,fUSDCxAddress),100000);
     setInterval(() => this.getTokenBalance(this.state.account,ETHxAddress),100000);
   }
@@ -179,6 +180,24 @@ class App extends Component {
                                 ETHxAddress,
                                 rickosheaAppAddress,
                                 0, // INDEX_ID
+                                "0x"
+                            )
+                            .encodeABI(), // callData
+                        "0x" // userData
+                    ]
+                  )
+              ],
+              [
+                  201, // approve the ticket fee
+                  sf.agreements.ida.address,
+                  web3.eth.abi.encodeParameters(
+                    ["bytes", "bytes"],
+                    [
+                        sf.agreements.ida.contract.methods
+                            .approveSubscription(
+                                RICAddress,
+                                rickosheaAppAddress,
+                                1, // INDEX_ID
                                 "0x"
                             )
                             .encodeABI(), // callData
@@ -261,8 +280,10 @@ class App extends Component {
               <div class="card-body">
                 <h5 class="card-title">USDCx to ETHx</h5>
                 <p>Your Balance:</p>
+
                 <p><span id='balance-0x0F1D7C55A2B133E000eA10EeC03c774e0d6796e8'>0</span> USDCx</p>
-                <p><span id="balance-0x745861AeD1EEe363b4AaA5F1994Be40b1e05Ff90">0</span> ETHx</p>
+                <p><span id="balance-0x745861AeD1EEe363b4AaA5F1994Be40b1e05Ff90">0</span> DAIx</p>
+                <p><span id="balance-0x369A77c1A8A38488cc28C2FaF81D2378B9321D8B">0</span> RIC</p>
                 <div>
                 <input type="text" id="input-amt-0x745861AeD1EEe363b4AaA5F1994Be40b1e05Ff90" placeholder={( -( this.state.flowAmt*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)  }/>
                 <button id="startFlowButton" onClick={this.startFlow}>Start Flow</button>
