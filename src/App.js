@@ -36,6 +36,7 @@ class App extends Component {
     };
 
     this.startFlow = this.startFlow.bind(this);
+    this.stopFlow = this.stopFlow.bind(this);
     this.getOnlySuperAppFlows = this.getOnlySuperAppFlows.bind(this);
   }
 
@@ -142,6 +143,16 @@ class App extends Component {
         // console.log(tokenAddress,'balance is',bal)
         document.getElementById(`balance-${tokenAddress}`).innerHTML = (bal/1000000000000000000).toFixed(4);
     })
+  }
+
+  async stopFlow() {
+    let sf = this.state.sf
+    let sfUser = this.state.sfUser
+    console.log("Stopping flow with:",sfUser)
+    await sfUser.flow({
+      recipient: await sf.user({ address: rickosheaAppAddress, token: fUSDCxAddress }), // address: would be rickosheaAppaddress, currently not deployed
+      flowRate: "0"
+    });
   }
 
   // Starting a Superfluid flow based on what user selects in field
@@ -261,36 +272,78 @@ class App extends Component {
     // var flowAmt = parseInt( this.state.userFlowDetails.cfa.netFlow )
     return (
       <body class="indigo lighten-4">
+      <div class="container">
           <div class="row">
-            <div class = "col-2">
-              <img src="logo.jpg" style={{width:75, height:50, float:"right"}}></img>
-            </div>
-            <div class = "col-4">
-              <h3>Ricochet</h3>
-              <p>Scaling and simplifying Dollar-cost Averaging (DCA)</p>
-            </div>
             <div class= "col-6">
-              <p><span id="wallet-address" class="badge bg-secondary">{this.state.account}</span></p>
-            </div>
-            <div class= "col-4">
               <p></p>
             </div>
-            <div class="col-4">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">USDCx to ETHx</h5>
-                <p>Your Balance:</p>
-
-                <p><span id='balance-0x0F1D7C55A2B133E000eA10EeC03c774e0d6796e8'>0</span> USDCx</p>
-                <p><span id="balance-0x745861AeD1EEe363b4AaA5F1994Be40b1e05Ff90">0</span> DAIx</p>
-                <p><span id="balance-0x369A77c1A8A38488cc28C2FaF81D2378B9321D8B">0</span> RIC</p>
-                <div>
-                <input type="text" id="input-amt-0x745861AeD1EEe363b4AaA5F1994Be40b1e05Ff90" placeholder={( -( this.state.flowAmt*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)  }/>
-                <button id="startFlowButton" onClick={this.startFlow}>Start Flow</button>
-                </div>
-                <p> USDCx/month</p>
+            <div class= "col-6">
+              <p style={{float:"right" }}>Your Wallet: <span id="wallet-address" class="badge bg-secondary">{this.state.account}</span></p>
+            </div>
+          </div>
+            <div class="row">
+            <div class="col-6">
+              <div class="card">
+                <div class="card-body">
+                    <img src="logo.jpeg" style={{width:100, height:75, float:"left", marginRight: 20 }}></img>
+                    <h3>Ricochet</h3>
+                    <p>Scaling and simplifying Dollar-cost Averaging (DCA)</p>
+                    <hr></hr>
+                    <h4>Dollar-Cost Averaging on SushiSwap with Ricochet</h4>
+                    <p>Alice and Bob open a stream in units of USDC/month. Periodically Ricochet’s keeper triggers a public distribute method on Ricochet contract to:</p>
+                    <ol>
+                    <li>Swap USDC to ETH on SushiSwap</li>
+                    <li>Instantly distribute the output of the swap to Alice and Bob</li>
+                    <li>Transfer a fee taken in the output token (ETH) to the Ricochet contract owner</li>
+                    </ol>
+                    <img src="arch.png" style={{width:"100%", float:"left", marginRight: 20 }}></img>
                 </div>
               </div>
+            </div>
+            <div class="col-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">USDCx to ETHx</h5>
+                  <div class= "col-6">
+                    <p>Exchange Contract Address: <span id="pool-address" class="badge bg-primary">{rickosheaAppAddress}</span></p>
+                  </div>
+                  <p>Your Balance:</p>
+
+                  <p><span id='balance-0x0F1D7C55A2B133E000eA10EeC03c774e0d6796e8'>0</span> USDCx</p>
+                  <p><span id="balance-0x745861AeD1EEe363b4AaA5F1994Be40b1e05Ff90">0</span> DAIx</p>
+                  <p><span id="balance-0x369A77c1A8A38488cc28C2FaF81D2378B9321D8B">0</span> RIC</p>
+                  <div>
+                  <input type="text" id="input-amt-0x745861AeD1EEe363b4AaA5F1994Be40b1e05Ff90" placeholder={( -( this.state.flowAmt*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)  }/>
+                  <button id="startFlowButton" onClick={this.startFlow}>Start</button>
+                  <button id="stopFlowButton" onClick={this.stopFlow}>Stop</button>
+                  </div>
+                  <p> USDCx/month</p>
+                </div>
+              </div>
+              <br/>
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Ricochet Exchange Fees</h5>
+                  <p>There are two fees taken during the distribute:</p>
+                  <ul>
+                    <li>SushiSwap Exchange (0.3%)</li>
+                    <li>Ricochet Exchange (2.0%)</li>
+                  </ul>
+                </div>
+              </div>
+              <br/>
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">RIC Token and Liquidity Mining Distribution</h5>
+
+                  <button id="stopFlowButton" style={{width:"100%",float:"right"}} onClick={this.stopFlow}>Buy RIC</button>
+
+                  <p>Ricochet Exchange will issue a valueless governance token and form Ricochet DAO to oversee exchange's development. 10,000,000 RIC tokens will be minted. 10% of the tokens will be deposited into the initial Ricochet contract to be distributed over the first 30 days. The remaining 90% will be held by the Ricochet contract owner to be used to subsidize liquidity for projects listing on Ricochet Exchange.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+
             </div>
           </div>
 
@@ -298,7 +351,7 @@ class App extends Component {
           <div class= "col-2">
           <p></p>
           </div>
-
+      </div>
       </body>
     );
   }
