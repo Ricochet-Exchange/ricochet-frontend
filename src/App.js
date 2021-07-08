@@ -332,18 +332,6 @@ class App extends Component {
                 </div>
               </div>
               <br/>
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">RIC Token and Liquidity Mining Distribution</h5>
-
-                  <button id="stopFlowButton" style={{width:"100%",float:"right"}} onClick={this.stopFlow}>Buy RIC</button>
-
-                  <p>Ricochet Exchange will issue a valueless governance token and form Ricochet DAO to oversee exchange's development. 10,000,000 RIC tokens will be minted. 10% of the tokens will be deposited into the initial Ricochet contract to be distributed over the first 30 days. The remaining 90% will be held by the Ricochet contract owner to be used to subsidize liquidity for projects listing on Ricochet Exchange.</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-6">
-
             </div>
           </div>
 
