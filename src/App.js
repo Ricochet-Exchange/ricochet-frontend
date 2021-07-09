@@ -2,11 +2,11 @@
 import Web3 from 'web3';
 import React, { useState, Component } from 'react';
 import './App.css';
-import { fUSDCxAddress, ETHxAddress, RICAddress, hostAddress, idaAddress, rickosheaAppAddress } from "./rinkeby_config";
-import { erc20ABI, sfABI, idaABI } from "./abis"
+import { fUSDCxAddress, fUSDCAddress, ETHxAddress, RICAddress, hostAddress, idaAddress, rickosheaAppAddress } from "./rinkeby_config";
+import { erc20ABI, sfABI, idaABI, superTokenABI } from "./abis"
+import axios from 'axios';
+
 const { web3tx, toWad, wad4human } = require("@decentral.ee/web3-helpers");
-
-
 const SuperfluidSDK = require("@superfluid-finance/js-sdk");
 
 // @ethersproject/providers npm install didn't work
@@ -26,18 +26,29 @@ class App extends Component {
       loading: true,               // (not used yet) boolean for if base interface has loaded
       notConnected: true,          // (not used yet) boolean for if the user has connected wallet
       web3: null,                  // Window-injected web3 object
-      // userFlowDetails: null,       // Superfluid user flow details (what flows the user has currently occuring)
       sf: null,                    // Superfluid SDK object
       sfUser:null,                 // Superfluid User object (tied to a specific token)
+      ricUser:null,                // Superfluid User object for contract, used so we can get netflow
       host:null,                   // Superfluid host contract instance
       ida:null,                    // Superfluid Instant Distribution Agreement contract instance
-      flowAmt:"",                   // How much the user has streaming (storing as instance variable so it can be shown on front end)
-      isSubscribed:false            // True if the user has approved the streaming
+      flowAmt:"",                  // How much the user has streaming (storing as instance variable so it can be shown on front end)
+      isSubscribed:false,          // True if the user has approved the streaming
+      userFlowDeets:{cfa: {
+        netFlow:"-",
+        }
+      },                                                   // Json details on the user's flows from user.details() -> getFlowDeets()
+      ricoFlowDeets:{cfa: {
+        netFlow:"-",
+        }
+      },                                                   // Json details on the user's flows from user.details() -> getFlowDeets()
+      flowQuery:{ flowsOwned: [] , flowsReceived: [] },    // Json details on user's flows from subgraph query -> queryFlows() 
     };
 
     this.startFlow = this.startFlow.bind(this);
     this.stopFlow = this.stopFlow.bind(this);
     this.getOnlySuperAppFlows = this.getOnlySuperAppFlows.bind(this);
+    this.upgrade = this.upgrade.bind(this);
+    this.checkIfUSDCxApproved = this.checkIfUSDCxApproved.bind(this);
   }
 
   componentDidMount() {
@@ -75,18 +86,19 @@ class App extends Component {
         sfUser: sf.user({
           address: this.state.account,
           token: fUSDCxAddress
+        }),
+        ricUser: sf.user({
+          address: rickosheaAppAddress,
+          token: fUSDCxAddress
         })
       })
-      // this.setState({userFlowDetails:await this.state.sfUser.details()})
-      // this.setState({
-      //   flowAmt: parseInt( ( await this.state.sfUser.details() ).cfa.netFlow ) // TODO: Figure out how to make userFlowDetails a one-stop-shop and not have to pull netflow out of it everytime
-      // })
-      // this.setState({
-      //   flowAmt: this.getOnlySuperAppFlows()
-      // })
+
       console.log(this.state.sfUser)
+
       this.getOnlySuperAppFlows()
-      console.log( "Net flow", this.state.flowAmt )
+      this.getFlowDeets()
+      this.queryFlows()
+      this.checkIfUSDCxApproved()
 
       // Initializing Superfluid SuperApp components
       this.setState({
@@ -119,12 +131,15 @@ class App extends Component {
       console.log("ERROR IN WEB3 SET UP:", err)
     }
 
-    // Handling account switch
-    window.ethereum.on('accountsChanged', function (accounts) {
-      // this.setState({account:accounts[0]})
-      // Re-do the WEB3 SET UP if accounts are changed
-      this.loadData()
-    }.bind(this))
+    try {
+      // Handling account switch
+      window.ethereum.on('accountsChanged', function (accounts) {
+        // Re-do the WEB3 SET UP if accounts are changed
+        this.loadData()
+      }.bind(this))
+    } catch (err) {
+      console.log("Error in handling account switch",err)
+    }
 
     // window.ethereum.on('confirmation',() => console.log('test'))
 
@@ -138,9 +153,7 @@ class App extends Component {
 
   async getTokenBalance(userAddress,tokenAddress) {
     var tokenInst = new this.state.web3.eth.Contract(erc20ABI,tokenAddress);
-    console.log("Address in getTokenBalance: ",userAddress)
     tokenInst.methods.balanceOf(userAddress).call().then(function (bal) {
-        // console.log(tokenAddress,'balance is',bal)
         document.getElementById(`balance-${tokenAddress}`).innerHTML = (bal/1000000000000000000).toFixed(4);
     })
   }
@@ -153,9 +166,10 @@ class App extends Component {
       recipient: await sf.user({ address: rickosheaAppAddress, token: fUSDCxAddress }), // address: would be rickosheaAppaddress, currently not deployed
       flowRate: "0"
     });
+    this.getFlowDeets()
+    this.getOnlySuperAppFlows()
   }
 
-  // Starting a Superfluid flow based on what user selects in field
   async startFlow() {
     const web3 = new Web3(window.ethereum)
     let sf = this.state.sf
@@ -242,6 +256,9 @@ class App extends Component {
     document.getElementById("input-amt-"+ETHxAddress).value = ""
 
     // Defensive code: For some reason getOnlySuperAppFlows() doesn't update flowAmt properly when it's zero
+    this.getFlowDeets()
+    this.getOnlySuperAppFlows()
+
     if (flowInput===0) {
       this.setState({
         flowAmt: 0
@@ -249,8 +266,17 @@ class App extends Component {
     } else {
       this.getOnlySuperAppFlows()
     }
+    
   }
 
+  async getFlowDeets() {
+    this.setState({
+      // netFlow:(await this.state.sfUser.details()).cfa.netFlow
+      userFlowDeets: await this.state.sfUser.details(),
+      ricoFlowDeets: await this.state.ricUser.details()
+    })
+
+  }
 
   async getOnlySuperAppFlows() {
     let details = (await this.state.sfUser.details()).cfa.flows.outFlows
@@ -258,12 +284,140 @@ class App extends Component {
     var i
     for (i=0; i<details.length;i++) {
       if (details[i].receiver === rickosheaAppAddress) {
-        console.log("Here's the stream to the superapp",details[i].flowRate)
         this.setState({
           flowAmt: -details[i].flowRate
         })
       }
     }
+  }
+
+  async queryFlows() {
+
+    const QUERY_URL = `https://api.thegraph.com/subgraphs/name/superfluid-finance/superfluid-rinkeby`
+
+    const query = `{
+      account(id: "${rickosheaAppAddress.toLowerCase()}") {
+          flowsOwned {
+              lastUpdate
+              flowRate
+              sum
+              recipient {
+                id
+              }
+              token { 
+                  id
+                  symbol
+              }
+              events {
+                flowRate
+                sum
+                transaction {
+                  timestamp
+                }
+              }
+          }
+          flowsReceived {
+            lastUpdate
+            flowRate
+            sum
+            owner {
+              id
+            }
+            token { 
+                id
+                symbol
+            }
+            events {
+              flowRate
+              sum
+              transaction {
+                timestamp
+              }
+            }
+          }
+          
+      }
+    }`
+
+    // When doing the totalFlowed = timeDelta*flowRate + sum, it appears sum is terribly off
+    // TODO: ask Fran why I'm getting 26 when it should be like 3 
+    // For now, only showing Streamed So Far since last time flow was changed
+    const result = await axios.post(QUERY_URL, { query }) 
+    console.log(result)
+
+    // If the user doesn't have any flows, you need to make sure flowQuery doesn't get set to null so rendering the empty doesn't crash
+    if (result.data.data.account != null) {
+      this.setState({
+        flowQuery : result.data.data.account
+      })
+    } else {
+      this.setState({
+        flowQuery:{ flowsOwned: [] , flowsReceived: [] }
+      })
+    }
+
+    // console.log(this.state.flowQuery)
+
+  }
+
+  async approveUSDC() {
+    var tokenInst = new this.state.web3.eth.Contract(erc20ABI,fUSDCAddress)
+
+    await tokenInst
+    .methods.approve(
+      fUSDCxAddress,
+      "1" + "0".repeat(42),
+    ).send({ from: this.state.account })
+    this.checkIfUSDCxApproved()
+  }
+
+  async upgrade() {
+    var tokenInstx = new this.state.web3.eth.Contract(superTokenABI,fUSDCxAddress)
+    var upgradeAmount = document.getElementById("upgrade-amount").value
+
+    await tokenInstx
+    .methods.upgrade(
+      this.state.web3.utils.toWei(upgradeAmount,"ether")
+    ).send({ from: this.state.account })
+    
+    document.getElementById("upgrade-amount").value = ""
+    this.getTokenBalance(this.state.account,fUSDCxAddress)
+    this.checkIfUSDCxApproved()
+    this.getFlowDeets()
+  }
+
+  async checkIfUSDCxApproved() {
+    // hasApprovedUSDC is false by default
+    var tokenInst = new this.state.web3.eth.Contract(erc20ABI,fUSDCAddress)
+
+    await tokenInst.getPastEvents('Approval', {
+      filter: {owner: this.state.account.toLowerCase()},
+      fromBlock:0,
+      toBlock:'latest'
+    }).then( (events) => {
+      if (events.length > 0) {
+        // if the user has approved USDC before, hasAppreovedUSDC is marked true
+        this.setState({
+          hasApprovedUSDC: true
+        })
+        console.log("USDCx Approved?",this.state.hasApprovedUSDC)
+      } else {
+        this.setState({
+          hasApprovedUSDC: false
+        })
+        console.log("USDCx Approved?",this.state.hasApprovedUSDC)
+      }
+      console.log(events)
+    })
+
+    if (this.state.hasApprovedUSDC) {
+      document.getElementById("approve-button").disabled = true
+      document.getElementById("upgrade-button").disabled = false
+    } else {
+      document.getElementById("upgrade-button").disabled = true
+      document.getElementById("approve-button").disabled = false
+    }
+
   }
 
 
@@ -292,11 +446,19 @@ class App extends Component {
                     <h4>Dollar-Cost Averaging on SushiSwap with Ricochet</h4>
                     <p>Alice and Bob open a stream in units of USDC/month. Periodically Ricochet’s keeper triggers a public distribute method on Ricochet contract to:</p>
                     <ol>
-                    <li>Swap USDC to ETH on SushiSwap</li>
-                    <li>Instantly distribute the output of the swap to Alice and Bob</li>
-                    <li>Transfer a fee taken in the output token (ETH) to the Ricochet contract owner</li>
+                      <li>Swap USDC to ETH on SushiSwap</li>
+                      <li>Instantly distribute the output of the swap to Alice and Bob</li>
+                      <li>Transfer a fee taken in the output token (ETH) to the Ricochet contract owner</li>
                     </ol>
-                    <img src="arch.png" style={{width:"100%", float:"left", marginRight: 20 }}></img>
+                    <img src="arch.png" style={{width:"100%", float:"left", marginRight: 20, marginBottom: 20 }}></img>
+                    <div>
+                      <h5>Ricochet Exchange Fees</h5>
+                      <p>There are two fees taken during the distribute:</p>
+                      <ul>
+                        <li>SushiSwap Exchange (0.3%)</li>
+                        <li>Ricochet Exchange (2.0%)</li>
+                      </ul>
+                    </div>
                 </div>
               </div>
             </div>
@@ -313,22 +475,25 @@ class App extends Component {
                   <p><span id="balance-0x745861AeD1EEe363b4AaA5F1994Be40b1e05Ff90">0</span> DAIx</p>
                   <p><span id="balance-0x369A77c1A8A38488cc28C2FaF81D2378B9321D8B">0</span> RIC</p>
                   <div>
-                  <input type="text" id="input-amt-0x745861AeD1EEe363b4AaA5F1994Be40b1e05Ff90" placeholder={( -( this.state.flowAmt*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)  }/>
-                  <button id="startFlowButton" onClick={this.startFlow}>Start</button>
-                  <button id="stopFlowButton" onClick={this.stopFlow}>Stop</button>
+                    <input type="text" class="field-input" id="input-amt-0x745861AeD1EEe363b4AaA5F1994Be40b1e05Ff90" placeholder={( -( this.state.flowAmt*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)}/>
+                    <button id="startFlowButton" class="button_slide slide_right" onClick={this.startFlow}>Start</button>
+                    <button id="stopFlowButton" class="button_slide slide_right" onClick={this.stopFlow}>Stop</button>
+                    <p>USDCx/month</p>
                   </div>
-                  <p> USDCx/month</p>
+                  <p class="one-off">Total Value Streaming: {( ( this.state.ricoFlowDeets.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}/ USDCx month</p>
                 </div>
               </div>
               <br/>
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">Ricochet Exchange Fees</h5>
-                  <p>There are two fees taken during the distribute:</p>
-                  <ul>
-                    <li>SushiSwap Exchange (0.3%)</li>
-                    <li>Ricochet Exchange (2.0%)</li>
-                  </ul>
+                  <h5 class="card-title">Upgrade Your USDC to USDCx Here</h5>
+                  <table id = "upgrade-table">
+                    <tr>
+                      <td><input type="text" class="field-input" id="upgrade-amount" placeholder={"Amount"}/></td>
+                      <td><button id="approve-button" class="button_slide" onClick={this.approveUSDC}>Approve</button></td>
+                      <td><button id="upgrade-button" class="button_slide slide_right" onClick={this.upgrade}>Upgrade</button></td>
+                    </tr>
+                  </table>
                 </div>
               </div>
               <br/>
