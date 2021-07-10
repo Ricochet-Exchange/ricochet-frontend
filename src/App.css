@@ -39,8 +39,8 @@
   margin-bottom: 100px;
 }
 
-td {
-
+.network-items {
+  font-weight: bolder;
 }
 
 .field-input {
