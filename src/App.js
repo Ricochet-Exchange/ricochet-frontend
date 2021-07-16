@@ -455,7 +455,7 @@ class App extends Component {
 
   render() {
     return (
-      <body class="indigo lighten-4">
+      <body class="bod">
       <div class="container">
           <div class="row">
             <div class= "col-6">
@@ -469,11 +469,11 @@ class App extends Component {
             <div class="col-6">
               <div class="card">
                 <div class="card-body">
-                    <img src="logo.jpeg" style={{width:100, height:75, float:"left", marginRight: 20 }}></img>
+                    <img src="logo-png.png" style={{width:100, height:75, float:"left", marginRight: 20 }}></img>
                     <h3>Ricochet</h3>
                     <p>Scaling and simplifying Dollar-cost Averaging (DCA)</p>
                     <hr></hr>
-                    <h4>Dollar-Cost Averaging on SushiSwap with Ricochet</h4>
+                    <h5>Dollar-Cost Averaging on SushiSwap with Ricochet</h5>
                     <p>Alice and Bob open a stream in units of DAI/month. Periodically Ricochet’s keeper triggers a public distribute method on Ricochet contract to:</p>
                     <ol>
                       <li>Swap DAI to WETH on SushiSwap</li>
@@ -496,6 +496,7 @@ class App extends Component {
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">DAIx to WETHx</h5>
+                  <hr></hr>
                   <div class= "col-6">
                     <p>Exchange Contract Address: <span id="pool-address" class="badge bg-primary">{rickosheaAppAddress}</span></p>
                   </div>
@@ -517,6 +518,7 @@ class App extends Component {
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">Upgrade Your DAI to DAIx Here</h5>
+                  <hr></hr>
                   <table id = "upgrade-table">
                     <tr>
                       <td><input type="text" class="field-input" id="upgrade-amount" placeholder={"Amount"}/></td>
@@ -533,6 +535,7 @@ class App extends Component {
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">Network Config</h5>
+                  <hr></hr>
                   <table id = "network-table">
                     <td colspan="2">
                       <p>To use Matic-Mainnet with Superfluid, you'll need the below RPC URL to connect your Metamask to a Polygon node.</p>

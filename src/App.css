@@ -13,6 +13,23 @@
   }
 } */
 
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+body {
+  /* background-color: rgb(100, 100, 100); */
+  background-image: url("fractal.png");
+  background-size: cover;
+  font-family: 'Open Sans';
+}
+
+.card-body {
+  background-color: #dfdfdf;
+}
+
+h3, h5 {
+  font-weight: bold;
+}
+
 .App-header {
   background-color: #c6eee999;
   min-height: 100vh;
