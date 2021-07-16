@@ -2,7 +2,7 @@
 import Web3 from 'web3';
 import React, { useState, Component } from 'react';
 import './App.css';
-import { DAIxAddress, DAIAddress, WETHxAddress, WETHAddress, RICAddress, hostAddress, idaAddress, rickosheaAppAddress } from "./polygon_config";
+import { chainId, DAIxAddress, DAIAddress, WETHxAddress, WETHAddress, RICAddress, hostAddress, idaAddress, rickosheaAppAddress } from "./polygon_config";
 import { erc20ABI, sfABI, idaABI, superTokenABI } from "./abis"
 import axios from 'axios';
 
@@ -16,28 +16,30 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      account: "-",                // User's address
-      network: "",                 // network that user is on - TODO: react to network change
-      balance: "",                 // not used
-      loading: true,               // (not used yet) boolean for if base interface has loaded
-      notConnected: true,          // (not used yet) boolean for if the user has connected wallet
-      web3: null,                  // Window-injected web3 object
-      sf: null,                    // Superfluid SDK object
-      sfUser:null,                 // Superfluid User object (tied to a specific token)
-      ricUser:null,                // Superfluid User object for contract, used so we can get netflow
-      host:null,                   // Superfluid host contract instance
-      ida:null,                    // Superfluid Instant Distribution Agreement contract instance
-      superAppFlowAmount:"",                  // How much the user has streaming (storing as instance variable so it can be shown on front end)
-      isSubscribed:false,          // True if the user has approved the streaming
+      account: "-",                                           // User's address
+      network: "",                                            // network that user is on - TODO: react to network change
+      balance: "",                                            // not used
+      loading: true,                                          // (not used yet) boolean for if base interface has loaded
+      isConnectedBrowserWallet:false,                         // boolean for if the user has browser web3 connected
+      isConnectedChain:false,                                 // boolean for if the user is on correct chain
+      web3: null,                                             // Window-injected web3 object
+      sf: null,                                               // Superfluid SDK object
+      sfUser:null,                                            // Superfluid User object (tied to a specific token)
+      ricUser:null,                                           // Superfluid User object for contract, used so we can get netflow
+      host:null,                                              // Superfluid host contract instance
+      ida:null,                                               // Superfluid Instant Distribution Agreement contract instance
+      superAppFlowAmount:"",                                  // How much the user has streaming (storing as instance variable so it can be shown on front end)
+      isSubscribed:false,                                     // True if the user has approved the streaming
       userFlowDeets:{cfa: {
         netFlow:"-",
         }
-      },                                                   // Json details on the user's flows from user.details() -> getFlowDeets()
+      },                                                      // Json details on the user's flows from user.details() -> getFlowDeets()
       ricoFlowDeets:{cfa: {
         netFlow:"-",
         }
-      },                                                   // Json details on the user's flows from user.details() -> getFlowDeets()
-      flowQuery:{ flowsOwned: [] , flowsReceived: [] },    // Json details on user's flows from subgraph query -> queryFlows() 
+      },                                                       // Json details on the user's flows from user.details() -> getFlowDeets()
+      flowQuery:{ flowsOwned: [] , flowsReceived: [] },        // Json details on user's flows from subgraph query -> queryFlows() 
+      tokenBalances: {}
     };
 
     this.startFlow = this.startFlow.bind(this);
@@ -46,6 +48,7 @@ class App extends Component {
     this.upgrade = this.upgrade.bind(this);
     this.checkIfDAIxApproved = this.checkIfDAIxApproved.bind(this);
     this.approveDAI = this.approveDAI.bind(this);
+    this.getTokenBalance = this.getTokenBalance.bind(this);
     this.sweepTokenBalanceUpdate = this.sweepTokenBalanceUpdate.bind(this);
   }
 
@@ -57,105 +60,138 @@ class App extends Component {
     const web3 = new Web3(window.ethereum)
     try {
       // WEB3 SET UP
-      //TODO: handle network switch
+      this.setState({
+        isConnectedChain : (await web3.eth.getChainId()) == chainId
+      })
+      console.log("Correct chain?",this.state.isConnectedChain)
 
       // Connecting to browser injected web3
-      await window.ethereum.enable()
-      this.setState({notConnected:false})
-      this.setState({web3:web3})
-
-      // Gettin user account
-      await web3.eth.getAccounts((error,accounts) => {
-        this.setState({account:accounts[0]})
-        console.log(accounts)
-      })
-
-      // Initializing Superfluid framework
-      const sf = new SuperfluidSDK.Framework({
-        ethers: new Web3Provider(window.ethereum),
-        tokens: ['DAI','ETH'],
-        version: "v1"
-      });
-      await sf.initialize()
-
-      // Setting some Superfluid instance variables
-      // NOTE: this part could be adjusted if working with different input tokens (not just DAIx)
-      this.setState({
-        sf: sf,
-        sfUser: sf.user({
-          address: this.state.account,
-          token: DAIxAddress
-        }),
-        ricUser: sf.user({
-          address: rickosheaAppAddress,
-          token: DAIxAddress
+      try {
+        await window.ethereum.enable()
+        this.setState({isConnectedBrowserWallet:true})
+        this.setState({web3:web3})
+        // Getting user account
+        await web3.eth.getAccounts((error,accounts) => {
+          this.setState({account:accounts[0]})
+          console.log(accounts)
         })
-      })
+      } catch {
+        document.getElementById("approve-button").disabled = true
+        document.getElementById("upgrade-button").disabled = true
+        document.getElementById("startFlowButton").disabled = true
+        document.getElementById("stopFlowButton").disabled = true
+        window.alert('Browser wallet not detected - please install Metamask to use dApp')
+      }
 
-      console.log(this.state.sfUser)
+      if ( !this.state.isConnectedChain )  {
+        document.getElementById("approve-button").disabled = true
+        document.getElementById("upgrade-button").disabled = true
+        document.getElementById("startFlowButton").disabled = true
+        document.getElementById("stopFlowButton").disabled = true
+        window.alert('Incorrect Chain - Please switch to Matic Mainnet')
+      }
+      
+      // Getting user data and superfluid framework initialized
+      if (this.state.isConnectedBrowserWallet && this.state.isConnectedChain) {
 
-      this.getOnlySuperAppFlows()
-      this.getFlowDeets()
-      this.queryFlows()
-      this.checkIfDAIxApproved()
+        // Initializing Superfluid framework
+        const sf = new SuperfluidSDK.Framework({
+          ethers: new Web3Provider(window.ethereum),
+          tokens: ['DAI','ETH'],
+          version: "v1"
+        });
+        await sf.initialize()
 
-      // Initializing Superfluid SuperApp components
-      this.setState({
-        host: await new web3.eth.Contract(
-          sfABI,
-          hostAddress
-        )
-      })
-      console.log("Host Address:",this.state.host._address)
-      this.setState({
-        ida: await new web3.eth.Contract(
-          idaABI,
-          idaAddress
-        )
-      })
-      console.log("IDA Address:",this.state.ida._address)
+        // Setting some Superfluid instance variables
+        // NOTE: this part could be adjusted if working with different input tokens (not just DAIx)
+        this.setState({
+          sf: sf,
+          sfUser: sf.user({
+            address: this.state.account,
+            token: DAIxAddress
+          }),
+          ricUser: sf.user({
+            address: rickosheaAppAddress,
+            token: DAIxAddress
+          })
+        })
 
-      // let user = this.state.account;
-      // let isSubscribed =  await this.state.ida.methods.getSubscription(
-      //                               WETHxAddress,
-      //                               rickosheaAppAddress, // publisher
-      //                               0, // indexId
-      //                               user).call()
-      // this.setState({
-      //   isSubscribed: isSubscribed.approved
-      // })
-      // console.log("Is Approved?", this.state.isSubscribed)
+        console.log("SF USER SET",this.state.sfUser)
+
+        // Initializing Superfluid SuperApp components
+        this.setState({
+          host: await new web3.eth.Contract(
+            sfABI,
+            hostAddress
+          )
+        })
+        console.log("Host Address:",this.state.host._address)
+        this.setState({
+          ida: await new web3.eth.Contract(
+            idaABI,
+            idaAddress
+          )
+        })
+        console.log("IDA Address:",this.state.ida._address)
+
+        let user = this.state.account;
+        let isSubscribed =  await this.state.ida.methods.getSubscription(
+                                      WETHxAddress,
+                                      rickosheaAppAddress, // publisher
+                                      0, // indexId
+                                      user).call()
+        this.setState({
+          isSubscribed: isSubscribed.approved
+        })
+        console.log("Is Approved?", this.state.isSubscribed)
+      }
 
     } catch(err) {
       console.log("ERROR IN WEB3 SET UP:", err)
     }
 
+    if (this.state.isConnectedBrowserWallet && this.state.isConnectedChain) {
+      this.getOnlySuperAppFlows()
+      this.getFlowDeets()
+      this.queryFlows()
+      this.sweepTokenBalanceUpdate()
+      this.checkIfDAIxApproved()
+      // setInterval(() => this.getTokenBalance(this.state.account,DAIxAddress),100000);
+      // setInterval(() => this.getTokenBalance(this.state.account,WETHxAddress),100000);
+    } 
+
     try {
-      // Handling account switch
       window.ethereum.on('accountsChanged', function (accounts) {
         // Re-do the WEB3 SET UP if accounts are changed
-        this.loadData()
+        window.location.reload()
       }.bind(this))
     } catch (err) {
-      console.log("Error in handling account switch",err)
+      console.log("Error in handling account set up",err)
+    }
+    // Handling chain switch
+    // try {
+    try{
+      window.ethereum.on('chainChanged', function (accounts) {
+        // Re-do the WEB3 SET UP if chain is changed
+        console.log("CHAIN CHANGE, RELOADING WEB3 SET UP")
+        // this.loadData()
+        window.location.reload()
+      }.bind(this))
+    } catch {
+      console.log("Error in handling chain set up")
     }
 
-    // window.ethereum.on('confirmation',() => console.log('test'))
-
-    // Updating token balances on UI
-    // this.getTokenBalance(this.state.account,DAIxAddress)
-    // this.getTokenBalance(this.state.account,WETHxAddress)
-    // this.getTokenBalance(this.state.account,RICAddress)
-    this.sweepTokenBalanceUpdate()
-    // setInterval(() => this.getTokenBalance(this.state.account,DAIxAddress),100000);
-    // setInterval(() => this.getTokenBalance(this.state.account,WETHxAddress),100000);
   }
 
   async getTokenBalance(userAddress,tokenAddress) {
     var tokenInst = new this.state.web3.eth.Contract(erc20ABI,tokenAddress);
     tokenInst.methods.balanceOf(userAddress).call().then(function (bal) {
-        document.getElementById(`balance-${tokenAddress}`).innerHTML = (bal/1000000000000000000).toFixed(7);
-    })
+        document.getElementById(`balance-${tokenAddress}`).innerHTML = (bal/1000000000000000000).toFixed(7)
+        // Appending to the tokenBalances instance variable dictionary
+        let copyBalance = this.state.tokenBalances
+        copyBalance[tokenAddress] = bal
+        this.setState({tokenBalances : copyBalance})
+    }.bind(this))
   }
 
   async sweepTokenBalanceUpdate() {
@@ -170,10 +206,11 @@ class App extends Component {
     let sfUser = this.state.sfUser
     console.log("Stopping flow with:",sfUser)
     await sfUser.flow({
-      recipient: await sf.user({ address: rickosheaAppAddress, token: DAIxAddress }), // address: would be rickosheaAppaddress, currently not deployed
+      recipient: await sf.user({ address: rickosheaAppAddress, token: DAIxAddress }),
       flowRate: "0"
     });
     this.getFlowDeets()
+    document.getElementById("input-amt-"+DAIxAddress).value = ""
     this.getOnlySuperAppFlows()
   }
 
@@ -184,79 +221,78 @@ class App extends Component {
     console.log("Creating flow with:",sfUser)
     let flowInput = Math.round( ( document.getElementById("input-amt-"+DAIxAddress).value * Math.pow(10,18) ) / 2592000 ) // Say I start a stream of 10 DAIx per month. Is the flow in gwei (which is registered as to the second) calculated as [ (10 DAIx) *(10^18) ] / [30 * 24 * 60 * 60]  = 3858024691358.025 -> round to nearest int
     console.log("Would flow:",flowInput)
+    let call = []
 
-    // if(this.state.isSubscribed) {
+    if(this.state.isSubscribed) {
 
-    //   await sfUser.flow({
-    //     recipient: await sf.user({ address: rickosheaAppAddress, token: DAIxAddress }), // address: would be rickosheaAppaddress, currently not deployed
-    //     flowRate: flowInput.toString(),
-    //     options: {
-    //       userData
-    //     }
-    //   });
+      await sfUser.flow({
+        recipient: await sf.user({ address: rickosheaAppAddress, token: DAIxAddress }), // address: would be rickosheaAppaddress, currently not deployed
+        flowRate: flowInput.toString()
+      })
 
-    // } else {
+    } else {
 
-    let call = [
-          [
-              201, // approve the ticket fee
-              sf.agreements.ida.address,
-              web3.eth.abi.encodeParameters(
-                ["bytes", "bytes"],
-                [
-                    sf.agreements.ida.contract.methods
-                        .approveSubscription(
-                            WETHxAddress,
-                            rickosheaAppAddress,
-                            0, // INDEX_ID
-                            "0x"
-                        )
-                        .encodeABI(), // callData
-                    "0x" // userData
-                ]
-              )
-          ],
-          [
-              201, // approve the ticket fee
-              sf.agreements.ida.address,
-              web3.eth.abi.encodeParameters(
-                ["bytes", "bytes"],
-                [
-                    sf.agreements.ida.contract.methods
-                        .approveSubscription(
-                            RICAddress,
-                            rickosheaAppAddress,
-                            1, // INDEX_ID
-                            "0x"
-                        )
-                        .encodeABI(), // callData
-                    "0x" // userData
-                ]
-              )
-          ],
-          [
-            201, // create constant flow (10/mo)
-            sf.agreements.cfa.address,
+      call = [
+        [
+            201, // approve the ticket fee
+            sf.agreements.ida.address,
             web3.eth.abi.encodeParameters(
-                ["bytes", "bytes"],
-                [
-                    sf.agreements.cfa.contract.methods
-                        .createFlow(
-                            DAIxAddress,
-                            rickosheaAppAddress,
-                            flowInput.toString(),
-                            "0x"
-                        )
-                        .encodeABI(), // callData
-                    "0x" // userData
-                ]
+              ["bytes", "bytes"],
+              [
+                  sf.agreements.ida.contract.methods
+                      .approveSubscription(
+                          WETHxAddress,
+                          rickosheaAppAddress,
+                          0, // INDEX_ID
+                          "0x"
+                      )
+                      .encodeABI(), // callData
+                  "0x" // userData
+              ]
             )
-          ],
-        ]
+        ],
+        [
+            201, // approve the ticket fee
+            sf.agreements.ida.address,
+            web3.eth.abi.encodeParameters(
+              ["bytes", "bytes"],
+              [
+                  sf.agreements.ida.contract.methods
+                      .approveSubscription(
+                          RICAddress,
+                          rickosheaAppAddress,
+                          1, // INDEX_ID
+                          "0x"
+                      )
+                      .encodeABI(), // callData
+                  "0x" // userData
+              ]
+            )
+        ],
+        [
+          201, // create constant flow (10/mo)
+          sf.agreements.cfa.address,
+          web3.eth.abi.encodeParameters(
+              ["bytes", "bytes"],
+              [
+                  sf.agreements.cfa.contract.methods
+                      .createFlow(
+                          DAIxAddress,
+                          rickosheaAppAddress,
+                          flowInput.toString(),
+                          "0x"
+                      )
+                      .encodeABI(), // callData
+                  "0x" // userData
+              ]
+          )
+        ],
+      ]
+    }
 
     await sf.host.batchCall(call);
     // }
-    
+    console.log("Start Flow Batch Call Complete")
     document.getElementById("input-amt-"+DAIxAddress).value = ""
 
     // Defensive code: For some reason getOnlySuperAppFlows() doesn't update superAppFlowAmount properly when it's zero
@@ -359,9 +395,6 @@ class App extends Component {
         flowQuery:{ flowsOwned: [] , flowsReceived: [] }
       })
     }
-
-    // console.log(this.state.flowQuery)
-
   }
 
   async approveDAI() {
@@ -379,10 +412,12 @@ class App extends Component {
     var tokenInstx = new this.state.web3.eth.Contract(superTokenABI,DAIxAddress)
     var upgradeAmount = document.getElementById("upgrade-amount").value
 
-    await tokenInstx
-    .methods.upgrade(
-      this.state.web3.utils.toWei(upgradeAmount,"ether")
-    ).send({ from: this.state.account })
+    if (upgradeAmount > 0) {
+      await tokenInstx
+      .methods.upgrade(
+        this.state.web3.utils.toWei(upgradeAmount,"ether")
+      ).send({ from: this.state.account })
+    }
     
     document.getElementById("upgrade-amount").value = ""
     this.sweepTokenBalanceUpdate()
@@ -393,19 +428,18 @@ class App extends Component {
     var tokenInst = new this.state.web3.eth.Contract(erc20ABI,DAIAddress)
 
     await tokenInst.methods.allowance(this.state.account,DAIxAddress).call().then( (amount) => {
-      if (amount.length != "1" + "0".repeat(42)) {
+      if (parseInt(amount) >= parseInt(this.state.tokenBalances[DAIxAddress])) {
         // if the user has approved DAI before, hasAppreovedDAI is marked true
         this.setState({
           hasApprovedDAI: true
         })
-        console.log("DAIx Approved?",this.state.hasApprovedDAI)
+        console.log("Enough DAIx Approved?",this.state.hasApprovedDAI)
       } else {
         this.setState({
           hasApprovedDAI: false
         })
-        console.log("DAIx Approved?",this.state.hasApprovedDAI)
+        console.log("Enough DAIx Approved?",this.state.hasApprovedDAI)
       }
-      console.log('Amount Approved',amount)
     })
 
     if (this.state.hasApprovedDAI) {
@@ -420,9 +454,8 @@ class App extends Component {
 
 
   render() {
-    // var superAppFlowAmount = parseInt( this.state.userFlowDetails.cfa.netFlow )
     return (
-      <body class="indigo lighten-4">
+      <body class="bod">
       <div class="container">
           <div class="row">
             <div class= "col-6">
@@ -436,11 +469,11 @@ class App extends Component {
             <div class="col-6">
               <div class="card">
                 <div class="card-body">
-                    <img src="logo.jpeg" style={{width:100, height:75, float:"left", marginRight: 20 }}></img>
+                    <img src="logo-png.png" style={{width:100, height:75, float:"left", marginRight: 20 }}></img>
                     <h3>Ricochet</h3>
                     <p>Scaling and simplifying Dollar-cost Averaging (DCA)</p>
                     <hr></hr>
-                    <h4>Dollar-Cost Averaging on SushiSwap with Ricochet</h4>
+                    <h5>Dollar-Cost Averaging on SushiSwap with Ricochet</h5>
                     <p>Alice and Bob open a stream in units of DAI/month. Periodically Ricochet’s keeper triggers a public distribute method on Ricochet contract to:</p>
                     <ol>
                       <li>Swap DAI to WETH on SushiSwap</li>
@@ -463,6 +496,7 @@ class App extends Component {
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">DAIx to WETHx</h5>
+                  <hr></hr>
                   <div class= "col-6">
                     <p>Exchange Contract Address: <span id="pool-address" class="badge bg-primary">{rickosheaAppAddress}</span></p>
                   </div>
@@ -484,6 +518,7 @@ class App extends Component {
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">Upgrade Your DAI to DAIx Here</h5>
+                  <hr></hr>
                   <table id = "upgrade-table">
                     <tr>
                       <td><input type="text" class="field-input" id="upgrade-amount" placeholder={"Amount"}/></td>
@@ -500,9 +535,10 @@ class App extends Component {
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">Network Config</h5>
+                  <hr></hr>
                   <table id = "network-table">
                     <td colspan="2">
-                      <p>To use Matic-Mainnet with Superfluid, you'll need a RPC URL to connect your metamask or application to a Polygon node.</p>
+                      <p>To use Matic-Mainnet with Superfluid, you'll need the below RPC URL to connect your Metamask to a Polygon node.</p>
                     </td>
 
                     <tr>
