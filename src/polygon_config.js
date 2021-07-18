@@ -1,3 +1,4 @@
+export const chainId = 137;
 export const USDCxAddress = "0xCAa7349CEA390F89641fe306D93591f87595dc1F";
 export const USDCAddress = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174";
 export const DAIxAddress = "0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2"; // DAIx for testing
@@ -7,4 +8,4 @@ export const WETHAddress = "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"
 export const hostAddress = "0x3E14dC1b13c488a8d5D310918780c983bD5982E7";
 export const idaAddress = "0xB0aABBA4B2783A72C52956CDEF62d438ecA2d7a1";
 export const rickosheaAppAddress = "0x387af38C133056a0744FB6e823CdB459AE3c5a1f";
-export const RICAddress = "0x263026e7e53dbfdce5ae55ade22493f828922965"
+export const RICAddress = "0x263026e7e53dbfdce5ae55ade22493f828922965";
