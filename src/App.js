@@ -2,7 +2,7 @@
 import Web3 from 'web3';
 import React, { useState, Component } from 'react';
 import './App.css';
-import { chainId, DAIxAddress, DAIAddress, WETHxAddress, WETHAddress, RICAddress, hostAddress, idaAddress, rickosheaAppAddress } from "./polygon_config";
+import { chainId, DAIxAddress, DAIAddress, WETHxAddress, WETHAddress, RICAddress, hostAddress, idaAddress, rickosheaAppAddress, wethxDaixExchangeAddress, daixWethxExchangeAddress } from "./polygon_config";
 import { erc20ABI, sfABI, idaABI, superTokenABI } from "./abis"
 import axios from 'axios';
 
@@ -25,7 +25,8 @@ class App extends Component {
       web3: null,                                             // Window-injected web3 object
       sf: null,                                               // Superfluid SDK object
       sfUser:null,                                            // Superfluid User object (tied to a specific token)
-      ricUser:null,                                           // Superfluid User object for contract, used so we can get netflow
+      daiUser:null,                                           // Superfluid User object for contract, used so we can get netflow
+      wethUser:null,                                           // Superfluid User object for contract, used so we can get netflow
       host:null,                                              // Superfluid host contract instance
       ida:null,                                               // Superfluid Instant Distribution Agreement contract instance
       superAppFlowAmount:"",                                  // How much the user has streaming (storing as instance variable so it can be shown on front end)
@@ -34,12 +35,22 @@ class App extends Component {
         netFlow:"-",
         }
       },                                                      // Json details on the user's flows from user.details() -> getFlowDeets()
-      ricoFlowDeets:{cfa: {
+      daiFlowInfo:{cfa: {
+        netFlow:"-",
+        }
+      },
+      wethFlowInfo:{cfa: {
         netFlow:"-",
         }
       },                                                       // Json details on the user's flows from user.details() -> getFlowDeets()
-      flowQuery:{ flowsOwned: [] , flowsReceived: [] },        // Json details on user's flows from subgraph query -> queryFlows() 
-      tokenBalances: {}
+      flowQuery:{ flowsOwned: [] , flowsReceived: [] },        // Json details on user's flows from subgraph query -> queryFlows()
+      tokenBalances: {},
+      tokens: {
+        wethx: WETHxAddress,
+        daix: DAIxAddress
+      },
+      wethxDaixExchangeAddress: wethxDaixExchangeAddress,
+      daixWethxExchangeAddress: daixWethxExchangeAddress,
     };
 
     this.startFlow = this.startFlow.bind(this);
@@ -90,7 +101,7 @@ class App extends Component {
         document.getElementById("stopFlowButton").disabled = true
         window.alert('Incorrect Chain - Please switch to Matic Mainnet')
       }
-      
+
       // Getting user data and superfluid framework initialized
       if (this.state.isConnectedBrowserWallet && this.state.isConnectedChain) {
 
@@ -110,9 +121,13 @@ class App extends Component {
             address: this.state.account,
             token: DAIxAddress
           }),
-          ricUser: sf.user({
-            address: rickosheaAppAddress,
+          daiUser: sf.user({
+            address: daixWethxExchangeAddress,
             token: DAIxAddress
+          }),
+          wethUser: sf.user({
+            address: wethxDaixExchangeAddress,
+            token: WETHxAddress
           })
         })
 
@@ -158,7 +173,7 @@ class App extends Component {
       this.checkIfDAIxApproved()
       // setInterval(() => this.getTokenBalance(this.state.account,DAIxAddress),100000);
       // setInterval(() => this.getTokenBalance(this.state.account,WETHxAddress),100000);
-    } 
+    }
 
     try {
       window.ethereum.on('accountsChanged', function (accounts) {
@@ -201,12 +216,15 @@ class App extends Component {
     this.getTokenBalance(this.state.account,DAIAddress)
   }
 
-  async stopFlow() {
+  async stopFlow(exchangeAddress, inputTokenAddress) {
     let sf = this.state.sf
-    let sfUser = this.state.sfUser
+    let sfUser = sf.user({
+      address: this.state.account,
+      token: inputTokenAddress
+    })
     console.log("Stopping flow with:",sfUser)
     await sfUser.flow({
-      recipient: await sf.user({ address: rickosheaAppAddress, token: DAIxAddress }),
+      recipient: await sf.user({ address: exchangeAddress, token: inputTokenAddress }),
       flowRate: "0"
     });
     this.getFlowDeets()
@@ -214,19 +232,28 @@ class App extends Component {
     this.getOnlySuperAppFlows()
   }
 
-  async startFlow() {
+  async startFlow(exchangeAddress, inputTokenAddress, outputTokenAddress) {
     const web3 = new Web3(window.ethereum)
     let sf = this.state.sf
-    let sfUser = this.state.sfUser
+    let sfUser = sf.user({
+      address: this.state.account,
+      token: inputTokenAddress
+    })
     console.log("Creating flow with:",sfUser)
-    let flowInput = Math.round( ( document.getElementById("input-amt-"+DAIxAddress).value * Math.pow(10,18) ) / 2592000 ) // Say I start a stream of 10 DAIx per month. Is the flow in gwei (which is registered as to the second) calculated as [ (10 DAIx) *(10^18) ] / [30 * 24 * 60 * 60]  = 3858024691358.025 -> round to nearest int
+    let flowInput = Math.round( ( document.getElementById("input-amt-"+inputTokenAddress).value * Math.pow(10,18) ) / 2592000 ) // Say I start a stream of 10 DAIx per month. Is the flow in gwei (which is registered as to the second) calculated as [ (10 DAIx) *(10^18) ] / [30 * 24 * 60 * 60]  = 3858024691358.025 -> round to nearest int
     console.log("Would flow:",flowInput)
     let call = []
 
-    if(this.state.isSubscribed) {
+    let isSubscribed = await this.state.ida.methods.getSubscription(
+                                  outputTokenAddress,
+                                  exchangeAddress, // publisher
+                                  0, // indexId
+                                  sfUser).call()
+
+    if(isSubscribed) {
 
       await sfUser.flow({
-        recipient: await sf.user({ address: rickosheaAppAddress, token: DAIxAddress }), // address: would be rickosheaAppaddress, currently not deployed
+        recipient: await sf.user({ address: exchangeAddress, token: inputTokenAddress }), // address: would be rickosheaAppaddress, currently not deployed
         flowRate: flowInput.toString()
       })
 
@@ -241,8 +268,8 @@ class App extends Component {
               [
                   sf.agreements.ida.contract.methods
                       .approveSubscription(
-                          WETHxAddress,
-                          rickosheaAppAddress,
+                          outputTokenAddress,
+                          exchangeAddress,
                           0, // INDEX_ID
                           "0x"
                       )
@@ -251,24 +278,25 @@ class App extends Component {
               ]
             )
         ],
-        [
-            201, // approve the ticket fee
-            sf.agreements.ida.address,
-            web3.eth.abi.encodeParameters(
-              ["bytes", "bytes"],
-              [
-                  sf.agreements.ida.contract.methods
-                      .approveSubscription(
-                          RICAddress,
-                          rickosheaAppAddress,
-                          1, // INDEX_ID
-                          "0x"
-                      )
-                      .encodeABI(), // callData
-                  "0x" // userData
-              ]
-            )
-        ],
+        // NOTE: Bring this back for liquidity mining, probably put this somewhere else
+        // [
+        //     201, // approve the ticket fee
+        //     sf.agreements.ida.address,
+        //     web3.eth.abi.encodeParameters(
+        //       ["bytes", "bytes"],
+        //       [
+        //           sf.agreements.ida.contract.methods
+        //               .approveSubscription(
+        //                   RICAddress,
+        //                   exchangeAddress,
+        //                   1, // INDEX_ID
+        //                   "0x"
+        //               )
+        //               .encodeABI(), // callData
+        //           "0x" // userData
+        //       ]
+        //     )
+        // ],
         [
           201, // create constant flow (10/mo)
           sf.agreements.cfa.address,
@@ -277,8 +305,8 @@ class App extends Component {
               [
                   sf.agreements.cfa.contract.methods
                       .createFlow(
-                          DAIxAddress,
-                          rickosheaAppAddress,
+                          inputTokenAddress,
+                          exchangeAddress,
                           flowInput.toString(),
                           "0x"
                       )
@@ -306,14 +334,15 @@ class App extends Component {
     } else {
       this.getOnlySuperAppFlows()
     }
-    
+
   }
 
   async getFlowDeets() {
     console.log('Calculating Total Value Streaming...')
     this.setState({
       userFlowDeets: await this.state.sfUser.details(),
-      ricoFlowDeets: await this.state.ricUser.details()
+      daiFlowInfo: await this.state.daiUser.details(),
+      wethFlowInfo: await this.state.wethUser.details()
     })
     console.log('Total Value Streaming Calculation Complete')
   }
@@ -344,7 +373,7 @@ class App extends Component {
               recipient {
                 id
               }
-              token { 
+              token {
                   id
                   symbol
               }
@@ -363,7 +392,7 @@ class App extends Component {
             owner {
               id
             }
-            token { 
+            token {
                 id
                 symbol
             }
@@ -375,14 +404,14 @@ class App extends Component {
               }
             }
           }
-          
+
       }
     }`
 
     // When doing the totalFlowed = timeDelta*flowRate + sum, it appears sum is terribly off
-    // TODO: ask Fran why I'm getting 26 when it should be like 3 
+    // TODO: ask Fran why I'm getting 26 when it should be like 3
     // For now, only showing Streamed So Far since last time flow was changed
-    const result = await axios.post(QUERY_URL, { query }) 
+    const result = await axios.post(QUERY_URL, { query })
     console.log(result)
 
     // If the user doesn't have any flows, you need to make sure flowQuery doesn't get set to null so rendering the empty doesn't crash
@@ -418,7 +447,7 @@ class App extends Component {
         this.state.web3.utils.toWei(upgradeAmount,"ether")
       ).send({ from: this.state.account })
     }
-    
+
     document.getElementById("upgrade-amount").value = ""
     this.sweepTokenBalanceUpdate()
   }
@@ -469,49 +498,47 @@ class App extends Component {
             <div class="col-6">
               <div class="card">
                 <div class="card-body">
-                    <img src="logo-png.png" style={{width:100, height:75, float:"left", marginRight: 20 }}></img>
-                    <h3>Ricochet</h3>
-                    <p>Scaling and simplifying Dollar-cost Averaging (DCA)</p>
-                    <hr></hr>
-                    <h5>Dollar-Cost Averaging on SushiSwap with Ricochet</h5>
-                    <p>Alice and Bob open a stream in units of DAI/month. Periodically Ricochet’s keeper triggers a public distribute method on Ricochet contract to:</p>
-                    <ol>
-                      <li>Swap DAI to WETH on SushiSwap</li>
-                      <li>Instantly distribute the output of the swap to Alice and Bob</li>
-                      <li>Transfer a fee taken in the output token (WETH) to the Ricochet contract owner</li>
-                    </ol>
-                    <img src="arch.png" style={{width:"100%", float:"left", marginRight: 20, marginBottom: 20 }}></img>
-                    <div>
-                      <h5>Ricochet Exchange Fees</h5>
-                      <p>There are two fees taken during the distribute:</p>
-                      <ul>
-                        <li>SushiSwap Exchange (0.3%)</li>
-                        <li>Ricochet Exchange (2.0%)</li>
-                      </ul>
-                    </div>
+                  <h5 class="card-title">DAIx to WETHx</h5>
+                  <hr></hr>
+                  <div class= "col-6">
+                    <p>Exchange Contract Address: <span id="pool-address" class="badge bg-primary">{this.state.daixWethxExchangeAddress}</span></p>
+                  </div>
+                  <div>
+                    <input type="text" class="field-input" id="input-amt-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2" placeholder={( -( this.state.superAppFlowAmount*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)}/>
+                    <button id="startFlowButton" class="button_slide slide_right" onClick={() => this.startFlow(this.state.daixWethxExchangeAddress, this.state.tokens.daix, this.state.tokens.wethx)}>Start</button>
+                    <button id="stopFlowButton" class="button_slide slide_right" onClick={() => this.stopFlow(this.state.daixWethxExchangeAddress, this.state.tokens.daix)}>Stop</button>
+                    <p>DAIx/month</p>
+                  </div>
+                  <p class="one-off">Total Value Streaming: {( ( this.state.daiFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} /DAIx month</p>
                 </div>
               </div>
+              <br/>
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Balances</h5>
+                  <hr></hr>
+                  <p><span id='balance-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2'>0</span> DAIx</p>
+                  <p><span id="balance-0x27e1e4E6BC79D93032abef01025811B7E4727e85">0</span> WETHx</p>
+                  <p><span id="balance-0x263026e7e53dbfdce5ae55ade22493f828922965">0</span> RIC</p>
+                </div>
+              </div>
+              <br/>
             </div>
             <div class="col-6">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">DAIx to WETHx</h5>
+                  <h5 class="card-title">WETHx to DAIx</h5>
                   <hr></hr>
                   <div class= "col-6">
-                    <p>Exchange Contract Address: <span id="pool-address" class="badge bg-primary">{rickosheaAppAddress}</span></p>
+                    <p>Exchange Contract Address: <span id="pool-address" class="badge bg-primary">{this.state.wethxDaixExchangeAddress}</span></p>
                   </div>
-                  <p>Your Balance:</p>
-
-                  <p><span id='balance-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2'>0</span> DAIx</p>
-                  <p><span id="balance-0x27e1e4E6BC79D93032abef01025811B7E4727e85">0</span> WETHx</p>
-                  <p><span id="balance-0x263026e7e53dbfdce5ae55ade22493f828922965">0</span> RIC</p>
                   <div>
-                    <input type="text" class="field-input" id="input-amt-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2" placeholder={( -( this.state.superAppFlowAmount*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)}/>
-                    <button id="startFlowButton" class="button_slide slide_right" onClick={this.startFlow}>Start</button>
-                    <button id="stopFlowButton" class="button_slide slide_right" onClick={this.stopFlow}>Stop</button>
-                    <p>DAIx/month</p>
+                    <input type="text" class="field-input" id="input-amt-0x27e1e4E6BC79D93032abef01025811B7E4727e85" placeholder={( -( this.state.superAppFlowAmount*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)}/>
+                    <button id="startFlowButton" class="button_slide slide_right" onClick={() => this.startFlow(this.state.wethxDaixExchangeAddress, this.state.tokens.wethx, this.state.tokens.daix)}>Start</button>
+                    <button id="stopFlowButton" class="button_slide slide_right" onClick={() => this.stopFlow(this.state.wethxDaixExchangeAddress, this.state.tokens.wethx)}>Stop</button>
+                    <p>WETHx/month</p>
                   </div>
-                  <p class="one-off">Total Value Streaming: {( ( this.state.ricoFlowDeets.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} /DAIx month</p>
+                  <p class="one-off">Total Value Streaming: {( ( this.state.wethFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} /DAIx month</p>
                 </div>
               </div>
               <br/>
@@ -542,7 +569,7 @@ class App extends Component {
                     </td>
 
                     <tr>
-                      <td class="network-items">Network Name</td>                 
+                      <td class="network-items">Network Name</td>
                       <td>Matic Mainnet</td>
                     </tr>
                     <tr>
