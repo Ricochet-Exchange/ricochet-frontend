@@ -337,6 +337,7 @@ class App extends Component {
     })
 
     console.log("Outflows", this.state.wethFlowInfo);
+
     try {
       this.setState({
         daiFlowRate: (await this.state.daiFlowInfo.cfa.flows.inflows.filter(flow => flow.receiver === this.state.daixWethxExchangeAddress)).flowRate
@@ -346,8 +347,9 @@ class App extends Component {
         console.log("No DAI flow")
       }
     }
+
     try {
-      console.log("Flowrate", (await this.state.wethFlowInfo.cfa.flows.inflows.filter(flow => flow.receiver === this.state.wethxDaixExchangeAddress)).flowRate)
+      console.log("Flowrate", await this.state.wethFlowInfo.cfa.flows.inflows.filter(flow => flow.receiver === this.state.wethxDaixExchangeAddress))
       this.setState({
         wethFlowRate: (await this.state.wethFlowInfo.cfa.flows.inflows.filter(flow => flow.receiver === this.state.wethxDaixExchangeAddress)).flowRate
       })
@@ -356,6 +358,7 @@ class App extends Component {
         console.log("No WETH flow")
       }
     }
+
     console.log('Total Value Streaming Calculation Complete')
   }
 
@@ -486,13 +489,16 @@ class App extends Component {
     return (
       <body class="bod">
       <div class="container">
+        <br/>
           <div class="row">
+
             <div class= "col-6">
-              <p></p>
+              <h5 style={{float:"right" }}>Your Wallet: <span id="wallet-address" class="badge bg-secondary">{this.state.account}</span></h5>
             </div>
             <div class= "col-6">
-              <p style={{float:"right" }}>Your Wallet: <span id="wallet-address" class="badge bg-secondary">{this.state.account}</span></p>
+              <h5 style={{float:"right" }}><span class="badge bg-info"><span id="balance-0x263026e7e53dbfdce5ae55ade22493f828922965">0</span> RIC </span></h5>
             </div>
+
           </div>
 
           <div class="row">
@@ -533,7 +539,7 @@ class App extends Component {
             <div class="col-6">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title"><a href="https://polygonscan.com/address/0x387af38C133056a0744FB6e823CdB459AE3c5a1f">DAI >> ETH</a></h5>
+                  <h5 class="card-title">DAI >> ETH</h5>
                   <hr></hr>
 
                   <div>
@@ -549,7 +555,7 @@ class App extends Component {
               <br/>
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title"><a href="https://polygonscan.com/address/0xD100a207d5B5902999aD49853f6451d6a93771A4">ETH >> DAI</a></h5>
+                  <h5 class="card-title">ETH >> DAI</h5>
                   <hr></hr>
                   <div>
                     <h5><span class="badge bg-primary">Your Balance: <span id="balance-0x27e1e4E6BC79D93032abef01025811B7E4727e85">0</span> WETHx </span><br/></h5>
@@ -559,14 +565,6 @@ class App extends Component {
                     <p>WETHx/month</p>
                   </div>
                   <p class="one-off">Total Value Streaming: {( ( this.state.wethFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} /ETHx month</p>
-                </div>
-              </div>
-              <br/>
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Balances</h5>
-                  <hr></hr>
-                  <p><span id="balance-0x263026e7e53dbfdce5ae55ade22493f828922965">0</span> RIC</p>
                 </div>
               </div>
               <br/>
