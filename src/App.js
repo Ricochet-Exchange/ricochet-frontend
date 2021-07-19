@@ -28,7 +28,9 @@ class App extends Component {
       daiUser:null,                                           // Superfluid User object for contract, used so we can get netflow
       wethUser:null,                                           // Superfluid User object for contract, used so we can get netflow
       host:null,                                              // Superfluid host contract instance
-      ida:null,                                               // Superfluid Instant Distribution Agreement contract instance
+      ida:null,
+      daiFlowRate: 0,
+      wethFlowRate: 0,                                        // Superfluid Instant Distribution Agreement contract instance
       superAppFlowAmount:"",                                  // How much the user has streaming (storing as instance variable so it can be shown on front end)
       isSubscribed:false,                                     // True if the user has approved the streaming
       userFlowDeets:{cfa: {
@@ -55,7 +57,6 @@ class App extends Component {
 
     this.startFlow = this.startFlow.bind(this);
     this.stopFlow = this.stopFlow.bind(this);
-    this.getOnlySuperAppFlows = this.getOnlySuperAppFlows.bind(this);
     this.upgrade = this.upgrade.bind(this);
     this.checkIfDAIxApproved = this.checkIfDAIxApproved.bind(this);
     this.approveDAI = this.approveDAI.bind(this);
@@ -166,7 +167,6 @@ class App extends Component {
     }
 
     if (this.state.isConnectedBrowserWallet && this.state.isConnectedChain) {
-      this.getOnlySuperAppFlows()
       this.getFlowDeets()
       this.queryFlows()
       this.sweepTokenBalanceUpdate()
@@ -229,7 +229,6 @@ class App extends Component {
     });
     this.getFlowDeets()
     document.getElementById("input-amt-"+DAIxAddress).value = ""
-    this.getOnlySuperAppFlows()
   }
 
   async startFlow(exchangeAddress, inputTokenAddress, outputTokenAddress) {
@@ -248,7 +247,7 @@ class App extends Component {
                                   outputTokenAddress,
                                   exchangeAddress, // publisher
                                   0, // indexId
-                                  sfUser).call()
+                                  sfUser.address).call()
 
     if(isSubscribed) {
 
@@ -321,44 +320,45 @@ class App extends Component {
     await sf.host.batchCall(call);
     // }
     console.log("Start Flow Batch Call Complete")
-    document.getElementById("input-amt-"+DAIxAddress).value = ""
+    document.getElementById("input-amt-"+inputTokenAddress).value = ""
 
-    // Defensive code: For some reason getOnlySuperAppFlows() doesn't update superAppFlowAmount properly when it's zero
     this.getFlowDeets()
-    this.getOnlySuperAppFlows()
-
-    if (flowInput===0) {
-      this.setState({
-        superAppFlowAmount: 0
-      })
-    } else {
-      this.getOnlySuperAppFlows()
-    }
 
   }
 
+
   async getFlowDeets() {
+    /// NOTE: This is a very time consuming sections because its all web3 calls
     console.log('Calculating Total Value Streaming...')
     this.setState({
       userFlowDeets: await this.state.sfUser.details(),
       daiFlowInfo: await this.state.daiUser.details(),
       wethFlowInfo: await this.state.wethUser.details()
     })
+
+    console.log("Outflows", this.state.wethFlowInfo);
+    try {
+      this.setState({
+        daiFlowRate: (await this.state.daiFlowInfo.cfa.flows.inflows.filter(flow => flow.receiver === this.state.daixWethxExchangeAddress)).flowRate
+      })
+    } catch (e) {
+      if (e instanceof TypeError) {
+        console.log("No DAI flow")
+      }
+    }
+    try {
+      console.log("Flowrate", (await this.state.wethFlowInfo.cfa.flows.inflows.filter(flow => flow.receiver === this.state.wethxDaixExchangeAddress)).flowRate)
+      this.setState({
+        wethFlowRate: (await this.state.wethFlowInfo.cfa.flows.inflows.filter(flow => flow.receiver === this.state.wethxDaixExchangeAddress)).flowRate
+      })
+    } catch (e) {
+      if (e instanceof TypeError) {
+        console.log("No WETH flow")
+      }
+    }
     console.log('Total Value Streaming Calculation Complete')
   }
 
-  async getOnlySuperAppFlows() {
-    let details = (await this.state.sfUser.details()).cfa.flows.outFlows
-
-    var i
-    for (i=0; i<details.length;i++) {
-      if (details[i].receiver === rickosheaAppAddress) {
-        this.setState({
-          superAppFlowAmount: -details[i].flowRate
-        })
-      }
-    }
-  }
 
   async queryFlows() {
 
@@ -494,17 +494,51 @@ class App extends Component {
               <p style={{float:"right" }}>Your Wallet: <span id="wallet-address" class="badge bg-secondary">{this.state.account}</span></p>
             </div>
           </div>
-            <div class="row">
+
+          <div class="row">
+            <div class= "col-6">
+            </div>
+            <div class= "col-6">
+            </div>
+          </div>
+
+
+          <div class="row">
             <div class="col-6">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">DAIx to WETHx</h5>
+                  <img src="logo-png.png" style={{width:100, height:75, float:"left", marginRight: 20 }}></img>
+                  <h3>Ricochet</h3>
+                  <p>Scaling and simplifying Dollar-cost Averaging (DCA)</p>
                   <hr></hr>
-                  <div class= "col-6">
-                    <p>Exchange Contract Address: <span id="pool-address" class="badge bg-primary">{this.state.daixWethxExchangeAddress}</span></p>
-                  </div>
+                  <h5>Dollar-Cost Averaging on SushiSwap with Ricochet</h5>
+                  <p>Alice and Bob open a stream in units of DAI/month. Periodically Ricochet’s keeper triggers a public distribute method on Ricochet contract to:</p>
+                  <ol>
+                    <li>Swap DAI to WETH on SushiSwap</li>
+                    <li>Instantly distribute the output of the swap to Alice and Bob</li>
+                    <li>Transfer a fee taken in the output token (WETH) to the Ricochet contract owner</li>
+                  </ol>
+                  <img src="arch.png" style={{width:"100%", float:"left", marginRight: 20, marginBottom: 20 }}></img>
                   <div>
-                    <input type="text" class="field-input" id="input-amt-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2" placeholder={( -( this.state.superAppFlowAmount*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)}/>
+                    <h5>Ricochet Exchange Fees</h5>
+                    <p>There are two fees taken during the distribute:</p>
+                    <ul>
+                      <li>SushiSwap Exchange (0.3%)</li>
+                      <li>Ricochet Exchange (2.0%)</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title"><a href="https://polygonscan.com/address/0x387af38C133056a0744FB6e823CdB459AE3c5a1f">DAI >> ETH</a></h5>
+                  <hr></hr>
+
+                  <div>
+                    <h5><span class="badge bg-primary">Your Balance: <span id='balance-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2'>0</span> DAIx</span><br/></h5>
+                    <input type="text" class="field-input" id="input-amt-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2" placeholder={( -( this.state.daiFlowRate*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)}/>
                     <button id="startFlowButton" class="button_slide slide_right" onClick={() => this.startFlow(this.state.daixWethxExchangeAddress, this.state.tokens.daix, this.state.tokens.wethx)}>Start</button>
                     <button id="stopFlowButton" class="button_slide slide_right" onClick={() => this.stopFlow(this.state.daixWethxExchangeAddress, this.state.tokens.daix)}>Stop</button>
                     <p>DAIx/month</p>
@@ -515,30 +549,24 @@ class App extends Component {
               <br/>
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">Balances</h5>
+                  <h5 class="card-title"><a href="https://polygonscan.com/address/0xD100a207d5B5902999aD49853f6451d6a93771A4">ETH >> DAI</a></h5>
                   <hr></hr>
-                  <p><span id='balance-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2'>0</span> DAIx</p>
-                  <p><span id="balance-0x27e1e4E6BC79D93032abef01025811B7E4727e85">0</span> WETHx</p>
-                  <p><span id="balance-0x263026e7e53dbfdce5ae55ade22493f828922965">0</span> RIC</p>
-                </div>
-              </div>
-              <br/>
-            </div>
-            <div class="col-6">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">WETHx to DAIx</h5>
-                  <hr></hr>
-                  <div class= "col-6">
-                    <p>Exchange Contract Address: <span id="pool-address" class="badge bg-primary">{this.state.wethxDaixExchangeAddress}</span></p>
-                  </div>
                   <div>
-                    <input type="text" class="field-input" id="input-amt-0x27e1e4E6BC79D93032abef01025811B7E4727e85" placeholder={( -( this.state.superAppFlowAmount*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)}/>
+                    <h5><span class="badge bg-primary">Your Balance: <span id="balance-0x27e1e4E6BC79D93032abef01025811B7E4727e85">0</span> WETHx </span><br/></h5>
+                    <input type="text" class="field-input" id="input-amt-0x27e1e4E6BC79D93032abef01025811B7E4727e85" placeholder={( -( this.state.wethFlowRate*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)}/>
                     <button id="startFlowButton" class="button_slide slide_right" onClick={() => this.startFlow(this.state.wethxDaixExchangeAddress, this.state.tokens.wethx, this.state.tokens.daix)}>Start</button>
                     <button id="stopFlowButton" class="button_slide slide_right" onClick={() => this.stopFlow(this.state.wethxDaixExchangeAddress, this.state.tokens.wethx)}>Stop</button>
                     <p>WETHx/month</p>
                   </div>
-                  <p class="one-off">Total Value Streaming: {( ( this.state.wethFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} /DAIx month</p>
+                  <p class="one-off">Total Value Streaming: {( ( this.state.wethFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} /ETHx month</p>
+                </div>
+              </div>
+              <br/>
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Balances</h5>
+                  <hr></hr>
+                  <p><span id="balance-0x263026e7e53dbfdce5ae55ade22493f828922965">0</span> RIC</p>
                 </div>
               </div>
               <br/>
@@ -589,6 +617,7 @@ class App extends Component {
                 </div>
               </div>
               <br/>
+
             </div>
           </div>
 
