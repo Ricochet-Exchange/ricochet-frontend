@@ -116,7 +116,7 @@ class App extends Component {
 
         // Setting some Superfluid instance variables
         // NOTE: this part could be adjusted if working with different input tokens (not just DAIx)
-        this.setState({
+        await this.setState({
           sf: sf,
           sfUser: sf.user({
             address: this.state.account,
@@ -131,6 +131,7 @@ class App extends Component {
             token: WETHxAddress
           })
         })
+
 
         console.log("SF USER SET",this.state.sfUser)
 
@@ -337,10 +338,11 @@ class App extends Component {
     })
 
     console.log("Outflows", this.state.wethFlowInfo);
-
+    
     try {
+      let temp = (await this.state.daiFlowInfo.cfa.flows.inFlows.filter(flow => flow.sender === this.state.account))[0]
       this.setState({
-        daiFlowRate: (await this.state.daiFlowInfo.cfa.flows.inflows.filter(flow => flow.receiver === this.state.daixWethxExchangeAddress)).flowRate
+        daiFlowRate: (temp === undefined) ? 0 : temp.flowRate
       })
     } catch (e) {
       if (e instanceof TypeError) {
@@ -349,9 +351,10 @@ class App extends Component {
     }
 
     try {
-      console.log("Flowrate", await this.state.wethFlowInfo.cfa.flows.inflows.filter(flow => flow.receiver === this.state.wethxDaixExchangeAddress))
+      // console.log("Flowrate", await this.state.wethFlowInfo.cfa.flows.inFlows.filter(flow => flow.receiver === this.state.wethxDaixExchangeAddress))
+      let temp = (await this.state.wethFlowInfo.cfa.flows.inFlows.filter(flow => flow.sender === this.state.account))[0]
       this.setState({
-        wethFlowRate: (await this.state.wethFlowInfo.cfa.flows.inflows.filter(flow => flow.receiver === this.state.wethxDaixExchangeAddress)).flowRate
+        wethFlowRate: (temp === undefined) ? 0 : temp.flowRate
       })
     } catch (e) {
       if (e instanceof TypeError) {
@@ -360,6 +363,8 @@ class App extends Component {
     }
 
     console.log('Total Value Streaming Calculation Complete')
+    document.getElementById("data-loading").innerHTML = "✔"
+
   }
 
 
@@ -496,6 +501,7 @@ class App extends Component {
               <h5 style={{float:"right" }}>Your Wallet: <span id="wallet-address" class="badge bg-secondary">{this.state.account}</span></h5>
             </div>
             <div class= "col-6">
+              <h5 id="data-loading" class="badge bg-info">Loading Data...</h5>
               <h5 style={{float:"right" }}><span class="badge bg-info"><span id="balance-0x263026e7e53dbfdce5ae55ade22493f828922965">0</span> RIC </span></h5>
             </div>
 
@@ -544,12 +550,14 @@ class App extends Component {
 
                   <div>
                     <h5><span class="badge bg-primary">Your Balance: <span id='balance-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2'>0</span> DAIx</span><br/></h5>
-                    <input type="text" class="field-input" id="input-amt-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2" placeholder={( -( this.state.daiFlowRate*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)}/>
+                    <input type="text" class="field-input" id="input-amt-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2" placeholder={( ( this.state.daiFlowRate*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)}/>
+
                     <button id="startFlowButton" class="button_slide slide_right" onClick={() => this.startFlow(this.state.daixWethxExchangeAddress, this.state.tokens.daix, this.state.tokens.wethx)}>Start</button>
                     <button id="stopFlowButton" class="button_slide slide_right" onClick={() => this.stopFlow(this.state.daixWethxExchangeAddress, this.state.tokens.daix)}>Stop</button>
                     <p>DAIx/month</p>
                   </div>
-                  <p class="one-off">Total Value Streaming: {( ( this.state.daiFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} /DAIx month</p>
+                  <p class="one-off">Total Value Streaming: {( ( this.state.daiFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} DAIx/month</p>
+
                 </div>
               </div>
               <br/>
@@ -564,7 +572,8 @@ class App extends Component {
                     <button id="stopFlowButton" class="button_slide slide_right" onClick={() => this.stopFlow(this.state.wethxDaixExchangeAddress, this.state.tokens.wethx)}>Stop</button>
                     <p>WETHx/month</p>
                   </div>
-                  <p class="one-off">Total Value Streaming: {( ( this.state.wethFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} /ETHx month</p>
+                  <p class="one-off">Total Value Streaming: {( ( this.state.wethFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} ETHx/month</p>
+
                 </div>
               </div>
               <br/>
