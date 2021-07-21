@@ -364,6 +364,7 @@ class App extends Component {
 
     console.log('Total Value Streaming Calculation Complete')
     document.getElementById("data-loading").innerHTML = "✔"
+
   }
 
 
@@ -454,6 +455,7 @@ class App extends Component {
         this.state.web3.utils.toWei(upgradeAmount,"ether")
       ).send({ from: this.state.account })
     }
+
     document.getElementById("upgrade-amount").value = ""
     this.sweepTokenBalanceUpdate()
   }
@@ -549,11 +551,13 @@ class App extends Component {
                   <div>
                     <h5><span class="badge bg-primary">Your Balance: <span id='balance-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2'>0</span> DAIx</span><br/></h5>
                     <input type="text" class="field-input" id="input-amt-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2" placeholder={( ( this.state.daiFlowRate*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)}/>
+
                     <button id="startFlowButton" class="button_slide slide_right" onClick={() => this.startFlow(this.state.daixWethxExchangeAddress, this.state.tokens.daix, this.state.tokens.wethx)}>Start</button>
                     <button id="stopFlowButton" class="button_slide slide_right" onClick={() => this.stopFlow(this.state.daixWethxExchangeAddress, this.state.tokens.daix)}>Stop</button>
                     <p>DAIx/month</p>
                   </div>
                   <p class="one-off">Total Value Streaming: {( ( this.state.daiFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} DAIx/month</p>
+
                 </div>
               </div>
               <br/>
@@ -569,6 +573,7 @@ class App extends Component {
                     <p>WETHx/month</p>
                   </div>
                   <p class="one-off">Total Value Streaming: {( ( this.state.wethFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} ETHx/month</p>
+
                 </div>
               </div>
               <br/>
