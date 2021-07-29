@@ -250,7 +250,10 @@ class App extends Component {
                                   0, // indexId
                                   sfUser.address).call()
 
-    if(isSubscribed) {
+    console.log("Is Subscribed? - ",isSubscribed.approved)
+
+    if(isSubscribed.approved) {
+      console.log("Already subscribed")
 
       await sfUser.flow({
         recipient: await sf.user({ address: exchangeAddress, token: inputTokenAddress }), // address: would be rickosheaAppaddress, currently not deployed
@@ -258,6 +261,7 @@ class App extends Component {
       })
 
     } else {
+      console.log("Beginning batch call")
 
       call = [
         [
@@ -370,10 +374,10 @@ class App extends Component {
 
   async queryFlows() {
 
-    const QUERY_URL = `https://api.thegraph.com/subgraphs/name/superfluid-finance/superfluid-rinkeby`
+    const QUERY_URL = `https://api.thegraph.com/subgraphs/name/superfluid-finance/superfluid-matic`
 
     const query = `{
-      account(id: "${rickosheaAppAddress.toLowerCase()}") {
+      account(id: "${daixWethxExchangeAddress.toLowerCase()}") {
           flowsOwned {
               lastUpdate
               flowRate
