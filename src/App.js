@@ -523,7 +523,7 @@ class App extends Component {
             <div class="col-6">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title"><a style={{textDecoration:"none", color:"black" }} href="https://polygonscan.com/address/0x27C7D067A0C143990EC6ed2772E7136Cfcfaecd6">DAI >> ETH</a></h5>
+                <h5 class="card-title"><a target="_blank" style={{textDecoration:"none", color:"black" }} href="https://polygonscan.com/address/0x27C7D067A0C143990EC6ed2772E7136Cfcfaecd6">DAI >> ETH</a></h5>
                 <hr></hr>
 
                 <div>
@@ -560,7 +560,7 @@ class App extends Component {
 
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title"><a style={{textDecoration:"none", color:"black" }}  href="https://polygonscan.com/address/0x5786D3754443C0D3D1DdEA5bB550ccc476FdF11D">ETH >> DAI</a></h5>
+                  <h5 class="card-title"><a target="_blank" style={{textDecoration:"none", color:"black" }}  href="https://polygonscan.com/address/0x5786D3754443C0D3D1DdEA5bB550ccc476FdF11D">ETH >> DAI</a></h5>
                   <hr></hr>
                   <div>
                     <h5><span class="badge bg-primary">Your Balance: <span id="balance-0x27e1e4E6BC79D93032abef01025811B7E4727e85">0</span> WETHx </span><br/></h5>
