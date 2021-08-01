@@ -342,7 +342,7 @@ class App extends Component {
     })
 
     console.log("Outflows", this.state.wethFlowInfo);
-    
+
     try {
       let temp = (await this.state.daiFlowInfo.cfa.flows.inFlows.filter(flow => flow.sender === this.state.account))[0]
       this.setState({
@@ -521,53 +521,46 @@ class App extends Component {
 
           <div class="row">
             <div class="col-6">
-              <div class="card">
-                <div class="card-body">
-                  <img src="logo-png.png" style={{width:100, height:75, float:"left", marginRight: 20 }}></img>
-                  <h3>Ricochet</h3>
-                  <p>Scaling and simplifying Dollar-cost Averaging (DCA)</p>
-                  <hr></hr>
-                  <h5>Dollar-Cost Averaging on SushiSwap with Ricochet</h5>
-                  <p>Alice and Bob open a stream in units of DAI/month. Periodically Ricochet’s keeper triggers a public distribute method on Ricochet contract to:</p>
-                  <ol>
-                    <li>Swap DAI to WETH on SushiSwap</li>
-                    <li>Instantly distribute the output of the swap to Alice and Bob</li>
-                    <li>Transfer a fee taken in the output token (WETH) to the Ricochet contract owner</li>
-                  </ol>
-                  <img src="arch.png" style={{width:"100%", float:"left", marginRight: 20, marginBottom: 20 }}></img>
-                  <div>
-                    <h5>Ricochet Exchange Fees</h5>
-                    <p>There are two fees taken during the distribute:</p>
-                    <ul>
-                      <li>SushiSwap Exchange (0.3%)</li>
-                      <li>Ricochet Exchange (2.0%)</li>
-                    </ul>
-                  </div>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><a style={{textDecoration:"none", color:"black" }} href="https://polygonscan.com/address/0x81D4E27Ac42A5c3d867a157971980B7dA803B856">DAI >> ETH</a></h5>
+                <hr></hr>
+
+                <div>
+                  <h5><span class="badge bg-primary">Your Balance: <span id='balance-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2'>0</span> DAIx</span><br/></h5>
+                  <input type="text" class="field-input" id="input-amt-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2" placeholder={( ( this.state.daiFlowRate*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)}/>
+
+                  <button id="startFlowButton" class="button_slide slide_right" onClick={() => this.startFlow(this.state.daixWethxExchangeAddress, this.state.tokens.daix, this.state.tokens.wethx)}>Start</button>
+                  <button id="stopFlowButton" class="button_slide slide_right" onClick={() => this.stopFlow(this.state.daixWethxExchangeAddress, this.state.tokens.daix)}>Stop</button>
+                  <p>DAIx/month</p>
                 </div>
+                <p class="one-off">Total Value Streaming: {( ( this.state.daiFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} DAIx/month</p>
+
               </div>
             </div>
-            <div class="col-6">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">DAI >> ETH</h5>
-                  <hr></hr>
-
-                  <div>
-                    <h5><span class="badge bg-primary">Your Balance: <span id='balance-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2'>0</span> DAIx</span><br/></h5>
-                    <input type="text" class="field-input" id="input-amt-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2" placeholder={( ( this.state.daiFlowRate*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)}/>
-
-                    <button id="startFlowButton" class="button_slide slide_right" onClick={() => this.startFlow(this.state.daixWethxExchangeAddress, this.state.tokens.daix, this.state.tokens.wethx)}>Start</button>
-                    <button id="stopFlowButton" class="button_slide slide_right" onClick={() => this.stopFlow(this.state.daixWethxExchangeAddress, this.state.tokens.daix)}>Stop</button>
-                    <p>DAIx/month</p>
-                  </div>
-                  <p class="one-off">Total Value Streaming: {( ( this.state.daiFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} DAIx/month</p>
-
-                </div>
+            <br/>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Upgrade Your DAI to DAIx Here</h5>
+                <hr></hr>
+                <table id = "upgrade-table">
+                  <tr>
+                    <td><input type="text" class="field-input" id="upgrade-amount" placeholder={"Amount"}/></td>
+                    <td><button id="approve-button" class="button_slide" onClick={this.approveDAI}>Approve</button></td>
+                    <td><button id="upgrade-button" class="button_slide slide_right" onClick={this.upgrade}>Upgrade</button></td>
+                  </tr>
+                  <tr>
+                    <td class="one-off">Your DAI Balance: <span id="balance-0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063">Loading</span></td>
+                  </tr>
+                </table>
               </div>
-              <br/>
+            </div>
+            </div>
+            <div class="col-6">
+
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">ETH >> DAI</h5>
+                  <h5 class="card-title"><a style={{textDecoration:"none", color:"black" }}  href="https://polygonscan.com/address/0x5786D3754443C0D3D1DdEA5bB550ccc476FdF11D">ETH >> DAI</a></h5>
                   <hr></hr>
                   <div>
                     <h5><span class="badge bg-primary">Your Balance: <span id="balance-0x27e1e4E6BC79D93032abef01025811B7E4727e85">0</span> WETHx </span><br/></h5>
@@ -578,23 +571,6 @@ class App extends Component {
                   </div>
                   <p class="one-off">Total Value Streaming: {( ( this.state.wethFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} ETHx/month</p>
 
-                </div>
-              </div>
-              <br/>
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Upgrade Your DAI to DAIx Here</h5>
-                  <hr></hr>
-                  <table id = "upgrade-table">
-                    <tr>
-                      <td><input type="text" class="field-input" id="upgrade-amount" placeholder={"Amount"}/></td>
-                      <td><button id="approve-button" class="button_slide" onClick={this.approveDAI}>Approve</button></td>
-                      <td><button id="upgrade-button" class="button_slide slide_right" onClick={this.upgrade}>Upgrade</button></td>
-                    </tr>
-                    <tr>
-                      <td class="one-off">Your DAI Balance: <span id="balance-0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063">Loading</span></td>
-                    </tr>
-                  </table>
                 </div>
               </div>
               <br/>
