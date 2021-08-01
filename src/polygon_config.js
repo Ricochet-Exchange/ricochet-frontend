@@ -10,4 +10,4 @@ export const idaAddress = "0xB0aABBA4B2783A72C52956CDEF62d438ecA2d7a1";
 export const rickosheaAppAddress = "0x387af38C133056a0744FB6e823CdB459AE3c5a1f";
 export const RICAddress = "0x263026e7e53dbfdce5ae55ade22493f828922965";
 export const wethxDaixExchangeAddress = "0x5786D3754443C0D3D1DdEA5bB550ccc476FdF11D"
-export const daixWethxExchangeAddress =  "0x81D4E27Ac42A5c3d867a157971980B7dA803B856"
+export const daixWethxExchangeAddress =  "0x27C7D067A0C143990EC6ed2772E7136Cfcfaecd6"
