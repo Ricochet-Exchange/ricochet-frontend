@@ -505,9 +505,9 @@ class App extends Component {
               <h5 style={{float:"right" }}>Your Wallet: <span id="wallet-address" class="badge bg-secondary">{this.state.account}</span></h5>
             </div>
             <div class= "col-6">
-            <h5 id="data-loading" class="badge bg-primary"><a target="_blank" style={{textDecoration:"none", color:"white" }} href="./RicochetExchangeWhitepaper.pdf">Whitepaper</a></h5>&nbsp;
-            <h5 id="data-loading" class="badge bg-primary"><a target="_blank" style={{textDecoration:"none", color:"white" }} href="https://docs.ricochet.exchange/">Docs</a></h5>&nbsp;
-            <h5 id="data-loading" class="badge bg-primary"><a target="_blank" style={{textDecoration:"none", color:"white" }} href="https://discord.gg/mss4t2ED3y">Discord</a></h5>&nbsp;
+            <h5 class="badge bg-primary"><a target="_blank" style={{textDecoration:"none", color:"white" }} href="./RicochetExchangeWhitepaper.pdf">Whitepaper</a></h5>&nbsp;
+            <h5 class="badge bg-primary"><a target="_blank" style={{textDecoration:"none", color:"white" }} href="https://docs.ricochet.exchange/">Docs</a></h5>&nbsp;
+            <h5 class="badge bg-primary"><a target="_blank" style={{textDecoration:"none", color:"white" }} href="https://discord.gg/mss4t2ED3y">Discord</a></h5>&nbsp;
             <h5 id="data-loading" class="badge bg-warning">Loading Data...</h5>&nbsp;
               <h5 style={{float:"right" }}><span class="badge bg-info"><span id="balance-0x263026e7e53dbfdce5ae55ade22493f828922965">0</span> RIC </span></h5>
             </div>
