@@ -523,7 +523,7 @@ class App extends Component {
             <div class="col-6">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title"><a style={{textDecoration:"none", color:"black" }} href="https://polygonscan.com/address/0x81D4E27Ac42A5c3d867a157971980B7dA803B856">DAI >> ETH</a></h5>
+                <h5 class="card-title"><a style={{textDecoration:"none", color:"black" }} href="https://polygonscan.com/address/0x27C7D067A0C143990EC6ed2772E7136Cfcfaecd6">DAI >> ETH</a></h5>
                 <hr></hr>
 
                 <div>
