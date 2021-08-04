@@ -17,7 +17,7 @@
 
 body {
   /* background-color: rgb(100, 100, 100); */
-  background-image: url("fractal.png");
+  background-image: url("background.png");
   background-size: cover;
   font-family: 'Open Sans';
 }
@@ -75,6 +75,10 @@ h3, h5 {
 
 .badge.bg-primary {
   background-color: #5f8eb9!important;
+}
+
+.badge.bg-warning {
+  background-color: #00ff88!important;
 }
 
 button:enabled,

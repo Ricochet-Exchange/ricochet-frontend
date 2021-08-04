@@ -16,7 +16,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      account: "-",                                           // User's address
+      account: "Connecting to Wallet",                     // User's address
       network: "",                                            // network that user is on - TODO: react to network change
       balance: "",                                            // not used
       loading: true,                                          // (not used yet) boolean for if base interface has loaded
@@ -58,6 +58,7 @@ class App extends Component {
     this.startFlow = this.startFlow.bind(this);
     this.stopFlow = this.stopFlow.bind(this);
     this.upgrade = this.upgrade.bind(this);
+    this.downgrade = this.downgrade.bind(this);
     this.checkIfDAIxApproved = this.checkIfDAIxApproved.bind(this);
     this.approveDAI = this.approveDAI.bind(this);
     this.getTokenBalance = this.getTokenBalance.bind(this);
@@ -202,11 +203,12 @@ class App extends Component {
   async getTokenBalance(userAddress,tokenAddress) {
     var tokenInst = new this.state.web3.eth.Contract(erc20ABI,tokenAddress);
     tokenInst.methods.balanceOf(userAddress).call().then(function (bal) {
-        document.getElementById(`balance-${tokenAddress}`).innerHTML = (bal/1000000000000000000).toFixed(7)
+        // document.getElementById(`balance-${tokenAddress}`).innerHTML = (bal/1000000000000000000).toFixed(7)
         // Appending to the tokenBalances instance variable dictionary
         let copyBalance = this.state.tokenBalances
         copyBalance[tokenAddress] = bal
         this.setState({tokenBalances : copyBalance})
+        console.log(tokenAddress,bal)
     }.bind(this))
   }
 
@@ -464,6 +466,21 @@ class App extends Component {
     this.sweepTokenBalanceUpdate()
   }
 
+  async downgrade() {
+    var tokenInstx = new this.state.web3.eth.Contract(superTokenABI,WETHxAddress)
+    var downgradeAmount = document.getElementById("downgrade-amount").value
+
+    if (downgradeAmount > 0) {
+      await tokenInstx
+      .methods.downgrade(
+        this.state.web3.utils.toWei(downgradeAmount,"ether")
+      ).send({ from: this.state.account })
+    }
+
+    document.getElementById("downgrade-amount").value = ""
+    this.sweepTokenBalanceUpdate()
+  }
+
   async checkIfDAIxApproved() {
     // hasApprovedDAI is false by default
     var tokenInst = new this.state.web3.eth.Contract(erc20ABI,DAIAddress)
@@ -502,7 +519,8 @@ class App extends Component {
           <div class="row">
 
             <div class= "col-6">
-              <h5 style={{float:"right" }}>Your Wallet: <span id="wallet-address" class="badge bg-secondary">{this.state.account}</span></h5>
+              <img src="logo-png2.png" style={{width:"15%", float:"left", marginRight: 20, marginBottom: 20 }}></img>
+              <h5 style={{float:"right", color:"white" }}><span id="wallet-address" class="badge bg-secondary">{this.state.account.substring(0,10)}...</span></h5>
             </div>
             <div class= "col-6">
             <h5 class="badge bg-primary"><a target="_blank" style={{textDecoration:"none", color:"white" }} href="./RicochetExchangeWhitepaper.pdf">Whitepaper</a></h5>&nbsp;
@@ -530,7 +548,7 @@ class App extends Component {
                 <hr></hr>
 
                 <div>
-                  <h5><span class="badge bg-primary">Your Balance: <span id='balance-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2'>0</span> DAIx</span><br/></h5>
+                  <h5><span class="badge bg-primary">Your Balance: {(this.state.tokenBalances[DAIxAddress]/Math.pow(10,18)).toFixed(6)} DAIx</span><br/></h5>
                   <input type="text" class="field-input" id="input-amt-0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2" placeholder={( ( this.state.daiFlowRate*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)}/>
 
                   <button id="startFlowButton" class="button_slide slide_right" onClick={() => this.startFlow(this.state.daixWethxExchangeAddress, this.state.tokens.daix, this.state.tokens.wethx)}>Start</button>
@@ -544,7 +562,7 @@ class App extends Component {
             <br/>
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Upgrade Your DAI to DAIx Here</h5>
+                <h5 class="card-title">Upgrade DAI to DAIx</h5>
                 <hr></hr>
                 <table id = "upgrade-table">
                   <tr>
@@ -553,12 +571,29 @@ class App extends Component {
                     <td><button id="upgrade-button" class="button_slide slide_right" onClick={this.upgrade}>Upgrade</button></td>
                   </tr>
                   <tr>
-                    <td class="one-off">Your DAI Balance: <span id="balance-0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063">Loading</span></td>
+                    <td class="one-off">Your DAI Balance: {(this.state.tokenBalances[DAIAddress]/Math.pow(10,18)).toFixed(6)}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <br/>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Downgrade ETH to ETHx</h5>
+                <hr></hr>
+                <table id = "upgrade-table">
+                  <tr>
+                    <td><input type="text" class="field-input" id="downgrade-amount" placeholder={"Amount"}/></td>
+                    <td><button id="downgrade-button" class="button_slide slide_right" onClick={this.downgrade}>Downgrade</button></td>
+                  </tr>
+                  <tr>
+                    <td class="one-off">Your WETHx Balance: {(this.state.tokenBalances[WETHxAddress]/Math.pow(10,18)).toFixed(6)}</td>
                   </tr>
                 </table>
               </div>
             </div>
             </div>
+
             <div class="col-6">
 
               <div class="card">
@@ -566,7 +601,7 @@ class App extends Component {
                   <h5 class="card-title"><a target="_blank" style={{textDecoration:"none", color:"black" }}  href="https://polygonscan.com/address/0x5786D3754443C0D3D1DdEA5bB550ccc476FdF11D">ETH >> DAI</a></h5>
                   <hr></hr>
                   <div>
-                    <h5><span class="badge bg-primary">Your Balance: <span id="balance-0x27e1e4E6BC79D93032abef01025811B7E4727e85">0</span> WETHx </span><br/></h5>
+                    <h5><span class="badge bg-primary">Your Balance: {(this.state.tokenBalances[WETHxAddress]/Math.pow(10,18)).toFixed(6)} WETHx </span><br/></h5>
                     <input type="text" class="field-input" id="input-amt-0x27e1e4E6BC79D93032abef01025811B7E4727e85" placeholder={( -( this.state.wethFlowRate*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)}/>
                     <button id="startFlowButton" class="button_slide slide_right" onClick={() => this.startFlow(this.state.wethxDaixExchangeAddress, this.state.tokens.wethx, this.state.tokens.daix)}>Start</button>
                     <button id="stopFlowButton" class="button_slide slide_right" onClick={() => this.stopFlow(this.state.wethxDaixExchangeAddress, this.state.tokens.wethx)}>Stop</button>
