@@ -264,9 +264,9 @@ class App extends Component {
     } else {
       console.log("Beginning batch call")
 
-      let call = [
+      call = [
         [
-            201, // approve the ticket fee
+            201,
             sf.agreements.ida.address,
             web3.eth.abi.encodeParameters(
               ["bytes", "bytes"],
@@ -283,24 +283,24 @@ class App extends Component {
               ]
             )
         ],
-        [
-            201, // approve the ticket fee
-            sf.agreements.ida.address,
-            web3.eth.abi.encodeParameters(
-              ["bytes", "bytes"],
-              [
-                  sf.agreements.ida.contract.methods
-                      .approveSubscription(
-                          RICAddress,
-                          exchangeAddress,
-                          1, // INDEX_ID
-                          "0x"
-                      )
-                      .encodeABI(), // callData
-                  "0x" // userData
-              ]
-            )
-        ],
+        // [
+        //     201,
+        //     sf.agreements.ida.address,
+        //     web3.eth.abi.encodeParameters(
+        //       ["bytes", "bytes"],
+        //       [
+        //           sf.agreements.ida.contract.methods
+        //               .approveSubscription(
+        //                   RICAddress,
+        //                   exchangeAddress,
+        //                   1, // INDEX_ID
+        //                   "0x"
+        //               )
+        //               .encodeABI(), // callData
+        //           "0x" // userData
+        //       ]
+        //     )
+        // ],
         [
           201, // create constant flow (10/mo)
           sf.agreements.cfa.address,
@@ -520,7 +520,7 @@ class App extends Component {
     ]
 
 
-    await sf.host.batchCall(call);
+    await sf.host.batchCall(call).catch(err => alert("You've already approved RIC for this exchange."))
 
 
   }
