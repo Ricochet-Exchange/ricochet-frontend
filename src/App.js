@@ -283,24 +283,24 @@ class App extends Component {
               ]
             )
         ],
-        // [
-        //     201,
-        //     sf.agreements.ida.address,
-        //     web3.eth.abi.encodeParameters(
-        //       ["bytes", "bytes"],
-        //       [
-        //           sf.agreements.ida.contract.methods
-        //               .approveSubscription(
-        //                   RICAddress,
-        //                   exchangeAddress,
-        //                   1, // INDEX_ID
-        //                   "0x"
-        //               )
-        //               .encodeABI(), // callData
-        //           "0x" // userData
-        //       ]
-        //     )
-        // ],
+        [
+            201,
+            sf.agreements.ida.address,
+            web3.eth.abi.encodeParameters(
+              ["bytes", "bytes"],
+              [
+                  sf.agreements.ida.contract.methods
+                      .approveSubscription(
+                          RICAddress,
+                          exchangeAddress,
+                          1, // INDEX_ID
+                          "0x"
+                      )
+                      .encodeABI(), // callData
+                  "0x" // userData
+              ]
+            )
+        ],
         [
           201, // create constant flow (10/mo)
           sf.agreements.cfa.address,
