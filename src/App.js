@@ -601,13 +601,13 @@ class App extends Component {
                   <hr></hr>
                   <div>
                     <h5><span class="badge bg-primary">Your Balance: <span id="balance-0x27e1e4E6BC79D93032abef01025811B7E4727e85">0</span> WETHx </span><br/></h5>
-                    <input type="text" class="field-input" id="input-amt-0x27e1e4E6BC79D93032abef01025811B7E4727e85" placeholder={( -( this.state.wethFlowRate*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)}/>
+                    <input type="text" class="field-input" id="input-amt-0x27e1e4E6BC79D93032abef01025811B7E4727e85" placeholder={( -( this.state.wethFlowRate*(30*24*60*60) )/Math.pow(10,18) * -1).toFixed(4)}/>
                     <button id="startFlowButton" class="button_slide slide_right" onClick={() => this.startFlow(this.state.wethxDaixExchangeAddress, this.state.tokens.wethx, this.state.tokens.daix)}>Start</button>
                     <button id="stopFlowButton" class="button_slide slide_right" onClick={() => this.stopFlow(this.state.wethxDaixExchangeAddress, this.state.tokens.wethx)}>Stop</button>
                     <button id="approveRicWethButton" class="button_slide slide_right" onClick={() => this.approveRIC(this.state.wethxDaixExchangeAddress)}>Approve RIC</button>
                     <p>WETHx/month</p>
                   </div>
-                  <p class="one-off">Total Value Streaming: {( ( this.state.wethFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} ETHx/month</p>
+                  <p class="one-off">Total Value Streaming: {( ( this.state.wethFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18)).toFixed(6).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} ETHx/month</p>
 
                 </div>
               </div>
