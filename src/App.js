@@ -60,6 +60,7 @@ class App extends Component {
     this.upgrade = this.upgrade.bind(this);
     this.checkIfDAIxApproved = this.checkIfDAIxApproved.bind(this);
     this.approveDAI = this.approveDAI.bind(this);
+    this.approveRIC = this.approveRIC.bind(this);
     this.getTokenBalance = this.getTokenBalance.bind(this);
     this.sweepTokenBalanceUpdate = this.sweepTokenBalanceUpdate.bind(this);
   }
@@ -263,7 +264,7 @@ class App extends Component {
     } else {
       console.log("Beginning batch call")
 
-      call = [
+      let call = [
         [
             201, // approve the ticket fee
             sf.agreements.ida.address,
@@ -282,25 +283,24 @@ class App extends Component {
               ]
             )
         ],
-        // NOTE: Bring this back for liquidity mining, probably put this somewhere else
-        // [
-        //     201, // approve the ticket fee
-        //     sf.agreements.ida.address,
-        //     web3.eth.abi.encodeParameters(
-        //       ["bytes", "bytes"],
-        //       [
-        //           sf.agreements.ida.contract.methods
-        //               .approveSubscription(
-        //                   RICAddress,
-        //                   exchangeAddress,
-        //                   1, // INDEX_ID
-        //                   "0x"
-        //               )
-        //               .encodeABI(), // callData
-        //           "0x" // userData
-        //       ]
-        //     )
-        // ],
+        [
+            201, // approve the ticket fee
+            sf.agreements.ida.address,
+            web3.eth.abi.encodeParameters(
+              ["bytes", "bytes"],
+              [
+                  sf.agreements.ida.contract.methods
+                      .approveSubscription(
+                          RICAddress,
+                          exchangeAddress,
+                          1, // INDEX_ID
+                          "0x"
+                      )
+                      .encodeABI(), // callData
+                  "0x" // userData
+              ]
+            )
+        ],
         [
           201, // create constant flow (10/mo)
           sf.agreements.cfa.address,
@@ -493,6 +493,38 @@ class App extends Component {
 
   }
 
+  async approveRIC(exchangeAddress) {
+
+    const web3 = new Web3(window.ethereum)
+    let sf = this.state.sf
+
+    let call = [
+      [
+          201, // approve the ticket fee
+          sf.agreements.ida.address,
+          web3.eth.abi.encodeParameters(
+            ["bytes", "bytes"],
+            [
+                sf.agreements.ida.contract.methods
+                    .approveSubscription(
+                        RICAddress,
+                        exchangeAddress,
+                        1, // INDEX_ID
+                        "0x"
+                    )
+                    .encodeABI(), // callData
+                "0x" // userData
+            ]
+          )
+      ]
+    ]
+
+
+    await sf.host.batchCall(call);
+
+
+  }
+
 
   render() {
     return (
@@ -509,7 +541,7 @@ class App extends Component {
             <h5 class="badge bg-primary"><a target="_blank" style={{textDecoration:"none", color:"white" }} href="https://docs.ricochet.exchange/">Docs</a></h5>&nbsp;
             <h5 class="badge bg-primary"><a target="_blank" style={{textDecoration:"none", color:"white" }} href="https://discord.gg/mss4t2ED3y">Discord</a></h5>&nbsp;
             <h5 id="data-loading" class="badge bg-warning">Loading Data...</h5>&nbsp;
-              <h5 style={{float:"right" }}><span class="badge bg-info"><span id="balance-0x263026e7e53dbfdce5ae55ade22493f828922965">0</span> RIC </span></h5>
+            <h5 style={{float:"right" }}><span class="badge bg-info"><span id="balance-0x263026e7e53dbfdce5ae55ade22493f828922965">0</span> RIC </span></h5>
             </div>
 
           </div>
@@ -535,6 +567,7 @@ class App extends Component {
 
                   <button id="startFlowButton" class="button_slide slide_right" onClick={() => this.startFlow(this.state.daixWethxExchangeAddress, this.state.tokens.daix, this.state.tokens.wethx)}>Start</button>
                   <button id="stopFlowButton" class="button_slide slide_right" onClick={() => this.stopFlow(this.state.daixWethxExchangeAddress, this.state.tokens.daix)}>Stop</button>
+                  <button id="approveRicDaiButton" class="button_slide slide_right" onClick={() => this.approveRIC(this.state.daixWethxExchangeAddress)}>Approve RIC</button>
                   <p>DAIx/month</p>
                 </div>
                 <p class="one-off">Total Value Streaming: {( ( this.state.daiFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} DAIx/month</p>
@@ -570,6 +603,7 @@ class App extends Component {
                     <input type="text" class="field-input" id="input-amt-0x27e1e4E6BC79D93032abef01025811B7E4727e85" placeholder={( -( this.state.wethFlowRate*(30*24*60*60) )/Math.pow(10,18) ).toFixed(4)}/>
                     <button id="startFlowButton" class="button_slide slide_right" onClick={() => this.startFlow(this.state.wethxDaixExchangeAddress, this.state.tokens.wethx, this.state.tokens.daix)}>Start</button>
                     <button id="stopFlowButton" class="button_slide slide_right" onClick={() => this.stopFlow(this.state.wethxDaixExchangeAddress, this.state.tokens.wethx)}>Stop</button>
+                    <button id="approveRicWethButton" class="button_slide slide_right" onClick={() => this.approveRIC(this.state.wethxDaixExchangeAddress)}>Approve RIC</button>
                     <p>WETHx/month</p>
                   </div>
                   <p class="one-off">Total Value Streaming: {( ( this.state.wethFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} ETHx/month</p>
