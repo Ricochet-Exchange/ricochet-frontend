@@ -26,6 +26,10 @@ body {
   background-color: #dfdfdf;
 }
 
+.card-body.market {
+  background-color: #cbd8e7;
+}
+
 h3, h5 {
   font-weight: bold;
 }
