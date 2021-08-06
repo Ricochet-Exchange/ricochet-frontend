@@ -661,7 +661,7 @@ class App extends Component {
               <h5 class="badge bg-primary"><a target="_blank" style={{textDecoration:"none", color:"white" }} href="https://docs.ricochet.exchange/">Docs</a></h5>&nbsp;
               <h5 class="badge bg-primary"><a target="_blank" style={{textDecoration:"none", color:"white" }} href="https://discord.gg/mss4t2ED3y">Discord</a></h5>&nbsp;
               {/* <h5 id="data-loading" class="badge bg-warning">Loading Data...</h5>&nbsp; */}
-              <h5 style={{float:"right" }}><span class="badge bg-info"><span id="balance-0x263026e7e53dbfdce5ae55ade22493f828922965">0</span> RIC </span></h5>
+              <h5 style={{float:"right" }}><span class="badge bg-info"><span id="balance-0x263026e7e53dbfdce5ae55ade22493f828922965">{(this.state.tokenBalances[RICAddress]/Math.pow(10,18)).toFixed(6)}</span> RIC </span></h5>
 
             </div>
 
@@ -687,7 +687,7 @@ class App extends Component {
                   <input type="text" class="field-input" id="input-amt-flowsReceived-0x1305f6b6df9dc47159d12eb7ac2804d4a33173c2" placeholder={"-"}/>
                   <button id="startFlowButton" class="button_slide slide_right" onClick={() => this.startFlow(daixWethxExchangeAddress, DAIxAddress, WETHxAddress)}>Start/Edit</button>
                   <button id="stopFlowButton" class="button_slide slide_right" onClick={() => this.stopFlow(daixWethxExchangeAddress, DAIxAddress)}>Stop</button>
-                  <button id="approveRicDaiButton" class="button_slide slide_right" onClick={() => this.approveRIC(this.state.daixWethxExchangeAddress)}>Approve RIC</button>
+                  <button id="approveRicDaiButton" class="button_slide slide_right" onClick={() => this.approveRIC(daixWethxExchangeAddress)}>Approve RIC</button>
                   <p>DAIx/month</p>
                   <p id="error-0x27C7D067A0C143990EC6ed2772E7136Cfcfaecd6" style={{color:"grey"}}></p>
                 </div>
@@ -775,7 +775,7 @@ class App extends Component {
                     <input type="text" class="field-input" id="input-amt-flowsReceived-0x27e1e4e6bc79d93032abef01025811b7e4727e85" placeholder={"-"}/>
                     <button id="startFlowButton" class="button_slide slide_right" onClick={() => this.startFlow(wethxDaixExchangeAddress, WETHxAddress, DAIxAddress)}>Start/Edit</button>
                     <button id="stopFlowButton" class="button_slide slide_right" onClick={() => this.stopFlow(wethxDaixExchangeAddress, WETHxAddress)}>Stop</button>
-                    <button id="approveRicWethButton" class="button_slide slide_right" onClick={() => this.approveRIC(this.state.wethxDaixExchangeAddress)}>Approve RIC</button>
+                    <button id="approveRicWethButton" class="button_slide slide_right" onClick={() => this.approveRIC(wethxDaixExchangeAddress)}>Approve RIC</button>
                     <p>WETHx/month</p>
                     <p id="error-0x5786D3754443C0D3D1DdEA5bB550ccc476FdF11D" style={{color:"grey"}}></p>
                   </div>
