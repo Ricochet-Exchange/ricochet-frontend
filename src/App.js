@@ -404,7 +404,7 @@ class App extends Component {
   // }
 
   // make sure address passed in is LOWER CASE!!!
-  
+
   async queryFlows(queryAddress,receiveOrOwned,tokenAddress) {
 
     const QUERY_URL = `https://api.thegraph.com/subgraphs/name/superfluid-finance/superfluid-matic`
@@ -533,7 +533,7 @@ class App extends Component {
     document.getElementById(`upgrade-amount-${DAIAddress}`).value = ""
     await this.sweepTokenBalanceUpdate()
   }
-  
+
   async upgradeETH() {
     var tokenInstx = new this.state.web3.eth.Contract(superTokenABI,WETHxAddress)
     var upgradeAmount = document.getElementById(`upgrade-amount-${WETHAddress}`).value
@@ -546,7 +546,7 @@ class App extends Component {
     }
 
     document.getElementById(`upgrade-amount-${WETHAddress}`).value = ""
-    await this.sweepTokenBalanceUpdate() 
+    await this.sweepTokenBalanceUpdate()
   }
 
   async downgradeDAIx() {
@@ -776,15 +776,10 @@ class App extends Component {
                     <button id="startFlowButton" class="button_slide slide_right" onClick={() => this.startFlow(wethxDaixExchangeAddress, WETHxAddress, DAIxAddress)}>Start/Edit</button>
                     <button id="stopFlowButton" class="button_slide slide_right" onClick={() => this.stopFlow(wethxDaixExchangeAddress, WETHxAddress)}>Stop</button>
                     <button id="approveRicWethButton" class="button_slide slide_right" onClick={() => this.approveRIC(this.state.wethxDaixExchangeAddress)}>Approve RIC</button>
-
-                    <h5><span class="badge bg-primary">Your Balance: <span id="balance-0x27e1e4E6BC79D93032abef01025811B7E4727e85">0</span> WETHx </span><br/></h5>
-                    <input type="text" class="field-input" id="input-amt-0x27e1e4E6BC79D93032abef01025811B7E4727e85" placeholder={( -( this.state.wethFlowRate*(30*24*60*60) )/Math.pow(10,18) * -1).toFixed(4)}/>
-                    <button id="startFlowButton" class="button_slide slide_right" onClick={() => this.startFlow(this.state.wethxDaixExchangeAddress, this.state.tokens.wethx, this.state.tokens.daix)}>Start</button>
-                    <button id="stopFlowButton" class="button_slide slide_right" onClick={() => this.stopFlow(this.state.wethxDaixExchangeAddress, this.state.tokens.wethx)}>Stop</button>
                     <p>WETHx/month</p>
                     <p id="error-0x5786D3754443C0D3D1DdEA5bB550ccc476FdF11D" style={{color:"grey"}}></p>
                   </div>
-                  <p class="one-off">Total Value Streaming: <span id="flowsOwned-0x27e1e4e6bc79d93032abef01025811b7e4727e85" style={{color:"black"}}></span> ETHx/month</p> 
+                  <p class="one-off">Total Value Streaming: <span id="flowsOwned-0x27e1e4e6bc79d93032abef01025811b7e4727e85" style={{color:"black"}}></span> ETHx/month</p>
                   {/* {( ( this.state.wethFlowInfo.cfa.netFlow*(30*24*60*60) )/Math.pow(10,18) ).toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} */}
 
 
