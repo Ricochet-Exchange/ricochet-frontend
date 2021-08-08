@@ -75,7 +75,6 @@ class App extends Component {
 		this.checkIfApproved = this.checkIfApproved.bind(this);
 		this.approveDAI = this.approveDAI.bind(this);
 		this.approveETH = this.approveETH.bind(this);
-		this.approveRIC = this.approveRIC.bind(this);
 
 		this.getTokenBalance = this.getTokenBalance.bind(this);
 		this.sweepTokenBalanceUpdate = this.sweepTokenBalanceUpdate.bind(this);
@@ -690,7 +689,7 @@ class App extends Component {
 		}
 	}
 
-	async approveRIC(exchangeAddress) {
+	async approveSubscription(tokenAddress, exchangeAddress) {
 		const web3 = new Web3(window.ethereum);
 		let sf = this.state.sf;
 
@@ -703,7 +702,7 @@ class App extends Component {
 					[
 						sf.agreements.ida.contract.methods
 							.approveSubscription(
-								RICAddress,
+								tokenAddress,
 								exchangeAddress,
 								1, // INDEX_ID
 								"0x"
@@ -848,9 +847,9 @@ class App extends Component {
 											Stop
 										</button>
 										<button
-											id="approveRicDaiButton"
+											id="approveRICButton"
 											class="button_slide slide_right"
-											onClick={() => this.approveRIC(daixWethxExchangeAddress)}
+											onClick={() => this.approveSubscription(RICAddress, daixWethxExchangeAddress)}
 										>
 											Approve RIC
 										</button>
@@ -962,39 +961,19 @@ class App extends Component {
 								</div>
 							</div>
 							<br />
-							{/* <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Upgrade ETH to ETHx</h5>
-                <hr></hr>
-                <table id = "upgrade-table">
-                  <tr>
-                    <td><input type="text" class="field-input" id="upgrade-amount-0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619" placeholder={"Amount"}/></td>
-                    <td><button id="approve-button-0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619" class="button_slide" onClick={this.approveETH}>Approve</button></td>
-                    <td><button id="upgrade-button-0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619" class="button_slide slide_right" onClick={this.upgradeETH}>Upgrade</button></td>
-                  </tr>
-                  <tr>
-                    <td class="one-off">Your ETH Balance: {(this.state.tokenBalances[WETHAddress]/Math.pow(10,18)).toFixed(6)}</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-
-            <br/>
               <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Downgrade WETHx to WETH</h5>
-                  <hr></hr>
-                  <table id = "upgrade-table">
-                    <tr>
-                      <td><input type="text" class="field-input" id="downgrade-amount-0x27e1e4E6BC79D93032abef01025811B7E4727e85" placeholder={"Amount"}/></td>
-                      <td><button id="downgrade-button-0x27e1e4E6BC79D93032abef01025811B7E4727e85" class="button_slide slide_right" onClick={this.downgradeETHx}>Downgrade</button></td>
-                    </tr>
-                    <tr>
-                      <td class="one-off">Your WETHx Balance: {(this.state.tokenBalances[WETHxAddress]/Math.pow(10,18)).toFixed(6)}</td>
-                    </tr>
-                  </table>
-                </div>
-              </div> */}
+								<div class="card-body">
+									<h5 class="card-title">Approve DAIx Subscription</h5>
+									<hr></hr>
+                  <button
+                    id="approveDAIxButton"
+                    class="button_slide slide_right"
+                    onClick={() => this.approveSubscription(DAIxAddress, wethxDaixExchangeAddress)}
+                  >
+                    Approve DAIx Subscription
+                  </button>
+								</div>
+							</div>
 						</div>
 
 						<div class="col-6">
@@ -1053,7 +1032,7 @@ class App extends Component {
 										<button
 											id="approveRicWethButton"
 											class="button_slide slide_right"
-											onClick={() => this.approveRIC(wethxDaixExchangeAddress)}
+											onClick={() => this.approveSubscription(RICAddress, wethxDaixExchangeAddress)}
 										>
 											Approve RIC
 										</button>
@@ -1082,35 +1061,7 @@ class App extends Component {
 								</div>
 							</div>
 							<br />
-							{/* <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Network Config</h5>
-                  <hr></hr>
-                  <table id = "network-table">
-                    <td colspan="2">
-                      <p>To use Matic-Mainnet with Superfluid, you'll need the below RPC URL to connect your Metamask to a Polygon node.</p>
-                    </td>
 
-                    <tr>
-                      <td class="network-items">Network Name</td>
-                      <td>Matic Mainnet</td>
-                    </tr>
-                    <tr>
-                      <td class="network-items">Chain ID</td>
-                      <td>137</td>
-                    </tr>
-                    <tr>
-                      <td class="network-items">Gas Token</td>
-                      <td>MATIC</td>
-                    </tr>
-                    <tr>
-                      <td class="network-items">RPC</td>
-                      <td>https://rpc-endpoints.superfluid.dev/matic</td>
-                    </tr>
-
-                  </table>
-                </div>
-              </div> */}
 							<div class="card">
 								<div class="card-body">
 									<h5 class="card-title">Upgrade ETH to ETHx</h5>
@@ -1195,6 +1146,21 @@ class App extends Component {
 								</div>
 							</div>
 							<br />
+
+              <div class="card">
+								<div class="card-body">
+									<h5 class="card-title">Approve ETHx Subscription</h5>
+									<hr></hr>
+                  <button
+                    id="approveETHxButton"
+                    class="button_slide slide_right"
+                    onClick={() => this.approveSubscription(WETHxAddress, daixWethxExchangeAddress)}
+                  >
+                    Approve DAIx Subscription
+                  </button>
+								</div>
+							</div>
+
 						</div>
 					</div>
 
