@@ -1,0 +1,64 @@
+@import 'assets/styles/_mixins.scss';
+
+.form {
+  @include flexbox(baseline, flex-start);
+
+  flex-wrap: wrap;
+}
+
+.input {
+  border: 2px solid #bfc2c5;
+  border-radius: 0px;
+  padding: 5px;
+  font-size: 16px;
+  width: 213px;
+}
+
+.button {
+  margin: 30px 0 0 20px;
+}
+
+.balance {
+  background-color: #5f8eb9;
+  padding: .35em .65em;
+  font-size: .75em;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25rem;
+  width: max-content;
+  margin-bottom: 8px;
+}
+
+.subscription {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.link {
+  color: rgb(33, 37, 41);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+.balance_text {
+  color: #5f8eb9;
+  font-size: small;
+  font-weight: bold;
+  margin-top:0;
+}
+
+.black {
+  color: black;
+}
+
+.error {
+  margin-top: 0;
+  color: grey;
+}

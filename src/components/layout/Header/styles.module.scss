@@ -1,0 +1,66 @@
+@import 'assets/styles/_mixins.scss';
+
+.header {
+  @include flexbox(center, space-between);
+}
+
+.logo {
+  width: 15%;
+}
+
+.left {
+  @include flexbox(center, space-between);
+  
+  width: 50%;
+  margin-right: 24px;
+}
+
+.account {
+  background-color: #6c757d;
+  padding: .35em .65em;
+  font-size: .75em;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25rem;
+}
+
+.right {
+  @include flexbox(center, space-between);
+
+  width: 50%;
+}
+
+.links {
+  @include flexbox(center, flex-start);
+}
+
+.link {
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #5f8eb9;
+  padding: .35em .65em;
+  font-size: .75em;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25rem;
+}
+
+.ric {
+  background: #0dcaf0;
+  padding: .35em .65em;
+    font-size: .75em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+}
