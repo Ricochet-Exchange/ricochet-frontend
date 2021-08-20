@@ -1,0 +1,16 @@
+@import 'assets/styles/_mixins.scss';
+
+.header {
+  margin-top: 24px;
+}
+
+.list {
+  @include flexbox(flex-start, space-between);
+
+  margin: 20px -12px 0 -12px;
+  flex-wrap: wrap;
+
+  & > * {
+    margin: 12px;
+  }
+}
