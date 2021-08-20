@@ -8,7 +8,7 @@ import { selectMain } from 'store/main/selectors';
 import { WethDowngrade } from 'containers/main/WethDowngrade';
 import { DaiDowngrade } from 'containers/main/DaiDowngrade';
 import {
-  DAIAddress, DAIxAddress, RICAddress, WETHxAddress, 
+  DAIAddress, DAIxAddress, RICAddress, WETHAddress, WETHxAddress, 
 } from 'constants/polygon_config';
 import { DaiUpgrade } from 'containers/main/DaiUpgrade';
 import { WethUpgrade } from 'containers/main/WethUpgrade';
@@ -62,7 +62,7 @@ export const MainPage: React.FC = () => {
           hasDaiApprove={hasDaiApprove}
         />
         <WethUpgrade 
-          balance={balances && balances[DAIAddress]}
+          balance={balances && balances[WETHAddress]}
           disabled={disabled}
           hasWethApprove={hasWethApprove}
         />

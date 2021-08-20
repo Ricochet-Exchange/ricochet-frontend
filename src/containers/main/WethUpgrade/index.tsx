@@ -28,7 +28,7 @@ export const WethUpgrade: React.FC<Props> = ({
   };
 
   const handleonApprove = useCallback(() => { 
-    if (disabled || hasWethApprove) {
+    if (!weth || disabled || hasWethApprove) {
       return;
     }
     dispatch(wethApprove(weth, callback));

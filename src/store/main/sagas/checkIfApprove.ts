@@ -7,6 +7,7 @@ import { getAddress } from 'utils/getAddress';
 import {
   DAIAddress, DAIxAddress, WETHAddress, WETHxAddress, 
 } from 'constants/polygon_config';
+import { handleError } from 'utils/handleError';
 import { mainSetState } from '../actionCreators';
 import { selectBalances } from '../selectors';
 
@@ -32,7 +33,8 @@ export function* checkIfApproveWeth() {
   try {
     yield call(checkIfApprove, WETHAddress, WETHxAddress, 'hasWethApprove');
   } catch (e) {
-    yield put(mainSetState({ disabled: true }));
+    // TODO: handle errors properly
+    yield call(handleError, e);
   } 
 }
 
@@ -40,6 +42,7 @@ export function* checkIfApproveDai() {
   try {
     yield call(checkIfApprove, DAIAddress, DAIxAddress, 'hasDaiApprove');
   } catch (e) {
-    yield put(mainSetState({ disabled: true }));
+    // TODO: handle errors properly
+    yield call(handleError, e);
   }  
 }

@@ -28,7 +28,7 @@ export const DaiUpgrade: React.FC<Props> = ({
   };
 
   const handleonApprove = useCallback(() => { 
-    if (disabled || hasDaiApprove) {
+    if (!dai || disabled || hasDaiApprove) {
       return;
     }
     dispatch(daiApprove(dai, callback));

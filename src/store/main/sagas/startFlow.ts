@@ -6,6 +6,7 @@ import {
 import { call } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getContract } from 'utils/getContract';
+import { handleError } from 'utils/handleError';
 import { sweepQueryFlow } from './sweepQueryFlow';
 import { daiStartFlow, wethStartFlow } from '../actionCreators';
  
@@ -26,6 +27,11 @@ export function* daiStartFlowSaga({ payload }: ReturnType<typeof daiStartFlow>) 
     payload.callback();
     yield call(sweepQueryFlow);
   } catch (e) {
+    // yield put(mainSetState({ disabled: true }));
+    // TODO: handle errors properly
+    // eslint-disable-next-line no-console
+    console.log(e);
+    yield call(handleError, e);
     if (e.code === -32603) {
       payload.callback(e.data.message);
     }
@@ -49,8 +55,11 @@ export function* wethStartFlowSaga({ payload }: ReturnType<typeof wethStartFlow>
     payload.callback();
     yield call(sweepQueryFlow);
   } catch (e) {
+    // yield put(mainSetState({ disabled: true }));
+    // TODO: handle errors properly
     if (e.code === -32603) {
       payload.callback(e.data.message);
     }
+    yield call(handleError, e);
   } 
 } 

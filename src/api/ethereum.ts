@@ -22,8 +22,9 @@ export const approve = (
   contract: any,
   address: string,
   tokenAddress: string,
+  amount: string,
 ) => contract.methods
-  .approve(tokenAddress, `1${'0'.repeat(42)}`)
+  .approve(tokenAddress, amount)
   .send({ from: address });
 
 export const upgrade = (

@@ -1,11 +1,12 @@
 import { upgrade } from 'api/ethereum';
 import { superTokenABI } from 'constants/abis';
 import { DAIxAddress, WETHxAddress } from 'constants/polygon_config';
-import { all, call } from 'redux-saga/effects';
+import { call } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
 import { getContract } from 'utils/getContract';
 import web3 from 'utils/web3instance';
+import { handleError } from 'utils/handleError';
 import { daiUpgrade, wethUpgrade } from '../actionCreators';
 import { checkIfApproveDai, checkIfApproveWeth } from './checkIfApprove';
 import { getBalances } from './getBalances';
@@ -21,10 +22,8 @@ export function* upgradeSaga(
     superTokenABI,
   );
   const amount = web3.utils.toWei(value, 'ether');
-  yield all([
-    call(upgrade, contract, amount, address),
-    call(getBalances, address),
-  ]);
+  yield call(upgrade, contract, amount, address);
+  yield call(getBalances, address);
 } 
 
 export function* upgradeDaiSaga({ payload }: ReturnType<typeof daiUpgrade>) {
@@ -35,8 +34,7 @@ export function* upgradeDaiSaga({ payload }: ReturnType<typeof daiUpgrade>) {
     yield call(checkIfApproveDai);
   } catch (e) {
     // TODO: handle errors properly
-    // eslint-disable-next-line no-console
-    console.log(e);
+    yield call(handleError, e);
   } 
 } 
 
@@ -48,7 +46,6 @@ export function* upgradeWethSaga({ payload }: ReturnType<typeof wethUpgrade>) {
     yield call(checkIfApproveWeth);
   } catch (e) {
     // TODO: handle errors properly
-    // eslint-disable-next-line no-console
-    console.log(e);
+    yield call(handleError, e);
   } 
 } 

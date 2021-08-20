@@ -1,11 +1,12 @@
 import { downgrade } from 'api/ethereum';
 import { superTokenABI } from 'constants/abis';
 import { DAIxAddress, WETHxAddress } from 'constants/polygon_config';
-import { all, call } from 'redux-saga/effects';
+import { call } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
 import { getContract } from 'utils/getContract';
 import web3 from 'utils/web3instance';
+import { handleError } from 'utils/handleError';
 import {
   wethDownGrade, daiDownGrade,  
 } from '../actionCreators';
@@ -19,10 +20,8 @@ function* downgradeSaga(tokenAddress: string, value: string) {
     tokenAddress,
     superTokenABI,
   );
-  yield all([
-    call(downgrade, contract, amount, address),
-    call(getBalances, address),
-  ]);
+  yield call(downgrade, contract, amount, address);
+  yield call(getBalances, address);
 } 
 
 export function* daiDowngradeSaga({ payload }: ReturnType<typeof daiDownGrade>) {
@@ -32,8 +31,7 @@ export function* daiDowngradeSaga({ payload }: ReturnType<typeof daiDownGrade>) 
   } catch (e) {
     // yield put(mainSetState({ disabled: true }));
     // TODO: handle errors properly
-    // eslint-disable-next-line no-console
-    console.log(e);
+    yield call(handleError, e);
   } 
 } 
 
@@ -43,7 +41,6 @@ export function* wethDowngradeSaga({ payload }: ReturnType<typeof wethDownGrade>
     payload.callback();
   } catch (e) {
     // TODO: handle errors properly
-    // eslint-disable-next-line no-console
-    console.log(e);
+    yield call(handleError, e);
   } 
 } 

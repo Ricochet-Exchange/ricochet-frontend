@@ -3,43 +3,51 @@ import { erc20ABI } from 'constants/abis';
 import {
   DAIAddress, DAIxAddress, WETHAddress, WETHxAddress, 
 } from 'constants/polygon_config';
-import { all, call, put } from 'redux-saga/effects';
+import { call } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
 import { getContract } from 'utils/getContract';
-import { daiApprove, mainSetState, wethApprove } from '../actionCreators';
+import web3 from 'utils/web3instance';
+import { handleError } from 'utils/handleError';
+import { daiApprove, wethApprove } from '../actionCreators';
 import { checkIfApproveDai, checkIfApproveWeth } from './checkIfApprove';
 import { getBalances } from './getBalances';
 
-export function* approveSaga(tokenAddress: string, superTokenAddress: string) {
+export function* approveSaga(
+  tokenAddress: string,
+  superTokenAddress: string,
+  amount: string,
+) {
   const address: Unwrap<typeof getAddress> = yield call(getAddress);
   const contract: Unwrap<typeof getContract> = yield call(
     getContract, 
     tokenAddress,
     erc20ABI,
   );
-  yield all([
-    call(approve, contract, address, superTokenAddress),
-    call(getBalances, address),
-  ]);
+  yield call(approve, contract, address, superTokenAddress, amount);
+  yield call(getBalances, address);
 }
 
 export function* approveDaiSaga({ payload }: ReturnType<typeof daiApprove>) {
   try {
-    yield call(approveSaga, DAIAddress, DAIxAddress);
+    const amount = web3.utils.toWei(payload.value, 'ether');
+    yield call(approveSaga, DAIAddress, DAIxAddress, amount);
     payload.callback();
     yield call(checkIfApproveDai);
   } catch (e) {
-    yield put(mainSetState({ disabled: true }));
+    // TODO: handle errors properly
+    yield call(handleError, e);
   } 
 } 
 
 export function* approveWethSaga({ payload }: ReturnType<typeof wethApprove>) {
   try {
-    yield call(approveSaga, WETHAddress, WETHxAddress);
+    const amount = web3.utils.toWei(payload.value, 'ether');
+    yield call(approveSaga, WETHAddress, WETHxAddress, amount);
     payload.callback();
     yield call(checkIfApproveWeth);
   } catch (e) {
-    yield put(mainSetState({ disabled: true }));
+    // TODO: handle errors properly
+    yield call(handleError, e);
   } 
 }  
