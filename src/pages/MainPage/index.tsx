@@ -8,21 +8,21 @@ import { selectMain } from 'store/main/selectors';
 import { WethDowngrade } from 'containers/main/WethDowngrade';
 import { DaiDowngrade } from 'containers/main/DaiDowngrade';
 import {
-  DAIAddress, DAIxAddress, RICAddress, WETHAddress, WETHxAddress, 
+  DAIAddress, DAIxAddress, RICAddress, WETHAddress, WETHxAddress,
 } from 'constants/polygon_config';
 import { DaiUpgrade } from 'containers/main/DaiUpgrade';
 import { WethUpgrade } from 'containers/main/WethUpgrade';
 import { DaiSubscription } from 'containers/main/DaiSubscription';
 import { WethSubscription } from 'containers/main/WethSubscription';
-import { DaiFlow } from 'containers/main/DaiFlow';
-import { WethFlow } from 'containers/main/WethFlow';
+import { DaiWethFlow } from 'containers/main/DaiWethFlow';
+import { WethDaiFlow } from 'containers/main/WethDaiFlow';
 import styles from './styles.module.scss';
 
 export const MainPage: React.FC = () => {
   const dispatch = useDispatch();
   const {
-    address, 
-    balances, 
+    address,
+    balances,
     disabled,
     hasDaiApprove,
     hasWethApprove,
@@ -37,31 +37,31 @@ export const MainPage: React.FC = () => {
   return (
     <MainLayout>
       <div className={styles.header}>
-        <Header 
+        <Header
           account={address || 'Connecting'}
           ricBalance={balances && balances[RICAddress]}
         />
       </div>
       <div className={styles.list}>
-        <DaiFlow 
+        <DaiWethFlow
           balance={balances && balances[DAIxAddress]}
           totalFlows={daiFlowQuery?.totalFlows}
           flowsOwned={daiFlowQuery?.flowsOwned}
           placeholder={daiFlowQuery?.placeholder}
         />
-        <WethFlow    
+        <WethDaiFlow
           balance={balances && balances[WETHxAddress]}
           totalFlows={wethFlowQuery?.totalFlows}
           flowsOwned={wethFlowQuery?.flowsOwned}
           placeholder={wethFlowQuery?.placeholder}
         />
-      
-        <DaiUpgrade 
+
+        <DaiUpgrade
           balance={balances && balances[DAIAddress]}
           disabled={disabled}
           hasDaiApprove={hasDaiApprove}
         />
-        <WethUpgrade 
+        <WethUpgrade
           balance={balances && balances[WETHAddress]}
           disabled={disabled}
           hasWethApprove={hasWethApprove}
@@ -75,10 +75,10 @@ export const MainPage: React.FC = () => {
           balance={balances && balances[WETHxAddress]}
           disabled={disabled}
         />
-      
+
         <DaiSubscription />
         <WethSubscription />
       </div>
     </MainLayout>
-  ); 
+  );
 };

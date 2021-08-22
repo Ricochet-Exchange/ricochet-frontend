@@ -6,10 +6,10 @@ import { approveDaiSaga, approveWethSaga } from './approveSaga';
 import { upgradeDaiSaga, upgradeWethSaga } from './upgradeSaga';
 import { mainChainSaga } from './mainChainChanged';
 import {
-  subscriptionDaiSaga, subscriptionRicDaiSaga, subscriptionRicWethSaga, subscriptionWethSaga, 
+  subscriptionDaiSaga, subscriptionWethSaga,
 } from './subscription';
-import { daiStopFlowSaga, wethStopFlowSaga } from './stopFlow';
-import { daiStartFlowSaga, wethStartFlowSaga } from './startFlow';
+import { daiWethStopFlowSaga, wethDaiStopFlowSaga } from './stopFlow';
+import { daiWethStartFlowSaga, wethDaiStartFlowSaga } from './startFlow';
 
 export default function* mainSaga() {
   yield takeLeading(MainActionTypes.CHAIN_CHANGED, mainChainSaga);
@@ -20,12 +20,10 @@ export default function* mainSaga() {
   yield takeLeading(MainActionTypes.DAI_UPGRADE, upgradeDaiSaga);
   yield takeLeading(MainActionTypes.WETH_APPROVE, approveWethSaga);
   yield takeLeading(MainActionTypes.WETH_UPGRADE, upgradeWethSaga);
-  yield takeLeading(MainActionTypes.DAI_SUBSCRIPTION, subscriptionDaiSaga);
-  yield takeLeading(MainActionTypes.WETH_SUBSCRIPTION, subscriptionWethSaga);
-  yield takeLeading(MainActionTypes.RIC_DAI_SUBSCRIPTION, subscriptionRicDaiSaga);
-  yield takeLeading(MainActionTypes.RIC_WETH_SUBSCRIPTION, subscriptionRicWethSaga);
-  yield takeLeading(MainActionTypes.DAI_STOP_FLOW, daiStopFlowSaga);
-  yield takeLeading(MainActionTypes.WETH_STOP_FLOW, wethStopFlowSaga);
-  yield takeLeading(MainActionTypes.DAI_START_FLOW, daiStartFlowSaga);
-  yield takeLeading(MainActionTypes.WETH_START_FLOW, wethStartFlowSaga);
+  yield takeLeading(MainActionTypes.DAI_WETH_SUBSCRIPTION, subscriptionDaiSaga);
+  yield takeLeading(MainActionTypes.WETH_DAI_SUBSCRIPTION, subscriptionWethSaga);
+  yield takeLeading(MainActionTypes.DAI_WETH_STOP_FLOW, daiWethStopFlowSaga);
+  yield takeLeading(MainActionTypes.WETH_DAI_STOP_FLOW, wethDaiStopFlowSaga);
+  yield takeLeading(MainActionTypes.DAI_WETH_START_FLOW, daiWethStartFlowSaga);
+  yield takeLeading(MainActionTypes.WETH_DAI_START_FLOW, wethDaiStartFlowSaga);
 }

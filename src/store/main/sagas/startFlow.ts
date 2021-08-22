@@ -1,19 +1,19 @@
 import { startFlow } from 'api/ethereum';
 import { idaABI } from 'constants/abis';
 import {
-  DAIxAddress, daixWethxExchangeAddress, idaAddress, WETHxAddress, wethxDaixExchangeAddress,  
+  DAIxAddress, daixWethxExchangeAddress, idaAddress, WETHxAddress, wethxDaixExchangeAddress,
 } from 'constants/polygon_config';
 import { call } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getContract } from 'utils/getContract';
 import { handleError } from 'utils/handleError';
 import { sweepQueryFlow } from './sweepQueryFlow';
-import { daiStartFlow, wethStartFlow } from '../actionCreators';
- 
-export function* daiStartFlowSaga({ payload }: ReturnType<typeof daiStartFlow>) {
+import { daiWethStartFlow, wethDaiStartFlow } from '../actionCreators';
+
+export function* daiWethStartFlowSaga({ payload }: ReturnType<typeof daiWethStartFlow>) {
   try {
     const idaContract: Unwrap<typeof getContract> = yield call(
-      getContract, 
+      getContract,
       idaAddress,
       idaABI,
     );
@@ -35,13 +35,13 @@ export function* daiStartFlowSaga({ payload }: ReturnType<typeof daiStartFlow>) 
     if (e.code === -32603) {
       payload.callback(e.data.message);
     }
-  } 
-} 
+  }
+}
 
-export function* wethStartFlowSaga({ payload }: ReturnType<typeof wethStartFlow>) {
+export function* wethDaiStartFlowSaga({ payload }: ReturnType<typeof wethDaiStartFlow>) {
   try {
     const idaContract: Unwrap<typeof getContract> = yield call(
-      getContract, 
+      getContract,
       idaAddress,
       idaABI,
     );
@@ -61,5 +61,5 @@ export function* wethStartFlowSaga({ payload }: ReturnType<typeof wethStartFlow>
       payload.callback(e.data.message);
     }
     yield call(handleError, e);
-  } 
-} 
+  }
+}

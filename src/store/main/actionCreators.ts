@@ -65,44 +65,36 @@ export const wethUpgrade = (
 
 });
 
-export const daiSubscription = () => ({
-  type: MainActionTypes.DAI_SUBSCRIPTION,
+export const daiWethSubscription = () => ({
+  type: MainActionTypes.DAI_WETH_SUBSCRIPTION,
 });
 
-export const wethSubscription = () => ({
-  type: MainActionTypes.WETH_SUBSCRIPTION,
+export const wethDaiSubscription = () => ({
+  type: MainActionTypes.WETH_DAI_SUBSCRIPTION,
 });
 
-export const ricdaiSubscription = () => ({
-  type: MainActionTypes.RIC_DAI_SUBSCRIPTION,
-});
-
-export const ricwethSubscription = () => ({
-  type: MainActionTypes.RIC_WETH_SUBSCRIPTION,
-});
-
-export const daiStopFlow = (callback: (e?: string) => void) => ({
-  type: MainActionTypes.DAI_STOP_FLOW,
+export const daiWethStopFlow = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.DAI_WETH_STOP_FLOW,
   payload: { callback },
 });
 
-export const wethStopFlow = (callback: (e?: string) => void) => ({
-  type: MainActionTypes.WETH_STOP_FLOW,
+export const wethDaiStopFlow = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.WETH_DAI_STOP_FLOW,
   payload: { callback },
 });
 
-export const daiStartFlow = (
+export const daiWethStartFlow = (
   payload: string,
   callback: (e?: string) => void,
 ) => ({
-  type: MainActionTypes.DAI_START_FLOW,
+  type: MainActionTypes.DAI_WETH_START_FLOW,
   payload: { amount: payload, callback },
 });
 
-export const wethStartFlow = (
+export const wethDaiStartFlow = (
   payload: string,
   callback: (e?: string) => void,
 ) => ({
-  type: MainActionTypes.WETH_START_FLOW,
+  type: MainActionTypes.WETH_DAI_START_FLOW,
   payload: { amount: payload, callback },
 });
