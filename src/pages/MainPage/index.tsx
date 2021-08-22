@@ -7,11 +7,15 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { WethDowngrade } from 'containers/main/WethDowngrade';
 import { DaiDowngrade } from 'containers/main/DaiDowngrade';
+import { WbtcDowngrade } from 'containers/main/WbtcDowngrade';
 import {
-  DAIAddress, DAIxAddress, RICAddress, WETHAddress, WETHxAddress,
+  DAIAddress, DAIxAddress, RICAddress,
+  WETHAddress, WETHxAddress,
+  WBTCAddress, WBTCxAddress,
 } from 'constants/polygon_config';
 import { DaiUpgrade } from 'containers/main/DaiUpgrade';
 import { WethUpgrade } from 'containers/main/WethUpgrade';
+import { WbtcUpgrade } from 'containers/main/WbtcUpgrade';
 import { DaiSubscription } from 'containers/main/DaiSubscription';
 import { WethSubscription } from 'containers/main/WethSubscription';
 import { DaiWethFlow } from 'containers/main/DaiWethFlow';
@@ -26,6 +30,7 @@ export const MainPage: React.FC = () => {
     disabled,
     hasDaiApprove,
     hasWethApprove,
+    hasWbtcApprove,
     daiFlowQuery,
     wethFlowQuery,
   } = useShallowSelector(selectMain);
@@ -61,18 +66,31 @@ export const MainPage: React.FC = () => {
           disabled={disabled}
           hasDaiApprove={hasDaiApprove}
         />
+
         <WethUpgrade
           balance={balances && balances[WETHAddress]}
           disabled={disabled}
           hasWethApprove={hasWethApprove}
         />
 
+        <WbtcUpgrade
+          balance={balances && balances[WBTCAddress]}
+          disabled={disabled}
+          hasWbtcApprove={hasWbtcApprove}
+        />
+
         <DaiDowngrade
           balance={balances && balances[DAIxAddress]}
           disabled={disabled}
         />
+
         <WethDowngrade
           balance={balances && balances[WETHxAddress]}
+          disabled={disabled}
+        />
+
+        <WbtcDowngrade
+          balance={balances && balances[WBTCxAddress]}
           disabled={disabled}
         />
 

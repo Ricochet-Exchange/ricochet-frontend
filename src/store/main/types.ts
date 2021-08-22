@@ -4,6 +4,7 @@ export type MainState = {
   balances?: { [key:string]: string };
   hasDaiApprove?: boolean;
   hasWethApprove?: boolean;
+  hasWbtcApprove?: boolean;
   daiFlowQuery?: {
     flowsReceived: number,
     flowsOwned: string,

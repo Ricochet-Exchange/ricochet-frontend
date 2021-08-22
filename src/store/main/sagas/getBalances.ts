@@ -4,6 +4,8 @@ import {
   DAIAddress,
   WETHxAddress,
   WETHAddress,
+  WBTCxAddress,
+  WBTCAddress,
   RICAddress,
 } from 'constants/polygon_config';
 import { getContract } from 'utils/getContract';
@@ -12,14 +14,24 @@ import { makeBatchRequest } from 'utils/makeBatchRequest';
 import { mainSetState } from '../actionCreators';
 
 export function* getBalances(address: string) {
-  const contractsAddress = [DAIxAddress, WETHxAddress, WETHAddress, DAIAddress, RICAddress];
+  const contractsAddress = [
+    DAIxAddress, DAIAddress,
+    WETHxAddress, WETHAddress,
+    WBTCxAddress, WBTCAddress,
+    RICAddress];
   const contracts = contractsAddress.map((el) => getContract(el, erc20ABI));
-  const requests = contracts.map((el) => el.methods.balanceOf(address).call);    
+  const requests = contracts.map((el) => el.methods.balanceOf(address).call);
   const results: string[] = yield call(makeBatchRequest, requests);
   const balances: { [key:string]: string } = {};
   contractsAddress.map((el:string, i:number) => {
-    balances[el] = (Number(results[i]) / 1e18).toFixed(6);
+    // TODO: Use decimals() method instead of hardcoded
+    if (el === WBTCAddress) {
+      balances[el] = (Number(results[i]) / 1e8).toFixed(6);
+    } else {
+      balances[el] = (Number(results[i]) / 1e18).toFixed(6);
+    }
     return null;
   });
+  console.log(balances);
   yield put(mainSetState({ balances }));
-} 
+}

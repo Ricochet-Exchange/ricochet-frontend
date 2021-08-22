@@ -5,7 +5,9 @@ import { Unwrap } from 'types/unwrap';
 import { allowance } from 'api/ethereum';
 import { getAddress } from 'utils/getAddress';
 import {
-  DAIAddress, DAIxAddress, WETHAddress, WETHxAddress, 
+  DAIAddress, DAIxAddress,
+  WETHAddress, WETHxAddress,
+  WBTCAddress, WBTCxAddress,
 } from 'constants/polygon_config';
 import { handleError } from 'utils/handleError';
 import { mainSetState } from '../actionCreators';
@@ -14,17 +16,17 @@ import { selectBalances } from '../selectors';
 export function* checkIfApprove(
   tokenAddress: string,
   superTokenAddress: string,
-  param: 'hasWethApprove' | 'hasDaiApprove',
+  param: 'hasWethApprove' | 'hasDaiApprove' | 'hasWbtcApprove',
 ) {
   const address: Unwrap<typeof getAddress> = yield call(getAddress);
   const contract: Unwrap<typeof getContract> = yield call(
-    getContract, 
+    getContract,
     tokenAddress,
     erc20ABI,
   );
   const amount: Unwrap<typeof allowance> = yield call(allowance,
     contract, address, superTokenAddress);
-  const balances: ReturnType<typeof selectBalances> = yield select(selectBalances); 
+  const balances: ReturnType<typeof selectBalances> = yield select(selectBalances);
   const hasApprove = Number(amount) > Number(balances && balances[superTokenAddress]);
   yield put(mainSetState({ [param]: hasApprove }));
 }
@@ -35,7 +37,7 @@ export function* checkIfApproveWeth() {
   } catch (e) {
     // TODO: handle errors properly
     yield call(handleError, e);
-  } 
+  }
 }
 
 export function* checkIfApproveDai() {
@@ -44,5 +46,14 @@ export function* checkIfApproveDai() {
   } catch (e) {
     // TODO: handle errors properly
     yield call(handleError, e);
-  }  
+  }
+}
+
+export function* checkIfApproveWbtc() {
+  try {
+    yield call(checkIfApprove, WBTCAddress, WBTCxAddress, 'hasWbtcApprove');
+  } catch (e) {
+    // TODO: handle errors properly
+    yield call(handleError, e);
+  }
 }

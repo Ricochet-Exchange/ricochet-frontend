@@ -31,6 +31,14 @@ export const wethDownGrade = (
   payload: { value: payload, callback },
 });
 
+export const wbtcDownGrade = (
+  payload: string,
+  callback: () => void,
+) => ({
+  type: MainActionTypes.WBTC_DOWNGRADE,
+  payload: { value: payload, callback },
+});
+
 export const daiApprove = (
   payload: string,
   callback: () => void,
@@ -45,7 +53,6 @@ export const daiUpgrade = (
 ) => ({
   type: MainActionTypes.DAI_UPGRADE,
   payload: { value: payload, callback },
-
 });
 
 export const wethApprove = (
@@ -62,7 +69,22 @@ export const wethUpgrade = (
 ) => ({
   type: MainActionTypes.WETH_UPGRADE,
   payload: { value: payload, callback },
+});
 
+export const wbtcApprove = (
+  payload: string,
+  callback: () => void,
+) => ({
+  type: MainActionTypes.WBTC_APPROVE,
+  payload: { value: payload, callback },
+});
+
+export const wbtcUpgrade = (
+  payload: string,
+  callback: () => void,
+) => ({
+  type: MainActionTypes.WBTC_UPGRADE,
+  payload: { value: payload, callback },
 });
 
 export const daiWethSubscription = () => ({

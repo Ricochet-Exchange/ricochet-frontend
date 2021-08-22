@@ -51,6 +51,6 @@ export function* sweepQueryFlow() {
     totalFlows: wethFlows.flowsReceived.length,
     placeholder: wethPlaceholder,
   };
-  
+
   yield put(mainSetState({ daiFlowQuery, wethFlowQuery }));
-} 
+}
