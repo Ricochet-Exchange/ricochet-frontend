@@ -11,11 +11,13 @@ import {
 import {
   usdcWethStopFlowSaga,
   wethUsdcStopFlowSaga,
+  wbtcUsdcStopFlowSaga,
   usdcWbtcStopFlowSaga,
 } from './stopFlow';
 import {
   usdcWethStartFlowSaga,
   wethUsdcStartFlowSaga,
+  wbtcUsdcStartFlowSaga,
   usdcWbtcStartFlowSaga,
 } from './startFlow';
 
@@ -36,7 +38,9 @@ export default function* mainSaga() {
   yield takeLeading(MainActionTypes.USDC_WETH_STOP_FLOW, usdcWethStopFlowSaga);
   yield takeLeading(MainActionTypes.USDC_WBTC_STOP_FLOW, usdcWbtcStopFlowSaga);
   yield takeLeading(MainActionTypes.WETH_USDC_STOP_FLOW, wethUsdcStopFlowSaga);
+  yield takeLeading(MainActionTypes.WBTC_USDC_STOP_FLOW, wbtcUsdcStopFlowSaga);
   yield takeLeading(MainActionTypes.USDC_WETH_START_FLOW, usdcWethStartFlowSaga);
   yield takeLeading(MainActionTypes.USDC_WBTC_START_FLOW, usdcWbtcStartFlowSaga);
   yield takeLeading(MainActionTypes.WETH_USDC_START_FLOW, wethUsdcStartFlowSaga);
+  yield takeLeading(MainActionTypes.WBTC_USDC_START_FLOW, wbtcUsdcStartFlowSaga);
 }

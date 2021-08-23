@@ -22,5 +22,11 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string,
+  },
+  wbtcUsdcFlowQuery?: {
+    flowsReceived: number,
+    flowsOwned: string,
+    totalFlows: number,
+    placeholder: string,
   }
 };

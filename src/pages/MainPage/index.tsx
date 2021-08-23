@@ -16,11 +16,10 @@ import {
 import { UsdcUpgrade } from 'containers/main/UsdcUpgrade';
 import { WethUpgrade } from 'containers/main/WethUpgrade';
 import { WbtcUpgrade } from 'containers/main/WbtcUpgrade';
-import { UsdcSubscription } from 'containers/main/UsdcSubscription';
-import { WethSubscription } from 'containers/main/WethSubscription';
 import { UsdcWethFlow } from 'containers/main/UsdcWethFlow';
 import { UsdcWbtcFlow } from 'containers/main/UsdcWbtcFlow';
 import { WethUsdcFlow } from 'containers/main/WethUsdcFlow';
+import { WbtcUsdcFlow } from 'containers/main/WbtcUsdcFlow';
 import styles from './styles.module.scss';
 
 export const MainPage: React.FC = () => {
@@ -35,6 +34,7 @@ export const MainPage: React.FC = () => {
     usdcWethFlowQuery,
     usdcWbtcFlowQuery,
     wethUsdcFlowQuery,
+    wbtcUsdcFlowQuery,
   } = useShallowSelector(selectMain);
 
   useEffect(() => {
@@ -71,6 +71,13 @@ export const MainPage: React.FC = () => {
           placeholder={wethUsdcFlowQuery?.placeholder}
         />
 
+        <WbtcUsdcFlow
+          balance={balances && balances[WBTCxAddress]}
+          totalFlows={wbtcUsdcFlowQuery?.totalFlows}
+          flowsOwned={wbtcUsdcFlowQuery?.flowsOwned}
+          placeholder={wbtcUsdcFlowQuery?.placeholder}
+        />
+
         <UsdcUpgrade
           balance={balances && balances[USDCAddress]}
           disabled={disabled}
@@ -104,8 +111,6 @@ export const MainPage: React.FC = () => {
           disabled={disabled}
         />
 
-        <UsdcSubscription />
-        <WethSubscription />
       </div>
     </MainLayout>
   );
