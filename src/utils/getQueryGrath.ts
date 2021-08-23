@@ -19,7 +19,7 @@ export const getQueryGrath = (queryAddress: string) => `{
               }
             }
         }
-        flowsReceived {
+        flowsReceived(where:{flowRate_gt:0}) {
           lastUpdate
           flowRate
           sum
@@ -40,4 +40,4 @@ export const getQueryGrath = (queryAddress: string) => `{
         }
   
     } 
-  }`;
+  }`
