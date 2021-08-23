@@ -7,3 +7,10 @@ logs
 
 node_modules
 bower_components
+.eslintcache
+yarn-error.log
+.idea
+.DS_Store
+build.tar.gz
+build
+.vscode
