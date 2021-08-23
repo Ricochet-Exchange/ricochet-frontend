@@ -11,3 +11,4 @@ export const rickosheaAppAddress = "0x387af38C133056a0744FB6e823CdB459AE3c5a1f";
 export const RICAddress = "0x263026e7e53dbfdce5ae55ade22493f828922965";
 export const wethxUsdcxExchangeAddress = "0x5786D3754443C0D3D1DdEA5bB550ccc476FdF11D"
 export const usdcxWethxExchangeAddress =  "0x30Dd5a07eA7B4F9e208FCb5D51FBd15406fC939b"
+export const usdcxWbtcxExchangeAddress =  "0x22CD7fa83Ae3381b66e8011930b92564a8E83366"

@@ -100,6 +100,11 @@ export const usdcWethStopFlow = (callback: (e?: string) => void) => ({
   payload: { callback },
 });
 
+export const usdcWbtcStopFlow = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.USDC_WBTC_STOP_FLOW,
+  payload: { callback },
+});
+
 export const wethUsdcStopFlow = (callback: (e?: string) => void) => ({
   type: MainActionTypes.WETH_USDC_STOP_FLOW,
   payload: { callback },
@@ -110,6 +115,14 @@ export const usdcWethStartFlow = (
   callback: (e?: string) => void,
 ) => ({
   type: MainActionTypes.USDC_WETH_START_FLOW,
+  payload: { amount: payload, callback },
+});
+
+export const usdcWbtcStartFlow = (
+  payload: string,
+  callback: (e?: string) => void,
+) => ({
+  type: MainActionTypes.USDC_WBTC_START_FLOW,
   payload: { amount: payload, callback },
 });
 

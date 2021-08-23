@@ -19,6 +19,7 @@ import { WbtcUpgrade } from 'containers/main/WbtcUpgrade';
 import { UsdcSubscription } from 'containers/main/UsdcSubscription';
 import { WethSubscription } from 'containers/main/WethSubscription';
 import { UsdcWethFlow } from 'containers/main/UsdcWethFlow';
+import { UsdcWbtcFlow } from 'containers/main/UsdcWbtcFlow';
 import { WethUsdcFlow } from 'containers/main/WethUsdcFlow';
 import styles from './styles.module.scss';
 
@@ -31,8 +32,9 @@ export const MainPage: React.FC = () => {
     hasUsdcApprove,
     hasWethApprove,
     hasWbtcApprove,
-    usdcFlowQuery,
-    wethFlowQuery,
+    usdcWethFlowQuery,
+    usdcWbtcFlowQuery,
+    wethUsdcFlowQuery,
   } = useShallowSelector(selectMain);
 
   useEffect(() => {
@@ -50,15 +52,23 @@ export const MainPage: React.FC = () => {
       <div className={styles.list}>
         <UsdcWethFlow
           balance={balances && balances[USDCxAddress]}
-          totalFlows={usdcFlowQuery?.totalFlows}
-          flowsOwned={usdcFlowQuery?.flowsOwned}
-          placeholder={usdcFlowQuery?.placeholder}
+          totalFlows={usdcWethFlowQuery?.totalFlows}
+          flowsOwned={usdcWethFlowQuery?.flowsOwned}
+          placeholder={usdcWethFlowQuery?.placeholder}
         />
+
+        <UsdcWbtcFlow
+          balance={balances && balances[USDCxAddress]}
+          totalFlows={usdcWbtcFlowQuery?.totalFlows}
+          flowsOwned={usdcWbtcFlowQuery?.flowsOwned}
+          placeholder={usdcWbtcFlowQuery?.placeholder}
+        />
+
         <WethUsdcFlow
           balance={balances && balances[WETHxAddress]}
-          totalFlows={wethFlowQuery?.totalFlows}
-          flowsOwned={wethFlowQuery?.flowsOwned}
-          placeholder={wethFlowQuery?.placeholder}
+          totalFlows={wethUsdcFlowQuery?.totalFlows}
+          flowsOwned={wethUsdcFlowQuery?.flowsOwned}
+          placeholder={wethUsdcFlowQuery?.placeholder}
         />
 
         <UsdcUpgrade
@@ -67,26 +77,26 @@ export const MainPage: React.FC = () => {
           hasUsdcApprove={hasUsdcApprove}
         />
 
+        <UsdcDowngrade
+          balance={balances && balances[USDCxAddress]}
+          disabled={disabled}
+        />
+
         <WethUpgrade
           balance={balances && balances[WETHAddress]}
           disabled={disabled}
           hasWethApprove={hasWethApprove}
         />
 
+        <WethDowngrade
+          balance={balances && balances[WETHxAddress]}
+          disabled={disabled}
+        />
+
         <WbtcUpgrade
           balance={balances && balances[WBTCAddress]}
           disabled={disabled}
           hasWbtcApprove={hasWbtcApprove}
-        />
-
-        <UsdcDowngrade
-          balance={balances && balances[USDCxAddress]}
-          disabled={disabled}
-        />
-
-        <WethDowngrade
-          balance={balances && balances[WETHxAddress]}
-          disabled={disabled}
         />
 
         <WbtcDowngrade

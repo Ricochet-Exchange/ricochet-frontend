@@ -5,13 +5,19 @@ export type MainState = {
   hasUsdcApprove?: boolean;
   hasWethApprove?: boolean;
   hasWbtcApprove?: boolean;
-  usdcFlowQuery?: {
+  usdcWethFlowQuery?: {
     flowsReceived: number,
     flowsOwned: string,
     totalFlows: number,
     placeholder: string,
   },
-  wethFlowQuery?: {
+  usdcWbtcFlowQuery?: {
+    flowsReceived: number,
+    flowsOwned: string,
+    totalFlows: number,
+    placeholder: string,
+  },
+  wethUsdcFlowQuery?: {
     flowsReceived: number,
     flowsOwned: string,
     totalFlows: number,
