@@ -43,7 +43,7 @@ export const UsdcWethFlow: React.FC<Props> = ({
   }, [dispatch, callback]);
 
   return (
-    <Card main title={<a href="https://polygonscan.com/address/0x27C7D067A0C143990EC6ed2772E7136Cfcfaecd6" className={styles.link}>{'USDC >> WETH'}</a>}>
+    <Card main title={<a href="https://polygonscan.com/address/0x27C7D067A0C143990EC6ed2772E7136Cfcfaecd6" className={styles.link}>{'USDC >> ETH'}</a>}>
       <FlowForm
         onStart={handleStart}
         onStop={handleStop}

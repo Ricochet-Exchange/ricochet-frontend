@@ -38,6 +38,6 @@ export const getQueryGrath = (queryAddress: string) => `{
             }
           }
         }
-  
-    } 
-  }`
+
+    }
+  }`;

@@ -1,8 +1,6 @@
 export const chainId = 137;
 export const USDCxAddress = "0xCAa7349CEA390F89641fe306D93591f87595dc1F";
 export const USDCAddress = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174";
-export const USDCxAddress = "0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2"; // USDCx for testing
-export const USDCAddress = "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063";
 export const WETHxAddress = "0x27e1e4E6BC79D93032abef01025811B7E4727e85";
 export const WETHAddress = "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619";
 export const WBTCxAddress = "0x4086eBf75233e8492F1BCDa41C7f2A8288c2fB92";

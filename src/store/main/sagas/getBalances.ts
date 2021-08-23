@@ -27,6 +27,8 @@ export function* getBalances(address: string) {
     // TODO: Use decimals() method instead of hardcoded
     if (el === WBTCAddress) {
       balances[el] = (Number(results[i]) / 1e8).toFixed(6);
+    } else if (el === USDCAddress) {
+      balances[el] = (Number(results[i]) / 1e6).toFixed(6);
     } else {
       balances[el] = (Number(results[i]) / 1e18).toFixed(6);
     }
