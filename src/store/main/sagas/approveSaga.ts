@@ -1,7 +1,7 @@
 import { approve } from 'api/ethereum';
 import { erc20ABI } from 'constants/abis';
 import {
-  DAIAddress, DAIxAddress,
+  USDCAddress, USDCxAddress,
   WETHAddress, WETHxAddress,
   WBTCAddress, WBTCxAddress,
 } from 'constants/polygon_config';
@@ -11,9 +11,9 @@ import { getAddress } from 'utils/getAddress';
 import { getContract } from 'utils/getContract';
 import web3 from 'utils/web3instance';
 import { handleError } from 'utils/handleError';
-import { daiApprove, wethApprove, wbtcApprove } from '../actionCreators';
+import { usdcApprove, wethApprove, wbtcApprove } from '../actionCreators';
 import {
-  checkIfApproveDai,
+  checkIfApproveUsdc,
   checkIfApproveWeth,
   checkIfApproveWbtc,
 } from './checkIfApprove';
@@ -34,12 +34,12 @@ export function* approveSaga(
   yield call(getBalances, address);
 }
 
-export function* approveDaiSaga({ payload }: ReturnType<typeof daiApprove>) {
+export function* approveUsdcSaga({ payload }: ReturnType<typeof usdcApprove>) {
   try {
     const amount = web3.utils.toWei(payload.value);
-    yield call(approveSaga, DAIAddress, DAIxAddress, amount);
+    yield call(approveSaga, USDCAddress, USDCxAddress, amount);
     payload.callback();
-    yield call(checkIfApproveDai);
+    yield call(checkIfApproveUsdc);
   } catch (e) {
     // TODO: handle errors properly
     yield call(handleError, e);

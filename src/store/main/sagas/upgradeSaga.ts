@@ -1,15 +1,15 @@
 import { upgrade } from 'api/ethereum';
 import { superTokenABI } from 'constants/abis';
-import { DAIxAddress, WETHxAddress, WBTCxAddress } from 'constants/polygon_config';
+import { USDCxAddress, WETHxAddress, WBTCxAddress } from 'constants/polygon_config';
 import { call } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
 import { getContract } from 'utils/getContract';
 import web3 from 'utils/web3instance';
 import { handleError } from 'utils/handleError';
-import { daiUpgrade, wethUpgrade, wbtcUpgrade } from '../actionCreators';
+import { usdcUpgrade, wethUpgrade, wbtcUpgrade } from '../actionCreators';
 import {
-  checkIfApproveDai,
+  checkIfApproveUsdc,
   checkIfApproveWeth,
   checkIfApproveWbtc,
 } from './checkIfApprove';
@@ -29,12 +29,12 @@ export function* upgradeSaga(
   yield call(getBalances, address);
 }
 
-export function* upgradeDaiSaga({ payload }: ReturnType<typeof daiUpgrade>) {
+export function* upgradeUsdcSaga({ payload }: ReturnType<typeof usdcUpgrade>) {
   try {
     const amount = web3.utils.toWei(payload.value);
-    yield call(upgradeSaga, DAIxAddress, amount);
+    yield call(upgradeSaga, USDCxAddress, amount);
     payload.callback();
-    yield call(checkIfApproveDai);
+    yield call(checkIfApproveUsdc);
   } catch (e) {
     // TODO: handle errors properly
     yield call(handleError, e);

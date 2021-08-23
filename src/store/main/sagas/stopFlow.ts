@@ -1,15 +1,15 @@
 import { stopFlow } from 'api/ethereum';
 import {
-  DAIxAddress, daixWethxExchangeAddress, WETHxAddress, wethxDaixExchangeAddress,
+  USDCxAddress, usdcxWethxExchangeAddress, WETHxAddress, wethxUsdcxExchangeAddress,
 } from 'constants/polygon_config';
 import { call } from 'redux-saga/effects';
 import { handleError } from 'utils/handleError';
-import { daiWethStopFlow, wethDaiStopFlow } from '../actionCreators';
+import { usdcWethStopFlow, wethUsdcStopFlow } from '../actionCreators';
 import { sweepQueryFlow } from './sweepQueryFlow';
 
-export function* daiWethStopFlowSaga({ payload }: ReturnType<typeof daiWethStopFlow>) {
+export function* usdcWethStopFlowSaga({ payload }: ReturnType<typeof usdcWethStopFlow>) {
   try {
-    yield call(stopFlow, daixWethxExchangeAddress, DAIxAddress);
+    yield call(stopFlow, usdcxWethxExchangeAddress, USDCxAddress);
     yield call(sweepQueryFlow);
   } catch (e) {
     yield call(handleError, e);
@@ -19,9 +19,9 @@ export function* daiWethStopFlowSaga({ payload }: ReturnType<typeof daiWethStopF
   }
 }
 
-export function* wethDaiStopFlowSaga({ payload }: ReturnType<typeof wethDaiStopFlow>) {
+export function* wethUsdcStopFlowSaga({ payload }: ReturnType<typeof wethUsdcStopFlow>) {
   try {
-    yield call(stopFlow, wethxDaixExchangeAddress, WETHxAddress);
+    yield call(stopFlow, wethxUsdcxExchangeAddress, WETHxAddress);
     yield call(sweepQueryFlow);
   } catch (e) {
     yield call(handleError, e);

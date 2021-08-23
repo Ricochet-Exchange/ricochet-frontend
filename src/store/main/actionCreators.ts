@@ -15,11 +15,11 @@ export const mainChainChanged = (payload: string) => ({
   payload,
 });
 
-export const daiDownGrade = (
+export const usdcDownGrade = (
   payload: string,
   callback: () => void,
 ) => ({
-  type: MainActionTypes.DAI_DOWNGRADE,
+  type: MainActionTypes.USDC_DOWNGRADE,
   payload: { value: payload, callback },
 });
 
@@ -39,19 +39,19 @@ export const wbtcDownGrade = (
   payload: { value: payload, callback },
 });
 
-export const daiApprove = (
+export const usdcApprove = (
   payload: string,
   callback: () => void,
 ) => ({
-  type: MainActionTypes.DAI_APPROVE,
+  type: MainActionTypes.USDC_APPROVE,
   payload: { value: payload, callback },
 });
 
-export const daiUpgrade = (
+export const usdcUpgrade = (
   payload: string,
   callback: () => void,
 ) => ({
-  type: MainActionTypes.DAI_UPGRADE,
+  type: MainActionTypes.USDC_UPGRADE,
   payload: { value: payload, callback },
 });
 
@@ -87,36 +87,36 @@ export const wbtcUpgrade = (
   payload: { value: payload, callback },
 });
 
-export const daiWethSubscription = () => ({
-  type: MainActionTypes.DAI_WETH_SUBSCRIPTION,
+export const usdcWethSubscription = () => ({
+  type: MainActionTypes.USDC_WETH_SUBSCRIPTION,
 });
 
-export const wethDaiSubscription = () => ({
-  type: MainActionTypes.WETH_DAI_SUBSCRIPTION,
+export const wethUsdcSubscription = () => ({
+  type: MainActionTypes.WETH_USDC_SUBSCRIPTION,
 });
 
-export const daiWethStopFlow = (callback: (e?: string) => void) => ({
-  type: MainActionTypes.DAI_WETH_STOP_FLOW,
+export const usdcWethStopFlow = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.USDC_WETH_STOP_FLOW,
   payload: { callback },
 });
 
-export const wethDaiStopFlow = (callback: (e?: string) => void) => ({
-  type: MainActionTypes.WETH_DAI_STOP_FLOW,
+export const wethUsdcStopFlow = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.WETH_USDC_STOP_FLOW,
   payload: { callback },
 });
 
-export const daiWethStartFlow = (
+export const usdcWethStartFlow = (
   payload: string,
   callback: (e?: string) => void,
 ) => ({
-  type: MainActionTypes.DAI_WETH_START_FLOW,
+  type: MainActionTypes.USDC_WETH_START_FLOW,
   payload: { amount: payload, callback },
 });
 
-export const wethDaiStartFlow = (
+export const wethUsdcStartFlow = (
   payload: string,
   callback: (e?: string) => void,
 ) => ({
-  type: MainActionTypes.WETH_DAI_START_FLOW,
+  type: MainActionTypes.WETH_USDC_START_FLOW,
   payload: { amount: payload, callback },
 });

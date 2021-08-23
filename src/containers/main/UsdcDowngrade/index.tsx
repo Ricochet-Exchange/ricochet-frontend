@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, useCallback } from 'react';
 import { DowngradeForm } from 'components/main/DowngradeForm';
 import { Card } from 'components/layout/Card';
 import { useDispatch } from 'react-redux';
-import { daiDownGrade } from 'store/main/actionCreators';
+import { usdcDownGrade } from 'store/main/actionCreators';
 import { BalanceText } from 'components/common/BalanceText';
 
 type Props = {
@@ -10,34 +10,34 @@ type Props = {
   disabled?: boolean;
 };
 
-export const DaiDowngrade: React.FC<Props> = ({ balance = '', disabled }) => {
-  const [dai, setDai] = useState('');
+export const UsdcDowngrade: React.FC<Props> = ({ balance = '', disabled }) => {
+  const [usdc, setUsdc] = useState('');
   const dispatch = useDispatch();
 
   const callback = useCallback(() => {
-    setDai('');
-  }, [setDai]);
+    setUsdc('');
+  }, [setUsdc]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setDai(e.target.value);
+    setUsdc(e.target.value);
   };
 
-  const handleClick = useCallback(() => { 
-    if (!dai || disabled) {
+  const handleClick = useCallback(() => {
+    if (!usdc || disabled) {
       return;
     }
-    dispatch(daiDownGrade(dai, callback));
-  }, [dispatch, dai, disabled]);
+    dispatch(usdcDownGrade(usdc, callback));
+  }, [dispatch, usdc, disabled]);
 
   return (
-    <Card title="Downgrade DAIx to DAI">
+    <Card title="Downgrade USDCx to USDC">
       <>
-        <DowngradeForm 
-          value={dai} 
-          onChange={handleChange} 
+        <DowngradeForm
+          value={usdc}
+          onChange={handleChange}
           onClick={handleClick}
         />
-        <BalanceText text={`Your DAIx Balance: ${balance}`} />
+        <BalanceText text={`Your USDCx Balance: ${balance}`} />
       </>
     </Card>
   );

@@ -6,20 +6,20 @@ import { Header } from 'components/layout/Header';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { WethDowngrade } from 'containers/main/WethDowngrade';
-import { DaiDowngrade } from 'containers/main/DaiDowngrade';
+import { UsdcDowngrade } from 'containers/main/UsdcDowngrade';
 import { WbtcDowngrade } from 'containers/main/WbtcDowngrade';
 import {
-  DAIAddress, DAIxAddress, RICAddress,
+  USDCAddress, USDCxAddress, RICAddress,
   WETHAddress, WETHxAddress,
   WBTCAddress, WBTCxAddress,
 } from 'constants/polygon_config';
-import { DaiUpgrade } from 'containers/main/DaiUpgrade';
+import { UsdcUpgrade } from 'containers/main/UsdcUpgrade';
 import { WethUpgrade } from 'containers/main/WethUpgrade';
 import { WbtcUpgrade } from 'containers/main/WbtcUpgrade';
-import { DaiSubscription } from 'containers/main/DaiSubscription';
+import { UsdcSubscription } from 'containers/main/UsdcSubscription';
 import { WethSubscription } from 'containers/main/WethSubscription';
-import { DaiWethFlow } from 'containers/main/DaiWethFlow';
-import { WethDaiFlow } from 'containers/main/WethDaiFlow';
+import { UsdcWethFlow } from 'containers/main/UsdcWethFlow';
+import { WethUsdcFlow } from 'containers/main/WethUsdcFlow';
 import styles from './styles.module.scss';
 
 export const MainPage: React.FC = () => {
@@ -28,10 +28,10 @@ export const MainPage: React.FC = () => {
     address,
     balances,
     disabled,
-    hasDaiApprove,
+    hasUsdcApprove,
     hasWethApprove,
     hasWbtcApprove,
-    daiFlowQuery,
+    usdcFlowQuery,
     wethFlowQuery,
   } = useShallowSelector(selectMain);
 
@@ -48,23 +48,23 @@ export const MainPage: React.FC = () => {
         />
       </div>
       <div className={styles.list}>
-        <DaiWethFlow
-          balance={balances && balances[DAIxAddress]}
-          totalFlows={daiFlowQuery?.totalFlows}
-          flowsOwned={daiFlowQuery?.flowsOwned}
-          placeholder={daiFlowQuery?.placeholder}
+        <UsdcWethFlow
+          balance={balances && balances[USDCxAddress]}
+          totalFlows={usdcFlowQuery?.totalFlows}
+          flowsOwned={usdcFlowQuery?.flowsOwned}
+          placeholder={usdcFlowQuery?.placeholder}
         />
-        <WethDaiFlow
+        <WethUsdcFlow
           balance={balances && balances[WETHxAddress]}
           totalFlows={wethFlowQuery?.totalFlows}
           flowsOwned={wethFlowQuery?.flowsOwned}
           placeholder={wethFlowQuery?.placeholder}
         />
 
-        <DaiUpgrade
-          balance={balances && balances[DAIAddress]}
+        <UsdcUpgrade
+          balance={balances && balances[USDCAddress]}
           disabled={disabled}
-          hasDaiApprove={hasDaiApprove}
+          hasUsdcApprove={hasUsdcApprove}
         />
 
         <WethUpgrade
@@ -79,8 +79,8 @@ export const MainPage: React.FC = () => {
           hasWbtcApprove={hasWbtcApprove}
         />
 
-        <DaiDowngrade
-          balance={balances && balances[DAIxAddress]}
+        <UsdcDowngrade
+          balance={balances && balances[USDCxAddress]}
           disabled={disabled}
         />
 
@@ -94,7 +94,7 @@ export const MainPage: React.FC = () => {
           disabled={disabled}
         />
 
-        <DaiSubscription />
+        <UsdcSubscription />
         <WethSubscription />
       </div>
     </MainLayout>

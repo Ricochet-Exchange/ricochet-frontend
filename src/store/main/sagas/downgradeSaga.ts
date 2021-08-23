@@ -1,7 +1,7 @@
 import { downgrade } from 'api/ethereum';
 import { superTokenABI } from 'constants/abis';
 import {
-  DAIxAddress,
+  USDCxAddress,
   WETHxAddress,
   WBTCxAddress,
 } from 'constants/polygon_config';
@@ -12,7 +12,7 @@ import { getContract } from 'utils/getContract';
 import web3 from 'utils/web3instance';
 import { handleError } from 'utils/handleError';
 import {
-  wethDownGrade, daiDownGrade, wbtcDownGrade,
+  wethDownGrade, usdcDownGrade, wbtcDownGrade,
 } from '../actionCreators';
 import { getBalances } from './getBalances';
 
@@ -28,9 +28,9 @@ function* downgradeSaga(tokenAddress: string, value: string) {
   yield call(getBalances, address);
 }
 
-export function* daiDowngradeSaga({ payload }: ReturnType<typeof daiDownGrade>) {
+export function* usdcDowngradeSaga({ payload }: ReturnType<typeof usdcDownGrade>) {
   try {
-    yield call(downgradeSaga, DAIxAddress, payload.value);
+    yield call(downgradeSaga, USDCxAddress, payload.value);
     payload.callback();
   } catch (e) {
     // yield put(mainSetState({ disabled: true }));

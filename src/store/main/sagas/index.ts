@@ -1,32 +1,32 @@
 import { takeLeading } from 'redux-saga/effects';
 import { MainActionTypes } from '../actionTypes';
-import { daiDowngradeSaga, wethDowngradeSaga, wbtcDowngradeSaga } from './downgradeSaga';
+import { usdcDowngradeSaga, wethDowngradeSaga, wbtcDowngradeSaga } from './downgradeSaga';
 import { loadData } from './loadData';
-import { approveDaiSaga, approveWethSaga, approveWbtcSaga } from './approveSaga';
-import { upgradeDaiSaga, upgradeWethSaga, upgradeWbtcSaga } from './upgradeSaga';
+import { approveUsdcSaga, approveWethSaga, approveWbtcSaga } from './approveSaga';
+import { upgradeUsdcSaga, upgradeWethSaga, upgradeWbtcSaga } from './upgradeSaga';
 import { mainChainSaga } from './mainChainChanged';
 import {
-  subscriptionDaiSaga, subscriptionWethSaga,
+  subscriptionUsdcSaga, subscriptionWethSaga,
 } from './subscription';
-import { daiWethStopFlowSaga, wethDaiStopFlowSaga } from './stopFlow';
-import { daiWethStartFlowSaga, wethDaiStartFlowSaga } from './startFlow';
+import { usdcWethStopFlowSaga, wethUsdcStopFlowSaga } from './stopFlow';
+import { usdcWethStartFlowSaga, wethUsdcStartFlowSaga } from './startFlow';
 
 export default function* mainSaga() {
   yield takeLeading(MainActionTypes.CHAIN_CHANGED, mainChainSaga);
   yield takeLeading(MainActionTypes.LOAD_DATA, loadData);
-  yield takeLeading(MainActionTypes.DAI_DOWNGRADE, daiDowngradeSaga);
+  yield takeLeading(MainActionTypes.USDC_DOWNGRADE, usdcDowngradeSaga);
   yield takeLeading(MainActionTypes.WETH_DOWNGRADE, wethDowngradeSaga);
   yield takeLeading(MainActionTypes.WBTC_DOWNGRADE, wbtcDowngradeSaga);
-  yield takeLeading(MainActionTypes.DAI_APPROVE, approveDaiSaga);
-  yield takeLeading(MainActionTypes.DAI_UPGRADE, upgradeDaiSaga);
+  yield takeLeading(MainActionTypes.USDC_APPROVE, approveUsdcSaga);
+  yield takeLeading(MainActionTypes.USDC_UPGRADE, upgradeUsdcSaga);
   yield takeLeading(MainActionTypes.WETH_APPROVE, approveWethSaga);
   yield takeLeading(MainActionTypes.WETH_UPGRADE, upgradeWethSaga);
   yield takeLeading(MainActionTypes.WBTC_UPGRADE, upgradeWbtcSaga);
   yield takeLeading(MainActionTypes.WBTC_APPROVE, approveWbtcSaga);
-  yield takeLeading(MainActionTypes.DAI_WETH_SUBSCRIPTION, subscriptionDaiSaga);
-  yield takeLeading(MainActionTypes.WETH_DAI_SUBSCRIPTION, subscriptionWethSaga);
-  yield takeLeading(MainActionTypes.DAI_WETH_STOP_FLOW, daiWethStopFlowSaga);
-  yield takeLeading(MainActionTypes.WETH_DAI_STOP_FLOW, wethDaiStopFlowSaga);
-  yield takeLeading(MainActionTypes.DAI_WETH_START_FLOW, daiWethStartFlowSaga);
-  yield takeLeading(MainActionTypes.WETH_DAI_START_FLOW, wethDaiStartFlowSaga);
+  yield takeLeading(MainActionTypes.USDC_WETH_SUBSCRIPTION, subscriptionUsdcSaga);
+  yield takeLeading(MainActionTypes.WETH_USDC_SUBSCRIPTION, subscriptionWethSaga);
+  yield takeLeading(MainActionTypes.USDC_WETH_STOP_FLOW, usdcWethStopFlowSaga);
+  yield takeLeading(MainActionTypes.WETH_USDC_STOP_FLOW, wethUsdcStopFlowSaga);
+  yield takeLeading(MainActionTypes.USDC_WETH_START_FLOW, usdcWethStartFlowSaga);
+  yield takeLeading(MainActionTypes.WETH_USDC_START_FLOW, wethUsdcStartFlowSaga);
 }

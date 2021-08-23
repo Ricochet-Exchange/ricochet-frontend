@@ -1,7 +1,7 @@
 import { put, call } from 'redux-saga/effects';
 import {
-  DAIxAddress,
-  DAIAddress,
+  USDCxAddress,
+  USDCAddress,
   WETHxAddress,
   WETHAddress,
   WBTCxAddress,
@@ -15,7 +15,7 @@ import { mainSetState } from '../actionCreators';
 
 export function* getBalances(address: string) {
   const contractsAddress = [
-    DAIxAddress, DAIAddress,
+    USDCxAddress, USDCAddress,
     WETHxAddress, WETHAddress,
     WBTCxAddress, WBTCAddress,
     RICAddress];

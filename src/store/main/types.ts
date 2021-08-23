@@ -2,10 +2,10 @@ export type MainState = {
   disabled: boolean;
   address: string;
   balances?: { [key:string]: string };
-  hasDaiApprove?: boolean;
+  hasUsdcApprove?: boolean;
   hasWethApprove?: boolean;
   hasWbtcApprove?: boolean;
-  daiFlowQuery?: {
+  usdcFlowQuery?: {
     flowsReceived: number,
     flowsOwned: string,
     totalFlows: number,

@@ -1,8 +1,8 @@
 import { call, all, put } from 'redux-saga/effects';
 import {
-  wethxDaixExchangeAddress,
-  daixWethxExchangeAddress,
-  DAIxAddress,
+  wethxUsdcxExchangeAddress,
+  usdcxWethxExchangeAddress,
+  USDCxAddress,
   WETHxAddress,
 } from 'constants/polygon_config';
 import { Unwrap } from 'types/unwrap';
@@ -16,12 +16,12 @@ import { mainSetState } from '../actionCreators';
 export function* sweepQueryFlow() {
   const address: Unwrap<typeof getAddress> = yield call(getAddress);
   const results: any[] = yield all([
-    call(queryFlows, daixWethxExchangeAddress),
-    call(queryFlows, wethxDaixExchangeAddress),
+    call(queryFlows, usdcxWethxExchangeAddress),
+    call(queryFlows, wethxUsdcxExchangeAddress),
   ]);
   const flows: { [key:string]: { flowsOwned: Flow[], flowsReceived: Flow[] } } = {};
 
-  [daixWethxExchangeAddress, wethxDaixExchangeAddress].forEach((el, i) => {
+  [usdcxWethxExchangeAddress, wethxUsdcxExchangeAddress].forEach((el, i) => {
     if (results[i].data.data.account != null) {
       flows[el] = results[i].data.data.account;
     } else {
@@ -29,20 +29,20 @@ export function* sweepQueryFlow() {
     }
   });
 
-  const daiFlows = flows[daixWethxExchangeAddress];
-  const wethFlows = flows[wethxDaixExchangeAddress];
+  const usdcFlows = flows[usdcxWethxExchangeAddress];
+  const wethFlows = flows[wethxUsdcxExchangeAddress];
 
-  const daiFlowsReceived = getReceviedFlows(daiFlows.flowsReceived, DAIxAddress, address);
-  const daiPlaceholder = ((daiFlowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
+  const usdcFlowsReceived = getReceviedFlows(usdcFlows.flowsReceived, USDCxAddress, address);
+  const usdcPlaceholder = ((usdcFlowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
 
   const wethflowsReceived = getReceviedFlows(wethFlows.flowsReceived, WETHxAddress, address);
   const wethPlaceholder = ((wethflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
 
-  const daiFlowQuery = {
-    flowsReceived: daiFlowsReceived,
-    flowsOwned: getOwnedFlows(daiFlows.flowsReceived, DAIxAddress),
-    totalFlows: daiFlows.flowsReceived.length,
-    placeholder: daiPlaceholder,
+  const usdcFlowQuery = {
+    flowsReceived: usdcFlowsReceived,
+    flowsOwned: getOwnedFlows(usdcFlows.flowsReceived, USDCxAddress),
+    totalFlows: usdcFlows.flowsReceived.length,
+    placeholder: usdcPlaceholder,
   };
 
   const wethFlowQuery = {
@@ -52,5 +52,5 @@ export function* sweepQueryFlow() {
     placeholder: wethPlaceholder,
   };
 
-  yield put(mainSetState({ daiFlowQuery, wethFlowQuery }));
+  yield put(mainSetState({ usdcFlowQuery, wethFlowQuery }));
 }

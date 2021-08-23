@@ -4,7 +4,7 @@ import { checkAvailable } from 'utils/checkAvailable';
 import { getAddress } from 'utils/getAddress';
 import { handleError } from 'utils/handleError';
 import { mainSetState } from '../actionCreators';
-import { checkIfApproveDai, checkIfApproveWeth } from './checkIfApprove';
+import { checkIfApproveUsdc, checkIfApproveWeth } from './checkIfApprove';
 import { getBalances } from './getBalances';
 import { sweepQueryFlow } from './sweepQueryFlow';
 
@@ -19,7 +19,7 @@ export function* loadData() {
     
     yield all([
       call(getBalances, address),
-      call(checkIfApproveDai),
+      call(checkIfApproveUsdc),
       call(checkIfApproveWeth),
       call(sweepQueryFlow),
     ]);

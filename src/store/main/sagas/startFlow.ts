@@ -1,16 +1,16 @@
 import { startFlow } from 'api/ethereum';
 import { idaABI } from 'constants/abis';
 import {
-  DAIxAddress, daixWethxExchangeAddress, idaAddress, WETHxAddress, wethxDaixExchangeAddress,
+  USDCxAddress, usdcxWethxExchangeAddress, idaAddress, WETHxAddress, wethxUsdcxExchangeAddress,
 } from 'constants/polygon_config';
 import { call } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getContract } from 'utils/getContract';
 import { handleError } from 'utils/handleError';
 import { sweepQueryFlow } from './sweepQueryFlow';
-import { daiWethStartFlow, wethDaiStartFlow } from '../actionCreators';
+import { usdcWethStartFlow, wethUsdcStartFlow } from '../actionCreators';
 
-export function* daiWethStartFlowSaga({ payload }: ReturnType<typeof daiWethStartFlow>) {
+export function* usdcWethStartFlowSaga({ payload }: ReturnType<typeof usdcWethStartFlow>) {
   try {
     const idaContract: Unwrap<typeof getContract> = yield call(
       getContract,
@@ -20,8 +20,8 @@ export function* daiWethStartFlowSaga({ payload }: ReturnType<typeof daiWethStar
     const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
     yield call(startFlow,
       idaContract,
-      daixWethxExchangeAddress,
-      DAIxAddress,
+      usdcxWethxExchangeAddress,
+      USDCxAddress,
       WETHxAddress,
       normalizedAmount);
     payload.callback();
@@ -38,7 +38,7 @@ export function* daiWethStartFlowSaga({ payload }: ReturnType<typeof daiWethStar
   }
 }
 
-export function* wethDaiStartFlowSaga({ payload }: ReturnType<typeof wethDaiStartFlow>) {
+export function* wethUsdcStartFlowSaga({ payload }: ReturnType<typeof wethUsdcStartFlow>) {
   try {
     const idaContract: Unwrap<typeof getContract> = yield call(
       getContract,
@@ -48,9 +48,9 @@ export function* wethDaiStartFlowSaga({ payload }: ReturnType<typeof wethDaiStar
     const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
     yield call(startFlow,
       idaContract,
-      wethxDaixExchangeAddress,
+      wethxUsdcxExchangeAddress,
       WETHxAddress,
-      DAIxAddress,
+      USDCxAddress,
       normalizedAmount);
     payload.callback();
     yield call(sweepQueryFlow);
