@@ -36,7 +36,7 @@ export function* approveSaga(
 
 export function* approveUsdcSaga({ payload }: ReturnType<typeof usdcApprove>) {
   try {
-    const amount = web3.utils.toWei(payload.value);
+    const amount = web3.utils.toWei((Number(payload.value) * 1e6).toString(), 'wei');
     yield call(approveSaga, USDCAddress, USDCxAddress, amount);
     payload.callback();
     yield call(checkIfApproveUsdc);
@@ -60,8 +60,7 @@ export function* approveWethSaga({ payload }: ReturnType<typeof wethApprove>) {
 
 export function* approveWbtcSaga({ payload }: ReturnType<typeof wbtcApprove>) {
   try {
-    console.log(payload.value);
-    const amount = web3.utils.toWei(payload.value).substring(0, payload.value.length - 8);
+    const amount = web3.utils.toWei((Number(payload.value) * 1e8).toString(), 'wei');
     console.log(amount);
     yield call(approveSaga, WBTCAddress, WBTCxAddress, amount);
     payload.callback();
