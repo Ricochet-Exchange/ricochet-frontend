@@ -39,9 +39,6 @@ export const WethUsdcFlow: React.FC<Props> = ({
     if (!wethUsdc || Number(wethUsdc) <= 0) {
       return setError('Enter positive value');
     }
-    if (Number(wethUsdc) > Number(balance)) {
-      return setError('Low balance');
-    }
     dispatch(wethUsdcStartFlow(wethUsdc, callback));
   }, [dispatch, wethUsdc, callback]);
 
@@ -50,14 +47,14 @@ export const WethUsdcFlow: React.FC<Props> = ({
   }, [dispatch, callback]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (error) { 
+    if (error) {
       setError('');
     }
     setWethUsdc(e.target.value);
   };
 
   return (
-    <Card isLoading={isLoading} main title={<a href="https://polygonscan.com/address/0x5786D3754443C0D3D1DdEA5bB550ccc476FdF11D" className={styles.link}>{'ETH >> USDC'}</a>}>
+    <Card isLoading={isLoading} main title={<a href="https://polygonscan.com/address/0x4923dd6C90990cDff5Ca3462cbd43fF57E06f1eb" className={styles.link}>{'ETH >> USDC'}</a>}>
       <FlowForm
         onStart={handleStart}
         onStop={handleStop}

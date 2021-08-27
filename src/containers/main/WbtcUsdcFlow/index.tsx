@@ -39,9 +39,6 @@ export const WbtcUsdcFlow: React.FC<Props> = ({
     if (!wbtcUsdc || Number(wbtcUsdc) <= 0) {
       return setError('Enter positive value');
     }
-    if (Number(wbtcUsdc) > Number(balance)) {
-      return setError('Low balance');
-    }
     dispatch(wbtcUsdcStartFlow(wbtcUsdc, callback));
   }, [dispatch, wbtcUsdc, callback]);
 
@@ -50,14 +47,14 @@ export const WbtcUsdcFlow: React.FC<Props> = ({
   }, [dispatch, callback]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (error) { 
+    if (error) {
       setError('');
     }
     setWbtcUsdc(e.target.value);
   };
 
   return (
-    <Card isLoading={isLoading} main title={<a href="https://polygonscan.com/address/0x5786D3754443C0D3D1DdEA5bB550ccc476FdF11D" className={styles.link}>{'WBTC >> USDC'}</a>}>
+    <Card isLoading={isLoading} main title={<a href="https://polygonscan.com/address/0xD25CBfD04172C8C79c5823bcF14DaB8Fe11C672D" className={styles.link}>{'WBTC >> USDC'}</a>}>
       <FlowForm
         onStart={handleStart}
         onStop={handleStop}
