@@ -1,0 +1,38 @@
+@import 'assets/styles/_mixins.scss';
+
+.form {
+  @include flexbox(center, flex-start);
+
+  flex-wrap: wrap;
+}
+
+.input {
+  width: 213px;
+
+  @include for_large_mobile {
+    width: 100px;
+  }
+}
+
+.one_off {
+  color: #5f8eb9;
+  font-size: small;
+  font-weight: bold;
+  margin-top: 0;
+}
+
+.button {
+  margin-left: 24px;
+
+  @include for_large_mobile {
+    margin-left: 10px;
+  }
+}
+
+.error {
+  margin: 30px 0 5px 0;
+  padding: 0;
+  color: tomato;
+  height: 10px;
+  font-size: 10px;
+}
