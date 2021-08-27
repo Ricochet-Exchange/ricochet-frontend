@@ -20,7 +20,6 @@ yarn start
 - `store` - all data and global business logic placed here. Separate folder for each reducer
 - `utils` - common functions for project
 - `hooks` - common business logic, that can be reused between containers.
-- `hooks/formik` - form hooks, used to manage form states
 
 #### Configuring project
 

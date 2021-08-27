@@ -26,5 +26,7 @@ module.exports = {
     'operator-linebreak': 0,
     'implicit-arrow-linebreak': 0,
     'react/button-has-type': 0,
+    'no-console': 0,
+    'no-debugger': 0,
   }
 };

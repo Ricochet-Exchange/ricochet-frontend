@@ -1,11 +1,13 @@
 import React, { ChangeEvent } from 'react';
 import { Button } from 'components/common/Button';
+import { Input } from 'components/common/Input';
 import styles from './styles.module.scss';
 
 type Props = {
   disabledApprove?: boolean;
   disabledUpgrade?: boolean;
   value: string;
+  error?: string;
   onUpgrade: () => void;
   onApprove: () => void;
   onChange: (e:ChangeEvent<HTMLInputElement>) => void;
@@ -15,21 +17,23 @@ export const UpgradeForm: React.FC<Props> = ({
   value,
   disabledApprove,
   disabledUpgrade,
+  error,
   onUpgrade,
   onApprove, 
   onChange,
 }) => (
   <>
+    <div className={styles.error}>{error}</div>
     <div className={styles.form}>
-      <input
-        type="number"
-        className={styles.input}
+      <Input
         placeholder="Amount"
         value={value}
         onChange={onChange}
+        className={styles.input}
+        error={!!error}
       />
       <Button 
-        label="Approve" 
+        label={disabledApprove ? 'Approved' : 'Approve'} 
         onClick={onApprove} 
         className={styles.button}
         disabled={disabledApprove}

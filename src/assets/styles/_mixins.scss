@@ -6,3 +6,45 @@ $defaultFlexBoxJustify: center;
   align-items: $align;
   justify-content: $justify;
 }
+
+@mixin can_backdrop {
+  @supports ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px))) {
+    @content;
+  }
+}
+
+@mixin blur($color: rgba(223, 223,223, 0.7), $radius: 15px) {
+  background: transparentize($color, 0.1);
+
+  @include can_backdrop {
+    backdrop-filter: blur($radius);
+    -webkit-backdrop-filter: blur($radius);
+    background: transparentize($color, 0.5);
+  }
+}
+
+
+// Media request mixins MobileFirst
+@mixin for_mobile {
+  @media screen and (max-width: 380px) {
+    @content;
+  }
+}
+
+@mixin for_large_mobile {
+  @media screen and (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin for_tablet {
+  @media screen and (max-width: 1280px) {
+    @content;
+  }
+}
+
+@mixin for_breakpoint_width($max-width) {
+  @media screen and (max-width: $max-width) {
+    @content;
+  }
+}

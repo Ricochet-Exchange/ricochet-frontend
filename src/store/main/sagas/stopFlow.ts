@@ -1,32 +1,72 @@
 import { stopFlow } from 'api/ethereum';
 import {
-  DAIxAddress, daixWethxExchangeAddress, WETHxAddress, wethxDaixExchangeAddress,
+  USDCxAddress, usdcxWethxExchangeAddress,
+  WETHxAddress, wethxUsdcxExchangeAddress,
+  WBTCxAddress, usdcxWbtcxExchangeAddress, wbtcxUsdcxExchangeAddress,
 } from 'constants/polygon_config';
-import { call } from 'redux-saga/effects';
-import { handleError } from 'utils/handleError';
-import { daiWethStopFlow, wethDaiStopFlow } from '../actionCreators';
+import { call, put } from 'redux-saga/effects';
+import { transformError } from 'utils/transformError';
+import {
+  usdcWethStopFlow,
+  usdcWbtcStopFlow,
+  wethUsdcStopFlow,
+  wbtcUsdcStopFlow,
+  mainSetState,
+} from '../actionCreators';
 import { sweepQueryFlow } from './sweepQueryFlow';
 
-export function* daiWethStopFlowSaga({ payload }: ReturnType<typeof daiWethStopFlow>) {
+export function* usdcWethStopFlowSaga({ payload }: ReturnType<typeof usdcWethStopFlow>) {
   try {
-    yield call(stopFlow, daixWethxExchangeAddress, DAIxAddress);
+    yield put(mainSetState({ isLoadingUsdcWethFlow: true }));
+    yield call(stopFlow, usdcxWethxExchangeAddress, USDCxAddress);
     yield call(sweepQueryFlow);
+    payload.callback();
   } catch (e) {
-    yield call(handleError, e);
-    if (e.code === -32603) {
-      payload.callback("You don't have active streeming");
-    }
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingUsdcWethFlow: false }));
   }
 }
 
-export function* wethDaiStopFlowSaga({ payload }: ReturnType<typeof wethDaiStopFlow>) {
+export function* usdcWbtcStopFlowSaga({ payload }: ReturnType<typeof usdcWbtcStopFlow>) {
   try {
-    yield call(stopFlow, wethxDaixExchangeAddress, WETHxAddress);
+    yield put(mainSetState({ isLoadingUsdcWbtcFlow: true }));
+    yield call(stopFlow, usdcxWbtcxExchangeAddress, USDCxAddress);
     yield call(sweepQueryFlow);
+    payload.callback();
   } catch (e) {
-    yield call(handleError, e);
-    if (e.code === -32603) {
-      payload.callback("You don't have active streeming");
-    }
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingUsdcWbtcFlow: false }));
+  }
+}
+
+export function* wethUsdcStopFlowSaga({ payload }: ReturnType<typeof wethUsdcStopFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingWethFlow: true }));
+    yield call(stopFlow, wethxUsdcxExchangeAddress, WETHxAddress);
+    yield call(sweepQueryFlow);
+    payload.callback();
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingWethFlow: false }));
+  }
+}
+
+export function* wbtcUsdcStopFlowSaga({ payload }: ReturnType<typeof wbtcUsdcStopFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingWbtcFlow: true }));
+    yield call(stopFlow, wbtcxUsdcxExchangeAddress, WBTCxAddress);
+    yield call(sweepQueryFlow);
+    payload.callback();
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingWbtcFlow: false }));
   }
 }
