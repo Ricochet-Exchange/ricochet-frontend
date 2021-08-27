@@ -3,7 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 import { persistStore } from 'redux-persist';
 import reducers from './reducers';
 import sagas from './sagas';
-import { mainChainChanged } from './main/actionCreators';
+import { mainCheck, mainGetData } from './main/actionCreators';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -27,12 +27,12 @@ export const persistor = persistStore(store);
 
 sagaMiddleware.run(sagas);
 
-(window as any).ethereum.on(
+(window as any).ethereum?.on(
   'chainChanged',
-  (chainId: string) => store.dispatch(mainChainChanged(chainId)),
+  () => store.dispatch(mainCheck()),
 );
 
-(window as any).ethereum.on(
+(window as any).ethereum?.on(
   'accountsChanged',
-  () => window.location.reload(), // store.dispatch(mainGetData()),
+  () => store.dispatch(mainGetData()),
 );

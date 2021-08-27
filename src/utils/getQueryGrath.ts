@@ -27,7 +27,7 @@ export const getQueryGrath = (queryAddress: string) => `{
             id
           }
           token {
-              id
+              id 
               symbol
           }
           events {
@@ -38,6 +38,6 @@ export const getQueryGrath = (queryAddress: string) => `{
             }
           }
         }
-  
-    } 
-  }`
+
+    }
+  }`;

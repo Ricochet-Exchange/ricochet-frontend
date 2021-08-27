@@ -1,3 +1,5 @@
+@import 'assets/styles/_mixins.scss';
+
 .card {
   display: flex;
   flex-direction: column;
@@ -8,6 +10,13 @@
   border-radius: .25rem;
   background:#dfdfdf;
   width: calc(50% - 24px);
+
+  @include for_breakpoint_width(1023px) {
+    width: 100%;  
+  }
+}
+
+.content {
   padding: 1rem 1rem;
 }
 

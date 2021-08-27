@@ -3,21 +3,25 @@ import { Card } from 'components/layout/Card';
 import { Button } from 'components/common/Button';
 import cx from 'classnames';
 import { useDispatch } from 'react-redux';
-import { daiWethSubscription } from 'store/main/actionCreators';
+import { usdcWethSubscription } from 'store/main/actionCreators';
 import styles from './styles.module.scss';
 
-export const DaiSubscription: React.FC = () => {
+type Props = {
+  isLoading?: boolean;
+};
+
+export const UsdcSubscription: React.FC<Props> = ({ isLoading }) => {
   const dispatch = useDispatch();
 
-  const handleDaiSubscription = useCallback(() => {
-    dispatch(daiWethSubscription());
+  const handleUsdcSubscription = useCallback(() => {
+    dispatch(usdcWethSubscription());
   }, [dispatch]);
 
   return (
-    <Card title="Approve DAIx Subscription">
+    <Card title="Approve USDCx Subscription" isLoading={isLoading}>
       <Button
-        onClick={handleDaiSubscription}
-        label="Approve DAIx Subscription"
+        onClick={handleUsdcSubscription}
+        label="Approve USDCx Subscription"
         className={cx(styles.button, styles.button_margin)}
       />
     </Card>

@@ -1,21 +1,26 @@
 import React, { useEffect } from 'react';
 import { MainLayout } from 'containers/MainLayout';
 import { useDispatch } from 'react-redux';
-import { mainGetData } from 'store/main/actionCreators';
+import { mainCheck } from 'store/main/actionCreators';
 import { Header } from 'components/layout/Header';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { WethDowngrade } from 'containers/main/WethDowngrade';
-import { DaiDowngrade } from 'containers/main/DaiDowngrade';
+import { UsdcDowngrade } from 'containers/main/UsdcDowngrade';
+import { WbtcDowngrade } from 'containers/main/WbtcDowngrade';
 import {
-  DAIAddress, DAIxAddress, RICAddress, WETHAddress, WETHxAddress,
+  USDCAddress, USDCxAddress, RICAddress,
+  WETHAddress, WETHxAddress,
+  WBTCAddress, WBTCxAddress,
 } from 'constants/polygon_config';
-import { DaiUpgrade } from 'containers/main/DaiUpgrade';
+import { UsdcUpgrade } from 'containers/main/UsdcUpgrade';
 import { WethUpgrade } from 'containers/main/WethUpgrade';
-import { DaiSubscription } from 'containers/main/DaiSubscription';
-import { WethSubscription } from 'containers/main/WethSubscription';
-import { DaiWethFlow } from 'containers/main/DaiWethFlow';
-import { WethDaiFlow } from 'containers/main/WethDaiFlow';
+import { WbtcUpgrade } from 'containers/main/WbtcUpgrade';
+import { UsdcWethFlow } from 'containers/main/UsdcWethFlow';
+import { UsdcWbtcFlow } from 'containers/main/UsdcWbtcFlow';
+import { WethUsdcFlow } from 'containers/main/WethUsdcFlow';
+import { WbtcUsdcFlow } from 'containers/main/WbtcUsdcFlow';
+import { CoinsList } from 'components/layout/CoinsList';
 import styles from './styles.module.scss';
 
 export const MainPage: React.FC = () => {
@@ -23,15 +28,27 @@ export const MainPage: React.FC = () => {
   const {
     address,
     balances,
-    disabled,
-    hasDaiApprove,
+    hasUsdcApprove,
     hasWethApprove,
-    daiFlowQuery,
-    wethFlowQuery,
+    hasWbtcApprove,
+    usdcWethFlowQuery,
+    usdcWbtcFlowQuery,
+    wethUsdcFlowQuery,
+    wbtcUsdcFlowQuery,
+    isLoadingUsdcDowngrade,
+    isLoadingUsdcUpgrade,
+    isLoadingUsdcWbtcFlow,
+    isLoadingUsdcWethFlow,
+    isLoadingWbtcDowngrade,
+    isLoadingWbtcUpgrade,
+    isLoadingWbtcFlow,
+    isLoadingWethDownGrade,
+    isLoadingWethUpgrade,
+    isLoadingWethFlow,
   } = useShallowSelector(selectMain);
 
   useEffect(() => {
-    dispatch(mainGetData());
+    dispatch(mainCheck());
   }, [dispatch]);
 
   return (
@@ -43,41 +60,71 @@ export const MainPage: React.FC = () => {
         />
       </div>
       <div className={styles.list}>
-        <DaiWethFlow
-          balance={balances && balances[DAIxAddress]}
-          totalFlows={daiFlowQuery?.totalFlows}
-          flowsOwned={daiFlowQuery?.flowsOwned}
-          placeholder={daiFlowQuery?.placeholder}
-        />
-        <WethDaiFlow
-          balance={balances && balances[WETHxAddress]}
-          totalFlows={wethFlowQuery?.totalFlows}
-          flowsOwned={wethFlowQuery?.flowsOwned}
-          placeholder={wethFlowQuery?.placeholder}
+        <UsdcWethFlow
+          balance={balances && balances[USDCxAddress]}
+          totalFlows={usdcWethFlowQuery?.totalFlows}
+          flowsOwned={usdcWethFlowQuery?.flowsOwned}
+          placeholder={usdcWethFlowQuery?.placeholder}
+          isLoading={isLoadingUsdcWethFlow}
         />
 
-        <DaiUpgrade
-          balance={balances && balances[DAIAddress]}
-          disabled={disabled}
-          hasDaiApprove={hasDaiApprove}
+        <UsdcWbtcFlow
+          balance={balances && balances[USDCxAddress]}
+          totalFlows={usdcWbtcFlowQuery?.totalFlows}
+          flowsOwned={usdcWbtcFlowQuery?.flowsOwned}
+          placeholder={usdcWbtcFlowQuery?.placeholder}
+          isLoading={isLoadingUsdcWbtcFlow}
         />
+
+        <WethUsdcFlow
+          balance={balances && balances[WETHxAddress]}
+          totalFlows={wethUsdcFlowQuery?.totalFlows}
+          flowsOwned={wethUsdcFlowQuery?.flowsOwned}
+          placeholder={wethUsdcFlowQuery?.placeholder}
+          isLoading={isLoadingWethFlow}
+        />
+
+        <WbtcUsdcFlow
+          balance={balances && balances[WBTCxAddress]}
+          totalFlows={wbtcUsdcFlowQuery?.totalFlows}
+          flowsOwned={wbtcUsdcFlowQuery?.flowsOwned}
+          placeholder={wbtcUsdcFlowQuery?.placeholder}
+          isLoading={isLoadingWbtcFlow}
+        />
+        <CoinsList />
+        <UsdcUpgrade
+          balance={balances && balances[USDCAddress]}
+          hasUsdcApprove={hasUsdcApprove}
+          isLoading={isLoadingUsdcUpgrade}
+        />
+
+        <UsdcDowngrade
+          balance={balances && balances[USDCxAddress]}
+          isLoading={isLoadingUsdcDowngrade}
+        />
+
         <WethUpgrade
           balance={balances && balances[WETHAddress]}
-          disabled={disabled}
           hasWethApprove={hasWethApprove}
+          isLoading={isLoadingWethUpgrade}
         />
 
-        <DaiDowngrade
-          balance={balances && balances[DAIxAddress]}
-          disabled={disabled}
-        />
         <WethDowngrade
           balance={balances && balances[WETHxAddress]}
-          disabled={disabled}
+          isLoading={isLoadingWethDownGrade}
         />
 
-        <DaiSubscription />
-        <WethSubscription />
+        <WbtcUpgrade
+          balance={balances && balances[WBTCAddress]}
+          hasWbtcApprove={hasWbtcApprove}
+          isLoading={isLoadingWbtcUpgrade}
+        />
+
+        <WbtcDowngrade
+          balance={balances && balances[WBTCxAddress]}
+          isLoading={isLoadingWbtcDowngrade}
+        />
+
       </div>
     </MainLayout>
   );

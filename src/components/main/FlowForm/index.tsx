@@ -1,5 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { Button } from 'components/common/Button';
+import { Input } from 'components/common/Input';
 import styles from './styles.module.scss';
 
 type Props = {
@@ -27,13 +28,14 @@ export const FlowForm: React.FC<Props> = ({
     <div className={styles.balance}>
       {`Your Balance: ${balance} ${token}`}
     </div>
+    <div className={styles.error}>{error}</div>
     <div className={styles.form}>
-      <input
-        type="number"
+      <Input
         className={styles.input}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        error={!!error}
       />
       <Button
         label="Start/Edit"
@@ -49,7 +51,6 @@ export const FlowForm: React.FC<Props> = ({
     <div className={styles.subscription}>
       {`${token}/month`}
     </div>
-    {error && <p className={styles.error}>{error}</p>}
     <p className={styles.balance_text}>
       <span>Total Value Streaming:</span>
       <span className={styles.black}>{` ${flowsOwned} `}</span>

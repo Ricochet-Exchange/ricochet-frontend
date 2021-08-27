@@ -1,0 +1,12 @@
+@import 'assets/styles/_mixins.scss';
+
+.list {
+  @include flexbox(center, center);
+
+  margin: 0 -5px;
+  flex-wrap: wrap;
+
+  & > * {
+    margin: 5px;
+  }
+}
