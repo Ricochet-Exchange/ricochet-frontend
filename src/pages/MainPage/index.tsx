@@ -59,7 +59,6 @@ export const MainPage: React.FC = () => {
           ricBalance={balances && balances[RICAddress]}
         />
       </div>
-      <CoinsList />
       <div className={styles.list}>
         <UsdcWethFlow
           balance={balances && balances[USDCxAddress]}
@@ -92,7 +91,7 @@ export const MainPage: React.FC = () => {
           placeholder={wbtcUsdcFlowQuery?.placeholder}
           isLoading={isLoadingWbtcFlow}
         />
-
+        <CoinsList />
         <UsdcUpgrade
           balance={balances && balances[USDCAddress]}
           hasUsdcApprove={hasUsdcApprove}
