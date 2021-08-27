@@ -2,6 +2,10 @@
 
 .header {
   @include flexbox(center, space-between);
+  
+  @include for_breakpoint_width(1023px) {
+    flex-wrap: wrap;
+  }
 }
 
 .logo {
@@ -13,6 +17,12 @@
   
   width: 50%;
   margin-right: 24px;
+
+  @include for_breakpoint_width(1023px) {
+    width: 100%; 
+    margin-right: 0; 
+    margin-bottom: 15px;
+  }
 }
 
 .account {
@@ -32,6 +42,11 @@
   @include flexbox(center, space-between);
 
   width: 50%;
+
+  @include for_breakpoint_width(1023px) {
+    width: 100%;
+    margin-bottom: 15px; 
+  }
 }
 
 .links {

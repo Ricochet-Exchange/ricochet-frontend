@@ -1,51 +1,77 @@
 import { upgrade } from 'api/ethereum';
 import { superTokenABI } from 'constants/abis';
-import { DAIxAddress, WETHxAddress } from 'constants/polygon_config';
-import { call } from 'redux-saga/effects';
+import { USDCxAddress, WETHxAddress, WBTCxAddress } from 'constants/polygon_config';
+import { call, put } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
 import { getContract } from 'utils/getContract';
 import web3 from 'utils/web3instance';
-import { handleError } from 'utils/handleError';
-import { daiUpgrade, wethUpgrade } from '../actionCreators';
-import { checkIfApproveDai, checkIfApproveWeth } from './checkIfApprove';
+import { transformError } from 'utils/transformError';
+import {
+  usdcUpgrade, wethUpgrade, wbtcUpgrade, mainSetState, 
+} from '../actionCreators';
+import {
+  checkIfApproveUsdc,
+  checkIfApproveWeth,
+  checkIfApproveWbtc,
+} from './checkIfApprove';
 import { getBalances } from './getBalances';
 
 export function* upgradeSaga(
-  tokenAddress: string, 
+  tokenAddress: string,
   value: string,
 ) {
   const address: Unwrap<typeof getAddress> = yield call(getAddress);
   const contract: Unwrap<typeof getContract> = yield call(
-    getContract, 
+    getContract,
     tokenAddress,
     superTokenABI,
   );
-  const amount = web3.utils.toWei(value, 'ether');
-  yield call(upgrade, contract, amount, address);
+  yield call(upgrade, contract, value, address);
   yield call(getBalances, address);
-} 
+}
 
-export function* upgradeDaiSaga({ payload }: ReturnType<typeof daiUpgrade>) {
+export function* upgradeUsdcSaga({ payload }: ReturnType<typeof usdcUpgrade>) {
   try {
-    const amount = web3.utils.toWei(payload.value, 'ether');
-    yield call(upgradeSaga, DAIxAddress, amount);
+    yield put(mainSetState({ isLoadingUsdcUpgrade: true }));
+    const amount = web3.utils.toWei(payload.value);
+    yield call(upgradeSaga, USDCxAddress, amount);
     payload.callback();
-    yield call(checkIfApproveDai);
+    yield call(checkIfApproveUsdc);
   } catch (e) {
-    // TODO: handle errors properly
-    yield call(handleError, e);
-  } 
-} 
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingUsdcUpgrade: false }));
+  }
+}
 
 export function* upgradeWethSaga({ payload }: ReturnType<typeof wethUpgrade>) {
   try {
-    const amount = web3.utils.toWei(payload.value, 'ether');
+    yield put(mainSetState({ isLoadingWethUpgrade: true }));
+    const amount = web3.utils.toWei(payload.value);
     yield call(upgradeSaga, WETHxAddress, amount);
     payload.callback();
     yield call(checkIfApproveWeth);
   } catch (e) {
-    // TODO: handle errors properly
-    yield call(handleError, e);
-  } 
-} 
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingWethUpgrade: false }));
+  }
+}
+
+export function* upgradeWbtcSaga({ payload }: ReturnType<typeof wbtcUpgrade>) {
+  try {
+    yield put(mainSetState({ isLoadingWbtcUpgrade: true }));
+    const amount = web3.utils.toWei(payload.value);
+    yield call(upgradeSaga, WBTCxAddress, amount);
+    payload.callback();
+    yield call(checkIfApproveWbtc);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingWbtcUpgrade: false }));
+  }
+}

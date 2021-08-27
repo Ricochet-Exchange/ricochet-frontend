@@ -20,6 +20,7 @@ button:enabled,
 button:disabled,
 button[disabled]{
   background-color:rgb(255,255,255);
+  cursor: auto;
 }
 
 .down:hover:not(:disabled) {

@@ -1,0 +1,20 @@
+@import "assets/styles/_mixins";
+
+.modal {
+  outline: none;
+  margin: auto;
+  padding: 20px;
+}
+
+.modal_overlay {
+  @include flexbox(center, center);
+  @include blur();
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+  z-index: 10;
+}

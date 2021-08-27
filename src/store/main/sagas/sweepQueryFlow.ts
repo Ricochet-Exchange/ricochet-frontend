@@ -1,9 +1,12 @@
 import { call, all, put } from 'redux-saga/effects';
 import {
-  wethxDaixExchangeAddress,
-  daixWethxExchangeAddress,
-  DAIxAddress,
+  wethxUsdcxExchangeAddress,
+  wbtcxUsdcxExchangeAddress,
+  usdcxWethxExchangeAddress,
+  usdcxWbtcxExchangeAddress,
+  USDCxAddress,
   WETHxAddress,
+  WBTCxAddress,
 } from 'constants/polygon_config';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
@@ -16,12 +19,17 @@ import { mainSetState } from '../actionCreators';
 export function* sweepQueryFlow() {
   const address: Unwrap<typeof getAddress> = yield call(getAddress);
   const results: any[] = yield all([
-    call(queryFlows, daixWethxExchangeAddress),
-    call(queryFlows, wethxDaixExchangeAddress),
+    call(queryFlows, usdcxWethxExchangeAddress),
+    call(queryFlows, usdcxWbtcxExchangeAddress),
+    call(queryFlows, wethxUsdcxExchangeAddress),
+    call(queryFlows, wbtcxUsdcxExchangeAddress),
   ]);
   const flows: { [key:string]: { flowsOwned: Flow[], flowsReceived: Flow[] } } = {};
 
-  [daixWethxExchangeAddress, wethxDaixExchangeAddress].forEach((el, i) => {
+  [usdcxWethxExchangeAddress,
+    usdcxWbtcxExchangeAddress,
+    wethxUsdcxExchangeAddress,
+    wbtcxUsdcxExchangeAddress].forEach((el, i) => {
     if (results[i].data.data.account != null) {
       flows[el] = results[i].data.data.account;
     } else {
@@ -29,28 +37,59 @@ export function* sweepQueryFlow() {
     }
   });
 
-  const daiFlows = flows[daixWethxExchangeAddress];
-  const wethFlows = flows[wethxDaixExchangeAddress];
+  const usdcWethFlows = flows[usdcxWethxExchangeAddress];
+  const usdcWbtcFlows = flows[usdcxWbtcxExchangeAddress];
+  const wethUsdcFlows = flows[wethxUsdcxExchangeAddress];
+  const wbtcUsdcFlows = flows[wbtcxUsdcxExchangeAddress];
 
-  const daiFlowsReceived = getReceviedFlows(daiFlows.flowsReceived, DAIxAddress, address);
-  const daiPlaceholder = ((daiFlowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
+  const usdcWethFlowsReceived = getReceviedFlows(usdcWethFlows.flowsReceived,
+    USDCxAddress, address);
+  const usdcWethPlaceholder = ((usdcWethFlowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
 
-  const wethflowsReceived = getReceviedFlows(wethFlows.flowsReceived, WETHxAddress, address);
-  const wethPlaceholder = ((wethflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
+  const usdcWbtcFlowsReceived = getReceviedFlows(usdcWbtcFlows.flowsReceived,
+    USDCxAddress, address);
+  const usdcWbtcPlaceholder = ((usdcWbtcFlowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
 
-  const daiFlowQuery = {
-    flowsReceived: daiFlowsReceived,
-    flowsOwned: getOwnedFlows(daiFlows.flowsReceived, DAIxAddress),
-    totalFlows: daiFlows.flowsReceived.length,
-    placeholder: daiPlaceholder,
+  const wethUsdcflowsReceived = getReceviedFlows(wethUsdcFlows.flowsReceived,
+    WETHxAddress, address);
+  const wethUsdcPlaceholder = ((wethUsdcflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
+
+  const wbtcUsdcflowsReceived = getReceviedFlows(wbtcUsdcFlows.flowsReceived,
+    WBTCxAddress, address);
+  const wbtcUsdcPlaceholder = ((wbtcUsdcflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
+
+  const usdcWethFlowQuery = {
+    flowsReceived: usdcWethFlowsReceived,
+    flowsOwned: getOwnedFlows(usdcWethFlows.flowsReceived, USDCxAddress),
+    totalFlows: usdcWethFlows.flowsReceived.length,
+    placeholder: usdcWethPlaceholder,
   };
 
-  const wethFlowQuery = {
-    flowsReceived: wethflowsReceived,
-    flowsOwned: getOwnedFlows(wethFlows.flowsReceived, WETHxAddress),
-    totalFlows: wethFlows.flowsReceived.length,
-    placeholder: wethPlaceholder,
+  const usdcWbtcFlowQuery = {
+    flowsReceived: usdcWbtcFlowsReceived,
+    flowsOwned: getOwnedFlows(usdcWbtcFlows.flowsReceived, USDCxAddress),
+    totalFlows: usdcWbtcFlows.flowsReceived.length,
+    placeholder: usdcWbtcPlaceholder,
   };
-  
-  yield put(mainSetState({ daiFlowQuery, wethFlowQuery }));
-} 
+
+  const wethUsdcFlowQuery = {
+    flowsReceived: wethUsdcflowsReceived,
+    flowsOwned: getOwnedFlows(wethUsdcFlows.flowsReceived, WETHxAddress),
+    totalFlows: wethUsdcFlows.flowsReceived.length,
+    placeholder: wethUsdcPlaceholder,
+  };
+
+  const wbtcUsdcFlowQuery = {
+    flowsReceived: wbtcUsdcflowsReceived,
+    flowsOwned: getOwnedFlows(wbtcUsdcFlows.flowsReceived, WBTCxAddress),
+    totalFlows: wbtcUsdcFlows.flowsReceived.length,
+    placeholder: wbtcUsdcPlaceholder,
+  };
+
+  yield put(mainSetState({
+    usdcWethFlowQuery,
+    usdcWbtcFlowQuery,
+    wethUsdcFlowQuery,
+    wbtcUsdcFlowQuery,
+  }));
+}

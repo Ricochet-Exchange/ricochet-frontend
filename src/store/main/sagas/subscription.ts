@@ -1,49 +1,49 @@
 import { approveSubscription } from 'api/ethereum';
 import {
-  DAIxAddress,
-  daixWethxExchangeAddress, 
-  RICAddress, 
-  WETHxAddress, 
-  wethxDaixExchangeAddress, 
+  USDCxAddress,
+  usdcxWethxExchangeAddress,
+  RICAddress,
+  WETHxAddress,
+  wethxUsdcxExchangeAddress,
 } from 'constants/polygon_config';
 import { call } from 'redux-saga/effects';
 
-export function* subscriptionDaiSaga() {
+export function* subscriptionUsdcSaga() {
   try {
-    yield call(approveSubscription, DAIxAddress, daixWethxExchangeAddress);
+    yield call(approveSubscription, USDCxAddress, usdcxWethxExchangeAddress);
   } catch (e) {
     // TODO: handle errors properly
     // eslint-disable-next-line no-alert
-    alert("You've already approved Dai for this exchange.");
-  } 
-} 
+    alert("You've already approved Usdc for this exchange.");
+  }
+}
 
 export function* subscriptionWethSaga() {
   try {
-    yield call(approveSubscription, WETHxAddress, wethxDaixExchangeAddress);
+    yield call(approveSubscription, WETHxAddress, wethxUsdcxExchangeAddress);
   } catch (e) {
     // TODO: handle errors properly
     // eslint-disable-next-line no-alert
     alert("You've already approved ETH for this exchange.");
-  } 
-} 
+  }
+}
 
-export function* subscriptionRicDaiSaga() {
+export function* subscriptionRicUsdcSaga() {
   try {
-    yield call(approveSubscription, RICAddress, daixWethxExchangeAddress);
+    yield call(approveSubscription, RICAddress, usdcxWethxExchangeAddress);
   } catch (e) {
     // TODO: handle errors properly
     // eslint-disable-next-line no-alert
     alert("You've already approved RIC for this exchange.");
-  } 
+  }
 }
 
 export function* subscriptionRicWethSaga() {
   try {
-    yield call(approveSubscription, RICAddress, wethxDaixExchangeAddress);
+    yield call(approveSubscription, RICAddress, wethxUsdcxExchangeAddress);
   } catch (e) {
     // TODO: handle errors properly
     // eslint-disable-next-line no-alert
     alert("You've already approved RIC for this exchange.");
-  } 
-} 
+  }
+}

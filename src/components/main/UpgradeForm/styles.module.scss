@@ -3,17 +3,29 @@
 .form {
   @include flexbox(center, flex-start);
 
-  margin-top: 30px;
+  flex-wrap: wrap;
 }
 
 .input {
-  border: 2px solid #bfc2c5;
-  border-radius: 0px;
-  padding: 5px;
-  font-size: 16px;
   width: 213px;
+
+  @include for_large_mobile {
+    width: 100px;
+  }
 }
 
 .button {
   margin-left: 24px;
+
+  @include for_large_mobile {
+    margin-left: 10px;
+  }
+}
+
+.error {
+  margin: 30px 0 5px 0;
+  padding: 0;
+  color: tomato;
+  height: 10px;
+  font-size: 10px;
 }

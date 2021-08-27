@@ -1,17 +1,27 @@
 import { startFlow } from 'api/ethereum';
 import { idaABI } from 'constants/abis';
 import {
-  DAIxAddress, daixWethxExchangeAddress, idaAddress, WETHxAddress, wethxDaixExchangeAddress,
+  idaAddress,
+  USDCxAddress, usdcxWethxExchangeAddress,
+  WETHxAddress, wethxUsdcxExchangeAddress,
+  WBTCxAddress, usdcxWbtcxExchangeAddress, wbtcxUsdcxExchangeAddress,
 } from 'constants/polygon_config';
-import { call } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getContract } from 'utils/getContract';
-import { handleError } from 'utils/handleError';
+import { transformError } from 'utils/transformError';
 import { sweepQueryFlow } from './sweepQueryFlow';
-import { daiWethStartFlow, wethDaiStartFlow } from '../actionCreators';
+import {
+  usdcWethStartFlow,
+  wethUsdcStartFlow,
+  wbtcUsdcStartFlow,
+  usdcWbtcStartFlow,
+  mainSetState,
+} from '../actionCreators';
 
-export function* daiWethStartFlowSaga({ payload }: ReturnType<typeof daiWethStartFlow>) {
+export function* usdcWethStartFlowSaga({ payload }: ReturnType<typeof usdcWethStartFlow>) {
   try {
+    yield put(mainSetState({ isLoadingUsdcWethFlow: true }));
     const idaContract: Unwrap<typeof getContract> = yield call(
       getContract,
       idaAddress,
@@ -20,26 +30,23 @@ export function* daiWethStartFlowSaga({ payload }: ReturnType<typeof daiWethStar
     const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
     yield call(startFlow,
       idaContract,
-      daixWethxExchangeAddress,
-      DAIxAddress,
+      usdcxWethxExchangeAddress,
+      USDCxAddress,
       WETHxAddress,
       normalizedAmount);
     payload.callback();
     yield call(sweepQueryFlow);
   } catch (e) {
-    // yield put(mainSetState({ disabled: true }));
-    // TODO: handle errors properly
-    // eslint-disable-next-line no-console
-    console.log(e);
-    yield call(handleError, e);
-    if (e.code === -32603) {
-      payload.callback(e.data.message);
-    }
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingUsdcWethFlow: false }));
   }
 }
 
-export function* wethDaiStartFlowSaga({ payload }: ReturnType<typeof wethDaiStartFlow>) {
+export function* usdcWbtcStartFlowSaga({ payload }: ReturnType<typeof usdcWbtcStartFlow>) {
   try {
+    yield put(mainSetState({ isLoadingUsdcWbtcFlow: true }));
     const idaContract: Unwrap<typeof getContract> = yield call(
       getContract,
       idaAddress,
@@ -48,18 +55,66 @@ export function* wethDaiStartFlowSaga({ payload }: ReturnType<typeof wethDaiStar
     const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
     yield call(startFlow,
       idaContract,
-      wethxDaixExchangeAddress,
-      WETHxAddress,
-      DAIxAddress,
+      usdcxWbtcxExchangeAddress,
+      USDCxAddress,
+      WBTCxAddress,
       normalizedAmount);
     payload.callback();
     yield call(sweepQueryFlow);
   } catch (e) {
-    // yield put(mainSetState({ disabled: true }));
-    // TODO: handle errors properly
-    if (e.code === -32603) {
-      payload.callback(e.data.message);
-    }
-    yield call(handleError, e);
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingUsdcWbtcFlow: false }));
+  }
+}
+
+export function* wethUsdcStartFlowSaga({ payload }: ReturnType<typeof wethUsdcStartFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingWethFlow: true }));
+    const idaContract: Unwrap<typeof getContract> = yield call(
+      getContract,
+      idaAddress,
+      idaABI,
+    );
+    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+    yield call(startFlow,
+      idaContract,
+      wethxUsdcxExchangeAddress,
+      WETHxAddress,
+      USDCxAddress,
+      normalizedAmount);
+    payload.callback();
+    yield call(sweepQueryFlow);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingWethFlow: false }));
+  }
+}
+
+export function* wbtcUsdcStartFlowSaga({ payload }: ReturnType<typeof wbtcUsdcStartFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingWbtcFlow: true }));
+    const idaContract: Unwrap<typeof getContract> = yield call(
+      getContract,
+      idaAddress,
+      idaABI,
+    );
+    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+    yield call(startFlow,
+      idaContract,
+      wbtcxUsdcxExchangeAddress,
+      WBTCxAddress,
+      USDCxAddress,
+      normalizedAmount);
+    payload.callback();
+    yield call(sweepQueryFlow);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingWbtcFlow: false }));
   }
 }

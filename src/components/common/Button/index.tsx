@@ -15,7 +15,7 @@ type Props = DetailedHTMLProps<
 ButtonHTMLAttributes<HTMLButtonElement>,
 HTMLButtonElement
 > & {
-  label: string;
+  label: string | JSX.Element;
   onClick?: () => void;
   slide?: ButtonSlideAnimation
   className?: string;

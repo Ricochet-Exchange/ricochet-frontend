@@ -1,0 +1,46 @@
+@import 'assets/styles/_mixins.scss';
+
+.toast {
+  @include flexbox(center, stretch);
+
+  margin-top: 24px;
+  width: 100%;
+  min-height: 73px;
+  flex-direction: row;
+  color: #ffffff;
+  border-radius: 12px;
+
+  &.success {
+    background-color: var(--color-brand);
+  }
+
+  &.error {
+    background-color: red;
+  }
+
+  .close {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-weight: bold;
+  }
+}
+
+.body {
+  flex: 1;
+  width: 100%;
+  padding: 16px 24px;
+}
+
+.title {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+.text {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+}
+

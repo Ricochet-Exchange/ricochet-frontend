@@ -1,0 +1,24 @@
+.wrap {
+  width: max-content;
+  padding: 15px;
+  border-radius: 10px;
+  height: max-content;
+  background: #cbd8e7;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #5f8eb9;
+}
+
+.title {  
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+.link {
+  text-decoration: none;
+  color: #000000;
+}
