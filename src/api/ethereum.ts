@@ -3,10 +3,11 @@ import { getAddress } from 'utils/getAddress';
 import { chainSettings } from 'constants/chainSettings';
 import web3 from 'utils/web3instance';
 import { CoinOption } from 'types/coinOption';
+import { RICAddress } from 'constants/polygon_config';
 
 export const downgrade = (
-  contract: any, 
-  amount: string, 
+  contract: any,
+  amount: string,
   address: string,
 ) => contract.methods
   .downgrade(amount)
@@ -16,11 +17,11 @@ export const allowance = (
   contract: any,
   address: string,
   superTokenAddress: string,
-) => contract.methods 
+) => contract.methods
   .allowance(address, superTokenAddress)
   .call();
 
-export const approve = (  
+export const approve = (
   contract: any,
   address: string,
   tokenAddress: string,
@@ -30,8 +31,8 @@ export const approve = (
   .send({ from: address });
 
 export const upgrade = (
-  contract: any, 
-  amount: string, 
+  contract: any,
+  amount: string,
   address: string,
 ) => contract.methods
   .upgrade(amount)
@@ -39,7 +40,7 @@ export const upgrade = (
 
 export const approveSubscription = async (tokenAddress:string, exchangeAddress:string) => {
   const superFluid = await getSuperFluid();
-  
+
   const call = [
     [
       201, // approve the ticket fee
@@ -78,7 +79,7 @@ export const stopFlow = async (exchangeAddress: string, inputTokenAddress: strin
     await sfUser.flow({
       recipient,
       flowRate: '0',
-    }); 
+    });
   } catch (e) {
     throw new Error(e);
   }
@@ -128,6 +129,24 @@ export const startFlow = async (
                   outputTokenAddress,
                   exchangeAddress,
                   0, // INDEX_ID
+                  '0x',
+                )
+                .encodeABI(), // callData
+              '0x', // userData
+            ],
+          ),
+        ],
+        [
+          201, // approve the RIC subsidy
+          superFluid.agreements.ida.address,
+          web3.eth.abi.encodeParameters(
+            ['bytes', 'bytes'],
+            [
+              superFluid.agreements.ida.contract.methods
+                .approveSubscription(
+                  RICAddress,
+                  exchangeAddress,
+                  1, // INDEX_ID
                   '0x',
                 )
                 .encodeABI(), // callData
