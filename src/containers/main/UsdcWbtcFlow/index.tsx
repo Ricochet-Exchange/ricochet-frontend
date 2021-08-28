@@ -59,7 +59,7 @@ export const UsdcWbtcFlow: React.FC<Props> = ({
           href="https://polygonscan.com/address/0x22CD7fa83Ae3381b66e8011930b92564a8E83366"
           className={styles.link}
         >
-          {'USDC >> WBTC'}
+          {'USDC >> WBTC (market out of commission - do not use. If you have existing streams, please cancel ASAP)'}
         </a>
       )}
       isLoading={isLoading}
