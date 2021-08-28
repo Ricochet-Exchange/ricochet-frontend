@@ -55,7 +55,7 @@ export const UsdcWethFlow: React.FC<Props> = ({
     <Card
       isLoading={isLoading}
       main
-      title={<a href="https://polygonscan.com/address/0x30Dd5a07eA7B4F9e208FCb5D51FBd15406fC939b" className={styles.link}>{'USDC >> ETH'}</a>}
+      title={<a href="https://polygonscan.com/address/0x30Dd5a07eA7B4F9e208FCb5D51FBd15406fC939b" className={styles.link}>{'USDC >> ETH (market out of commission - do not use. If you have existing streams, please cancel  ASAP)'}</a>}
     >
       <FlowForm
         onStart={handleStart}
