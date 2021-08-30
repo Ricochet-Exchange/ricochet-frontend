@@ -2,7 +2,11 @@ import React, { useCallback, useState, ChangeEvent } from 'react';
 import { Card } from 'components/layout/Card';
 import { FlowForm } from 'components/main/FlowForm';
 import { useDispatch } from 'react-redux';
-import { usdcWethStartFlow, usdcWethStopFlow } from 'store/main/actionCreators';
+import { 
+  subscriptionRicUsdcWeth,
+  usdcWethStartFlow, 
+  usdcWethStopFlow,
+} from 'store/main/actionCreators';
 import { useToasts } from 'hooks/useToast';
 import styles from './styles.module.scss';
 
@@ -47,6 +51,10 @@ export const UsdcWethFlow: React.FC<Props> = ({
     dispatch(usdcWethStartFlow(usdcWeth, callback));
   }, [dispatch, usdcWeth, callback]);
 
+  const handleSubscription = useCallback(() => {
+    dispatch(subscriptionRicUsdcWeth(callback));
+  }, [dispatch, callback]);
+
   const handleStop = useCallback(() => {
     dispatch(usdcWethStopFlow(callback));
   }, [dispatch, callback]);
@@ -58,6 +66,7 @@ export const UsdcWethFlow: React.FC<Props> = ({
       title={<a href="https://polygonscan.com/address/0x30Dd5a07eA7B4F9e208FCb5D51FBd15406fC939b" className={styles.link}>{'USDC >> ETH (market out of commission - do not use. If you have existing streams, please cancel  ASAP)'}</a>}
     >
       <FlowForm
+        onSubscription={handleSubscription}
         onStart={handleStart}
         onStop={handleStop}
         balance={balance}

@@ -5,7 +5,12 @@ import { loadData } from './loadData';
 import { approveUsdcSaga, approveWethSaga, approveWbtcSaga } from './approveSaga';
 import { upgradeUsdcSaga, upgradeWethSaga, upgradeWbtcSaga } from './upgradeSaga';
 import {
-  subscriptionUsdcSaga, subscriptionWethSaga,
+  subscriptionUsdcSaga, 
+  subscriptionWethSaga,
+  subscriptionRicWbtcUsdcSaga,
+  subscriptionRicWethUsdcSaga,
+  subscriptionRicUsdcWbtcSaga,
+  subscriptionRicUsdcWethSaga,
 } from './subscription';
 import {
   usdcWethStopFlowSaga,
@@ -37,6 +42,10 @@ export default function* mainSaga() {
   yield takeLeading(MainActionTypes.WBTC_APPROVE, approveWbtcSaga);
   yield takeLeading(MainActionTypes.USDC_WETH_SUBSCRIPTION, subscriptionUsdcSaga);
   yield takeLeading(MainActionTypes.WETH_USDC_SUBSCRIPTION, subscriptionWethSaga);
+  yield takeLeading(MainActionTypes.SUBSCRIPTION_RIC_WBTC_USDC, subscriptionRicWbtcUsdcSaga);
+  yield takeLeading(MainActionTypes.SUBSCRIPTION_RIC_WETH_USDC, subscriptionRicWethUsdcSaga);
+  yield takeLeading(MainActionTypes.SUBSCRIPTION_RIC_USDC_WBTC, subscriptionRicUsdcWbtcSaga);
+  yield takeLeading(MainActionTypes.SUBSCRIPTION_RIC_USDC_WETH, subscriptionRicUsdcWethSaga);
   yield takeLeading(MainActionTypes.USDC_WETH_STOP_FLOW, usdcWethStopFlowSaga);
   yield takeLeading(MainActionTypes.USDC_WBTC_STOP_FLOW, usdcWbtcStopFlowSaga);
   yield takeLeading(MainActionTypes.WETH_USDC_STOP_FLOW, wethUsdcStopFlowSaga);

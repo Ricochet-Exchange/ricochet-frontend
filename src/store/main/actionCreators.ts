@@ -149,3 +149,23 @@ export const wbtcUsdcStartFlow = (
   type: MainActionTypes.WBTC_USDC_START_FLOW,
   payload: { amount: payload, callback },
 });
+
+export const subscriptionRicUsdcWbtc = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.SUBSCRIPTION_RIC_USDC_WBTC,
+  callback,
+});
+
+export const subscriptionRicUsdcWeth = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.SUBSCRIPTION_RIC_USDC_WETH,
+  callback,
+});
+
+export const subscriptionRicWbtcUsdc = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.SUBSCRIPTION_RIC_WBTC_USDC,
+  callback,
+});
+
+export const subscriptionRicWethUsdc = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.SUBSCRIPTION_RIC_WETH_USDC,
+  callback,
+});

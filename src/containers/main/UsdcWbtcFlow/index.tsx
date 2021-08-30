@@ -2,7 +2,11 @@ import React, { useCallback, useState, ChangeEvent } from 'react';
 import { Card } from 'components/layout/Card';
 import { FlowForm } from 'components/main/FlowForm';
 import { useDispatch } from 'react-redux';
-import { usdcWbtcStartFlow, usdcWbtcStopFlow } from 'store/main/actionCreators';
+import { 
+  subscriptionRicUsdcWbtc, 
+  usdcWbtcStartFlow,
+  usdcWbtcStopFlow,
+} from 'store/main/actionCreators';
 import { useToasts } from 'hooks/useToast';
 import styles from './styles.module.scss';
 
@@ -47,6 +51,10 @@ export const UsdcWbtcFlow: React.FC<Props> = ({
     dispatch(usdcWbtcStartFlow(usdcWbtc, callback));
   }, [dispatch, usdcWbtc, callback]);
 
+  const handleSubscription = useCallback(() => {
+    dispatch(subscriptionRicUsdcWbtc(callback));
+  }, [dispatch, callback]);
+
   const handleStop = useCallback(() => {
     dispatch(usdcWbtcStopFlow(callback));
   }, [dispatch, callback]);
@@ -65,6 +73,7 @@ export const UsdcWbtcFlow: React.FC<Props> = ({
       isLoading={isLoading}
     >
       <FlowForm
+        onSubscription={handleSubscription}
         onStart={handleStart}
         onStop={handleStop}
         balance={balance}
