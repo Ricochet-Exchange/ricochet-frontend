@@ -54,7 +54,7 @@ export const WethUsdcFlow: React.FC<Props> = ({
   };
 
   return (
-    <Card isLoading={isLoading} main title={<a href="https://polygonscan.com/address/0x4923dd6C90990cDff5Ca3462cbd43fF57E06f1eb" className={styles.link}>{'ETH >> USDC'}</a>}>
+    <Card isLoading={isLoading} main title={<a href="https://polygonscan.com/address/0x3941e2E89f7047E0AC7B9CcE18fBe90927a32100" className={styles.link}>{'ETH >> USDC'}</a>}>
       <FlowForm
         onStart={handleStart}
         onStop={handleStop}
