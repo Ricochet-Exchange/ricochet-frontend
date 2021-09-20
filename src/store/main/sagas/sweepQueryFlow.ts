@@ -4,6 +4,8 @@ import {
   wbtcxUsdcxExchangeAddress,
   usdcxWethxExchangeAddress,
   usdcxWbtcxExchangeAddress,
+  daixMkrxExchangeAddress,
+  DAIxAddress,
   USDCxAddress,
   WETHxAddress,
   WBTCxAddress,
@@ -23,13 +25,15 @@ export function* sweepQueryFlow() {
     call(queryFlows, usdcxWbtcxExchangeAddress),
     call(queryFlows, wethxUsdcxExchangeAddress),
     call(queryFlows, wbtcxUsdcxExchangeAddress),
+    call(queryFlows, daixMkrxExchangeAddress),
   ]);
   const flows: { [key:string]: { flowsOwned: Flow[], flowsReceived: Flow[] } } = {};
 
   [usdcxWethxExchangeAddress,
     usdcxWbtcxExchangeAddress,
     wethxUsdcxExchangeAddress,
-    wbtcxUsdcxExchangeAddress].forEach((el, i) => {
+    wbtcxUsdcxExchangeAddress,
+    daixMkrxExchangeAddress].forEach((el, i) => {
     if (results[i].data.data.account != null) {
       flows[el] = results[i].data.data.account;
     } else {
@@ -41,6 +45,7 @@ export function* sweepQueryFlow() {
   const usdcWbtcFlows = flows[usdcxWbtcxExchangeAddress];
   const wethUsdcFlows = flows[wethxUsdcxExchangeAddress];
   const wbtcUsdcFlows = flows[wbtcxUsdcxExchangeAddress];
+  const daiMkrFlows = flows[daixMkrxExchangeAddress];
 
   const usdcWethFlowsReceived = getReceviedFlows(usdcWethFlows.flowsReceived,
     USDCxAddress, address);
@@ -57,6 +62,10 @@ export function* sweepQueryFlow() {
   const wbtcUsdcflowsReceived = getReceviedFlows(wbtcUsdcFlows.flowsReceived,
     WBTCxAddress, address);
   const wbtcUsdcPlaceholder = ((wbtcUsdcflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
+
+  const daiMkrflowsReceived = getReceviedFlows(daiMkrFlows.flowsReceived,
+    DAIxAddress, address);
+  const daiMkrPlaceholder = ((daiMkrflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
 
   const usdcWethFlowQuery = {
     flowsReceived: usdcWethFlowsReceived,
@@ -86,7 +95,15 @@ export function* sweepQueryFlow() {
     placeholder: wbtcUsdcPlaceholder,
   };
 
+  const daiMkrFlowQuery = {
+    flowsReceived: daiMkrflowsReceived,
+    flowsOwned: getOwnedFlows(daiMkrFlows.flowsReceived, DAIxAddress),
+    totalFlows: daiMkrFlows.flowsReceived.length,
+    placeholder: daiMkrPlaceholder,
+  };
+
   yield put(mainSetState({
+    daiMkrFlowQuery,
     usdcWethFlowQuery,
     usdcWbtcFlowQuery,
     wethUsdcFlowQuery,

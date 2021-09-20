@@ -23,6 +23,7 @@ import { UsdcWethFlow } from 'containers/main/UsdcWethFlow';
 import { UsdcWbtcFlow } from 'containers/main/UsdcWbtcFlow';
 import { WethUsdcFlow } from 'containers/main/WethUsdcFlow';
 import { WbtcUsdcFlow } from 'containers/main/WbtcUsdcFlow';
+import { DaiMkrFlow } from 'containers/main/DaiMkrFlow';
 import { CoinsList } from 'components/layout/CoinsList';
 import styles from './styles.module.scss';
 
@@ -35,6 +36,7 @@ export const MainPage: React.FC = () => {
     hasDaiApprove,
     hasWethApprove,
     hasWbtcApprove,
+    daiMkrFlowQuery,
     usdcWethFlowQuery,
     usdcWbtcFlowQuery,
     wethUsdcFlowQuery,
@@ -43,6 +45,7 @@ export const MainPage: React.FC = () => {
     isLoadingUsdcDowngrade,
     isLoadingDaiUpgrade,
     isLoadingUsdcUpgrade,
+    isLoadingDaiMkrFlow,
     isLoadingUsdcWbtcFlow,
     isLoadingUsdcWethFlow,
     isLoadingWbtcDowngrade,
@@ -66,20 +69,19 @@ export const MainPage: React.FC = () => {
         />
       </div>
       <div className={styles.list}>
+        <DaiMkrFlow
+          balance={balances && balances[DAIxAddress]}
+          totalFlows={daiMkrFlowQuery?.totalFlows}
+          flowsOwned={daiMkrFlowQuery?.flowsOwned}
+          placeholder={daiMkrFlowQuery?.placeholder}
+          isLoading={isLoadingDaiMkrFlow}
+        />
         <UsdcWethFlow
           balance={balances && balances[USDCxAddress]}
           totalFlows={usdcWethFlowQuery?.totalFlows}
           flowsOwned={usdcWethFlowQuery?.flowsOwned}
           placeholder={usdcWethFlowQuery?.placeholder}
           isLoading={isLoadingUsdcWethFlow}
-        />
-
-        <UsdcWbtcFlow
-          balance={balances && balances[USDCxAddress]}
-          totalFlows={usdcWbtcFlowQuery?.totalFlows}
-          flowsOwned={usdcWbtcFlowQuery?.flowsOwned}
-          placeholder={usdcWbtcFlowQuery?.placeholder}
-          isLoading={isLoadingUsdcWbtcFlow}
         />
 
         <WethUsdcFlow
@@ -90,6 +92,14 @@ export const MainPage: React.FC = () => {
           isLoading={isLoadingWethFlow}
         />
 
+        <UsdcWbtcFlow
+          balance={balances && balances[USDCxAddress]}
+          totalFlows={usdcWbtcFlowQuery?.totalFlows}
+          flowsOwned={usdcWbtcFlowQuery?.flowsOwned}
+          placeholder={usdcWbtcFlowQuery?.placeholder}
+          isLoading={isLoadingUsdcWbtcFlow}
+        />
+
         <WbtcUsdcFlow
           balance={balances && balances[WBTCxAddress]}
           totalFlows={wbtcUsdcFlowQuery?.totalFlows}
@@ -97,6 +107,7 @@ export const MainPage: React.FC = () => {
           placeholder={wbtcUsdcFlowQuery?.placeholder}
           isLoading={isLoadingWbtcFlow}
         />
+
         <CoinsList />
         <UsdcUpgrade
           balance={balances && balances[USDCAddress]}

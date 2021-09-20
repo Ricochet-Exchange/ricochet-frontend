@@ -23,12 +23,14 @@ import {
   subscriptionUsdcSaga, subscriptionWethSaga,
 } from './subscription';
 import {
+  daiMkrStopFlowSaga,
   usdcWethStopFlowSaga,
   wethUsdcStopFlowSaga,
   wbtcUsdcStopFlowSaga,
   usdcWbtcStopFlowSaga,
 } from './stopFlow';
 import {
+  daiMkrStartFlowSaga,
   usdcWethStartFlowSaga,
   wethUsdcStartFlowSaga,
   wbtcUsdcStartFlowSaga,
@@ -55,10 +57,12 @@ export default function* mainSaga() {
   yield takeLeading(MainActionTypes.WBTC_APPROVE, approveWbtcSaga);
   yield takeLeading(MainActionTypes.USDC_WETH_SUBSCRIPTION, subscriptionUsdcSaga);
   yield takeLeading(MainActionTypes.WETH_USDC_SUBSCRIPTION, subscriptionWethSaga);
+  yield takeLeading(MainActionTypes.DAI_MKR_STOP_FLOW, daiMkrStopFlowSaga);
   yield takeLeading(MainActionTypes.USDC_WETH_STOP_FLOW, usdcWethStopFlowSaga);
   yield takeLeading(MainActionTypes.USDC_WBTC_STOP_FLOW, usdcWbtcStopFlowSaga);
   yield takeLeading(MainActionTypes.WETH_USDC_STOP_FLOW, wethUsdcStopFlowSaga);
   yield takeLeading(MainActionTypes.WBTC_USDC_STOP_FLOW, wbtcUsdcStopFlowSaga);
+  yield takeLeading(MainActionTypes.DAI_MKR_START_FLOW, daiMkrStartFlowSaga);
   yield takeLeading(MainActionTypes.USDC_WETH_START_FLOW, usdcWethStartFlowSaga);
   yield takeLeading(MainActionTypes.USDC_WBTC_START_FLOW, usdcWbtcStartFlowSaga);
   yield takeLeading(MainActionTypes.WETH_USDC_START_FLOW, wethUsdcStartFlowSaga);

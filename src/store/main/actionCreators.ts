@@ -127,6 +127,11 @@ export const usdcWethStopFlow = (callback: (e?: string) => void) => ({
   payload: { callback },
 });
 
+export const daiMkrStopFlow = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.DAI_MKR_STOP_FLOW,
+  payload: { callback },
+});
+
 export const usdcWbtcStopFlow = (callback: (e?: string) => void) => ({
   type: MainActionTypes.USDC_WBTC_STOP_FLOW,
   payload: { callback },
@@ -140,6 +145,14 @@ export const wethUsdcStopFlow = (callback: (e?: string) => void) => ({
 export const wbtcUsdcStopFlow = (callback: (e?: string) => void) => ({
   type: MainActionTypes.WBTC_USDC_STOP_FLOW,
   payload: { callback },
+});
+
+export const daiMkrStartFlow = (
+  payload: string,
+  callback: (e?: string) => void,
+) => ({
+  type: MainActionTypes.DAI_MKR_START_FLOW,
+  payload: { amount: payload, callback },
 });
 
 export const usdcWethStartFlow = (

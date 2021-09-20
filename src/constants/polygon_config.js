@@ -1,4 +1,6 @@
 export const chainId = 137;
+export const MKRAddress = "0x6f7C932e7684666C9fd1d44527765433e01fF61d";
+export const MKRxAddress = "0x2c530aF1f088B836FA0dCa23c7Ea50E669508C4C";
 export const DAIAddress = "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063";
 export const DAIxAddress = "0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2";
 export const USDCxAddress = "0xCAa7349CEA390F89641fe306D93591f87595dc1F";

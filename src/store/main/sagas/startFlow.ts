@@ -2,6 +2,8 @@ import { startFlow } from 'api/ethereum';
 import { idaABI } from 'constants/abis';
 import {
   idaAddress,
+  MKRxAddress,
+  DAIxAddress, daixMkrxExchangeAddress,
   USDCxAddress, usdcxWethxExchangeAddress,
   WETHxAddress, wethxUsdcxExchangeAddress,
   WBTCxAddress, usdcxWbtcxExchangeAddress, wbtcxUsdcxExchangeAddress,
@@ -12,6 +14,7 @@ import { getContract } from 'utils/getContract';
 import { transformError } from 'utils/transformError';
 import { sweepQueryFlow } from './sweepQueryFlow';
 import {
+  daiMkrStartFlow,
   usdcWethStartFlow,
   wethUsdcStartFlow,
   wbtcUsdcStartFlow,
@@ -116,5 +119,30 @@ export function* wbtcUsdcStartFlowSaga({ payload }: ReturnType<typeof wbtcUsdcSt
     payload.callback(error);
   } finally {
     yield put(mainSetState({ isLoadingWbtcFlow: false }));
+  }
+}
+
+export function* daiMkrStartFlowSaga({ payload }: ReturnType<typeof daiMkrStartFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingDaiMkrFlow: true }));
+    const idaContract: Unwrap<typeof getContract> = yield call(
+      getContract,
+      idaAddress,
+      idaABI,
+    );
+    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+    yield call(startFlow,
+      idaContract,
+      daixMkrxExchangeAddress,
+      DAIxAddress,
+      MKRxAddress,
+      normalizedAmount);
+    payload.callback();
+    yield call(sweepQueryFlow);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingDaiMkrFlow: false }));
   }
 }
