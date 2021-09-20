@@ -1,6 +1,7 @@
 import { downgrade } from 'api/ethereum';
 import { superTokenABI } from 'constants/abis';
 import {
+  DAIxAddress,
   USDCxAddress,
   WETHxAddress,
   WBTCxAddress,
@@ -12,7 +13,7 @@ import { getContract } from 'utils/getContract';
 import web3 from 'utils/web3instance';
 import { transformError } from 'utils/transformError';
 import {
-  wethDownGrade, usdcDownGrade, wbtcDownGrade, mainSetState,
+  daiDownGrade, wethDownGrade, usdcDownGrade, wbtcDownGrade, mainSetState,
 } from '../actionCreators';
 import { getBalances } from './getBalances';
 
@@ -38,6 +39,19 @@ export function* usdcDowngradeSaga({ payload }: ReturnType<typeof usdcDownGrade>
     payload.callback(error);
   } finally {
     yield put(mainSetState({ isLoadingUsdcDowngrade: false }));
+  }
+}
+
+export function* daiDowngradeSaga({ payload }: ReturnType<typeof daiDownGrade>) {
+  try {
+    yield put(mainSetState({ isLoadingDaiDowngrade: true }));
+    yield call(downgradeSaga, DAIxAddress, payload.value);
+    payload.callback();
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingDaiDowngrade: false }));
   }
 }
 

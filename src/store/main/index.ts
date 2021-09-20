@@ -6,6 +6,8 @@ export const mainInitialState: Readonly<MainState> = {
   address: '',
   isLoadingUsdcDowngrade: false,
   isLoadingUsdcUpgrade: false,
+  isLoadingDaiDowngrade: false,
+  isLoadingDaiUpgrade: false,
   isLoadingUsdcWbtcFlow: false,
   isLoadingUsdcWethFlow: false,
   isLoadingWbtcDowngrade: false,

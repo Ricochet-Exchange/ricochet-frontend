@@ -26,6 +26,14 @@ export const usdcDownGrade = (
   payload: { value: payload, callback },
 });
 
+export const daiDownGrade = (
+  payload: string,
+  callback: (e?:string) => void,
+) => ({
+  type: MainActionTypes.DAI_DOWNGRADE,
+  payload: { value: payload, callback },
+});
+
 export const wethDownGrade = (
   payload: string,
   callback: (e?:string) => void,
@@ -55,6 +63,22 @@ export const usdcUpgrade = (
   callback: (e?:string) => void,
 ) => ({
   type: MainActionTypes.USDC_UPGRADE,
+  payload: { value: payload, callback },
+});
+
+export const daiUpgrade = (
+  payload: string,
+  callback: (e?:string) => void,
+) => ({
+  type: MainActionTypes.DAI_UPGRADE,
+  payload: { value: payload, callback },
+});
+
+export const daiApprove = (
+  payload: string,
+  callback: (e?: string) => void,
+) => ({
+  type: MainActionTypes.DAI_APPROVE,
   payload: { value: payload, callback },
 });
 

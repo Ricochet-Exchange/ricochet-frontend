@@ -1,4 +1,6 @@
 export const chainId = 137;
+export const DAIAddress = "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063";
+export const DAIxAddress = "0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2";
 export const USDCxAddress = "0xCAa7349CEA390F89641fe306D93591f87595dc1F";
 export const USDCAddress = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174";
 export const WETHxAddress = "0x27e1e4E6BC79D93032abef01025811B7E4727e85";
@@ -13,3 +15,4 @@ export const wethxUsdcxExchangeAddress = "0x3941e2E89f7047E0AC7B9CcE18fBe90927a3
 export const wbtcxUsdcxExchangeAddress = "0x71f649EB05AA48cF8d92328D1C486B7d9fDbfF6b"
 export const usdcxWethxExchangeAddress = "0x8082Ab2f4E220dAd92689F3682F3e7a42b206B42"
 export const usdcxWbtcxExchangeAddress = "0xe0A0ec8dee2f73943A6b731a2e11484916f45D44"
+export const daixMkrxExchangeAddress = "0x47de4Fd666373Ca4A793e2E0e7F995Ea7D3c9A29"

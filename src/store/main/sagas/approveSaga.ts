@@ -2,6 +2,7 @@ import { approve } from 'api/ethereum';
 import { erc20ABI } from 'constants/abis';
 import {
   USDCAddress, USDCxAddress,
+  DAIAddress, DAIxAddress,
   WETHAddress, WETHxAddress,
   WBTCAddress, WBTCxAddress,
 } from 'constants/polygon_config';
@@ -12,10 +13,11 @@ import { getContract } from 'utils/getContract';
 import web3 from 'utils/web3instance';
 import { transformError } from 'utils/transformError';
 import {
-  usdcApprove, wethApprove, wbtcApprove, mainSetState, 
+  usdcApprove, daiApprove, wethApprove, wbtcApprove, mainSetState,
 } from '../actionCreators';
 import {
   checkIfApproveUsdc,
+  checkIfApproveDai,
   checkIfApproveWeth,
   checkIfApproveWbtc,
 } from './checkIfApprove';
@@ -48,6 +50,21 @@ export function* approveUsdcSaga({ payload }: ReturnType<typeof usdcApprove>) {
     payload.callback(error);
   } finally {
     yield put(mainSetState({ isLoadingUsdcUpgrade: false }));
+  }
+}
+
+export function* approveDaiSaga({ payload }: ReturnType<typeof daiApprove>) {
+  try {
+    yield put(mainSetState({ isLoadingDaiUpgrade: true }));
+    const amount = web3.utils.toWei(payload.value);
+    yield call(approveSaga, DAIAddress, DAIxAddress, amount);
+    payload.callback();
+    yield call(checkIfApproveDai);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingDaiUpgrade: false }));
   }
 }
 

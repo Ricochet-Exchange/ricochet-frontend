@@ -7,13 +7,16 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { WethDowngrade } from 'containers/main/WethDowngrade';
 import { UsdcDowngrade } from 'containers/main/UsdcDowngrade';
+import { DaiDowngrade } from 'containers/main/DaiDowngrade';
 import { WbtcDowngrade } from 'containers/main/WbtcDowngrade';
 import {
   USDCAddress, USDCxAddress, RICAddress,
+  DAIAddress, DAIxAddress,
   WETHAddress, WETHxAddress,
   WBTCAddress, WBTCxAddress,
 } from 'constants/polygon_config';
 import { UsdcUpgrade } from 'containers/main/UsdcUpgrade';
+import { DaiUpgrade } from 'containers/main/DaiUpgrade';
 import { WethUpgrade } from 'containers/main/WethUpgrade';
 import { WbtcUpgrade } from 'containers/main/WbtcUpgrade';
 import { UsdcWethFlow } from 'containers/main/UsdcWethFlow';
@@ -29,13 +32,16 @@ export const MainPage: React.FC = () => {
     address,
     balances,
     hasUsdcApprove,
+    hasDaiApprove,
     hasWethApprove,
     hasWbtcApprove,
     usdcWethFlowQuery,
     usdcWbtcFlowQuery,
     wethUsdcFlowQuery,
     wbtcUsdcFlowQuery,
+    isLoadingDaiDowngrade,
     isLoadingUsdcDowngrade,
+    isLoadingDaiUpgrade,
     isLoadingUsdcUpgrade,
     isLoadingUsdcWbtcFlow,
     isLoadingUsdcWethFlow,
@@ -101,6 +107,17 @@ export const MainPage: React.FC = () => {
         <UsdcDowngrade
           balance={balances && balances[USDCxAddress]}
           isLoading={isLoadingUsdcDowngrade}
+        />
+
+        <DaiUpgrade
+          balance={balances && balances[DAIAddress]}
+          hasDaiApprove={hasDaiApprove}
+          isLoading={isLoadingDaiUpgrade}
+        />
+
+        <DaiDowngrade
+          balance={balances && balances[DAIxAddress]}
+          isLoading={isLoadingDaiDowngrade}
         />
 
         <WethUpgrade

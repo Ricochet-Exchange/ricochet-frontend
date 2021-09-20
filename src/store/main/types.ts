@@ -2,6 +2,7 @@ export type MainState = {
   address: string;
   balances?: { [key:string]: string };
   hasUsdcApprove?: boolean;
+  hasDaiApprove?: boolean;
   hasWethApprove?: boolean;
   hasWbtcApprove?: boolean;
   usdcWethFlowQuery?: {
@@ -30,6 +31,8 @@ export type MainState = {
   }
   isLoadingUsdcDowngrade: boolean,
   isLoadingUsdcUpgrade: boolean,
+  isLoadingDaiDowngrade: boolean,
+  isLoadingDaiUpgrade: boolean,
   isLoadingUsdcWbtcFlow: boolean,
   isLoadingUsdcWethFlow: boolean,
   isLoadingWbtcDowngrade: boolean,
