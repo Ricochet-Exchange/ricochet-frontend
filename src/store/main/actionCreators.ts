@@ -156,6 +156,11 @@ export const daiMkrStopFlow = (callback: (e?: string) => void) => ({
   payload: { callback },
 });
 
+export const mkrDaiStopFlow = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.MKR_DAI_STOP_FLOW,
+  payload: { callback },
+});
+
 export const usdcWbtcStopFlow = (callback: (e?: string) => void) => ({
   type: MainActionTypes.USDC_WBTC_STOP_FLOW,
   payload: { callback },
@@ -176,6 +181,14 @@ export const daiMkrStartFlow = (
   callback: (e?: string) => void,
 ) => ({
   type: MainActionTypes.DAI_MKR_START_FLOW,
+  payload: { amount: payload, callback },
+});
+
+export const mkrDaiStartFlow = (
+  payload: string,
+  callback: (e?: string) => void,
+) => ({
+  type: MainActionTypes.MKR_DAI_START_FLOW,
   payload: { amount: payload, callback },
 });
 

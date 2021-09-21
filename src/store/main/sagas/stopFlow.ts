@@ -1,5 +1,6 @@
 import { stopFlow } from 'api/ethereum';
 import {
+  MKRxAddress, mkrxDaixExchangeAddress,
   DAIxAddress, daixMkrxExchangeAddress,
   USDCxAddress, usdcxWethxExchangeAddress,
   WETHxAddress, wethxUsdcxExchangeAddress,
@@ -9,6 +10,7 @@ import { call, put } from 'redux-saga/effects';
 import { transformError } from 'utils/transformError';
 import {
   daiMkrStopFlow,
+  mkrDaiStopFlow,
   usdcWethStopFlow,
   usdcWbtcStopFlow,
   wethUsdcStopFlow,
@@ -84,5 +86,19 @@ export function* daiMkrStopFlowSaga({ payload }: ReturnType<typeof daiMkrStopFlo
     payload.callback(error);
   } finally {
     yield put(mainSetState({ isLoadingDaiMkrFlow: false }));
+  }
+}
+
+export function* mkrDaiStopFlowSaga({ payload }: ReturnType<typeof mkrDaiStopFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingMkrDaiFlow: true }));
+    yield call(stopFlow, mkrxDaixExchangeAddress, MKRxAddress);
+    yield call(sweepQueryFlow);
+    payload.callback();
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingMkrDaiFlow: false }));
   }
 }

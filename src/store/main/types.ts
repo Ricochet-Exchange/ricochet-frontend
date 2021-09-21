@@ -18,6 +18,12 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
   },
+  mkrDaiFlowQuery?: {
+    flowsReceived: number,
+    flowsOwned: string,
+    totalFlows: number,
+    placeholder: string,
+  },
   usdcWbtcFlowQuery?: {
     flowsReceived: number,
     flowsOwned: string,
@@ -43,6 +49,7 @@ export type MainState = {
   isLoadingDaiDowngrade: boolean,
   isLoadingDaiUpgrade: boolean,
   isLoadingDaiMkrFlow: boolean,
+  isLoadingMkrDaiFlow: boolean,
   isLoadingUsdcWbtcFlow: boolean,
   isLoadingUsdcWethFlow: boolean,
   isLoadingWbtcDowngrade: boolean,
