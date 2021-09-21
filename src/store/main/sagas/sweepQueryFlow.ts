@@ -113,7 +113,7 @@ export function* sweepQueryFlow() {
 
   const mkrDaiFlowQuery = {
     flowsReceived: mkrDaiflowsReceived,
-    flowsOwned: getOwnedFlows(mkrDaiFlows.flowsReceived, DAIxAddress),
+    flowsOwned: getOwnedFlows(mkrDaiFlows.flowsReceived, MKRxAddress),
     totalFlows: mkrDaiFlows.flowsReceived.length,
     placeholder: mkrDaiPlaceholder,
   };
