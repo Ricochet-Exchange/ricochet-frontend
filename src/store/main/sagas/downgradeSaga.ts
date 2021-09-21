@@ -2,6 +2,7 @@ import { downgrade } from 'api/ethereum';
 import { superTokenABI } from 'constants/abis';
 import {
   DAIxAddress,
+  MKRxAddress,
   USDCxAddress,
   WETHxAddress,
   WBTCxAddress,
@@ -13,7 +14,12 @@ import { getContract } from 'utils/getContract';
 import web3 from 'utils/web3instance';
 import { transformError } from 'utils/transformError';
 import {
-  daiDownGrade, wethDownGrade, usdcDownGrade, wbtcDownGrade, mainSetState,
+  mkrDownGrade,
+  daiDownGrade,
+  wethDownGrade,
+  usdcDownGrade,
+  wbtcDownGrade,
+  mainSetState,
 } from '../actionCreators';
 import { getBalances } from './getBalances';
 
@@ -39,6 +45,19 @@ export function* usdcDowngradeSaga({ payload }: ReturnType<typeof usdcDownGrade>
     payload.callback(error);
   } finally {
     yield put(mainSetState({ isLoadingUsdcDowngrade: false }));
+  }
+}
+
+export function* mkrDowngradeSaga({ payload }: ReturnType<typeof mkrDownGrade>) {
+  try {
+    yield put(mainSetState({ isLoadingMkrDowngrade: true }));
+    yield call(downgradeSaga, MKRxAddress, payload.value);
+    payload.callback();
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingMkrDowngrade: false }));
   }
 }
 

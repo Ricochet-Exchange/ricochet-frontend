@@ -1,6 +1,7 @@
 import { takeEvery, takeLeading } from 'redux-saga/effects';
 import { MainActionTypes } from '../actionTypes';
 import {
+  mkrDowngradeSaga,
   daiDowngradeSaga,
   usdcDowngradeSaga,
   wethDowngradeSaga,
@@ -8,12 +9,14 @@ import {
 } from './downgradeSaga';
 import { loadData } from './loadData';
 import {
+  approveMkrSaga,
   approveDaiSaga,
   approveUsdcSaga,
   approveWethSaga,
   approveWbtcSaga,
 } from './approveSaga';
 import {
+  upgradeMkrSaga,
   upgradeDaiSaga,
   upgradeUsdcSaga,
   upgradeWethSaga,
@@ -43,6 +46,7 @@ export default function* mainSaga() {
   yield takeLeading(MainActionTypes.MAIN_CHECK, mainCheckSaga);
   yield takeLeading(MainActionTypes.MAIN_SWITCH_NETWORK, switchNetworkSaga);
   yield takeEvery(MainActionTypes.LOAD_DATA, loadData);
+  yield takeLeading(MainActionTypes.MKR_DOWNGRADE, mkrDowngradeSaga);
   yield takeLeading(MainActionTypes.DAI_DOWNGRADE, daiDowngradeSaga);
   yield takeLeading(MainActionTypes.USDC_DOWNGRADE, usdcDowngradeSaga);
   yield takeLeading(MainActionTypes.WETH_DOWNGRADE, wethDowngradeSaga);
@@ -50,7 +54,9 @@ export default function* mainSaga() {
   yield takeLeading(MainActionTypes.USDC_APPROVE, approveUsdcSaga);
   yield takeLeading(MainActionTypes.USDC_UPGRADE, upgradeUsdcSaga);
   yield takeLeading(MainActionTypes.DAI_APPROVE, approveDaiSaga);
+  yield takeLeading(MainActionTypes.MKR_APPROVE, approveMkrSaga);
   yield takeLeading(MainActionTypes.DAI_UPGRADE, upgradeDaiSaga);
+  yield takeLeading(MainActionTypes.MKR_UPGRADE, upgradeMkrSaga);
   yield takeLeading(MainActionTypes.WETH_APPROVE, approveWethSaga);
   yield takeLeading(MainActionTypes.WETH_UPGRADE, upgradeWethSaga);
   yield takeLeading(MainActionTypes.WBTC_UPGRADE, upgradeWbtcSaga);

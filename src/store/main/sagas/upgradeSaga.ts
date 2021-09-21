@@ -1,6 +1,7 @@
 import { upgrade } from 'api/ethereum';
 import { superTokenABI } from 'constants/abis';
 import {
+  MKRxAddress,
   DAIxAddress,
   USDCxAddress,
   WETHxAddress,
@@ -13,10 +14,16 @@ import { getContract } from 'utils/getContract';
 import web3 from 'utils/web3instance';
 import { transformError } from 'utils/transformError';
 import {
-  daiUpgrade, usdcUpgrade, wethUpgrade, wbtcUpgrade, mainSetState,
+  daiUpgrade,
+  usdcUpgrade,
+  wethUpgrade,
+  wbtcUpgrade,
+  mkrUpgrade,
+  mainSetState,
 } from '../actionCreators';
 import {
   checkIfApproveUsdc,
+  checkIfApproveMkr,
   checkIfApproveDai,
   checkIfApproveWeth,
   checkIfApproveWbtc,
@@ -64,6 +71,21 @@ export function* upgradeDaiSaga({ payload }: ReturnType<typeof daiUpgrade>) {
     payload.callback(error);
   } finally {
     yield put(mainSetState({ isLoadingDaiUpgrade: false }));
+  }
+}
+
+export function* upgradeMkrSaga({ payload }: ReturnType<typeof mkrUpgrade>) {
+  try {
+    yield put(mainSetState({ isLoadingMkrUpgrade: true }));
+    const amount = web3.utils.toWei(payload.value);
+    yield call(upgradeSaga, MKRxAddress, amount);
+    payload.callback();
+    yield call(checkIfApproveMkr);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingMkrUpgrade: false }));
   }
 }
 

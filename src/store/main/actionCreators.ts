@@ -34,6 +34,14 @@ export const daiDownGrade = (
   payload: { value: payload, callback },
 });
 
+export const mkrDownGrade = (
+  payload: string,
+  callback: (e?:string) => void,
+) => ({
+  type: MainActionTypes.MKR_DOWNGRADE,
+  payload: { value: payload, callback },
+});
+
 export const wethDownGrade = (
   payload: string,
   callback: (e?:string) => void,
@@ -79,6 +87,22 @@ export const daiApprove = (
   callback: (e?: string) => void,
 ) => ({
   type: MainActionTypes.DAI_APPROVE,
+  payload: { value: payload, callback },
+});
+
+export const mkrUpgrade = (
+  payload: string,
+  callback: (e?:string) => void,
+) => ({
+  type: MainActionTypes.MKR_UPGRADE,
+  payload: { value: payload, callback },
+});
+
+export const mkrApprove = (
+  payload: string,
+  callback: (e?: string) => void,
+) => ({
+  type: MainActionTypes.MKR_APPROVE,
   payload: { value: payload, callback },
 });
 

@@ -3,6 +3,7 @@ import { erc20ABI } from 'constants/abis';
 import {
   USDCAddress, USDCxAddress,
   DAIAddress, DAIxAddress,
+  MKRAddress, MKRxAddress,
   WETHAddress, WETHxAddress,
   WBTCAddress, WBTCxAddress,
 } from 'constants/polygon_config';
@@ -13,11 +14,17 @@ import { getContract } from 'utils/getContract';
 import web3 from 'utils/web3instance';
 import { transformError } from 'utils/transformError';
 import {
-  usdcApprove, daiApprove, wethApprove, wbtcApprove, mainSetState,
+  usdcApprove,
+  daiApprove,
+  wethApprove,
+  wbtcApprove,
+  mkrApprove,
+  mainSetState,
 } from '../actionCreators';
 import {
   checkIfApproveUsdc,
   checkIfApproveDai,
+  checkIfApproveMkr,
   checkIfApproveWeth,
   checkIfApproveWbtc,
 } from './checkIfApprove';
@@ -65,6 +72,21 @@ export function* approveDaiSaga({ payload }: ReturnType<typeof daiApprove>) {
     payload.callback(error);
   } finally {
     yield put(mainSetState({ isLoadingDaiUpgrade: false }));
+  }
+}
+
+export function* approveMkrSaga({ payload }: ReturnType<typeof mkrApprove>) {
+  try {
+    yield put(mainSetState({ isLoadingMkrUpgrade: true }));
+    const amount = web3.utils.toWei(payload.value);
+    yield call(approveSaga, MKRAddress, MKRxAddress, amount);
+    payload.callback();
+    yield call(checkIfApproveMkr);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingMkrUpgrade: false }));
   }
 }
 

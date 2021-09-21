@@ -8,15 +8,18 @@ import { selectMain } from 'store/main/selectors';
 import { WethDowngrade } from 'containers/main/WethDowngrade';
 import { UsdcDowngrade } from 'containers/main/UsdcDowngrade';
 import { DaiDowngrade } from 'containers/main/DaiDowngrade';
+import { MkrDowngrade } from 'containers/main/MkrDowngrade';
 import { WbtcDowngrade } from 'containers/main/WbtcDowngrade';
 import {
   USDCAddress, USDCxAddress, RICAddress,
   DAIAddress, DAIxAddress,
+  MKRAddress, MKRxAddress,
   WETHAddress, WETHxAddress,
   WBTCAddress, WBTCxAddress,
 } from 'constants/polygon_config';
 import { UsdcUpgrade } from 'containers/main/UsdcUpgrade';
 import { DaiUpgrade } from 'containers/main/DaiUpgrade';
+import { MkrUpgrade } from 'containers/main/MkrUpgrade';
 import { WethUpgrade } from 'containers/main/WethUpgrade';
 import { WbtcUpgrade } from 'containers/main/WbtcUpgrade';
 import { UsdcWethFlow } from 'containers/main/UsdcWethFlow';
@@ -34,6 +37,7 @@ export const MainPage: React.FC = () => {
     balances,
     hasUsdcApprove,
     hasDaiApprove,
+    hasMkrApprove,
     hasWethApprove,
     hasWbtcApprove,
     daiMkrFlowQuery,
@@ -41,18 +45,20 @@ export const MainPage: React.FC = () => {
     usdcWbtcFlowQuery,
     wethUsdcFlowQuery,
     wbtcUsdcFlowQuery,
+    isLoadingMkrDowngrade,
+    isLoadingMkrUpgrade,
     isLoadingDaiDowngrade,
-    isLoadingUsdcDowngrade,
     isLoadingDaiUpgrade,
+    isLoadingUsdcDowngrade,
     isLoadingUsdcUpgrade,
+    isLoadingWbtcDowngrade,
+    isLoadingWbtcUpgrade,
+    isLoadingWethDownGrade,
+    isLoadingWethUpgrade,
     isLoadingDaiMkrFlow,
     isLoadingUsdcWbtcFlow,
     isLoadingUsdcWethFlow,
-    isLoadingWbtcDowngrade,
-    isLoadingWbtcUpgrade,
     isLoadingWbtcFlow,
-    isLoadingWethDownGrade,
-    isLoadingWethUpgrade,
     isLoadingWethFlow,
   } = useShallowSelector(selectMain);
 
@@ -129,6 +135,17 @@ export const MainPage: React.FC = () => {
         <DaiDowngrade
           balance={balances && balances[DAIxAddress]}
           isLoading={isLoadingDaiDowngrade}
+        />
+
+        <MkrUpgrade
+          balance={balances && balances[MKRAddress]}
+          hasMkrApprove={hasMkrApprove}
+          isLoading={isLoadingMkrUpgrade}
+        />
+
+        <MkrDowngrade
+          balance={balances && balances[MKRxAddress]}
+          isLoading={isLoadingMkrDowngrade}
         />
 
         <WethUpgrade

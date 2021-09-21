@@ -3,6 +3,7 @@ export type MainState = {
   balances?: { [key:string]: string };
   hasUsdcApprove?: boolean;
   hasDaiApprove?: boolean;
+  hasMkrApprove?: boolean;
   hasWethApprove?: boolean;
   hasWbtcApprove?: boolean;
   usdcWethFlowQuery?: {
@@ -37,6 +38,8 @@ export type MainState = {
   }
   isLoadingUsdcDowngrade: boolean,
   isLoadingUsdcUpgrade: boolean,
+  isLoadingMkrDowngrade: boolean,
+  isLoadingMkrUpgrade: boolean,
   isLoadingDaiDowngrade: boolean,
   isLoadingDaiUpgrade: boolean,
   isLoadingDaiMkrFlow: boolean,

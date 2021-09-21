@@ -4,6 +4,8 @@ import {
   USDCAddress,
   DAIxAddress,
   DAIAddress,
+  MKRxAddress,
+  MKRAddress,
   WETHxAddress,
   WETHAddress,
   WBTCxAddress,
@@ -18,6 +20,7 @@ import { mainSetState } from '../actionCreators';
 export function* getBalances(address: string) {
   const contractsAddress = [
     DAIxAddress, DAIAddress,
+    MKRxAddress, MKRAddress,
     USDCxAddress, USDCAddress,
     WETHxAddress, WETHAddress,
     WBTCxAddress, WBTCAddress,
