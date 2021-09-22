@@ -1,7 +1,7 @@
 import { stopFlow } from 'api/ethereum';
 import {
   MKRxAddress, mkrxDaixExchangeAddress,
-  DAIxAddress, daixMkrxExchangeAddress,
+  DAIxAddress, daixMkrxExchangeAddress, daixEthxExchangeAddress, ethxDaixExchangeAddress,
   USDCxAddress, usdcxWethxExchangeAddress,
   WETHxAddress, wethxUsdcxExchangeAddress,
   WBTCxAddress, usdcxWbtcxExchangeAddress, wbtcxUsdcxExchangeAddress,
@@ -11,6 +11,8 @@ import { transformError } from 'utils/transformError';
 import {
   daiMkrStopFlow,
   mkrDaiStopFlow,
+  daiEthStopFlow,
+  ethDaiStopFlow,
   usdcWethStopFlow,
   usdcWbtcStopFlow,
   wethUsdcStopFlow,
@@ -100,5 +102,33 @@ export function* mkrDaiStopFlowSaga({ payload }: ReturnType<typeof mkrDaiStopFlo
     payload.callback(error);
   } finally {
     yield put(mainSetState({ isLoadingMkrDaiFlow: false }));
+  }
+}
+
+export function* daiEthStopFlowSaga({ payload }: ReturnType<typeof daiEthStopFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingDaiEthFlow: true }));
+    yield call(stopFlow, daixEthxExchangeAddress, DAIxAddress);
+    yield call(sweepQueryFlow);
+    payload.callback();
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingDaiEthFlow: false }));
+  }
+}
+
+export function* ethDaiStopFlowSaga({ payload }: ReturnType<typeof ethDaiStopFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingEthDaiFlow: true }));
+    yield call(stopFlow, ethxDaixExchangeAddress, WETHxAddress);
+    yield call(sweepQueryFlow);
+    payload.callback();
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingEthDaiFlow: false }));
   }
 }

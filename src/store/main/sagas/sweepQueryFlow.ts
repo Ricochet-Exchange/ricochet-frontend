@@ -6,6 +6,8 @@ import {
   usdcxWbtcxExchangeAddress,
   daixMkrxExchangeAddress,
   mkrxDaixExchangeAddress,
+  daixEthxExchangeAddress,
+  ethxDaixExchangeAddress,
   MKRxAddress,
   DAIxAddress,
   USDCxAddress,
@@ -29,6 +31,8 @@ export function* sweepQueryFlow() {
     call(queryFlows, wbtcxUsdcxExchangeAddress),
     call(queryFlows, daixMkrxExchangeAddress),
     call(queryFlows, mkrxDaixExchangeAddress),
+    call(queryFlows, daixEthxExchangeAddress),
+    call(queryFlows, ethxDaixExchangeAddress),
   ]);
   const flows: { [key:string]: { flowsOwned: Flow[], flowsReceived: Flow[] } } = {};
 
@@ -37,7 +41,9 @@ export function* sweepQueryFlow() {
     wethxUsdcxExchangeAddress,
     wbtcxUsdcxExchangeAddress,
     daixMkrxExchangeAddress,
-    mkrxDaixExchangeAddress].forEach((el, i) => {
+    mkrxDaixExchangeAddress,
+    daixEthxExchangeAddress,
+    ethxDaixExchangeAddress].forEach((el, i) => {
     if (results[i].data.data.account != null) {
       flows[el] = results[i].data.data.account;
     } else {
@@ -51,6 +57,8 @@ export function* sweepQueryFlow() {
   const wbtcUsdcFlows = flows[wbtcxUsdcxExchangeAddress];
   const daiMkrFlows = flows[daixMkrxExchangeAddress];
   const mkrDaiFlows = flows[mkrxDaixExchangeAddress];
+  const daiEthFlows = flows[daixEthxExchangeAddress];
+  const ethDaiFlows = flows[ethxDaixExchangeAddress];
 
   const usdcWethFlowsReceived = getReceviedFlows(usdcWethFlows.flowsReceived,
     USDCxAddress, address);
@@ -75,6 +83,14 @@ export function* sweepQueryFlow() {
   const mkrDaiflowsReceived = getReceviedFlows(mkrDaiFlows.flowsReceived,
     MKRxAddress, address);
   const mkrDaiPlaceholder = ((mkrDaiflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
+
+  const daiEthflowsReceived = getReceviedFlows(daiEthFlows.flowsReceived,
+    DAIxAddress, address);
+  const daiEthPlaceholder = ((daiEthflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
+
+  const ethDaiflowsReceived = getReceviedFlows(ethDaiFlows.flowsReceived,
+    WETHxAddress, address);
+  const ethDaiPlaceholder = ((ethDaiflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
 
   const usdcWethFlowQuery = {
     flowsReceived: usdcWethFlowsReceived,
@@ -118,7 +134,23 @@ export function* sweepQueryFlow() {
     placeholder: mkrDaiPlaceholder,
   };
 
+  const daiEthFlowQuery = {
+    flowsReceived: daiEthflowsReceived,
+    flowsOwned: getOwnedFlows(daiEthFlows.flowsReceived, DAIxAddress),
+    totalFlows: daiEthFlows.flowsReceived.length,
+    placeholder: daiEthPlaceholder,
+  };
+
+  const ethDaiFlowQuery = {
+    flowsReceived: ethDaiflowsReceived,
+    flowsOwned: getOwnedFlows(ethDaiFlows.flowsReceived, WETHxAddress),
+    totalFlows: ethDaiFlows.flowsReceived.length,
+    placeholder: ethDaiPlaceholder,
+  };
+
   yield put(mainSetState({
+    daiEthFlowQuery,
+    ethDaiFlowQuery,
     daiMkrFlowQuery,
     mkrDaiFlowQuery,
     usdcWethFlowQuery,

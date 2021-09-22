@@ -14,6 +14,8 @@ export const mainInitialState: Readonly<MainState> = {
   isLoadingUsdcWethFlow: false,
   isLoadingDaiMkrFlow: false,
   isLoadingMkrDaiFlow: false,
+  isLoadingDaiEthFlow: false,
+  isLoadingEthDaiFlow: false,
   isLoadingWbtcDowngrade: false,
   isLoadingWbtcUpgrade: false,
   isLoadingWbtcFlow: false,

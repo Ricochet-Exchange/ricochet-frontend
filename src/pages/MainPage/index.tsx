@@ -27,6 +27,8 @@ import { UsdcWbtcFlow } from 'containers/main/UsdcWbtcFlow';
 import { WethUsdcFlow } from 'containers/main/WethUsdcFlow';
 import { WbtcUsdcFlow } from 'containers/main/WbtcUsdcFlow';
 import { DaiMkrFlow } from 'containers/main/DaiMkrFlow';
+import { DaiEthFlow } from 'containers/main/DaiEthFlow';
+import { EthDaiFlow } from 'containers/main/EthDaiFlow';
 import { MkrDaiFlow } from 'containers/main/MkrDaiFlow';
 import { CoinsList } from 'components/layout/CoinsList';
 import styles from './styles.module.scss';
@@ -47,6 +49,8 @@ export const MainPage: React.FC = () => {
     usdcWbtcFlowQuery,
     wethUsdcFlowQuery,
     wbtcUsdcFlowQuery,
+    daiEthFlowQuery,
+    ethDaiFlowQuery,
     isLoadingMkrDowngrade,
     isLoadingMkrUpgrade,
     isLoadingDaiDowngrade,
@@ -57,6 +61,8 @@ export const MainPage: React.FC = () => {
     isLoadingWbtcUpgrade,
     isLoadingWethDownGrade,
     isLoadingWethUpgrade,
+    isLoadingDaiEthFlow,
+    isLoadingEthDaiFlow,
     isLoadingDaiMkrFlow,
     isLoadingMkrDaiFlow,
     isLoadingUsdcWbtcFlow,
@@ -91,6 +97,20 @@ export const MainPage: React.FC = () => {
           flowsOwned={mkrDaiFlowQuery?.flowsOwned}
           placeholder={mkrDaiFlowQuery?.placeholder}
           isLoading={isLoadingMkrDaiFlow}
+        />
+        <DaiEthFlow
+          balance={balances && balances[DAIxAddress]}
+          totalFlows={daiEthFlowQuery?.totalFlows}
+          flowsOwned={daiEthFlowQuery?.flowsOwned}
+          placeholder={daiEthFlowQuery?.placeholder}
+          isLoading={isLoadingDaiEthFlow}
+        />
+        <EthDaiFlow
+          balance={balances && balances[WETHxAddress]}
+          totalFlows={ethDaiFlowQuery?.totalFlows}
+          flowsOwned={ethDaiFlowQuery?.flowsOwned}
+          placeholder={ethDaiFlowQuery?.placeholder}
+          isLoading={isLoadingEthDaiFlow}
         />
         <UsdcWethFlow
           balance={balances && balances[USDCxAddress]}

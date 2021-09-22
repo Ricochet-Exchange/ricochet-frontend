@@ -18,4 +18,6 @@ export const wbtcxUsdcxExchangeAddress = "0x71f649EB05AA48cF8d92328D1C486B7d9fDb
 export const usdcxWethxExchangeAddress = "0x8082Ab2f4E220dAd92689F3682F3e7a42b206B42"
 export const usdcxWbtcxExchangeAddress = "0xe0A0ec8dee2f73943A6b731a2e11484916f45D44"
 export const daixMkrxExchangeAddress = "0x47de4Fd666373Ca4A793e2E0e7F995Ea7D3c9A29"
+export const daixEthxExchangeAddress = "0x9BEf427fa1fF5269b824eeD9415F7622b81244f5"
+export const ethxDaixExchangeAddress = "0x0A70Fbb45bc8c70fb94d8678b92686Bb69dEA3c3"
 export const mkrxDaixExchangeAddress = "0x94e5b18309066dd1E5aE97628afC9d4d7EB58161"

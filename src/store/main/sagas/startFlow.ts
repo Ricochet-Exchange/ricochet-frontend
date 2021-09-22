@@ -5,7 +5,7 @@ import {
   MKRxAddress, mkrxDaixExchangeAddress,
   DAIxAddress, daixMkrxExchangeAddress,
   USDCxAddress, usdcxWethxExchangeAddress,
-  WETHxAddress, wethxUsdcxExchangeAddress,
+  WETHxAddress, wethxUsdcxExchangeAddress, daixEthxExchangeAddress, ethxDaixExchangeAddress,
   WBTCxAddress, usdcxWbtcxExchangeAddress, wbtcxUsdcxExchangeAddress,
 } from 'constants/polygon_config';
 import { call, put } from 'redux-saga/effects';
@@ -16,6 +16,8 @@ import { sweepQueryFlow } from './sweepQueryFlow';
 import {
   daiMkrStartFlow,
   mkrDaiStartFlow,
+  daiEthStartFlow,
+  ethDaiStartFlow,
   usdcWethStartFlow,
   wethUsdcStartFlow,
   wbtcUsdcStartFlow,
@@ -170,5 +172,55 @@ export function* mkrDaiStartFlowSaga({ payload }: ReturnType<typeof mkrDaiStartF
     payload.callback(error);
   } finally {
     yield put(mainSetState({ isLoadingMkrDaiFlow: false }));
+  }
+}
+
+export function* daiEthStartFlowSaga({ payload }: ReturnType<typeof daiEthStartFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingDaiEthFlow: true }));
+    const idaContract: Unwrap<typeof getContract> = yield call(
+      getContract,
+      idaAddress,
+      idaABI,
+    );
+    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+    yield call(startFlow,
+      idaContract,
+      daixEthxExchangeAddress,
+      DAIxAddress,
+      WETHxAddress,
+      normalizedAmount);
+    payload.callback();
+    yield call(sweepQueryFlow);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingDaiEthFlow: false }));
+  }
+}
+
+export function* ethDaiStartFlowSaga({ payload }: ReturnType<typeof ethDaiStartFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingEthDaiFlow: true }));
+    const idaContract: Unwrap<typeof getContract> = yield call(
+      getContract,
+      idaAddress,
+      idaABI,
+    );
+    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+    yield call(startFlow,
+      idaContract,
+      ethxDaixExchangeAddress,
+      WETHxAddress,
+      DAIxAddress,
+      normalizedAmount);
+    payload.callback();
+    yield call(sweepQueryFlow);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingEthDaiFlow: false }));
   }
 }
