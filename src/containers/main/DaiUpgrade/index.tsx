@@ -1,4 +1,4 @@
-import React, { useState, useCallback, ChangeEvent } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Card } from 'components/layout/Card';
 import { UpgradeForm } from 'components/main/UpgradeForm';
 import { useDispatch } from 'react-redux';
@@ -29,11 +29,11 @@ export const DaiUpgrade: React.FC<Props> = ({
     }
   }, [setDai]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleAmount = (amount: string) => {
     if (error) {
       setError('');
     }
-    setDai(e.target.value);
+    setDai(amount);
   };
 
   const handleonApprove = useCallback(() => {
@@ -58,12 +58,13 @@ export const DaiUpgrade: React.FC<Props> = ({
       <>
         <UpgradeForm
           value={dai}
-          onChange={handleChange}
+          onAmount={handleAmount}
           onApprove={handleonApprove}
           onUpgrade={handleonUpgrade}
           disabledApprove={hasDaiApprove}
           disabledUpgrade={!hasDaiApprove}
           error={error}
+          balance={balance}
         />
         <BalanceText text={`Your DAI Balance: ${balance}`} />
       </>

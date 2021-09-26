@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Card } from 'components/layout/Card';
 import { DowngradeForm } from 'components/main/DowngradeForm';
 import { useDispatch } from 'react-redux';
@@ -24,11 +24,11 @@ export const WethDowngrade: React.FC<Props> = ({ balance = '', isLoading }) => {
     }
   }, [setWeth]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (error) { 
+  const handleAmount = (amount: string) => {
+    if (error) {
       setError('');
     }
-    setWeth(e.target.value);
+    setWeth(amount);
   };
 
   const handleClick = useCallback(() => { 
@@ -46,9 +46,10 @@ export const WethDowngrade: React.FC<Props> = ({ balance = '', isLoading }) => {
       <>
         <DowngradeForm 
           value={weth} 
-          onChange={handleChange} 
+          onAmount={handleAmount}
           onClick={handleClick}
           error={error}
+          balance={balance}
         />
         <BalanceText text={`Your WETHx Balance: ${balance}`} />
       </>

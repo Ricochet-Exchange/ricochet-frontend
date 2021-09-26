@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { DowngradeForm } from 'components/main/DowngradeForm';
 import { Card } from 'components/layout/Card';
 import { useDispatch } from 'react-redux';
@@ -27,11 +27,11 @@ export const MkrDowngrade: React.FC<Props> = ({
     }
   }, [setMkr]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleAmount = (amount: string) => {
     if (error) {
       setError('');
     }
-    setMkr(e.target.value);
+    setMkr(amount);
   };
 
   const handleClick = useCallback(() => {
@@ -49,9 +49,10 @@ export const MkrDowngrade: React.FC<Props> = ({
       <>
         <DowngradeForm
           value={mkr}
-          onChange={handleChange}
+          onAmount={handleAmount}
           onClick={handleClick}
           error={error}
+          balance={balance}
         />
         <BalanceText text={`Your MKRx Balance: ${balance}`} />
       </>

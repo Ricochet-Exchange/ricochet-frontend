@@ -1,4 +1,4 @@
-import React, { useState, useCallback, ChangeEvent } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Card } from 'components/layout/Card';
 import { UpgradeForm } from 'components/main/UpgradeForm';
 import { useDispatch } from 'react-redux';
@@ -29,11 +29,11 @@ export const UsdcUpgrade: React.FC<Props> = ({
     }
   }, [setUsdc]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (error) { 
+  const handleAmount = (amount: string) => {
+    if (error) {
       setError('');
     }
-    setUsdc(e.target.value);
+    setUsdc(amount);
   };
 
   const handleonApprove = useCallback(() => {
@@ -58,12 +58,13 @@ export const UsdcUpgrade: React.FC<Props> = ({
       <>
         <UpgradeForm
           value={usdc}
-          onChange={handleChange}
+          onAmount={handleAmount}
           onApprove={handleonApprove}
           onUpgrade={handleonUpgrade}
           disabledApprove={hasUsdcApprove}
           disabledUpgrade={!hasUsdcApprove}
           error={error}
+          balance={balance}
         />
         <BalanceText text={`Your USDC Balance: ${balance}`} />
       </>

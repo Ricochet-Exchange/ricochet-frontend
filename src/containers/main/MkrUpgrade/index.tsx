@@ -1,4 +1,4 @@
-import React, { useState, useCallback, ChangeEvent } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Card } from 'components/layout/Card';
 import { UpgradeForm } from 'components/main/UpgradeForm';
 import { useDispatch } from 'react-redux';
@@ -29,11 +29,11 @@ export const MkrUpgrade: React.FC<Props> = ({
     }
   }, [setMkr]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleAmount = (amount: string) => {
     if (error) {
       setError('');
     }
-    setMkr(e.target.value);
+    setMkr(amount);
   };
 
   const handleonApprove = useCallback(() => {
@@ -58,12 +58,13 @@ export const MkrUpgrade: React.FC<Props> = ({
       <>
         <UpgradeForm
           value={mkr}
-          onChange={handleChange}
+          onAmount={handleAmount}
           onApprove={handleonApprove}
           onUpgrade={handleonUpgrade}
           disabledApprove={hasMkrApprove}
           disabledUpgrade={!hasMkrApprove}
           error={error}
+          balance={balance}
         />
         <BalanceText text={`Your MKR Balance: ${balance}`} />
       </>
