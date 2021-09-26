@@ -36,7 +36,7 @@ export const DowngradeForm: React.FC<Props> = ({
         // partial balance
         const balanceBN = web3.utils.toBN(web3.utils.toWei(balance));
         const percent = balanceBN.div(web3.utils.toBN(100));
-        const amount = web3.utils.fromWei(percent.mul(web3.utils.toBN(1)));
+        const amount = web3.utils.fromWei(percent.mul(web3.utils.toBN(99)));
         onAmount(amount);
       }
       return true;

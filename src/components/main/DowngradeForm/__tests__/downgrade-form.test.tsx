@@ -21,7 +21,7 @@ test('Max button', async () => {
     fireEvent.click(maxButton);
     expect(maxButton).toHaveTextContent('MAX(100%)');
     expect(maxButton).toBeEnabled();
-    expect(props.onAmount).toHaveBeenCalledWith('11.1111');
+    expect(props.onAmount).toHaveBeenCalledWith('1099.9989');
     fireEvent.click(maxButton);
     expect(maxButton).toBeDisabled()
     expect(props.onAmount).toHaveBeenCalledWith('1111.11');
