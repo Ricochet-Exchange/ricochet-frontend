@@ -36,3 +36,18 @@
   height: 10px;
   font-size: 10px;
 }
+
+.warning-alert {
+  display: flex;
+  color: #023d82;
+  font-weight: bold;
+  font-size: small;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  align-items: center;
+}
+
+.warning-alert img {
+  width: 2rem;
+  margin-right: 0.5rem;
+}

@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Button } from 'components/common/Button';
 import { Input } from 'components/common/Input';
-import web3 from 'utils/web3instance';
 import styles from './styles.module.scss';
+import WarningIcon from '../../../assets/images/error_circle_warning_icon.svg';
 
 type Props = {
   value: string;
@@ -19,28 +19,14 @@ export const DowngradeForm: React.FC<Props> = ({
   error,
   balance,
 }) => {
-  const [absoluteMax, setAbsoluteMax] = useState<boolean>(false);
   const [maxed, setMaxed] = useState<boolean>(false);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setAbsoluteMax(false);
     setMaxed(false);
     onAmount(e.target.value);
   };
   const handleMaxAmountClick = () => {
-    setAbsoluteMax((prev) => {
-      if (prev === true) {
-        setMaxed(true);
-        // full balance
-        onAmount(balance);
-      } else {
-        // partial balance
-        const balanceBN = web3.utils.toBN(web3.utils.toWei(balance));
-        const percent = balanceBN.div(web3.utils.toBN(100));
-        const amount = web3.utils.fromWei(percent.mul(web3.utils.toBN(99)));
-        onAmount(amount);
-      }
-      return true;
-    });
+    setMaxed(true);
+    onAmount(balance);
   };
   return (
     <>
@@ -57,14 +43,20 @@ export const DowngradeForm: React.FC<Props> = ({
           disabled={maxed}
           presentation="link"
           onClick={handleMaxAmountClick} 
-          label={absoluteMax ? 'MAX(100%)' : 'MAX(99%)'}
-          title="Downgrade 99% or 100% of your balance (May result in error if there is an outgoing stream)."
+          label="MAX"
         />
         <Button 
           label="Downgrade" 
           onClick={onClick} 
           className={styles.button}
         />
+        {maxed && (
+        <div className={styles['warning-alert']}>
+          <img src={WarningIcon} alt="Warning" />
+          Alert: if you are currently streaming with this token, 
+          downgrading your entire balance puts you at risk of liquidation.
+        </div>
+        )}
       </div>
     </>
   );
