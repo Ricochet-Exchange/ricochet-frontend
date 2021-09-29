@@ -1,10 +1,11 @@
-import React, { useState, ChangeEvent, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Card } from 'components/layout/Card';
 import { DowngradeForm } from 'components/main/DowngradeForm';
 import { useDispatch } from 'react-redux';
 import { wbtcDownGrade } from 'store/main/actionCreators';
 import { BalanceText } from 'components/common/BalanceText';
 import { useToasts } from 'hooks/useToast';
+import { trimPad } from 'utils/balances';
 
 type Props = {
   balance?: string;
@@ -24,11 +25,11 @@ export const WbtcDowngrade: React.FC<Props> = ({ balance = '', isLoading }) => {
     }
   }, [setWbtc]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (error) { 
+  const handleAmount = (amount: string) => {
+    if (error) {
       setError('');
     }
-    setWbtc(e.target.value);
+    setWbtc(amount);
   };
 
   const handleClick = useCallback(() => {
@@ -46,11 +47,12 @@ export const WbtcDowngrade: React.FC<Props> = ({ balance = '', isLoading }) => {
       <>
         <DowngradeForm
           value={wbtc}
-          onChange={handleChange}
+          onAmount={handleAmount}
           onClick={handleClick}
           error={error}
+          balance={balance}
         />
-        <BalanceText text={`Your WBTCx Balance: ${balance}`} />
+        <BalanceText text={`Your WBTCx Balance: ${trimPad(balance, 6)}`} />
       </>
     </Card>
   );

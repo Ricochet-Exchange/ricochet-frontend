@@ -1,10 +1,11 @@
-import React, { useState, ChangeEvent, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { DowngradeForm } from 'components/main/DowngradeForm';
 import { Card } from 'components/layout/Card';
 import { useDispatch } from 'react-redux';
 import { mkrDownGrade } from 'store/main/actionCreators';
 import { BalanceText } from 'components/common/BalanceText';
 import { useToasts } from 'hooks/useToast';
+import { trimPad } from 'utils/balances';
 
 type Props = {
   balance?: string;
@@ -27,11 +28,11 @@ export const MkrDowngrade: React.FC<Props> = ({
     }
   }, [setMkr]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleAmount = (amount: string) => {
     if (error) {
       setError('');
     }
-    setMkr(e.target.value);
+    setMkr(amount);
   };
 
   const handleClick = useCallback(() => {
@@ -49,11 +50,12 @@ export const MkrDowngrade: React.FC<Props> = ({
       <>
         <DowngradeForm
           value={mkr}
-          onChange={handleChange}
+          onAmount={handleAmount}
           onClick={handleClick}
           error={error}
+          balance={balance}
         />
-        <BalanceText text={`Your MKRx Balance: ${balance}`} />
+        <BalanceText text={`Your MKRx Balance: ${trimPad(balance, 6)}`} />
       </>
     </Card>
   );
