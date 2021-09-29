@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { usdcDownGrade } from 'store/main/actionCreators';
 import { BalanceText } from 'components/common/BalanceText';
 import { useToasts } from 'hooks/useToast';
+import { trimPad } from 'utils/balances';
 
 type Props = {
   balance?: string;
@@ -54,7 +55,7 @@ export const UsdcDowngrade: React.FC<Props> = ({
           error={error}
           balance={balance}
         />
-        <BalanceText text={`Your USDCx Balance: ${balance}`} />
+        <BalanceText text={`Your USDCx Balance: ${trimPad(balance, 6)}`} />
       </>
     </Card>
   );

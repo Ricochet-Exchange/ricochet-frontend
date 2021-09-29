@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { mkrApprove, mkrUpgrade } from 'store/main/actionCreators';
 import { BalanceText } from 'components/common/BalanceText';
 import { useToasts } from 'hooks/useToast';
+import { trimPad } from 'utils/balances';
 
 type Props = {
   balance?: string;
@@ -66,7 +67,7 @@ export const MkrUpgrade: React.FC<Props> = ({
           error={error}
           balance={balance}
         />
-        <BalanceText text={`Your MKR Balance: ${balance}`} />
+        <BalanceText text={`Your MKR Balance: ${trimPad(balance, 6)}`} />
       </>
     </Card>
   );

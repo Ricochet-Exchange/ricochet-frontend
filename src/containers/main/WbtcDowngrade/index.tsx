@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { wbtcDownGrade } from 'store/main/actionCreators';
 import { BalanceText } from 'components/common/BalanceText';
 import { useToasts } from 'hooks/useToast';
+import { trimPad } from 'utils/balances';
 
 type Props = {
   balance?: string;
@@ -51,7 +52,7 @@ export const WbtcDowngrade: React.FC<Props> = ({ balance = '', isLoading }) => {
           error={error}
           balance={balance}
         />
-        <BalanceText text={`Your WBTCx Balance: ${balance}`} />
+        <BalanceText text={`Your WBTCx Balance: ${trimPad(balance, 6)}`} />
       </>
     </Card>
   );

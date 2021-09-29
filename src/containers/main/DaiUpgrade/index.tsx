@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { daiApprove, daiUpgrade } from 'store/main/actionCreators';
 import { BalanceText } from 'components/common/BalanceText';
 import { useToasts } from 'hooks/useToast';
+import { trimPad } from 'utils/balances';
 
 type Props = {
   balance?: string;
@@ -66,7 +67,7 @@ export const DaiUpgrade: React.FC<Props> = ({
           error={error}
           balance={balance}
         />
-        <BalanceText text={`Your DAI Balance: ${balance}`} />
+        <BalanceText text={`Your DAI Balance: ${trimPad(balance, 6)}`} />
       </>
     </Card>
   );
