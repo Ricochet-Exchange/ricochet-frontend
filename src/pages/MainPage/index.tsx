@@ -14,6 +14,8 @@ import {
   USDCAddress, USDCxAddress, RICAddress,
   DAIAddress, DAIxAddress,
   MKRAddress, MKRxAddress,
+  // MATICAddress, 
+  MATICxAddress,
   WETHAddress, WETHxAddress,
   WBTCAddress, WBTCxAddress,
 } from 'constants/polygon_config';
@@ -26,10 +28,16 @@ import { UsdcWethFlow } from 'containers/main/UsdcWethFlow';
 import { UsdcWbtcFlow } from 'containers/main/UsdcWbtcFlow';
 import { WethUsdcFlow } from 'containers/main/WethUsdcFlow';
 import { WbtcUsdcFlow } from 'containers/main/WbtcUsdcFlow';
-import { DaiMkrFlow } from 'containers/main/DaiMkrFlow';
 import { DaiEthFlow } from 'containers/main/DaiEthFlow';
 import { EthDaiFlow } from 'containers/main/EthDaiFlow';
+import { DaiMkrFlow } from 'containers/main/DaiMkrFlow';
 import { MkrDaiFlow } from 'containers/main/MkrDaiFlow';
+import { UsdcMkrFlow } from 'containers/main/UsdcMkrFlow';
+import { MkrUsdcFlow } from 'containers/main/MkrUsdcFlow';
+import { DaiMaticFlow } from 'containers/main/DaiMaticFlow';
+import { MaticDaiFlow } from 'containers/main/MaticDaiFlow';
+import { UsdcMaticFlow } from 'containers/main/UsdcMaticFlow';
+import { MaticUsdcFlow } from 'containers/main/MaticUsdcFlow';
 import { CoinsList } from 'components/layout/CoinsList';
 import styles from './styles.module.scss';
 
@@ -45,6 +53,12 @@ export const MainPage: React.FC = () => {
     hasWbtcApprove,
     daiMkrFlowQuery,
     mkrDaiFlowQuery,
+    usdcMkrFlowQuery,
+    mkrUsdcFlowQuery,
+    daiMaticFlowQuery,
+    maticDaiFlowQuery,
+    usdcMaticFlowQuery,
+    maticUsdcFlowQuery,
     usdcWethFlowQuery,
     usdcWbtcFlowQuery,
     wethUsdcFlowQuery,
@@ -65,6 +79,12 @@ export const MainPage: React.FC = () => {
     isLoadingEthDaiFlow,
     isLoadingDaiMkrFlow,
     isLoadingMkrDaiFlow,
+    isLoadingUsdcMkrFlow,
+    isLoadingMkrUsdcFlow,
+    isLoadingDaiMaticFlow,
+    isLoadingMaticDaiFlow,
+    isLoadingUsdcMaticFlow,
+    isLoadingMaticUsdcFlow,
     isLoadingUsdcWbtcFlow,
     isLoadingUsdcWethFlow,
     isLoadingWbtcFlow,
@@ -84,6 +104,34 @@ export const MainPage: React.FC = () => {
         />
       </div>
       <div className={styles.list}>
+        <DaiMaticFlow
+          balance={balances && balances[DAIxAddress]}
+          totalFlows={daiMaticFlowQuery?.totalFlows}
+          flowsOwned={daiMaticFlowQuery?.flowsOwned}
+          placeholder={daiMaticFlowQuery?.placeholder}
+          isLoading={isLoadingDaiMaticFlow}
+        />
+        <MaticDaiFlow
+          balance={balances && balances[MATICxAddress]}
+          totalFlows={maticDaiFlowQuery?.totalFlows}
+          flowsOwned={maticDaiFlowQuery?.flowsOwned}
+          placeholder={maticDaiFlowQuery?.placeholder}
+          isLoading={isLoadingMaticDaiFlow}
+        />
+        <UsdcMaticFlow
+          balance={balances && balances[USDCxAddress]}
+          totalFlows={usdcMaticFlowQuery?.totalFlows}
+          flowsOwned={usdcMaticFlowQuery?.flowsOwned}
+          placeholder={usdcMaticFlowQuery?.placeholder}
+          isLoading={isLoadingUsdcMaticFlow}
+        />
+        <MaticUsdcFlow
+          balance={balances && balances[MATICxAddress]}
+          totalFlows={maticUsdcFlowQuery?.totalFlows}
+          flowsOwned={maticUsdcFlowQuery?.flowsOwned}
+          placeholder={maticUsdcFlowQuery?.placeholder}
+          isLoading={isLoadingMaticUsdcFlow}
+        />
         <DaiMkrFlow
           balance={balances && balances[DAIxAddress]}
           totalFlows={daiMkrFlowQuery?.totalFlows}
@@ -97,6 +145,20 @@ export const MainPage: React.FC = () => {
           flowsOwned={mkrDaiFlowQuery?.flowsOwned}
           placeholder={mkrDaiFlowQuery?.placeholder}
           isLoading={isLoadingMkrDaiFlow}
+        />
+        <UsdcMkrFlow
+          balance={balances && balances[USDCxAddress]}
+          totalFlows={usdcMkrFlowQuery?.totalFlows}
+          flowsOwned={usdcMkrFlowQuery?.flowsOwned}
+          placeholder={usdcMkrFlowQuery?.placeholder}
+          isLoading={isLoadingUsdcMkrFlow}
+        />
+        <MkrUsdcFlow
+          balance={balances && balances[MKRxAddress]}
+          totalFlows={mkrUsdcFlowQuery?.totalFlows}
+          flowsOwned={mkrUsdcFlowQuery?.flowsOwned}
+          placeholder={mkrUsdcFlowQuery?.placeholder}
+          isLoading={isLoadingMkrUsdcFlow}
         />
         <DaiEthFlow
           balance={balances && balances[DAIxAddress]}

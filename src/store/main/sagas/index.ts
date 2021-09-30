@@ -30,6 +30,12 @@ import {
   ethDaiStopFlowSaga,
   daiMkrStopFlowSaga,
   mkrDaiStopFlowSaga,
+  usdcMkrStopFlowSaga,
+  mkrUsdcStopFlowSaga,
+  daiMaticStopFlowSaga,
+  maticDaiStopFlowSaga,
+  usdcMaticStopFlowSaga,
+  maticUsdcStopFlowSaga,
   usdcWethStopFlowSaga,
   wethUsdcStopFlowSaga,
   wbtcUsdcStopFlowSaga,
@@ -40,6 +46,12 @@ import {
   ethDaiStartFlowSaga,
   daiMkrStartFlowSaga,
   mkrDaiStartFlowSaga,
+  usdcMkrStartFlowSaga,
+  mkrUsdcStartFlowSaga,
+  daiMaticStartFlowSaga,
+  maticDaiStartFlowSaga,
+  usdcMaticStartFlowSaga,
+  maticUsdcStartFlowSaga,
   usdcWethStartFlowSaga,
   wethUsdcStartFlowSaga,
   wbtcUsdcStartFlowSaga,
@@ -71,6 +83,12 @@ export default function* mainSaga() {
   yield takeLeading(MainActionTypes.WETH_USDC_SUBSCRIPTION, subscriptionWethSaga);
   yield takeLeading(MainActionTypes.DAI_MKR_STOP_FLOW, daiMkrStopFlowSaga);
   yield takeLeading(MainActionTypes.MKR_DAI_STOP_FLOW, mkrDaiStopFlowSaga);
+  yield takeLeading(MainActionTypes.USDC_MKR_STOP_FLOW, usdcMkrStopFlowSaga);
+  yield takeLeading(MainActionTypes.MKR_USDC_STOP_FLOW, mkrUsdcStopFlowSaga);
+  yield takeLeading(MainActionTypes.DAI_MATIC_STOP_FLOW, daiMaticStopFlowSaga);
+  yield takeLeading(MainActionTypes.MATIC_DAI_STOP_FLOW, maticDaiStopFlowSaga);
+  yield takeLeading(MainActionTypes.USDC_MATIC_STOP_FLOW, usdcMaticStopFlowSaga);
+  yield takeLeading(MainActionTypes.MATIC_USDC_STOP_FLOW, maticUsdcStopFlowSaga);
   yield takeLeading(MainActionTypes.DAI_ETH_STOP_FLOW, daiEthStopFlowSaga);
   yield takeLeading(MainActionTypes.ETH_DAI_STOP_FLOW, ethDaiStopFlowSaga);
   yield takeLeading(MainActionTypes.USDC_WETH_STOP_FLOW, usdcWethStopFlowSaga);
@@ -81,6 +99,12 @@ export default function* mainSaga() {
   yield takeLeading(MainActionTypes.ETH_DAI_START_FLOW, ethDaiStartFlowSaga);
   yield takeLeading(MainActionTypes.DAI_MKR_START_FLOW, daiMkrStartFlowSaga);
   yield takeLeading(MainActionTypes.MKR_DAI_START_FLOW, mkrDaiStartFlowSaga);
+  yield takeLeading(MainActionTypes.USDC_MKR_START_FLOW, usdcMkrStartFlowSaga);
+  yield takeLeading(MainActionTypes.MKR_USDC_START_FLOW, mkrUsdcStartFlowSaga);
+  yield takeLeading(MainActionTypes.DAI_MATIC_START_FLOW, daiMaticStartFlowSaga);
+  yield takeLeading(MainActionTypes.MATIC_DAI_START_FLOW, maticDaiStartFlowSaga);
+  yield takeLeading(MainActionTypes.USDC_MATIC_START_FLOW, usdcMaticStartFlowSaga);
+  yield takeLeading(MainActionTypes.MATIC_USDC_START_FLOW, maticUsdcStartFlowSaga);
   yield takeLeading(MainActionTypes.USDC_WETH_START_FLOW, usdcWethStartFlowSaga);
   yield takeLeading(MainActionTypes.USDC_WBTC_START_FLOW, usdcWbtcStartFlowSaga);
   yield takeLeading(MainActionTypes.WETH_USDC_START_FLOW, wethUsdcStartFlowSaga);

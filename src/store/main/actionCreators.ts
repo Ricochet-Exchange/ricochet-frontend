@@ -171,6 +171,36 @@ export const mkrDaiStopFlow = (callback: (e?: string) => void) => ({
   payload: { callback },
 });
 
+export const usdcMkrStopFlow = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.USDC_MKR_STOP_FLOW,
+  payload: { callback },
+});
+
+export const maticUsdcStopFlow = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.MKR_USDC_STOP_FLOW,
+  payload: { callback },
+});
+
+export const daiMaticStopFlow = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.DAI_MATIC_STOP_FLOW,
+  payload: { callback },
+});
+
+export const maticDaiStopFlow = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.MATIC_DAI_STOP_FLOW,
+  payload: { callback },
+});
+
+export const usdcMaticStopFlow = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.USDC_MATIC_STOP_FLOW,
+  payload: { callback },
+});
+
+export const mkrUsdcStopFlow = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.MATIC_USDC_STOP_FLOW,
+  payload: { callback },
+});
+
 export const usdcWbtcStopFlow = (callback: (e?: string) => void) => ({
   type: MainActionTypes.USDC_WBTC_STOP_FLOW,
   payload: { callback },
@@ -215,6 +245,54 @@ export const mkrDaiStartFlow = (
   callback: (e?: string) => void,
 ) => ({
   type: MainActionTypes.MKR_DAI_START_FLOW,
+  payload: { amount: payload, callback },
+});
+
+export const usdcMkrStartFlow = (
+  payload: string,
+  callback: (e?: string) => void,
+) => ({
+  type: MainActionTypes.USDC_MKR_START_FLOW,
+  payload: { amount: payload, callback },
+});
+
+export const mkrUsdcStartFlow = (
+  payload: string,
+  callback: (e?: string) => void,
+) => ({
+  type: MainActionTypes.MKR_USDC_START_FLOW,
+  payload: { amount: payload, callback },
+});
+
+export const daiMaticStartFlow = (
+  payload: string,
+  callback: (e?: string) => void,
+) => ({
+  type: MainActionTypes.DAI_MATIC_START_FLOW,
+  payload: { amount: payload, callback },
+});
+
+export const maticDaiStartFlow = (
+  payload: string,
+  callback: (e?: string) => void,
+) => ({
+  type: MainActionTypes.MATIC_DAI_START_FLOW,
+  payload: { amount: payload, callback },
+});
+
+export const usdcMaticStartFlow = (
+  payload: string,
+  callback: (e?: string) => void,
+) => ({
+  type: MainActionTypes.USDC_MATIC_START_FLOW,
+  payload: { amount: payload, callback },
+});
+
+export const maticUsdcStartFlow = (
+  payload: string,
+  callback: (e?: string) => void,
+) => ({
+  type: MainActionTypes.MATIC_USDC_START_FLOW,
   payload: { amount: payload, callback },
 });
 

@@ -6,8 +6,15 @@ import {
   usdcxWbtcxExchangeAddress,
   daixMkrxExchangeAddress,
   mkrxDaixExchangeAddress,
+  usdcxMkrxExchangeAddress,
+  mkrxUsdcxExchangeAddress,
+  daixMaticxExchangeAddress,
+  maticxDaixExchangeAddress,
+  usdcxMaticxExchangeAddress,
+  maticxUsdcxExchangeAddress,
   daixEthxExchangeAddress,
   ethxDaixExchangeAddress,
+  MATICxAddress,
   MKRxAddress,
   DAIxAddress,
   USDCxAddress,
@@ -33,6 +40,12 @@ export function* sweepQueryFlow() {
     call(queryFlows, mkrxDaixExchangeAddress),
     call(queryFlows, daixEthxExchangeAddress),
     call(queryFlows, ethxDaixExchangeAddress),
+    call(queryFlows, usdcxMkrxExchangeAddress),
+    call(queryFlows, mkrxUsdcxExchangeAddress),
+    call(queryFlows, daixMaticxExchangeAddress),
+    call(queryFlows, maticxDaixExchangeAddress),
+    call(queryFlows, usdcxMaticxExchangeAddress),
+    call(queryFlows, maticxUsdcxExchangeAddress),
   ]);
   const flows: { [key:string]: { flowsOwned: Flow[], flowsReceived: Flow[] } } = {};
 
@@ -43,7 +56,13 @@ export function* sweepQueryFlow() {
     daixMkrxExchangeAddress,
     mkrxDaixExchangeAddress,
     daixEthxExchangeAddress,
-    ethxDaixExchangeAddress].forEach((el, i) => {
+    ethxDaixExchangeAddress,
+    usdcxMkrxExchangeAddress,
+    mkrxUsdcxExchangeAddress,
+    daixMaticxExchangeAddress,
+    maticxDaixExchangeAddress,
+    usdcxMaticxExchangeAddress,
+    maticxUsdcxExchangeAddress].forEach((el, i) => {
     if (results[i].data.data.account != null) {
       flows[el] = results[i].data.data.account;
     } else {
@@ -57,6 +76,12 @@ export function* sweepQueryFlow() {
   const wbtcUsdcFlows = flows[wbtcxUsdcxExchangeAddress];
   const daiMkrFlows = flows[daixMkrxExchangeAddress];
   const mkrDaiFlows = flows[mkrxDaixExchangeAddress];
+  const usdcMkrFlows = flows[usdcxMkrxExchangeAddress];
+  const mkrUsdcFlows = flows[mkrxUsdcxExchangeAddress];
+  const daiMaticFlows = flows[daixMaticxExchangeAddress];
+  const maticDaiFlows = flows[maticxDaixExchangeAddress];
+  const usdcMaticFlows = flows[usdcxMaticxExchangeAddress];
+  const maticUsdcFlows = flows[maticxUsdcxExchangeAddress];
   const daiEthFlows = flows[daixEthxExchangeAddress];
   const ethDaiFlows = flows[ethxDaixExchangeAddress];
 
@@ -83,6 +108,32 @@ export function* sweepQueryFlow() {
   const mkrDaiflowsReceived = getReceviedFlows(mkrDaiFlows.flowsReceived,
     MKRxAddress, address);
   const mkrDaiPlaceholder = ((mkrDaiflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
+
+  const usdcMkrflowsReceived = getReceviedFlows(usdcMkrFlows.flowsReceived,
+    USDCxAddress, address);
+  const usdcMkrPlaceholder = ((usdcMkrflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
+
+  const mkrUsdcflowsReceived = getReceviedFlows(mkrUsdcFlows.flowsReceived,
+    MKRxAddress, address);
+  const mkrUsdcPlaceholder = ((mkrUsdcflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
+
+  const daiMaticflowsReceived = getReceviedFlows(daiMaticFlows.flowsReceived,
+    DAIxAddress, address);
+  const daiMaticPlaceholder = ((daiMaticflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
+
+  const maticDaiflowsReceived = getReceviedFlows(maticDaiFlows.flowsReceived,
+    MATICxAddress, address);
+  const maticDaiPlaceholder = ((maticDaiflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
+
+  const usdcMaticflowsReceived = getReceviedFlows(usdcMaticFlows.flowsReceived,
+    USDCxAddress, address);
+  const usdcMaticPlaceholder = ((usdcMaticflowsReceived / 10 ** 18) *
+    (30 * 24 * 60 * 60)).toFixed(6);
+
+  const maticUsdcflowsReceived = getReceviedFlows(maticUsdcFlows.flowsReceived,
+    MATICxAddress, address);
+  const maticUsdcPlaceholder = ((maticUsdcflowsReceived / 10 ** 18) *
+    (30 * 24 * 60 * 60)).toFixed(6);
 
   const daiEthflowsReceived = getReceviedFlows(daiEthFlows.flowsReceived,
     DAIxAddress, address);
@@ -134,6 +185,48 @@ export function* sweepQueryFlow() {
     placeholder: mkrDaiPlaceholder,
   };
 
+  const usdcMkrFlowQuery = {
+    flowsReceived: usdcMkrflowsReceived,
+    flowsOwned: getOwnedFlows(usdcMkrFlows.flowsReceived, USDCxAddress),
+    totalFlows: usdcMkrFlows.flowsReceived.length,
+    placeholder: usdcMkrPlaceholder,
+  };
+
+  const mkrUsdcFlowQuery = {
+    flowsReceived: mkrUsdcflowsReceived,
+    flowsOwned: getOwnedFlows(mkrUsdcFlows.flowsReceived, MKRxAddress),
+    totalFlows: mkrUsdcFlows.flowsReceived.length,
+    placeholder: mkrUsdcPlaceholder,
+  };
+
+  const daiMaticFlowQuery = {
+    flowsReceived: daiMaticflowsReceived,
+    flowsOwned: getOwnedFlows(daiMaticFlows.flowsReceived, DAIxAddress),
+    totalFlows: daiMaticFlows.flowsReceived.length,
+    placeholder: daiMaticPlaceholder,
+  };
+
+  const maticDaiFlowQuery = {
+    flowsReceived: maticDaiflowsReceived,
+    flowsOwned: getOwnedFlows(maticDaiFlows.flowsReceived, MATICxAddress),
+    totalFlows: maticDaiFlows.flowsReceived.length,
+    placeholder: maticDaiPlaceholder,
+  };
+
+  const usdcMaticFlowQuery = {
+    flowsReceived: usdcMaticflowsReceived,
+    flowsOwned: getOwnedFlows(usdcMaticFlows.flowsReceived, USDCxAddress),
+    totalFlows: usdcMaticFlows.flowsReceived.length,
+    placeholder: usdcMaticPlaceholder,
+  };
+
+  const maticUsdcFlowQuery = {
+    flowsReceived: maticUsdcflowsReceived,
+    flowsOwned: getOwnedFlows(maticUsdcFlows.flowsReceived, MATICxAddress),
+    totalFlows: maticUsdcFlows.flowsReceived.length,
+    placeholder: maticUsdcPlaceholder,
+  };
+
   const daiEthFlowQuery = {
     flowsReceived: daiEthflowsReceived,
     flowsOwned: getOwnedFlows(daiEthFlows.flowsReceived, DAIxAddress),
@@ -153,6 +246,12 @@ export function* sweepQueryFlow() {
     ethDaiFlowQuery,
     daiMkrFlowQuery,
     mkrDaiFlowQuery,
+    usdcMkrFlowQuery,
+    mkrUsdcFlowQuery,
+    daiMaticFlowQuery,
+    maticDaiFlowQuery,
+    usdcMaticFlowQuery,
+    maticUsdcFlowQuery,
     usdcWethFlowQuery,
     usdcWbtcFlowQuery,
     wethUsdcFlowQuery,

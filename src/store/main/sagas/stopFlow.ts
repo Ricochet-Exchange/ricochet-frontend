@@ -1,9 +1,11 @@
 import { stopFlow } from 'api/ethereum';
 import {
   MKRxAddress, mkrxDaixExchangeAddress,
-  DAIxAddress, daixMkrxExchangeAddress, daixEthxExchangeAddress, ethxDaixExchangeAddress,
-  USDCxAddress, usdcxWethxExchangeAddress,
-  WETHxAddress, wethxUsdcxExchangeAddress,
+  DAIxAddress, daixMkrxExchangeAddress,
+  USDCxAddress, usdcxWethxExchangeAddress, usdcxMkrxExchangeAddress, mkrxUsdcxExchangeAddress,
+  MATICxAddress, maticxDaixExchangeAddress, maticxUsdcxExchangeAddress,
+  usdcxMaticxExchangeAddress, daixMaticxExchangeAddress,
+  WETHxAddress, wethxUsdcxExchangeAddress, daixEthxExchangeAddress, ethxDaixExchangeAddress,
   WBTCxAddress, usdcxWbtcxExchangeAddress, wbtcxUsdcxExchangeAddress,
 } from 'constants/polygon_config';
 import { call, put } from 'redux-saga/effects';
@@ -11,6 +13,12 @@ import { transformError } from 'utils/transformError';
 import {
   daiMkrStopFlow,
   mkrDaiStopFlow,
+  usdcMkrStopFlow,
+  mkrUsdcStopFlow,
+  daiMaticStopFlow,
+  maticDaiStopFlow,
+  usdcMaticStopFlow,
+  maticUsdcStopFlow,
   daiEthStopFlow,
   ethDaiStopFlow,
   usdcWethStopFlow,
@@ -105,6 +113,34 @@ export function* mkrDaiStopFlowSaga({ payload }: ReturnType<typeof mkrDaiStopFlo
   }
 }
 
+export function* usdcMkrStopFlowSaga({ payload }: ReturnType<typeof usdcMkrStopFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingUsdcMkrFlow: true }));
+    yield call(stopFlow, usdcxMkrxExchangeAddress, USDCxAddress);
+    yield call(sweepQueryFlow);
+    payload.callback();
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingUsdcMkrFlow: false }));
+  }
+}
+
+export function* mkrUsdcStopFlowSaga({ payload }: ReturnType<typeof mkrUsdcStopFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingMkrUsdcFlow: true }));
+    yield call(stopFlow, mkrxUsdcxExchangeAddress, MKRxAddress);
+    yield call(sweepQueryFlow);
+    payload.callback();
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingMkrUsdcFlow: false }));
+  }
+}
+
 export function* daiEthStopFlowSaga({ payload }: ReturnType<typeof daiEthStopFlow>) {
   try {
     yield put(mainSetState({ isLoadingDaiEthFlow: true }));
@@ -130,5 +166,61 @@ export function* ethDaiStopFlowSaga({ payload }: ReturnType<typeof ethDaiStopFlo
     payload.callback(error);
   } finally {
     yield put(mainSetState({ isLoadingEthDaiFlow: false }));
+  }
+}
+
+export function* daiMaticStopFlowSaga({ payload }: ReturnType<typeof daiMaticStopFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingDaiMaticFlow: true }));
+    yield call(stopFlow, daixMaticxExchangeAddress, DAIxAddress);
+    yield call(sweepQueryFlow);
+    payload.callback();
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingDaiMaticFlow: false }));
+  }
+}
+
+export function* maticDaiStopFlowSaga({ payload }: ReturnType<typeof maticDaiStopFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingMaticDaiFlow: true }));
+    yield call(stopFlow, maticxDaixExchangeAddress, MATICxAddress);
+    yield call(sweepQueryFlow);
+    payload.callback();
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingMaticDaiFlow: false }));
+  }
+}
+
+export function* usdcMaticStopFlowSaga({ payload }: ReturnType<typeof usdcMaticStopFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingUsdcMaticFlow: true }));
+    yield call(stopFlow, usdcxMaticxExchangeAddress, USDCxAddress);
+    yield call(sweepQueryFlow);
+    payload.callback();
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingUsdcMaticFlow: false }));
+  }
+}
+
+export function* maticUsdcStopFlowSaga({ payload }: ReturnType<typeof maticUsdcStopFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingMaticUsdcFlow: true }));
+    yield call(stopFlow, maticxUsdcxExchangeAddress, MATICxAddress);
+    yield call(sweepQueryFlow);
+    payload.callback();
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingMaticUsdcFlow: false }));
   }
 }

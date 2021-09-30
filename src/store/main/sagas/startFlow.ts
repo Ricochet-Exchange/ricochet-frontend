@@ -4,7 +4,9 @@ import {
   idaAddress,
   MKRxAddress, mkrxDaixExchangeAddress,
   DAIxAddress, daixMkrxExchangeAddress,
-  USDCxAddress, usdcxWethxExchangeAddress,
+  USDCxAddress, usdcxWethxExchangeAddress, usdcxMkrxExchangeAddress, mkrxUsdcxExchangeAddress,
+  MATICxAddress, maticxDaixExchangeAddress, maticxUsdcxExchangeAddress,
+  usdcxMaticxExchangeAddress, daixMaticxExchangeAddress,
   WETHxAddress, wethxUsdcxExchangeAddress, daixEthxExchangeAddress, ethxDaixExchangeAddress,
   WBTCxAddress, usdcxWbtcxExchangeAddress, wbtcxUsdcxExchangeAddress,
 } from 'constants/polygon_config';
@@ -16,6 +18,12 @@ import { sweepQueryFlow } from './sweepQueryFlow';
 import {
   daiMkrStartFlow,
   mkrDaiStartFlow,
+  usdcMkrStartFlow,
+  mkrUsdcStartFlow,
+  daiMaticStartFlow,
+  maticDaiStartFlow,
+  usdcMaticStartFlow,
+  maticUsdcStartFlow,
   daiEthStartFlow,
   ethDaiStartFlow,
   usdcWethStartFlow,
@@ -175,6 +183,56 @@ export function* mkrDaiStartFlowSaga({ payload }: ReturnType<typeof mkrDaiStartF
   }
 }
 
+export function* usdcMkrStartFlowSaga({ payload }: ReturnType<typeof usdcMkrStartFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingUsdcMkrFlow: true }));
+    const idaContract: Unwrap<typeof getContract> = yield call(
+      getContract,
+      idaAddress,
+      idaABI,
+    );
+    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+    yield call(startFlow,
+      idaContract,
+      usdcxMkrxExchangeAddress,
+      USDCxAddress,
+      MKRxAddress,
+      normalizedAmount);
+    payload.callback();
+    yield call(sweepQueryFlow);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingUsdcMkrFlow: false }));
+  }
+}
+
+export function* mkrUsdcStartFlowSaga({ payload }: ReturnType<typeof mkrUsdcStartFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingMkrUsdcFlow: true }));
+    const idaContract: Unwrap<typeof getContract> = yield call(
+      getContract,
+      idaAddress,
+      idaABI,
+    );
+    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+    yield call(startFlow,
+      idaContract,
+      mkrxUsdcxExchangeAddress,
+      MKRxAddress,
+      USDCxAddress,
+      normalizedAmount);
+    payload.callback();
+    yield call(sweepQueryFlow);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingMkrUsdcFlow: false }));
+  }
+}
+
 export function* daiEthStartFlowSaga({ payload }: ReturnType<typeof daiEthStartFlow>) {
   try {
     yield put(mainSetState({ isLoadingDaiEthFlow: true }));
@@ -222,5 +280,105 @@ export function* ethDaiStartFlowSaga({ payload }: ReturnType<typeof ethDaiStartF
     payload.callback(error);
   } finally {
     yield put(mainSetState({ isLoadingEthDaiFlow: false }));
+  }
+}
+
+export function* daiMaticStartFlowSaga({ payload }: ReturnType<typeof daiMaticStartFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingDaiMaticFlow: true }));
+    const idaContract: Unwrap<typeof getContract> = yield call(
+      getContract,
+      idaAddress,
+      idaABI,
+    );
+    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+    yield call(startFlow,
+      idaContract,
+      daixMaticxExchangeAddress,
+      DAIxAddress,
+      MATICxAddress,
+      normalizedAmount);
+    payload.callback();
+    yield call(sweepQueryFlow);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingDaiMaticFlow: false }));
+  }
+}
+
+export function* maticDaiStartFlowSaga({ payload }: ReturnType<typeof maticDaiStartFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingMaticDaiFlow: true }));
+    const idaContract: Unwrap<typeof getContract> = yield call(
+      getContract,
+      idaAddress,
+      idaABI,
+    );
+    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+    yield call(startFlow,
+      idaContract,
+      maticxDaixExchangeAddress,
+      MATICxAddress,
+      DAIxAddress,
+      normalizedAmount);
+    payload.callback();
+    yield call(sweepQueryFlow);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingMaticDaiFlow: false }));
+  }
+}
+
+export function* usdcMaticStartFlowSaga({ payload }: ReturnType<typeof usdcMaticStartFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingUsdcMaticFlow: true }));
+    const idaContract: Unwrap<typeof getContract> = yield call(
+      getContract,
+      idaAddress,
+      idaABI,
+    );
+    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+    yield call(startFlow,
+      idaContract,
+      usdcxMaticxExchangeAddress,
+      USDCxAddress,
+      MATICxAddress,
+      normalizedAmount);
+    payload.callback();
+    yield call(sweepQueryFlow);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingUsdcMaticFlow: false }));
+  }
+}
+
+export function* maticUsdcStartFlowSaga({ payload }: ReturnType<typeof maticUsdcStartFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingMaticUsdcFlow: true }));
+    const idaContract: Unwrap<typeof getContract> = yield call(
+      getContract,
+      idaAddress,
+      idaABI,
+    );
+    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+    yield call(startFlow,
+      idaContract,
+      maticxUsdcxExchangeAddress,
+      MATICxAddress,
+      USDCxAddress,
+      normalizedAmount);
+    payload.callback();
+    yield call(sweepQueryFlow);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingMaticUsdcFlow: false }));
   }
 }
