@@ -1,4 +1,5 @@
 import { put, call } from 'redux-saga/effects';
+import { fromWei } from 'utils/balances';
 import {
   USDCxAddress,
   USDCAddress,
@@ -35,11 +36,11 @@ export function* getBalances(address: string) {
   contractsAddress.map((el:string, i:number) => {
     // TODO: Use decimals() method instead of hardcoded
     if (el === WBTCAddress) {
-      balances[el] = (Number(results[i]) / 1e8).toFixed(6);
+      balances[el] = fromWei(results[i], 8);
     } else if (el === USDCAddress) {
-      balances[el] = (Number(results[i]) / 1e6).toFixed(6);
+      balances[el] = fromWei(results[i], 6);
     } else {
-      balances[el] = (Number(results[i]) / 1e18).toFixed(6);
+      balances[el] = fromWei(results[i], 18);
     }
     return null;
   });

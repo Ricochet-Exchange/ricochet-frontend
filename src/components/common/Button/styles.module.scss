@@ -38,3 +38,16 @@ button[disabled]{
 .diagonal:hover:not(:disabled) {
   box-shadow: inset 400px 50px 0 0 #abd2f3;
 }
+.button.link,.button.link:hover {
+  color: #5f8eb9;
+  font-weight: bold;
+  background:none;
+  border: none;
+  box-shadow: none;
+}
+
+.button.link:disabled,
+.button.link[disabled] {
+  color: #b9b9b9;
+  cursor: auto;
+}

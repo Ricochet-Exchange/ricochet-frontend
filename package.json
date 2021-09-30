@@ -48,6 +48,8 @@
     "web3": "1.3.4"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.1.0",
     "@types/classnames": "2.2.10",
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",

@@ -1,10 +1,11 @@
-import React, { useState, ChangeEvent, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { DowngradeForm } from 'components/main/DowngradeForm';
 import { Card } from 'components/layout/Card';
 import { useDispatch } from 'react-redux';
 import { usdcDownGrade } from 'store/main/actionCreators';
 import { BalanceText } from 'components/common/BalanceText';
 import { useToasts } from 'hooks/useToast';
+import { trimPad } from 'utils/balances';
 
 type Props = {
   balance?: string;
@@ -27,11 +28,11 @@ export const UsdcDowngrade: React.FC<Props> = ({
     }
   }, [setUsdc]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (error) { 
+  const handleAmount = (amount: string) => {
+    if (error) {
       setError('');
     }
-    setUsdc(e.target.value);
+    setUsdc(amount);
   };
 
   const handleClick = useCallback(() => {
@@ -49,11 +50,12 @@ export const UsdcDowngrade: React.FC<Props> = ({
       <>
         <DowngradeForm
           value={usdc}
-          onChange={handleChange}
+          onAmount={handleAmount}
           onClick={handleClick}
           error={error}
+          balance={balance}
         />
-        <BalanceText text={`Your USDCx Balance: ${balance}`} />
+        <BalanceText text={`Your USDCx Balance: ${trimPad(balance, 6)}`} />
       </>
     </Card>
   );
