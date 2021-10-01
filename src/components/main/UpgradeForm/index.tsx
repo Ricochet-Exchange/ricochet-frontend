@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, useEffect } from 'react';
 import { Button } from 'components/common/Button';
 import { Input } from 'components/common/Input';
 import styles from './styles.module.scss';
@@ -26,13 +26,15 @@ export const UpgradeForm: React.FC<Props> = ({
 }) => {
   const [maxed, setMaxed] = useState<boolean>(false);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setMaxed(false);
     onAmount(e.target.value);
   };
   const handleMaxAmountClick = () => {
     setMaxed(true);
     onAmount(balance);
   };
+  useEffect(() => {
+    setMaxed(value === balance);
+  }, [value, balance]);
   return (
     <>
       <div className={styles.error}>{error}</div>
