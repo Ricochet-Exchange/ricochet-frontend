@@ -1,5 +1,6 @@
 import { call, all, put } from 'redux-saga/effects';
 import {
+  usdcxRicExchangeAddress,
   wethxUsdcxExchangeAddress,
   wbtcxUsdcxExchangeAddress,
   usdcxWethxExchangeAddress,
@@ -46,6 +47,7 @@ export function* sweepQueryFlow() {
     call(queryFlows, maticxDaixExchangeAddress),
     call(queryFlows, usdcxMaticxExchangeAddress),
     call(queryFlows, maticxUsdcxExchangeAddress),
+    call(queryFlows, usdcxRicExchangeAddress),
   ]);
   const flows: { [key:string]: { flowsOwned: Flow[], flowsReceived: Flow[] } } = {};
 
@@ -62,7 +64,8 @@ export function* sweepQueryFlow() {
     daixMaticxExchangeAddress,
     maticxDaixExchangeAddress,
     usdcxMaticxExchangeAddress,
-    maticxUsdcxExchangeAddress].forEach((el, i) => {
+    maticxUsdcxExchangeAddress,
+    usdcxRicExchangeAddress].forEach((el, i) => {
     if (results[i].data.data.account != null) {
       flows[el] = results[i].data.data.account;
     } else {
@@ -84,6 +87,11 @@ export function* sweepQueryFlow() {
   const maticUsdcFlows = flows[maticxUsdcxExchangeAddress];
   const daiEthFlows = flows[daixEthxExchangeAddress];
   const ethDaiFlows = flows[ethxDaixExchangeAddress];
+  const usdcRicFlows = flows[usdcxRicExchangeAddress];
+
+  const usdcRicFlowsReceived = getReceviedFlows(usdcRicFlows.flowsReceived,
+    USDCxAddress, address);
+  const usdcRicPlaceholder = ((usdcRicFlowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
 
   const usdcWethFlowsReceived = getReceviedFlows(usdcWethFlows.flowsReceived,
     USDCxAddress, address);
@@ -142,6 +150,13 @@ export function* sweepQueryFlow() {
   const ethDaiflowsReceived = getReceviedFlows(ethDaiFlows.flowsReceived,
     WETHxAddress, address);
   const ethDaiPlaceholder = ((ethDaiflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
+
+  const usdcRicFlowQuery = {
+    flowsReceived: usdcRicFlowsReceived,
+    flowsOwned: getOwnedFlows(usdcRicFlows.flowsReceived, USDCxAddress),
+    totalFlows: usdcRicFlows.flowsReceived.length,
+    placeholder: usdcRicPlaceholder,
+  };
 
   const usdcWethFlowQuery = {
     flowsReceived: usdcWethFlowsReceived,
@@ -242,6 +257,7 @@ export function* sweepQueryFlow() {
   };
 
   yield put(mainSetState({
+    usdcRicFlowQuery,
     daiEthFlowQuery,
     ethDaiFlowQuery,
     daiMkrFlowQuery,

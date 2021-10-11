@@ -60,6 +60,7 @@ export const MkrUsdcFlow: React.FC<Props> = ({
           className={styles.link}
         >
           {'MKR >> USDC'}
+          <span className={styles.badge}>🚰</span>
         </a>
       )}
       isLoading={isLoading}

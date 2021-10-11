@@ -36,6 +36,7 @@ import {
   maticDaiStopFlowSaga,
   usdcMaticStopFlowSaga,
   maticUsdcStopFlowSaga,
+  usdcRicStopFlowSaga,
   usdcWethStopFlowSaga,
   wethUsdcStopFlowSaga,
   wbtcUsdcStopFlowSaga,
@@ -52,6 +53,7 @@ import {
   maticDaiStartFlowSaga,
   usdcMaticStartFlowSaga,
   maticUsdcStartFlowSaga,
+  usdcRicStartFlowSaga,
   usdcWethStartFlowSaga,
   wethUsdcStartFlowSaga,
   wbtcUsdcStartFlowSaga,
@@ -91,6 +93,7 @@ export default function* mainSaga() {
   yield takeLeading(MainActionTypes.MATIC_USDC_STOP_FLOW, maticUsdcStopFlowSaga);
   yield takeLeading(MainActionTypes.DAI_ETH_STOP_FLOW, daiEthStopFlowSaga);
   yield takeLeading(MainActionTypes.ETH_DAI_STOP_FLOW, ethDaiStopFlowSaga);
+  yield takeLeading(MainActionTypes.USDC_RIC_STOP_FLOW, usdcRicStopFlowSaga);
   yield takeLeading(MainActionTypes.USDC_WETH_STOP_FLOW, usdcWethStopFlowSaga);
   yield takeLeading(MainActionTypes.USDC_WBTC_STOP_FLOW, usdcWbtcStopFlowSaga);
   yield takeLeading(MainActionTypes.WETH_USDC_STOP_FLOW, wethUsdcStopFlowSaga);
@@ -105,6 +108,7 @@ export default function* mainSaga() {
   yield takeLeading(MainActionTypes.MATIC_DAI_START_FLOW, maticDaiStartFlowSaga);
   yield takeLeading(MainActionTypes.USDC_MATIC_START_FLOW, usdcMaticStartFlowSaga);
   yield takeLeading(MainActionTypes.MATIC_USDC_START_FLOW, maticUsdcStartFlowSaga);
+  yield takeLeading(MainActionTypes.USDC_RIC_START_FLOW, usdcRicStartFlowSaga);
   yield takeLeading(MainActionTypes.USDC_WETH_START_FLOW, usdcWethStartFlowSaga);
   yield takeLeading(MainActionTypes.USDC_WBTC_START_FLOW, usdcWbtcStartFlowSaga);
   yield takeLeading(MainActionTypes.WETH_USDC_START_FLOW, wethUsdcStartFlowSaga);

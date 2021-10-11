@@ -1,5 +1,6 @@
 import { stopFlow } from 'api/ethereum';
 import {
+  usdcxRicExchangeAddress,
   MKRxAddress, mkrxDaixExchangeAddress,
   DAIxAddress, daixMkrxExchangeAddress,
   USDCxAddress, usdcxWethxExchangeAddress, usdcxMkrxExchangeAddress, mkrxUsdcxExchangeAddress,
@@ -21,6 +22,7 @@ import {
   maticUsdcStopFlow,
   daiEthStopFlow,
   ethDaiStopFlow,
+  usdcRicStopFlow,
   usdcWethStopFlow,
   usdcWbtcStopFlow,
   wethUsdcStopFlow,
@@ -28,6 +30,20 @@ import {
   mainSetState,
 } from '../actionCreators';
 import { sweepQueryFlow } from './sweepQueryFlow';
+
+export function* usdcRicStopFlowSaga({ payload }: ReturnType<typeof usdcRicStopFlow>) {
+  try {
+    yield put(mainSetState({ isLoadingUsdcRicFlow: true }));
+    yield call(stopFlow, usdcxRicExchangeAddress, USDCxAddress);
+    yield call(sweepQueryFlow);
+    payload.callback();
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingUsdcRicFlow: false }));
+  }
+}
 
 export function* usdcWethStopFlowSaga({ payload }: ReturnType<typeof usdcWethStopFlow>) {
   try {

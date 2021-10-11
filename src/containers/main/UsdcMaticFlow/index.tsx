@@ -35,7 +35,7 @@ export const UsdcMaticFlow: React.FC<Props> = ({
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (error) {
-      setError(''); 
+      setError('');
     }
     setUsdcMatic(e.target.value);
   };
@@ -60,6 +60,7 @@ export const UsdcMaticFlow: React.FC<Props> = ({
           className={styles.link}
         >
           {'USDC >> MATIC'}
+          <span className={styles.badge}>🚰</span>
         </a>
       )}
       isLoading={isLoading}

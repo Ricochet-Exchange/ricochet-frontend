@@ -2,7 +2,7 @@ import React, { useCallback, useState, ChangeEvent } from 'react';
 import { Card } from 'components/layout/Card';
 import { FlowForm } from 'components/main/FlowForm';
 import { useDispatch } from 'react-redux';
-import { usdcWbtcStartFlow, usdcWbtcStopFlow } from 'store/main/actionCreators';
+import { usdcRicStartFlow, usdcRicStopFlow } from 'store/main/actionCreators';
 import { useToasts } from 'hooks/useToast';
 import styles from './styles.module.scss';
 
@@ -14,7 +14,7 @@ type Props = {
   isLoading?: boolean,
 };
 
-export const UsdcWbtcFlow: React.FC<Props> = ({
+export const UsdcRicFlow: React.FC<Props> = ({
   balance,
   flowsOwned,
   totalFlows,
@@ -23,32 +23,32 @@ export const UsdcWbtcFlow: React.FC<Props> = ({
 }) => {
   const dispatch = useDispatch();
   const { showErrorToast } = useToasts();
-  const [usdcWbtc, setUsdcWbtc] = useState('');
+  const [usdcRic, setUsdcRic] = useState('');
   const [error, setError] = useState('');
 
   const callback = useCallback((e?: string) => {
-    setUsdcWbtc('');
+    setUsdcRic('');
     if (e) {
       showErrorToast(e, 'Error');
     }
-  }, [setUsdcWbtc]);
+  }, [setUsdcRic]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (error) {
       setError('');
     }
-    setUsdcWbtc(e.target.value);
+    setUsdcRic(e.target.value);
   };
 
   const handleStart = useCallback(() => {
-    if (!usdcWbtc || Number(usdcWbtc) <= 0) {
+    if (!usdcRic || Number(usdcRic) <= 0) {
       return setError('Enter positive value');
     }
-    dispatch(usdcWbtcStartFlow(usdcWbtc, callback));
-  }, [dispatch, usdcWbtc, callback]);
+    dispatch(usdcRicStartFlow(usdcRic, callback));
+  }, [dispatch, usdcRic, callback]);
 
   const handleStop = useCallback(() => {
-    dispatch(usdcWbtcStopFlow(callback));
+    dispatch(usdcRicStopFlow(callback));
   }, [dispatch, callback]);
 
   return (
@@ -56,11 +56,13 @@ export const UsdcWbtcFlow: React.FC<Props> = ({
       main
       title={(
         <a
-          href="https://polygonscan.com/address/0xe0A0ec8dee2f73943A6b731a2e11484916f45D44"
+          href="https://polygonscan.com/address/0x47de4Fd666373Ca4A793e2E0e7F995Ea7D3c9A29"
           className={styles.link}
         >
-          {'USDC >> WBTC'}
-          <span className={styles.badge}>🚰</span>
+          {'USDC >> RIC'}
+          <span className={styles.badge}>🚀</span>
+          <span className={styles.launch}>Launchpad </span>
+
         </a>
       )}
       isLoading={isLoading}
@@ -72,7 +74,7 @@ export const UsdcWbtcFlow: React.FC<Props> = ({
         flowsOwned={flowsOwned}
         totalFlows={totalFlows}
         token="USDCx"
-        value={usdcWbtc}
+        value={usdcRic}
         onChange={handleChange}
         error={error}
         placeholder={placeholder}

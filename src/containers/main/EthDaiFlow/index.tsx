@@ -60,6 +60,7 @@ export const EthDaiFlow: React.FC<Props> = ({
           className={styles.link}
         >
           {'ETH >> DAI'}
+          <span className={styles.badge}>🚰</span>
         </a>
       )}
       isLoading={isLoading}

@@ -55,7 +55,15 @@ export const UsdcWethFlow: React.FC<Props> = ({
     <Card
       isLoading={isLoading}
       main
-      title={<a href="https://polygonscan.com/address/0x8082Ab2f4E220dAd92689F3682F3e7a42b206B42" className={styles.link}>{'USDC >> ETH'}</a>}
+      title={(
+        <a
+          href="https://polygonscan.com/address/0xe0A0ec8dee2f73943A6b731a2e11484916f45D44"
+          className={styles.link}
+        >
+          {'USDC >> WETH'}
+          <span className={styles.badge}>🚰</span>
+        </a>
+      )}
     >
       <FlowForm
         onStart={handleStart}

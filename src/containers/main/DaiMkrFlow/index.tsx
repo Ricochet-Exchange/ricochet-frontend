@@ -60,6 +60,7 @@ export const DaiMkrFlow: React.FC<Props> = ({
           className={styles.link}
         >
           {'DAI >> MKR'}
+          <span className={styles.badge}>🚰</span>
         </a>
       )}
       isLoading={isLoading}

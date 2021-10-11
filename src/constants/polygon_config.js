@@ -29,3 +29,4 @@ export const usdcxMaticxExchangeAddress = "0xE093D8A4269CE5C91cD9389A0646bAdAB2c
 export const maticxUsdcxExchangeAddress = "0x93D2d0812C9856141B080e9Ef6E97c7A7b342d7F"
 export const daixMaticxExchangeAddress = "0xA152715dF800dB5926598917A6eF3702308bcB7e"
 export const maticxDaixExchangeAddress = "0x250efbB94De68dD165bD6c98e804E08153Eb91c6"
+export const usdcxRicExchangeAddress = "0x98d463A3F29F259E67176482eB15107F364c7E18"

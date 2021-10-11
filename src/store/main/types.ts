@@ -6,6 +6,12 @@ export type MainState = {
   hasMkrApprove?: boolean;
   hasWethApprove?: boolean;
   hasWbtcApprove?: boolean;
+  usdcRicFlowQuery?: {
+    flowsReceived: number,
+    flowsOwned: string,
+    totalFlows: number,
+    placeholder: string,
+  },
   usdcWethFlowQuery?: {
     flowsReceived: number,
     flowsOwned: string,
@@ -100,6 +106,7 @@ export type MainState = {
   isLoadingMkrUsdcFlow: boolean,
   isLoadingDaiMkrFlow: boolean,
   isLoadingMkrDaiFlow: boolean,
+  isLoadingUsdcRicFlow: boolean,
   isLoadingUsdcMaticFlow: boolean,
   isLoadingMaticUsdcFlow: boolean,
   isLoadingDaiMaticFlow: boolean,

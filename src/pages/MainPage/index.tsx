@@ -14,7 +14,6 @@ import {
   USDCAddress, USDCxAddress, RICAddress,
   DAIAddress, DAIxAddress,
   MKRAddress, MKRxAddress,
-  // MATICAddress, 
   MATICxAddress,
   WETHAddress, WETHxAddress,
   WBTCAddress, WBTCxAddress,
@@ -28,6 +27,7 @@ import { UsdcWethFlow } from 'containers/main/UsdcWethFlow';
 import { UsdcWbtcFlow } from 'containers/main/UsdcWbtcFlow';
 import { WethUsdcFlow } from 'containers/main/WethUsdcFlow';
 import { WbtcUsdcFlow } from 'containers/main/WbtcUsdcFlow';
+import { UsdcRicFlow } from 'containers/main/UsdcRicFlow';
 import { DaiEthFlow } from 'containers/main/DaiEthFlow';
 import { EthDaiFlow } from 'containers/main/EthDaiFlow';
 import { DaiMkrFlow } from 'containers/main/DaiMkrFlow';
@@ -51,6 +51,7 @@ export const MainPage: React.FC = () => {
     hasMkrApprove,
     hasWethApprove,
     hasWbtcApprove,
+    usdcRicFlowQuery,
     daiMkrFlowQuery,
     mkrDaiFlowQuery,
     usdcMkrFlowQuery,
@@ -75,6 +76,7 @@ export const MainPage: React.FC = () => {
     isLoadingWbtcUpgrade,
     isLoadingWethDownGrade,
     isLoadingWethUpgrade,
+    isLoadingUsdcRicFlow,
     isLoadingDaiEthFlow,
     isLoadingEthDaiFlow,
     isLoadingDaiMkrFlow,
@@ -104,6 +106,55 @@ export const MainPage: React.FC = () => {
         />
       </div>
       <div className={styles.list}>
+        <UsdcRicFlow
+          balance={balances && balances[USDCxAddress]}
+          totalFlows={usdcRicFlowQuery?.totalFlows}
+          flowsOwned={usdcRicFlowQuery?.flowsOwned}
+          placeholder={usdcRicFlowQuery?.placeholder}
+          isLoading={isLoadingUsdcRicFlow}
+        />
+        <UsdcWethFlow
+          balance={balances && balances[USDCxAddress]}
+          totalFlows={usdcWethFlowQuery?.totalFlows}
+          flowsOwned={usdcWethFlowQuery?.flowsOwned}
+          placeholder={usdcWethFlowQuery?.placeholder}
+          isLoading={isLoadingUsdcWethFlow}
+        />
+        <WethUsdcFlow
+          balance={balances && balances[WETHxAddress]}
+          totalFlows={wethUsdcFlowQuery?.totalFlows}
+          flowsOwned={wethUsdcFlowQuery?.flowsOwned}
+          placeholder={wethUsdcFlowQuery?.placeholder}
+          isLoading={isLoadingWethFlow}
+        />
+        <UsdcWbtcFlow
+          balance={balances && balances[USDCxAddress]}
+          totalFlows={usdcWbtcFlowQuery?.totalFlows}
+          flowsOwned={usdcWbtcFlowQuery?.flowsOwned}
+          placeholder={usdcWbtcFlowQuery?.placeholder}
+          isLoading={isLoadingUsdcWbtcFlow}
+        />
+        <WbtcUsdcFlow
+          balance={balances && balances[WBTCxAddress]}
+          totalFlows={wbtcUsdcFlowQuery?.totalFlows}
+          flowsOwned={wbtcUsdcFlowQuery?.flowsOwned}
+          placeholder={wbtcUsdcFlowQuery?.placeholder}
+          isLoading={isLoadingWbtcFlow}
+        />
+        <DaiEthFlow
+          balance={balances && balances[DAIxAddress]}
+          totalFlows={daiEthFlowQuery?.totalFlows}
+          flowsOwned={daiEthFlowQuery?.flowsOwned}
+          placeholder={daiEthFlowQuery?.placeholder}
+          isLoading={isLoadingDaiEthFlow}
+        />
+        <EthDaiFlow
+          balance={balances && balances[WETHxAddress]}
+          totalFlows={ethDaiFlowQuery?.totalFlows}
+          flowsOwned={ethDaiFlowQuery?.flowsOwned}
+          placeholder={ethDaiFlowQuery?.placeholder}
+          isLoading={isLoadingEthDaiFlow}
+        />
         <DaiMaticFlow
           balance={balances && balances[DAIxAddress]}
           totalFlows={daiMaticFlowQuery?.totalFlows}
@@ -160,52 +211,6 @@ export const MainPage: React.FC = () => {
           placeholder={mkrUsdcFlowQuery?.placeholder}
           isLoading={isLoadingMkrUsdcFlow}
         />
-        <DaiEthFlow
-          balance={balances && balances[DAIxAddress]}
-          totalFlows={daiEthFlowQuery?.totalFlows}
-          flowsOwned={daiEthFlowQuery?.flowsOwned}
-          placeholder={daiEthFlowQuery?.placeholder}
-          isLoading={isLoadingDaiEthFlow}
-        />
-        <EthDaiFlow
-          balance={balances && balances[WETHxAddress]}
-          totalFlows={ethDaiFlowQuery?.totalFlows}
-          flowsOwned={ethDaiFlowQuery?.flowsOwned}
-          placeholder={ethDaiFlowQuery?.placeholder}
-          isLoading={isLoadingEthDaiFlow}
-        />
-        <UsdcWethFlow
-          balance={balances && balances[USDCxAddress]}
-          totalFlows={usdcWethFlowQuery?.totalFlows}
-          flowsOwned={usdcWethFlowQuery?.flowsOwned}
-          placeholder={usdcWethFlowQuery?.placeholder}
-          isLoading={isLoadingUsdcWethFlow}
-        />
-
-        <WethUsdcFlow
-          balance={balances && balances[WETHxAddress]}
-          totalFlows={wethUsdcFlowQuery?.totalFlows}
-          flowsOwned={wethUsdcFlowQuery?.flowsOwned}
-          placeholder={wethUsdcFlowQuery?.placeholder}
-          isLoading={isLoadingWethFlow}
-        />
-
-        <UsdcWbtcFlow
-          balance={balances && balances[USDCxAddress]}
-          totalFlows={usdcWbtcFlowQuery?.totalFlows}
-          flowsOwned={usdcWbtcFlowQuery?.flowsOwned}
-          placeholder={usdcWbtcFlowQuery?.placeholder}
-          isLoading={isLoadingUsdcWbtcFlow}
-        />
-
-        <WbtcUsdcFlow
-          balance={balances && balances[WBTCxAddress]}
-          totalFlows={wbtcUsdcFlowQuery?.totalFlows}
-          flowsOwned={wbtcUsdcFlowQuery?.flowsOwned}
-          placeholder={wbtcUsdcFlowQuery?.placeholder}
-          isLoading={isLoadingWbtcFlow}
-        />
-
         <CoinsList />
         <UsdcUpgrade
           balance={balances && balances[USDCAddress]}

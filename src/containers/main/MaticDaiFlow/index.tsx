@@ -60,6 +60,7 @@ export const MaticDaiFlow: React.FC<Props> = ({
           className={styles.link}
         >
           {'MATIC >> DAI'}
+          <span className={styles.badge}>🚰</span>
         </a>
       )}
       isLoading={isLoading}

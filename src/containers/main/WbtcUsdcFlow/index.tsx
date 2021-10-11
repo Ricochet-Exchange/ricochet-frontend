@@ -54,7 +54,19 @@ export const WbtcUsdcFlow: React.FC<Props> = ({
   };
 
   return (
-    <Card isLoading={isLoading} main title={<a href="https://polygonscan.com/address/0x71f649EB05AA48cF8d92328D1C486B7d9fDbfF6b" className={styles.link}>{'WBTC >> USDC'}</a>}>
+    <Card
+      isLoading={isLoading}
+      main
+      title={(
+        <a
+          href="https://polygonscan.com/address/0xe0A0ec8dee2f73943A6b731a2e11484916f45D44"
+          className={styles.link}
+        >
+          {'WBTC >> USDC'}
+          <span className={styles.badge}>🚰</span>
+        </a>
+      )}
+    >
       <FlowForm
         onStart={handleStart}
         onStop={handleStop}

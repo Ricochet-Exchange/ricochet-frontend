@@ -146,6 +146,11 @@ export const wethUsdcSubscription = () => ({
   type: MainActionTypes.WETH_USDC_SUBSCRIPTION,
 });
 
+export const usdcRicStopFlow = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.USDC_RIC_STOP_FLOW,
+  payload: { callback },
+});
+
 export const usdcWethStopFlow = (callback: (e?: string) => void) => ({
   type: MainActionTypes.USDC_WETH_STOP_FLOW,
   payload: { callback },
@@ -293,6 +298,14 @@ export const maticUsdcStartFlow = (
   callback: (e?: string) => void,
 ) => ({
   type: MainActionTypes.MATIC_USDC_START_FLOW,
+  payload: { amount: payload, callback },
+});
+
+export const usdcRicStartFlow = (
+  payload: string,
+  callback: (e?: string) => void,
+) => ({
+  type: MainActionTypes.USDC_RIC_START_FLOW,
   payload: { amount: payload, callback },
 });
 

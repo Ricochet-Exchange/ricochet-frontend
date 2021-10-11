@@ -60,6 +60,7 @@ export const MaticUsdcFlow: React.FC<Props> = ({
           className={styles.link}
         >
           {'MATIC >> USDC'}
+          <span className={styles.badge}>🚰</span>
         </a>
       )}
       isLoading={isLoading}
