@@ -56,7 +56,7 @@ export const DaiMkrFlow: React.FC<Props> = ({
       main
       title={(
         <a
-          href="https://polygonscan.com/address/0x47de4Fd666373Ca4A793e2E0e7F995Ea7D3c9A29"
+          href="https://docs.ricochet.exchange/docs/network-directory"
           className={styles.link}
         >
           {'DAI >> MKR'}

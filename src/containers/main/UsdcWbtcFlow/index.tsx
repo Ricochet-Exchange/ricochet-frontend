@@ -56,7 +56,7 @@ export const UsdcWbtcFlow: React.FC<Props> = ({
       main
       title={(
         <a
-          href="https://polygonscan.com/address/0xe0A0ec8dee2f73943A6b731a2e11484916f45D44"
+          href="https://docs.ricochet.exchange/docs/network-directory"
           className={styles.link}
         >
           {'USDC >> WBTC'}
