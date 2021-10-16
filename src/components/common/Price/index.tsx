@@ -1,6 +1,6 @@
 import { useEffect, useState, HTMLProps } from "react";
 import { AbiItem } from "web3-utils";
-import ABI from "./abi.json";
+import { getSharePriceFromLaunchPad } from "constants/abis";
 import web3 from "utils/web3instance";
 import { usdcxRicExchangeAddress } from "constants/polygon_config";
 import { fromWei } from 'utils/balances'
@@ -11,7 +11,7 @@ type Props = {
 
 // load abi, create contract instance, get price, normalize price, quicc maths, return
 const getPrice = async (): Promise<string> => {
-  const abi: AbiItem = JSON.parse(JSON.stringify(ABI));
+  const abi = (getSharePriceFromLaunchPad as AbiItem);
   const contract = new web3.eth.Contract(abi, usdcxRicExchangeAddress);
   const price = await contract.methods.getSharePrice().call();
   const normalizedPrice = typeof price === "string" ? price : price.toString();
