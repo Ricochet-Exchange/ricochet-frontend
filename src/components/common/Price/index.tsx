@@ -1,9 +1,9 @@
 import { useEffect, useState, HTMLProps } from "react";
 import { AbiItem } from "web3-utils";
-import BigNumber from "bignumber.js";
 import ABI from "./abi.json";
 import web3 from "utils/web3instance";
 import { usdcxRicExchangeAddress } from "constants/polygon_config";
+import { fromWei } from 'utils/balances'
 
 type Props = {
   // any additional props here
@@ -15,9 +15,7 @@ const getPrice = async (): Promise<string> => {
   const contract = new web3.eth.Contract(abi, usdcxRicExchangeAddress);
   const price = await contract.methods.getSharePrice().call();
   const normalizedPrice = typeof price === "string" ? price : price.toString();
-  return new BigNumber(normalizedPrice)
-    .dividedBy(new BigNumber(10).pow(new BigNumber(18)))
-    .toString();
+  return fromWei(normalizedPrice, 18)
 };
 
 // return null if no price fetched, else return inline element

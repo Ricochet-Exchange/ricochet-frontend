@@ -31,7 +31,6 @@
     "@superfluid-finance/js-sdk": "^0.4.3",
     "@truffle/contract": "^4.3.31",
     "axios": "0.21.1",
-    "bignumber.js": "^9.0.1",
     "classnames": "2.2.6",
     "cross-env": "7.0.3",
     "react": "^17.0.2",
