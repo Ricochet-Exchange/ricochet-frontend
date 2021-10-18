@@ -1,4 +1,3 @@
-// this can be replaced by the full launchpad abi in the future if needbe
 export const launchpadABI = [
   {
     inputs: [
