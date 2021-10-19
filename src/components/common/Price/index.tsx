@@ -16,7 +16,8 @@ const getPrice = async (): Promise<string> => {
   return fromWei(normalizedPrice, 18);
 };
 
-// return null if no price fetched, else return inline element
+// returns inline element, className or style can be directly applied to Price
+// ie: <Price className='price' />
 export default function Price(props: Props) {
   const [price, setPrice] = React.useState('');
 
