@@ -1,8 +1,9 @@
 import React from 'react';
 import { launchpadABI } from 'constants/abis';
 import { usdcxRicExchangeAddress } from 'constants/polygon_config';
-import { fromWei } from 'utils/balances';
+import { fromWei, trimPad } from 'utils/balances';
 import { getContract } from 'utils/getContract';
+import styles from './styles.module.scss';
 
 type Props = {
   // any additional props here
@@ -25,5 +26,5 @@ export default function Price(props: Props) {
     getPrice().then((p) => setPrice(p));
   });
 
-  return <span {...props}>{price !== '' ? price : '-'}</span>;
+  return <span {...props} className={styles.balance}>{`🚀 ${trimPad(price, 6)} USDC/RIC`}</span>;
 }

@@ -1,6 +1,7 @@
 import React, { useCallback, useState, ChangeEvent } from 'react';
 import { Card } from 'components/layout/Card';
 import { FlowForm } from 'components/main/FlowForm';
+import Price from 'components/common/Price';
 import { useDispatch } from 'react-redux';
 import { usdcRicStartFlow, usdcRicStopFlow } from 'store/main/actionCreators';
 import { useToasts } from 'hooks/useToast';
@@ -59,10 +60,8 @@ export const UsdcRicFlow: React.FC<Props> = ({
           href="https://docs.ricochet.exchange/docs/network-directory"
           className={styles.link}
         >
-          {'USDC >> RIC'}
-          <span className={styles.badge}>🚀</span>
-          <span className={styles.launch}>Launchpad </span>
-
+          Ricochet (RIC) Launchpad
+          <Price />
         </a>
       )}
       isLoading={isLoading}

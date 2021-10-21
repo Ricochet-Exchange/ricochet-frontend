@@ -1,0 +1,18 @@
+@import 'assets/styles/_mixins.scss';
+
+
+.balance {
+  background-color: #5f8eb9;
+  padding: .35em .65em;
+  font-size: .75em;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25rem;
+  width: max-content;
+  margin-bottom: 8px;
+  float: right;
+}

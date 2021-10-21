@@ -39,7 +39,6 @@ import { MaticDaiFlow } from 'containers/main/MaticDaiFlow';
 import { UsdcMaticFlow } from 'containers/main/UsdcMaticFlow';
 import { MaticUsdcFlow } from 'containers/main/MaticUsdcFlow';
 import { CoinsList } from 'components/layout/CoinsList';
-import Price from 'components/common/Price';
 import styles from './styles.module.scss';
 
 export const MainPage: React.FC = () => {
@@ -106,7 +105,6 @@ export const MainPage: React.FC = () => {
           ricBalance={balances && balances[RICAddress]}
         />
       </div>
-      <Price />
       <div className={styles.list}>
         <UsdcRicFlow
           balance={balances && balances[USDCxAddress]}
