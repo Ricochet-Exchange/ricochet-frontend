@@ -50,7 +50,6 @@ export function* sweepQueryFlow() {
     call(queryFlows, usdcxRicExchangeAddress),
   ]);
 
-  console.log('flow', results);
   const flows: { [key:string]: { flowsOwned: Flow[], flowsReceived: Flow[] } } = {};
 
   [usdcxWethxExchangeAddress,
