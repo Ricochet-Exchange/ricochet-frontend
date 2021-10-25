@@ -1,3 +1,5 @@
+import { Coin } from '../../constants/coins';
+
 export type MainState = {
   address: string;
   balances?: { [key:string]: string };
@@ -95,7 +97,7 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string,
-  }
+  } 
   isLoadingUsdcDowngrade: boolean,
   isLoadingUsdcUpgrade: boolean,
   isLoadingMkrDowngrade: boolean,
@@ -121,4 +123,11 @@ export type MainState = {
   isLoadingWethDownGrade: boolean,
   isLoadingWethUpgrade: boolean,
   isLoadingWethFlow: boolean,
+  
+  isLoadingDowngrade: boolean,
+  isLoadingUpgrade: boolean,
+  isLoading: boolean,
+  selectedDowngradeCoin: Coin, 
+  selectedUpgradeCoin: Coin,
+  coinType: Coin
 };

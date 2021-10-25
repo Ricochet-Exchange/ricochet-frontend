@@ -20,8 +20,32 @@ import {
   usdcDownGrade,
   wbtcDownGrade,
   mainSetState,
+  downgradeAction,
 } from '../actionCreators';
 import { getBalances } from './getBalances';
+
+export function* downgradeMainSaga({ payload }: ReturnType<typeof downgradeAction>) {
+  try {
+    yield put(mainSetState({ isLoadingDowngrade: true }));
+
+    const { tokenAddress, value } = payload;
+    const amount = web3.utils.toWei(value, 'ether');
+
+    const address: Unwrap<typeof getAddress> = yield call(getAddress);
+    const contract: Unwrap<typeof getContract> = yield call(
+      getContract,
+      tokenAddress,
+      superTokenABI,
+    );
+    yield call(downgrade, contract, amount, address);
+    yield call(getBalances, address);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingDowngrade: false }));
+  }
+}
 
 function* downgradeSaga(tokenAddress: string, value: string) {
   const amount = web3.utils.toWei(value, 'ether');

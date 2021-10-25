@@ -1,0 +1,126 @@
+@import '../../../assets/styles/mixins';
+
+
+.header_wrap {
+  @include flexbox(center, space-between);
+
+  width: 100%;
+  position: relative;
+
+
+  @include tablet {
+    @include flexbox(center, center);
+
+    flex-direction: column;
+  }
+}
+
+.settings_wrap {
+    margin: 50px 0 50px 0;
+  
+    @include tablet {
+      display: none;
+    }
+}
+
+.logo {
+  margin: 46px 0 46px 0;
+
+  @include tablet {
+    margin: 24px 0 40px 20px;
+  }
+}
+
+.links {
+  @include flexbox(center, center);
+  
+  margin: 56px 0 56px 0;
+
+  @include tablet {
+    display: none;
+  }
+
+  
+}
+
+.dca_link {
+  padding: 0 30px 0 0;
+}
+
+.dca_link,
+.upgrade_link {
+  color: var(--color-white-dark);
+  font-family: $default-font;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 110%;
+  text-align: center;
+  letter-spacing: -0.015em;
+  text-decoration: none;
+  
+  &:active,
+  &:checked {
+    color: var(--color-white) ;
+    font-weight: bold;
+    text-decoration: underline;
+  }
+}
+
+.active {
+  color: var(--color-white);
+  font-weight: bold;
+  text-decoration-line: underline;
+}
+
+
+.mob_menu {
+  display: none;
+
+  @include tablet {
+    display: block;
+    padding: 29px 23px 45px 0;
+  }
+
+  .menu_button {
+    background: transparent;
+    padding: 0 ;
+    border: none;
+  }
+  
+
+}
+
+.mob_panel {
+  @include flexbox(center, space-between);
+
+  width: 100%;
+  @include tablet {
+    @include flexbox(center, space-between);
+    width: 100%;
+  }
+}
+
+.mob_head {
+  display: none;
+
+  @include tablet {
+    @include flexbox(center, center);
+
+    padding: 0 0 50px 0;
+    font-family: $default-font;
+    display: block;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 110%;
+    text-align: center;
+    letter-spacing: -0.015em;
+    color: var(--color-white);
+  }
+}
+
+.dot {
+  color: var(--color-white-dark);
+  margin: 0 0 0 23px;
+}

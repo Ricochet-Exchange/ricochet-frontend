@@ -1,3 +1,4 @@
+import { Coin } from 'constants/coins';
 import { MainActionTypes } from './actionTypes';
 import { MainState } from './types';
 
@@ -339,4 +340,85 @@ export const wbtcUsdcStartFlow = (
 ) => ({
   type: MainActionTypes.WBTC_USDC_START_FLOW,
   payload: { amount: payload, callback },
+});
+
+export const subscriptionRicUsdcWbtc = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.SUBSCRIPTION_RIC_USDC_WBTC,
+  callback,
+});
+
+export const subscriptionRicUsdcWeth = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.SUBSCRIPTION_RIC_USDC_WETH,
+  callback,
+});
+
+export const subscriptionRicWbtcUsdc = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.SUBSCRIPTION_RIC_WBTC_USDC,
+  callback,
+});
+
+export const subscriptionRicWethUsdc = (callback: (e?: string) => void) => ({
+  type: MainActionTypes.SUBSCRIPTION_RIC_WETH_USDC,
+  callback,
+});
+
+export const startFlowAction = (payload: string, 
+  config: { [key: string]: string },
+  callback: (e?: string) => void) => ({
+  type: MainActionTypes.START_FLOW,
+  payload: { amount: payload, config, callback },
+});
+
+export const stopFlowAction = (
+  config: { [key:string]: string },
+  callback: (e?: string) => void,
+) => ({
+  type: MainActionTypes.STOP_FLOW,
+  payload: { callback, config },
+});
+
+export const downgradeAction = (
+  value: string,
+  tokenAddress: string,
+  callback: (e?:string) => void,
+) => ({
+  type: MainActionTypes.DOWNGRADE,
+  payload: { tokenAddress, value, callback },
+});
+
+export const approveAction = ( 
+  amount: string,
+  tokenAddress: string,
+  superTokenAddress: string,
+  callback: (e?:string) => void,
+  multi?: number,
+) => ({
+  type: MainActionTypes.APPROVE,
+  payload: {
+    value: amount, tokenAddress, superTokenAddress, multi, callback, 
+  },
+});
+
+export const upgradeAction = (
+  amount: string,
+  superTokenAddress: string,
+  callback: (e?:string) => void,
+) => ({
+  type: MainActionTypes.UPGRADE,
+  payload: { value: amount, superTokenAddress, callback },
+});
+
+export const selectUpgradeCoin = (selectedUpgradeCoin: Coin) => ({
+  type: MainActionTypes.SELECT_UPGRADE_COIN,
+  payload: { selectedUpgradeCoin },
+});
+
+export const selectDowngradeCoin = (selectedDowngradeCoin: Coin) => ({
+  type: MainActionTypes.SELECT_DOWNGRADE_COIN,
+  payload: { selectedDowngradeCoin },
+});
+
+export const showTokenList = (coinType: Coin) => ({
+  type: MainActionTypes.SHOW_TYPE_TOKEN_LIST,
+  payload: { coinType },
 });

@@ -1,0 +1,88 @@
+@import '../../../assets/styles/mixins';
+
+
+.menu_mob {
+  display: none;
+
+  @include tablet {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: linear-gradient(180deg, #294661 0%, #678eb5 100%);
+  }
+}
+
+.container {
+  @include flexbox(center, center);
+
+  flex-direction: column;
+  font-family: $default-font;
+  width: 100%;
+  height: 100%;
+}
+
+.menu_head {
+  @include flexbox(center, space-between);
+
+  width: 100%;
+  flex: 0;
+}
+
+.links {
+  @include flexbox(center, center);
+
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+}
+
+.invest {
+  margin: 0 0 54px 0;
+}
+
+.invest,
+.wallet {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 100%;
+  text-align: center;
+  color: var(--color-white);
+  text-decoration: none;
+  
+  &:active,
+  &:hover {
+    font-weight:bold;
+    text-decoration-line: underline;
+  }
+}
+
+.active {
+    font-weight:bold;
+    text-decoration-line: underline;
+}
+
+.logo {
+  margin: 24px 0 0 21px;
+}
+
+.close {
+  margin: 10px 25px 0 0;
+  background: transparent;
+  border: none;
+
+  &:hover,
+  &:active {
+    background: transparent;
+  }
+}
+
+.close_icon {
+  color: var(--color-white);
+}

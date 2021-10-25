@@ -28,6 +28,7 @@ import {
   wethUsdcStopFlow,
   wbtcUsdcStopFlow,
   mainSetState,
+  stopFlowAction,
 } from '../actionCreators';
 import { sweepQueryFlow } from './sweepQueryFlow';
 
@@ -239,4 +240,16 @@ export function* maticUsdcStopFlowSaga({ payload }: ReturnType<typeof maticUsdcS
   } finally {
     yield put(mainSetState({ isLoadingMaticUsdcFlow: false }));
   }
+}
+
+export function* stopFlowSaga({ payload }: ReturnType<typeof stopFlowAction>) {
+  try {
+    const { config } = payload;
+    yield call(stopFlow, config.superToken, config.tokenA);
+    yield call(sweepQueryFlow);
+    payload.callback();
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } 
 }

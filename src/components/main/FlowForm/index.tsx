@@ -7,6 +7,7 @@ import styles from './styles.module.scss';
 type Props = {
   onStart: () => void;
   onStop: () => void;
+  onSubscription?: () => void;
   onChange?: (e:ChangeEvent<HTMLInputElement>) => void;
   balance?: string;
   token: string;
@@ -17,13 +18,18 @@ type Props = {
   placeholder?: string;
 };
 
-export const FlowForm: React.FC<Props> = ({
-  onStart, onStop, balance = '', token,
-  totalFlows = '', flowsOwned = '',
+export const FlowForm: React.FC<Props> = ({  
+  balance = '',
+  token,  
+  totalFlows = '', 
+  flowsOwned = '',
   value,
-  onChange,
   error,
   placeholder = '-',
+  onChange,
+  onStart,
+  onStop,
+  onSubscription,
 }) => (
   <>
     <div className={styles.balance}>
@@ -48,6 +54,13 @@ export const FlowForm: React.FC<Props> = ({
         className={styles.button}
         onClick={onStop}
       />
+      {onSubscription !== undefined && (
+        <Button 
+          label="Approve RIC"
+          onClick={onSubscription}
+          className={styles.button}
+        />
+      )}
     </div>
     <div className={styles.subscription}>
       {`${token}/month`}

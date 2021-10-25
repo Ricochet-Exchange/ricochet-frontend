@@ -7,7 +7,7 @@ import {
   WETHAddress, WETHxAddress,
   WBTCAddress, WBTCxAddress,
 } from 'constants/polygon_config';
-import { call, put } from 'redux-saga/effects';
+import { call, put, all } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
 import { getContract } from 'utils/getContract';
@@ -20,6 +20,7 @@ import {
   wbtcApprove,
   mkrApprove,
   mainSetState,
+  approveAction,
 } from '../actionCreators';
 import {
   checkIfApproveUsdc,
@@ -43,6 +44,30 @@ export function* approveSaga(
   );
   yield call(approve, contract, address, superTokenAddress, amount);
   yield call(getBalances, address);
+}
+
+export function* approveMainSaga({ payload }: ReturnType<typeof approveAction>) {
+  try {
+    yield put(mainSetState({ isLoadingUpgrade: true }));
+    const {
+      tokenAddress, superTokenAddress, value, multi, 
+    } = payload;
+    const amount = web3.utils.toWei((Number(value) * (multi || 1)).toString(), 'wei');
+    yield call(approveSaga, tokenAddress, superTokenAddress, amount);
+    payload.callback();
+    yield all([
+      call(checkIfApproveUsdc),
+      call(checkIfApproveMkr),
+      call(checkIfApproveDai),
+      call(checkIfApproveWeth),
+      call(checkIfApproveWbtc),
+    ]);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } finally {
+    yield put(mainSetState({ isLoadingUpgrade: false }));
+  }
 }
 
 export function* approveUsdcSaga({ payload }: ReturnType<typeof usdcApprove>) {

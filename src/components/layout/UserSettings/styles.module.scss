@@ -1,0 +1,195 @@
+@import "../../../assets/styles/mixins";
+
+.user_settings {
+
+  .balance_panel {
+    @include flexbox(center, center);
+  
+    max-width: 210px;
+    min-width: 0;
+    height: 33px !important;
+    background: var(--color-blue);
+    border: 1px solid var(--color-blue);
+    border-radius: 10px;
+    color: var(--color-white);
+    font-family: $default-font;
+    font-style: normal;
+    padding: 0;
+    cursor: pointer;
+  
+    @include tablet {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+}
+
+.icon_wrap {
+  padding: 8.25px 19px 9px 0;
+  margin: 0 0 0 auto;
+}
+
+.icon {
+  @include flexbox(center, center);
+
+  color: var(--color-white);
+  width: 12px;
+  height: 15.75px;
+}
+
+.user_settings {
+  @include flexbox(center, center);
+
+  width: 100%;
+}
+
+.balance {
+  @include flexbox(center, center);
+
+  padding: 8px 0 8px 16px;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: -0.01em;
+  font-weight: 700px;
+  white-space: nowrap;
+  margin: 0 10px 0 0;
+}
+.address {
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 17px;
+  letter-spacing: -0.01em;
+  padding: 8px 0 8px 0;
+  margin: 0 7px 0 0;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.language_wrap {
+  margin: 0 0 0 10px;
+}
+
+.language {
+  @include flexbox(center, center);
+
+  font-family: $default-font;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: -0.01em;
+  color: var(--color-white);
+  padding: 7px 14px 9px 10px;
+}
+
+.dot_wrap {
+
+  .button {
+    background: transparent;
+    border: none;
+    &:hover,
+    &:active {
+      background: transparent;
+    }
+  }
+}
+
+.settings_wrap {
+  & a {
+    text-decoration: none;
+  }
+}
+
+.list,
+.lang_list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  & li:last-child {
+    padding: 0;
+  }
+}
+
+.docs,
+.paper,
+.discord {
+  @include flexbox(flex-start, center);
+
+  flex-direction: column;
+  padding: 0 0 30px 0;
+}
+
+.head {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 110%;
+  color: var(--color-black-dark);
+  padding: 0 0 10px 0;
+  cursor: pointer;
+}
+
+.description,
+.lang {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 110%;
+  color: var(--color-grey);
+}
+
+
+.lang {
+  cursor: pointer;
+  padding: 0 0 10px 0;
+}
+
+.lang_dropdown,
+.settings_dropdown {
+  font-family: $default-font;
+  background: var(--color-white);
+  border-radius: 20px;
+  padding: 30px 30px 40px 20px;
+  filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.15));
+}
+
+.lang_dropdown {
+  padding: 20px;
+}
+
+.settings_button {
+  background-color: transparent;
+  border: none;
+}
+
+.lang_button {
+  @include flexbox(center, center);
+
+  min-width: 0;
+  height: 33px;
+  background: var(--color-blue);
+  border: 1px solid var(--color-blue);
+  border-radius: 10px;
+  color: var(--color-white);
+  font-family: $default-font;
+  font-style: normal;
+  padding: 0;
+  cursor: pointer;
+  transition: 0.3s all;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.lang_icon {
+  padding: 0;
+}
+
+.language_name {
+  padding: 0 15px 0 0;
+}

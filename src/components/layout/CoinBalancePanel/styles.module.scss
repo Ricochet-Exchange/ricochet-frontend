@@ -1,0 +1,13 @@
+@import '../../../assets/styles/mixins';
+
+
+.currency_balance {
+  @include flexbox(center, center);
+
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.currency_value {
+  padding: 0 6px 0 0;
+}

@@ -13,7 +13,7 @@ import { sweepQueryFlow } from './sweepQueryFlow';
 
 export function* loadData() {
   try {
-    yield put(mainSetState({ ...isLoadingAllTrue }));
+    yield put(mainSetState({ ...isLoadingAllTrue, isLoading: true }));
     const address: Unwrap<typeof getAddress> = yield call(getAddress);
     yield call(getBalances, address); 
     yield all([
@@ -25,6 +25,7 @@ export function* loadData() {
     yield put(mainSetState({
       address,
       ...isLoadingAllFalse, 
+      isLoading: false,
     }));
   } catch (e) {
     yield put(mainGetData());

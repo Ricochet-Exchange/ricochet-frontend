@@ -32,6 +32,7 @@ import {
   wbtcUsdcStartFlow,
   usdcWbtcStartFlow,
   mainSetState,
+  startFlowAction,
 } from '../actionCreators';
 
 export function* usdcRicStartFlowSaga({ payload }: ReturnType<typeof usdcRicStartFlow>) {
@@ -407,4 +408,27 @@ export function* maticUsdcStartFlowSaga({ payload }: ReturnType<typeof maticUsdc
   } finally {
     yield put(mainSetState({ isLoadingMaticUsdcFlow: false }));
   }
+}
+
+export function* startFlowSaga({ payload }: ReturnType<typeof startFlowAction >) {
+  try {
+    const idaContract: Unwrap<typeof getContract> = yield call(
+      getContract,
+      idaAddress,
+      idaABI,
+    );
+    const { config } = payload;
+    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+    yield call(startFlow,
+      idaContract,
+      config.superToken,
+      config.tokenA,
+      config.tokenB,
+      normalizedAmount);
+    payload.callback();
+    yield call(sweepQueryFlow);
+  } catch (e) {
+    const error = transformError(e);
+    payload.callback(error);
+  } 
 }

@@ -1,0 +1,10 @@
+@import "../../../assets/styles/variables";
+
+.link {
+	transition: all 0.3s;
+	color: $color-link;
+
+	&:hover {
+		opacity: 0.7;
+	}
+}
