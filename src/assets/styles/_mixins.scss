@@ -1,3 +1,5 @@
+@import './variables';
+
 $defaultFlexBoxAlign: center;
 $defaultFlexBoxJustify: center;
 
@@ -47,4 +49,16 @@ $defaultFlexBoxJustify: center;
   @media screen and (max-width: $max-width) {
     @content;
   }
+}
+
+@mixin tablet {
+  @media screen and (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin hidden() {
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
 }

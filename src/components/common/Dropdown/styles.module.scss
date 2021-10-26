@@ -1,0 +1,12 @@
+@import "../../../assets/styles/mixins";
+
+.popper {
+  &.hidden {
+    @include hidden();
+  }
+}
+
+.buttons {
+  border: none;
+  color: inherit;
+}

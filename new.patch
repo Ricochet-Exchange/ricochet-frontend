@@ -1,0 +1,5229 @@
+diff --git a/src/components/layout/CoinsList/index.tsx b/src/components/layout/CoinsList/index.tsx
+deleted file mode 100644
+index f0f4315..0000000
+--- a/src/components/layout/CoinsList/index.tsx
++++ /dev/null
+@@ -1,29 +0,0 @@
+-import { registerToken } from 'api/ethereum';
+-import { Button } from 'components/common/Button';
+-import {
+-  RICCoinOptions, USDCCoinOptions,
+-  USDCxCoinOptions, WBTCCoinOptions,
+-  WBTCxCoinOptions, WETHCoinOptions, 
+-  WETHxCoinOptions, 
+-} from 'constants/index';
+-import React, { useCallback } from 'react';
+-import { CoinOption } from 'types/coinOption';
+-import styles from './styles.module.scss';
+-
+-export const CoinsList:React.FC = () => {
+-  const addCoin = useCallback((options: CoinOption) => () => {
+-    registerToken(options);
+-  }, []);
+-
+-  return (
+-    <div className={styles.list}>
+-      <Button onClick={addCoin(RICCoinOptions)} label="ADD RIC" />
+-      <Button onClick={addCoin(USDCxCoinOptions)} label="ADD USDCx" />
+-      <Button onClick={addCoin(USDCCoinOptions)} label="ADD USDC" />
+-      <Button onClick={addCoin(WETHCoinOptions)} label="ADD WETH" />
+-      <Button onClick={addCoin(WETHxCoinOptions)} label="ADD WETHx" />
+-      <Button onClick={addCoin(WBTCxCoinOptions)} label="ADD WBTCx" />
+-      <Button onClick={addCoin(WBTCCoinOptions)} label="ADD WBTC" />
+-    </div>
+-  );
+-};
+diff --git a/src/components/layout/CoinsList/styles.module.scss b/src/components/layout/CoinsList/styles.module.scss
+deleted file mode 100644
+index 31cdcac..0000000
+--- a/src/components/layout/CoinsList/styles.module.scss
++++ /dev/null
+@@ -1,12 +0,0 @@
+-@import 'assets/styles/_mixins.scss';
+-
+-.list {
+-  @include flexbox(center, center);
+-
+-  margin: 0 -5px;
+-  flex-wrap: wrap;
+-
+-  & > * {
+-    margin: 5px;
+-  }
+-}
+\ No newline at end of file
+diff --git a/src/components/main/DowngradeForm/__tests__/downgrade-form.test.tsx b/src/components/main/DowngradeForm/__tests__/downgrade-form.test.tsx
+deleted file mode 100644
+index 0afd395..0000000
+--- a/src/components/main/DowngradeForm/__tests__/downgrade-form.test.tsx
++++ /dev/null
+@@ -1,65 +0,0 @@
+-import React, { ComponentProps } from 'react';
+-import {
+-  render, fireEvent, screen, 
+-} from '@testing-library/react';
+-import '@testing-library/jest-dom';
+-import { DowngradeForm } from '../index';
+-
+-let props: ComponentProps<typeof DowngradeForm>;
+-
+-beforeEach(() => {
+-  props = {
+-    value: '',
+-    onClick: jest.fn(),
+-    onAmount: jest.fn(),
+-    balance: '1111.11',
+-  };
+-});
+-
+-test('Max button', async () => {
+-  render(<DowngradeForm {...props} />);
+-  const maxButton = screen.getAllByRole('button').find((each) => each.textContent === 'MAX');
+-  if (!maxButton) throw new Error('Max button not found');
+-  fireEvent.click(maxButton);
+-  expect(props.onAmount).toHaveBeenCalledWith('1111.11');
+-  expect(maxButton).toBeDisabled();
+-});
+-
+-test('Max button triggers an alert about liquidation', async () => {
+-  render(<DowngradeForm {...props} />);
+-  const maxButton = screen.getAllByRole('button').find((each) => each.textContent === 'MAX');
+-  if (!maxButton) throw new Error('Max button not found');
+-  fireEvent.click(maxButton);
+-  const alertNotice = screen.getByText('Alert: if you are currently streaming', { exact: false });
+-  if (!alertNotice) throw new Error('Alert not found');
+-  expect(props.onAmount).toHaveBeenCalledWith('1111.11');
+-  expect(maxButton).toBeDisabled();
+-});
+-
+-test('Max button resets on amount change', async () => {
+-  render(<DowngradeForm {...props} />);
+-  const maxButton = screen.getAllByRole('button').find((each) => each.textContent === 'MAX');
+-  if (!maxButton) throw new Error('Max button not found');
+-  const amountField = screen.getByPlaceholderText('Amount');
+-    
+-  fireEvent.change(amountField, { target: { value: '22' } });
+-  expect(maxButton).toBeEnabled();
+-});
+-
+-test('Max button resets on external amount change', async () => {
+-  const { rerender } = render(<DowngradeForm {...props} />);
+-  const maxButton = screen.getAllByRole('button').find((each) => each.textContent === 'MAX');
+-  if (!maxButton) throw new Error('Max button not found');
+-  fireEvent.click(maxButton);
+-  expect(maxButton).toBeDisabled();
+-
+-  rerender(<DowngradeForm {...props} value="0.5" />);
+-  expect(maxButton).toBeEnabled();
+-});
+-
+-test('Max button disabled when amount matches balance', async () => {
+-  render(<DowngradeForm {...props} value="0.5" balance="0.5" />);
+-  const maxButton = screen.getAllByRole('button').find((each) => each.textContent === 'MAX');
+-  if (!maxButton) throw new Error('Max button not found');
+-  expect(maxButton).toBeDisabled();
+-});
+diff --git a/src/components/main/DowngradeForm/index.tsx b/src/components/main/DowngradeForm/index.tsx
+deleted file mode 100644
+index f015f49..0000000
+--- a/src/components/main/DowngradeForm/index.tsx
++++ /dev/null
+@@ -1,65 +0,0 @@
+-import React, { ChangeEvent, useState, useEffect } from 'react';
+-import { Button } from 'components/common/Button';
+-import { Input } from 'components/common/Input';
+-import styles from './styles.module.scss';
+-import WarningIcon from '../../../assets/images/error_circle_warning_icon.svg';
+-
+-type Props = {
+-  value: string;
+-  error?: string;
+-  onClick: () => void;
+-  onAmount: (amount: string) => void;
+-  balance: string;
+-};
+-
+-export const DowngradeForm: React.FC<Props> = ({
+-  onClick, 
+-  onAmount,
+-  value,
+-  error,
+-  balance,
+-}) => {
+-  const [maxed, setMaxed] = useState<boolean>(false);
+-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+-    onAmount(e.target.value);
+-  };
+-  const handleMaxAmountClick = () => {
+-    setMaxed(true);
+-    onAmount(balance);
+-  };
+-  useEffect(() => {
+-    setMaxed(value === balance);
+-  }, [value, balance]);
+-  return (
+-    <>
+-      <div className={styles.error}>{error}</div>
+-      <div className={styles.form}>
+-        <Input
+-          className={styles.input}
+-          placeholder="Amount"
+-          value={value}
+-          onChange={handleChange}
+-          error={!!error}
+-        />
+-        <Button
+-          disabled={maxed}
+-          presentation="link"
+-          onClick={handleMaxAmountClick} 
+-          label="MAX"
+-        />
+-        <Button 
+-          label="Downgrade" 
+-          onClick={onClick} 
+-          className={styles.button}
+-        />
+-        {maxed && (
+-        <div className={styles['warning-alert']}>
+-          <img src={WarningIcon} alt="Warning" />
+-          Alert: if you are currently streaming with this token, 
+-          downgrading your entire balance puts you at risk of liquidation.
+-        </div>
+-        )}
+-      </div>
+-    </>
+-  );
+-};
+diff --git a/src/components/main/DowngradeForm/styles.module.scss b/src/components/main/DowngradeForm/styles.module.scss
+deleted file mode 100644
+index e66ee4a..0000000
+--- a/src/components/main/DowngradeForm/styles.module.scss
++++ /dev/null
+@@ -1,53 +0,0 @@
+-@import 'assets/styles/_mixins.scss';
+-
+-.form {
+-  @include flexbox(center, flex-start);
+-
+-  flex-wrap: wrap;
+-}
+-
+-.input {
+-  width: 213px;
+-
+-  @include for_large_mobile {
+-    width: 100px;
+-  }
+-}
+-
+-.one_off {
+-  color: #5f8eb9;
+-  font-size: small;
+-  font-weight: bold;
+-  margin-top: 0;
+-}
+-
+-.button {
+-  margin-left: 24px;
+-
+-  @include for_large_mobile {
+-    margin-left: 10px;
+-  }
+-}
+-
+-.error {
+-  margin: 30px 0 5px 0;
+-  padding: 0;
+-  color: tomato;
+-  height: 10px;
+-  font-size: 10px;
+-}
+-
+-.warning-alert {
+-  display: flex;
+-  color: #023d82;
+-  font-weight: bold;
+-  font-size: small;
+-  margin-top: 0.5rem;
+-  margin-bottom: 0.5rem;
+-  align-items: center;
+-}
+-
+-.warning-alert img {
+-  width: 2rem;
+-  margin-right: 0.5rem;
+-}
+\ No newline at end of file
+diff --git a/src/components/main/FlowForm/index.tsx b/src/components/main/FlowForm/index.tsx
+deleted file mode 100644
+index 7497ca6..0000000
+--- a/src/components/main/FlowForm/index.tsx
++++ /dev/null
+@@ -1,78 +0,0 @@
+-import React, { ChangeEvent } from 'react';
+-import { Button } from 'components/common/Button';
+-import { Input } from 'components/common/Input';
+-import { trimPad } from 'utils/balances';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  onStart: () => void;
+-  onStop: () => void;
+-  onSubscription?: () => void;
+-  onChange?: (e:ChangeEvent<HTMLInputElement>) => void;
+-  balance?: string;
+-  token: string;
+-  flowsOwned?: string;
+-  totalFlows?: number;
+-  value: string;
+-  error?: string;
+-  placeholder?: string;
+-};
+-
+-export const FlowForm: React.FC<Props> = ({  
+-  balance = '',
+-  token,  
+-  totalFlows = '', 
+-  flowsOwned = '',
+-  value,
+-  error,
+-  placeholder = '-',
+-  onChange,
+-  onStart,
+-  onStop,
+-  onSubscription,
+-}) => (
+-  <>
+-    <div className={styles.balance}>
+-      {`Your Balance: ${trimPad(balance, 6)} ${token}`}
+-    </div>
+-    <div className={styles.error}>{error}</div>
+-    <div className={styles.form}>
+-      <Input
+-        className={styles.input}
+-        placeholder={placeholder}
+-        value={value}
+-        onChange={onChange}
+-        error={!!error}
+-      />
+-      <Button
+-        label="Start/Edit"
+-        onClick={onStart}
+-        className={styles.button}
+-      />
+-      <Button
+-        label="Stop"
+-        className={styles.button}
+-        onClick={onStop}
+-      />
+-      {onSubscription !== undefined && (
+-        <Button 
+-          label="Approve RIC"
+-          onClick={onSubscription}
+-          className={styles.button}
+-        />
+-      )}
+-    </div>
+-    <div className={styles.subscription}>
+-      {`${token}/month`}
+-    </div>
+-    <p className={styles.balance_text}>
+-      <span>Total Value Streaming:</span>
+-      <span className={styles.black}>{` ${flowsOwned} `}</span>
+-      <span>{`${token}/month`}</span>
+-    </p>
+-    <p className={styles.balance_text}>
+-      <span>Total Streams:</span>
+-      <span className={styles.black}>{` ${totalFlows}`}</span>
+-    </p>
+-  </>
+-);
+diff --git a/src/components/main/FlowForm/styles.module.scss b/src/components/main/FlowForm/styles.module.scss
+deleted file mode 100644
+index e8081a7..0000000
+--- a/src/components/main/FlowForm/styles.module.scss
++++ /dev/null
+@@ -1,71 +0,0 @@
+-@import 'assets/styles/_mixins.scss';
+-
+-.form {
+-  @include flexbox(baseline, flex-start);
+-
+-  flex-wrap: wrap;
+-}
+-
+-.input {
+-  width: 213px;
+-
+-  @include for_large_mobile {
+-    width: 100px;
+-  }
+-}
+-
+-.button {
+-  margin: 0 0 0 20px;
+-
+-  @include for_large_mobile {
+-    margin-left: 10px;
+-  }
+-}
+-
+-.balance {
+-  background-color: #5f8eb9;
+-  padding: .35em .65em;
+-  font-size: .75em;
+-  font-weight: 700;
+-  line-height: 1;
+-  color: #fff;
+-  text-align: center;
+-  white-space: nowrap;
+-  vertical-align: baseline;
+-  border-radius: .25rem;
+-  width: max-content;
+-  margin-bottom: 8px;
+-}
+-
+-.subscription {
+-  font-size: 16px;
+-  font-weight: 400;
+-  margin-bottom: 1rem;
+-}
+-
+-.link {
+-  color: rgb(33, 37, 41);
+-  font-size: 20px;
+-  font-weight: 700;
+-  line-height: 24px;
+-  text-decoration: none;
+-}
+-
+-.balance_text {
+-  color: #5f8eb9;
+-  font-size: small;
+-  font-weight: bold;
+-  margin-top:0;
+-}
+-
+-.black {
+-  color: black;
+-}
+-
+-.error {
+-  margin: 30px 0 5px 0;
+-  padding: 0;
+-  color: tomato;
+-  height: 10px;
+-  font-size: 10px;
+-}
+\ No newline at end of file
+diff --git a/src/components/main/UpgradeForm/__tests__/upgrade-form.test.tsx b/src/components/main/UpgradeForm/__tests__/upgrade-form.test.tsx
+deleted file mode 100644
+index 03da674..0000000
+--- a/src/components/main/UpgradeForm/__tests__/upgrade-form.test.tsx
++++ /dev/null
+@@ -1,56 +0,0 @@
+-import React, { ComponentProps } from 'react';
+-import {
+-  render, fireEvent, screen, 
+-} from '@testing-library/react';
+-import '@testing-library/jest-dom';
+-import { UpgradeForm } from '../index';
+-
+-let props: ComponentProps<typeof UpgradeForm>;
+-
+-beforeEach(() => {
+-  props = {
+-    value: '',
+-    onUpgrade: jest.fn(),
+-    onApprove: jest.fn(),
+-    onAmount: jest.fn(),
+-    balance: '1111.11',
+-  };
+-});
+-
+-test('Max button', async () => {
+-  render(<UpgradeForm {...props} />);
+-  const maxButton = screen.getAllByRole('button').find((each) => each.textContent === 'MAX');
+-  if (!maxButton) throw new Error('Max button not found');
+-  fireEvent.click(maxButton);
+-
+-  expect(maxButton).toBeDisabled();
+-  expect(props.onAmount).toHaveBeenCalledWith('1111.11');
+-});
+-
+-test('Max button resets on amount change', async () => {
+-  render(<UpgradeForm {...props} />);
+-  const maxButton = screen.getAllByRole('button').find((each) => each.textContent === 'MAX');
+-  if (!maxButton) throw new Error('Max button not found');
+-  const amountField = screen.getByPlaceholderText('Amount');
+-    
+-  fireEvent.change(amountField, { target: { value: '22' } });
+-  expect(maxButton).toBeEnabled();
+-});
+-
+-test('Max button resets on external amount change', async () => {
+-  const { rerender } = render(<UpgradeForm {...props} />);
+-  const maxButton = screen.getAllByRole('button').find((each) => each.textContent === 'MAX');
+-  if (!maxButton) throw new Error('Max button not found');
+-  fireEvent.click(maxButton);
+-  expect(maxButton).toBeDisabled();
+-
+-  rerender(<UpgradeForm {...props} value="0.5" />);
+-  expect(maxButton).toBeEnabled();
+-});
+-
+-test('Max button disabled when amount matches balance', async () => {
+-  render(<UpgradeForm {...props} value="0.5" balance="0.5" />);
+-  const maxButton = screen.getAllByRole('button').find((each) => each.textContent === 'MAX');
+-  if (!maxButton) throw new Error('Max button not found');
+-  expect(maxButton).toBeDisabled();
+-});
+diff --git a/src/components/main/UpgradeForm/index.tsx b/src/components/main/UpgradeForm/index.tsx
+deleted file mode 100644
+index 37e952e..0000000
+--- a/src/components/main/UpgradeForm/index.tsx
++++ /dev/null
+@@ -1,70 +0,0 @@
+-import React, { ChangeEvent, useState, useEffect } from 'react';
+-import { Button } from 'components/common/Button';
+-import { Input } from 'components/common/Input';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  disabledApprove?: boolean;
+-  disabledUpgrade?: boolean;
+-  value: string;
+-  error?: string;
+-  onUpgrade: () => void;
+-  onApprove: () => void;
+-  onAmount: (amount: string) => void;
+-  balance: string;
+-};
+-
+-export const UpgradeForm: React.FC<Props> = ({
+-  value,
+-  disabledApprove,
+-  disabledUpgrade,
+-  error,
+-  onUpgrade,
+-  onApprove, 
+-  onAmount,
+-  balance,
+-}) => {
+-  const [maxed, setMaxed] = useState<boolean>(false);
+-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+-    onAmount(e.target.value);
+-  };
+-  const handleMaxAmountClick = () => {
+-    setMaxed(true);
+-    onAmount(balance);
+-  };
+-  useEffect(() => {
+-    setMaxed(value === balance);
+-  }, [value, balance]);
+-  return (
+-    <>
+-      <div className={styles.error}>{error}</div>
+-      <div className={styles.form}>
+-        <Input
+-          placeholder="Amount"
+-          value={value}
+-          onChange={handleChange}
+-          className={styles.input}
+-          error={!!error}
+-        />
+-        <Button
+-          disabled={maxed}
+-          presentation="link"
+-          onClick={handleMaxAmountClick} 
+-          label="MAX"
+-        />
+-        <Button 
+-          label={disabledApprove ? 'Approved' : 'Approve'} 
+-          onClick={onApprove} 
+-          className={styles.button}
+-          disabled={disabledApprove}
+-        />
+-        <Button 
+-          label="Upgrade" 
+-          onClick={onUpgrade}
+-          className={styles.button}
+-          disabled={disabledUpgrade}
+-        />
+-      </div>
+-    </>
+-  );
+-};
+diff --git a/src/components/main/UpgradeForm/styles.module.scss b/src/components/main/UpgradeForm/styles.module.scss
+deleted file mode 100644
+index 01827f9..0000000
+--- a/src/components/main/UpgradeForm/styles.module.scss
++++ /dev/null
+@@ -1,31 +0,0 @@
+-@import 'assets/styles/_mixins.scss';
+-
+-.form {
+-  @include flexbox(center, flex-start);
+-
+-  flex-wrap: wrap;
+-}
+-
+-.input {
+-  width: 213px;
+-
+-  @include for_large_mobile {
+-    width: 100px;
+-  }
+-}
+-
+-.button {
+-  margin-left: 24px;
+-
+-  @include for_large_mobile {
+-    margin-left: 10px;
+-  }
+-}
+-
+-.error {
+-  margin: 30px 0 5px 0;
+-  padding: 0;
+-  color: tomato;
+-  height: 10px;
+-  font-size: 10px;
+-}
+\ No newline at end of file
+diff --git a/src/constants/index.ts b/src/constants/index.ts
+deleted file mode 100644
+index 301abe8..0000000
+--- a/src/constants/index.ts
++++ /dev/null
+@@ -1,67 +0,0 @@
+-export const isLoadingAllFalse = {
+-  isLoadingUsdcDowngrade: false,
+-  isLoadingUsdcUpgrade: false,
+-  isLoadingUsdcWbtcFlow: false,
+-  isLoadingUsdcWethFlow: false,
+-  isLoadingWbtcDowngrade: false,
+-  isLoadingWbtcUpgrade: false,
+-  isLoadingWbtcFlow: false,
+-  isLoadingWethDownGrade: false,
+-  isLoadingWethUpgrade: false,
+-  isLoadingWethFlow: false,
+-};
+-
+-export const isLoadingAllTrue = {
+-  isLoadingUsdcDowngrade: true,
+-  isLoadingUsdcUpgrade: true,
+-  isLoadingUsdcWbtcFlow: true,
+-  isLoadingUsdcWethFlow: true,
+-  isLoadingWbtcDowngrade: true,
+-  isLoadingWbtcUpgrade: true,
+-  isLoadingWbtcFlow: true,
+-  isLoadingWethDownGrade: true,
+-  isLoadingWethUpgrade: true,
+-  isLoadingWethFlow: true,
+-};
+-
+-export const RICCoinOptions = {
+-  address: '0x263026e7e53dbfdce5ae55ade22493f828922965',
+-  symbol: 'RIC',
+-  decimals: 18,
+-};
+-
+-export const USDCxCoinOptions = {
+-  address: '0xCAa7349CEA390F89641fe306D93591f87595dc1F',
+-  symbol: 'USDCx',
+-  decimals: 18,
+-};
+-
+-export const USDCCoinOptions = {
+-  address: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
+-  symbol: 'USDC',
+-  decimals: 18,
+-};
+-
+-export const WETHCoinOptions = {
+-  address: '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619',
+-  symbol: 'WETH',
+-  decimals: 18,
+-};
+-
+-export const WETHxCoinOptions = {
+-  address: '0x27e1e4E6BC79D93032abef01025811B7E4727e85',
+-  symbol: 'WETHx',
+-  decimals: 18,
+-};
+-
+-export const WBTCxCoinOptions = {
+-  address: '0x4086eBf75233e8492F1BCDa41C7f2A8288c2fB92',
+-  symbol: 'WBTCx',
+-  decimals: 18,
+-};
+-
+-export const WBTCCoinOptions = {
+-  address: '0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6',
+-  symbol: 'WBTC',
+-  decimals: 18,
+-};
+diff --git a/src/constants/routes.ts b/src/constants/routes.ts
+index b1c6fd9..3d6d63b 100644
+--- a/src/constants/routes.ts
++++ b/src/constants/routes.ts
+@@ -1,5 +1,4 @@
+ export enum Routes {
+   Invest = '/invest',
+   Wallet = '/wallet',
+-  MainOld = '/',
+ }
+diff --git a/src/containers/MainRouter/index.tsx b/src/containers/MainRouter/index.tsx
+index a6d6a43..ab03e8e 100644
+--- a/src/containers/MainRouter/index.tsx
++++ b/src/containers/MainRouter/index.tsx
+@@ -1,8 +1,7 @@
+ import React, { FC } from 'react';
+-import { Route, Switch } from 'react-router-dom';
++import { Route, Switch, Redirect } from 'react-router-dom';
+ import { Routes } from 'constants/routes';
+ import { WalletPage } from 'pages/WalletPage';
+-import { MainPage } from 'pages/MainPage';
+ import { InvestPage } from 'pages/InvestPage';
+ 
+ interface IProps {}
+@@ -11,7 +10,7 @@ const MainRouter: FC<IProps> = () => (
+   <Switch>
+     <Route path={Routes.Wallet} component={WalletPage} exact />
+     <Route path={Routes.Invest} component={InvestPage} exact />
+-    <Route path={Routes.MainOld} component={MainPage} exact />
++    <Redirect to={Routes.Invest} />
+   </Switch>
+ );
+ 
+diff --git a/src/containers/main/DaiDowngrade/index.tsx b/src/containers/main/DaiDowngrade/index.tsx
+deleted file mode 100644
+index ce5a952..0000000
+--- a/src/containers/main/DaiDowngrade/index.tsx
++++ /dev/null
+@@ -1,62 +0,0 @@
+-import React, { useState, useCallback } from 'react';
+-import { DowngradeForm } from 'components/main/DowngradeForm';
+-import { Card } from 'components/layout/Card';
+-import { useDispatch } from 'react-redux';
+-import { daiDownGrade } from 'store/main/actionCreators';
+-import { BalanceText } from 'components/common/BalanceText';
+-import { useToasts } from 'hooks/useToast';
+-import { trimPad } from 'utils/balances';
+-
+-type Props = {
+-  balance?: string;
+-  isLoading?: boolean;
+-};
+-
+-export const DaiDowngrade: React.FC<Props> = ({
+-  balance = '',
+-  isLoading,
+-}) => {
+-  const { showErrorToast } = useToasts();
+-  const [dai, setDai] = useState('');
+-  const [error, setError] = useState('');
+-  const dispatch = useDispatch();
+-
+-  const callback = useCallback((e?: string) => {
+-    setDai('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setDai]);
+-
+-  const handleAmount = (amount: string) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setDai(amount);
+-  };
+-
+-  const handleClick = useCallback(() => {
+-    if (!dai || Number(dai) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    if (Number(dai) > Number(balance)) {
+-      return setError('Low balance');
+-    }
+-    dispatch(daiDownGrade(dai, callback));
+-  }, [dispatch, dai]);
+-
+-  return (
+-    <Card title="Downgrade DAIx to DAI" isLoading={isLoading}>
+-      <>
+-        <DowngradeForm
+-          value={dai}
+-          onAmount={handleAmount}
+-          onClick={handleClick}
+-          error={error}
+-          balance={balance}
+-        />
+-        <BalanceText text={`Your DAIx Balance: ${trimPad(balance, 6)}`} />
+-      </>
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/DaiEthFlow/index.tsx b/src/containers/main/DaiEthFlow/index.tsx
+deleted file mode 100644
+index 128c932..0000000
+--- a/src/containers/main/DaiEthFlow/index.tsx
++++ /dev/null
+@@ -1,82 +0,0 @@
+-import React, { useCallback, useState, ChangeEvent } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { FlowForm } from 'components/main/FlowForm';
+-import { useDispatch } from 'react-redux';
+-import { daiEthStartFlow, daiEthStopFlow } from 'store/main/actionCreators';
+-import { useToasts } from 'hooks/useToast';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  balance?: string,
+-  flowsOwned?: string,
+-  totalFlows?: number,
+-  placeholder?: string,
+-  isLoading?: boolean,
+-};
+-
+-export const DaiEthFlow: React.FC<Props> = ({
+-  balance,
+-  flowsOwned,
+-  totalFlows,
+-  placeholder,
+-  isLoading,
+-}) => {
+-  const dispatch = useDispatch();
+-  const { showErrorToast } = useToasts();
+-  const [daiEth, setDaiEth] = useState('');
+-  const [error, setError] = useState('');
+-
+-  const callback = useCallback((e?: string) => {
+-    setDaiEth('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setDaiEth]);
+-
+-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setDaiEth(e.target.value);
+-  };
+-
+-  const handleStart = useCallback(() => {
+-    if (!daiEth || Number(daiEth) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(daiEthStartFlow(daiEth, callback));
+-  }, [dispatch, daiEth, callback]);
+-
+-  const handleStop = useCallback(() => {
+-    dispatch(daiEthStopFlow(callback));
+-  }, [dispatch, callback]);
+-
+-  return (
+-    <Card
+-      main
+-      title={(
+-        <a
+-          href="https://docs.ricochet.exchange/docs/network-directory"
+-          className={styles.link}
+-        >
+-          {'DAI >> ETH'}
+-          <span className={styles.badge}>🚰</span>
+-        </a>
+-      )}
+-      isLoading={isLoading}
+-    >
+-      <FlowForm
+-        onStart={handleStart}
+-        onStop={handleStop}
+-        balance={balance}
+-        flowsOwned={flowsOwned}
+-        totalFlows={totalFlows}
+-        token="DAIx"
+-        value={daiEth}
+-        onChange={handleChange}
+-        error={error}
+-        placeholder={placeholder}
+-      />
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/DaiEthFlow/styles.module.scss b/src/containers/main/DaiEthFlow/styles.module.scss
+deleted file mode 100644
+index a35c1b4..0000000
+--- a/src/containers/main/DaiEthFlow/styles.module.scss
++++ /dev/null
+@@ -1,12 +0,0 @@
+-.link {
+-  color: rgb(33, 37, 41);
+-  font-size: 20px;
+-  font-weight: 700;
+-  line-height: 24px;
+-  text-decoration: none;
+-}
+-
+-.badge {
+-  float: right;
+-  font-size: 30px;
+-}
+diff --git a/src/containers/main/DaiMaticFlow/index.tsx b/src/containers/main/DaiMaticFlow/index.tsx
+deleted file mode 100644
+index 3c1205c..0000000
+--- a/src/containers/main/DaiMaticFlow/index.tsx
++++ /dev/null
+@@ -1,82 +0,0 @@
+-import React, { useCallback, useState, ChangeEvent } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { FlowForm } from 'components/main/FlowForm';
+-import { useDispatch } from 'react-redux';
+-import { daiMaticStartFlow, daiMaticStopFlow } from 'store/main/actionCreators';
+-import { useToasts } from 'hooks/useToast';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  balance?: string,
+-  flowsOwned?: string,
+-  totalFlows?: number,
+-  placeholder?: string,
+-  isLoading?: boolean,
+-};
+-
+-export const DaiMaticFlow: React.FC<Props> = ({
+-  balance,
+-  flowsOwned,
+-  totalFlows,
+-  placeholder,
+-  isLoading,
+-}) => {
+-  const dispatch = useDispatch();
+-  const { showErrorToast } = useToasts();
+-  const [daiMatic, setDaiMatic] = useState('');
+-  const [error, setError] = useState('');
+-
+-  const callback = useCallback((e?: string) => {
+-    setDaiMatic('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setDaiMatic]);
+-
+-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setDaiMatic(e.target.value);
+-  };
+-
+-  const handleStart = useCallback(() => {
+-    if (!daiMatic || Number(daiMatic) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(daiMaticStartFlow(daiMatic, callback));
+-  }, [dispatch, daiMatic, callback]);
+-
+-  const handleStop = useCallback(() => {
+-    dispatch(daiMaticStopFlow(callback));
+-  }, [dispatch, callback]);
+-
+-  return (
+-    <Card
+-      main
+-      title={(
+-        <a
+-          href="https://docs.ricochet.exchange/docs/network-directory"
+-          className={styles.link}
+-        >
+-          {'DAI >> MATIC'}
+-          <span className={styles.badge}>🚰</span>
+-        </a>
+-      )}
+-      isLoading={isLoading}
+-    >
+-      <FlowForm
+-        onStart={handleStart}
+-        onStop={handleStop}
+-        balance={balance}
+-        flowsOwned={flowsOwned}
+-        totalFlows={totalFlows}
+-        token="DAIx"
+-        value={daiMatic}
+-        onChange={handleChange}
+-        error={error}
+-        placeholder={placeholder}
+-      />
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/DaiMaticFlow/styles.module.scss b/src/containers/main/DaiMaticFlow/styles.module.scss
+deleted file mode 100644
+index a35c1b4..0000000
+--- a/src/containers/main/DaiMaticFlow/styles.module.scss
++++ /dev/null
+@@ -1,12 +0,0 @@
+-.link {
+-  color: rgb(33, 37, 41);
+-  font-size: 20px;
+-  font-weight: 700;
+-  line-height: 24px;
+-  text-decoration: none;
+-}
+-
+-.badge {
+-  float: right;
+-  font-size: 30px;
+-}
+diff --git a/src/containers/main/DaiMkrFlow/index.tsx b/src/containers/main/DaiMkrFlow/index.tsx
+deleted file mode 100644
+index 818b3bd..0000000
+--- a/src/containers/main/DaiMkrFlow/index.tsx
++++ /dev/null
+@@ -1,82 +0,0 @@
+-import React, { useCallback, useState, ChangeEvent } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { FlowForm } from 'components/main/FlowForm';
+-import { useDispatch } from 'react-redux';
+-import { daiMkrStartFlow, daiMkrStopFlow } from 'store/main/actionCreators';
+-import { useToasts } from 'hooks/useToast';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  balance?: string,
+-  flowsOwned?: string,
+-  totalFlows?: number,
+-  placeholder?: string,
+-  isLoading?: boolean,
+-};
+-
+-export const DaiMkrFlow: React.FC<Props> = ({
+-  balance,
+-  flowsOwned,
+-  totalFlows,
+-  placeholder,
+-  isLoading,
+-}) => {
+-  const dispatch = useDispatch();
+-  const { showErrorToast } = useToasts();
+-  const [daiMkr, setDaiMkr] = useState('');
+-  const [error, setError] = useState('');
+-
+-  const callback = useCallback((e?: string) => {
+-    setDaiMkr('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setDaiMkr]);
+-
+-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setDaiMkr(e.target.value);
+-  };
+-
+-  const handleStart = useCallback(() => {
+-    if (!daiMkr || Number(daiMkr) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(daiMkrStartFlow(daiMkr, callback));
+-  }, [dispatch, daiMkr, callback]);
+-
+-  const handleStop = useCallback(() => {
+-    dispatch(daiMkrStopFlow(callback));
+-  }, [dispatch, callback]);
+-
+-  return (
+-    <Card
+-      main
+-      title={(
+-        <a
+-          href="https://docs.ricochet.exchange/docs/network-directory"
+-          className={styles.link}
+-        >
+-          {'DAI >> MKR'}
+-          <span className={styles.badge}>🚰</span>
+-        </a>
+-      )}
+-      isLoading={isLoading}
+-    >
+-      <FlowForm
+-        onStart={handleStart}
+-        onStop={handleStop}
+-        balance={balance}
+-        flowsOwned={flowsOwned}
+-        totalFlows={totalFlows}
+-        token="DAIx"
+-        value={daiMkr}
+-        onChange={handleChange}
+-        error={error}
+-        placeholder={placeholder}
+-      />
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/DaiMkrFlow/styles.module.scss b/src/containers/main/DaiMkrFlow/styles.module.scss
+deleted file mode 100644
+index a35c1b4..0000000
+--- a/src/containers/main/DaiMkrFlow/styles.module.scss
++++ /dev/null
+@@ -1,12 +0,0 @@
+-.link {
+-  color: rgb(33, 37, 41);
+-  font-size: 20px;
+-  font-weight: 700;
+-  line-height: 24px;
+-  text-decoration: none;
+-}
+-
+-.badge {
+-  float: right;
+-  font-size: 30px;
+-}
+diff --git a/src/containers/main/DaiUpgrade/index.tsx b/src/containers/main/DaiUpgrade/index.tsx
+deleted file mode 100644
+index 051e816..0000000
+--- a/src/containers/main/DaiUpgrade/index.tsx
++++ /dev/null
+@@ -1,74 +0,0 @@
+-import React, { useState, useCallback } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { UpgradeForm } from 'components/main/UpgradeForm';
+-import { useDispatch } from 'react-redux';
+-import { daiApprove, daiUpgrade } from 'store/main/actionCreators';
+-import { BalanceText } from 'components/common/BalanceText';
+-import { useToasts } from 'hooks/useToast';
+-import { trimPad } from 'utils/balances';
+-
+-type Props = {
+-  balance?: string;
+-  hasDaiApprove?: boolean;
+-  isLoading?: boolean;
+-};
+-
+-export const DaiUpgrade: React.FC<Props> = ({
+-  balance = '',
+-  hasDaiApprove,
+-  isLoading,
+-}) => {
+-  const { showErrorToast } = useToasts();
+-  const [dai, setDai] = useState('');
+-  const [error, setError] = useState('');
+-  const dispatch = useDispatch();
+-
+-  const callback = useCallback((e?: string) => {
+-    setDai('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setDai]);
+-
+-  const handleAmount = (amount: string) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setDai(amount);
+-  };
+-
+-  const handleonApprove = useCallback(() => {
+-    if (!dai || Number(dai) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(daiApprove(dai, callback));
+-  }, [dispatch, dai, callback, hasDaiApprove]);
+-
+-  const handleonUpgrade = useCallback(() => {
+-    if (!dai || Number(dai) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    if (Number(dai) > Number(balance)) {
+-      return setError('Low balance');
+-    }
+-    dispatch(daiUpgrade(dai, callback));
+-  }, [dispatch, dai, callback]);
+-
+-  return (
+-    <Card title="Upgrade DAI to DAIx" isLoading={isLoading}>
+-      <>
+-        <UpgradeForm
+-          value={dai}
+-          onAmount={handleAmount}
+-          onApprove={handleonApprove}
+-          onUpgrade={handleonUpgrade}
+-          disabledApprove={hasDaiApprove}
+-          disabledUpgrade={!hasDaiApprove}
+-          error={error}
+-          balance={balance}
+-        />
+-        <BalanceText text={`Your DAI Balance: ${trimPad(balance, 6)}`} />
+-      </>
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/EthDaiFlow/index.tsx b/src/containers/main/EthDaiFlow/index.tsx
+deleted file mode 100644
+index b5f8fb6..0000000
+--- a/src/containers/main/EthDaiFlow/index.tsx
++++ /dev/null
+@@ -1,82 +0,0 @@
+-import React, { useCallback, useState, ChangeEvent } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { FlowForm } from 'components/main/FlowForm';
+-import { useDispatch } from 'react-redux';
+-import { ethDaiStartFlow, ethDaiStopFlow } from 'store/main/actionCreators';
+-import { useToasts } from 'hooks/useToast';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  balance?: string,
+-  flowsOwned?: string,
+-  totalFlows?: number,
+-  placeholder?: string,
+-  isLoading?: boolean,
+-};
+-
+-export const EthDaiFlow: React.FC<Props> = ({
+-  balance,
+-  flowsOwned,
+-  totalFlows,
+-  placeholder,
+-  isLoading,
+-}) => {
+-  const dispatch = useDispatch();
+-  const { showErrorToast } = useToasts();
+-  const [ethDai, setEthDai] = useState('');
+-  const [error, setError] = useState('');
+-
+-  const callback = useCallback((e?: string) => {
+-    setEthDai('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setEthDai]);
+-
+-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setEthDai(e.target.value);
+-  };
+-
+-  const handleStart = useCallback(() => {
+-    if (!ethDai || Number(ethDai) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(ethDaiStartFlow(ethDai, callback));
+-  }, [dispatch, ethDai, callback]);
+-
+-  const handleStop = useCallback(() => {
+-    dispatch(ethDaiStopFlow(callback));
+-  }, [dispatch, callback]);
+-
+-  return (
+-    <Card
+-      main
+-      title={(
+-        <a
+-          href="https://docs.ricochet.exchange/docs/network-directory"
+-          className={styles.link}
+-        >
+-          {'ETH >> DAI'}
+-          <span className={styles.badge}>🚰</span>
+-        </a>
+-      )}
+-      isLoading={isLoading}
+-    >
+-      <FlowForm
+-        onStart={handleStart}
+-        onStop={handleStop}
+-        balance={balance}
+-        flowsOwned={flowsOwned}
+-        totalFlows={totalFlows}
+-        token="ETHx"
+-        value={ethDai}
+-        onChange={handleChange}
+-        error={error}
+-        placeholder={placeholder}
+-      />
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/EthDaiFlow/styles.module.scss b/src/containers/main/EthDaiFlow/styles.module.scss
+deleted file mode 100644
+index a35c1b4..0000000
+--- a/src/containers/main/EthDaiFlow/styles.module.scss
++++ /dev/null
+@@ -1,12 +0,0 @@
+-.link {
+-  color: rgb(33, 37, 41);
+-  font-size: 20px;
+-  font-weight: 700;
+-  line-height: 24px;
+-  text-decoration: none;
+-}
+-
+-.badge {
+-  float: right;
+-  font-size: 30px;
+-}
+diff --git a/src/containers/main/MaticDaiFlow/index.tsx b/src/containers/main/MaticDaiFlow/index.tsx
+deleted file mode 100644
+index f22489b..0000000
+--- a/src/containers/main/MaticDaiFlow/index.tsx
++++ /dev/null
+@@ -1,82 +0,0 @@
+-import React, { useCallback, useState, ChangeEvent } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { FlowForm } from 'components/main/FlowForm';
+-import { useDispatch } from 'react-redux';
+-import { maticDaiStartFlow, maticDaiStopFlow } from 'store/main/actionCreators';
+-import { useToasts } from 'hooks/useToast';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  balance?: string,
+-  flowsOwned?: string,
+-  totalFlows?: number,
+-  placeholder?: string,
+-  isLoading?: boolean,
+-};
+-
+-export const MaticDaiFlow: React.FC<Props> = ({
+-  balance,
+-  flowsOwned,
+-  totalFlows,
+-  placeholder,
+-  isLoading,
+-}) => {
+-  const dispatch = useDispatch();
+-  const { showErrorToast } = useToasts();
+-  const [maticDai, setMaticDai] = useState('');
+-  const [error, setError] = useState('');
+-
+-  const callback = useCallback((e?: string) => {
+-    setMaticDai('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setMaticDai]);
+-
+-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setMaticDai(e.target.value);
+-  };
+-
+-  const handleStart = useCallback(() => {
+-    if (!maticDai || Number(maticDai) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(maticDaiStartFlow(maticDai, callback));
+-  }, [dispatch, maticDai, callback]);
+-
+-  const handleStop = useCallback(() => {
+-    dispatch(maticDaiStopFlow(callback));
+-  }, [dispatch, callback]);
+-
+-  return (
+-    <Card
+-      main
+-      title={(
+-        <a
+-          href="https://docs.ricochet.exchange/docs/network-directory"
+-          className={styles.link}
+-        >
+-          {'MATIC >> DAI'}
+-          <span className={styles.badge}>🚰</span>
+-        </a>
+-      )}
+-      isLoading={isLoading}
+-    >
+-      <FlowForm
+-        onStart={handleStart}
+-        onStop={handleStop}
+-        balance={balance}
+-        flowsOwned={flowsOwned}
+-        totalFlows={totalFlows}
+-        token="MATICx"
+-        value={maticDai}
+-        onChange={handleChange}
+-        error={error}
+-        placeholder={placeholder}
+-      />
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/MaticDaiFlow/styles.module.scss b/src/containers/main/MaticDaiFlow/styles.module.scss
+deleted file mode 100644
+index a35c1b4..0000000
+--- a/src/containers/main/MaticDaiFlow/styles.module.scss
++++ /dev/null
+@@ -1,12 +0,0 @@
+-.link {
+-  color: rgb(33, 37, 41);
+-  font-size: 20px;
+-  font-weight: 700;
+-  line-height: 24px;
+-  text-decoration: none;
+-}
+-
+-.badge {
+-  float: right;
+-  font-size: 30px;
+-}
+diff --git a/src/containers/main/MaticUsdcFlow/index.tsx b/src/containers/main/MaticUsdcFlow/index.tsx
+deleted file mode 100644
+index b5c547d..0000000
+--- a/src/containers/main/MaticUsdcFlow/index.tsx
++++ /dev/null
+@@ -1,82 +0,0 @@
+-import React, { useCallback, useState, ChangeEvent } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { FlowForm } from 'components/main/FlowForm';
+-import { useDispatch } from 'react-redux';
+-import { maticUsdcStartFlow, maticUsdcStopFlow } from 'store/main/actionCreators';
+-import { useToasts } from 'hooks/useToast';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  balance?: string,
+-  flowsOwned?: string,
+-  totalFlows?: number,
+-  placeholder?: string,
+-  isLoading?: boolean,
+-};
+-
+-export const MaticUsdcFlow: React.FC<Props> = ({
+-  balance,
+-  flowsOwned,
+-  totalFlows,
+-  placeholder,
+-  isLoading,
+-}) => {
+-  const dispatch = useDispatch();
+-  const { showErrorToast } = useToasts();
+-  const [maticUsdc, setMaticUsdc] = useState('');
+-  const [error, setError] = useState('');
+-
+-  const callback = useCallback((e?: string) => {
+-    setMaticUsdc('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setMaticUsdc]);
+-
+-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setMaticUsdc(e.target.value);
+-  };
+-
+-  const handleStart = useCallback(() => {
+-    if (!maticUsdc || Number(maticUsdc) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(maticUsdcStartFlow(maticUsdc, callback));
+-  }, [dispatch, maticUsdc, callback]);
+-
+-  const handleStop = useCallback(() => {
+-    dispatch(maticUsdcStopFlow(callback));
+-  }, [dispatch, callback]);
+-
+-  return (
+-    <Card
+-      main
+-      title={(
+-        <a
+-          href="https://docs.ricochet.exchange/docs/network-directory"
+-          className={styles.link}
+-        >
+-          {'MATIC >> USDC'}
+-          <span className={styles.badge}>🚰</span>
+-        </a>
+-      )}
+-      isLoading={isLoading}
+-    >
+-      <FlowForm
+-        onStart={handleStart}
+-        onStop={handleStop}
+-        balance={balance}
+-        flowsOwned={flowsOwned}
+-        totalFlows={totalFlows}
+-        token="MATICx"
+-        value={maticUsdc}
+-        onChange={handleChange}
+-        error={error}
+-        placeholder={placeholder}
+-      />
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/MaticUsdcFlow/styles.module.scss b/src/containers/main/MaticUsdcFlow/styles.module.scss
+deleted file mode 100644
+index a35c1b4..0000000
+--- a/src/containers/main/MaticUsdcFlow/styles.module.scss
++++ /dev/null
+@@ -1,12 +0,0 @@
+-.link {
+-  color: rgb(33, 37, 41);
+-  font-size: 20px;
+-  font-weight: 700;
+-  line-height: 24px;
+-  text-decoration: none;
+-}
+-
+-.badge {
+-  float: right;
+-  font-size: 30px;
+-}
+diff --git a/src/containers/main/MkrDaiFlow/index.tsx b/src/containers/main/MkrDaiFlow/index.tsx
+deleted file mode 100644
+index 3eef800..0000000
+--- a/src/containers/main/MkrDaiFlow/index.tsx
++++ /dev/null
+@@ -1,82 +0,0 @@
+-import React, { useCallback, useState, ChangeEvent } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { FlowForm } from 'components/main/FlowForm';
+-import { useDispatch } from 'react-redux';
+-import { mkrDaiStartFlow, mkrDaiStopFlow } from 'store/main/actionCreators';
+-import { useToasts } from 'hooks/useToast';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  balance?: string,
+-  flowsOwned?: string,
+-  totalFlows?: number,
+-  placeholder?: string,
+-  isLoading?: boolean,
+-};
+-
+-export const MkrDaiFlow: React.FC<Props> = ({
+-  balance,
+-  flowsOwned,
+-  totalFlows,
+-  placeholder,
+-  isLoading,
+-}) => {
+-  const dispatch = useDispatch();
+-  const { showErrorToast } = useToasts();
+-  const [mkrDai, setMkrDai] = useState('');
+-  const [error, setError] = useState('');
+-
+-  const callback = useCallback((e?: string) => {
+-    setMkrDai('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setMkrDai]);
+-
+-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setMkrDai(e.target.value);
+-  };
+-
+-  const handleStart = useCallback(() => {
+-    if (!mkrDai || Number(mkrDai) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(mkrDaiStartFlow(mkrDai, callback));
+-  }, [dispatch, mkrDai, callback]);
+-
+-  const handleStop = useCallback(() => {
+-    dispatch(mkrDaiStopFlow(callback));
+-  }, [dispatch, callback]);
+-
+-  return (
+-    <Card
+-      main
+-      title={(
+-        <a
+-          href="https://docs.ricochet.exchange/docs/network-directory"
+-          className={styles.link}
+-        >
+-          {'MKR >> DAI'}
+-          <span className={styles.badge}>🚰</span>
+-        </a>
+-      )}
+-      isLoading={isLoading}
+-    >
+-      <FlowForm
+-        onStart={handleStart}
+-        onStop={handleStop}
+-        balance={balance}
+-        flowsOwned={flowsOwned}
+-        totalFlows={totalFlows}
+-        token="MKRx"
+-        value={mkrDai}
+-        onChange={handleChange}
+-        error={error}
+-        placeholder={placeholder}
+-      />
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/MkrDaiFlow/styles.module.scss b/src/containers/main/MkrDaiFlow/styles.module.scss
+deleted file mode 100644
+index a35c1b4..0000000
+--- a/src/containers/main/MkrDaiFlow/styles.module.scss
++++ /dev/null
+@@ -1,12 +0,0 @@
+-.link {
+-  color: rgb(33, 37, 41);
+-  font-size: 20px;
+-  font-weight: 700;
+-  line-height: 24px;
+-  text-decoration: none;
+-}
+-
+-.badge {
+-  float: right;
+-  font-size: 30px;
+-}
+diff --git a/src/containers/main/MkrDowngrade/index.tsx b/src/containers/main/MkrDowngrade/index.tsx
+deleted file mode 100644
+index ecd84c6..0000000
+--- a/src/containers/main/MkrDowngrade/index.tsx
++++ /dev/null
+@@ -1,62 +0,0 @@
+-import React, { useState, useCallback } from 'react';
+-import { DowngradeForm } from 'components/main/DowngradeForm';
+-import { Card } from 'components/layout/Card';
+-import { useDispatch } from 'react-redux';
+-import { mkrDownGrade } from 'store/main/actionCreators';
+-import { BalanceText } from 'components/common/BalanceText';
+-import { useToasts } from 'hooks/useToast';
+-import { trimPad } from 'utils/balances';
+-
+-type Props = {
+-  balance?: string;
+-  isLoading?: boolean;
+-};
+-
+-export const MkrDowngrade: React.FC<Props> = ({
+-  balance = '',
+-  isLoading,
+-}) => {
+-  const { showErrorToast } = useToasts();
+-  const [mkr, setMkr] = useState('');
+-  const [error, setError] = useState('');
+-  const dispatch = useDispatch();
+-
+-  const callback = useCallback((e?: string) => {
+-    setMkr('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setMkr]);
+-
+-  const handleAmount = (amount: string) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setMkr(amount);
+-  };
+-
+-  const handleClick = useCallback(() => {
+-    if (!mkr || Number(mkr) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    if (Number(mkr) > Number(balance)) {
+-      return setError('Low balance');
+-    }
+-    dispatch(mkrDownGrade(mkr, callback));
+-  }, [dispatch, mkr]);
+-
+-  return (
+-    <Card title="Downgrade MKRx to MKR" isLoading={isLoading}>
+-      <>
+-        <DowngradeForm
+-          value={mkr}
+-          onAmount={handleAmount}
+-          onClick={handleClick}
+-          error={error}
+-          balance={balance}
+-        />
+-        <BalanceText text={`Your MKRx Balance: ${trimPad(balance, 6)}`} />
+-      </>
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/MkrUpgrade/index.tsx b/src/containers/main/MkrUpgrade/index.tsx
+deleted file mode 100644
+index 88bd278..0000000
+--- a/src/containers/main/MkrUpgrade/index.tsx
++++ /dev/null
+@@ -1,74 +0,0 @@
+-import React, { useState, useCallback } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { UpgradeForm } from 'components/main/UpgradeForm';
+-import { useDispatch } from 'react-redux';
+-import { mkrApprove, mkrUpgrade } from 'store/main/actionCreators';
+-import { BalanceText } from 'components/common/BalanceText';
+-import { useToasts } from 'hooks/useToast';
+-import { trimPad } from 'utils/balances';
+-
+-type Props = {
+-  balance?: string;
+-  hasMkrApprove?: boolean;
+-  isLoading?: boolean;
+-};
+-
+-export const MkrUpgrade: React.FC<Props> = ({
+-  balance = '',
+-  hasMkrApprove,
+-  isLoading,
+-}) => {
+-  const { showErrorToast } = useToasts();
+-  const [mkr, setMkr] = useState('');
+-  const [error, setError] = useState('');
+-  const dispatch = useDispatch();
+-
+-  const callback = useCallback((e?: string) => {
+-    setMkr('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setMkr]);
+-
+-  const handleAmount = (amount: string) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setMkr(amount);
+-  };
+-
+-  const handleonApprove = useCallback(() => {
+-    if (!mkr || Number(mkr) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(mkrApprove(mkr, callback));
+-  }, [dispatch, mkr, callback, hasMkrApprove]);
+-
+-  const handleonUpgrade = useCallback(() => {
+-    if (!mkr || Number(mkr) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    if (Number(mkr) > Number(balance)) {
+-      return setError('Low balance');
+-    }
+-    dispatch(mkrUpgrade(mkr, callback));
+-  }, [dispatch, mkr, callback]);
+-
+-  return (
+-    <Card title="Upgrade MKR to MKRx" isLoading={isLoading}>
+-      <>
+-        <UpgradeForm
+-          value={mkr}
+-          onAmount={handleAmount}
+-          onApprove={handleonApprove}
+-          onUpgrade={handleonUpgrade}
+-          disabledApprove={hasMkrApprove}
+-          disabledUpgrade={!hasMkrApprove}
+-          error={error}
+-          balance={balance}
+-        />
+-        <BalanceText text={`Your MKR Balance: ${trimPad(balance, 6)}`} />
+-      </>
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/MkrUsdcFlow/index.tsx b/src/containers/main/MkrUsdcFlow/index.tsx
+deleted file mode 100644
+index 67afa8f..0000000
+--- a/src/containers/main/MkrUsdcFlow/index.tsx
++++ /dev/null
+@@ -1,82 +0,0 @@
+-import React, { useCallback, useState, ChangeEvent } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { FlowForm } from 'components/main/FlowForm';
+-import { useDispatch } from 'react-redux';
+-import { mkrUsdcStartFlow, mkrUsdcStopFlow } from 'store/main/actionCreators';
+-import { useToasts } from 'hooks/useToast';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  balance?: string,
+-  flowsOwned?: string,
+-  totalFlows?: number,
+-  placeholder?: string,
+-  isLoading?: boolean,
+-};
+-
+-export const MkrUsdcFlow: React.FC<Props> = ({
+-  balance,
+-  flowsOwned,
+-  totalFlows,
+-  placeholder,
+-  isLoading,
+-}) => {
+-  const dispatch = useDispatch();
+-  const { showErrorToast } = useToasts();
+-  const [mkrUsdc, setMkrUsdc] = useState('');
+-  const [error, setError] = useState('');
+-
+-  const callback = useCallback((e?: string) => {
+-    setMkrUsdc('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setMkrUsdc]);
+-
+-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setMkrUsdc(e.target.value);
+-  };
+-
+-  const handleStart = useCallback(() => {
+-    if (!mkrUsdc || Number(mkrUsdc) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(mkrUsdcStartFlow(mkrUsdc, callback));
+-  }, [dispatch, mkrUsdc, callback]);
+-
+-  const handleStop = useCallback(() => {
+-    dispatch(mkrUsdcStopFlow(callback));
+-  }, [dispatch, callback]);
+-
+-  return (
+-    <Card
+-      main
+-      title={(
+-        <a
+-          href="https://docs.ricochet.exchange/docs/network-directory"
+-          className={styles.link}
+-        >
+-          {'MKR >> USDC'}
+-          <span className={styles.badge}>🚰</span>
+-        </a>
+-      )}
+-      isLoading={isLoading}
+-    >
+-      <FlowForm
+-        onStart={handleStart}
+-        onStop={handleStop}
+-        balance={balance}
+-        flowsOwned={flowsOwned}
+-        totalFlows={totalFlows}
+-        token="MKRx"
+-        value={mkrUsdc}
+-        onChange={handleChange}
+-        error={error}
+-        placeholder={placeholder}
+-      />
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/MkrUsdcFlow/styles.module.scss b/src/containers/main/MkrUsdcFlow/styles.module.scss
+deleted file mode 100644
+index a35c1b4..0000000
+--- a/src/containers/main/MkrUsdcFlow/styles.module.scss
++++ /dev/null
+@@ -1,12 +0,0 @@
+-.link {
+-  color: rgb(33, 37, 41);
+-  font-size: 20px;
+-  font-weight: 700;
+-  line-height: 24px;
+-  text-decoration: none;
+-}
+-
+-.badge {
+-  float: right;
+-  font-size: 30px;
+-}
+diff --git a/src/containers/main/UsdcDowngrade/index.tsx b/src/containers/main/UsdcDowngrade/index.tsx
+deleted file mode 100644
+index 9295c32..0000000
+--- a/src/containers/main/UsdcDowngrade/index.tsx
++++ /dev/null
+@@ -1,62 +0,0 @@
+-import React, { useState, useCallback } from 'react';
+-import { DowngradeForm } from 'components/main/DowngradeForm';
+-import { Card } from 'components/layout/Card';
+-import { useDispatch } from 'react-redux';
+-import { usdcDownGrade } from 'store/main/actionCreators';
+-import { BalanceText } from 'components/common/BalanceText';
+-import { useToasts } from 'hooks/useToast';
+-import { trimPad } from 'utils/balances';
+-
+-type Props = {
+-  balance?: string;
+-  isLoading?: boolean;
+-};
+-
+-export const UsdcDowngrade: React.FC<Props> = ({ 
+-  balance = '',
+-  isLoading, 
+-}) => {
+-  const { showErrorToast } = useToasts();
+-  const [usdc, setUsdc] = useState('');
+-  const [error, setError] = useState('');
+-  const dispatch = useDispatch();
+-
+-  const callback = useCallback((e?: string) => {
+-    setUsdc('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setUsdc]);
+-
+-  const handleAmount = (amount: string) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setUsdc(amount);
+-  };
+-
+-  const handleClick = useCallback(() => {
+-    if (!usdc || Number(usdc) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    if (Number(usdc) > Number(balance)) {
+-      return setError('Low balance');
+-    }
+-    dispatch(usdcDownGrade(usdc, callback));
+-  }, [dispatch, usdc]);
+-
+-  return (
+-    <Card title="Downgrade USDCx to USDC" isLoading={isLoading}>
+-      <>
+-        <DowngradeForm
+-          value={usdc}
+-          onAmount={handleAmount}
+-          onClick={handleClick}
+-          error={error}
+-          balance={balance}
+-        />
+-        <BalanceText text={`Your USDCx Balance: ${trimPad(balance, 6)}`} />
+-      </>
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/UsdcMaticFlow/index.tsx b/src/containers/main/UsdcMaticFlow/index.tsx
+deleted file mode 100644
+index 02dee23..0000000
+--- a/src/containers/main/UsdcMaticFlow/index.tsx
++++ /dev/null
+@@ -1,82 +0,0 @@
+-import React, { useCallback, useState, ChangeEvent } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { FlowForm } from 'components/main/FlowForm';
+-import { useDispatch } from 'react-redux';
+-import { usdcMaticStartFlow, usdcMaticStopFlow } from 'store/main/actionCreators';
+-import { useToasts } from 'hooks/useToast';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  balance?: string,
+-  flowsOwned?: string,
+-  totalFlows?: number,
+-  placeholder?: string,
+-  isLoading?: boolean,
+-};
+-
+-export const UsdcMaticFlow: React.FC<Props> = ({
+-  balance,
+-  flowsOwned,
+-  totalFlows,
+-  placeholder,
+-  isLoading,
+-}) => {
+-  const dispatch = useDispatch();
+-  const { showErrorToast } = useToasts();
+-  const [usdcMatic, setUsdcMatic] = useState('');
+-  const [error, setError] = useState('');
+-
+-  const callback = useCallback((e?: string) => {
+-    setUsdcMatic('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setUsdcMatic]);
+-
+-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setUsdcMatic(e.target.value);
+-  };
+-
+-  const handleStart = useCallback(() => {
+-    if (!usdcMatic || Number(usdcMatic) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(usdcMaticStartFlow(usdcMatic, callback));
+-  }, [dispatch, usdcMatic, callback]);
+-
+-  const handleStop = useCallback(() => {
+-    dispatch(usdcMaticStopFlow(callback));
+-  }, [dispatch, callback]);
+-
+-  return (
+-    <Card
+-      main
+-      title={(
+-        <a
+-          href="https://docs.ricochet.exchange/docs/network-directory"
+-          className={styles.link}
+-        >
+-          {'USDC >> MATIC'}
+-          <span className={styles.badge}>🚰</span>
+-        </a>
+-      )}
+-      isLoading={isLoading}
+-    >
+-      <FlowForm
+-        onStart={handleStart}
+-        onStop={handleStop}
+-        balance={balance}
+-        flowsOwned={flowsOwned}
+-        totalFlows={totalFlows}
+-        token="USDCx"
+-        value={usdcMatic}
+-        onChange={handleChange}
+-        error={error}
+-        placeholder={placeholder}
+-      />
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/UsdcMaticFlow/styles.module.scss b/src/containers/main/UsdcMaticFlow/styles.module.scss
+deleted file mode 100644
+index a35c1b4..0000000
+--- a/src/containers/main/UsdcMaticFlow/styles.module.scss
++++ /dev/null
+@@ -1,12 +0,0 @@
+-.link {
+-  color: rgb(33, 37, 41);
+-  font-size: 20px;
+-  font-weight: 700;
+-  line-height: 24px;
+-  text-decoration: none;
+-}
+-
+-.badge {
+-  float: right;
+-  font-size: 30px;
+-}
+diff --git a/src/containers/main/UsdcMkrFlow/index.tsx b/src/containers/main/UsdcMkrFlow/index.tsx
+deleted file mode 100644
+index dbd21a7..0000000
+--- a/src/containers/main/UsdcMkrFlow/index.tsx
++++ /dev/null
+@@ -1,82 +0,0 @@
+-import React, { useCallback, useState, ChangeEvent } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { FlowForm } from 'components/main/FlowForm';
+-import { useDispatch } from 'react-redux';
+-import { usdcMkrStartFlow, usdcMkrStopFlow } from 'store/main/actionCreators';
+-import { useToasts } from 'hooks/useToast';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  balance?: string,
+-  flowsOwned?: string,
+-  totalFlows?: number,
+-  placeholder?: string,
+-  isLoading?: boolean,
+-};
+-
+-export const UsdcMkrFlow: React.FC<Props> = ({
+-  balance,
+-  flowsOwned,
+-  totalFlows,
+-  placeholder,
+-  isLoading,
+-}) => {
+-  const dispatch = useDispatch();
+-  const { showErrorToast } = useToasts();
+-  const [usdcMkr, setUsdcMkr] = useState('');
+-  const [error, setError] = useState('');
+-
+-  const callback = useCallback((e?: string) => {
+-    setUsdcMkr('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setUsdcMkr]);
+-
+-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setUsdcMkr(e.target.value);
+-  };
+-
+-  const handleStart = useCallback(() => {
+-    if (!usdcMkr || Number(usdcMkr) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(usdcMkrStartFlow(usdcMkr, callback));
+-  }, [dispatch, usdcMkr, callback]);
+-
+-  const handleStop = useCallback(() => {
+-    dispatch(usdcMkrStopFlow(callback));
+-  }, [dispatch, callback]);
+-
+-  return (
+-    <Card
+-      main
+-      title={(
+-        <a
+-          href="https://docs.ricochet.exchange/docs/network-directory"
+-          className={styles.link}
+-        >
+-          {'USDC >> MKR'}
+-          <span className={styles.badge}>🚰</span>
+-        </a>
+-      )}
+-      isLoading={isLoading}
+-    >
+-      <FlowForm
+-        onStart={handleStart}
+-        onStop={handleStop}
+-        balance={balance}
+-        flowsOwned={flowsOwned}
+-        totalFlows={totalFlows}
+-        token="USDCx"
+-        value={usdcMkr}
+-        onChange={handleChange}
+-        error={error}
+-        placeholder={placeholder}
+-      />
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/UsdcMkrFlow/styles.module.scss b/src/containers/main/UsdcMkrFlow/styles.module.scss
+deleted file mode 100644
+index a35c1b4..0000000
+--- a/src/containers/main/UsdcMkrFlow/styles.module.scss
++++ /dev/null
+@@ -1,12 +0,0 @@
+-.link {
+-  color: rgb(33, 37, 41);
+-  font-size: 20px;
+-  font-weight: 700;
+-  line-height: 24px;
+-  text-decoration: none;
+-}
+-
+-.badge {
+-  float: right;
+-  font-size: 30px;
+-}
+diff --git a/src/containers/main/UsdcRicFlow/index.tsx b/src/containers/main/UsdcRicFlow/index.tsx
+deleted file mode 100644
+index 5a472c3..0000000
+--- a/src/containers/main/UsdcRicFlow/index.tsx
++++ /dev/null
+@@ -1,84 +0,0 @@
+-import React, { useCallback, useState, ChangeEvent } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { FlowForm } from 'components/main/FlowForm';
+-import { useDispatch } from 'react-redux';
+-import { usdcRicStartFlow, usdcRicStopFlow } from 'store/main/actionCreators';
+-import { useToasts } from 'hooks/useToast';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  balance?: string,
+-  flowsOwned?: string,
+-  totalFlows?: number,
+-  placeholder?: string,
+-  isLoading?: boolean,
+-};
+-
+-export const UsdcRicFlow: React.FC<Props> = ({
+-  balance,
+-  flowsOwned,
+-  totalFlows,
+-  placeholder,
+-  isLoading,
+-}) => {
+-  const dispatch = useDispatch();
+-  const { showErrorToast } = useToasts();
+-  const [usdcRic, setUsdcRic] = useState('');
+-  const [error, setError] = useState('');
+-
+-  const callback = useCallback((e?: string) => {
+-    setUsdcRic('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setUsdcRic]);
+-
+-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setUsdcRic(e.target.value);
+-  };
+-
+-  const handleStart = useCallback(() => {
+-    if (!usdcRic || Number(usdcRic) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(usdcRicStartFlow(usdcRic, callback));
+-  }, [dispatch, usdcRic, callback]);
+-
+-  const handleStop = useCallback(() => {
+-    dispatch(usdcRicStopFlow(callback));
+-  }, [dispatch, callback]);
+-
+-  return (
+-    <Card
+-      main
+-      title={(
+-        <a
+-          href="https://docs.ricochet.exchange/docs/network-directory"
+-          className={styles.link}
+-        >
+-          {'USDC >> RIC'}
+-          <span className={styles.badge}>🚀</span>
+-          <span className={styles.launch}>Launchpad </span>
+-
+-        </a>
+-      )}
+-      isLoading={isLoading}
+-    >
+-      <FlowForm
+-        onStart={handleStart}
+-        onStop={handleStop}
+-        balance={balance}
+-        flowsOwned={flowsOwned}
+-        totalFlows={totalFlows}
+-        token="USDCx"
+-        value={usdcRic}
+-        onChange={handleChange}
+-        error={error}
+-        placeholder={placeholder}
+-      />
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/UsdcRicFlow/styles.module.scss b/src/containers/main/UsdcRicFlow/styles.module.scss
+deleted file mode 100644
+index 6527ca1..0000000
+--- a/src/containers/main/UsdcRicFlow/styles.module.scss
++++ /dev/null
+@@ -1,18 +0,0 @@
+-.link {
+-  color: rgb(33, 37, 41);
+-  font-size: 20px;
+-  font-weight: 700;
+-  line-height: 24px;
+-  text-decoration: none;
+-}
+-
+-.badge {
+-  float: right;
+-  font-size: 30px;
+-}
+-
+-.launch {
+-  float: right;
+-  font-size: 20px;
+-  padding-right: 5px;
+-}
+diff --git a/src/containers/main/UsdcSubscription/index.tsx b/src/containers/main/UsdcSubscription/index.tsx
+deleted file mode 100644
+index 7b7d751..0000000
+--- a/src/containers/main/UsdcSubscription/index.tsx
++++ /dev/null
+@@ -1,29 +0,0 @@
+-import React, { useCallback } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { Button } from 'components/common/Button';
+-import cx from 'classnames';
+-import { useDispatch } from 'react-redux';
+-import { usdcWethSubscription } from 'store/main/actionCreators';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  isLoading?: boolean;
+-};
+-
+-export const UsdcSubscription: React.FC<Props> = ({ isLoading }) => {
+-  const dispatch = useDispatch();
+-
+-  const handleUsdcSubscription = useCallback(() => {
+-    dispatch(usdcWethSubscription());
+-  }, [dispatch]);
+-
+-  return (
+-    <Card title="Approve USDCx Subscription" isLoading={isLoading}>
+-      <Button
+-        onClick={handleUsdcSubscription}
+-        label="Approve USDCx Subscription"
+-        className={cx(styles.button, styles.button_margin)}
+-      />
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/UsdcSubscription/styles.module.scss b/src/containers/main/UsdcSubscription/styles.module.scss
+deleted file mode 100644
+index 231af73..0000000
+--- a/src/containers/main/UsdcSubscription/styles.module.scss
++++ /dev/null
+@@ -1,7 +0,0 @@
+-.button {
+-  margin-left: 24px;
+-}
+-
+-.button_margin {
+-  margin-top: 30px;
+-}
+\ No newline at end of file
+diff --git a/src/containers/main/UsdcUpgrade/index.tsx b/src/containers/main/UsdcUpgrade/index.tsx
+deleted file mode 100644
+index cb5becd..0000000
+--- a/src/containers/main/UsdcUpgrade/index.tsx
++++ /dev/null
+@@ -1,74 +0,0 @@
+-import React, { useState, useCallback } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { UpgradeForm } from 'components/main/UpgradeForm';
+-import { useDispatch } from 'react-redux';
+-import { usdcApprove, usdcUpgrade } from 'store/main/actionCreators';
+-import { BalanceText } from 'components/common/BalanceText';
+-import { useToasts } from 'hooks/useToast';
+-import { trimPad } from 'utils/balances';
+-
+-type Props = {
+-  balance?: string;
+-  hasUsdcApprove?: boolean;
+-  isLoading?: boolean;
+-};
+-
+-export const UsdcUpgrade: React.FC<Props> = ({
+-  balance = '',
+-  hasUsdcApprove,
+-  isLoading,
+-}) => {
+-  const { showErrorToast } = useToasts();
+-  const [usdc, setUsdc] = useState('');
+-  const [error, setError] = useState('');
+-  const dispatch = useDispatch();
+-
+-  const callback = useCallback((e?: string) => {
+-    setUsdc('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setUsdc]);
+-
+-  const handleAmount = (amount: string) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setUsdc(amount);
+-  };
+-
+-  const handleonApprove = useCallback(() => {
+-    if (!usdc || Number(usdc) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(usdcApprove(usdc, callback));
+-  }, [dispatch, usdc, callback, hasUsdcApprove]);
+-
+-  const handleonUpgrade = useCallback(() => {
+-    if (!usdc || Number(usdc) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    if (Number(usdc) > Number(balance)) {
+-      return setError('Low balance');
+-    }
+-    dispatch(usdcUpgrade(usdc, callback));
+-  }, [dispatch, usdc, callback]);
+-
+-  return (
+-    <Card title="Upgrade USDC to USDCx" isLoading={isLoading}>
+-      <>
+-        <UpgradeForm
+-          value={usdc}
+-          onAmount={handleAmount}
+-          onApprove={handleonApprove}
+-          onUpgrade={handleonUpgrade}
+-          disabledApprove={hasUsdcApprove}
+-          disabledUpgrade={!hasUsdcApprove}
+-          error={error}
+-          balance={balance}
+-        />
+-        <BalanceText text={`Your USDC Balance: ${trimPad(balance, 6)}`} />
+-      </>
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/UsdcWbtcFlow/index.tsx b/src/containers/main/UsdcWbtcFlow/index.tsx
+deleted file mode 100644
+index 2fc92b7..0000000
+--- a/src/containers/main/UsdcWbtcFlow/index.tsx
++++ /dev/null
+@@ -1,91 +0,0 @@
+-import React, { useCallback, useState, ChangeEvent } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { FlowForm } from 'components/main/FlowForm';
+-import { useDispatch } from 'react-redux';
+-import { 
+-  subscriptionRicUsdcWbtc, 
+-  usdcWbtcStartFlow,
+-  usdcWbtcStopFlow,
+-} from 'store/main/actionCreators';
+-import { useToasts } from 'hooks/useToast';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  balance?: string,
+-  flowsOwned?: string,
+-  totalFlows?: number,
+-  placeholder?: string,
+-  isLoading?: boolean,
+-};
+-
+-export const UsdcWbtcFlow: React.FC<Props> = ({
+-  balance,
+-  flowsOwned,
+-  totalFlows,
+-  placeholder,
+-  isLoading,
+-}) => {
+-  const dispatch = useDispatch();
+-  const { showErrorToast } = useToasts();
+-  const [usdcWbtc, setUsdcWbtc] = useState('');
+-  const [error, setError] = useState('');
+-
+-  const callback = useCallback((e?: string) => {
+-    setUsdcWbtc('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setUsdcWbtc]);
+-
+-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setUsdcWbtc(e.target.value);
+-  };
+-
+-  const handleStart = useCallback(() => {
+-    if (!usdcWbtc || Number(usdcWbtc) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(usdcWbtcStartFlow(usdcWbtc, callback));
+-  }, [dispatch, usdcWbtc, callback]);
+-
+-  const handleSubscription = useCallback(() => {
+-    dispatch(subscriptionRicUsdcWbtc(callback));
+-  }, [dispatch, callback]);
+-
+-  const handleStop = useCallback(() => {
+-    dispatch(usdcWbtcStopFlow(callback));
+-  }, [dispatch, callback]);
+-
+-  return (
+-    <Card
+-      main
+-      title={(
+-        <a
+-          href="https://docs.ricochet.exchange/docs/network-directory"
+-          className={styles.link}
+-        >
+-          {'USDC >> WBTC'}
+-          <span className={styles.badge}>🚰</span>
+-        </a>
+-      )}
+-      isLoading={isLoading}
+-    >
+-      <FlowForm
+-        onSubscription={handleSubscription}
+-        onStart={handleStart}
+-        onStop={handleStop}
+-        balance={balance}
+-        flowsOwned={flowsOwned}
+-        totalFlows={totalFlows}
+-        token="USDCx"
+-        value={usdcWbtc}
+-        onChange={handleChange}
+-        error={error}
+-        placeholder={placeholder}
+-      />
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/UsdcWbtcFlow/styles.module.scss b/src/containers/main/UsdcWbtcFlow/styles.module.scss
+deleted file mode 100644
+index a35c1b4..0000000
+--- a/src/containers/main/UsdcWbtcFlow/styles.module.scss
++++ /dev/null
+@@ -1,12 +0,0 @@
+-.link {
+-  color: rgb(33, 37, 41);
+-  font-size: 20px;
+-  font-weight: 700;
+-  line-height: 24px;
+-  text-decoration: none;
+-}
+-
+-.badge {
+-  float: right;
+-  font-size: 30px;
+-}
+diff --git a/src/containers/main/UsdcWethFlow/index.tsx b/src/containers/main/UsdcWethFlow/index.tsx
+deleted file mode 100644
+index dc4f8b3..0000000
+--- a/src/containers/main/UsdcWethFlow/index.tsx
++++ /dev/null
+@@ -1,91 +0,0 @@
+-import React, { useCallback, useState, ChangeEvent } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { FlowForm } from 'components/main/FlowForm';
+-import { useDispatch } from 'react-redux';
+-import { 
+-  subscriptionRicUsdcWeth,
+-  usdcWethStartFlow, 
+-  usdcWethStopFlow,
+-} from 'store/main/actionCreators';
+-import { useToasts } from 'hooks/useToast';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  balance?: string,
+-  flowsOwned?: string,
+-  totalFlows?: number,
+-  placeholder?: string,
+-  isLoading?: boolean,
+-};
+-
+-export const UsdcWethFlow: React.FC<Props> = ({
+-  balance,
+-  flowsOwned,
+-  totalFlows,
+-  placeholder,
+-  isLoading,
+-}) => {
+-  const { showErrorToast } = useToasts();
+-  const dispatch = useDispatch();
+-  const [usdcWeth, setUsdcWeth] = useState('');
+-  const [error, setError] = useState('');
+-
+-  const callback = useCallback((e?: string) => {
+-    setUsdcWeth('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setUsdcWeth]);
+-
+-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setUsdcWeth(e.target.value);
+-  };
+-
+-  const handleStart = useCallback(() => {
+-    if (!usdcWeth || Number(usdcWeth) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(usdcWethStartFlow(usdcWeth, callback));
+-  }, [dispatch, usdcWeth, callback]);
+-
+-  const handleSubscription = useCallback(() => {
+-    dispatch(subscriptionRicUsdcWeth(callback));
+-  }, [dispatch, callback]);
+-
+-  const handleStop = useCallback(() => {
+-    dispatch(usdcWethStopFlow(callback));
+-  }, [dispatch, callback]);
+-
+-  return (
+-    <Card
+-      isLoading={isLoading}
+-      main
+-      title={(
+-        <a
+-          href="https://docs.ricochet.exchange/docs/network-directory"
+-          className={styles.link}
+-        >
+-          {'USDC >> WETH'}
+-          <span className={styles.badge}>🚰</span>
+-        </a>
+-      )}
+-    >
+-      <FlowForm
+-        onSubscription={handleSubscription}
+-        onStart={handleStart}
+-        onStop={handleStop}
+-        balance={balance}
+-        flowsOwned={flowsOwned}
+-        totalFlows={totalFlows}
+-        token="USDCx"
+-        value={usdcWeth}
+-        onChange={handleChange}
+-        error={error}
+-        placeholder={placeholder}
+-      />
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/UsdcWethFlow/styles.module.scss b/src/containers/main/UsdcWethFlow/styles.module.scss
+deleted file mode 100644
+index a35c1b4..0000000
+--- a/src/containers/main/UsdcWethFlow/styles.module.scss
++++ /dev/null
+@@ -1,12 +0,0 @@
+-.link {
+-  color: rgb(33, 37, 41);
+-  font-size: 20px;
+-  font-weight: 700;
+-  line-height: 24px;
+-  text-decoration: none;
+-}
+-
+-.badge {
+-  float: right;
+-  font-size: 30px;
+-}
+diff --git a/src/containers/main/WbtcDowngrade/index.tsx b/src/containers/main/WbtcDowngrade/index.tsx
+deleted file mode 100644
+index 6b22327..0000000
+--- a/src/containers/main/WbtcDowngrade/index.tsx
++++ /dev/null
+@@ -1,59 +0,0 @@
+-import React, { useState, useCallback } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { DowngradeForm } from 'components/main/DowngradeForm';
+-import { useDispatch } from 'react-redux';
+-import { wbtcDownGrade } from 'store/main/actionCreators';
+-import { BalanceText } from 'components/common/BalanceText';
+-import { useToasts } from 'hooks/useToast';
+-import { trimPad } from 'utils/balances';
+-
+-type Props = {
+-  balance?: string;
+-  isLoading?: boolean;
+-};
+-
+-export const WbtcDowngrade: React.FC<Props> = ({ balance = '', isLoading }) => {
+-  const { showErrorToast } = useToasts();
+-  const [wbtc, setWbtc] = useState('');
+-  const [error, setError] = useState('');
+-  const dispatch = useDispatch();
+-
+-  const callback = useCallback((e?:string) => {
+-    setWbtc('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setWbtc]);
+-
+-  const handleAmount = (amount: string) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setWbtc(amount);
+-  };
+-
+-  const handleClick = useCallback(() => {
+-    if (!wbtc || Number(wbtc) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    if (Number(wbtc) > Number(balance)) {
+-      return setError('Low balance');
+-    }
+-    dispatch(wbtcDownGrade(wbtc, callback));
+-  }, [dispatch, wbtc]);
+-
+-  return (
+-    <Card title="Downgrade WBTCx to WBTC" isLoading={isLoading}>
+-      <>
+-        <DowngradeForm
+-          value={wbtc}
+-          onAmount={handleAmount}
+-          onClick={handleClick}
+-          error={error}
+-          balance={balance}
+-        />
+-        <BalanceText text={`Your WBTCx Balance: ${trimPad(balance, 6)}`} />
+-      </>
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/WbtcUpgrade/index.tsx b/src/containers/main/WbtcUpgrade/index.tsx
+deleted file mode 100644
+index 954709a..0000000
+--- a/src/containers/main/WbtcUpgrade/index.tsx
++++ /dev/null
+@@ -1,74 +0,0 @@
+-import React, { useState, useCallback } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { UpgradeForm } from 'components/main/UpgradeForm';
+-import { useDispatch } from 'react-redux';
+-import { wbtcApprove, wbtcUpgrade } from 'store/main/actionCreators';
+-import { BalanceText } from 'components/common/BalanceText';
+-import { useToasts } from 'hooks/useToast';
+-import { trimPad } from 'utils/balances';
+-
+-type Props = {
+-  balance?: string;
+-  isLoading?: boolean;
+-  hasWbtcApprove?: boolean;
+-};
+-
+-export const WbtcUpgrade: React.FC<Props> = ({
+-  isLoading,
+-  balance = '',
+-  hasWbtcApprove,
+-}) => {
+-  const { showErrorToast } = useToasts();
+-  const [wbtc, setWbtc] = useState('');
+-  const [error, setError] = useState('');
+-  const dispatch = useDispatch();
+-
+-  const callback = useCallback((e?:string) => {
+-    setWbtc('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setWbtc]);
+-
+-  const handleAmount = (amount: string) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setWbtc(amount);
+-  };
+-
+-  const handleonApprove = useCallback(() => {
+-    if (!wbtc || Number(wbtc) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(wbtcApprove(wbtc, callback));
+-  }, [dispatch, wbtc, callback, hasWbtcApprove]);
+-
+-  const handleonUpgrade = useCallback(() => {
+-    if (!wbtc || Number(wbtc) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    if (Number(wbtc) > Number(balance)) {
+-      return setError('Low balance');
+-    }
+-    dispatch(wbtcUpgrade(wbtc, callback));
+-  }, [dispatch, wbtc, callback]);
+-
+-  return (
+-    <Card title="Upgrade WBTC to WBTCx" isLoading={isLoading}>
+-      <>
+-        <UpgradeForm
+-          value={wbtc}
+-          onAmount={handleAmount}
+-          onApprove={handleonApprove}
+-          onUpgrade={handleonUpgrade}
+-          disabledApprove={hasWbtcApprove}
+-          disabledUpgrade={!hasWbtcApprove}
+-          error={error}
+-          balance={balance}
+-        />
+-        <BalanceText text={`Your WBTC Balance: ${trimPad(balance, 6)}`} />
+-      </>
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/WbtcUsdcFlow/index.tsx b/src/containers/main/WbtcUsdcFlow/index.tsx
+deleted file mode 100644
+index e1558b0..0000000
+--- a/src/containers/main/WbtcUsdcFlow/index.tsx
++++ /dev/null
+@@ -1,91 +0,0 @@
+-import React, { useCallback, useState, ChangeEvent } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { FlowForm } from 'components/main/FlowForm';
+-import { useDispatch } from 'react-redux';
+-import {
+-  subscriptionRicWbtcUsdc,
+-  wbtcUsdcStartFlow, 
+-  wbtcUsdcStopFlow,
+-} from 'store/main/actionCreators';
+-import { useToasts } from 'hooks/useToast';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  balance?: string,
+-  totalFlows?: number,
+-  flowsOwned?: string,
+-  placeholder?: string,
+-  isLoading?: boolean,
+-};
+-
+-export const WbtcUsdcFlow: React.FC<Props> = ({
+-  balance,
+-  flowsOwned,
+-  totalFlows,
+-  placeholder,
+-  isLoading,
+-}) => {
+-  const dispatch = useDispatch();
+-  const { showErrorToast } = useToasts();
+-  const [wbtcUsdc, setWbtcUsdc] = useState('');
+-  const [error, setError] = useState('');
+-
+-  const callback = useCallback((e?:string) => {
+-    setWbtcUsdc('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setWbtcUsdc]);
+-
+-  const handleStart = useCallback(() => {
+-    if (!wbtcUsdc || Number(wbtcUsdc) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(wbtcUsdcStartFlow(wbtcUsdc, callback));
+-  }, [dispatch, wbtcUsdc, callback]);
+-
+-  const handleSubscription = useCallback(() => {
+-    dispatch(subscriptionRicWbtcUsdc(callback));
+-  }, [dispatch, callback]);
+-
+-  const handleStop = useCallback(() => {
+-    dispatch(wbtcUsdcStopFlow(callback));
+-  }, [dispatch, callback]);
+-
+-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setWbtcUsdc(e.target.value);
+-  };
+-
+-  return (
+-    <Card
+-      isLoading={isLoading}
+-      main
+-      title={(
+-        <a
+-          href="https://docs.ricochet.exchange/docs/network-directory"
+-          className={styles.link}
+-        >
+-          {'WBTC >> USDC'}
+-          <span className={styles.badge}>🚰</span>
+-        </a>
+-      )}
+-    >
+-      <FlowForm
+-        onSubscription={handleSubscription}
+-        onStart={handleStart}
+-        onStop={handleStop}
+-        balance={balance}
+-        flowsOwned={flowsOwned}
+-        totalFlows={totalFlows}
+-        token="WBTCx"
+-        value={wbtcUsdc}
+-        onChange={handleChange}
+-        error={error}
+-        placeholder={placeholder}
+-      />
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/WbtcUsdcFlow/styles.module.scss b/src/containers/main/WbtcUsdcFlow/styles.module.scss
+deleted file mode 100644
+index a35c1b4..0000000
+--- a/src/containers/main/WbtcUsdcFlow/styles.module.scss
++++ /dev/null
+@@ -1,12 +0,0 @@
+-.link {
+-  color: rgb(33, 37, 41);
+-  font-size: 20px;
+-  font-weight: 700;
+-  line-height: 24px;
+-  text-decoration: none;
+-}
+-
+-.badge {
+-  float: right;
+-  font-size: 30px;
+-}
+diff --git a/src/containers/main/WethDowngrade/index.tsx b/src/containers/main/WethDowngrade/index.tsx
+deleted file mode 100644
+index 54f5157..0000000
+--- a/src/containers/main/WethDowngrade/index.tsx
++++ /dev/null
+@@ -1,59 +0,0 @@
+-import React, { useState, useCallback } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { DowngradeForm } from 'components/main/DowngradeForm';
+-import { useDispatch } from 'react-redux';
+-import { wethDownGrade } from 'store/main/actionCreators';
+-import { BalanceText } from 'components/common/BalanceText';
+-import { useToasts } from 'hooks/useToast';
+-import { trimPad } from 'utils/balances';
+-
+-type Props = {
+-  balance?: string;
+-  isLoading?: boolean;
+-};
+-
+-export const WethDowngrade: React.FC<Props> = ({ balance = '', isLoading }) => {
+-  const [weth, setWeth] = useState('');
+-  const dispatch = useDispatch();
+-  const { showErrorToast } = useToasts();
+-  const [error, setError] = useState('');
+-
+-  const callback = useCallback((e?:string) => {
+-    setWeth('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setWeth]);
+-
+-  const handleAmount = (amount: string) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setWeth(amount);
+-  };
+-
+-  const handleClick = useCallback(() => { 
+-    if (!weth || Number(weth) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    if (Number(weth) > Number(balance)) {
+-      return setError('Low balance');
+-    }
+-    dispatch(wethDownGrade(weth, callback));
+-  }, [dispatch, weth]);
+-
+-  return (
+-    <Card title="Downgrade WETHx to WETH" isLoading={isLoading}>
+-      <>
+-        <DowngradeForm 
+-          value={weth} 
+-          onAmount={handleAmount}
+-          onClick={handleClick}
+-          error={error}
+-          balance={balance}
+-        />
+-        <BalanceText text={`Your WETHx Balance: ${trimPad(balance, 6)}`} />
+-      </>
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/WethSubscription/index.tsx b/src/containers/main/WethSubscription/index.tsx
+deleted file mode 100644
+index fdfb2f2..0000000
+--- a/src/containers/main/WethSubscription/index.tsx
++++ /dev/null
+@@ -1,25 +0,0 @@
+-import React, { useCallback } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { Button } from 'components/common/Button';
+-import cx from 'classnames';
+-import { useDispatch } from 'react-redux';
+-import { wethUsdcSubscription } from 'store/main/actionCreators';
+-import styles from './styles.module.scss';
+-
+-export const WethSubscription: React.FC = () => {
+-  const dispatch = useDispatch();
+-
+-  const handleUsdcSubscription = useCallback(() => {
+-    dispatch(wethUsdcSubscription());
+-  }, [dispatch]);
+-
+-  return (
+-    <Card title="Approve ETHx Subscription">
+-      <Button
+-        onClick={handleUsdcSubscription}
+-        label="Approve ETHx Subscription"
+-        className={cx(styles.button, styles.button_margin)}
+-      />
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/WethSubscription/styles.module.scss b/src/containers/main/WethSubscription/styles.module.scss
+deleted file mode 100644
+index 231af73..0000000
+--- a/src/containers/main/WethSubscription/styles.module.scss
++++ /dev/null
+@@ -1,7 +0,0 @@
+-.button {
+-  margin-left: 24px;
+-}
+-
+-.button_margin {
+-  margin-top: 30px;
+-}
+\ No newline at end of file
+diff --git a/src/containers/main/WethUpgrade/index.tsx b/src/containers/main/WethUpgrade/index.tsx
+deleted file mode 100644
+index 7166aae..0000000
+--- a/src/containers/main/WethUpgrade/index.tsx
++++ /dev/null
+@@ -1,76 +0,0 @@
+-import React, {
+-  useState, useCallback, 
+-} from 'react';
+-import { Card } from 'components/layout/Card';
+-import { UpgradeForm } from 'components/main/UpgradeForm';
+-import { useDispatch } from 'react-redux';
+-import { wethApprove, wethUpgrade } from 'store/main/actionCreators';
+-import { BalanceText } from 'components/common/BalanceText';
+-import { useToasts } from 'hooks/useToast';
+-import { trimPad } from 'utils/balances';
+-
+-type Props = {
+-  balance?: string;
+-  isLoading?: boolean;
+-  hasWethApprove?: boolean;
+-};
+-
+-export const WethUpgrade: React.FC<Props> = ({
+-  isLoading,
+-  balance = '',
+-  hasWethApprove, 
+-}) => {
+-  const { showErrorToast } = useToasts();
+-  const [weth, setWeth] = useState('');
+-  const [error, setError] = useState('');
+-  const dispatch = useDispatch();
+-
+-  const callback = useCallback((e?: string) => {
+-    setWeth('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setWeth]);
+-
+-  const handleAmount = (amount: string) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setWeth(amount);
+-  };
+-
+-  const handleonApprove = useCallback(() => { 
+-    if (!weth || Number(weth) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(wethApprove(weth, callback));
+-  }, [dispatch, weth, callback, hasWethApprove]);
+-
+-  const handleonUpgrade = useCallback(() => {
+-    if (!weth || Number(weth) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    if (Number(weth) > Number(balance)) {
+-      return setError('Low balance');
+-    }
+-    dispatch(wethUpgrade(weth, callback));
+-  }, [dispatch, weth, callback]);
+-  
+-  return (      
+-    <Card title="Upgrade ETH to ETHx" isLoading={isLoading}>
+-      <>
+-        <UpgradeForm 
+-          value={weth}
+-          onAmount={handleAmount}
+-          onApprove={handleonApprove}
+-          onUpgrade={handleonUpgrade}
+-          disabledApprove={hasWethApprove}
+-          disabledUpgrade={!hasWethApprove}
+-          error={error}
+-          balance={balance}
+-        />
+-        <BalanceText text={`Your ETH Balance: ${trimPad(balance, 6)}`} />
+-      </>
+-    </Card>
+-  ); 
+-};
+diff --git a/src/containers/main/WethUsdcFlow/index.tsx b/src/containers/main/WethUsdcFlow/index.tsx
+deleted file mode 100644
+index 4fd9792..0000000
+--- a/src/containers/main/WethUsdcFlow/index.tsx
++++ /dev/null
+@@ -1,91 +0,0 @@
+-import React, { useCallback, useState, ChangeEvent } from 'react';
+-import { Card } from 'components/layout/Card';
+-import { FlowForm } from 'components/main/FlowForm';
+-import { useDispatch } from 'react-redux';
+-import {
+-  subscriptionRicWethUsdc,
+-  wethUsdcStartFlow, 
+-  wethUsdcStopFlow,
+-} from 'store/main/actionCreators';
+-import { useToasts } from 'hooks/useToast';
+-import styles from './styles.module.scss';
+-
+-type Props = {
+-  balance?: string,
+-  totalFlows?: number,
+-  flowsOwned?: string,
+-  placeholder?: string,
+-  isLoading?: boolean,
+-};
+-
+-export const WethUsdcFlow: React.FC<Props> = ({
+-  balance,
+-  flowsOwned,
+-  totalFlows,
+-  placeholder,
+-  isLoading,
+-}) => {
+-  const dispatch = useDispatch();
+-  const { showErrorToast } = useToasts();
+-  const [wethUsdc, setWethUsdc] = useState('');
+-  const [error, setError] = useState('');
+-
+-  const callback = useCallback((e?:string) => {
+-    setWethUsdc('');
+-    if (e) {
+-      showErrorToast(e, 'Error');
+-    }
+-  }, [setWethUsdc]);
+-
+-  const handleStart = useCallback(() => {
+-    if (!wethUsdc || Number(wethUsdc) <= 0) {
+-      return setError('Enter positive value');
+-    }
+-    dispatch(wethUsdcStartFlow(wethUsdc, callback));
+-  }, [dispatch, wethUsdc, callback]);
+-
+-  const handleSubscription = useCallback(() => {
+-    dispatch(subscriptionRicWethUsdc(callback));
+-  }, [dispatch, callback]);
+-
+-  const handleStop = useCallback(() => {
+-    dispatch(wethUsdcStopFlow(callback));
+-  }, [dispatch, callback]);
+-
+-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+-    if (error) {
+-      setError('');
+-    }
+-    setWethUsdc(e.target.value);
+-  };
+-
+-  return (
+-    <Card
+-      isLoading={isLoading}
+-      main
+-      title={(
+-        <a
+-          href="https://docs.ricochet.exchange/docs/network-directory"
+-          className={styles.link}
+-        >
+-          {'WETH >> USDC'}
+-          <span className={styles.badge}>🚰</span>
+-        </a>
+-      )}
+-    >
+-      <FlowForm
+-        onSubscription={handleSubscription}
+-        onStart={handleStart}
+-        onStop={handleStop}
+-        balance={balance}
+-        flowsOwned={flowsOwned}
+-        totalFlows={totalFlows}
+-        token="WETHx"
+-        value={wethUsdc}
+-        onChange={handleChange}
+-        error={error}
+-        placeholder={placeholder}
+-      />
+-    </Card>
+-  );
+-};
+diff --git a/src/containers/main/WethUsdcFlow/styles.module.scss b/src/containers/main/WethUsdcFlow/styles.module.scss
+deleted file mode 100644
+index 6400402..0000000
+--- a/src/containers/main/WethUsdcFlow/styles.module.scss
++++ /dev/null
+@@ -1,13 +0,0 @@
+-.link {
+-  color: rgb(33, 37, 41);
+-  font-size: 20px;
+-  font-weight: 700;
+-  line-height: 24px;
+-  text-decoration: none;
+-}
+-
+-
+-.badge {
+-  float: right;
+-  font-size: 30px;
+-}
+diff --git a/src/i18n/en/main.json b/src/i18n/en/main.json
+index db89290..f072231 100644
+--- a/src/i18n/en/main.json
++++ b/src/i18n/en/main.json
+@@ -17,5 +17,9 @@
+   "Total Value Streaming": "Total Value Streaming",
+   "Documentations for users of Ricochet": "Documentations for users of Ricochet",
+   "Check out our fundamental ideas": "Check out our fundamental ideas",
+-  "Join the community on Discord": "Join the community on Discord"
++  "Join the community on Discord": "Join the community on Discord",
++  "Upgrade": "Upgrade",
++  "Input Amount": "InputAmount",
++  "Downgrade": "Downgrade",
++  "Ethereum": "Ethereum"
+ }
+diff --git a/src/pages/MainPage/index.tsx b/src/pages/MainPage/index.tsx
+deleted file mode 100644
+index 081e09b..0000000
+--- a/src/pages/MainPage/index.tsx
++++ /dev/null
+@@ -1,273 +0,0 @@
+-import React, { useEffect } from 'react';
+-import { MainLayout } from 'containers/MainLayout';
+-import { useDispatch } from 'react-redux';
+-import { mainCheck } from 'store/main/actionCreators';
+-import { Header } from 'components/layout/Header';
+-import { useShallowSelector } from 'hooks/useShallowSelector';
+-import { selectMain } from 'store/main/selectors';
+-import { WethDowngrade } from 'containers/main/WethDowngrade';
+-import { UsdcDowngrade } from 'containers/main/UsdcDowngrade';
+-import { DaiDowngrade } from 'containers/main/DaiDowngrade';
+-import { MkrDowngrade } from 'containers/main/MkrDowngrade';
+-import { WbtcDowngrade } from 'containers/main/WbtcDowngrade';
+-import {
+-  USDCAddress, USDCxAddress, RICAddress,
+-  DAIAddress, DAIxAddress,
+-  MKRAddress, MKRxAddress,
+-  MATICxAddress,
+-  WETHAddress, WETHxAddress,
+-  WBTCAddress, WBTCxAddress,
+-} from 'constants/polygon_config';
+-import { UsdcUpgrade } from 'containers/main/UsdcUpgrade';
+-import { DaiUpgrade } from 'containers/main/DaiUpgrade';
+-import { MkrUpgrade } from 'containers/main/MkrUpgrade';
+-import { WethUpgrade } from 'containers/main/WethUpgrade';
+-import { WbtcUpgrade } from 'containers/main/WbtcUpgrade';
+-import { UsdcWethFlow } from 'containers/main/UsdcWethFlow';
+-import { UsdcWbtcFlow } from 'containers/main/UsdcWbtcFlow';
+-import { WethUsdcFlow } from 'containers/main/WethUsdcFlow';
+-import { WbtcUsdcFlow } from 'containers/main/WbtcUsdcFlow';
+-import { UsdcRicFlow } from 'containers/main/UsdcRicFlow';
+-import { DaiEthFlow } from 'containers/main/DaiEthFlow';
+-import { EthDaiFlow } from 'containers/main/EthDaiFlow';
+-import { DaiMkrFlow } from 'containers/main/DaiMkrFlow';
+-import { MkrDaiFlow } from 'containers/main/MkrDaiFlow';
+-import { UsdcMkrFlow } from 'containers/main/UsdcMkrFlow';
+-import { MkrUsdcFlow } from 'containers/main/MkrUsdcFlow';
+-import { DaiMaticFlow } from 'containers/main/DaiMaticFlow';
+-import { MaticDaiFlow } from 'containers/main/MaticDaiFlow';
+-import { UsdcMaticFlow } from 'containers/main/UsdcMaticFlow';
+-import { MaticUsdcFlow } from 'containers/main/MaticUsdcFlow';
+-import { CoinsList } from 'components/layout/CoinsList';
+-import styles from './styles.module.scss';
+-
+-export const MainPage: React.FC = () => {
+-  const dispatch = useDispatch();
+-  const {
+-    address,
+-    balances,
+-    hasUsdcApprove,
+-    hasDaiApprove,
+-    hasMkrApprove,
+-    hasWethApprove,
+-    hasWbtcApprove,
+-    usdcRicFlowQuery,
+-    daiMkrFlowQuery,
+-    mkrDaiFlowQuery,
+-    usdcMkrFlowQuery,
+-    mkrUsdcFlowQuery,
+-    daiMaticFlowQuery,
+-    maticDaiFlowQuery,
+-    usdcMaticFlowQuery,
+-    maticUsdcFlowQuery,
+-    usdcWethFlowQuery,
+-    usdcWbtcFlowQuery,
+-    wethUsdcFlowQuery,
+-    wbtcUsdcFlowQuery,
+-    daiEthFlowQuery,
+-    ethDaiFlowQuery,
+-    isLoadingMkrDowngrade,
+-    isLoadingMkrUpgrade,
+-    isLoadingDaiDowngrade,
+-    isLoadingDaiUpgrade,
+-    isLoadingUsdcDowngrade,
+-    isLoadingUsdcUpgrade,
+-    isLoadingWbtcDowngrade,
+-    isLoadingWbtcUpgrade,
+-    isLoadingWethDownGrade,
+-    isLoadingWethUpgrade,
+-    isLoadingUsdcRicFlow,
+-    isLoadingDaiEthFlow,
+-    isLoadingEthDaiFlow,
+-    isLoadingDaiMkrFlow,
+-    isLoadingMkrDaiFlow,
+-    isLoadingUsdcMkrFlow,
+-    isLoadingMkrUsdcFlow,
+-    isLoadingDaiMaticFlow,
+-    isLoadingMaticDaiFlow,
+-    isLoadingUsdcMaticFlow,
+-    isLoadingMaticUsdcFlow,
+-    isLoadingUsdcWbtcFlow,
+-    isLoadingUsdcWethFlow,
+-    isLoadingWbtcFlow,
+-    isLoadingWethFlow,
+-  } = useShallowSelector(selectMain);
+-
+-  useEffect(() => {
+-    dispatch(mainCheck());
+-  }, [dispatch]);
+-
+-  return (
+-    <MainLayout>
+-      <div className={styles.header}>
+-        <Header
+-          account={address || 'Connecting'}
+-          ricBalance={balances && balances[RICAddress]}
+-        />
+-      </div>
+-      <div className={styles.list}>
+-        <UsdcRicFlow
+-          balance={balances && balances[USDCxAddress]}
+-          totalFlows={usdcRicFlowQuery?.totalFlows}
+-          flowsOwned={usdcRicFlowQuery?.flowsOwned}
+-          placeholder={usdcRicFlowQuery?.placeholder}
+-          isLoading={isLoadingUsdcRicFlow}
+-        />
+-        <UsdcWethFlow
+-          balance={balances && balances[USDCxAddress]}
+-          totalFlows={usdcWethFlowQuery?.totalFlows}
+-          flowsOwned={usdcWethFlowQuery?.flowsOwned}
+-          placeholder={usdcWethFlowQuery?.placeholder}
+-          isLoading={isLoadingUsdcWethFlow}
+-        />
+-        <WethUsdcFlow
+-          balance={balances && balances[WETHxAddress]}
+-          totalFlows={wethUsdcFlowQuery?.totalFlows}
+-          flowsOwned={wethUsdcFlowQuery?.flowsOwned}
+-          placeholder={wethUsdcFlowQuery?.placeholder}
+-          isLoading={isLoadingWethFlow}
+-        />
+-        <UsdcWbtcFlow
+-          balance={balances && balances[USDCxAddress]}
+-          totalFlows={usdcWbtcFlowQuery?.totalFlows}
+-          flowsOwned={usdcWbtcFlowQuery?.flowsOwned}
+-          placeholder={usdcWbtcFlowQuery?.placeholder}
+-          isLoading={isLoadingUsdcWbtcFlow}
+-        />
+-        <WbtcUsdcFlow
+-          balance={balances && balances[WBTCxAddress]}
+-          totalFlows={wbtcUsdcFlowQuery?.totalFlows}
+-          flowsOwned={wbtcUsdcFlowQuery?.flowsOwned}
+-          placeholder={wbtcUsdcFlowQuery?.placeholder}
+-          isLoading={isLoadingWbtcFlow}
+-        />
+-        <DaiEthFlow
+-          balance={balances && balances[DAIxAddress]}
+-          totalFlows={daiEthFlowQuery?.totalFlows}
+-          flowsOwned={daiEthFlowQuery?.flowsOwned}
+-          placeholder={daiEthFlowQuery?.placeholder}
+-          isLoading={isLoadingDaiEthFlow}
+-        />
+-        <EthDaiFlow
+-          balance={balances && balances[WETHxAddress]}
+-          totalFlows={ethDaiFlowQuery?.totalFlows}
+-          flowsOwned={ethDaiFlowQuery?.flowsOwned}
+-          placeholder={ethDaiFlowQuery?.placeholder}
+-          isLoading={isLoadingEthDaiFlow}
+-        />
+-        <DaiMaticFlow
+-          balance={balances && balances[DAIxAddress]}
+-          totalFlows={daiMaticFlowQuery?.totalFlows}
+-          flowsOwned={daiMaticFlowQuery?.flowsOwned}
+-          placeholder={daiMaticFlowQuery?.placeholder}
+-          isLoading={isLoadingDaiMaticFlow}
+-        />
+-        <MaticDaiFlow
+-          balance={balances && balances[MATICxAddress]}
+-          totalFlows={maticDaiFlowQuery?.totalFlows}
+-          flowsOwned={maticDaiFlowQuery?.flowsOwned}
+-          placeholder={maticDaiFlowQuery?.placeholder}
+-          isLoading={isLoadingMaticDaiFlow}
+-        />
+-        <UsdcMaticFlow
+-          balance={balances && balances[USDCxAddress]}
+-          totalFlows={usdcMaticFlowQuery?.totalFlows}
+-          flowsOwned={usdcMaticFlowQuery?.flowsOwned}
+-          placeholder={usdcMaticFlowQuery?.placeholder}
+-          isLoading={isLoadingUsdcMaticFlow}
+-        />
+-        <MaticUsdcFlow
+-          balance={balances && balances[MATICxAddress]}
+-          totalFlows={maticUsdcFlowQuery?.totalFlows}
+-          flowsOwned={maticUsdcFlowQuery?.flowsOwned}
+-          placeholder={maticUsdcFlowQuery?.placeholder}
+-          isLoading={isLoadingMaticUsdcFlow}
+-        />
+-        <DaiMkrFlow
+-          balance={balances && balances[DAIxAddress]}
+-          totalFlows={daiMkrFlowQuery?.totalFlows}
+-          flowsOwned={daiMkrFlowQuery?.flowsOwned}
+-          placeholder={daiMkrFlowQuery?.placeholder}
+-          isLoading={isLoadingDaiMkrFlow}
+-        />
+-        <MkrDaiFlow
+-          balance={balances && balances[MKRxAddress]}
+-          totalFlows={mkrDaiFlowQuery?.totalFlows}
+-          flowsOwned={mkrDaiFlowQuery?.flowsOwned}
+-          placeholder={mkrDaiFlowQuery?.placeholder}
+-          isLoading={isLoadingMkrDaiFlow}
+-        />
+-        <UsdcMkrFlow
+-          balance={balances && balances[USDCxAddress]}
+-          totalFlows={usdcMkrFlowQuery?.totalFlows}
+-          flowsOwned={usdcMkrFlowQuery?.flowsOwned}
+-          placeholder={usdcMkrFlowQuery?.placeholder}
+-          isLoading={isLoadingUsdcMkrFlow}
+-        />
+-        <MkrUsdcFlow
+-          balance={balances && balances[MKRxAddress]}
+-          totalFlows={mkrUsdcFlowQuery?.totalFlows}
+-          flowsOwned={mkrUsdcFlowQuery?.flowsOwned}
+-          placeholder={mkrUsdcFlowQuery?.placeholder}
+-          isLoading={isLoadingMkrUsdcFlow}
+-        />
+-        <CoinsList />
+-        <UsdcUpgrade
+-          balance={balances && balances[USDCAddress]}
+-          hasUsdcApprove={hasUsdcApprove}
+-          isLoading={isLoadingUsdcUpgrade}
+-        />
+-
+-        <UsdcDowngrade
+-          balance={balances && balances[USDCxAddress]}
+-          isLoading={isLoadingUsdcDowngrade}
+-        />
+-
+-        <DaiUpgrade
+-          balance={balances && balances[DAIAddress]}
+-          hasDaiApprove={hasDaiApprove}
+-          isLoading={isLoadingDaiUpgrade}
+-        />
+-
+-        <DaiDowngrade
+-          balance={balances && balances[DAIxAddress]}
+-          isLoading={isLoadingDaiDowngrade}
+-        />
+-
+-        <MkrUpgrade
+-          balance={balances && balances[MKRAddress]}
+-          hasMkrApprove={hasMkrApprove}
+-          isLoading={isLoadingMkrUpgrade}
+-        />
+-
+-        <MkrDowngrade
+-          balance={balances && balances[MKRxAddress]}
+-          isLoading={isLoadingMkrDowngrade}
+-        />
+-
+-        <WethUpgrade
+-          balance={balances && balances[WETHAddress]}
+-          hasWethApprove={hasWethApprove}
+-          isLoading={isLoadingWethUpgrade}
+-        />
+-
+-        <WethDowngrade
+-          balance={balances && balances[WETHxAddress]}
+-          isLoading={isLoadingWethDownGrade}
+-        />
+-
+-        <WbtcUpgrade
+-          balance={balances && balances[WBTCAddress]}
+-          hasWbtcApprove={hasWbtcApprove}
+-          isLoading={isLoadingWbtcUpgrade}
+-        />
+-
+-        <WbtcDowngrade
+-          balance={balances && balances[WBTCxAddress]}
+-          isLoading={isLoadingWbtcDowngrade}
+-        />
+-
+-      </div>
+-    </MainLayout>
+-  );
+-};
+diff --git a/src/pages/MainPage/styles.module.scss b/src/pages/MainPage/styles.module.scss
+deleted file mode 100644
+index 7551174..0000000
+--- a/src/pages/MainPage/styles.module.scss
++++ /dev/null
+@@ -1,16 +0,0 @@
+-@import 'assets/styles/_mixins.scss';
+-
+-.header {
+-  margin-top: 24px;
+-}
+-
+-.list {
+-  @include flexbox(flex-start, space-between);
+-
+-  margin: 20px -12px 0 -12px;
+-  flex-wrap: wrap;
+-
+-  & > * {
+-    margin: 12px;
+-  }
+-}
+diff --git a/src/store/main/actionCreators.ts b/src/store/main/actionCreators.ts
+index 3f8aaa5..351a77c 100644
+--- a/src/store/main/actionCreators.ts
++++ b/src/store/main/actionCreators.ts
+@@ -19,349 +19,6 @@ export const mainGetData = () => ({
+   type: MainActionTypes.LOAD_DATA,
+ });
+ 
+-export const usdcDownGrade = (
+-  payload: string,
+-  callback: (e?:string) => void,
+-) => ({
+-  type: MainActionTypes.USDC_DOWNGRADE,
+-  payload: { value: payload, callback },
+-});
+-
+-export const daiDownGrade = (
+-  payload: string,
+-  callback: (e?:string) => void,
+-) => ({
+-  type: MainActionTypes.DAI_DOWNGRADE,
+-  payload: { value: payload, callback },
+-});
+-
+-export const mkrDownGrade = (
+-  payload: string,
+-  callback: (e?:string) => void,
+-) => ({
+-  type: MainActionTypes.MKR_DOWNGRADE,
+-  payload: { value: payload, callback },
+-});
+-
+-export const wethDownGrade = (
+-  payload: string,
+-  callback: (e?:string) => void,
+-) => ({
+-  type: MainActionTypes.WETH_DOWNGRADE,
+-  payload: { value: payload, callback },
+-});
+-
+-export const wbtcDownGrade = (
+-  payload: string,
+-  callback: (e?:string) => void,
+-) => ({
+-  type: MainActionTypes.WBTC_DOWNGRADE,
+-  payload: { value: payload, callback },
+-});
+-
+-export const usdcApprove = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.USDC_APPROVE,
+-  payload: { value: payload, callback },
+-});
+-
+-export const usdcUpgrade = (
+-  payload: string,
+-  callback: (e?:string) => void,
+-) => ({
+-  type: MainActionTypes.USDC_UPGRADE,
+-  payload: { value: payload, callback },
+-});
+-
+-export const daiUpgrade = (
+-  payload: string,
+-  callback: (e?:string) => void,
+-) => ({
+-  type: MainActionTypes.DAI_UPGRADE,
+-  payload: { value: payload, callback },
+-});
+-
+-export const daiApprove = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.DAI_APPROVE,
+-  payload: { value: payload, callback },
+-});
+-
+-export const mkrUpgrade = (
+-  payload: string,
+-  callback: (e?:string) => void,
+-) => ({
+-  type: MainActionTypes.MKR_UPGRADE,
+-  payload: { value: payload, callback },
+-});
+-
+-export const mkrApprove = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.MKR_APPROVE,
+-  payload: { value: payload, callback },
+-});
+-
+-export const wethApprove = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.WETH_APPROVE,
+-  payload: { value: payload, callback },
+-});
+-
+-export const wethUpgrade = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.WETH_UPGRADE,
+-  payload: { value: payload, callback },
+-});
+-
+-export const wbtcApprove = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.WBTC_APPROVE,
+-  payload: { value: payload, callback },
+-});
+-
+-export const wbtcUpgrade = (
+-  payload: string,
+-  callback: (e?:string) => void,
+-) => ({
+-  type: MainActionTypes.WBTC_UPGRADE,
+-  payload: { value: payload, callback },
+-});
+-
+-export const usdcWethSubscription = () => ({
+-  type: MainActionTypes.USDC_WETH_SUBSCRIPTION,
+-});
+-
+-export const wethUsdcSubscription = () => ({
+-  type: MainActionTypes.WETH_USDC_SUBSCRIPTION,
+-});
+-
+-export const usdcRicStopFlow = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.USDC_RIC_STOP_FLOW,
+-  payload: { callback },
+-});
+-
+-export const usdcWethStopFlow = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.USDC_WETH_STOP_FLOW,
+-  payload: { callback },
+-});
+-
+-export const daiEthStopFlow = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.DAI_ETH_STOP_FLOW,
+-  payload: { callback },
+-});
+-
+-export const ethDaiStopFlow = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.ETH_DAI_STOP_FLOW,
+-  payload: { callback },
+-});
+-
+-export const daiMkrStopFlow = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.DAI_MKR_STOP_FLOW,
+-  payload: { callback },
+-});
+-
+-export const mkrDaiStopFlow = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.MKR_DAI_STOP_FLOW,
+-  payload: { callback },
+-});
+-
+-export const usdcMkrStopFlow = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.USDC_MKR_STOP_FLOW,
+-  payload: { callback },
+-});
+-
+-export const maticUsdcStopFlow = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.MKR_USDC_STOP_FLOW,
+-  payload: { callback },
+-});
+-
+-export const daiMaticStopFlow = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.DAI_MATIC_STOP_FLOW,
+-  payload: { callback },
+-});
+-
+-export const maticDaiStopFlow = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.MATIC_DAI_STOP_FLOW,
+-  payload: { callback },
+-});
+-
+-export const usdcMaticStopFlow = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.USDC_MATIC_STOP_FLOW,
+-  payload: { callback },
+-});
+-
+-export const mkrUsdcStopFlow = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.MATIC_USDC_STOP_FLOW,
+-  payload: { callback },
+-});
+-
+-export const usdcWbtcStopFlow = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.USDC_WBTC_STOP_FLOW,
+-  payload: { callback },
+-});
+-
+-export const wethUsdcStopFlow = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.WETH_USDC_STOP_FLOW,
+-  payload: { callback },
+-});
+-
+-export const wbtcUsdcStopFlow = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.WBTC_USDC_STOP_FLOW,
+-  payload: { callback },
+-});
+-
+-export const daiEthStartFlow = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.DAI_ETH_START_FLOW,
+-  payload: { amount: payload, callback },
+-});
+-
+-export const ethDaiStartFlow = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.ETH_DAI_START_FLOW,
+-  payload: { amount: payload, callback },
+-});
+-
+-export const daiMkrStartFlow = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.DAI_MKR_START_FLOW,
+-  payload: { amount: payload, callback },
+-});
+-
+-export const mkrDaiStartFlow = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.MKR_DAI_START_FLOW,
+-  payload: { amount: payload, callback },
+-});
+-
+-export const usdcMkrStartFlow = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.USDC_MKR_START_FLOW,
+-  payload: { amount: payload, callback },
+-});
+-
+-export const mkrUsdcStartFlow = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.MKR_USDC_START_FLOW,
+-  payload: { amount: payload, callback },
+-});
+-
+-export const daiMaticStartFlow = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.DAI_MATIC_START_FLOW,
+-  payload: { amount: payload, callback },
+-});
+-
+-export const maticDaiStartFlow = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.MATIC_DAI_START_FLOW,
+-  payload: { amount: payload, callback },
+-});
+-
+-export const usdcMaticStartFlow = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.USDC_MATIC_START_FLOW,
+-  payload: { amount: payload, callback },
+-});
+-
+-export const maticUsdcStartFlow = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.MATIC_USDC_START_FLOW,
+-  payload: { amount: payload, callback },
+-});
+-
+-export const usdcRicStartFlow = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.USDC_RIC_START_FLOW,
+-  payload: { amount: payload, callback },
+-});
+-
+-export const usdcWethStartFlow = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.USDC_WETH_START_FLOW,
+-  payload: { amount: payload, callback },
+-});
+-
+-export const usdcWbtcStartFlow = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.USDC_WBTC_START_FLOW,
+-  payload: { amount: payload, callback },
+-});
+-
+-export const wethUsdcStartFlow = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.WETH_USDC_START_FLOW,
+-  payload: { amount: payload, callback },
+-});
+-
+-export const wbtcUsdcStartFlow = (
+-  payload: string,
+-  callback: (e?: string) => void,
+-) => ({
+-  type: MainActionTypes.WBTC_USDC_START_FLOW,
+-  payload: { amount: payload, callback },
+-});
+-
+-export const subscriptionRicUsdcWbtc = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.SUBSCRIPTION_RIC_USDC_WBTC,
+-  callback,
+-});
+-
+-export const subscriptionRicUsdcWeth = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.SUBSCRIPTION_RIC_USDC_WETH,
+-  callback,
+-});
+-
+-export const subscriptionRicWbtcUsdc = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.SUBSCRIPTION_RIC_WBTC_USDC,
+-  callback,
+-});
+-
+-export const subscriptionRicWethUsdc = (callback: (e?: string) => void) => ({
+-  type: MainActionTypes.SUBSCRIPTION_RIC_WETH_USDC,
+-  callback,
+-});
+-
+ export const startFlowAction = (payload: string, 
+   config: { [key: string]: string },
+   callback: (e?: string) => void) => ({
+diff --git a/src/store/main/actionTypes.ts b/src/store/main/actionTypes.ts
+index 6d83d89..44b819b 100644
+--- a/src/store/main/actionTypes.ts
++++ b/src/store/main/actionTypes.ts
+@@ -3,58 +3,6 @@ export enum MainActionTypes {
+   MAIN_SWITCH_NETWORK = 'MAIN.SWITCH_NETWORK',
+   SET_STATE = 'MAIN.SET_STATE',
+   LOAD_DATA = 'MAIN.LOAD_DATA',
+-  USDC_DOWNGRADE = 'MAIN.USDC_DOWNGRADE',
+-  DAI_DOWNGRADE = 'MAIN.DAI_DOWNGRADE',
+-  MKR_DOWNGRADE = 'MAIN.MKR_DOWNGRADE',
+-  WETH_DOWNGRADE = 'MAIN.WETH_DOWNGRADE',
+-  WBTC_DOWNGRADE = 'MAIN.WBTC_DOWNGRADE',
+-  USDC_APPROVE = 'MAIN.CHECK_APPROVE',
+-  USDC_UPGRADE = 'MAIN.USDC_UPGRADE',
+-  DAI_APPROVE = 'MAIN.DAI_APPROVE',
+-  DAI_UPGRADE = 'MAIN.DAI_UPGRADE',
+-  MKR_APPROVE = 'MAIN.MKR_APPROVE',
+-  MKR_UPGRADE = 'MAIN.MKR_UPGRADE',
+-  WETH_APPROVE = 'MAIN.WETH_APPROVE',
+-  WETH_UPGRADE = 'MAIN.WETH_UPGRADE',
+-  WBTC_APPROVE = 'MAIN.WBTC_APPROVE',
+-  WBTC_UPGRADE = 'MAIN.WBTC_UPGRADE',
+-  USDC_WETH_SUBSCRIPTION = 'MAIN.USDC_WETH_SUBSCRIPTION',
+-  WETH_USDC_SUBSCRIPTION = 'MAIN.WETH_USDC_SUBSCRIPTION',
+-  DAI_ETH_STOP_FLOW = 'MAIN.DAI_ETH_STOP_FLOW',
+-  ETH_DAI_STOP_FLOW = 'MAIN.ETH_DAI_STOP_FLOW',
+-  DAI_MKR_STOP_FLOW = 'MAIN.DAI_MKR_STOP_FLOW',
+-  MKR_DAI_STOP_FLOW = 'MAIN.MKR_DAI_STOP_FLOW',
+-  USDC_MKR_STOP_FLOW = 'MAIN.USDC_MKR_STOP_FLOW',
+-  MKR_USDC_STOP_FLOW = 'MAIN.MKR_USDC_STOP_FLOW',
+-  DAI_MATIC_STOP_FLOW = 'MAIN.DAI_MATIC_STOP_FLOW',
+-  MATIC_DAI_STOP_FLOW = 'MAIN.MATIC_DAI_STOP_FLOW',
+-  USDC_MATIC_STOP_FLOW = 'MAIN.USDC_MATIC_STOP_FLOW',
+-  MATIC_USDC_STOP_FLOW = 'MAIN.MATIC_USDC_STOP_FLOW',
+-  USDC_RIC_STOP_FLOW = 'MAIN.USDC_RIC_STOP_FLOW',
+-  USDC_WETH_STOP_FLOW = 'MAIN.USDC_WETH_STOP_FLOW',
+-  USDC_WBTC_STOP_FLOW = 'MAIN.USDC_WBTC_STOP_FLOW',
+-  WETH_USDC_STOP_FLOW = 'MAIN.WETH_USDC_STOP_FLOW',
+-  WBTC_USDC_STOP_FLOW = 'MAIN.WBTC_USDC_STOP_FLOW',
+-  DAI_ETH_START_FLOW = 'MAIN.DAI_ETH_START_FLOW',
+-  ETH_DAI_START_FLOW = 'MAIN.ETH_DAI_START_FLOW',
+-  DAI_MKR_START_FLOW = 'MAIN.DAI_MKR_START_FLOW',
+-  MKR_DAI_START_FLOW = 'MAIN.MKR_DAI_START_FLOW',
+-  USDC_MKR_START_FLOW = 'MAIN.USDC_MKR_START_FLOW',
+-  MKR_USDC_START_FLOW = 'MAIN.MKR_USDC_START_FLOW',
+-  DAI_MATIC_START_FLOW = 'MAIN.DAI_MATIC_START_FLOW',
+-  MATIC_DAI_START_FLOW = 'MAIN.MATIC_DAI_START_FLOW',
+-  USDC_MATIC_START_FLOW = 'MAIN.USDC_MATIC_START_FLOW',
+-  MATIC_USDC_START_FLOW = 'MAIN.MATIC_USDC_START_FLOW',
+-  USDC_RIC_START_FLOW = 'MAIN.USDC_RIC_START_FLOW',
+-  USDC_WETH_START_FLOW = 'MAIN.USDC_WETH_START_FLOW',
+-  USDC_WBTC_START_FLOW = 'MAIN.USDC_WBTC_START_FLOW',
+-  WETH_USDC_START_FLOW = 'MAIN.WETH_USDC_START_FLOW',
+-  WBTC_USDC_START_FLOW = 'MAIN.WBTC_USDC_START_FLOW',
+- 
+-  SUBSCRIPTION_RIC_USDC_WBTC = 'MAIN.SUBSCRIPTION_RIC_USDC_WBTC',
+-  SUBSCRIPTION_RIC_USDC_WETH = 'MAIN.SUBSCRIPTION_RIC_USDC_WETH',
+-  SUBSCRIPTION_RIC_WBTC_USDC = 'MAIN.SUBSCRIPTION_RIC_WBTC_USDC',
+-  SUBSCRIPTION_RIC_WETH_USDC = 'MAIN.SUBSCRIPTION_RIC_WETH_USDC',
+ 
+   START_FLOW = 'MAIN.START_FLOW',
+   STOP_FLOW = 'MAIN.STOP_FLOW',
+diff --git a/src/store/main/index.ts b/src/store/main/index.ts
+index 979e295..12b6893 100644
+--- a/src/store/main/index.ts
++++ b/src/store/main/index.ts
+@@ -8,31 +8,6 @@ export const mainInitialState: Readonly<MainState> = {
+   selectedDowngradeCoin: Coin.DAIx, 
+   selectedUpgradeCoin: Coin.DAI,
+   coinType: Coin.DAI,
+-  isLoadingUsdcDowngrade: false,
+-  isLoadingUsdcUpgrade: false,
+-  isLoadingDaiDowngrade: false,
+-  isLoadingDaiUpgrade: false,
+-  isLoadingMkrDowngrade: false,
+-  isLoadingMkrUpgrade: false,
+-  isLoadingUsdcWbtcFlow: false,
+-  isLoadingUsdcWethFlow: false,
+-  isLoadingUsdcRicFlow: false,
+-  isLoadingDaiMkrFlow: false,
+-  isLoadingMkrDaiFlow: false,
+-  isLoadingUsdcMkrFlow: false,
+-  isLoadingMkrUsdcFlow: false,
+-  isLoadingDaiMaticFlow: false,
+-  isLoadingMaticDaiFlow: false,
+-  isLoadingUsdcMaticFlow: false,
+-  isLoadingMaticUsdcFlow: false,
+-  isLoadingDaiEthFlow: false,
+-  isLoadingEthDaiFlow: false,
+-  isLoadingWbtcDowngrade: false,
+-  isLoadingWbtcUpgrade: false,
+-  isLoadingWbtcFlow: false,
+-  isLoadingWethDownGrade: false,
+-  isLoadingWethUpgrade: false,
+-  isLoadingWethFlow: false,
+   isLoadingDowngrade: false,
+   isLoadingUpgrade: false,
+   isLoading: true,
+diff --git a/src/store/main/sagas/approveSaga.ts b/src/store/main/sagas/approveSaga.ts
+index d1da01b..19f28a9 100644
+--- a/src/store/main/sagas/approveSaga.ts
++++ b/src/store/main/sagas/approveSaga.ts
+@@ -1,12 +1,5 @@
+ import { approve } from 'api/ethereum';
+ import { erc20ABI } from 'constants/abis';
+-import {
+-  USDCAddress, USDCxAddress,
+-  DAIAddress, DAIxAddress,
+-  MKRAddress, MKRxAddress,
+-  WETHAddress, WETHxAddress,
+-  WBTCAddress, WBTCxAddress,
+-} from 'constants/polygon_config';
+ import { call, put, all } from 'redux-saga/effects';
+ import { Unwrap } from 'types/unwrap';
+ import { getAddress } from 'utils/getAddress';
+@@ -14,11 +7,6 @@ import { getContract } from 'utils/getContract';
+ import web3 from 'utils/web3instance';
+ import { transformError } from 'utils/transformError';
+ import {
+-  usdcApprove,
+-  daiApprove,
+-  wethApprove,
+-  wbtcApprove,
+-  mkrApprove,
+   mainSetState,
+   approveAction,
+ } from '../actionCreators';
+@@ -69,78 +57,3 @@ export function* approveMainSaga({ payload }: ReturnType<typeof approveAction>)
+     yield put(mainSetState({ isLoadingUpgrade: false }));
+   }
+ }
+-
+-export function* approveUsdcSaga({ payload }: ReturnType<typeof usdcApprove>) {
+-  try {
+-    yield put(mainSetState({ isLoadingUsdcUpgrade: true }));
+-    const amount = web3.utils.toWei((Number(payload.value) * 1e6).toString(), 'wei');
+-    yield call(approveSaga, USDCAddress, USDCxAddress, amount);
+-    payload.callback();
+-    yield call(checkIfApproveUsdc);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingUsdcUpgrade: false }));
+-  }
+-}
+-
+-export function* approveDaiSaga({ payload }: ReturnType<typeof daiApprove>) {
+-  try {
+-    yield put(mainSetState({ isLoadingDaiUpgrade: true }));
+-    const amount = web3.utils.toWei(payload.value);
+-    yield call(approveSaga, DAIAddress, DAIxAddress, amount);
+-    payload.callback();
+-    yield call(checkIfApproveDai);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingDaiUpgrade: false }));
+-  }
+-}
+-
+-export function* approveMkrSaga({ payload }: ReturnType<typeof mkrApprove>) {
+-  try {
+-    yield put(mainSetState({ isLoadingMkrUpgrade: true }));
+-    const amount = web3.utils.toWei(payload.value);
+-    yield call(approveSaga, MKRAddress, MKRxAddress, amount);
+-    payload.callback();
+-    yield call(checkIfApproveMkr);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingMkrUpgrade: false }));
+-  }
+-}
+-
+-export function* approveWethSaga({ payload }: ReturnType<typeof wethApprove>) {
+-  try {
+-    yield put(mainSetState({ isLoadingWethUpgrade: true }));
+-    const amount = web3.utils.toWei(payload.value);
+-    yield call(approveSaga, WETHAddress, WETHxAddress, amount);
+-    payload.callback();
+-    yield call(checkIfApproveWeth);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingWethUpgrade: false }));
+-  }
+-}
+-
+-export function* approveWbtcSaga({ payload }: ReturnType<typeof wbtcApprove>) {
+-  try {
+-    yield put(mainSetState({ isLoadingWbtcUpgrade: true }));
+-    const amount = web3.utils.toWei((Number(payload.value) * 1e8).toString(), 'wei');
+-    yield call(approveSaga, WBTCAddress, WBTCxAddress, amount);
+-    payload.callback();
+-    yield call(checkIfApproveWbtc);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingWbtcUpgrade: false }));
+-  }
+-}
+diff --git a/src/store/main/sagas/downgradeSaga.ts b/src/store/main/sagas/downgradeSaga.ts
+index 1f71cb5..d5d7fc2 100644
+--- a/src/store/main/sagas/downgradeSaga.ts
++++ b/src/store/main/sagas/downgradeSaga.ts
+@@ -1,12 +1,5 @@
+ import { downgrade } from 'api/ethereum';
+ import { superTokenABI } from 'constants/abis';
+-import {
+-  DAIxAddress,
+-  MKRxAddress,
+-  USDCxAddress,
+-  WETHxAddress,
+-  WBTCxAddress,
+-} from 'constants/polygon_config';
+ import { call, put } from 'redux-saga/effects';
+ import { Unwrap } from 'types/unwrap';
+ import { getAddress } from 'utils/getAddress';
+@@ -14,11 +7,6 @@ import { getContract } from 'utils/getContract';
+ import web3 from 'utils/web3instance';
+ import { transformError } from 'utils/transformError';
+ import {
+-  mkrDownGrade,
+-  daiDownGrade,
+-  wethDownGrade,
+-  usdcDownGrade,
+-  wbtcDownGrade,
+   mainSetState,
+   downgradeAction,
+ } from '../actionCreators';
+@@ -46,80 +34,3 @@ export function* downgradeMainSaga({ payload }: ReturnType<typeof downgradeActio
+     yield put(mainSetState({ isLoadingDowngrade: false }));
+   }
+ }
+-
+-function* downgradeSaga(tokenAddress: string, value: string) {
+-  const amount = web3.utils.toWei(value, 'ether');
+-  const address: Unwrap<typeof getAddress> = yield call(getAddress);
+-  const contract: Unwrap<typeof getContract> = yield call(
+-    getContract,
+-    tokenAddress,
+-    superTokenABI,
+-  );
+-  yield call(downgrade, contract, amount, address);
+-  yield call(getBalances, address);
+-}
+-
+-export function* usdcDowngradeSaga({ payload }: ReturnType<typeof usdcDownGrade>) {
+-  try {
+-    yield put(mainSetState({ isLoadingUsdcDowngrade: true }));
+-    yield call(downgradeSaga, USDCxAddress, payload.value);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingUsdcDowngrade: false }));
+-  }
+-}
+-
+-export function* mkrDowngradeSaga({ payload }: ReturnType<typeof mkrDownGrade>) {
+-  try {
+-    yield put(mainSetState({ isLoadingMkrDowngrade: true }));
+-    yield call(downgradeSaga, MKRxAddress, payload.value);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingMkrDowngrade: false }));
+-  }
+-}
+-
+-export function* daiDowngradeSaga({ payload }: ReturnType<typeof daiDownGrade>) {
+-  try {
+-    yield put(mainSetState({ isLoadingDaiDowngrade: true }));
+-    yield call(downgradeSaga, DAIxAddress, payload.value);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingDaiDowngrade: false }));
+-  }
+-}
+-
+-export function* wethDowngradeSaga({ payload }: ReturnType<typeof wethDownGrade>) {
+-  try {
+-    yield put(mainSetState({ isLoadingWethDownGrade: true }));
+-    yield call(downgradeSaga, WETHxAddress, payload.value);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingWethDownGrade: false }));
+-  }
+-}
+-
+-export function* wbtcDowngradeSaga({ payload }: ReturnType<typeof wbtcDownGrade>) {
+-  try {
+-    yield put(mainSetState({ isLoadingWbtcDowngrade: true }));
+-    yield call(downgradeSaga, WBTCxAddress, payload.value);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingWbtcDowngrade: false }));
+-  }
+-}
+diff --git a/src/store/main/sagas/index.ts b/src/store/main/sagas/index.ts
+index 6c52dc0..ff4c5eb 100644
+--- a/src/store/main/sagas/index.ts
++++ b/src/store/main/sagas/index.ts
+@@ -1,69 +1,11 @@
+ import { takeEvery, takeLeading } from 'redux-saga/effects';
+ import { MainActionTypes } from '../actionTypes';
+-import {
+-  mkrDowngradeSaga,
+-  daiDowngradeSaga,
+-  usdcDowngradeSaga,
+-  wethDowngradeSaga,
+-  wbtcDowngradeSaga,
+-  downgradeMainSaga,
+-} from './downgradeSaga';
++import { downgradeMainSaga } from './downgradeSaga';
+ import { loadData } from './loadData';
+-import {
+-  approveMkrSaga,
+-  approveDaiSaga,
+-  approveUsdcSaga,
+-  approveWethSaga,
+-  approveWbtcSaga,
+-  approveMainSaga,
+-} from './approveSaga';
+-import {
+-  upgradeMkrSaga,
+-  upgradeDaiSaga,
+-  upgradeUsdcSaga,
+-  upgradeWethSaga,
+-  upgradeWbtcSaga,
+-  upgradeMainSaga,
+-} from './upgradeSaga';
+-import {
+-  subscriptionUsdcSaga, subscriptionWethSaga,
+-} from './subscription';
+-import {
+-  daiEthStopFlowSaga,
+-  ethDaiStopFlowSaga,
+-  daiMkrStopFlowSaga,
+-  mkrDaiStopFlowSaga,
+-  usdcMkrStopFlowSaga,
+-  mkrUsdcStopFlowSaga,
+-  daiMaticStopFlowSaga,
+-  maticDaiStopFlowSaga,
+-  usdcMaticStopFlowSaga,
+-  maticUsdcStopFlowSaga,
+-  usdcRicStopFlowSaga,
+-  usdcWethStopFlowSaga,
+-  wethUsdcStopFlowSaga,
+-  wbtcUsdcStopFlowSaga,
+-  usdcWbtcStopFlowSaga,
+-  stopFlowSaga,
+-} from './stopFlow';
+-import {
+-  daiEthStartFlowSaga,
+-  ethDaiStartFlowSaga,
+-  daiMkrStartFlowSaga,
+-  mkrDaiStartFlowSaga,
+-  usdcMkrStartFlowSaga,
+-  mkrUsdcStartFlowSaga,
+-  daiMaticStartFlowSaga,
+-  maticDaiStartFlowSaga,
+-  usdcMaticStartFlowSaga,
+-  maticUsdcStartFlowSaga,
+-  usdcRicStartFlowSaga,
+-  usdcWethStartFlowSaga,
+-  wethUsdcStartFlowSaga,
+-  wbtcUsdcStartFlowSaga,
+-  usdcWbtcStartFlowSaga,
+-  startFlowSaga,
+-} from './startFlow';
++import { approveMainSaga } from './approveSaga';
++import { upgradeMainSaga } from './upgradeSaga';
++import { stopFlowSaga } from './stopFlow';
++import { startFlowSaga } from './startFlow';
+ import { mainCheckSaga } from './mainCheckSaga';
+ import { switchNetworkSaga } from './switchNetworkSaga';
+ import { selectDowngradeCoinSaga, selectUpgradeCoinSaga, showTokenListSaga } from './selectCoinSaga';
+@@ -72,53 +14,6 @@ export default function* mainSaga() {
+   yield takeLeading(MainActionTypes.MAIN_CHECK, mainCheckSaga);
+   yield takeLeading(MainActionTypes.MAIN_SWITCH_NETWORK, switchNetworkSaga);
+   yield takeEvery(MainActionTypes.LOAD_DATA, loadData);
+-  yield takeLeading(MainActionTypes.MKR_DOWNGRADE, mkrDowngradeSaga);
+-  yield takeLeading(MainActionTypes.DAI_DOWNGRADE, daiDowngradeSaga);
+-  yield takeLeading(MainActionTypes.USDC_DOWNGRADE, usdcDowngradeSaga);
+-  yield takeLeading(MainActionTypes.WETH_DOWNGRADE, wethDowngradeSaga);
+-  yield takeLeading(MainActionTypes.WBTC_DOWNGRADE, wbtcDowngradeSaga);
+-  yield takeLeading(MainActionTypes.USDC_APPROVE, approveUsdcSaga);
+-  yield takeLeading(MainActionTypes.USDC_UPGRADE, upgradeUsdcSaga);
+-  yield takeLeading(MainActionTypes.DAI_APPROVE, approveDaiSaga);
+-  yield takeLeading(MainActionTypes.MKR_APPROVE, approveMkrSaga);
+-  yield takeLeading(MainActionTypes.DAI_UPGRADE, upgradeDaiSaga);
+-  yield takeLeading(MainActionTypes.MKR_UPGRADE, upgradeMkrSaga);
+-  yield takeLeading(MainActionTypes.WETH_APPROVE, approveWethSaga);
+-  yield takeLeading(MainActionTypes.WETH_UPGRADE, upgradeWethSaga);
+-  yield takeLeading(MainActionTypes.WBTC_UPGRADE, upgradeWbtcSaga);
+-  yield takeLeading(MainActionTypes.WBTC_APPROVE, approveWbtcSaga);
+-  yield takeLeading(MainActionTypes.USDC_WETH_SUBSCRIPTION, subscriptionUsdcSaga);
+-  yield takeLeading(MainActionTypes.WETH_USDC_SUBSCRIPTION, subscriptionWethSaga);
+-  yield takeLeading(MainActionTypes.DAI_MKR_STOP_FLOW, daiMkrStopFlowSaga);
+-  yield takeLeading(MainActionTypes.MKR_DAI_STOP_FLOW, mkrDaiStopFlowSaga);
+-  yield takeLeading(MainActionTypes.USDC_MKR_STOP_FLOW, usdcMkrStopFlowSaga);
+-  yield takeLeading(MainActionTypes.MKR_USDC_STOP_FLOW, mkrUsdcStopFlowSaga);
+-  yield takeLeading(MainActionTypes.DAI_MATIC_STOP_FLOW, daiMaticStopFlowSaga);
+-  yield takeLeading(MainActionTypes.MATIC_DAI_STOP_FLOW, maticDaiStopFlowSaga);
+-  yield takeLeading(MainActionTypes.USDC_MATIC_STOP_FLOW, usdcMaticStopFlowSaga);
+-  yield takeLeading(MainActionTypes.MATIC_USDC_STOP_FLOW, maticUsdcStopFlowSaga);
+-  yield takeLeading(MainActionTypes.DAI_ETH_STOP_FLOW, daiEthStopFlowSaga);
+-  yield takeLeading(MainActionTypes.ETH_DAI_STOP_FLOW, ethDaiStopFlowSaga);
+-  yield takeLeading(MainActionTypes.USDC_RIC_STOP_FLOW, usdcRicStopFlowSaga);
+-  yield takeLeading(MainActionTypes.USDC_WETH_STOP_FLOW, usdcWethStopFlowSaga);
+-  yield takeLeading(MainActionTypes.USDC_WBTC_STOP_FLOW, usdcWbtcStopFlowSaga);
+-  yield takeLeading(MainActionTypes.WETH_USDC_STOP_FLOW, wethUsdcStopFlowSaga);
+-  yield takeLeading(MainActionTypes.WBTC_USDC_STOP_FLOW, wbtcUsdcStopFlowSaga);
+-  yield takeLeading(MainActionTypes.DAI_ETH_START_FLOW, daiEthStartFlowSaga);
+-  yield takeLeading(MainActionTypes.ETH_DAI_START_FLOW, ethDaiStartFlowSaga);
+-  yield takeLeading(MainActionTypes.DAI_MKR_START_FLOW, daiMkrStartFlowSaga);
+-  yield takeLeading(MainActionTypes.MKR_DAI_START_FLOW, mkrDaiStartFlowSaga);
+-  yield takeLeading(MainActionTypes.USDC_MKR_START_FLOW, usdcMkrStartFlowSaga);
+-  yield takeLeading(MainActionTypes.MKR_USDC_START_FLOW, mkrUsdcStartFlowSaga);
+-  yield takeLeading(MainActionTypes.DAI_MATIC_START_FLOW, daiMaticStartFlowSaga);
+-  yield takeLeading(MainActionTypes.MATIC_DAI_START_FLOW, maticDaiStartFlowSaga);
+-  yield takeLeading(MainActionTypes.USDC_MATIC_START_FLOW, usdcMaticStartFlowSaga);
+-  yield takeLeading(MainActionTypes.MATIC_USDC_START_FLOW, maticUsdcStartFlowSaga);
+-  yield takeLeading(MainActionTypes.USDC_RIC_START_FLOW, usdcRicStartFlowSaga);
+-  yield takeLeading(MainActionTypes.USDC_WETH_START_FLOW, usdcWethStartFlowSaga);
+-  yield takeLeading(MainActionTypes.USDC_WBTC_START_FLOW, usdcWbtcStartFlowSaga);
+-  yield takeLeading(MainActionTypes.WETH_USDC_START_FLOW, wethUsdcStartFlowSaga);
+-  yield takeLeading(MainActionTypes.WBTC_USDC_START_FLOW, wbtcUsdcStartFlowSaga);
+   yield takeLeading(MainActionTypes.MAIN_SWITCH_NETWORK, switchNetworkSaga);
+ 
+   yield takeLeading(MainActionTypes.START_FLOW, startFlowSaga);
+diff --git a/src/store/main/sagas/loadData.ts b/src/store/main/sagas/loadData.ts
+index a9c7f2c..f4534fa 100644
+--- a/src/store/main/sagas/loadData.ts
++++ b/src/store/main/sagas/loadData.ts
+@@ -1,4 +1,3 @@
+-import { isLoadingAllTrue, isLoadingAllFalse } from 'constants/index';
+ import { put, call, all } from 'redux-saga/effects';
+ import { Unwrap } from 'types/unwrap';
+ import { getAddress } from 'utils/getAddress';
+@@ -13,7 +12,7 @@ import { sweepQueryFlow } from './sweepQueryFlow';
+ 
+ export function* loadData() {
+   try {
+-    yield put(mainSetState({ ...isLoadingAllTrue, isLoading: true }));
++    yield put(mainSetState({ isLoading: true }));
+     const address: Unwrap<typeof getAddress> = yield call(getAddress);
+     yield call(getBalances, address); 
+     yield all([
+@@ -24,7 +23,6 @@ export function* loadData() {
+     ]);
+     yield put(mainSetState({
+       address,
+-      ...isLoadingAllFalse, 
+       isLoading: false,
+     }));
+   } catch (e) {
+diff --git a/src/store/main/sagas/startFlow.ts b/src/store/main/sagas/startFlow.ts
+index 2bff3fc..05075cc 100644
+--- a/src/store/main/sagas/startFlow.ts
++++ b/src/store/main/sagas/startFlow.ts
+@@ -1,415 +1,18 @@
+ import { startFlow } from 'api/ethereum';
+ import { idaABI } from 'constants/abis';
+ import {
+-  idaAddress, RICAddress, usdcxRicExchangeAddress,
+-  MKRxAddress, mkrxDaixExchangeAddress,
+-  DAIxAddress, daixMkrxExchangeAddress,
+-  USDCxAddress, usdcxWethxExchangeAddress, usdcxMkrxExchangeAddress, mkrxUsdcxExchangeAddress,
+-  MATICxAddress, maticxDaixExchangeAddress, maticxUsdcxExchangeAddress,
+-  usdcxMaticxExchangeAddress, daixMaticxExchangeAddress,
+-  WETHxAddress, wethxUsdcxExchangeAddress, daixEthxExchangeAddress, ethxDaixExchangeAddress,
+-  WBTCxAddress, usdcxWbtcxExchangeAddress, wbtcxUsdcxExchangeAddress,
++  idaAddress,
+ } from 'constants/polygon_config';
+-import { call, put } from 'redux-saga/effects';
++import { call } from 'redux-saga/effects';
+ import { Unwrap } from 'types/unwrap';
+ import { getContract } from 'utils/getContract';
+ import { transformError } from 'utils/transformError';
+ import { sweepQueryFlow } from './sweepQueryFlow';
+ import {
+-  daiMkrStartFlow,
+-  mkrDaiStartFlow,
+-  usdcRicStartFlow,
+-  usdcMkrStartFlow,
+-  mkrUsdcStartFlow,
+-  daiMaticStartFlow,
+-  maticDaiStartFlow,
+-  usdcMaticStartFlow,
+-  maticUsdcStartFlow,
+-  daiEthStartFlow,
+-  ethDaiStartFlow,
+-  usdcWethStartFlow,
+-  wethUsdcStartFlow,
+-  wbtcUsdcStartFlow,
+-  usdcWbtcStartFlow,
+-  mainSetState,
++
+   startFlowAction,
+ } from '../actionCreators';
+ 
+-export function* usdcRicStartFlowSaga({ payload }: ReturnType<typeof usdcRicStartFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingUsdcRicFlow: true }));
+-    const idaContract: Unwrap<typeof getContract> = yield call(
+-      getContract,
+-      idaAddress,
+-      idaABI,
+-    );
+-    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+-    yield call(startFlow,
+-      idaContract,
+-      usdcxRicExchangeAddress,
+-      USDCxAddress,
+-      RICAddress,
+-      normalizedAmount);
+-    payload.callback();
+-    yield call(sweepQueryFlow);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingUsdcRicFlow: false }));
+-  }
+-}
+-
+-export function* usdcWethStartFlowSaga({ payload }: ReturnType<typeof usdcWethStartFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingUsdcWethFlow: true }));
+-    const idaContract: Unwrap<typeof getContract> = yield call(
+-      getContract,
+-      idaAddress,
+-      idaABI,
+-    );
+-    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+-    yield call(startFlow,
+-      idaContract,
+-      usdcxWethxExchangeAddress,
+-      USDCxAddress,
+-      WETHxAddress,
+-      normalizedAmount);
+-    payload.callback();
+-    yield call(sweepQueryFlow);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingUsdcWethFlow: false }));
+-  }
+-}
+-
+-export function* usdcWbtcStartFlowSaga({ payload }: ReturnType<typeof usdcWbtcStartFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingUsdcWbtcFlow: true }));
+-    const idaContract: Unwrap<typeof getContract> = yield call(
+-      getContract,
+-      idaAddress,
+-      idaABI,
+-    );
+-    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+-    yield call(startFlow,
+-      idaContract,
+-      usdcxWbtcxExchangeAddress,
+-      USDCxAddress,
+-      WBTCxAddress,
+-      normalizedAmount);
+-    payload.callback();
+-    yield call(sweepQueryFlow);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingUsdcWbtcFlow: false }));
+-  }
+-}
+-
+-export function* wethUsdcStartFlowSaga({ payload }: ReturnType<typeof wethUsdcStartFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingWethFlow: true }));
+-    const idaContract: Unwrap<typeof getContract> = yield call(
+-      getContract,
+-      idaAddress,
+-      idaABI,
+-    );
+-    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+-    yield call(startFlow,
+-      idaContract,
+-      wethxUsdcxExchangeAddress,
+-      WETHxAddress,
+-      USDCxAddress,
+-      normalizedAmount);
+-    payload.callback();
+-    yield call(sweepQueryFlow);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingWethFlow: false }));
+-  }
+-}
+-
+-export function* wbtcUsdcStartFlowSaga({ payload }: ReturnType<typeof wbtcUsdcStartFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingWbtcFlow: true }));
+-    const idaContract: Unwrap<typeof getContract> = yield call(
+-      getContract,
+-      idaAddress,
+-      idaABI,
+-    );
+-    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+-    yield call(startFlow,
+-      idaContract,
+-      wbtcxUsdcxExchangeAddress,
+-      WBTCxAddress,
+-      USDCxAddress,
+-      normalizedAmount);
+-    payload.callback();
+-    yield call(sweepQueryFlow);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingWbtcFlow: false }));
+-  }
+-}
+-
+-export function* daiMkrStartFlowSaga({ payload }: ReturnType<typeof daiMkrStartFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingDaiMkrFlow: true }));
+-    const idaContract: Unwrap<typeof getContract> = yield call(
+-      getContract,
+-      idaAddress,
+-      idaABI,
+-    );
+-    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+-    yield call(startFlow,
+-      idaContract,
+-      daixMkrxExchangeAddress,
+-      DAIxAddress,
+-      MKRxAddress,
+-      normalizedAmount);
+-    payload.callback();
+-    yield call(sweepQueryFlow);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingDaiMkrFlow: false }));
+-  }
+-}
+-
+-export function* mkrDaiStartFlowSaga({ payload }: ReturnType<typeof mkrDaiStartFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingMkrDaiFlow: true }));
+-    const idaContract: Unwrap<typeof getContract> = yield call(
+-      getContract,
+-      idaAddress,
+-      idaABI,
+-    );
+-    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+-    yield call(startFlow,
+-      idaContract,
+-      mkrxDaixExchangeAddress,
+-      MKRxAddress,
+-      DAIxAddress,
+-      normalizedAmount);
+-    payload.callback();
+-    yield call(sweepQueryFlow);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingMkrDaiFlow: false }));
+-  }
+-}
+-
+-export function* usdcMkrStartFlowSaga({ payload }: ReturnType<typeof usdcMkrStartFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingUsdcMkrFlow: true }));
+-    const idaContract: Unwrap<typeof getContract> = yield call(
+-      getContract,
+-      idaAddress,
+-      idaABI,
+-    );
+-    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+-    yield call(startFlow,
+-      idaContract,
+-      usdcxMkrxExchangeAddress,
+-      USDCxAddress,
+-      MKRxAddress,
+-      normalizedAmount);
+-    payload.callback();
+-    yield call(sweepQueryFlow);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingUsdcMkrFlow: false }));
+-  }
+-}
+-
+-export function* mkrUsdcStartFlowSaga({ payload }: ReturnType<typeof mkrUsdcStartFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingMkrUsdcFlow: true }));
+-    const idaContract: Unwrap<typeof getContract> = yield call(
+-      getContract,
+-      idaAddress,
+-      idaABI,
+-    );
+-    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+-    yield call(startFlow,
+-      idaContract,
+-      mkrxUsdcxExchangeAddress,
+-      MKRxAddress,
+-      USDCxAddress,
+-      normalizedAmount);
+-    payload.callback();
+-    yield call(sweepQueryFlow);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingMkrUsdcFlow: false }));
+-  }
+-}
+-
+-export function* daiEthStartFlowSaga({ payload }: ReturnType<typeof daiEthStartFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingDaiEthFlow: true }));
+-    const idaContract: Unwrap<typeof getContract> = yield call(
+-      getContract,
+-      idaAddress,
+-      idaABI,
+-    );
+-    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+-    yield call(startFlow,
+-      idaContract,
+-      daixEthxExchangeAddress,
+-      DAIxAddress,
+-      WETHxAddress,
+-      normalizedAmount);
+-    payload.callback();
+-    yield call(sweepQueryFlow);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingDaiEthFlow: false }));
+-  }
+-}
+-
+-export function* ethDaiStartFlowSaga({ payload }: ReturnType<typeof ethDaiStartFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingEthDaiFlow: true }));
+-    const idaContract: Unwrap<typeof getContract> = yield call(
+-      getContract,
+-      idaAddress,
+-      idaABI,
+-    );
+-    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+-    yield call(startFlow,
+-      idaContract,
+-      ethxDaixExchangeAddress,
+-      WETHxAddress,
+-      DAIxAddress,
+-      normalizedAmount);
+-    payload.callback();
+-    yield call(sweepQueryFlow);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingEthDaiFlow: false }));
+-  }
+-}
+-
+-export function* daiMaticStartFlowSaga({ payload }: ReturnType<typeof daiMaticStartFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingDaiMaticFlow: true }));
+-    const idaContract: Unwrap<typeof getContract> = yield call(
+-      getContract,
+-      idaAddress,
+-      idaABI,
+-    );
+-    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+-    yield call(startFlow,
+-      idaContract,
+-      daixMaticxExchangeAddress,
+-      DAIxAddress,
+-      MATICxAddress,
+-      normalizedAmount);
+-    payload.callback();
+-    yield call(sweepQueryFlow);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingDaiMaticFlow: false }));
+-  }
+-}
+-
+-export function* maticDaiStartFlowSaga({ payload }: ReturnType<typeof maticDaiStartFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingMaticDaiFlow: true }));
+-    const idaContract: Unwrap<typeof getContract> = yield call(
+-      getContract,
+-      idaAddress,
+-      idaABI,
+-    );
+-    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+-    yield call(startFlow,
+-      idaContract,
+-      maticxDaixExchangeAddress,
+-      MATICxAddress,
+-      DAIxAddress,
+-      normalizedAmount);
+-    payload.callback();
+-    yield call(sweepQueryFlow);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingMaticDaiFlow: false }));
+-  }
+-}
+-
+-export function* usdcMaticStartFlowSaga({ payload }: ReturnType<typeof usdcMaticStartFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingUsdcMaticFlow: true }));
+-    const idaContract: Unwrap<typeof getContract> = yield call(
+-      getContract,
+-      idaAddress,
+-      idaABI,
+-    );
+-    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+-    yield call(startFlow,
+-      idaContract,
+-      usdcxMaticxExchangeAddress,
+-      USDCxAddress,
+-      MATICxAddress,
+-      normalizedAmount);
+-    payload.callback();
+-    yield call(sweepQueryFlow);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingUsdcMaticFlow: false }));
+-  }
+-}
+-
+-export function* maticUsdcStartFlowSaga({ payload }: ReturnType<typeof maticUsdcStartFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingMaticUsdcFlow: true }));
+-    const idaContract: Unwrap<typeof getContract> = yield call(
+-      getContract,
+-      idaAddress,
+-      idaABI,
+-    );
+-    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+-    yield call(startFlow,
+-      idaContract,
+-      maticxUsdcxExchangeAddress,
+-      MATICxAddress,
+-      USDCxAddress,
+-      normalizedAmount);
+-    payload.callback();
+-    yield call(sweepQueryFlow);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingMaticUsdcFlow: false }));
+-  }
+-}
+-
+ export function* startFlowSaga({ payload }: ReturnType<typeof startFlowAction >) {
+   try {
+     const idaContract: Unwrap<typeof getContract> = yield call(
+diff --git a/src/store/main/sagas/stopFlow.ts b/src/store/main/sagas/stopFlow.ts
+index a01ee7d..0df9719 100644
+--- a/src/store/main/sagas/stopFlow.ts
++++ b/src/store/main/sagas/stopFlow.ts
+@@ -1,247 +1,9 @@
+ import { stopFlow } from 'api/ethereum';
+-import {
+-  usdcxRicExchangeAddress,
+-  MKRxAddress, mkrxDaixExchangeAddress,
+-  DAIxAddress, daixMkrxExchangeAddress,
+-  USDCxAddress, usdcxWethxExchangeAddress, usdcxMkrxExchangeAddress, mkrxUsdcxExchangeAddress,
+-  MATICxAddress, maticxDaixExchangeAddress, maticxUsdcxExchangeAddress,
+-  usdcxMaticxExchangeAddress, daixMaticxExchangeAddress,
+-  WETHxAddress, wethxUsdcxExchangeAddress, daixEthxExchangeAddress, ethxDaixExchangeAddress,
+-  WBTCxAddress, usdcxWbtcxExchangeAddress, wbtcxUsdcxExchangeAddress,
+-} from 'constants/polygon_config';
+-import { call, put } from 'redux-saga/effects';
++import { call } from 'redux-saga/effects';
+ import { transformError } from 'utils/transformError';
+-import {
+-  daiMkrStopFlow,
+-  mkrDaiStopFlow,
+-  usdcMkrStopFlow,
+-  mkrUsdcStopFlow,
+-  daiMaticStopFlow,
+-  maticDaiStopFlow,
+-  usdcMaticStopFlow,
+-  maticUsdcStopFlow,
+-  daiEthStopFlow,
+-  ethDaiStopFlow,
+-  usdcRicStopFlow,
+-  usdcWethStopFlow,
+-  usdcWbtcStopFlow,
+-  wethUsdcStopFlow,
+-  wbtcUsdcStopFlow,
+-  mainSetState,
+-  stopFlowAction,
+-} from '../actionCreators';
++import { stopFlowAction } from '../actionCreators';
+ import { sweepQueryFlow } from './sweepQueryFlow';
+ 
+-export function* usdcRicStopFlowSaga({ payload }: ReturnType<typeof usdcRicStopFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingUsdcRicFlow: true }));
+-    yield call(stopFlow, usdcxRicExchangeAddress, USDCxAddress);
+-    yield call(sweepQueryFlow);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingUsdcRicFlow: false }));
+-  }
+-}
+-
+-export function* usdcWethStopFlowSaga({ payload }: ReturnType<typeof usdcWethStopFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingUsdcWethFlow: true }));
+-    yield call(stopFlow, usdcxWethxExchangeAddress, USDCxAddress);
+-    yield call(sweepQueryFlow);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingUsdcWethFlow: false }));
+-  }
+-}
+-
+-export function* usdcWbtcStopFlowSaga({ payload }: ReturnType<typeof usdcWbtcStopFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingUsdcWbtcFlow: true }));
+-    yield call(stopFlow, usdcxWbtcxExchangeAddress, USDCxAddress);
+-    yield call(sweepQueryFlow);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingUsdcWbtcFlow: false }));
+-  }
+-}
+-
+-export function* wethUsdcStopFlowSaga({ payload }: ReturnType<typeof wethUsdcStopFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingWethFlow: true }));
+-    yield call(stopFlow, wethxUsdcxExchangeAddress, WETHxAddress);
+-    yield call(sweepQueryFlow);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingWethFlow: false }));
+-  }
+-}
+-
+-export function* wbtcUsdcStopFlowSaga({ payload }: ReturnType<typeof wbtcUsdcStopFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingWbtcFlow: true }));
+-    yield call(stopFlow, wbtcxUsdcxExchangeAddress, WBTCxAddress);
+-    yield call(sweepQueryFlow);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingWbtcFlow: false }));
+-  }
+-}
+-
+-export function* daiMkrStopFlowSaga({ payload }: ReturnType<typeof daiMkrStopFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingDaiMkrFlow: true }));
+-    yield call(stopFlow, daixMkrxExchangeAddress, DAIxAddress);
+-    yield call(sweepQueryFlow);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingDaiMkrFlow: false }));
+-  }
+-}
+-
+-export function* mkrDaiStopFlowSaga({ payload }: ReturnType<typeof mkrDaiStopFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingMkrDaiFlow: true }));
+-    yield call(stopFlow, mkrxDaixExchangeAddress, MKRxAddress);
+-    yield call(sweepQueryFlow);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingMkrDaiFlow: false }));
+-  }
+-}
+-
+-export function* usdcMkrStopFlowSaga({ payload }: ReturnType<typeof usdcMkrStopFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingUsdcMkrFlow: true }));
+-    yield call(stopFlow, usdcxMkrxExchangeAddress, USDCxAddress);
+-    yield call(sweepQueryFlow);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingUsdcMkrFlow: false }));
+-  }
+-}
+-
+-export function* mkrUsdcStopFlowSaga({ payload }: ReturnType<typeof mkrUsdcStopFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingMkrUsdcFlow: true }));
+-    yield call(stopFlow, mkrxUsdcxExchangeAddress, MKRxAddress);
+-    yield call(sweepQueryFlow);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingMkrUsdcFlow: false }));
+-  }
+-}
+-
+-export function* daiEthStopFlowSaga({ payload }: ReturnType<typeof daiEthStopFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingDaiEthFlow: true }));
+-    yield call(stopFlow, daixEthxExchangeAddress, DAIxAddress);
+-    yield call(sweepQueryFlow);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingDaiEthFlow: false }));
+-  }
+-}
+-
+-export function* ethDaiStopFlowSaga({ payload }: ReturnType<typeof ethDaiStopFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingEthDaiFlow: true }));
+-    yield call(stopFlow, ethxDaixExchangeAddress, WETHxAddress);
+-    yield call(sweepQueryFlow);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingEthDaiFlow: false }));
+-  }
+-}
+-
+-export function* daiMaticStopFlowSaga({ payload }: ReturnType<typeof daiMaticStopFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingDaiMaticFlow: true }));
+-    yield call(stopFlow, daixMaticxExchangeAddress, DAIxAddress);
+-    yield call(sweepQueryFlow);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingDaiMaticFlow: false }));
+-  }
+-}
+-
+-export function* maticDaiStopFlowSaga({ payload }: ReturnType<typeof maticDaiStopFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingMaticDaiFlow: true }));
+-    yield call(stopFlow, maticxDaixExchangeAddress, MATICxAddress);
+-    yield call(sweepQueryFlow);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingMaticDaiFlow: false }));
+-  }
+-}
+-
+-export function* usdcMaticStopFlowSaga({ payload }: ReturnType<typeof usdcMaticStopFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingUsdcMaticFlow: true }));
+-    yield call(stopFlow, usdcxMaticxExchangeAddress, USDCxAddress);
+-    yield call(sweepQueryFlow);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingUsdcMaticFlow: false }));
+-  }
+-}
+-
+-export function* maticUsdcStopFlowSaga({ payload }: ReturnType<typeof maticUsdcStopFlow>) {
+-  try {
+-    yield put(mainSetState({ isLoadingMaticUsdcFlow: true }));
+-    yield call(stopFlow, maticxUsdcxExchangeAddress, MATICxAddress);
+-    yield call(sweepQueryFlow);
+-    payload.callback();
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingMaticUsdcFlow: false }));
+-  }
+-}
+-
+ export function* stopFlowSaga({ payload }: ReturnType<typeof stopFlowAction>) {
+   try {
+     const { config } = payload;
+diff --git a/src/store/main/sagas/subscription.ts b/src/store/main/sagas/subscription.ts
+deleted file mode 100644
+index 12dd513..0000000
+--- a/src/store/main/sagas/subscription.ts
++++ /dev/null
+@@ -1,78 +0,0 @@
+-import { approveSubscription } from 'api/ethereum';
+-import {
+-  USDCxAddress,
+-  RICAddress,
+-  WETHxAddress,
+-  wbtcxUsdcxExchangeAddress,
+-  wethxUsdcxExchangeAddress,
+-  usdcxWbtcxExchangeAddress,
+-  usdcxWethxExchangeAddress,
+-} from 'constants/polygon_config';
+-import { call } from 'redux-saga/effects';
+-import { transformError } from 'utils/transformError';
+-import { 
+-  subscriptionRicUsdcWbtc,
+-  subscriptionRicUsdcWeth,
+-  subscriptionRicWbtcUsdc,
+-  subscriptionRicWethUsdc,
+-} from '../actionCreators';
+-
+-export function* subscriptionUsdcSaga() {
+-  try {
+-    yield call(approveSubscription, USDCxAddress, usdcxWethxExchangeAddress);
+-  } catch (e) {
+-    // TODO: handle errors properly
+-    // eslint-disable-next-line no-alert
+-    alert("You've already approved Usdc for this exchange.");
+-  }
+-}
+-
+-export function* subscriptionWethSaga() {
+-  try {
+-    yield call(approveSubscription, WETHxAddress, wethxUsdcxExchangeAddress);
+-  } catch (e) {
+-    // TODO: handle errors properly
+-    // eslint-disable-next-line no-alert
+-    alert("You've already approved ETH for this exchange.");
+-  }
+-}
+-
+-export function* subscriptionRicWbtcUsdcSaga(
+-  { callback }: ReturnType<typeof subscriptionRicWbtcUsdc>,
+-) {
+-  try {
+-    yield call(approveSubscription, RICAddress, wbtcxUsdcxExchangeAddress);
+-  } catch (e) {
+-    callback(transformError(e));
+-  }
+-}
+-
+-export function* subscriptionRicWethUsdcSaga(
+-  { callback }: ReturnType<typeof subscriptionRicWethUsdc>,
+-) {
+-  try {
+-    yield call(approveSubscription, RICAddress, wethxUsdcxExchangeAddress);
+-  } catch (e) {
+-    callback(transformError(e));
+-  }
+-}
+-
+-export function* subscriptionRicUsdcWbtcSaga(
+-  { callback }: ReturnType<typeof subscriptionRicUsdcWbtc>,
+-) {
+-  try {
+-    yield call(approveSubscription, RICAddress, usdcxWbtcxExchangeAddress);
+-  } catch (e) {
+-    callback(transformError(e));
+-  }
+-}
+-
+-export function* subscriptionRicUsdcWethSaga(
+-  { callback }: ReturnType<typeof subscriptionRicUsdcWeth>,
+-) {
+-  try {
+-    yield call(approveSubscription, RICAddress, usdcxWethxExchangeAddress);
+-  } catch (e) {
+-    callback(transformError(e));
+-  }
+-}
+diff --git a/src/store/main/sagas/sweepQueryFlow.ts b/src/store/main/sagas/sweepQueryFlow.ts
+index e0e177d..8250d30 100644
+--- a/src/store/main/sagas/sweepQueryFlow.ts
++++ b/src/store/main/sagas/sweepQueryFlow.ts
+@@ -50,7 +50,6 @@ export function* sweepQueryFlow() {
+     call(queryFlows, usdcxRicExchangeAddress),
+   ]);
+ 
+-  console.log('flow', results);
+   const flows: { [key:string]: { flowsOwned: Flow[], flowsReceived: Flow[] } } = {};
+ 
+   [usdcxWethxExchangeAddress,
+diff --git a/src/store/main/sagas/upgradeSaga.ts b/src/store/main/sagas/upgradeSaga.ts
+index ee7a2fe..2474304 100644
+--- a/src/store/main/sagas/upgradeSaga.ts
++++ b/src/store/main/sagas/upgradeSaga.ts
+@@ -1,12 +1,5 @@
+ import { upgrade } from 'api/ethereum';
+ import { superTokenABI } from 'constants/abis';
+-import {
+-  MKRxAddress,
+-  DAIxAddress,
+-  USDCxAddress,
+-  WETHxAddress,
+-  WBTCxAddress,
+-} from 'constants/polygon_config';
+ import { call, put, all } from 'redux-saga/effects';
+ import { Unwrap } from 'types/unwrap';
+ import { getAddress } from 'utils/getAddress';
+@@ -14,11 +7,6 @@ import { getContract } from 'utils/getContract';
+ import web3 from 'utils/web3instance';
+ import { transformError } from 'utils/transformError';
+ import {
+-  daiUpgrade,
+-  usdcUpgrade,
+-  wethUpgrade,
+-  wbtcUpgrade,
+-  mkrUpgrade,
+   mainSetState,
+   upgradeAction,
+ } from '../actionCreators';
+@@ -68,78 +56,3 @@ export function* upgradeMainSaga({ payload }: ReturnType<typeof upgradeAction>)
+     yield put(mainSetState({ isLoadingUpgrade: false }));
+   }
+ }
+-
+-export function* upgradeUsdcSaga({ payload }: ReturnType<typeof usdcUpgrade>) {
+-  try {
+-    yield put(mainSetState({ isLoadingUsdcUpgrade: true }));
+-    const amount = web3.utils.toWei(payload.value);
+-    yield call(upgradeSaga, USDCxAddress, amount);
+-    payload.callback();
+-    yield call(checkIfApproveUsdc);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingUsdcUpgrade: false }));
+-  }
+-}
+-
+-export function* upgradeDaiSaga({ payload }: ReturnType<typeof daiUpgrade>) {
+-  try {
+-    yield put(mainSetState({ isLoadingDaiUpgrade: true }));
+-    const amount = web3.utils.toWei(payload.value);
+-    yield call(upgradeSaga, DAIxAddress, amount);
+-    payload.callback();
+-    yield call(checkIfApproveDai);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingDaiUpgrade: false }));
+-  }
+-}
+-
+-export function* upgradeMkrSaga({ payload }: ReturnType<typeof mkrUpgrade>) {
+-  try {
+-    yield put(mainSetState({ isLoadingMkrUpgrade: true }));
+-    const amount = web3.utils.toWei(payload.value);
+-    yield call(upgradeSaga, MKRxAddress, amount);
+-    payload.callback();
+-    yield call(checkIfApproveMkr);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingMkrUpgrade: false }));
+-  }
+-}
+-
+-export function* upgradeWethSaga({ payload }: ReturnType<typeof wethUpgrade>) {
+-  try {
+-    yield put(mainSetState({ isLoadingWethUpgrade: true }));
+-    const amount = web3.utils.toWei(payload.value);
+-    yield call(upgradeSaga, WETHxAddress, amount);
+-    payload.callback();
+-    yield call(checkIfApproveWeth);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingWethUpgrade: false }));
+-  }
+-}
+-
+-export function* upgradeWbtcSaga({ payload }: ReturnType<typeof wbtcUpgrade>) {
+-  try {
+-    yield put(mainSetState({ isLoadingWbtcUpgrade: true }));
+-    const amount = web3.utils.toWei(payload.value);
+-    yield call(upgradeSaga, WBTCxAddress, amount);
+-    payload.callback();
+-    yield call(checkIfApproveWbtc);
+-  } catch (e) {
+-    const error = transformError(e);
+-    payload.callback(error);
+-  } finally {
+-    yield put(mainSetState({ isLoadingWbtcUpgrade: false }));
+-  }
+-}
+diff --git a/src/store/main/types.ts b/src/store/main/types.ts
+index dc11f09..ab64938 100644
+--- a/src/store/main/types.ts
++++ b/src/store/main/types.ts
+@@ -98,32 +98,6 @@ export type MainState = {
+     totalFlows: number,
+     placeholder: string,
+   } 
+-  isLoadingUsdcDowngrade: boolean,
+-  isLoadingUsdcUpgrade: boolean,
+-  isLoadingMkrDowngrade: boolean,
+-  isLoadingMkrUpgrade: boolean,
+-  isLoadingDaiDowngrade: boolean,
+-  isLoadingDaiUpgrade: boolean,
+-  isLoadingUsdcMkrFlow: boolean,
+-  isLoadingMkrUsdcFlow: boolean,
+-  isLoadingDaiMkrFlow: boolean,
+-  isLoadingMkrDaiFlow: boolean,
+-  isLoadingUsdcRicFlow: boolean,
+-  isLoadingUsdcMaticFlow: boolean,
+-  isLoadingMaticUsdcFlow: boolean,
+-  isLoadingDaiMaticFlow: boolean,
+-  isLoadingMaticDaiFlow: boolean,
+-  isLoadingEthDaiFlow: boolean,
+-  isLoadingDaiEthFlow: boolean,
+-  isLoadingUsdcWbtcFlow: boolean,
+-  isLoadingUsdcWethFlow: boolean,
+-  isLoadingWbtcDowngrade: boolean,
+-  isLoadingWbtcUpgrade: boolean,
+-  isLoadingWbtcFlow: boolean,
+-  isLoadingWethDownGrade: boolean,
+-  isLoadingWethUpgrade: boolean,
+-  isLoadingWethFlow: boolean,
+-  
+   isLoadingDowngrade: boolean,
+   isLoadingUpgrade: boolean,
+   isLoading: boolean,
