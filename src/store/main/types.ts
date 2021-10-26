@@ -1,3 +1,5 @@
+import { Coin } from '../../constants/coins';
+
 export type MainState = {
   address: string;
   balances?: { [key:string]: string };
@@ -95,30 +97,11 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string,
-  }
-  isLoadingUsdcDowngrade: boolean,
-  isLoadingUsdcUpgrade: boolean,
-  isLoadingMkrDowngrade: boolean,
-  isLoadingMkrUpgrade: boolean,
-  isLoadingDaiDowngrade: boolean,
-  isLoadingDaiUpgrade: boolean,
-  isLoadingUsdcMkrFlow: boolean,
-  isLoadingMkrUsdcFlow: boolean,
-  isLoadingDaiMkrFlow: boolean,
-  isLoadingMkrDaiFlow: boolean,
-  isLoadingUsdcRicFlow: boolean,
-  isLoadingUsdcMaticFlow: boolean,
-  isLoadingMaticUsdcFlow: boolean,
-  isLoadingDaiMaticFlow: boolean,
-  isLoadingMaticDaiFlow: boolean,
-  isLoadingEthDaiFlow: boolean,
-  isLoadingDaiEthFlow: boolean,
-  isLoadingUsdcWbtcFlow: boolean,
-  isLoadingUsdcWethFlow: boolean,
-  isLoadingWbtcDowngrade: boolean,
-  isLoadingWbtcUpgrade: boolean,
-  isLoadingWbtcFlow: boolean,
-  isLoadingWethDownGrade: boolean,
-  isLoadingWethUpgrade: boolean,
-  isLoadingWethFlow: boolean,
+  } 
+  isLoadingDowngrade: boolean,
+  isLoadingUpgrade: boolean,
+  isLoading: boolean,
+  selectedDowngradeCoin: Coin, 
+  selectedUpgradeCoin: Coin,
+  coinType: Coin
 };

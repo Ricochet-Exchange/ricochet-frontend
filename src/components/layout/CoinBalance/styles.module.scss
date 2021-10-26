@@ -1,0 +1,68 @@
+@import '../../../assets/styles/mixins';
+
+
+.balance_wrap {
+  @include flexbox(flex-start, center);
+
+  flex-direction: column;
+  font-family: $default-font;
+  margin: 0 0 0 10px;
+}
+
+.container_balance {
+  @include flexbox(center, center);
+
+}
+
+.name_wrap {
+  @include flexbox(center, center);
+}
+
+.name {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 140%;
+  color: var(--color-black-dark);
+}
+        
+.container_arrow {
+  padding: 0 0 0 6px;
+}
+
+.arrow_down,
+.arrow_up {
+  color: var(--color-blue);
+  &:active {
+    background: var(--color-blue-light);
+  }
+}
+
+.btn_arrow_up,
+.btn_arrow_down {
+  &:active {
+    background: var(--color-blue-light);
+  }
+}
+
+.balance {
+  @include flexbox(center, center);
+}
+
+.balance_value {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 140%;
+  color: var(--color-blue);
+  padding: 0 0 0 4px;
+}
+
+.balance_name {
+  color: var(--color-black-dark);
+  font-family: $default-font;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 140%;
+}

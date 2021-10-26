@@ -1,0 +1,56 @@
+@import "../../../assets/styles/mixins";
+
+.input {
+  height: 100%;
+  flex: 1;
+  padding: 0 12px;
+  border: none;
+  color: $color-input-text;
+  background: transparent;
+  min-width: 0;
+  width: calc(100%);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.icon {
+  @include flexbox(center, center);
+  padding: 0 12px;
+  height: 24px;
+  color: $color-input-text;
+
+  &:first-child {
+    border-left: none;
+    margin-right: 4px;
+  }
+
+  &:last-child {
+    border-right: none;
+    margin-left: 4px;
+  }
+
+  &.text {
+    font-size: 14px;
+    line-height: 18px;
+    white-space: nowrap;
+    border: none;
+
+    &:first-child {
+      padding-right: 0;
+    }
+
+    &:last-child {
+      padding-left: 0;
+    }
+  }
+}
+
+.reveal {
+  color: inherit;
+}
+
+.error {
+  color: $color-input-error;
+}

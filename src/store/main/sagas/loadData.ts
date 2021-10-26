@@ -1,4 +1,3 @@
-import { isLoadingAllTrue, isLoadingAllFalse } from 'constants/index';
 import { put, call, all } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
@@ -13,7 +12,7 @@ import { sweepQueryFlow } from './sweepQueryFlow';
 
 export function* loadData() {
   try {
-    yield put(mainSetState({ ...isLoadingAllTrue }));
+    yield put(mainSetState({ isLoading: true }));
     const address: Unwrap<typeof getAddress> = yield call(getAddress);
     yield call(getBalances, address); 
     yield all([
@@ -24,7 +23,7 @@ export function* loadData() {
     ]);
     yield put(mainSetState({
       address,
-      ...isLoadingAllFalse, 
+      isLoading: false,
     }));
   } catch (e) {
     yield put(mainGetData());

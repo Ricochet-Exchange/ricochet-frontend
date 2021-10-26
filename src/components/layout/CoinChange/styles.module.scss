@@ -1,0 +1,74 @@
+@import '../../../assets/styles/mixins';
+
+.currency {
+  @include flexbox(center, center);
+}
+
+.labels {
+  @include flexbox(center, center);
+
+  position: relative;
+
+  & .img_usd,
+  .img_bitcoin {
+    position: absolute;
+    height: 32px;
+    width: 32px;
+    padding: 0;
+    background: transparent;
+    border: none;
+  }
+}
+
+.img_bitcoin {
+  left: 22px;
+
+  &:active {
+    background: var(--color-blue-light);
+  }
+}
+
+.img_usd {
+  left: 0px;
+
+  &:active {
+    background: var(--color-blue-light);
+  }
+}
+
+.currency_name_container {
+  padding: 28px 0 28px 64px;
+}
+
+.currency_name {
+  @include flexbox(center, center);
+
+  flex-wrap: wrap;
+
+  @include tablet {
+    flex-wrap: nowrap;
+  }
+}
+
+.currency_first,
+.currency_second {
+  color: var(--color-black-dark);
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+
+  @include tablet {
+    font-size: 16px;
+  }
+}
+
+.arrow_circle_container {
+  padding: 0 8px 0 8px;
+}
+
+.arrow_circle {
+  @include flexbox(center, center);
+  color: var(--color-blue);
+  width: 24px;
+  height: 24px;
+}

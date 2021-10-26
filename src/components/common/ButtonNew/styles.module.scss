@@ -1,0 +1,55 @@
+@import '../../../assets/styles/mixins';
+@import '../../../assets/styles/variables';
+
+.button {
+  @include flexbox(center, center);
+
+  font-family: $default-font;
+  padding: 15px 24px 16px;
+  border-radius: 8px;
+  font-weight: var(--weight-500);
+  font-size: 14px;
+  line-height: 21px;
+  transition: all $transition-time;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.primary {
+    background-color: $color-button-primary;
+    color: $color-button-text-primary;
+
+    &:hover, &:focus {
+      background-color: $color-button-primary;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
+  &.secondary {
+    background-color: $color-button-secondary;
+    color: $color-button-text-secondary;
+
+    &:hover, &:focus {
+      background-color: $color-button-secondary;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
+  &.full_width {
+    width: 100%;
+  }
+}

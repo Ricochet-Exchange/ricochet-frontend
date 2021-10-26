@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import { PersistConfig, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import { connectRouter } from 'connected-react-router';
 import main from 'store/main';
 import modal from 'store/modal';
+import history from 'utils/history';
 
 const PERSIST_CONFIGS: Record<string, PersistConfig<any>> = {
   main: {
@@ -15,4 +17,5 @@ const PERSIST_CONFIGS: Record<string, PersistConfig<any>> = {
 export default combineReducers({
   main: persistReducer(PERSIST_CONFIGS.main, main),
   modal,
+  router: connectRouter(history),
 });

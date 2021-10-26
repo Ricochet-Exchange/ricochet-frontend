@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
-import { Button } from 'components/common/Button';
 import { useDispatch } from 'react-redux';
 import { mainSwitchNetwork } from 'store/main/actionCreators';
+import ButtonNew from 'components/common/ButtonNew';
 import styles from './styles.module.scss';
 
 export const ModalNetwork:React.FC = () => {
@@ -32,11 +32,13 @@ export const ModalNetwork:React.FC = () => {
           https://polygonscan.com
         </li>
       </ul>
-      <Button 
+      <ButtonNew
         onClick={handleClick}
-        label="SWITCH TO POLYGON"
         className={styles.button}
-      />
+      >
+        switch to polygon
+      </ButtonNew> 
+
     </div>
   );
 };

@@ -1,0 +1,97 @@
+@import '../../../assets/styles/mixins';
+
+.input_container {
+  @include flexbox(center, flex-start);
+  padding: 4px 0 27px 30px;
+  width: 100%;
+
+  @include tablet {
+    @include flexbox(center, center);
+
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 0 10px 0;
+  }
+}
+
+.input {
+  font-family: $default-font;
+  background: var(--color-white);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 140%;
+  color: var(--color-grey);
+
+  @include tablet {
+    padding: 10px 0 10px 20px;
+  }
+}
+
+.container_input {
+  background: var(--color-white);
+  border-radius: 8px;
+  width: 274px;
+  height: 41px;
+
+  @include tablet {
+    width: 100%;
+  }
+}
+
+.input_wrap {
+  padding: 0 20px 0 0;
+
+  @include tablet {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+.right {
+  font-family: $default-font;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 140%;
+  color: var(--color-blue);
+  padding: 10px 20px 11px 0;
+}
+
+.buttons {
+  @include flexbox(center, center);
+
+  width: 100%;
+
+  @include tablet {
+    margin: 10px 0 0 0;
+  }
+}
+     
+.start,
+.stop {
+  padding: 10px 20px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 140%;
+  width: 100%;
+  border:none;
+}
+
+.start_wrap {
+  padding: 0 8px 0 0;
+
+  @include tablet{
+    flex: 0 0 60%;
+    padding: 0 10px 0 0;
+  }
+}
+
+.stop_wrap {
+
+  @include tablet{
+    flex: 0 0 40%;
+    
+  }
+}
