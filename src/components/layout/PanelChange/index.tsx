@@ -87,7 +87,7 @@ export const PanelChange: FC<IProps> = ({
             <div className={styles.wrap}>
               <div className={styles.coin}>
                 <CoinChange nameCoinLeft={coinA} nameCoinRight={coinB} />
-                {flowType === 'lauchpad' && <Price />}
+                {flowType === 'launchpad' && <Price />}
               </div>
               <div className={styles.streaming_mob}>
                 <span className={styles.number}>{totalFlow}</span>
