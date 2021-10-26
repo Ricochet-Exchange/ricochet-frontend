@@ -7,11 +7,12 @@ import usdc from '../assets/images/coins/usdCoin.svg';
 import dai from '../assets/images/coins/dai.svg';
 import matic from '../assets/images/coins/matic.svg';
 import mkr from '../assets/images/coins/mkr.svg';
+import ric from '../assets/images/coins/ric.svg';
 
 export enum Coin {
   WBTC = 'WBTC',
-  BTC = 'BTC', 
-  ETH = 'ETH', 
+  BTC = 'BTC',
+  ETH = 'ETH',
   SHIB = 'SHIB',
   USDT = 'USDT',
   USDC = 'USDC',
@@ -53,7 +54,7 @@ export const iconsCoin: Partial<Record<Coin, string>> = {
   [Coin.DAI]: dai,
   [Coin.MATIC]: matic,
   [Coin.MKR]: mkr,
-  [Coin.RIC]: mkr,
+  [Coin.RIC]: ric,
   [Coin.WETH]: eth,
   [Coin.DAIx]: dai,
   [Coin.MKRx]: mkr,

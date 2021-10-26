@@ -1,7 +1,7 @@
 import { Coin } from './coins';
 import {
-  USDCxAddress, 
-  usdcxWethxExchangeAddress, 
+  USDCxAddress,
+  usdcxWethxExchangeAddress,
   WETHxAddress,
   usdcxRicExchangeAddress,
   RICAddress,
@@ -43,13 +43,21 @@ enum FlowEnum {
 }
 
 export const flowConfig: {
-  superToken: string, 
-  tokenA: string, 
-  tokenB: string, 
+  superToken: string,
+  tokenA: string,
+  tokenB: string,
   coinA: Coin,
   coinB: Coin,
-  flowKey: FlowEnum, 
+  flowKey: FlowEnum,
 }[] = [
+  {
+    superToken: usdcxRicExchangeAddress,
+    tokenA: USDCxAddress,
+    tokenB: RICAddress,
+    coinA: Coin.USDC,
+    coinB: Coin.RIC,
+    flowKey: FlowEnum.usdcRicFlowQuery,
+  },
   {
     superToken: usdcxWethxExchangeAddress,
     tokenA: USDCxAddress,
@@ -65,14 +73,6 @@ export const flowConfig: {
     coinA: Coin.USDC,
     coinB: Coin.WBTC,
     flowKey: FlowEnum.usdcWbtcFlowQuery,
-  },
-  {
-    superToken: usdcxRicExchangeAddress,
-    tokenA: USDCxAddress,
-    tokenB: RICAddress,
-    coinA: Coin.USDC,
-    coinB: Coin.RIC,
-    flowKey: FlowEnum.usdcRicFlowQuery,
   },
   {
     superToken: wethxUsdcxExchangeAddress,
