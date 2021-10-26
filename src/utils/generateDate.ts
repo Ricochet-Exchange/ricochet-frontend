@@ -11,5 +11,5 @@ export const generateDate = (balance: string | undefined, flow: string | undefin
   }
 
   const date = new Date(Date.now() + days * 60 * 60 * 24 * 1000);
-  return `${normalize(date.getDay())}.${normalize(date.getMonth())}.${date.getFullYear()}`;
+  return `${normalize(date.getDate())}.${normalize(date.getMonth())}.${date.getFullYear()}`;
 };

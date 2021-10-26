@@ -48,7 +48,7 @@ export const approveAction = (
   tokenAddress: string,
   superTokenAddress: string,
   callback: (e?:string) => void,
-  multi?: number,
+  multi: number,
 ) => ({
   type: MainActionTypes.APPROVE,
   payload: {
@@ -60,9 +60,12 @@ export const upgradeAction = (
   amount: string,
   superTokenAddress: string,
   callback: (e?:string) => void,
+  multi: number,
 ) => ({
   type: MainActionTypes.UPGRADE,
-  payload: { value: amount, superTokenAddress, callback },
+  payload: {
+    value: amount, superTokenAddress, callback, multi, 
+  },
 });
 
 export const selectUpgradeCoin = (selectedUpgradeCoin: Coin) => ({

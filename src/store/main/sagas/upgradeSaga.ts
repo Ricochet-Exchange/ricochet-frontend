@@ -37,9 +37,9 @@ export function* upgradeMainSaga({ payload }: ReturnType<typeof upgradeAction>) 
   try {
     yield put(mainSetState({ isLoadingUpgrade: true }));
     const {
-      superTokenAddress, value, 
+      superTokenAddress, value, multi,
     } = payload;
-    const amount = web3.utils.toWei(value);
+    const amount = web3.utils.toWei((Number(value) * multi).toString(), 'wei');
     yield call(upgradeSaga, superTokenAddress, amount);
     payload.callback();
     yield all([
