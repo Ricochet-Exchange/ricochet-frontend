@@ -42,7 +42,7 @@ enum FlowEnum {
   usdcRicFlowQuery = 'usdcRicFlowQuery',
 }
 
-export type FlowType = 'lauchpad' | 'market';
+export type FlowType = 'launchpad' | 'market';
 
 export const flowConfig: {
   superToken: string,
@@ -60,7 +60,7 @@ export const flowConfig: {
     coinA: Coin.USDC,
     coinB: Coin.RIC,
     flowKey: FlowEnum.usdcRicFlowQuery,
-    type: 'lauchpad',
+    type: 'launchpad',
   },
   {
     superToken: usdcxWethxExchangeAddress,
