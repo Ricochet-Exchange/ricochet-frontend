@@ -42,6 +42,8 @@ enum FlowEnum {
   usdcRicFlowQuery = 'usdcRicFlowQuery',
 }
 
+export type FlowType = 'lauchpad' | 'market';
+
 export const flowConfig: {
   superToken: string,
   tokenA: string,
@@ -49,6 +51,7 @@ export const flowConfig: {
   coinA: Coin,
   coinB: Coin,
   flowKey: FlowEnum,
+  type: FlowType,
 }[] = [
   {
     superToken: usdcxRicExchangeAddress,
@@ -57,6 +60,7 @@ export const flowConfig: {
     coinA: Coin.USDC,
     coinB: Coin.RIC,
     flowKey: FlowEnum.usdcRicFlowQuery,
+    type: 'lauchpad',
   },
   {
     superToken: usdcxWethxExchangeAddress,
@@ -65,6 +69,7 @@ export const flowConfig: {
     coinA: Coin.USDC,
     coinB: Coin.WETH,
     flowKey: FlowEnum.usdcWethFlowQuery,
+    type: 'market',
   },
   {
     superToken: usdcxWbtcxExchangeAddress,
@@ -73,6 +78,7 @@ export const flowConfig: {
     coinA: Coin.USDC,
     coinB: Coin.WBTC,
     flowKey: FlowEnum.usdcWbtcFlowQuery,
+    type: 'market',
   },
   {
     superToken: wethxUsdcxExchangeAddress,
@@ -81,6 +87,7 @@ export const flowConfig: {
     coinA: Coin.WETH,
     coinB: Coin.USDC,
     flowKey: FlowEnum.wethUsdcFlowQuery,
+    type: 'market',
   },
   {
     superToken: wbtcxUsdcxExchangeAddress,
@@ -89,6 +96,7 @@ export const flowConfig: {
     coinA: Coin.WBTC,
     coinB: Coin.USDC,
     flowKey: FlowEnum.wbtcUsdcFlowQuery,
+    type: 'market',
   },
   {
     superToken: daixMkrxExchangeAddress,
@@ -97,6 +105,7 @@ export const flowConfig: {
     coinA: Coin.DAI,
     coinB: Coin.MKR,
     flowKey: FlowEnum.daiMkrFlowQuery,
+    type: 'market',
   },
   {
     superToken: mkrxDaixExchangeAddress,
@@ -105,6 +114,7 @@ export const flowConfig: {
     coinA: Coin.MKR,
     coinB: Coin.DAI,
     flowKey: FlowEnum.mkrDaiFlowQuery,
+    type: 'market',
   },
   {
     superToken: usdcxMkrxExchangeAddress,
@@ -113,6 +123,7 @@ export const flowConfig: {
     coinA: Coin.USDC,
     coinB: Coin.MKR,
     flowKey: FlowEnum.usdcMkrFlowQuery,
+    type: 'market',
   },
   {
     superToken: mkrxUsdcxExchangeAddress,
@@ -121,6 +132,7 @@ export const flowConfig: {
     coinA: Coin.MKR,
     coinB: Coin.USDC,
     flowKey: FlowEnum.mkrUsdcFlowQuery,
+    type: 'market',
   },
   {
     superToken: daixEthxExchangeAddress,
@@ -129,6 +141,7 @@ export const flowConfig: {
     coinA: Coin.DAI,
     coinB: Coin.ETH,
     flowKey: FlowEnum.daiEthFlowQuery,
+    type: 'market',
   },
   {
     superToken: ethxDaixExchangeAddress,
@@ -137,6 +150,7 @@ export const flowConfig: {
     coinA: Coin.ETH,
     coinB: Coin.DAI,
     flowKey: FlowEnum.ethDaiFlowQuery,
+    type: 'market',
   },
   {
     superToken: daixMaticxExchangeAddress,
@@ -145,6 +159,7 @@ export const flowConfig: {
     coinA: Coin.DAI,
     coinB: Coin.MATIC,
     flowKey: FlowEnum.daiMaticFlowQuery,
+    type: 'market',
   },
   {
     superToken: maticxDaixExchangeAddress,
@@ -153,6 +168,7 @@ export const flowConfig: {
     coinA: Coin.MATIC,
     coinB: Coin.DAI,
     flowKey: FlowEnum.maticDaiFlowQuery,
+    type: 'market',
   },
   {
     superToken: usdcxMaticxExchangeAddress,
@@ -161,6 +177,7 @@ export const flowConfig: {
     coinA: Coin.USDC,
     coinB: Coin.MATIC,
     flowKey: FlowEnum.usdcMaticFlowQuery,
+    type: 'market',
   },
   {
     superToken: maticxUsdcxExchangeAddress,
@@ -169,5 +186,6 @@ export const flowConfig: {
     coinA: Coin.MATIC,
     coinB: Coin.USDC,
     flowKey: FlowEnum.maticUsdcFlowQuery,
+    type: 'market',
   },
 ];

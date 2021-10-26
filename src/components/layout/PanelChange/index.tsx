@@ -11,6 +11,8 @@ import { Coin } from '../../../constants/coins';
 import { CoinChange } from '../CoinChange';
 import { CoinBalancePanel } from '../CoinBalancePanel';
 import { CoinRateForm } from '../CoinRateForm';
+import { FlowType } from '../../../constants/flowConfig';
+import Price from '../../common/Price';
 
 interface IProps {
   placeholder?:string,
@@ -23,6 +25,7 @@ interface IProps {
   totalFlow?: string;
   personalFlow?: string;
   mainLoading?: boolean;
+  flowType: FlowType,
 }
 
 export const PanelChange: FC<IProps> = ({
@@ -36,6 +39,7 @@ export const PanelChange: FC<IProps> = ({
   totalFlow, 
   personalFlow,
   mainLoading = false,
+  flowType,
 }) => {
   const [inputShow, setInputShow] = useState(false);
   const [value, setValue] = useState('');
@@ -83,6 +87,7 @@ export const PanelChange: FC<IProps> = ({
             <div className={styles.wrap}>
               <div className={styles.coin}>
                 <CoinChange nameCoinLeft={coinA} nameCoinRight={coinB} />
+                {flowType === 'lauchpad' && <Price />}
               </div>
               <div className={styles.streaming_mob}>
                 <span className={styles.number}>{totalFlow}</span>

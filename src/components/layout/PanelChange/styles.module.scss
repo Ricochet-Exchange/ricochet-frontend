@@ -127,7 +127,9 @@
 .coin {
   width: 100%;
   flex: 1;
-
+  display: flex;
+  flex-direction:column;
+  align-items: center;
   @include tablet {
     flex: 1 0 65%;
     @include flexbox(center, flex-start);
