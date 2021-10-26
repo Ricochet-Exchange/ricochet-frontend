@@ -6,6 +6,8 @@ import {
   checkIfApproveUsdc,
   checkIfApproveWeth,
   checkIfApproveWbtc,
+  checkIfApproveMkr,
+  checkIfApproveDai,
 } from './checkIfApprove';
 import { getBalances } from './getBalances';
 import { sweepQueryFlow } from './sweepQueryFlow';
@@ -17,6 +19,8 @@ export function* loadData() {
     yield call(getBalances, address); 
     yield all([
       call(checkIfApproveUsdc),
+      call(checkIfApproveMkr),
+      call(checkIfApproveDai),
       call(checkIfApproveWeth),
       call(checkIfApproveWbtc),
       call(sweepQueryFlow),

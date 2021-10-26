@@ -38,7 +38,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
     coin: Coin,
     tokenAddress: string,
     superTokenAddress: string,
-    multi?: number,
+    multi: number,
     key: 'hasWethApprove' | 'hasUsdcApprove' | 'hasWbtcApprove' | 'hasDaiApprove' | 'hasMkrApprove',
   }>();
   const [upgradeValue, setUpgradeValue] = useState('');
@@ -94,7 +94,12 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
       return;
     }
     if (upgradeConfig) {
-      dispatch(upgradeAction(upgradeValue, upgradeConfig?.tokenAddress, callback));
+      dispatch(upgradeAction(
+        upgradeValue,
+        upgradeConfig?.tokenAddress,
+        callback,
+        upgradeConfig.multi,
+      ));
     }
   }, [dispatch, upgradeConfig, upgradeValue, balances]);
   

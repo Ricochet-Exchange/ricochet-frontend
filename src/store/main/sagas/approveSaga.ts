@@ -40,7 +40,8 @@ export function* approveMainSaga({ payload }: ReturnType<typeof approveAction>) 
     const {
       tokenAddress, superTokenAddress, value, multi, 
     } = payload;
-    const amount = web3.utils.toWei((Number(value) * (multi || 1)).toString(), 'wei');
+    const amount = web3.utils.toWei((Number(value) * (multi)).toString(), 'wei');
+    
     yield call(approveSaga, tokenAddress, superTokenAddress, amount);
     payload.callback();
     yield all([
