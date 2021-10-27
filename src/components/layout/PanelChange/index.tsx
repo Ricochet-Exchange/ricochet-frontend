@@ -4,8 +4,8 @@ import React, {
 } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { showErrorToast } from 'components/common/Toaster';
-import { useTranslation } from 'i18n';
-import { generateDate } from 'utils/generateDate';
+// import { useTranslation } from 'i18n';
+// import { generateDate } from 'utils/generateDate';
 import styles from './styles.module.scss';
 import { Coin } from '../../../constants/coins';
 import { CoinChange } from '../CoinChange';
@@ -40,7 +40,7 @@ export const PanelChange: FC<IProps> = ({
   const [inputShow, setInputShow] = useState(false);
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const { t } = useTranslation('main');
+  // const { t } = useTranslation('main');
 
   useEffect(() => {
     setIsLoading(mainLoading);
@@ -73,7 +73,8 @@ export const PanelChange: FC<IProps> = ({
     onClickStop(callback);
   }, [callback]);
 
-  const date = generateDate(balanceA, personalFlow);
+  // uncomment when need
+  // const date = generateDate(balanceA, personalFlow);
 
   return (
     <>
@@ -93,11 +94,11 @@ export const PanelChange: FC<IProps> = ({
                   <span className={styles.number}>{personalFlow}</span>
                   {`${coinA}/mo.`}
                 </div>
-                <div className={styles.date}>
+                {/* <div className={styles.date}>
                   {t('Runs out on')}
                   :
                   <span className={styles.number_date}>{date}</span>
-                </div>
+  </div> */ }
               </div>
               <div className={styles.balances}>
                 <div className={styles.first_balance_container}>
