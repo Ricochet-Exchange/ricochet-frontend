@@ -119,6 +119,12 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
     }
   }, [upgradeValue, balances, upgradeConfig]);
 
+  const handleMax = useCallback(() => {
+    if (!balances || !upgradeConfig) return;
+
+    setUpgradeValue(balances[upgradeConfig.tokenAddress]);
+  }, []);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -135,6 +141,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
             onChange={handleUpgradeValue}
             onClickApprove={handleApprove}
             onClickUpgrade={handleUpgrade}
+            onClickMax={handleMax}
             value={upgradeValue}
             isUpgrade
             onSelectToken={handleVisionModal}
