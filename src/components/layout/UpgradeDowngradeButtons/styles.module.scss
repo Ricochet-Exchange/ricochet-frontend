@@ -1,5 +1,4 @@
-@import '../../../assets/styles/mixins';
-
+@import "../../../assets/styles/mixins";
 
 .buttons_upgrade,
 .downgrade_wrap {
@@ -7,13 +6,12 @@
 
   @include tablet {
     width: 100%;
-    
   }
 }
 
 .approve_wrap,
+.max_wrap,
 .upgrade_wrap {
-
   @include tablet {
     @include flexbox(center, center);
 
@@ -21,21 +19,18 @@
     border-radius: 8px;
     width: 100%;
   }
-
 }
 
-.approve_wrap {
+.approve_wrap,
+.max_wrap {
   margin: 0 10px 0 0;
 
   @include tablet {
-    border: 1px solid var(--color-blue); 
+    border: 1px solid var(--color-blue);
   }
-
-  
 }
 
 .downgrade_wrap {
-
   @include tablet {
     @include flexbox(center, center);
 
@@ -46,8 +41,8 @@
   }
 }
 
-
 .approve,
+.max,
 .upgrade,
 .downgrade {
   padding: 10px 20px;
@@ -62,4 +57,3 @@
     border: none;
   }
 }
-
