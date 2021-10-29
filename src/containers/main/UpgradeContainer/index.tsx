@@ -119,11 +119,11 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
     }
   }, [upgradeValue, balances, upgradeConfig]);
 
-  const handleMax = useCallback(() => {
+  const handleMax = () => {
     if (!balances || !upgradeConfig) return;
 
     setUpgradeValue(balances[upgradeConfig.tokenAddress]);
-  }, []);
+  };
 
   return (
     <div className={styles.wrapper}>
