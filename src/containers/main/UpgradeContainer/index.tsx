@@ -119,11 +119,17 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
     }
   }, [upgradeValue, balances, upgradeConfig]);
 
-  const handleMax = useCallback(() => {
+  const handleMaxUpgrade = () => {
     if (!balances || !upgradeConfig) return;
 
     setUpgradeValue(balances[upgradeConfig.tokenAddress]);
-  }, []);
+  };
+
+  const handleMaxDowngrade = () => {
+    if (!balances || !downgradeAddress) return;
+
+    setDownGradeValue(balances[downgradeAddress]);
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -141,7 +147,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
             onChange={handleUpgradeValue}
             onClickApprove={handleApprove}
             onClickUpgrade={handleUpgrade}
-            onClickMax={handleMax}
+            onClickMax={handleMaxUpgrade}
             value={upgradeValue}
             isUpgrade
             onSelectToken={handleVisionModal}
@@ -158,6 +164,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
             nameCoin={downgradeCoin}
             onChange={handleDowngradeValue}
             onClickDowngrade={handleDowngrade}
+            onClickMax={handleMaxDowngrade}
             placeholder={t('Input Amount')} 
             value={downgradeValue}
             isUpgrade={false}
