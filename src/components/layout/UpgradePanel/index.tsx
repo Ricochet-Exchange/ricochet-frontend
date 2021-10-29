@@ -77,6 +77,7 @@ export const UpgradePanel: FC<IProps> = ({
       <UpgradeDowngradeButtons 
         onClickApprove={onClickApprove}
         onClickUpgrade={onClickUpgrade}
+        onClickMax={onClickMax}
         onClickDowngrade={onClickDowngrade}
         isUpgrade={isUpgrade}
         isLoading={isLoading}

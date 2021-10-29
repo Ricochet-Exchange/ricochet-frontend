@@ -63,6 +63,17 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
       )
       : (
         <div className={styles.downgrade_wrap}>
+          <div className={styles.max_wrap}>
+            <ButtonNew
+              color="secondary"
+              disabled={isLoading}
+              onClick={onClickMax}
+              className={styles.max}
+            >
+              Max
+
+            </ButtonNew>
+          </div>
           <ButtonNew
             color="primary"
             disabled={isLoading} 
