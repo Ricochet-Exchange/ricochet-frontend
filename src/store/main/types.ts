@@ -14,6 +14,12 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
   },
+  usdcSlpFlowQuery?: {
+    flowsReceived: number,
+    flowsOwned: string,
+    totalFlows: number,
+    placeholder: string,
+  },
   usdcWethFlowQuery?: {
     flowsReceived: number,
     flowsOwned: string,
@@ -97,11 +103,11 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string,
-  } 
+  }
   isLoadingDowngrade: boolean,
   isLoadingUpgrade: boolean,
   isLoading: boolean,
-  selectedDowngradeCoin: Coin, 
+  selectedDowngradeCoin: Coin,
   selectedUpgradeCoin: Coin,
   coinType: Coin
 };

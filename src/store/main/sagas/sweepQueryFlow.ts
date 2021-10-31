@@ -15,6 +15,7 @@ import {
   maticxUsdcxExchangeAddress,
   daixEthxExchangeAddress,
   ethxDaixExchangeAddress,
+  usdcxSlpxExchangeAddress,
   MATICxAddress,
   MKRxAddress,
   DAIxAddress,
@@ -48,6 +49,7 @@ export function* sweepQueryFlow() {
     call(queryFlows, usdcxMaticxExchangeAddress),
     call(queryFlows, maticxUsdcxExchangeAddress),
     call(queryFlows, usdcxRicExchangeAddress),
+    call(queryFlows, usdcxSlpxExchangeAddress),
   ]);
 
   const flows: { [key:string]: { flowsOwned: Flow[], flowsReceived: Flow[] } } = {};
@@ -66,7 +68,8 @@ export function* sweepQueryFlow() {
     maticxDaixExchangeAddress,
     usdcxMaticxExchangeAddress,
     maticxUsdcxExchangeAddress,
-    usdcxRicExchangeAddress].forEach((el, i) => {
+    usdcxRicExchangeAddress,
+    usdcxSlpxExchangeAddress].forEach((el, i) => {
     if (results[i].data.data.account != null) {
       flows[el] = results[i].data.data.account;
     } else {
@@ -89,10 +92,15 @@ export function* sweepQueryFlow() {
   const daiEthFlows = flows[daixEthxExchangeAddress];
   const ethDaiFlows = flows[ethxDaixExchangeAddress];
   const usdcRicFlows = flows[usdcxRicExchangeAddress];
+  const usdcSlpFlows = flows[usdcxSlpxExchangeAddress];
 
   const usdcRicFlowsReceived = getReceviedFlows(usdcRicFlows.flowsReceived,
     USDCxAddress, address);
   const usdcRicPlaceholder = ((usdcRicFlowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
+
+  const usdcSlpFlowsReceived = getReceviedFlows(usdcSlpFlows.flowsReceived,
+    USDCxAddress, address);
+  const usdcSlpPlaceholder = ((usdcSlpFlowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
 
   const usdcWethFlowsReceived = getReceviedFlows(usdcWethFlows.flowsReceived,
     USDCxAddress, address);
@@ -157,6 +165,13 @@ export function* sweepQueryFlow() {
     flowsOwned: getOwnedFlows(usdcRicFlows.flowsReceived, USDCxAddress),
     totalFlows: usdcRicFlows.flowsReceived.length,
     placeholder: usdcRicPlaceholder,
+  };
+
+  const usdcSlpFlowQuery = {
+    flowsReceived: usdcSlpFlowsReceived,
+    flowsOwned: getOwnedFlows(usdcSlpFlows.flowsReceived, USDCxAddress),
+    totalFlows: usdcSlpFlows.flowsReceived.length,
+    placeholder: usdcSlpPlaceholder,
   };
 
   const usdcWethFlowQuery = {
@@ -273,5 +288,6 @@ export function* sweepQueryFlow() {
     usdcWbtcFlowQuery,
     wethUsdcFlowQuery,
     wbtcUsdcFlowQuery,
+    usdcSlpFlowQuery,
   }));
 }

@@ -3,7 +3,12 @@ import { getAddress } from 'utils/getAddress';
 import { chainSettings } from 'constants/chainSettings';
 import web3 from 'utils/web3instance';
 import { CoinOption } from 'types/coinOption';
-import { RICAddress } from 'constants/polygon_config';
+import {
+  RICAddress,
+  SLPxAddress,
+  SUSHIxAddress,
+  MATICxAddress,
+} from 'constants/polygon_config';
 
 export const downgrade = (
   contract: any,
@@ -130,6 +135,99 @@ export const startFlow = async (
                     outputTokenAddress,
                     exchangeAddress,
                     0, // INDEX_ID
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                '0x', // userData
+              ],
+            ),
+          ],
+          [
+            201, // create constant flow (10/mo)
+            superFluid.agreements.cfa.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.cfa.contract.methods
+                  .createFlow(
+                    inputTokenAddress,
+                    exchangeAddress,
+                    amount.toString(),
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                '0x', // userData
+              ],
+            ),
+          ],
+        ];
+      } else if (outputTokenAddress === SLPxAddress) {
+        call = [
+          [
+            201, // approve the ticket fee
+            superFluid.agreements.ida.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.ida.contract.methods
+                  .approveSubscription(
+                    outputTokenAddress,
+                    exchangeAddress,
+                    0, // INDEX_ID
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                '0x', // userData
+              ],
+            ),
+          ],
+          [
+            201, // approve the RIC subsidy
+            superFluid.agreements.ida.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.ida.contract.methods
+                  .approveSubscription(
+                    RICAddress,
+                    exchangeAddress,
+                    1, // INDEX_ID
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                '0x', // userData
+              ],
+            ),
+          ],
+          [
+            201, // approve the SUSHIx rewards subsidy
+            superFluid.agreements.ida.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.ida.contract.methods
+                  .approveSubscription(
+                    SUSHIxAddress,
+                    exchangeAddress,
+                    2, // INDEX_ID
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                '0x', // userData
+              ],
+            ),
+          ],
+          [
+            201, // approve the MATICx rewards
+            superFluid.agreements.ida.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.ida.contract.methods
+                  .approveSubscription(
+                    MATICxAddress,
+                    exchangeAddress,
+                    3, // INDEX_ID
                     '0x',
                   )
                   .encodeABI(), // callData

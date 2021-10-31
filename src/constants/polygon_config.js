@@ -30,3 +30,6 @@ export const maticxUsdcxExchangeAddress = "0x93D2d0812C9856141B080e9Ef6E97c7A7b3
 export const daixMaticxExchangeAddress = "0xA152715dF800dB5926598917A6eF3702308bcB7e"
 export const maticxDaixExchangeAddress = "0x250efbB94De68dD165bD6c98e804E08153Eb91c6"
 export const usdcxRicExchangeAddress = "0x98d463A3F29F259E67176482eB15107F364c7E18"
+export const usdcxSlpxExchangeAddress = "0xeb367F6a0DDd531666D778BC096d212a235a6f78"
+export const SLPxAddress = "0x9d5753d8eb0Bc849C695461F866a851F13947CB3"
+export const SUSHIxAddress = "0xDaB943C03f9e84795DC7BF51DdC71DaF0033382b"

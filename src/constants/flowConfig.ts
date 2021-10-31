@@ -22,6 +22,8 @@ import {
   maticxDaixExchangeAddress,
   usdcxMaticxExchangeAddress,
   maticxUsdcxExchangeAddress,
+  SLPxAddress,
+  usdcxSlpxExchangeAddress,
 } from './polygon_config';
 
 enum FlowEnum {
@@ -40,6 +42,7 @@ enum FlowEnum {
   wethUsdcFlowQuery = 'wethUsdcFlowQuery',
   wbtcUsdcFlowQuery = 'wbtcUsdcFlowQuery',
   usdcRicFlowQuery = 'usdcRicFlowQuery',
+  usdcSlpFlowQuery = 'usdcSlpFlowQuery',
 }
 
 export type FlowType = 'launchpad' | 'market';
@@ -61,6 +64,15 @@ export const flowConfig: {
     coinB: Coin.RIC,
     flowKey: FlowEnum.usdcRicFlowQuery,
     type: 'launchpad',
+  },
+  {
+    superToken: usdcxSlpxExchangeAddress,
+    tokenA: USDCxAddress,
+    tokenB: SLPxAddress,
+    coinA: Coin.USDC,
+    coinB: Coin.SLP,
+    flowKey: FlowEnum.usdcSlpFlowQuery,
+    type: 'market',
   },
   {
     superToken: usdcxWethxExchangeAddress,
