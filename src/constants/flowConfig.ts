@@ -35,7 +35,7 @@ enum FlowEnum {
   daiMaticFlowQuery = 'daiMaticFlowQuery',
   maticDaiFlowQuery = 'maticDaiFlowQuery',
   usdcMaticFlowQuery = 'usdcMaticFlowQuery',
-  maticUsdcFlowQuery = 'usdcMaticFlowQuery',
+  maticUsdcFlowQuery = 'maticUsdcFlowQuery',
   daiEthFlowQuery = 'daiEthFlowQuery',
   ethDaiFlowQuery = 'ethDaiFlowQuery',
   usdcWbtcFlowQuery = 'usdcWbtcFlowQuery',

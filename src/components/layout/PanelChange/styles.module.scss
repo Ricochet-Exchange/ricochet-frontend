@@ -149,7 +149,7 @@
   align-items: flex-start;
   @include tablet {
     flex: 1 0 65%;
-    @include flexbox(center, flex-start);
+    @include flexbox(flex-start, flex-start);
   }
 }
 
