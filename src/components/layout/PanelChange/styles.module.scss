@@ -75,19 +75,36 @@
 
 .first_balance_container {
   padding: 0 0 9px 0;
+  display: flex;
+}
+
+.second_balance_container {
+  padding: 0 0 9px 0;
+  display: flex;
+}
+
+.direction_label {
+  min-width: 20%;
+  color: black;
+  text-align: right;
+  padding: 3px 6px 0px 0px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 140%;
+  text-transform: uppercase;
+  color: var(--color-grey);
 }
 
 .currency_first_balance {
   background: var(--color-blue-dark);
-  width: 155px;
-  height: 23px;
-  padding: 3px 12px;
+  padding: 3px 10px;
 }
 
 .currency_second_balance {
-  width: 129px;
-  height: 23px;
-  background: var(--color-yellow);
+  background: #3a6288;
+  padding: 3px 10px;
+  margin-bottom: 2px;
 }
 
 .arrow_down,
@@ -129,7 +146,7 @@
   flex: 1;
   display: flex;
   flex-direction:column;
-  align-items: center;
+  align-items: flex-start;
   @include tablet {
     flex: 1 0 65%;
     @include flexbox(center, flex-start);

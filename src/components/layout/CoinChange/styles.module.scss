@@ -41,8 +41,7 @@
 }
 
 .currency_name {
-  @include flexbox(center, center);
-
+  @include flexbox(center, flex-start);
   flex-wrap: wrap;
 
   @include tablet {
