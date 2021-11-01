@@ -42,7 +42,6 @@
 
 .currency_name {
   @include flexbox(center, flex-start);
-  font-size: 14px;
   flex-wrap: wrap;
 
   @include tablet {
@@ -53,7 +52,7 @@
 .currency_first,
 .currency_second {
   color: var(--color-black-dark);
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 700;
   text-transform: uppercase;
 
