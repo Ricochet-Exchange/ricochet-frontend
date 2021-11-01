@@ -96,7 +96,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
     if (upgradeConfig) {
       dispatch(upgradeAction(
         upgradeValue,
-        upgradeConfig?.tokenAddress,
+        upgradeConfig?.superTokenAddress,
         callback,
         upgradeConfig.multi,
       ));
