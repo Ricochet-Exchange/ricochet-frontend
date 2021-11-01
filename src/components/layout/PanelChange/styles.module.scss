@@ -129,7 +129,7 @@
   flex: 1;
   display: flex;
   flex-direction:column;
-  align-items: center;
+  align-items: flex-start;
   @include tablet {
     flex: 1 0 65%;
     @include flexbox(center, flex-start);

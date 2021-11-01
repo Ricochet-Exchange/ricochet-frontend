@@ -26,5 +26,9 @@ export default function Price(props: Props) {
     getPrice().then((p) => setPrice(p));
   });
 
-  return <span {...props} className={styles.balance}>{`🚀 ${trimPad(price, 6)} USDC/RIC`}</span>;
+  return (
+    <div className={styles.balance_container}>
+      <span {...props} className={styles.balance}>{`🚀 ${trimPad(price, 6)} USDC/RIC`}</span>
+    </div>
+  );
 }
