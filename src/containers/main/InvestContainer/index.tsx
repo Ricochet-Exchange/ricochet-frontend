@@ -37,7 +37,8 @@ export const InvestContainer :React.FC = () => {
     const { value } = e.target;
     setSearch(value);
     const filtered = flowConfig.filter(
-      (el) => el.coinA.includes(value.toUpperCase()) || el.coinB.includes(value.toUpperCase()),
+      (el) => el.coinA.toUpperCase().includes(value.toUpperCase()) || 
+        el.coinB.toUpperCase().includes(value.toUpperCase()),
     );
     setFilteredList(filtered);
   }, []);
