@@ -10,13 +10,18 @@ import {
   MATICxAddress,
 } from 'constants/polygon_config';
 
+const gasPrice = 35_000_000_000; // 35 gwei default gas
+
 export const downgrade = (
   contract: any,
   amount: string,
   address: string,
 ) => contract.methods
   .downgrade(amount)
-  .send({ from: address });
+  .send({ 
+    from: address, 
+    gasPrice,
+  });
 
 export const allowance = (
   contract: any,
@@ -33,7 +38,10 @@ export const approve = (
   amount: string,
 ) => contract.methods
   .approve(tokenAddress, amount)
-  .send({ from: address });
+  .send({ 
+    from: address, 
+    gasPrice,
+  });
 
 export const upgrade = (
   contract: any,
@@ -41,7 +49,10 @@ export const upgrade = (
   address: string,
 ) => contract.methods
   .upgrade(amount)
-  .send({ from: address });
+  .send({ 
+    from: address, 
+    gasPrice,
+  });
 
 export const approveSubscription = async (tokenAddress:string, exchangeAddress:string) => {
   const superFluid = await getSuperFluid();
