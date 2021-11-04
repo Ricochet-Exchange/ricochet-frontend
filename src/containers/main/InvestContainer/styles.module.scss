@@ -95,3 +95,11 @@ position: relative;
   color: var(--color-blue);
   margin: 0 0 0 23px;
 }
+
+.fee_disclaimer {
+  color: var(--color-black-dark);
+  display: flex;
+  justify-content: center;
+  font-size: 0.75rem;
+  line-height: 1.66;
+}
