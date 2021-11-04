@@ -179,6 +179,7 @@
   flex-wrap: wrap;
   font-family: $default-font;
   width: 100%;
+  flex-direction: column;
 
   @include tablet {
     display: none;

@@ -23,6 +23,7 @@ interface IProps {
   balanceA?: string;
   balanceB?: string;
   totalFlow?: string;
+  totalFlows?: number;
   personalFlow?: string;
   mainLoading?: boolean;
   flowType: FlowType,
@@ -37,6 +38,7 @@ export const PanelChange: FC<IProps> = ({
   balanceA,
   balanceB,
   totalFlow, 
+  totalFlows,
   personalFlow,
   mainLoading = false,
   flowType,
@@ -120,9 +122,16 @@ export const PanelChange: FC<IProps> = ({
                 />
               </div>
               <div className={styles.streaming}>
-                <span className={styles.number}>{totalFlow}</span>
-                {`${coinA}x/mo.`}
+                <span>
+                  <span className={styles.number}>{totalFlow}</span>
+                  {`${coinA}x/mo.`}
+                </span>
+                <span>
+                  <span className={styles.number}>{totalFlows}</span>
+                  total streams
+                </span>
               </div>
+
               {inputShow && (
               <div className={styles.form_mob}>
                 <CoinRateForm
