@@ -89,6 +89,12 @@ export const InvestContainer :React.FC = () => {
           />
         </div>
       </div>
+      
+      <div>
+        <span className={styles.fee_disclaimer}> 
+          {t('Ricochet takes a 2% fee on swaps.')}
+        </span>
+      </div>
     </div>
   );
 };
