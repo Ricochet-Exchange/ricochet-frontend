@@ -73,6 +73,7 @@ export const InvestContainer :React.FC = () => {
               balanceA={balances && balances[element.tokenA]}
               balanceB={balances && balances[element.tokenB]}
               totalFlow={state[element.flowKey]?.flowsOwned}
+              totalFlows={state[element.flowKey]?.totalFlows}
               personalFlow={state[element.flowKey]?.placeholder}
               mainLoading={isLoading}
               flowType={element.type}
