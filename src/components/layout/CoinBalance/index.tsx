@@ -12,22 +12,31 @@ interface IProps {
   balance?: number,
   className: string,
   onSelectToken: (coin: Coin) => void,
+  onClickMax: (() => void) | undefined,
 }
 
 export const CoinBalance: FC<IProps> = ({
-  nameCoin, balance, onSelectToken, className,
+  nameCoin, balance, onSelectToken, className, onClickMax,
 }) => {
   const { t } = useTranslation('main');
   
   return (
     <ButtonNew
       className={className}
-      onClick={() => onSelectToken(nameCoin)}
     >
       <div className={styles.container_balance}>
-        <img src={iconsCoin[nameCoin]} alt={nameCoin} />
+        <img
+          src={iconsCoin[nameCoin]}
+          alt={nameCoin} 
+          onClick={() => onSelectToken(nameCoin)}
+          aria-hidden="true" 
+        />
         <div className={styles.balance_wrap}>
-          <div className={styles.name_wrap}>
+          <div
+            className={styles.name_wrap}
+            onClick={() => onSelectToken(nameCoin)}
+            aria-hidden="true"
+          >
             <div className={styles.name}>
               {nameCoin}
             </div>
@@ -35,7 +44,7 @@ export const CoinBalance: FC<IProps> = ({
               <FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} size={20} />
             </div>
           </div>
-          <div className={styles.balance}>
+          <div className={styles.balance} onClick={onClickMax} aria-hidden="true">
             <div className={styles.balance_name}>
               {t('Balance')}
               :

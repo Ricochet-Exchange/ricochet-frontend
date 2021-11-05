@@ -10,7 +10,6 @@
 }
 
 .approve_wrap,
-.max_wrap,
 .upgrade_wrap {
   @include tablet {
     @include flexbox(center, center);
@@ -21,8 +20,7 @@
   }
 }
 
-.approve_wrap,
-.max_wrap {
+.approve_wrap {
   margin: 0 10px 0 0;
 
   @include tablet {
@@ -42,7 +40,6 @@
 }
 
 .approve,
-.max,
 .upgrade,
 .downgrade {
   padding: 10px 20px;
