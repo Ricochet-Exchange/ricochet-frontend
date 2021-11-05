@@ -1,6 +1,6 @@
 export const chainId = 137;
-export const MATICAddress = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270";
-export const MATICxAddress = "0x3aD736904E9e65189c3000c7DD2c8AC8bB7cD4e3";
+export const WMATICAddress = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270";
+export const WMATICxAddress = "0x3aD736904E9e65189c3000c7DD2c8AC8bB7cD4e3";
 export const MKRAddress = "0x6f7C932e7684666C9fd1d44527765433e01fF61d";
 export const MKRxAddress = "0x2c530aF1f088B836FA0dCa23c7Ea50E669508C4C";
 export const DAIAddress = "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063";
@@ -33,3 +33,4 @@ export const usdcxRicExchangeAddress = "0x98d463A3F29F259E67176482eB15107F364c7E
 export const usdcxSlpxExchangeAddress = "0xeb367F6a0DDd531666D778BC096d212a235a6f78"
 export const SLPxAddress = "0x9d5753d8eb0Bc849C695461F866a851F13947CB3"
 export const SUSHIxAddress = "0xDaB943C03f9e84795DC7BF51DdC71DaF0033382b"
+export const SUSHIAddress = "0x0b3f868e0be5597d5db7feb59e1cadbb0fdda50a"

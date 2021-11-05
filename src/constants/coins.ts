@@ -5,9 +5,10 @@ import shib from '../assets/images/coins/shibaInu.svg';
 import usdt from '../assets/images/coins/tetherUsdt.svg';
 import usdc from '../assets/images/coins/usdCoin.svg';
 import dai from '../assets/images/coins/dai.svg';
-import matic from '../assets/images/coins/matic.svg';
+import wmatic from '../assets/images/coins/matic.svg';
 import mkr from '../assets/images/coins/mkr.svg';
 import ric from '../assets/images/coins/ric.svg';
+import sushi from '../assets/images/coins/sushiswap.svg';
 
 export enum Coin {
   WBTC = 'WBTC',
@@ -17,7 +18,7 @@ export enum Coin {
   USDT = 'USDT',
   USDC = 'USDC',
   DAI = 'DAI',
-  MATIC = 'MATIC',
+  WMATIC = 'WMATIC',
   MKR = 'MKR',
   RIC = 'RIC',
   WETH = 'ETH',
@@ -28,6 +29,9 @@ export enum Coin {
   WETHx = 'WETHx',
   WBTCx = 'WBTCx',
   rexSLP = 'rexSLP',
+  SUSHI = 'SUSHI',
+  WMATICx = 'WMATICx',
+  SUSHIx = 'SUSHIx',
 }
 
 export const namesCoin = [
@@ -36,7 +40,9 @@ export const namesCoin = [
   Coin.MKR,
   Coin.WETH,
   Coin.WBTC,
-  Coin.SLP,
+  Coin.SLP, 
+  Coin.WMATIC,
+  Coin.SUSHI, 
 ];
 
 export const namesCoinX = [
@@ -46,6 +52,8 @@ export const namesCoinX = [
   Coin.WBTCx,
   Coin.WETHx,
   Coin.rexSLP,
+  Coin.WMATICx,
+  Coin.SUSHIx,
 ];
 
 export const iconsCoin: Partial<Record<Coin, string>> = {
@@ -56,7 +64,7 @@ export const iconsCoin: Partial<Record<Coin, string>> = {
   [Coin.SHIB]: shib,
   [Coin.BTC]: btc,
   [Coin.DAI]: dai,
-  [Coin.MATIC]: matic,
+  [Coin.WMATIC]: wmatic,
   [Coin.MKR]: mkr,
   [Coin.RIC]: ric,
   [Coin.WETH]: eth,
@@ -67,4 +75,7 @@ export const iconsCoin: Partial<Record<Coin, string>> = {
   [Coin.WBTCx]: wbtc,
   [Coin.WETHx]: eth,
   [Coin.rexSLP]: ric,
+  [Coin.SUSHI]: sushi, 
+  [Coin.WMATICx]: wmatic,
+  [Coin.SUSHIx]: sushi, 
 };

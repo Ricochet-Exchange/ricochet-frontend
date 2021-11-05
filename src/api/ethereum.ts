@@ -7,7 +7,7 @@ import {
   RICAddress,
   SLPxAddress,
   SUSHIxAddress,
-  MATICxAddress,
+  WMATICxAddress,
 } from 'constants/polygon_config';
 
 const gasPrice = 35_000_000_000; // 35 gwei default gas
@@ -236,7 +236,7 @@ export const startFlow = async (
               [
                 superFluid.agreements.ida.contract.methods
                   .approveSubscription(
-                    MATICxAddress,
+                    WMATICxAddress,
                     exchangeAddress,
                     3, // INDEX_ID
                     '0x',
