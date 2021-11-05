@@ -1,7 +1,6 @@
 @import "../../../assets/styles/mixins";
 
 .banner {
-  position: fixed;
   top: 0;
   right: 0;
   left: 0;
@@ -10,13 +9,15 @@
   background-color: var(--color-yellow);
   color: var(--color-black-dark);
 
-  display: flex;
   -moz-box-flex: 1;
   flex-grow: 1;
   -moz-box-pack: center;
   justify-content: center;
   -moz-box-align: center;
   align-items: center;
+  text-align: center;
+  display: block;
+
 
   font-size: 0.75rem;
   line-height: 1.66;
