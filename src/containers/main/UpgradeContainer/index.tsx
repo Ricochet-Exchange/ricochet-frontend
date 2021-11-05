@@ -39,7 +39,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
     tokenAddress: string,
     superTokenAddress: string,
     multi: number,
-    key: 'hasWethApprove' | 'hasUsdcApprove' | 'hasWbtcApprove' | 'hasDaiApprove' | 'hasMkrApprove',
+    key: 'hasWethApprove' | 'hasUsdcApprove' | 'hasWbtcApprove' | 'hasDaiApprove' | 'hasMkrApprove' | 'hasWMaticApprove' | 'hasSushiApprove',
   }>();
   const [upgradeValue, setUpgradeValue] = useState('');
   const dispatch = useDispatch();

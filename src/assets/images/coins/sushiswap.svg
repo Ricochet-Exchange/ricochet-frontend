@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="32"
+   height="32"
+   viewBox="0 0 32 32"
+   version="1.1"
+   id="svg71"
+   sodipodi:docname="sushiswap.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview73"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="12.515625"
+     inkscape:cx="56.529338"
+     inkscape:cy="8.0299625"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg71" />
+  <defs
+     id="defs57">
+    <linearGradient
+       x1="50%"
+       y1="0%"
+       x2="50%"
+       y2="100%"
+       id="c">
+      <stop
+         stop-color="#FFF"
+         stop-opacity=".5"
+         offset="0%"
+         id="stop42" />
+      <stop
+         stop-opacity=".5"
+         offset="100%"
+         id="stop44" />
+    </linearGradient>
+    <filter
+       x="-0.04"
+       y="-0.04"
+       width="1.08"
+       height="1.0966667"
+       filterUnits="objectBoundingBox"
+       id="a">
+      <feOffset
+         dy=".5"
+         in="SourceAlpha"
+         result="shadowOffsetOuter1"
+         id="feOffset47" />
+      <feGaussianBlur
+         stdDeviation=".5"
+         in="shadowOffsetOuter1"
+         result="shadowBlurOuter1"
+         id="feGaussianBlur49" />
+      <feComposite
+         in="shadowBlurOuter1"
+         in2="SourceAlpha"
+         operator="out"
+         result="shadowBlurOuter1"
+         id="feComposite51" />
+      <feColorMatrix
+         values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.199473505 0"
+         in="shadowBlurOuter1"
+         id="feColorMatrix53" />
+    </filter>
+    <circle
+       id="b"
+       cx="16"
+       cy="15"
+       r="15" />
+    <rect
+       id="SVGID_1_"
+       width="24"
+       height="24" />
+  </defs>
+  <style
+     type="text/css"
+     id="style155">
+	.st0{clip-path:url(#SVGID_2_);}
+	.st1{fill:url(#SVGID_3_);}
+	.st2{fill:url(#SVGID_4_);}
+	.st3{fill:url(#SVGID_5_);}
+	.st4{fill:#0E0F23;}
+	.st5{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}
+	.st6{fill:#FFFFFF;}
+</style>
+  <g
+     id="g198"
+     transform="matrix(1.1564618,0,0,1.1564618,2.1360919,1.9778143)">
+    <defs
+       id="defs158">
+      <rect
+         id="rect207"
+         width="24"
+         height="24"
+         x="0"
+         y="0" />
+    </defs>
+    <clipPath
+       id="SVGID_2_">
+      <use
+         xlink:href="#SVGID_1_"
+         style="overflow:visible"
+         id="use160"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </clipPath>
+    <g
+       class="st0"
+       clip-path="url(#SVGID_2_)"
+       id="g196">
+      <linearGradient
+         id="SVGID_3_"
+         gradientUnits="userSpaceOnUse"
+         x1="20.644199"
+         y1="1011.5057"
+         x2="24.3328"
+         y2="998.83948"
+         gradientTransform="matrix(1,0,0,-1,-12,1012)">
+        <stop
+           offset="0"
+           style="stop-color:#03B8FF"
+           id="stop163" />
+        <stop
+           offset="1"
+           style="stop-color:#FA52A0"
+           id="stop165" />
+      </linearGradient>
+      <path
+         class="st1"
+         d="M 5,2.3 23.6,15 19,21.8 0.4,9 Z"
+         id="path168"
+         style="fill:url(#SVGID_3_)" />
+      <linearGradient
+         id="SVGID_4_"
+         gradientUnits="userSpaceOnUse"
+         x1="23.681801"
+         y1="1012.3904"
+         x2="27.370501"
+         y2="999.72412"
+         gradientTransform="matrix(1,0,0,-1,-12,1012)">
+        <stop
+           offset="0"
+           style="stop-color:#03B8FF"
+           id="stop170" />
+        <stop
+           offset="1"
+           style="stop-color:#FA52A0"
+           id="stop172" />
+      </linearGradient>
+      <path
+         class="st2"
+         d="M 23.6,15 C 22,17.3 16.6,16.4 11.5,12.8 6.3,9.3 3.5,4.6 5,2.3 6.6,0 12,0.9 17.1,4.5 c 5.2,3.4 8,8.2 6.5,10.5 z"
+         id="path175"
+         style="fill:url(#SVGID_4_)" />
+      <linearGradient
+         id="SVGID_5_"
+         gradientUnits="userSpaceOnUse"
+         x1="17.615999"
+         y1="1010.6239"
+         x2="21.304701"
+         y2="997.95758"
+         gradientTransform="matrix(1,0,0,-1,-12,1012)">
+        <stop
+           offset="0"
+           style="stop-color:#03B8FF"
+           id="stop177" />
+        <stop
+           offset="1"
+           style="stop-color:#FA52A0"
+           id="stop179" />
+      </linearGradient>
+      <path
+         class="st3"
+         d="M 19,21.7 C 17.4,24 12,23.1 6.9,19.5 1.8,15.9 -1.1,11.3 0.5,8.9 c 1.6,-2.3 7,-1.4 12.1,2.2 5.1,3.6 7.9,8.3 6.4,10.6 z"
+         id="path182"
+         style="fill:url(#SVGID_5_)" />
+      <path
+         class="st4"
+         d="m 23.6,15 c 0,0 0,0 0,0 L 19,21.8 v 0 C 17.4,24.1 12,23.1 6.9,19.6 5.9,18.9 5,18.2 4.1,17.4 c 0.7,-0.1 1.6,-0.5 2.5,-1.5 1.6,-1.7 2.4,-2.1 3.1,-2 0.7,0 1.5,0.7 2.8,2.4 1.3,1.7 3.1,2.2 4.2,1.3 0.1,-0.1 0.2,-0.1 0.3,-0.2 0.9,-0.7 1.2,-1 2.9,-4.2 0.4,-0.8 1.8,-2.1 3.7,-1.5 0.5,1.3 0.5,2.4 0,3.3 z"
+         id="path184" />
+      <path
+         class="st5"
+         d="m 22.9,14.6 c -1.4,2 -6.3,1 -11,-2.3 C 7.1,9 4.3,4.8 5.7,2.8 c 1.4,-2 6.3,-1 11,2.3 4.7,3.3 7.5,7.5 6.2,9.5 z m -4.4,-3 c -0.7,1 -3.1,0.5 -5.5,-1.1 -2.3,-1.6 -3.7,-3.7 -3,-4.7 0.7,-1 3.1,-0.5 5.5,1.1 2.3,1.6 3.7,3.7 3,4.7 z"
+         id="path186" />
+      <path
+         class="st6"
+         d="M 4.6,4.6 C 4.6,4.5 4.5,4.4 4.4,4.5 4.3,4.6 4.2,4.6 4.2,4.7 4.3,5 4.4,5.2 4.4,5.4 c 0,0.1 0.1,0.2 0.2,0.1 0.1,0 0.2,-0.1 0.1,-0.2 0,-0.2 0,-0.4 -0.1,-0.7 z"
+         id="path188" />
+      <path
+         class="st6"
+         d="M 5.1,6.2 C 5.1,6.1 5,6 4.9,6.1 4.8,6.2 4.8,6.2 4.8,6.3 c 1.1,2.5 3.4,5.2 6.4,7.2 0.1,0.1 0.2,0 0.3,0 0.1,-0.1 0,-0.2 0,-0.3 -3.1,-2 -5.3,-4.6 -6.4,-7 z"
+         id="path190" />
+      <path
+         class="st6"
+         d="m 17.2,16 c -0.1,0 -0.2,0 -0.2,0.1 0,0.1 0,0.2 0.1,0.2 0.3,0.1 0.7,0.2 1,0.3 0.1,0 0.2,0 0.2,-0.1 0,-0.1 0,-0.2 -0.1,-0.2 -0.3,-0.1 -0.7,-0.2 -1,-0.3 z"
+         id="path192" />
+      <path
+         class="st6"
+         d="m 19,16.4 c -0.1,0 -0.2,0.1 -0.2,0.2 0,0.1 0.1,0.2 0.2,0.2 0.8,0.1 1.7,0.2 2.4,0.1 0.1,0 0.2,-0.1 0.2,-0.2 0,-0.1 -0.1,-0.2 -0.2,-0.2 -0.8,0.1 -1.6,0 -2.4,-0.1 z"
+         id="path194" />
+    </g>
+  </g>
+</svg>
