@@ -60,11 +60,11 @@ export const UserSettings: FC<IProps> = ({
             <div className={styles.settings_wrap}>
               <ul className={styles.list}>
                 <li className={styles.docs}>
-                  <a className={styles.head} href="./RicochetExchangeWhitepaper.pdf" target="_blank" rel="noreferrer">{t('Docs')}</a>
+                  <a className={styles.head} href="https://docs.ricochet.exchange/" target="_blank" rel="noreferrer">{t('Docs')}</a>
                   <span className={styles.description}>{t('Documentations for users of Ricochet')}</span>
                 </li>
                 <li className={styles.paper}>
-                  <a className={styles.head} href="https://docs.ricochet.exchange/" target="_blank" rel="noreferrer">{t('White Paper')}</a>
+                  <a className={styles.head} href="./RicochetExchangeWhitepaper.pdf" target="_blank" rel="noreferrer">{t('White Paper')}</a>
                   <span className={styles.description}>{t('Check out our fundamental ideas')}</span>
                 </li>
                 <li className={styles.discord}>

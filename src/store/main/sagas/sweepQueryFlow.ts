@@ -16,7 +16,7 @@ import {
   daixEthxExchangeAddress,
   ethxDaixExchangeAddress,
   usdcxSlpxExchangeAddress,
-  MATICxAddress,
+  WMATICxAddress,
   MKRxAddress,
   DAIxAddress,
   USDCxAddress,
@@ -139,7 +139,7 @@ export function* sweepQueryFlow() {
   const daiMaticPlaceholder = ((daiMaticflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
 
   const maticDaiflowsReceived = getReceviedFlows(maticDaiFlows.flowsReceived,
-    MATICxAddress, address);
+    WMATICxAddress, address);
   const maticDaiPlaceholder = ((maticDaiflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
 
   const usdcMaticflowsReceived = getReceviedFlows(usdcMaticFlows.flowsReceived,
@@ -148,7 +148,7 @@ export function* sweepQueryFlow() {
     (30 * 24 * 60 * 60)).toFixed(6);
 
   const maticUsdcflowsReceived = getReceviedFlows(maticUsdcFlows.flowsReceived,
-    MATICxAddress, address);
+    WMATICxAddress, address);
   const maticUsdcPlaceholder = ((maticUsdcflowsReceived / 10 ** 18) *
     (30 * 24 * 60 * 60)).toFixed(6);
 
@@ -239,7 +239,7 @@ export function* sweepQueryFlow() {
 
   const maticDaiFlowQuery = {
     flowsReceived: maticDaiflowsReceived,
-    flowsOwned: getOwnedFlows(maticDaiFlows.flowsReceived, MATICxAddress),
+    flowsOwned: getOwnedFlows(maticDaiFlows.flowsReceived, WMATICxAddress),
     totalFlows: maticDaiFlows.flowsReceived.length,
     placeholder: maticDaiPlaceholder,
   };
@@ -253,7 +253,7 @@ export function* sweepQueryFlow() {
 
   const maticUsdcFlowQuery = {
     flowsReceived: maticUsdcflowsReceived,
-    flowsOwned: getOwnedFlows(maticUsdcFlows.flowsReceived, MATICxAddress),
+    flowsOwned: getOwnedFlows(maticUsdcFlows.flowsReceived, WMATICxAddress),
     totalFlows: maticUsdcFlows.flowsReceived.length,
     placeholder: maticUsdcPlaceholder,
   };

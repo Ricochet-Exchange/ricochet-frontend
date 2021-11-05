@@ -32,6 +32,15 @@ export const InvestContainer :React.FC = () => {
   ) => {
     dispatch(stopFlowAction(config, callback));
   }, [dispatch, balances]);
+  
+  // Sort flows given their placeholder float value
+  flowConfig.sort(
+    (a, b) => {
+      const flowA = parseFloat(state[a.flowKey]?.placeholder || '0'); 
+      const flowB = parseFloat(state[b.flowKey]?.placeholder || '0');
+      return flowB - flowA;
+    },
+  );
 
   const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -89,6 +98,12 @@ export const InvestContainer :React.FC = () => {
             account={address || 'Connecting'}
           />
         </div>
+      </div>
+      
+      <div>
+        <span className={styles.fee_disclaimer}> 
+          {t('Ricochet takes a 2% fee on swaps.')}
+        </span>
       </div>
     </div>
   );
