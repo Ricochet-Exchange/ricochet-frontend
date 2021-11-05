@@ -32,6 +32,15 @@ export const InvestContainer :React.FC = () => {
   ) => {
     dispatch(stopFlowAction(config, callback));
   }, [dispatch, balances]);
+  
+  // Sort flows given their placeholder float value
+  flowConfig.sort(
+    (a, b) => {
+      const flowA = parseFloat(state[a.flowKey]?.placeholder || '0'); 
+      const flowB = parseFloat(state[b.flowKey]?.placeholder || '0');
+      return flowB - flowA;
+    },
+  );
 
   const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -73,6 +82,7 @@ export const InvestContainer :React.FC = () => {
               balanceA={balances && balances[element.tokenA]}
               balanceB={balances && balances[element.tokenB]}
               totalFlow={state[element.flowKey]?.flowsOwned}
+              totalFlows={state[element.flowKey]?.totalFlows}
               personalFlow={state[element.flowKey]?.placeholder}
               mainLoading={isLoading}
               flowType={element.type}
