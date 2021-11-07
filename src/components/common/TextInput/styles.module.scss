@@ -54,3 +54,32 @@
 .error {
   color: $color-input-error;
 }
+
+.max_wrap {
+  @include tablet {
+    @include flexbox(center, center);
+
+    box-sizing: border-box;
+    border-radius: 8px;
+    width: 100%;
+  }
+}
+
+.max_wrap {
+  margin: 0 10px 0 0;
+  width: auto;
+}
+
+.max {
+  padding: 10px 20px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 140%;
+  width: 100%;
+  border: none;
+
+  &:active {
+    border: none;
+  }
+}

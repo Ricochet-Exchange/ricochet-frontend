@@ -9,7 +9,6 @@ interface IProps {
   onClickApprove?: () => void,
   onClickUpgrade?: () => void,
   onClickDowngrade?: () => void,
-  onClickMax?: () => void,
   isLoading?: boolean;
   disabledApprove?: boolean;
 }
@@ -21,23 +20,11 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
   onClickApprove = () => {},
   onClickUpgrade = () => {},
   onClickDowngrade = () => {},
-  onClickMax = () => {},
 }) => (
   <div>
     {isUpgrade 
       ? (
         <div className={styles.buttons_upgrade}>
-          <div className={styles.max_wrap}>
-            <ButtonNew
-              color="secondary"
-              disabled={isLoading}
-              onClick={onClickMax}
-              className={styles.max}
-            >
-              Max
-
-            </ButtonNew>
-          </div>
           <div className={styles.approve_wrap}>
             <ButtonNew
               color="secondary"
@@ -63,17 +50,6 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
       )
       : (
         <div className={styles.downgrade_wrap}>
-          <div className={styles.max_wrap}>
-            <ButtonNew
-              color="secondary"
-              disabled={isLoading}
-              onClick={onClickMax}
-              className={styles.max}
-            >
-              Max
-
-            </ButtonNew>
-          </div>
           <ButtonNew
             color="primary"
             disabled={isLoading} 

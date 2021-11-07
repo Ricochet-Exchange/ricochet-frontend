@@ -1,9 +1,8 @@
-import React, {
-  FC, HTMLProps,
-} from 'react';
+import React, { FC, HTMLProps } from 'react';
 import classNames from 'classnames';
 import styles from './styles.module.scss';
 import { TextInputWrap } from '../TextInputWrap';
+import ButtonNew from '../ButtonNew';
 
 export interface TextInputProps extends HTMLProps<HTMLInputElement> {
   left?: JSX.Element | string;
@@ -11,6 +10,8 @@ export interface TextInputProps extends HTMLProps<HTMLInputElement> {
   error?: boolean;
   hasError?: boolean;
   containerClassName?: string;
+  onClickMax?: () => void;
+  isLoading?: boolean;
 }
 
 const IconRenderer: FC<{ error?: boolean }> = ({ children, error }) =>
@@ -32,6 +33,8 @@ const TextInput: FC<TextInputProps> = ({
   hasError,
   containerClassName,
   className,
+  onClickMax,
+  isLoading,
   ...props
 }) => (
   <TextInputWrap error={hasError} className={containerClassName}>
@@ -43,9 +46,21 @@ const TextInput: FC<TextInputProps> = ({
       className={classNames(styles.input, className)}
       size={1}
     />
+    {onClickMax && (
+    <div className={styles.max_wrap}>
+      <ButtonNew
+        color="secondary"
+        disabled={isLoading}
+        onClick={onClickMax}
+        className={styles.max}
+
+      >
+        Max
+      </ButtonNew>
+    </div>
+    )}
 
     <IconRenderer>{right}</IconRenderer>
-
   </TextInputWrap>
 );
 
