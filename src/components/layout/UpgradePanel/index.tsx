@@ -58,6 +58,8 @@ export const UpgradePanel: FC<IProps> = ({
             containerClassName={styles.container_input} 
             placeholder={placeholder}
             type="number"
+            onClickMax={onClickMax}
+            isLoading={isLoading}
           />
         </div>
         <div className={styles.buttons}>
@@ -65,7 +67,6 @@ export const UpgradePanel: FC<IProps> = ({
             onClickApprove={onClickApprove}
             onClickUpgrade={onClickUpgrade}
             onClickDowngrade={onClickDowngrade}
-            onClickMax={onClickMax}
             isUpgrade={isUpgrade}
             isLoading={isLoading}
             disabledApprove={disabledApprove}
@@ -77,7 +78,6 @@ export const UpgradePanel: FC<IProps> = ({
       <UpgradeDowngradeButtons 
         onClickApprove={onClickApprove}
         onClickUpgrade={onClickUpgrade}
-        onClickMax={onClickMax}
         onClickDowngrade={onClickDowngrade}
         isUpgrade={isUpgrade}
         isLoading={isLoading}
