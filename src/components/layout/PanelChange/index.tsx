@@ -131,20 +131,6 @@ export const PanelChange: FC<IProps> = ({
                   total streams
                 </span>
               </div>
-
-              {inputShow && (
-              <div className={styles.form_mob}>
-                <CoinRateForm
-                  placeholder={placeholder}
-                  value={value} 
-                  onChange={handleChange} 
-                  onClickStart={handleStart} 
-                  onClickStop={handleStop}
-                  coin={coinA}
-                  isLoading={isLoading}
-                />
-              </div>
-              )}
               {inputShow 
                 ? (
                   <FontIcon name={FontIconName.ArrowUp} className={styles.arrow_up} />
@@ -155,6 +141,19 @@ export const PanelChange: FC<IProps> = ({
             </div>
           </div>
         </div>
+        {inputShow && (
+        <div className={styles.form_mob}>
+          <CoinRateForm
+            placeholder={placeholder} 
+            value={value} 
+            onChange={handleChange} 
+            onClickStart={handleStart} 
+            onClickStop={handleStop}
+            coin={coinA}
+            isLoading={isLoading}
+          />
+        </div>
+        ) }
         {inputShow && (
           <div className={styles.form}>
             <CoinRateForm
