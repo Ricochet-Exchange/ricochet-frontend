@@ -67,10 +67,7 @@
 
 .max_wrap {
   margin: 0 10px 0 0;
-
-  @include tablet {
-    border: 1px solid var(--color-blue);
-  }
+  width: auto;
 }
 
 .max {

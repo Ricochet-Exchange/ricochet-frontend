@@ -5,14 +5,14 @@ import cx from 'classnames';
 import styles from './styles.module.scss';
 import { Loader } from '../Loader';
 
-export type ButtonColor = 'primary' | 'secondary' | 'tertiary';
+export type ButtonColor = 'primary' | 'secondary';
 
 export type ButtonProps = DetailedHTMLProps<
 ButtonHTMLAttributes<HTMLButtonElement>,
 HTMLButtonElement
 > & {
   color?: ButtonColor,
-  size?: number | string,
+  size?: number,
   fullWidth?: boolean,
   onClick?: React.MouseEventHandler<any>,
   iconClassName?: string,

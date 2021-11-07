@@ -49,11 +49,11 @@ const TextInput: FC<TextInputProps> = ({
     {onClickMax && (
     <div className={styles.max_wrap}>
       <ButtonNew
-        color="tertiary"
-        size="auto"
+        color="secondary"
         disabled={isLoading}
         onClick={onClickMax}
         className={styles.max}
+
       >
         Max
       </ButtonNew>
