@@ -48,6 +48,7 @@ export const UpgradePanel: FC<IProps> = ({
             nameCoin={nameCoin} 
             balance={Number(balance)} 
             onSelectToken={onSelectToken}
+            onClickMax={onClickMax}
           />
         </div>
         <div className={styles.input_wrap}>
