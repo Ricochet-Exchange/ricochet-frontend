@@ -45,7 +45,7 @@ enum FlowEnum {
   usdcSlpFlowQuery = 'usdcSlpFlowQuery',
 }
 
-export type FlowType = 'launchpad' | 'market';
+export type FlowType = 'launchpad' | 'market' | 'sushiLP';
 
 export const flowConfig: {
   superToken: string,
@@ -72,7 +72,7 @@ export const flowConfig: {
     coinA: Coin.USDC,
     coinB: Coin.SLP,
     flowKey: FlowEnum.usdcSlpFlowQuery,
-    type: 'market',
+    type: 'sushiLP',
   },
   {
     superToken: usdcxWethxExchangeAddress,
