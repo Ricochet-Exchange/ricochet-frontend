@@ -13,6 +13,7 @@ import { CoinBalancePanel } from '../CoinBalancePanel';
 import { CoinRateForm } from '../CoinRateForm';
 import { FlowType } from '../../../constants/flowConfig';
 import Price from '../../common/Price';
+import LpAPR from '../../common/LpAPR';
 
 interface IProps {
   placeholder?:string,
@@ -91,6 +92,7 @@ export const PanelChange: FC<IProps> = ({
               <div className={styles.coin}>
                 <CoinChange nameCoinLeft={coinA} nameCoinRight={coinB} />
                 {flowType === 'launchpad' && <Price />}
+                {flowType === 'sushiLP' && <LpAPR />}
               </div>
               <div className={styles.streaming_mob}>
                 <span className={styles.number}>{totalFlow}</span>
