@@ -1,12 +1,10 @@
-@import '../../../assets/styles/mixins';
-
+@import "../../../assets/styles/mixins";
 
 .header_wrap {
   @include flexbox(center, space-between);
 
   width: 100%;
   position: relative;
-
 
   @include tablet {
     @include flexbox(center, center);
@@ -16,11 +14,11 @@
 }
 
 .settings_wrap {
-    margin: 50px 0 50px 0;
-  
-    @include tablet {
-      display: none;
-    }
+  margin: 50px 0 50px 0;
+
+  @include tablet {
+    display: none;
+  }
 }
 
 .logo {
@@ -33,14 +31,12 @@
 
 .links {
   @include flexbox(center, center);
-  
+
   margin: 56px 0 56px 0;
 
   @include tablet {
     display: none;
   }
-
-  
 }
 
 .dca_link {
@@ -58,10 +54,10 @@
   text-align: center;
   letter-spacing: -0.015em;
   text-decoration: none;
-  
+
   &:active,
   &:checked {
-    color: var(--color-white) ;
+    color: var(--color-white);
     font-weight: bold;
     text-decoration: underline;
   }
@@ -73,7 +69,6 @@
   text-decoration-line: underline;
 }
 
-
 .mob_menu {
   display: none;
 
@@ -84,11 +79,9 @@
 
   .menu_button {
     background: transparent;
-    padding: 0 ;
+    padding: 0;
     border: none;
   }
-  
-
 }
 
 .mob_panel {
