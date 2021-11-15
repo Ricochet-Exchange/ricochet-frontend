@@ -4,8 +4,8 @@ import ReactTooltip from 'react-tooltip';
 import axios from 'axios';
 import styles from './styles.module.scss';
 
-// Get SUSHI APR
-// Rewards APR
+// Get SUSHI APY
+// Rewards APY
 const rewardsUrl = 'https://api.thegraph.com/subgraphs/name/sushiswap/matic-minichef'; // https://thegraph.com/hosted-service/subgraph/sushiswap/matic-minichef
 const rewardsQuery = `
   { # or pool(id: 1) which is usdc/weth
@@ -31,13 +31,13 @@ const rewardsQuery = `
         id
         rewardToken
         rewardPerSecond
-        
+
       }
     }
   }
-  `; 
+  `;
 
-// Fees APR
+// Fees APY
 const feesUrl = 'https://api.thegraph.com/subgraphs/name/sushiswap/matic-exchange'; // https://thegraph.com/hosted-service/subgraph/sushiswap/matic-exchange
 const feesQuery = `
 {
@@ -47,7 +47,7 @@ const feesQuery = `
       id
       liquidityProviderCount
       dayData (
-        orderBy: date 
+        orderBy: date
         orderDirection: desc
         first: 365
       ) {
@@ -61,77 +61,77 @@ const feesQuery = `
 // Get coingecko price feed
 const coingeckoUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=matic-network%2Csushi&vs_currencies=usd';
 
-const retrieveAPR = async (): Promise<{ apr: number, rewardsApr: number, feesApr: number }> => {
-  // Retrieve feesAPR
+const retrieveAPY = async (): Promise<{ apy: number, rewardsApy: number, feesApy: number }> => {
+  // Retrieve feesAPY
   const feesResp = await axios.post(feesUrl, { query: feesQuery });
   const { pair } = feesResp.data.data;
-  // const yesterdayFees = (pair.dayData[0].volumeUSD / 
-  // pair.dayData[0].reserveUSD) * 365 * 0.25; // 0.05 goes to xsushi holders 
+  // const yesterdayFees = (pair.dayData[0].volumeUSD /
+  // pair.dayData[0].reserveUSD) * 365 * 0.25; // 0.05 goes to xsushi holders
   let lastweekFees = pair.dayData.slice(0, 7)
     .map((el: any) => (parseFloat(el.volumeUSD) / parseFloat(el.reserveUSD)), 0);
   lastweekFees = lastweekFees.reduce(
     (acc: number, el: number) => (el && el !== Infinity ? acc + el : acc), 0,
   );
-  const feesApr = lastweekFees * 52 * 0.25; // On the 0.3% paid to LP, 0.05% goes to xSushi stakers
-      
+  const feesApy = lastweekFees * 52 * 0.25; // On the 0.3% paid to LP, 0.05% goes to xSushi stakers
+
   // Convert to usdc reward using tokens prices and pool volume
   const coingeckoResp = await axios.get(coingeckoUrl);
   const maticPrice = coingeckoResp.data['matic-network'].usd;
   const sushiPrice = coingeckoResp.data.sushi.usd;
-  
-  // Rertrieve Rewards APR (sushi and wmatic)
+
+  // Rertrieve Rewards APY (sushi and wmatic)
   const rewardsResp = await axios.post(rewardsUrl, { query: rewardsQuery });
   const pool = rewardsResp.data.data.pools[0];
-  const maticRewardsPerSecond = (pool.rewarder.rewardPerSecond * 
+  const maticRewardsPerSecond = (pool.rewarder.rewardPerSecond *
       pool.allocPoint) / pool.miniChef.totalAllocPoint;
-  const sushiRewardsPerSecond = (pool.miniChef.sushiPerSecond * 
+  const sushiRewardsPerSecond = (pool.miniChef.sushiPerSecond *
       pool.allocPoint) / pool.miniChef.totalAllocPoint;
 
-  // Convert perSecond to perDay to usd_perpool_perday to APR
+  // Convert perSecond to perDay to usd_perpool_perday to APY
   const maticRewardsPerDay = (maticRewardsPerSecond / 1e18) * 86400; // 60*60*24=60 * 60 * 24
   const sushiRewardsPerDay = (sushiRewardsPerSecond / 1e18) * 86400;
-  const rewardsUsdPoolPerYear = 365.25 * (maticRewardsPerDay * maticPrice + 
-    sushiRewardsPerDay * sushiPrice); 
+  const rewardsUsdPoolPerYear = 365.25 * (maticRewardsPerDay * maticPrice +
+    sushiRewardsPerDay * sushiPrice);
 
-  const rewardsApr = (rewardsUsdPoolPerYear / parseFloat(pair.dayData[0].reserveUSD)) * 100;
+  const rewardsApy = (rewardsUsdPoolPerYear / parseFloat(pair.dayData[0].reserveUSD)) * 100;
 
   return {
-    apr: rewardsApr + feesApr, 
-    rewardsApr, 
-    feesApr,
+    apy: rewardsApy + feesApy,
+    rewardsApy,
+    feesApy,
   };
 };
 
 type Props = {
 } & React.HTMLProps<HTMLSpanElement>;
 
-const getApr = async (): Promise<string> => (await retrieveAPR()).apr.toFixed(2);
-const getRewardsApr = async (): Promise<string> => (await retrieveAPR()).rewardsApr.toFixed(2);
-const getFeesApr = async (): Promise<string> => (await retrieveAPR()).feesApr.toFixed(2);
+const getApy = async (): Promise<string> => (await retrieveAPY()).apy.toFixed(2);
+const getRewardsApy = async (): Promise<string> => (await retrieveAPY()).rewardsApy.toFixed(2);
+const getFeesApy = async (): Promise<string> => (await retrieveAPY()).feesApy.toFixed(2);
 
-export default function LpApr(props: Props) {
-  const [apr, setApr] = React.useState('');
-  const [rewardsApr, setRewardsApr] = React.useState('');
-  const [feesApr, setFeesApr] = React.useState('');
+export default function LpApy(props: Props) {
+  const [apy, setApy] = React.useState('');
+  const [rewardsApy, setRewardsApy] = React.useState('');
+  const [feesApy, setFeesApy] = React.useState('');
 
   React.useEffect(() => {
-    getApr().then((p) => setApr(p));
-    getRewardsApr().then((p) => setRewardsApr(p));
-    getFeesApr().then((p) => setFeesApr(p));
+    getApy().then((p) => setApy(p));
+    getRewardsApy().then((p) => setRewardsApy(p));
+    getFeesApy().then((p) => setFeesApy(p));
   });
 
   return (
     <div className={styles.balance_container}>
-      <span {...props} className={styles.balance} data-tip data-for="aprTooltip">{`APR: ${trimPad(apr, 2)} %`}</span>
-      <ReactTooltip 
-        id="aprTooltip" 
-        place="right" 
-        effect="solid" 
-        className={styles.aprTooltip}
+      <span {...props} className={styles.balance} data-tip data-for="apyTooltip">{`APY: ${trimPad(apy, 2)} %`}</span>
+      <ReactTooltip
+        id="apyTooltip"
+        place="right"
+        effect="solid"
+        className={styles.apyTooltip}
       >
-        <span className={styles.aprTooltip_span}>
-          {`Fees: ${trimPad(feesApr, 2)}% / Rewards: ${trimPad(rewardsApr, 2)}%`}
-        </span> 
+        <span className={styles.apyTooltip_span}>
+          {`Fees: ${trimPad(feesApy, 2)}% / Rewards: ${trimPad(rewardsApy, 2)}%`}
+        </span>
       </ReactTooltip>
     </div>
   );
