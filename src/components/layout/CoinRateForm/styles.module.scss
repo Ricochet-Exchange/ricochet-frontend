@@ -9,8 +9,9 @@
     @include flexbox(center, center);
 
     flex-direction: column;
-    width: 100%;
     padding: 10px 0 10px 0;
+    width: 90%;
+    margin: auto;
   }
 }
 
