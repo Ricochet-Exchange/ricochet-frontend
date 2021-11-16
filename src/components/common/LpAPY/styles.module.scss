@@ -1,0 +1,35 @@
+@import 'assets/styles/_mixins.scss';
+
+.balance_container {
+  width: 100%;
+  text-align: center;
+}
+
+.balance {
+  background-color: #5f8eb9;
+  padding: .35em .65em;
+  font-size: .75em;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25rem;
+  width: max-content;
+}
+
+
+.aprTooltip_span {
+  display: block;
+  text-align: justify;
+  opacity: 0.8;
+  font-size: 0.95em;
+  background: var(--color-blue);
+}
+.aprTooltip {
+  background: var(--color-blue) !important;
+}
+.__react_component_tooltip::before, .__react_component_tooltip::after {
+  border-top: 5px solid #062e56 !important;
+}
