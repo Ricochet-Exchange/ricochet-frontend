@@ -16,6 +16,8 @@ import {
   checkIfApproveMkr,
   checkIfApproveWeth,
   checkIfApproveWbtc,
+  checkIfApproveSushi,
+  checkIfApproveWMatic,
 } from './checkIfApprove';
 import { getBalances } from './getBalances';
 
@@ -50,6 +52,8 @@ export function* approveMainSaga({ payload }: ReturnType<typeof approveAction>) 
       call(checkIfApproveDai),
       call(checkIfApproveWeth),
       call(checkIfApproveWbtc),
+      call(checkIfApproveSushi),
+      call(checkIfApproveWMatic),
     ]);
   } catch (e) {
     const error = transformError(e);
