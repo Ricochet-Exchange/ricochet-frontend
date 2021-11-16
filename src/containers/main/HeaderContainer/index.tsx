@@ -8,6 +8,7 @@ import Link from 'components/common/Link';
 import { MobileMenu } from 'components/layout/MobileMenu';
 import { useLang } from 'hooks/useLang';
 import ButtonNew from 'components/common/ButtonNew';
+import { WalletButton } from 'components/common/WalletButton';
 import { useTranslation } from 'i18n';
 import styles from './styles.module.scss';
 import logo from '../../../assets/images/logo.svg';
@@ -67,7 +68,16 @@ export const HeaderContainer:FC<IProps> = ({ address, balance }) => {
         </div>
         {isShowMenu && <MobileMenu closeMenu={toggleMenuMobile} />}
       </div>
-      <div className={styles.mob_head}>{location.pathname === Routes.Wallet ? t('Wallet') : t('Invest')}</div>
+      <div className={styles.mob_head}>
+        {location.pathname === Routes.Wallet ? (
+          t('Wallet')
+        ) : (
+          <>
+            <div>{t('Invest')}</div>
+            <WalletButton ricBalance={balance} account={address} />
+          </>
+        )}
+      </div>
     </div>
   );
 };
