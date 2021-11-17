@@ -13,6 +13,7 @@ import {
   WMATICAddress, WMATICxAddress,
   SUSHIAddress, SUSHIxAddress,
 } from 'constants/polygon_config';
+import { upgradeTokensList } from 'constants/upgradeConfig';
 import { mainSetState } from '../actionCreators';
 import { selectBalances } from '../selectors';
 
@@ -27,10 +28,13 @@ export function* checkIfApprove(
     tokenAddress,
     erc20ABI,
   );
-  const amount: Unwrap<typeof allowance> = yield call(allowance,
+  const allowAmount: Unwrap<typeof allowance> = yield call(allowance,
     contract, address, superTokenAddress);
   const balances: ReturnType<typeof selectBalances> = yield select(selectBalances);
-  const hasApprove = Number(amount) > Number(balances && balances[tokenAddress]);
+  const coin = upgradeTokensList.find((c) => c.tokenAddress === tokenAddress);
+  const decimals = coin ? coin.multi : 1;
+  // console.log(Number(allowAmount) / decimals, Number(balances && balances[tokenAddress]));
+  const hasApprove = Number(allowAmount) > Number(balances && balances[tokenAddress]) * decimals;
   yield put(mainSetState({ [param]: hasApprove }));
 }
 
