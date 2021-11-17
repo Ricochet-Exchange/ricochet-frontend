@@ -9,6 +9,7 @@ import wmatic from '../assets/images/coins/matic.svg';
 import mkr from '../assets/images/coins/mkr.svg';
 import ric from '../assets/images/coins/ric.svg';
 import sushi from '../assets/images/coins/sushiswap.svg';
+import slp from '../assets/images/coins/slp.svg';
 
 export enum Coin {
   WBTC = 'WBTC',
@@ -74,7 +75,7 @@ export const iconsCoin: Partial<Record<Coin, string>> = {
   [Coin.USDCx]: usdc,
   [Coin.WBTCx]: wbtc,
   [Coin.WETHx]: eth,
-  [Coin.rexSLP]: sushi,
+  [Coin.rexSLP]: slp,
   [Coin.SUSHI]: sushi,
   [Coin.WMATICx]: wmatic,
   [Coin.SUSHIx]: sushi,
