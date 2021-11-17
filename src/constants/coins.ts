@@ -69,7 +69,7 @@ export const iconsCoin: Partial<Record<Coin, string>> = {
   [Coin.MKR]: mkr,
   [Coin.RIC]: ric,
   [Coin.WETH]: eth,
-  [Coin.SLP]: ric,
+  [Coin.SLP]: slp,
   [Coin.DAIx]: dai,
   [Coin.MKRx]: mkr,
   [Coin.USDCx]: usdc,
