@@ -5,10 +5,14 @@ import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { Dropdown } from 'components/common/Dropdown';
 import { LocaleKey, localeNames } from 'i18n/utils';
 import ButtonNew from 'components/common/ButtonNew';
+import { useHistory } from 'react-router-dom'; 
 import { trimPad } from 'utils/balances';
 import { useTranslation } from 'i18n';
+import { invokeRamp } from 'api/rampNetwork';
+import logo from 'assets/images/logo.png';
 import styles from './styles.module.scss';
 import { SelectLanguage } from '../SelectLanguage';
+import { Routes } from '../../../constants/routes';
 
 interface IProps {
   account: string;
@@ -21,6 +25,11 @@ interface IProps {
 export const UserSettings: FC<IProps> = ({
   onSelectLanguage, ricBalance = '', account, language, className,
 }) => {
+  const history = useHistory();
+  const handleFundButton = () => invokeRamp({
+    hostLogoUrl: `${window.location.origin}${logo}`,
+    userAddress: account,
+  }, () => { history.push(Routes.Wallet); });
   const { t } = useTranslation('main');
   return (
     <div className={styles.user_settings}>
@@ -31,7 +40,11 @@ export const UserSettings: FC<IProps> = ({
           <FontIcon className={styles.icon} name={FontIconName.RicoUser} size={16} />
         </div>
       </ButtonNew>
-
+      {account !== 'Connecting' && (
+      <ButtonNew className={styles.fund_panel} onClick={handleFundButton}>
+        <div className={styles.fund_inner}>{t('Fund Wallet')}</div>
+      </ButtonNew>
+      )}
       <div className={styles.language_wrap}>
         <Dropdown
           placement="bottom-end"
