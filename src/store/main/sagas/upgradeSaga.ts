@@ -39,9 +39,10 @@ export function* upgradeMainSaga({ payload }: ReturnType<typeof upgradeAction>) 
   try {
     yield put(mainSetState({ isLoadingUpgrade: true }));
     const {
-      superTokenAddress, value, multi,
+      superTokenAddress, value,
     } = payload;
-    const amount = web3.utils.toWei((Number(value) * multi).toString(), 'wei');
+    // Superfluid upgrade contract requires the upgrade value to be scaled by 1e18 and not decimals
+    const amount = web3.utils.toWei((Number(value) * 1e18).toString(), 'wei'); 
     yield call(upgradeSaga, superTokenAddress, amount);
     payload.callback();
     yield all([
