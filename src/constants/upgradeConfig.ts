@@ -11,7 +11,7 @@ import {
   WBTCAddress,
   WBTCxAddress,
   WMATICAddress,
-  WMATICxAddress,
+  MATICxAddress,
   SUSHIAddress,
   SUSHIxAddress,
 } from './polygon_config';
@@ -21,7 +21,7 @@ export const upgradeTokensList:{
   tokenAddress: string,
   superTokenAddress: string,
   multi: number,
-  key: 'hasWethApprove' | 'hasUsdcApprove' | 'hasWbtcApprove' | 'hasDaiApprove' | 'hasMkrApprove' | 'hasWMaticApprove' | 'hasSushiApprove',
+  key: 'hasWethApprove' | 'hasUsdcApprove' | 'hasWbtcApprove' | 'hasDaiApprove' | 'hasMkrApprove' | 'hasMaticApprove' | 'hasSushiApprove',
 }[] = [
   {
     coin: Coin.USDC,
@@ -59,11 +59,11 @@ export const upgradeTokensList:{
     key: 'hasWbtcApprove',
   },
   {
-    coin: Coin.WMATIC,
+    coin: Coin.MATIC,
     tokenAddress: WMATICAddress,
-    superTokenAddress: WMATICxAddress,
+    superTokenAddress: MATICxAddress,
     multi: 1e18,
-    key: 'hasWMaticApprove',
+    key: 'hasMaticApprove',
   },
   {
     coin: Coin.SUSHI,

@@ -1,4 +1,4 @@
-import { downgrade } from 'api/ethereum';
+import { downgrade, downgradeMatic } from 'api/ethereum';
 import { superTokenABI } from 'constants/abis';
 import { call, put } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
@@ -6,6 +6,8 @@ import { getAddress } from 'utils/getAddress';
 import { getContract } from 'utils/getContract';
 import web3 from 'utils/web3instance';
 import { transformError } from 'utils/transformError';
+import { MATICxAddress } from 'constants/polygon_config';
+
 import {
   mainSetState,
   downgradeAction,
@@ -25,7 +27,13 @@ export function* downgradeMainSaga({ payload }: ReturnType<typeof downgradeActio
       tokenAddress,
       superTokenABI,
     );
-    yield call(downgrade, contract, amount, address);
+
+    if (tokenAddress === MATICxAddress) {
+      yield call(downgradeMatic, contract, amount, address);
+    } else {
+      yield call(downgrade, contract, amount, address);
+    }
+
     yield call(getBalances, address);
   } catch (e) {
     const error = transformError(e);

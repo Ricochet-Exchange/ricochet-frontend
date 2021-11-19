@@ -16,8 +16,8 @@ import {
   checkIfApproveMkr,
   checkIfApproveWeth,
   checkIfApproveWbtc,
-  checkIfApproveSushi,
-  checkIfApproveWMatic,
+  checkIfApproveSushi, 
+  checkIfApproveMatic,
 } from './checkIfApprove';
 import { getBalances } from './getBalances';
 
@@ -32,7 +32,11 @@ export function* approveSaga(
     tokenAddress,
     erc20ABI,
   );
-  yield call(approve, contract, address, superTokenAddress, amount);
+  // max uint256 is (2 ** 256 - 1)
+  let uint256Max = web3.utils.toBN(amount).toString();
+  uint256Max = web3.utils.toBN('2').pow(web3.utils.toBN('256')).sub(web3.utils.toBN('1')).toString(); 
+  // Allow max instead of amount
+  yield call(approve, contract, address, superTokenAddress, uint256Max); 
   yield call(getBalances, address);
 }
 
@@ -53,7 +57,7 @@ export function* approveMainSaga({ payload }: ReturnType<typeof approveAction>) 
       call(checkIfApproveWeth),
       call(checkIfApproveWbtc),
       call(checkIfApproveSushi),
-      call(checkIfApproveWMatic),
+      call(checkIfApproveMatic),
     ]);
   } catch (e) {
     const error = transformError(e);
