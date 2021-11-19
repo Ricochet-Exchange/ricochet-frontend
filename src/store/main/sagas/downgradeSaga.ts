@@ -6,7 +6,7 @@ import { getAddress } from 'utils/getAddress';
 import { getContract } from 'utils/getContract';
 import web3 from 'utils/web3instance';
 import { transformError } from 'utils/transformError';
-import { WMATICxAddress } from 'constants/polygon_config';
+import { MATICxAddress } from 'constants/polygon_config';
 
 import {
   mainSetState,
@@ -28,7 +28,7 @@ export function* downgradeMainSaga({ payload }: ReturnType<typeof downgradeActio
       superTokenABI,
     );
 
-    if (tokenAddress === WMATICxAddress) {
+    if (tokenAddress === MATICxAddress) {
       yield call(downgradeMatic, contract, amount, address);
     } else {
       yield call(downgrade, contract, amount, address);

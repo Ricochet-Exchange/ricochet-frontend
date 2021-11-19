@@ -6,7 +6,7 @@ import { getAddress } from 'utils/getAddress';
 import { getContract } from 'utils/getContract';
 import web3 from 'utils/web3instance';
 import { transformError } from 'utils/transformError';
-import { WMATICxAddress } from 'constants/polygon_config';
+import { MATICxAddress } from 'constants/polygon_config';
 
 import {
   mainSetState,
@@ -19,7 +19,7 @@ import {
   checkIfApproveWeth,
   checkIfApproveWbtc,
   checkIfApproveSushi,
-  checkIfApproveWMatic,
+  checkIfApproveMatic,
 } from './checkIfApprove';
 import { getBalances } from './getBalances';
 
@@ -33,7 +33,7 @@ export function* upgradeSaga(
     tokenAddress,
     superTokenABI,
   );
-  if (tokenAddress === WMATICxAddress) {
+  if (tokenAddress === MATICxAddress) {
     yield call(upgradeMatic, contract, value, address);
   } else {
     yield call(upgrade, contract, value, address);
@@ -57,7 +57,7 @@ export function* upgradeMainSaga({ payload }: ReturnType<typeof upgradeAction>) 
       call(checkIfApproveWeth),
       call(checkIfApproveWbtc),
       call(checkIfApproveSushi),
-      call(checkIfApproveWMatic),
+      call(checkIfApproveMatic),
     ]);
   } catch (e) {
     const error = transformError(e);

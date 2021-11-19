@@ -8,7 +8,7 @@ export type MainState = {
   hasMkrApprove?: boolean;
   hasWethApprove?: boolean;
   hasWbtcApprove?: boolean;
-  hasWMaticApprove?: boolean;
+  hasMaticApprove?: boolean;
   hasSushiApprove?: boolean;
   usdcRicFlowQuery?: {
     flowsReceived: number,

@@ -5,7 +5,7 @@ import {
   DAIxAddress,
   MKRxAddress,
   WBTCxAddress,
-  WMATICxAddress,
+  MATICxAddress,
   SUSHIxAddress,
 } from './polygon_config';
 
@@ -31,8 +31,8 @@ export const downgradeTokensList = [
     tokenAddress: WBTCxAddress,
   },
   {
-    coin: Coin.WMATICx,
-    tokenAddress: WMATICxAddress,
+    coin: Coin.MATICx,
+    tokenAddress: MATICxAddress,
   },
   {
     coin: Coin.SUSHIx,
