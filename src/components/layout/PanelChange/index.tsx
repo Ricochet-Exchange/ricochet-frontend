@@ -13,6 +13,7 @@ import { CoinBalancePanel } from '../CoinBalancePanel';
 import { CoinRateForm } from '../CoinRateForm';
 import { FlowType } from '../../../constants/flowConfig';
 import Price from '../../common/Price';
+import LpAPY from '../../common/LpAPY';
 
 interface IProps {
   placeholder?:string,
@@ -34,10 +35,10 @@ export const PanelChange: FC<IProps> = ({
   onClickStop,
   placeholder,
   coinA,
-  coinB, 
+  coinB,
   balanceA,
   balanceB,
-  totalFlow, 
+  totalFlow,
   totalFlows,
   personalFlow,
   mainLoading = false,
@@ -52,9 +53,9 @@ export const PanelChange: FC<IProps> = ({
     setIsLoading(mainLoading);
   }, [mainLoading]);
 
-  const toggleInputShow = useCallback(() => { setInputShow(!inputShow); }, 
+  const toggleInputShow = useCallback(() => { setInputShow(!inputShow); },
     [inputShow, setInputShow]);
-  
+
   const handleChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   }, []);
@@ -91,6 +92,7 @@ export const PanelChange: FC<IProps> = ({
               <div className={styles.coin}>
                 <CoinChange nameCoinLeft={coinA} nameCoinRight={coinB} />
                 {flowType === 'launchpad' && <Price />}
+                {flowType === 'sushiLP' && <LpAPY />}
               </div>
               <div className={styles.streaming_mob}>
                 <span className={styles.number}>{totalFlow}</span>
@@ -111,13 +113,13 @@ export const PanelChange: FC<IProps> = ({
                 <div className={styles.first_balance_container}>
                   <CoinBalancePanel
                     className={styles.currency_first_balance}
-                    name={coinA} 
+                    name={coinA}
                     balance={balanceA}
                   />
                 </div>
                 <CoinBalancePanel
                   className={styles.currency_second_balance}
-                  name={coinB} 
+                  name={coinB}
                   balance={balanceB}
                 />
               </div>
@@ -131,7 +133,7 @@ export const PanelChange: FC<IProps> = ({
                   total streams
                 </span>
               </div>
-              {inputShow 
+              {inputShow
                 ? (
                   <FontIcon name={FontIconName.ArrowUp} className={styles.arrow_up} />
                 )
@@ -144,10 +146,10 @@ export const PanelChange: FC<IProps> = ({
         {inputShow && (
         <div className={styles.form_mob}>
           <CoinRateForm
-            placeholder={placeholder} 
-            value={value} 
-            onChange={handleChange} 
-            onClickStart={handleStart} 
+            placeholder={placeholder}
+            value={value}
+            onChange={handleChange}
+            onClickStart={handleStart}
             onClickStop={handleStop}
             coin={coinA}
             isLoading={isLoading}
@@ -158,16 +160,16 @@ export const PanelChange: FC<IProps> = ({
           <div className={styles.form}>
             <CoinRateForm
               placeholder={placeholder}
-              value={value} 
-              onChange={handleChange} 
-              onClickStart={handleStart} 
+              value={value}
+              onChange={handleChange}
+              onClickStart={handleStart}
               onClickStop={handleStop}
               coin={coinA}
               isLoading={isLoading}
             />
           </div>
         )}
-  
+
       </section>
     </>
   );
