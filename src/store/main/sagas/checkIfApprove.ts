@@ -10,7 +10,6 @@ import {
   MKRAddress, MKRxAddress,
   WETHAddress, WETHxAddress,
   WBTCAddress, WBTCxAddress,
-  WMATICAddress, WMATICxAddress,
   SUSHIAddress, SUSHIxAddress,
 } from 'constants/polygon_config';
 import { mainSetState } from '../actionCreators';
@@ -31,6 +30,14 @@ export function* checkIfApprove(
     contract, address, superTokenAddress);
   const balances: ReturnType<typeof selectBalances> = yield select(selectBalances);
   const hasApprove = Number(amount) > Number(balances && balances[superTokenAddress]);
+  /*
+  // console.log('allowance', amount, 'balance', balances && balances[superTokenAddress]); 
+  // if (tokenAddress === WMATICAddress) { 
+  if (param === 'hasWMaticApprove') { 
+    console.log('bis allowance', amount, 'balance', balances && balances[superTokenAddress]); 
+    hasApprove = true;
+  }
+  */
   yield put(mainSetState({ [param]: hasApprove }));
 }
 
@@ -55,7 +62,10 @@ export function* checkIfApproveWbtc() {
 }
 
 export function* checkIfApproveWMatic() {
-  yield call(checkIfApprove, WMATICAddress, WMATICxAddress, 'hasWMaticApprove');
+  // yield call(checkIfApprove, WMATICAddress, WMATICxAddress, 'hasWMaticApprove');
+  // It would be needed to approve wmatic, but not native matic
+  // console.log('checkIfApproveWMatic', 'true');
+  yield put(mainSetState({ hasWMaticApprove: true }));
 }
 
 export function* checkIfApproveSushi() {

@@ -1,4 +1,4 @@
-import { upgrade } from 'api/ethereum';
+import { upgrade, upgradeMatic } from 'api/ethereum';
 import { superTokenABI } from 'constants/abis';
 import { call, put, all } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
@@ -6,6 +6,8 @@ import { getAddress } from 'utils/getAddress';
 import { getContract } from 'utils/getContract';
 import web3 from 'utils/web3instance';
 import { transformError } from 'utils/transformError';
+import { WMATICxAddress } from 'constants/polygon_config';
+
 import {
   mainSetState,
   upgradeAction,
@@ -16,6 +18,8 @@ import {
   checkIfApproveDai,
   checkIfApproveWeth,
   checkIfApproveWbtc,
+  checkIfApproveSushi,
+  checkIfApproveWMatic,
 } from './checkIfApprove';
 import { getBalances } from './getBalances';
 
@@ -29,7 +33,11 @@ export function* upgradeSaga(
     tokenAddress,
     superTokenABI,
   );
-  yield call(upgrade, contract, value, address);
+  if (tokenAddress === WMATICxAddress) {
+    yield call(upgradeMatic, contract, value, address);
+  } else {
+    yield call(upgrade, contract, value, address);
+  }
   yield call(getBalances, address);
 }
 
@@ -48,6 +56,8 @@ export function* upgradeMainSaga({ payload }: ReturnType<typeof upgradeAction>) 
       call(checkIfApproveDai),
       call(checkIfApproveWeth),
       call(checkIfApproveWbtc),
+      call(checkIfApproveSushi),
+      call(checkIfApproveWMatic),
     ]);
   } catch (e) {
     const error = transformError(e);

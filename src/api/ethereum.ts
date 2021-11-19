@@ -22,6 +22,18 @@ export const downgrade = (
     from: address, 
     gasPrice,
   });
+  
+export const downgradeMatic = (
+  contract: any,
+  amount: string,
+  address: string,
+) => contract.methods
+  .downgradeToETH(amount)
+  .send({ 
+    from: address, 
+    // value: amount,
+    gasPrice,
+  });
 
 export const allowance = (
   contract: any,
@@ -53,6 +65,21 @@ export const upgrade = (
     from: address, 
     gasPrice,
   });
+
+export const upgradeMatic = (
+  contract: any,
+  amount: string,
+  address: string,
+) => {
+  console.log('INSIDE upgradeMatic', contract, amount, address);
+  contract.methods
+    .upgradeByETH()
+    .send({ 
+      from: address, 
+      value: amount,
+      gasPrice,
+    });
+};
 
 export const approveSubscription = async (tokenAddress:string, exchangeAddress:string) => {
   const superFluid = await getSuperFluid();

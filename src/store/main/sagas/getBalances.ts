@@ -21,6 +21,7 @@ import {
 import { getContract } from 'utils/getContract';
 import { erc20ABI } from 'constants/abis';
 import { makeBatchRequest } from 'utils/makeBatchRequest';
+import web3 from 'utils/web3instance';
 import { mainSetState } from '../actionCreators';
 
 export function* getBalances(address: string) {
@@ -48,5 +49,8 @@ export function* getBalances(address: string) {
     }
     return null;
   });
+  // Edit matic balance
+  balances[WMATICAddress] = fromWei(yield web3.eth.getBalance(address), 18);
+
   yield put(mainSetState({ balances }));
 }
