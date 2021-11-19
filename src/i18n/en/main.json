@@ -21,7 +21,7 @@
   "Upgrade": "Upgrade",
   "Input Amount": "Input Amount",
   "Downgrade": "Downgrade",
-  "Ethereum": "Ethereum", 
-  "While reviewed by the Superfluid team, these contracts have not been audited yet, use at your own risk.": "While reviewed by the Superfluid team, these contracts have not been audited yet, use at your own risk.",
+  "Ethereum": "Ethereum",
+  "Ricochet contracts have not been audited, use at your own risk.": "Ricochet contracts have not been audited, use at your own risk.",
   "Ricochet takes a 2% fee on swaps.": "Ricochet takes a 2% fee on swaps."
 }
