@@ -7,7 +7,7 @@ import {
   RICAddress,
   SLPxAddress,
   SUSHIxAddress,
-  WMATICxAddress,
+  MATICxAddress,
 } from 'constants/polygon_config';
 
 const gasPrice = 35_000_000_000; // 35 gwei default gas
@@ -20,6 +20,18 @@ export const downgrade = (
   .downgrade(amount)
   .send({ 
     from: address, 
+    gasPrice,
+  });
+  
+export const downgradeMatic = (
+  contract: any,
+  amount: string,
+  address: string,
+) => contract.methods
+  .downgradeToETH(amount)
+  .send({ 
+    from: address, 
+    // value: amount,
     gasPrice,
   });
 
@@ -53,6 +65,21 @@ export const upgrade = (
     from: address, 
     gasPrice,
   });
+
+export const upgradeMatic = (
+  contract: any,
+  amount: string,
+  address: string,
+) => {
+  console.log('INSIDE upgradeMatic', contract, amount, address);
+  contract.methods
+    .upgradeByETH()
+    .send({ 
+      from: address, 
+      value: amount,
+      gasPrice,
+    });
+};
 
 export const approveSubscription = async (tokenAddress:string, exchangeAddress:string) => {
   const superFluid = await getSuperFluid();
@@ -236,7 +263,7 @@ export const startFlow = async (
               [
                 superFluid.agreements.ida.contract.methods
                   .approveSubscription(
-                    WMATICxAddress,
+                    MATICxAddress,
                     exchangeAddress,
                     3, // INDEX_ID
                     '0x',

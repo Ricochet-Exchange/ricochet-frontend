@@ -1,6 +1,6 @@
 export const chainId = 137;
-export const WMATICAddress = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270";
-export const WMATICxAddress = "0x3aD736904E9e65189c3000c7DD2c8AC8bB7cD4e3";
+export const WMATICAddress = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"; // There is no address token for matic, not useful
+export const MATICxAddress = "0x3ad736904e9e65189c3000c7dd2c8ac8bb7cd4e3"; // This is maticx indeed, and not wmaticx
 export const MKRAddress = "0x6f7C932e7684666C9fd1d44527765433e01fF61d";
 export const MKRxAddress = "0x2c530aF1f088B836FA0dCa23c7Ea50E669508C4C";
 export const DAIAddress = "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063";

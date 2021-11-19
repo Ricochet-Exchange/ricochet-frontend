@@ -3805,6 +3805,26 @@ export const superTokenABI = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "upgradeByETH",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function"
+  },
+  {
+    inputs:[
+      {
+        internalType: "uint256",
+        name: "amount", // "wad",
+        type: "uint256"
+      }
+    ],
+    name: "downgradeToETH",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
     inputs: [
       {
         internalType: "address",

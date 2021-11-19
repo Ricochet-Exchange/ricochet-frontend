@@ -22,6 +22,32 @@
       max-width: 100%;
     }
   }
+
+  .fund_panel {
+    @include flexbox(center, center);
+    margin-left: 10px;
+    max-width: 210px;
+    min-width: 0;
+    height: 33px !important;
+    background: rgba(14, 138, 22, 0.58);
+    border: 1px solid rgba(24, 224, 34, 0.58);
+    border-radius: 10px;
+    color: rgb(24, 224, 34);
+    font-family: $default-font;
+    font-style: normal;
+    padding: 0;
+    cursor: pointer;
+  
+    @include tablet {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+
+  .fund_inner {
+    margin: 0 10px 0 10px;
+  }
+
 }
 
 .icon_wrap {
