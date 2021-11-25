@@ -4,13 +4,94 @@ import { TextInput } from 'components/common/TextInput';
 import { PanelChange } from 'components/layout/PanelChange';
 import { UserSettings } from 'components/layout/UserSettings';
 import { useLang } from 'hooks/useLang';
-import { flowConfig } from 'constants/flowConfig';
+import { flowConfig, FlowEnum } from 'constants/flowConfig';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
-import { RICAddress } from 'constants/polygon_config';
+import {
+  RICAddress,
+  USDCxAddress,
+  WETHxAddress,
+  WBTCxAddress,
+  DAIxAddress,
+  MKRxAddress,
+  MATICxAddress,
+} from 'constants/polygon_config';
 import { useDispatch } from 'react-redux';
 import { startFlowAction, stopFlowAction } from 'store/main/actionCreators';
 import styles from './styles.module.scss';
+
+function sumStrings(a:number, b:string):number { return (a + parseFloat(b)); }
+function endDate(bal:number, outgoing:number):string {
+  const outgoingPerMs = outgoing / (30 * 24 * 60 * 60 * 1000);
+  const endDateTimestamp = Date.now() + bal / outgoingPerMs;
+  const endDateStr = (new Date(endDateTimestamp)).toLocaleDateString();
+  return `${endDateStr}`;
+} 
+function computeStreamEnds(state:any, balances:any) {
+  const usdcRicPlaceholder = state[FlowEnum.usdcRicFlowQuery]?.placeholder || '0';
+  const usdcMkrPlaceholder = state[FlowEnum.usdcMkrFlowQuery]?.placeholder || '0';
+  const usdcMaticPlaceholder = state[FlowEnum.usdcMaticFlowQuery]?.placeholder || '0';
+  const usdcWethPlaceholder = state[FlowEnum.usdcWethFlowQuery]?.placeholder || '0';
+  const usdcWbtcPlaceholder = state[FlowEnum.usdcWbtcFlowQuery]?.placeholder || '0';
+  const usdcSlpPlaceholder = state[FlowEnum.usdcSlpFlowQuery]?.placeholder || '0';
+  const daiEthPlaceholder = state[FlowEnum.daiEthFlowQuery]?.placeholder || '0';
+  const ethDaiPlaceholder = state[FlowEnum.ethDaiFlowQuery]?.placeholder || '0';
+  const daiMkrPlaceholder = state[FlowEnum.daiMkrFlowQuery]?.placeholder || '0';
+  const mkrDaiPlaceholder = state[FlowEnum.mkrDaiFlowQuery]?.placeholder || '0';
+  const mkrUsdcPlaceholder = state[FlowEnum.mkrUsdcFlowQuery]?.placeholder || '0';
+  const daiMaticPlaceholder = state[FlowEnum.daiMaticFlowQuery]?.placeholder || '0';
+  const maticDaiPlaceholder = state[FlowEnum.maticDaiFlowQuery]?.placeholder || '0';
+  const maticUsdcPlaceholder = state[FlowEnum.maticUsdcFlowQuery]?.placeholder || '0';
+  const wethUsdcPlaceholder = state[FlowEnum.wethUsdcFlowQuery]?.placeholder || '0';
+  const wbtcUsdcPlaceholder = state[FlowEnum.wbtcUsdcFlowQuery]?.placeholder || '0';
+
+  const outgoingUSDC:number = [
+    usdcRicPlaceholder, usdcSlpPlaceholder, 
+    usdcWethPlaceholder, usdcWbtcPlaceholder, 
+    usdcMkrPlaceholder, usdcMaticPlaceholder,
+  ].reduce(sumStrings, 0);
+  const outgoingWETH:number = [
+    wethUsdcPlaceholder, ethDaiPlaceholder,
+  ].reduce(sumStrings, 0);
+  const outgoingWBTC:number = [wbtcUsdcPlaceholder].reduce(sumStrings, 0);
+  const outgoingDAI:number = [
+    daiMkrPlaceholder, daiMaticPlaceholder, daiEthPlaceholder,
+  ].reduce(sumStrings, 0);
+  const outgoingMKR:number = [
+    mkrDaiPlaceholder, mkrUsdcPlaceholder,
+  ].reduce(sumStrings, 0);
+  const outgoingMATIC:number = [
+    maticDaiPlaceholder, maticUsdcPlaceholder,
+  ].reduce(sumStrings, 0);
+
+  const usdcxBal = parseFloat((balances && balances[USDCxAddress]) || '0');
+  const daiBal = parseFloat((balances && balances[DAIxAddress]) || '0');
+  const wethBal = parseFloat((balances && balances[WETHxAddress]) || '0');
+  const mkrBal = parseFloat((balances && balances[MKRxAddress]) || '0');
+  const maticBal = parseFloat((balances && balances[MATICxAddress]) || '0');
+  const wbtcBal = parseFloat((balances && balances[WBTCxAddress]) || '0');
+
+  const streamEnds : { [id: string] : string; } = {
+    [FlowEnum.usdcRicFlowQuery]: endDate(usdcxBal, outgoingUSDC),
+    [FlowEnum.usdcMkrFlowQuery]: endDate(usdcxBal, outgoingUSDC),
+    [FlowEnum.usdcMaticFlowQuery]: endDate(usdcxBal, outgoingUSDC),
+    [FlowEnum.usdcWethFlowQuery]: endDate(usdcxBal, outgoingUSDC),
+    [FlowEnum.usdcWbtcFlowQuery]: endDate(usdcxBal, outgoingUSDC),
+    [FlowEnum.usdcSlpFlowQuery]: endDate(usdcxBal, outgoingUSDC),
+    [FlowEnum.daiEthFlowQuery]: endDate(daiBal, outgoingDAI),
+    [FlowEnum.ethDaiFlowQuery]: endDate(wethBal, outgoingWETH),
+    [FlowEnum.daiMkrFlowQuery]: endDate(daiBal, outgoingDAI),
+    [FlowEnum.mkrDaiFlowQuery]: endDate(mkrBal, outgoingMKR),
+    [FlowEnum.mkrUsdcFlowQuery]: endDate(mkrBal, outgoingMKR),
+    [FlowEnum.daiMaticFlowQuery]: endDate(daiBal, outgoingDAI),
+    [FlowEnum.maticDaiFlowQuery]: endDate(maticBal, outgoingMATIC),
+    [FlowEnum.maticUsdcFlowQuery]: endDate(maticBal, outgoingMATIC),
+    [FlowEnum.wethUsdcFlowQuery]: endDate(wethBal, outgoingWETH),
+    [FlowEnum.wbtcUsdcFlowQuery]: endDate(wbtcBal, outgoingWBTC),
+  };
+
+  return streamEnds;
+}
 
 export const InvestContainer :React.FC = () => {
   const { language, changeLanguage, t } = useLang();
@@ -42,6 +123,8 @@ export const InvestContainer :React.FC = () => {
     },
   );
 
+  const streamEnds = computeStreamEnds(state, balances);
+    
   const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearch(value);
@@ -83,6 +166,7 @@ export const InvestContainer :React.FC = () => {
               balanceB={balances && balances[element.tokenB]}
               totalFlow={state[element.flowKey]?.flowsOwned}
               totalFlows={state[element.flowKey]?.totalFlows}
+              streamEnd={streamEnds[element.flowKey]}
               personalFlow={state[element.flowKey]?.placeholder}
               mainLoading={isLoading}
               flowType={element.type}
