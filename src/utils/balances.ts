@@ -4,8 +4,8 @@ const zero = web3.utils.toBN(0);
 const negative1 = web3.utils.toBN(-1);
 
 function fromWei(
-  weiInput: string, 
-  decimals: number, 
+  weiInput: string,
+  decimals: number,
   options: { pad?: boolean, commify?: boolean } = { pad: false, commify: false },
 ) {
   let wei = web3.utils.toBN(weiInput); // eslint-disable-line
@@ -48,4 +48,14 @@ function trimPad(amount: string, decimals: number) {
   return combined.join('.');
 }
 
-export { fromWei, trimPad };
+function numFormatter(num: number) {
+  let output;
+  if (num > 999 && num < 1000000) {
+    output = (num / 1000).toFixed(1).toString().concat('K'); // convert to K for number from > 1000 < 1 million
+  } else {
+    output = trimPad(num.toString(), 6); // if value < 1000, nothing to do
+  }
+  return output;
+}
+
+export { fromWei, trimPad, numFormatter };

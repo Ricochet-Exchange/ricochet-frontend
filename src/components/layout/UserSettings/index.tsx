@@ -5,8 +5,8 @@ import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { Dropdown } from 'components/common/Dropdown';
 import { LocaleKey, localeNames } from 'i18n/utils';
 import ButtonNew from 'components/common/ButtonNew';
-import { useHistory } from 'react-router-dom'; 
-import { trimPad } from 'utils/balances';
+import { useHistory } from 'react-router-dom';
+import { numFormatter } from 'utils/balances';
 import { useTranslation } from 'i18n';
 import { invokeRamp } from 'api/rampNetwork';
 import logo from 'assets/images/logo.png';
@@ -34,8 +34,8 @@ export const UserSettings: FC<IProps> = ({
   return (
     <div className={styles.user_settings}>
       <ButtonNew className={styles.balance_panel}>
-        <div className={styles.balance}>{`${trimPad(ricBalance, 6)} RIC`}</div>
-        <div className={styles.address}>{account.substring(0, 10)}</div>
+        <div className={styles.balance}>{`${numFormatter(parseFloat(ricBalance))} RIC`}</div>
+        <div className={styles.address}>{account.substring(0, 6)}</div>
         <div className={styles.icon_wrap}>
           <FontIcon className={styles.icon} name={FontIconName.RicoUser} size={16} />
         </div>
@@ -49,7 +49,7 @@ export const UserSettings: FC<IProps> = ({
         <Dropdown
           placement="bottom-end"
           popupClassName={styles.lang_dropdown}
-          buttonClassName={styles.lang_button} 
+          buttonClassName={styles.lang_button}
           label={(
             <div className={styles.language}>
               <div className={styles.language_name}>{localeNames[language]}</div>
@@ -59,7 +59,7 @@ export const UserSettings: FC<IProps> = ({
         >
           <SelectLanguage onChange={onSelectLanguage} />
         </Dropdown>
-    
+
       </div>
 
       <div className={styles.dot_wrap}>
@@ -67,7 +67,7 @@ export const UserSettings: FC<IProps> = ({
           <Dropdown
             placement="bottom-end"
             popupClassName={styles.settings_dropdown}
-            buttonClassName={styles.settings_button} 
+            buttonClassName={styles.settings_button}
             label={<FontIcon className={className} name={FontIconName.Dot} size={16} />}
           >
             <div className={styles.settings_wrap}>
@@ -83,6 +83,10 @@ export const UserSettings: FC<IProps> = ({
                 <li className={styles.discord}>
                   <a className={styles.head} href="https://discord.gg/mss4t2ED3y" target="_blank" rel="noreferrer">{t('Discord')}</a>
                   <span className={styles.description}>{t('Join the community on Discord')}</span>
+                </li>
+                <li className={styles.discord}>
+                  <a className={styles.head} href="https://github.com/Ricochet-Exchange/ricochet-frontend/blob/main/TERMS.md" target="_blank" rel="noreferrer">{t('Terms')}</a>
+                  <span className={styles.description}>{t('Read our terms of service')}</span>
                 </li>
               </ul>
             </div>
