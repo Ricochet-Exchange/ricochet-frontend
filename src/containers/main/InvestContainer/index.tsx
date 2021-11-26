@@ -4,13 +4,38 @@ import { TextInput } from 'components/common/TextInput';
 import { PanelChange } from 'components/layout/PanelChange';
 import { UserSettings } from 'components/layout/UserSettings';
 import { useLang } from 'hooks/useLang';
-import { flowConfig } from 'constants/flowConfig';
+import { flowConfig, FlowEnum } from 'constants/flowConfig';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
-import { RICAddress } from 'constants/polygon_config';
+import {
+  RICAddress,
+} from 'constants/polygon_config';
 import { useDispatch } from 'react-redux';
 import { startFlowAction, stopFlowAction } from 'store/main/actionCreators';
 import styles from './styles.module.scss';
+
+function sumStrings(a:number, b:string):number { return (a + parseFloat(b)); }
+function endDate(bal:number, outgoing:number):string {
+  const outgoingPerMs = outgoing / (30 * 24 * 60 * 60 * 1000);
+  const endDateTimestamp = Date.now() + bal / outgoingPerMs;
+  const endDateStr = (new Date(endDateTimestamp)).toLocaleDateString();
+  return `${endDateStr}`;
+} 
+function retrieveEndDate(flowKey:FlowEnum, state:any, balances:any) {
+  const flow = flowConfig.find((flow_) => flow_.flowKey === flowKey);
+  const sameCoinAFlows = flowConfig.filter((flow_) => flow_.coinA === flow?.coinA);
+  const outgoing = sameCoinAFlows.map((flow_) => state[flow_.flowKey]?.placeholder || '0');
+  const outgoingSum = outgoing.reduce(sumStrings, 0);
+  const bal = parseFloat((balances && balances[flow?.tokenA || '']) || '0');
+  return endDate(bal, outgoingSum);
+}
+function computeStreamEnds(state:any, balances:any) {
+  const streamEnds : { [id: string] : string; } = {};
+  Object.values(FlowEnum).forEach((flowEnum: FlowEnum) => {
+    streamEnds[flowEnum] = retrieveEndDate(flowEnum, state, balances);
+  });
+  return streamEnds;
+}
 
 export const InvestContainer :React.FC = () => {
   const { language, changeLanguage, t } = useLang();
@@ -42,6 +67,8 @@ export const InvestContainer :React.FC = () => {
     },
   );
 
+  const streamEnds = computeStreamEnds(state, balances);
+    
   const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearch(value);
@@ -83,6 +110,7 @@ export const InvestContainer :React.FC = () => {
               balanceB={balances && balances[element.tokenB]}
               totalFlow={state[element.flowKey]?.flowsOwned}
               totalFlows={state[element.flowKey]?.totalFlows}
+              streamEnd={streamEnds[element.flowKey]}
               personalFlow={state[element.flowKey]?.placeholder}
               mainLoading={isLoading}
               flowType={element.type}

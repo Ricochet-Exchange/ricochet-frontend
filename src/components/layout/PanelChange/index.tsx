@@ -25,6 +25,7 @@ interface IProps {
   balanceB?: string;
   totalFlow?: string;
   totalFlows?: number;
+  streamEnd?: string;
   personalFlow?: string;
   mainLoading?: boolean;
   flowType: FlowType,
@@ -40,6 +41,7 @@ export const PanelChange: FC<IProps> = ({
   balanceB,
   totalFlow,
   totalFlows,
+  streamEnd,
   personalFlow,
   mainLoading = false,
   flowType,
@@ -99,10 +101,21 @@ export const PanelChange: FC<IProps> = ({
                 {`${coinA}x/mo.`}
               </div>
               <div className={styles.stream}>
-                <div className={styles.stream_values}>
-                  <span className={styles.number}>{personalFlow}</span>
-                  {`${coinA}/mo.`}
-                </div>
+                <span>
+                  <div className={styles.stream_values}>
+                    <span className={styles.number}>{personalFlow}</span>
+                    {`${coinA}/mo.`}
+                  </div>
+                </span>
+                <span>
+                  {((personalFlow || 0) > 0 && (balanceA || 0) > 0) && (
+                  <div className={styles.stream_values}>
+                    {`Runs out on ${streamEnd}`}
+                  </div>
+                  )}
+                  
+                </span>
+                
                 {/* <div className={styles.date}>
                   {t('Runs out on')}
                   :

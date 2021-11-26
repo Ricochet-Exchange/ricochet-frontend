@@ -26,7 +26,7 @@ import {
   usdcxSlpxExchangeAddress,
 } from './polygon_config';
 
-enum FlowEnum {
+export enum FlowEnum {
   usdcWethFlowQuery = 'usdcWethFlowQuery',
   daiMkrFlowQuery = 'daiMkrFlowQuery',
   mkrDaiFlowQuery = 'mkrDaiFlowQuery',
