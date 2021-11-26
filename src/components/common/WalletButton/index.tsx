@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import ButtonNew from 'components/common/ButtonNew';
-import { trimPad } from 'utils/balances';
+import { numFormatter } from 'utils/balances';
 import styles from './styles.module.scss';
 
 interface IProps {
@@ -11,8 +11,8 @@ interface IProps {
 
 export const WalletButton: FC<IProps> = ({ ricBalance = '', account }) => (
   <ButtonNew className={styles.balance_panel}>
-    <div className={styles.balance}>{`${trimPad(ricBalance, 6)} RIC`}</div>
-    <div className={styles.address}>{account.substring(0, 10)}</div>
+    <div className={styles.balance}>{`${numFormatter(parseFloat(ricBalance))} RIC`}</div>
+    <div className={styles.address}>{account.substring(0, 6)}</div>
     <div className={styles.icon_wrap}>
       <FontIcon
         className={styles.icon}
