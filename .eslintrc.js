@@ -25,7 +25,7 @@ module.exports = {
     'no-trailing-spaces': 0,
     'operator-linebreak': 0,
     'implicit-arrow-linebreak': 0,
-    'linebreak-style': ["error", "windows"],
+    //'linebreak-style': ["error", "windows"],
     'react/button-has-type': 0,
     'no-console': 0,
     'no-debugger': 0,
