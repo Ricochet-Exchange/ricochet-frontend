@@ -7,9 +7,7 @@ import { useLang } from 'hooks/useLang';
 import { flowConfig, FlowEnum } from 'constants/flowConfig';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
-import {
-  RICAddress,
-} from 'constants/polygon_config';
+import { RICAddress } from 'constants/polygon_config';
 import { useDispatch } from 'react-redux';
 import { startFlowAction, stopFlowAction } from 'store/main/actionCreators';
 import styles from './styles.module.scss';
@@ -111,6 +109,7 @@ export const InvestContainer :React.FC = () => {
               totalFlow={state[element.flowKey]?.flowsOwned}
               totalFlows={state[element.flowKey]?.totalFlows}
               streamEnd={streamEnds[element.flowKey]}
+              subsidyRate={state[element.flowKey]?.subsidyRate}
               personalFlow={state[element.flowKey]?.placeholder}
               mainLoading={isLoading}
               flowType={element.type}
