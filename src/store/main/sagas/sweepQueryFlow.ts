@@ -1,27 +1,6 @@
 import { call, all, put } from 'redux-saga/effects';
 import {
-  usdcxRicExchangeAddress,
-  wethxUsdcxExchangeAddress,
-  wbtcxUsdcxExchangeAddress,
-  usdcxWethxExchangeAddress,
-  usdcxWbtcxExchangeAddress,
-  daixMkrxExchangeAddress,
-  mkrxDaixExchangeAddress,
-  usdcxMkrxExchangeAddress,
-  mkrxUsdcxExchangeAddress,
-  daixMaticxExchangeAddress,
-  maticxDaixExchangeAddress,
-  usdcxMaticxExchangeAddress,
-  maticxUsdcxExchangeAddress,
-  daixEthxExchangeAddress,
-  ethxDaixExchangeAddress,
-  usdcxSlpxExchangeAddress,
-  MATICxAddress,
-  MKRxAddress,
-  DAIxAddress,
-  USDCxAddress,
-  WETHxAddress,
-  WBTCxAddress,
+  RICAddress, 
 } from 'constants/polygon_config';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
@@ -29,47 +8,24 @@ import { queryFlows } from 'api';
 import { getReceviedFlows } from 'utils/getReceviedFlows';
 import { getOwnedFlows } from 'utils/getOwnedFlows';
 import { Flow } from 'types/flow';
+
+import { flowConfig, FlowEnum } from 'constants/flowConfig';
+import { streamExchangeABI } from 'constants/abis'; 
+import { getContract } from 'utils/getContract';
+import { downgradeTokensList } from 'constants/downgradeConfig';
+
 import { mainSetState } from '../actionCreators';
+
+const exchangeContractsAddresses = flowConfig.map((f) => f.superToken);
 
 export function* sweepQueryFlow() {
   const address: Unwrap<typeof getAddress> = yield call(getAddress);
-  const results: any[] = yield all([
-    call(queryFlows, usdcxWethxExchangeAddress),
-    call(queryFlows, usdcxWbtcxExchangeAddress),
-    call(queryFlows, wethxUsdcxExchangeAddress),
-    call(queryFlows, wbtcxUsdcxExchangeAddress),
-    call(queryFlows, daixMkrxExchangeAddress),
-    call(queryFlows, mkrxDaixExchangeAddress),
-    call(queryFlows, daixEthxExchangeAddress),
-    call(queryFlows, ethxDaixExchangeAddress),
-    call(queryFlows, usdcxMkrxExchangeAddress),
-    call(queryFlows, mkrxUsdcxExchangeAddress),
-    call(queryFlows, daixMaticxExchangeAddress),
-    call(queryFlows, maticxDaixExchangeAddress),
-    call(queryFlows, usdcxMaticxExchangeAddress),
-    call(queryFlows, maticxUsdcxExchangeAddress),
-    call(queryFlows, usdcxRicExchangeAddress),
-    call(queryFlows, usdcxSlpxExchangeAddress),
-  ]);
+  const results: any[] = yield all(exchangeContractsAddresses.map(
+    (addr) => call(queryFlows, addr),
+  ));
 
   const flows: { [key:string]: { flowsOwned: Flow[], flowsReceived: Flow[] } } = {};
-
-  [usdcxWethxExchangeAddress,
-    usdcxWbtcxExchangeAddress,
-    wethxUsdcxExchangeAddress,
-    wbtcxUsdcxExchangeAddress,
-    daixMkrxExchangeAddress,
-    mkrxDaixExchangeAddress,
-    daixEthxExchangeAddress,
-    ethxDaixExchangeAddress,
-    usdcxMkrxExchangeAddress,
-    mkrxUsdcxExchangeAddress,
-    daixMaticxExchangeAddress,
-    maticxDaixExchangeAddress,
-    usdcxMaticxExchangeAddress,
-    maticxUsdcxExchangeAddress,
-    usdcxRicExchangeAddress,
-    usdcxSlpxExchangeAddress].forEach((el, i) => {
+  exchangeContractsAddresses.forEach((el, i) => {
     if (results[i].data.data.account != null) {
       flows[el] = results[i].data.data.account;
     } else {
@@ -77,201 +33,114 @@ export function* sweepQueryFlow() {
     }
   });
 
-  const usdcWethFlows = flows[usdcxWethxExchangeAddress];
-  const usdcWbtcFlows = flows[usdcxWbtcxExchangeAddress];
-  const wethUsdcFlows = flows[wethxUsdcxExchangeAddress];
-  const wbtcUsdcFlows = flows[wbtcxUsdcxExchangeAddress];
-  const daiMkrFlows = flows[daixMkrxExchangeAddress];
-  const mkrDaiFlows = flows[mkrxDaixExchangeAddress];
-  const usdcMkrFlows = flows[usdcxMkrxExchangeAddress];
-  const mkrUsdcFlows = flows[mkrxUsdcxExchangeAddress];
-  const daiMaticFlows = flows[daixMaticxExchangeAddress];
-  const maticDaiFlows = flows[maticxDaixExchangeAddress];
-  const usdcMaticFlows = flows[usdcxMaticxExchangeAddress];
-  const maticUsdcFlows = flows[maticxUsdcxExchangeAddress];
-  const daiEthFlows = flows[daixEthxExchangeAddress];
-  const ethDaiFlows = flows[ethxDaixExchangeAddress];
-  const usdcRicFlows = flows[usdcxRicExchangeAddress];
-  const usdcSlpFlows = flows[usdcxSlpxExchangeAddress];
-
-  const usdcRicFlowsReceived = getReceviedFlows(usdcRicFlows.flowsReceived,
-    USDCxAddress, address);
-  const usdcRicPlaceholder = ((usdcRicFlowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
-
-  const usdcSlpFlowsReceived = getReceviedFlows(usdcSlpFlows.flowsReceived,
-    USDCxAddress, address);
-  const usdcSlpPlaceholder = ((usdcSlpFlowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
-
-  const usdcWethFlowsReceived = getReceviedFlows(usdcWethFlows.flowsReceived,
-    USDCxAddress, address);
-  const usdcWethPlaceholder = ((usdcWethFlowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
-
-  const usdcWbtcFlowsReceived = getReceviedFlows(usdcWbtcFlows.flowsReceived,
-    USDCxAddress, address);
-  const usdcWbtcPlaceholder = ((usdcWbtcFlowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
-
-  const wethUsdcflowsReceived = getReceviedFlows(wethUsdcFlows.flowsReceived,
-    WETHxAddress, address);
-  const wethUsdcPlaceholder = ((wethUsdcflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
-
-  const wbtcUsdcflowsReceived = getReceviedFlows(wbtcUsdcFlows.flowsReceived,
-    WBTCxAddress, address);
-  const wbtcUsdcPlaceholder = ((wbtcUsdcflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
-
-  const daiMkrflowsReceived = getReceviedFlows(daiMkrFlows.flowsReceived,
-    DAIxAddress, address);
-  const daiMkrPlaceholder = ((daiMkrflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
-
-  const mkrDaiflowsReceived = getReceviedFlows(mkrDaiFlows.flowsReceived,
-    MKRxAddress, address);
-  const mkrDaiPlaceholder = ((mkrDaiflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
-
-  const usdcMkrflowsReceived = getReceviedFlows(usdcMkrFlows.flowsReceived,
-    USDCxAddress, address);
-  const usdcMkrPlaceholder = ((usdcMkrflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
-
-  const mkrUsdcflowsReceived = getReceviedFlows(mkrUsdcFlows.flowsReceived,
-    MKRxAddress, address);
-  const mkrUsdcPlaceholder = ((mkrUsdcflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
-
-  const daiMaticflowsReceived = getReceviedFlows(daiMaticFlows.flowsReceived,
-    DAIxAddress, address);
-  const daiMaticPlaceholder = ((daiMaticflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
-
-  const maticDaiflowsReceived = getReceviedFlows(maticDaiFlows.flowsReceived,
-    MATICxAddress, address);
-  const maticDaiPlaceholder = ((maticDaiflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
-
-  const usdcMaticflowsReceived = getReceviedFlows(usdcMaticFlows.flowsReceived,
-    USDCxAddress, address);
-  const usdcMaticPlaceholder = ((usdcMaticflowsReceived / 10 ** 18) *
-    (30 * 24 * 60 * 60)).toFixed(6);
-
-  const maticUsdcflowsReceived = getReceviedFlows(maticUsdcFlows.flowsReceived,
-    MATICxAddress, address);
-  const maticUsdcPlaceholder = ((maticUsdcflowsReceived / 10 ** 18) *
-    (30 * 24 * 60 * 60)).toFixed(6);
-
-  const daiEthflowsReceived = getReceviedFlows(daiEthFlows.flowsReceived,
-    DAIxAddress, address);
-  const daiEthPlaceholder = ((daiEthflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
-
-  const ethDaiflowsReceived = getReceviedFlows(ethDaiFlows.flowsReceived,
-    WETHxAddress, address);
-  const ethDaiPlaceholder = ((ethDaiflowsReceived / 10 ** 18) * (30 * 24 * 60 * 60)).toFixed(6);
-
-  const usdcRicFlowQuery = {
-    flowsReceived: usdcRicFlowsReceived,
-    flowsOwned: getOwnedFlows(usdcRicFlows.flowsReceived, USDCxAddress),
-    totalFlows: usdcRicFlows.flowsReceived.length,
-    placeholder: usdcRicPlaceholder,
-  };
-
-  const usdcSlpFlowQuery = {
-    flowsReceived: usdcSlpFlowsReceived,
-    flowsOwned: getOwnedFlows(usdcSlpFlows.flowsReceived, USDCxAddress),
-    totalFlows: usdcSlpFlows.flowsReceived.length,
-    placeholder: usdcSlpPlaceholder,
-  };
-
-  const usdcWethFlowQuery = {
-    flowsReceived: usdcWethFlowsReceived,
-    flowsOwned: getOwnedFlows(usdcWethFlows.flowsReceived, USDCxAddress),
-    totalFlows: usdcWethFlows.flowsReceived.length,
-    placeholder: usdcWethPlaceholder,
-  };
-
-  const usdcWbtcFlowQuery = {
-    flowsReceived: usdcWbtcFlowsReceived,
-    flowsOwned: getOwnedFlows(usdcWbtcFlows.flowsReceived, USDCxAddress),
-    totalFlows: usdcWbtcFlows.flowsReceived.length,
-    placeholder: usdcWbtcPlaceholder,
-  };
-
-  const wethUsdcFlowQuery = {
-    flowsReceived: wethUsdcflowsReceived,
-    flowsOwned: getOwnedFlows(wethUsdcFlows.flowsReceived, WETHxAddress),
-    totalFlows: wethUsdcFlows.flowsReceived.length,
-    placeholder: wethUsdcPlaceholder,
-  };
-
-  const wbtcUsdcFlowQuery = {
-    flowsReceived: wbtcUsdcflowsReceived,
-    flowsOwned: getOwnedFlows(wbtcUsdcFlows.flowsReceived, WBTCxAddress),
-    totalFlows: wbtcUsdcFlows.flowsReceived.length,
-    placeholder: wbtcUsdcPlaceholder,
-  };
-
-  const daiMkrFlowQuery = {
-    flowsReceived: daiMkrflowsReceived,
-    flowsOwned: getOwnedFlows(daiMkrFlows.flowsReceived, DAIxAddress),
-    totalFlows: daiMkrFlows.flowsReceived.length,
-    placeholder: daiMkrPlaceholder,
-  };
-
-  const mkrDaiFlowQuery = {
-    flowsReceived: mkrDaiflowsReceived,
-    flowsOwned: getOwnedFlows(mkrDaiFlows.flowsReceived, MKRxAddress),
-    totalFlows: mkrDaiFlows.flowsReceived.length,
-    placeholder: mkrDaiPlaceholder,
-  };
-
-  const usdcMkrFlowQuery = {
-    flowsReceived: usdcMkrflowsReceived,
-    flowsOwned: getOwnedFlows(usdcMkrFlows.flowsReceived, USDCxAddress),
-    totalFlows: usdcMkrFlows.flowsReceived.length,
-    placeholder: usdcMkrPlaceholder,
-  };
-
-  const mkrUsdcFlowQuery = {
-    flowsReceived: mkrUsdcflowsReceived,
-    flowsOwned: getOwnedFlows(mkrUsdcFlows.flowsReceived, MKRxAddress),
-    totalFlows: mkrUsdcFlows.flowsReceived.length,
-    placeholder: mkrUsdcPlaceholder,
-  };
-
-  const daiMaticFlowQuery = {
-    flowsReceived: daiMaticflowsReceived,
-    flowsOwned: getOwnedFlows(daiMaticFlows.flowsReceived, DAIxAddress),
-    totalFlows: daiMaticFlows.flowsReceived.length,
-    placeholder: daiMaticPlaceholder,
-  };
-
-  const maticDaiFlowQuery = {
-    flowsReceived: maticDaiflowsReceived,
-    flowsOwned: getOwnedFlows(maticDaiFlows.flowsReceived, MATICxAddress),
-    totalFlows: maticDaiFlows.flowsReceived.length,
-    placeholder: maticDaiPlaceholder,
-  };
-
-  const usdcMaticFlowQuery = {
-    flowsReceived: usdcMaticflowsReceived,
-    flowsOwned: getOwnedFlows(usdcMaticFlows.flowsReceived, USDCxAddress),
-    totalFlows: usdcMaticFlows.flowsReceived.length,
-    placeholder: usdcMaticPlaceholder,
-  };
-
-  const maticUsdcFlowQuery = {
-    flowsReceived: maticUsdcflowsReceived,
-    flowsOwned: getOwnedFlows(maticUsdcFlows.flowsReceived, MATICxAddress),
-    totalFlows: maticUsdcFlows.flowsReceived.length,
-    placeholder: maticUsdcPlaceholder,
-  };
-
-  const daiEthFlowQuery = {
-    flowsReceived: daiEthflowsReceived,
-    flowsOwned: getOwnedFlows(daiEthFlows.flowsReceived, DAIxAddress),
-    totalFlows: daiEthFlows.flowsReceived.length,
-    placeholder: daiEthPlaceholder,
-  };
-
-  const ethDaiFlowQuery = {
-    flowsReceived: ethDaiflowsReceived,
-    flowsOwned: getOwnedFlows(ethDaiFlows.flowsReceived, WETHxAddress),
-    totalFlows: ethDaiFlows.flowsReceived.length,
-    placeholder: ethDaiPlaceholder,
-  };
-
+  // load abi, create contract instance, get subsidy rate, return
+  async function getSubsidyRate(flowKey:string, placeholder:string, 
+    flowsOwned:string): Promise< { perso:number, total:number }> {
+    // const flowKey = 'usdcMaticFlowQuery';
+    const flow = flowConfig.find((flow_) => flow_.flowKey === flowKey);
+    // const outgoing = state[flow?.flowKey || '']?.placeholder || '0';
+    // const totalFlow = state[flow?.flowKey || '']?.flowsOwned || '0';
+    const outgoing = parseFloat(placeholder);
+    const totalFlow = parseFloat(flowsOwned);
+    
+    const exchangeContract = flow?.superToken || '0';
+    const contract = getContract(exchangeContract, streamExchangeABI);
+    const subsidyRate = await contract.methods.getSubsidyRate().call();
+    
+    const subsidyTokenAddr = await contract.methods.getSubsidyToken().call();
+    const subsidyToken = (subsidyTokenAddr.toLowerCase() === RICAddress.toLowerCase()) ? 
+      'RIC' : 
+      downgradeTokensList.find(
+        (t:any) => t.tokenAddress.toLowerCase() === subsidyTokenAddr.toLowerCase(),
+      );
+    const subsidyRateTotal = (subsidyRate * 30 * 24 * 60 * 60) / 1e18;
+    const subsidyRatePerso = (subsidyRateTotal * outgoing) / totalFlow;
+      
+    const subsidyRates = `${subsidyRatePerso.toFixed(3)} ${subsidyToken}/mo. 
+        (out of ${(subsidyRateTotal / 1e3).toFixed(0)} kRIC/mo. total pooled) for ${flowKey}`;
+    console.log(subsidyRates);
+    
+    return { perso: subsidyRatePerso, total: subsidyRateTotal };
+    // return subsidyRates;
+  }
+  
+  function setSubsidyRate(flowKey:FlowEnum, query:any) {
+    const queryReassign = query;
+    getSubsidyRate(flowKey, query.placeholder, query.flowsOwned)
+      .then((p) => { queryReassign.subsidyRate = p; });
+  }
+  console.log(setSubsidyRate);
+  
+  let idx = 0;
+  function buildFlowQuery(flowKey:string) {
+    idx += 1;
+    console.log(`buildFlowQuery #${idx}`);
+    const flowConfigObject = flowConfig.find((o) => o.flowKey === flowKey);
+    const exchangeAddress = flowConfigObject?.superToken || '';
+    const tokenAxAddress = flowConfigObject?.tokenA || '';
+    const tokenAtokenBFlows = flows[exchangeAddress];
+    const tokenAtokenBFlowsReceived = getReceviedFlows(tokenAtokenBFlows.flowsReceived, 
+      tokenAxAddress, address);
+    const tokenAtokenBPlaceholder = ((tokenAtokenBFlowsReceived / 10 ** 18) *
+      (30 * 24 * 60 * 60)).toFixed(6);
+    const flowsOwned = getOwnedFlows(tokenAtokenBFlows.flowsReceived, tokenAxAddress);
+    const subsidyRate = { perso: 0, total: 0 }; 
+    /*
+    getSubsidyRate(flowKey, tokenAtokenBPlaceholder, flowsOwned)
+      .then((p) => { subsidyRate = p; });
+    */
+    return {
+      flowKey,
+      flowsReceived: tokenAtokenBFlowsReceived,
+      flowsOwned,
+      totalFlows: tokenAtokenBFlows.flowsReceived.length,
+      placeholder: tokenAtokenBPlaceholder,
+      subsidyRate, // await getSubsidyRate(FlowEnum.daiMkrFlowQuery, 
+      // usdcRicPlaceholder, flowsOwned),
+    };
+  }
+  
+  const usdcRicFlowQuery = buildFlowQuery(FlowEnum.usdcRicFlowQuery);
+  const daiEthFlowQuery = buildFlowQuery(FlowEnum.daiEthFlowQuery);
+  const ethDaiFlowQuery = buildFlowQuery(FlowEnum.ethDaiFlowQuery);
+  const daiMkrFlowQuery = buildFlowQuery(FlowEnum.daiMkrFlowQuery);
+  const mkrDaiFlowQuery = buildFlowQuery(FlowEnum.mkrDaiFlowQuery);
+  const usdcMkrFlowQuery = buildFlowQuery(FlowEnum.usdcMkrFlowQuery);
+  const mkrUsdcFlowQuery = buildFlowQuery(FlowEnum.mkrUsdcFlowQuery);
+  const daiMaticFlowQuery = buildFlowQuery(FlowEnum.daiMaticFlowQuery);
+  const maticDaiFlowQuery = buildFlowQuery(FlowEnum.maticDaiFlowQuery);
+  const usdcMaticFlowQuery = buildFlowQuery(FlowEnum.usdcMaticFlowQuery);
+  const maticUsdcFlowQuery = buildFlowQuery(FlowEnum.maticUsdcFlowQuery);
+  const usdcWethFlowQuery = buildFlowQuery(FlowEnum.usdcWethFlowQuery);
+  const usdcWbtcFlowQuery = buildFlowQuery(FlowEnum.usdcWbtcFlowQuery);
+  const wethUsdcFlowQuery = buildFlowQuery(FlowEnum.wethUsdcFlowQuery);
+  const wbtcUsdcFlowQuery = buildFlowQuery(FlowEnum.wbtcUsdcFlowQuery);
+  const usdcSlpFlowQuery = buildFlowQuery(FlowEnum.usdcSlpFlowQuery);
+  
+  function getSubsidyRateFromQuery(query:any) {
+    return getSubsidyRate(
+      query.flowKey, query.placeholder, query.flowsOwned,
+    );
+  }
+  console.log(getSubsidyRateFromQuery);
+  // WORKING
+  // usdcRicFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcRicFlowQuery);
+  daiEthFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, daiEthFlowQuery);
+  ethDaiFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, ethDaiFlowQuery);
+  daiMkrFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, daiMkrFlowQuery);
+  mkrDaiFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, mkrDaiFlowQuery);
+  usdcMkrFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcMkrFlowQuery);
+  mkrUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, mkrUsdcFlowQuery);
+  daiMaticFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, daiMaticFlowQuery);
+  maticDaiFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, maticDaiFlowQuery);
+  usdcMaticFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcMaticFlowQuery);
+  maticUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, maticUsdcFlowQuery);
+  usdcWethFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcWethFlowQuery);
+  usdcWbtcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcWbtcFlowQuery);
+  wethUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, wethUsdcFlowQuery);
+  wbtcUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, wbtcUsdcFlowQuery);
+  usdcSlpFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcSlpFlowQuery);
+  
   yield put(mainSetState({
     usdcRicFlowQuery,
     daiEthFlowQuery,
