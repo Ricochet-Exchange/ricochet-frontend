@@ -8,7 +8,7 @@ export const Banner: FC = () => {
   const { t } = useTranslation('main');
   return (
     <div className={styles.banner}>
-      {t('Ricochet Exhchange smart contracts are unaudited, use at your own risk.')}
+      {t('Ricochet Exchange smart contracts are unaudited, use at your own risk.')}
     </div>
   );
 };
