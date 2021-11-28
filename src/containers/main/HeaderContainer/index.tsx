@@ -61,22 +61,22 @@ export const HeaderContainer:FC<IProps> = ({ address, balance }) => {
             account={address}
           />
         </div>
+        <div className={styles.mob_head}>
+          {location.pathname === Routes.Wallet ? (
+            t('Wallet')
+          ) : (
+            <>
+              <div>{t('Invest')}</div>
+              <WalletButton ricBalance={balance} account={address} />
+            </>
+          )}
+        </div>
         <div className={styles.mob_menu}>
           <ButtonNew className={styles.menu_button} onClick={toggleMenuMobile}>
             <img src={menuImg} alt="" />
           </ButtonNew>
         </div>
         {isShowMenu && <MobileMenu closeMenu={toggleMenuMobile} />}
-      </div>
-      <div className={styles.mob_head}>
-        {location.pathname === Routes.Wallet ? (
-          t('Wallet')
-        ) : (
-          <>
-            <div>{t('Invest')}</div>
-            <WalletButton ricBalance={balance} account={address} />
-          </>
-        )}
       </div>
     </div>
   );
