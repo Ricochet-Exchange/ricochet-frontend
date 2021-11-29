@@ -23,7 +23,7 @@ export const CoinRateForm: FC<IProps> = ({
   value, onChange, onClickStart, onClickStop, placeholder, coin, isLoading,
 }) => {
   const { t } = useTranslation('main');
- 
+  // Security Deposit is 4 hours worth of stream, so (4*60*60)/(30*24*60*60) = 1/180
   return (
     <div className={styles.input_container}>
       <div className={styles.input_wrap}>
@@ -63,7 +63,7 @@ export const CoinRateForm: FC<IProps> = ({
             >
               Starting this stream will take a security deposit of 
               <span style={{ fontWeight: 700 }}> 
-                {` ${(parseFloat(value) * 0.05555).toFixed(2)} ${coin} `}
+                {` ${(parseFloat(value) / 180.0).toFixed(2)} ${coin} `}
               </span>
               from your balance. 
               The Deposit will be refunded in full when you close the stream or lost if 
