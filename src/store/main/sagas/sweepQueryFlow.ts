@@ -1,7 +1,5 @@
 import { call, all, put } from 'redux-saga/effects';
-import {
-  RICAddress, 
-} from 'constants/polygon_config';
+import { RICAddress } from 'constants/polygon_config';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
 import { queryFlows } from 'api';
@@ -10,9 +8,8 @@ import { getOwnedFlows } from 'utils/getOwnedFlows';
 import { Flow } from 'types/flow';
 
 import { flowConfig, FlowEnum } from 'constants/flowConfig';
-import { streamExchangeABI } from 'constants/abis'; 
+import { streamExchangeABI, erc20ABI } from 'constants/abis'; 
 import { getContract } from 'utils/getContract';
-import { downgradeTokensList } from 'constants/downgradeConfig';
 
 import { mainSetState } from '../actionCreators';
 
@@ -35,11 +32,8 @@ export function* sweepQueryFlow() {
 
   // load abi, create contract instance, get subsidy rate, return
   async function getSubsidyRate(flowKey:string, placeholder:string, 
-    flowsOwned:string): Promise< { perso:number, total:number }> {
-    // const flowKey = 'usdcMaticFlowQuery';
+    flowsOwned:string): Promise< { perso:number, total:number, endDate:string }> {
     const flow = flowConfig.find((flow_) => flow_.flowKey === flowKey);
-    // const outgoing = state[flow?.flowKey || '']?.placeholder || '0';
-    // const totalFlow = state[flow?.flowKey || '']?.flowsOwned || '0';
     const outgoing = parseFloat(placeholder);
     const totalFlow = parseFloat(flowsOwned);
     
@@ -47,34 +41,28 @@ export function* sweepQueryFlow() {
     const contract = getContract(exchangeContract, streamExchangeABI);
     const subsidyRate = await contract.methods.getSubsidyRate().call();
     
-    const subsidyTokenAddr = await contract.methods.getSubsidyToken().call();
-    const subsidyToken = (subsidyTokenAddr.toLowerCase() === RICAddress.toLowerCase()) ? 
-      'RIC' : 
-      downgradeTokensList.find(
-        (t:any) => t.tokenAddress.toLowerCase() === subsidyTokenAddr.toLowerCase(),
-      );
     const subsidyRateTotal = (subsidyRate * 30 * 24 * 60 * 60) / 1e18;
     const subsidyRatePerso = (subsidyRateTotal * outgoing) / totalFlow;
+
+    const RIC = getContract(RICAddress, erc20ABI);
+    const exchangeContractRic = await RIC.methods.balanceOf(exchangeContract).call();
+    const endDateTimestamp = Date.now() + (exchangeContractRic / subsidyRate) * 1000;
+    const endDate = (new Date(endDateTimestamp)).toLocaleDateString();
       
-    const subsidyRates = `${subsidyRatePerso.toFixed(3)} ${subsidyToken}/mo. 
-        (out of ${(subsidyRateTotal / 1e3).toFixed(0)} kRIC/mo. total pooled) for ${flowKey}`;
-    console.log(subsidyRates);
+    // const subsidyTokenAddr = await contract.methods.getSubsidyToken().call();
+    // const subsidyToken = (subsidyTokenAddr.toLowerCase() === RICAddress.toLowerCase()) ? 
+    //   'RIC' : 
+    //   downgradeTokensList.find(
+    //     (t:any) => t.tokenAddress.toLowerCase() === subsidyTokenAddr.toLowerCase(),
+    //   );
+    // const subsidyRates = `${subsidyRatePerso.toFixed(3)} ${subsidyToken}/mo. 
+    //     (out of ${(subsidyRateTotal / 1e3).toFixed(0)} kRIC/mo. total pooled) for ${flowKey}`;
+    // console.log(subsidyRates);
     
-    return { perso: subsidyRatePerso, total: subsidyRateTotal };
-    // return subsidyRates;
+    return { perso: subsidyRatePerso, total: subsidyRateTotal, endDate };
   }
   
-  function setSubsidyRate(flowKey:FlowEnum, query:any) {
-    const queryReassign = query;
-    getSubsidyRate(flowKey, query.placeholder, query.flowsOwned)
-      .then((p) => { queryReassign.subsidyRate = p; });
-  }
-  console.log(setSubsidyRate);
-  
-  let idx = 0;
   function buildFlowQuery(flowKey:string) {
-    idx += 1;
-    console.log(`buildFlowQuery #${idx}`);
     const flowConfigObject = flowConfig.find((o) => o.flowKey === flowKey);
     const exchangeAddress = flowConfigObject?.superToken || '';
     const tokenAxAddress = flowConfigObject?.tokenA || '';
@@ -84,7 +72,7 @@ export function* sweepQueryFlow() {
     const tokenAtokenBPlaceholder = ((tokenAtokenBFlowsReceived / 10 ** 18) *
       (30 * 24 * 60 * 60)).toFixed(6);
     const flowsOwned = getOwnedFlows(tokenAtokenBFlows.flowsReceived, tokenAxAddress);
-    const subsidyRate = { perso: 0, total: 0 }; 
+    const subsidyRate = { perso: 0, total: 0, endDate: 'unknown' }; 
     /*
     getSubsidyRate(flowKey, tokenAtokenBPlaceholder, flowsOwned)
       .then((p) => { subsidyRate = p; });
@@ -122,7 +110,6 @@ export function* sweepQueryFlow() {
       query.flowKey, query.placeholder, query.flowsOwned,
     );
   }
-  console.log(getSubsidyRateFromQuery);
   // WORKING
   // usdcRicFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcRicFlowQuery);
   daiEthFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, daiEthFlowQuery);

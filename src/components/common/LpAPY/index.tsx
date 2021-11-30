@@ -105,20 +105,18 @@ const retrieveAPY = async (): Promise<{ apy: number, rewardsApy: number, feesApy
 type Props = {
 } & React.HTMLProps<HTMLSpanElement>;
 
-const getApy = async (): Promise<string> => (await retrieveAPY()).apy.toFixed(2);
-const getRewardsApy = async (): Promise<string> => (await retrieveAPY()).rewardsApy.toFixed(2);
-const getFeesApy = async (): Promise<string> => (await retrieveAPY()).feesApy.toFixed(2);
-
 export default function LpApy(props: Props) {
   const [apy, setApy] = React.useState('');
   const [rewardsApy, setRewardsApy] = React.useState('');
   const [feesApy, setFeesApy] = React.useState('');
 
   React.useEffect(() => {
-    getApy().then((p) => setApy(p));
-    getRewardsApy().then((p) => setRewardsApy(p));
-    getFeesApy().then((p) => setFeesApy(p));
-  });
+    retrieveAPY().then((p) => {
+      setApy(p.apy.toFixed(2));
+      setRewardsApy(p.rewardsApy.toFixed(2));
+      setFeesApy(p.feesApy.toFixed(2));
+    });
+  }, []);
 
   return (
     <div className={styles.balance_container}>

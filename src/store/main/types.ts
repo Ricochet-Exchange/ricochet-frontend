@@ -10,13 +10,16 @@ export type MainState = {
   hasWbtcApprove?: boolean;
   hasMaticApprove?: boolean;
   hasSushiApprove?: boolean;
+  apy?: number, 
+  rewardsApy?: number, 
+  feesApy?: number, 
   usdcRicFlowQuery?: {
     flowKey: string, 
     flowsReceived: number,
     flowsOwned: string,
     totalFlows: number,
     placeholder: string, 
-    subsidyRate: { perso:number, total:number },
+    subsidyRate: { perso:number, total:number, endDate:string },
   },
   usdcSlpFlowQuery?: {
     flowKey: string, 
@@ -24,7 +27,7 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string, 
-    subsidyRate: { perso:number, total:number },
+    subsidyRate: { perso:number, total:number, endDate:string },
   },
   usdcWethFlowQuery?: {
     flowKey: string, 
@@ -32,7 +35,7 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string, 
-    subsidyRate: { perso:number, total:number },
+    subsidyRate: { perso:number, total:number, endDate:string },
   },
   daiMkrFlowQuery?: {
     flowKey: string, 
@@ -40,7 +43,7 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string, 
-    subsidyRate: { perso:number, total:number },
+    subsidyRate: { perso:number, total:number, endDate:string },
   },
   mkrDaiFlowQuery?: {
     flowKey: string, 
@@ -48,7 +51,7 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string, 
-    subsidyRate: { perso:number, total:number },
+    subsidyRate: { perso:number, total:number, endDate:string },
   },
   usdcMkrFlowQuery?: {
     flowKey: string, 
@@ -56,7 +59,7 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string, 
-    subsidyRate: { perso:number, total:number },
+    subsidyRate: { perso:number, total:number, endDate:string },
   },
   mkrUsdcFlowQuery?: {
     flowKey: string, 
@@ -64,7 +67,7 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string, 
-    subsidyRate: { perso:number, total:number },
+    subsidyRate: { perso:number, total:number, endDate:string },
   },
   daiMaticFlowQuery?: {
     flowKey: string, 
@@ -72,7 +75,7 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string, 
-    subsidyRate: { perso:number, total:number },
+    subsidyRate: { perso:number, total:number, endDate:string },
   },
   maticDaiFlowQuery?: {
     flowKey: string, 
@@ -80,7 +83,7 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string, 
-    subsidyRate: { perso:number, total:number },
+    subsidyRate: { perso:number, total:number, endDate:string },
   },
   usdcMaticFlowQuery?: {
     flowKey: string, 
@@ -88,7 +91,7 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string, 
-    subsidyRate: { perso:number, total:number },
+    subsidyRate: { perso:number, total:number, endDate:string },
   },
   maticUsdcFlowQuery?: {
     flowKey: string, 
@@ -96,7 +99,7 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string, 
-    subsidyRate: { perso:number, total:number },
+    subsidyRate: { perso:number, total:number, endDate:string },
   },
   daiEthFlowQuery?: {
     flowKey: string, 
@@ -104,7 +107,7 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string, 
-    subsidyRate: { perso:number, total:number },
+    subsidyRate: { perso:number, total:number, endDate:string },
   },
   ethDaiFlowQuery?: {
     flowKey: string, 
@@ -112,7 +115,7 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string, 
-    subsidyRate: { perso:number, total:number },
+    subsidyRate: { perso:number, total:number, endDate:string },
   },
   usdcWbtcFlowQuery?: {
     flowKey: string, 
@@ -120,7 +123,7 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string, 
-    subsidyRate: { perso:number, total:number },
+    subsidyRate: { perso:number, total:number, endDate:string },
   },
   wethUsdcFlowQuery?: {
     flowKey: string, 
@@ -128,7 +131,7 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string, 
-    subsidyRate: { perso:number, total:number },
+    subsidyRate: { perso:number, total:number, endDate:string },
   },
   wbtcUsdcFlowQuery?: {
     flowKey: string, 
@@ -136,7 +139,7 @@ export type MainState = {
     flowsOwned: string,
     totalFlows: number,
     placeholder: string, 
-    subsidyRate: { perso:number, total:number },
+    subsidyRate: { perso:number, total:number, endDate:string },
   }
   isLoadingDowngrade: boolean,
   isLoadingUpgrade: boolean,

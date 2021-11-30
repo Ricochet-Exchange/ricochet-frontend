@@ -71,7 +71,6 @@ export const upgradeMatic = (
   amount: string,
   address: string,
 ) => {
-  console.log('INSIDE upgradeMatic', contract, amount, address);
   contract.methods
     .upgradeByETH()
     .send({ 
