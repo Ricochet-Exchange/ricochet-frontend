@@ -28,7 +28,7 @@ export default function Price(props: Props) {
 
   return (
     <div className={styles.balance_container}>
-      <span {...props} className={styles.balance}>{`🚀 ${trimPad(price, 6)} USDC/RIC`}</span>
+      <span {...props} className={styles.balance}>{`🚀 ${trimPad(price, 2)} USDC/RIC`}</span>
     </div>
   );
 }
