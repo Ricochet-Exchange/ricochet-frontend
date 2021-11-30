@@ -2,7 +2,18 @@
 
 .balance_container {
   width: 100%;
+  background-color: red;
   text-align: center;
+
+  @include tablet{
+    width: 100%;
+    display: flex;
+    right: 0%;
+    text-align: right;
+    margin-bottom: 10px;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
 }
 
 .balance {
@@ -17,6 +28,10 @@
   vertical-align: baseline;
   border-radius: .25rem;
   width: max-content;
+
+  @include tablet{
+    position: absolute;
+  }
 }
 
 
