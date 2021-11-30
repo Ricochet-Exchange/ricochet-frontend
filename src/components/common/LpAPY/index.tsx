@@ -116,7 +116,7 @@ export default function LpApy(props: Props) {
       setRewardsApy(p.rewardsApy.toFixed(2));
       setFeesApy(p.feesApy.toFixed(2));
     });
-  }, [true]);
+  }, []);
 
   return (
     <div className={styles.balance_container}>
