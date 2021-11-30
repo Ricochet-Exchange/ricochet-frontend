@@ -10,6 +10,9 @@ export type MainState = {
   hasWbtcApprove?: boolean;
   hasMaticApprove?: boolean;
   hasSushiApprove?: boolean;
+  apy?: number, 
+  rewardsApy?: number, 
+  feesApy?: number, 
   usdcRicFlowQuery?: {
     flowKey: string, 
     flowsReceived: number,
