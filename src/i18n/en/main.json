@@ -23,5 +23,8 @@
   "Downgrade": "Downgrade",
   "Ethereum": "Ethereum",
   "Ricochet contracts have not been audited, use at your own risk.": "Ricochet contracts have not been audited, use at your own risk.",
-  "Ricochet takes a 2% fee on swaps.": "Ricochet takes a 2% fee on swaps."
+  "Ricochet takes a 2% fee on swaps.": "Ricochet takes a 2% fee on swaps.", 
+  "Terms": "Terms",
+  "Read our terms of service": "Read our terms of service", 
+  "Ricochet Exchange smart contracts are unaudited, use at your own risk.": "Ricochet Exchange smart contracts are unaudited, use at your own risk."
 }

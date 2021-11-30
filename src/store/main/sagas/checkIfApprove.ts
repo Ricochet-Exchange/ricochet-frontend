@@ -32,7 +32,6 @@ export function* checkIfApprove(
   const balances: ReturnType<typeof selectBalances> = yield select(selectBalances);
   const coin = upgradeTokensList.find((c) => c.tokenAddress === tokenAddress);
   const decimals = coin ? coin.multi : 1;
-  // console.log(Number(allowAmount) / decimals, Number(balances && balances[tokenAddress]));
   const hasApprove = Number(allowAmount) > Number(balances && balances[tokenAddress]) * decimals;
   yield put(mainSetState({ [param]: hasApprove }));
 }
