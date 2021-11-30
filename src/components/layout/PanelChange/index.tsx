@@ -27,7 +27,7 @@ interface IProps {
   totalFlow?: string;
   totalFlows?: number;
   streamEnd?: string;
-  subsidyRate?: { perso:number, total:number };
+  subsidyRate?: { perso:number, total:number, endDate:string };
   personalFlow?: string;
   mainLoading?: boolean;
   flowType: FlowType,
@@ -166,7 +166,7 @@ export const PanelChange: FC<IProps> = ({
                         className={styles.depositTooltip}
                       >
                         <span className={styles.depositTooltip_span}>
-                          {`Total subsidy: ${((subsidyRate?.total || 0) / 1e3).toFixed(0)}k RIC/mo.`}
+                          {`Total subsidy: ${((subsidyRate?.total || 0) / 1e3).toFixed(0)}k RIC/mo. | Rewards End: ${subsidyRate?.endDate}`}
                         </span> 
                       </ReactTooltip>
                     </span>
