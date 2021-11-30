@@ -16,6 +16,7 @@
   cursor: pointer;
 
   @include tablet {
+    margin-top: 10px;
     width: 100%;
     max-width: 100%;
   }
