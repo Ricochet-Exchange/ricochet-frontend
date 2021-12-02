@@ -41,7 +41,7 @@ export const CoinBalance: FC<IProps> = ({
               {nameCoin}
             </div>
             <div className={styles.container_arrow}>
-              <FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} size={20} />
+              <FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} size={25} />
             </div>
           </div>
           <div className={styles.balance} onClick={onClickMax} aria-hidden="true">
