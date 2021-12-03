@@ -63,7 +63,7 @@ export const CoinRateForm: FC<IProps> = ({
             >
               Starting this stream will take a security deposit of 
               <span style={{ fontWeight: 700 }}> 
-                {` ${(parseFloat(value) / 180.0).toFixed(2)} ${coin} `}
+                {` ${(parseFloat(value) / 180.0).toFixed(6)} ${coin} `}
               </span>
               from your balance. 
               The Deposit will be refunded in full when you close the stream or lost if 
