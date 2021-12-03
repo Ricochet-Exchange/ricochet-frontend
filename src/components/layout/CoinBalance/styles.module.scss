@@ -16,19 +16,19 @@
 
 .name_wrap {
   @include flexbox(center, center);
+  justify-content: space-between;
 }
 
 .name {
   font-style: normal;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 22px;
   line-height: 140%;
-  color: var(--color-black-dark);
+  color: var(--color-grey);
 }
         
 .container_arrow {
-  padding: 5 0 0 40px;
-  margin: 0 0 0 5px;
+  padding: 7px 0 0 10px;
 }
 
 .arrow_down,
