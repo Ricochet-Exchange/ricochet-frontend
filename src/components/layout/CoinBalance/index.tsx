@@ -25,12 +25,15 @@ export const CoinBalance: FC<IProps> = ({
       className={className}
     >
       <div className={styles.container_balance}>
-        <img
-          src={iconsCoin[nameCoin]}
-          alt={nameCoin} 
-          onClick={() => onSelectToken(nameCoin)}
-          aria-hidden="true" 
-        />
+        <div>
+          <img
+            src={iconsCoin[nameCoin]}
+            alt={nameCoin}
+            width="40px"
+            onClick={() => onSelectToken(nameCoin)}
+            aria-hidden="true"
+          />
+        </div>
         <div className={styles.balance_wrap}>
           <div
             className={styles.name_wrap}
@@ -39,9 +42,6 @@ export const CoinBalance: FC<IProps> = ({
           >
             <div className={styles.name}>
               {nameCoin}
-            </div>
-            <div className={styles.container_arrow}>
-              <FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} size={20} />
             </div>
           </div>
           <div className={styles.balance} onClick={onClickMax} aria-hidden="true">
@@ -53,6 +53,12 @@ export const CoinBalance: FC<IProps> = ({
               <div className={styles.balance_value}>{balance}</div>
             </div>
           </div>
+        </div>
+        <div
+          onClick={() => onSelectToken(nameCoin)}
+          aria-hidden="true"
+        >
+          <FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} size={35} />
         </div>
       </div>
     </ButtonNew>
