@@ -55,7 +55,6 @@ export const CoinBalance: FC<IProps> = ({
           </div>
         </div>
         <div
-          className={styles.container_arrow}
           onClick={() => onSelectToken(nameCoin)}
           aria-hidden="true"
         >
