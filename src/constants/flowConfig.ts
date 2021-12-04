@@ -22,8 +22,10 @@ import {
   maticxDaixExchangeAddress,
   usdcxMaticxExchangeAddress,
   maticxUsdcxExchangeAddress,
-  SLPxAddress,
-  usdcxSlpxExchangeAddress,
+  usdcxEthSlpxExchangeAddress,
+  usdcxIdleSlpxExchangeAddress,
+  rexLPETHAddress,
+  rexLPIDLEAddress,
 } from './polygon_config';
 
 export enum FlowEnum {
@@ -42,7 +44,8 @@ export enum FlowEnum {
   wethUsdcFlowQuery = 'wethUsdcFlowQuery',
   wbtcUsdcFlowQuery = 'wbtcUsdcFlowQuery',
   usdcRicFlowQuery = 'usdcRicFlowQuery',
-  usdcSlpFlowQuery = 'usdcSlpFlowQuery',
+  usdcSlpEthFlowQuery = 'usdcSlpEthFlowQuery',
+  usdcSlpIdleFlowQuery = 'usdcSlpIdleFlowQuery',
 }
 
 export type FlowType = 'launchpad' | 'market' | 'sushiLP';
@@ -66,12 +69,21 @@ export const flowConfig: {
     type: 'launchpad',
   },
   {
-    superToken: usdcxSlpxExchangeAddress,
+    superToken: usdcxEthSlpxExchangeAddress,
     tokenA: USDCxAddress,
-    tokenB: SLPxAddress,
+    tokenB: rexLPETHAddress,
     coinA: Coin.USDC,
-    coinB: Coin.SLP,
-    flowKey: FlowEnum.usdcSlpFlowQuery,
+    coinB: Coin.rexLPEth,
+    flowKey: FlowEnum.usdcSlpEthFlowQuery,
+    type: 'sushiLP',
+  },
+  {
+    superToken: usdcxIdleSlpxExchangeAddress,
+    tokenA: USDCxAddress,
+    tokenB: rexLPIDLEAddress,
+    coinA: Coin.USDC,
+    coinB: Coin.rexLPIdle,
+    flowKey: FlowEnum.usdcSlpIdleFlowQuery,
     type: 'sushiLP',
   },
   {
