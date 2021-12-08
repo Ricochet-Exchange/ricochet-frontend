@@ -9,6 +9,7 @@ import history from 'utils/history';
 import reportWebVitals from './reportWebVitals';
 import { store, persistor } from './store';
 import 'assets/styles/main.scss';
+import 'assets/styles/tailwind.css';
 
 const root = document.getElementById('root');
 
