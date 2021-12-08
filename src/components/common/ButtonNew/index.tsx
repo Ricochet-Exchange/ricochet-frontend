@@ -17,6 +17,7 @@ HTMLButtonElement
   onClick?: React.MouseEventHandler<any>,
   iconClassName?: string,
   isLoading?: boolean,
+  loaderColor?: string
 };
 
 export const ButtonNew: FC<PropsWithChildren<ButtonProps>> = ({
@@ -30,6 +31,7 @@ export const ButtonNew: FC<PropsWithChildren<ButtonProps>> = ({
   disabled,
   iconClassName,
   isLoading,
+  loaderColor,
   ...rest
 }) => (
   <button
@@ -47,7 +49,7 @@ export const ButtonNew: FC<PropsWithChildren<ButtonProps>> = ({
     disabled={disabled || isLoading}
     {...rest}
   >
-    {isLoading ? <Loader /> : (
+    {disabled ? <Loader loaderColor={loaderColor} /> : (
       <>
         {children}
       </>
