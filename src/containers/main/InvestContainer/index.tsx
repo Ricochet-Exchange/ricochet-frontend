@@ -25,14 +25,13 @@ interface IProps {
   flowConfig: InvestmentFlow[]
 }
 
-export const InvestContainer :React.FC<IProps> = ({flowConfig}) => {
+export const InvestContainer :React.FC<IProps> = ({ flowConfig }) => {
   const { language, changeLanguage, t } = useLang();
   const state = useShallowSelector(selectMain);
   const { address, balances, isLoading } = state;
   const dispatch = useDispatch();
   const [search, setSearch] = useState('');
   const [filteredList, setFilteredList] = useState(flowConfig);
-  console.log(flowConfig)
   const handleStart = useCallback((config: { [key: string]: string }) => (
     amount: string,
     callback: (e?:string) => void,
@@ -55,18 +54,18 @@ export const InvestContainer :React.FC<IProps> = ({flowConfig}) => {
     },
   );
 
-  function retrieveEndDate(flowKey:FlowEnum, state:any, balances:any) {
+  function retrieveEndDate(flowKey:FlowEnum, currentState:any, currentBalances:any) {
     const flow = flowConfig.find((flow_) => flow_.flowKey === flowKey);
     const sameCoinAFlows = flowConfig.filter((flow_) => flow_.coinA === flow?.coinA);
-    const outgoing = sameCoinAFlows.map((flow_) => state[flow_.flowKey]?.placeholder || '0');
+    const outgoing = sameCoinAFlows.map((flow_) => currentState[flow_.flowKey]?.placeholder || '0');
     const outgoingSum = outgoing.reduce(sumStrings, 0);
-    const bal = parseFloat((balances && balances[flow?.tokenA || '']) || '0');
+    const bal = parseFloat((currentBalances && currentBalances[flow?.tokenA || '']) || '0');
     return endDate(bal, outgoingSum);
   }
-  function computeStreamEnds(state:any, balances:any) {
+  function computeStreamEnds(currentState:any, currentBalances:any) {
     const streamEnds : { [id: string] : string; } = {};
     Object.values(FlowEnum).forEach((flowEnum: FlowEnum) => {
-      streamEnds[flowEnum] = retrieveEndDate(flowEnum, state, balances);
+      streamEnds[flowEnum] = retrieveEndDate(flowEnum, currentState, currentBalances);
     });
     return streamEnds;
   }

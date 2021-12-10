@@ -5,7 +5,7 @@ import { MainLayout } from 'containers/MainLayout';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import {
   useRouteMatch,
-} from "react-router-dom";
+} from 'react-router-dom';
 import { RoutesToFlows } from 'constants/flowConfig';
 import React, {
   FC,

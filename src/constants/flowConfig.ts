@@ -1,5 +1,5 @@
-import { Coin } from './coins';
 import { Routes } from 'constants/routes';
+import { Coin } from './coins';
 import {
   USDCxAddress,
   usdcxWethxExchangeAddress,
@@ -56,7 +56,7 @@ export type InvestmentFlow = {
   coinB: Coin,
   flowKey: FlowEnum,
   type: FlowType,
-}
+};
 
 const markets: InvestmentFlow[] = [
   {
@@ -185,7 +185,7 @@ const markets: InvestmentFlow[] = [
     flowKey: FlowEnum.maticUsdcFlowQuery,
     type: 'market',
   },
-]
+];
 
 const liquidityMarkets: InvestmentFlow[] = [
   {
@@ -197,7 +197,7 @@ const liquidityMarkets: InvestmentFlow[] = [
     flowKey: FlowEnum.usdcSlpFlowQuery,
     type: 'sushiLP',
   },
-]
+];
 
 const launchpads: InvestmentFlow[] = [
   {
@@ -208,14 +208,14 @@ const launchpads: InvestmentFlow[] = [
     coinB: Coin.RIC,
     flowKey: FlowEnum.usdcRicFlowQuery,
     type: 'launchpad',
-  }
-]
+  },
+];
 
 export const RoutesToFlows = {
   [<string>Routes.Invest]: markets,
   [<string>Routes.InvestLiquidityMarkets]: liquidityMarkets,
   [<string>Routes.InvestLaunchpads]: launchpads,
-}
+};
 
 export const flowConfig: InvestmentFlow[] = [
   ...markets,
