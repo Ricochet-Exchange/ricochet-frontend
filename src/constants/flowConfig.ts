@@ -1,3 +1,4 @@
+import { Routes } from 'constants/routes';
 import { Coin } from './coins';
 import {
   USDCxAddress,
@@ -47,7 +48,7 @@ export enum FlowEnum {
 
 export type FlowType = 'launchpad' | 'market' | 'sushiLP';
 
-export const flowConfig: {
+export type InvestmentFlow = {
   superToken: string,
   tokenA: string,
   tokenB: string,
@@ -55,25 +56,9 @@ export const flowConfig: {
   coinB: Coin,
   flowKey: FlowEnum,
   type: FlowType,
-}[] = [
-  {
-    superToken: usdcxRicExchangeAddress,
-    tokenA: USDCxAddress,
-    tokenB: RICAddress,
-    coinA: Coin.USDC,
-    coinB: Coin.RIC,
-    flowKey: FlowEnum.usdcRicFlowQuery,
-    type: 'launchpad',
-  },
-  {
-    superToken: usdcxSlpxExchangeAddress,
-    tokenA: USDCxAddress,
-    tokenB: SLPxAddress,
-    coinA: Coin.USDC,
-    coinB: Coin.SLP,
-    flowKey: FlowEnum.usdcSlpFlowQuery,
-    type: 'sushiLP',
-  },
+};
+
+const markets: InvestmentFlow[] = [
   {
     superToken: usdcxWethxExchangeAddress,
     tokenA: USDCxAddress,
@@ -200,4 +185,40 @@ export const flowConfig: {
     flowKey: FlowEnum.maticUsdcFlowQuery,
     type: 'market',
   },
+];
+
+const liquidityMarkets: InvestmentFlow[] = [
+  {
+    superToken: usdcxSlpxExchangeAddress,
+    tokenA: USDCxAddress,
+    tokenB: SLPxAddress,
+    coinA: Coin.USDC,
+    coinB: Coin.SLP,
+    flowKey: FlowEnum.usdcSlpFlowQuery,
+    type: 'sushiLP',
+  },
+];
+
+const launchpads: InvestmentFlow[] = [
+  {
+    superToken: usdcxRicExchangeAddress,
+    tokenA: USDCxAddress,
+    tokenB: RICAddress,
+    coinA: Coin.USDC,
+    coinB: Coin.RIC,
+    flowKey: FlowEnum.usdcRicFlowQuery,
+    type: 'launchpad',
+  },
+];
+
+export const RoutesToFlows = {
+  [<string>Routes.Invest]: markets,
+  [<string>Routes.InvestLiquidityMarkets]: liquidityMarkets,
+  [<string>Routes.InvestLaunchpads]: launchpads,
+};
+
+export const flowConfig: InvestmentFlow[] = [
+  ...markets,
+  ...liquidityMarkets,
+  ...launchpads,
 ];

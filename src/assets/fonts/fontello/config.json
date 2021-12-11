@@ -1133,6 +1133,54 @@
       "css": "dot-3",
       "code": 59475,
       "src": "entypo"
+    },
+    {
+      "uid": "8aa99bc60f3553bb3e31b73dd6e744c8",
+      "css": "rocket",
+      "code": 61749,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "7184d8171b6a9b18eabbace94cca21db",
+      "css": "chart-line",
+      "code": 59476,
+      "src": "entypo"
+    },
+    {
+      "uid": "37c5ab63f10d7ad0b84d0978dcd0c7a8",
+      "css": "shuffle",
+      "code": 59478,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "36m3wq83tio3uymjbu44su7ior03u9cc",
+      "css": "shuffle-1",
+      "code": 59477,
+      "src": "typicons"
+    },
+    {
+      "uid": "em9mdmyhjwd003ndercv4r08h0ai31tl",
+      "css": "loop",
+      "code": 59480,
+      "src": "typicons"
+    },
+    {
+      "uid": "d650df2fd7c4e27d9185d90a1c12a881",
+      "css": "space-shuttle",
+      "code": 61847,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "a73c5deb486c8d66249811642e5d719a",
+      "css": "arrows-cw",
+      "code": 59479,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "8c0ffa714cecbf5144e022d9c3df4a1f",
+      "css": "bank",
+      "code": 61852,
+      "src": "fontawesome"
     }
   ]
 }

@@ -10,7 +10,7 @@ interface IProps {
 }
 
 export const WalletButton: FC<IProps> = ({ ricBalance = '', account }) => (
-  <ButtonNew className={styles.balance_panel}>
+  <ButtonNew loaderColor="primary" className={styles.balance_panel}>
     <div className={styles.balance}>{`${numFormatter(parseFloat(ricBalance))} RIC`}</div>
     <div className={styles.address}>{account.substring(0, 6)}</div>
     <div className={styles.icon_wrap}>
