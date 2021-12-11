@@ -1,5 +1,13 @@
 @import '../../../assets/styles/mixins';
 
+.outer_container {
+  display: flex;
+  overflow: auto;
+  @include tablet() {
+    display: block;
+  }
+}
+
 .container {
   width: 100%;
   height: 100%;

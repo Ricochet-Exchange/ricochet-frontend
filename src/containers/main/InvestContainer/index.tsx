@@ -83,7 +83,7 @@ export const InvestContainer :React.FC<IProps> = ({ flowConfig }) => {
   }, []);
 
   return (
-    <div className="md:flex">
+    <div className={styles.outer_container}>
       <InvestNav />
       <div className={styles.container}>
         <div className={styles.input_wrap}>
