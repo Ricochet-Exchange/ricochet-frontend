@@ -127,9 +127,10 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
 
   const handleMaxDowngrade = () => {
     if (!balances || !downgradeAddress) return;
-
     setDownGradeValue(balances[downgradeAddress]);
   };
+
+  console.log(upgradeConfig?.key, state[upgradeConfig?.key!]);
 
   return (
     <div className={styles.wrapper}>
