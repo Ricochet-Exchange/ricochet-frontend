@@ -1133,6 +1133,36 @@
       "css": "dot-3",
       "code": 59475,
       "src": "entypo"
+    },
+    {
+      "uid": "8aa99bc60f3553bb3e31b73dd6e744c8",
+      "css": "rocket",
+      "code": 61749,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "7184d8171b6a9b18eabbace94cca21db",
+      "css": "chart-line",
+      "code": 59476,
+      "src": "entypo"
+    },
+    {
+      "uid": "f0eac0958921fe45b85d01b79d76e86b",
+      "css": "switch",
+      "code": 59477,
+      "src": "entypo"
+    },
+    {
+      "uid": "jskdfgyhjwd003ndercv4r08h0ai3dfg",
+      "css": "loop-alt-1",
+      "code": 59479,
+      "src": "typicons"
+    },
+    {
+      "uid": "288f930b765216bc04e475740331bdf5",
+      "css": "recycle",
+      "code": 61880,
+      "src": "fontawesome"
     }
   ]
 }
