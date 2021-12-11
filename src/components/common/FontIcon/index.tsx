@@ -28,6 +28,11 @@ export enum FontIconName {
   ArrowUp = 'icon-up-open',
   Search = 'icon-search',
   Dot = 'icon-dot-3',
+  Rocket = 'icon-rocket',
+  Shuttle = 'icon-space-shuttle',
+  Swap = 'icon-shuffle-1',
+  Loop = 'icon-loop',
+  Bank = 'icon-bank',
 }
 
 const FontIcon: FC<IProps> = ({ name, size = 24, className }) => (
