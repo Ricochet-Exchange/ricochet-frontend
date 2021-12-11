@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Routes } from 'constants/routes';
 import styles from './styles.module.scss';
 
