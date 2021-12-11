@@ -152,7 +152,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
             isUpgrade
             onSelectToken={handleVisionModal}
             isLoading={isLoading || isLoadingUpgrade}
-            disabledApprove={upgradeConfig && state[upgradeConfig?.key]}
+            disabledApprove={isLoading || (upgradeConfig && state[upgradeConfig?.key])}
           />
         </div>
         <div className={styles.downgrade}>

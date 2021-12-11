@@ -29,7 +29,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
             <ButtonNew
               color="secondary"
               loaderColor="#363B55"
-              disabled={!disabledApprove}
+              disabled={!!disabledApprove}
               onClick={onClickApprove}
               className={styles.approve}
             >
