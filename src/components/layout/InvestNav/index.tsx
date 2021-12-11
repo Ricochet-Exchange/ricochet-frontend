@@ -1,4 +1,5 @@
 import React from 'react';
+import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { NavLink } from 'react-router-dom';
 import { Routes } from 'constants/routes';
 import styles from './styles.module.scss';
@@ -11,21 +12,21 @@ export const InvestNav = () => (
       activeClassName={styles.nav_link_active} 
       to={Routes.Invest}
     >
-      Markets
+        <FontIcon name={FontIconName.Swap} size={16} />&nbsp;Markets
     </NavLink>
     <NavLink 
       className={styles.nav_link} 
       activeClassName={styles.nav_link_active} 
       to={Routes.InvestLiquidityMarkets}
     >
-      Liquidity Markets
+      <FontIcon name={FontIconName.Loop} size={16} />&nbsp;Liquidity Markets
     </NavLink>
     <NavLink 
       className={styles.nav_link} 
       activeClassName={styles.nav_link_active} 
       to={Routes.InvestLaunchpads}
     >
-      Launchpads
+      <FontIcon name={FontIconName.Shuttle} size={16} />&nbsp;Launchpads
     </NavLink>
   </div>
 );
