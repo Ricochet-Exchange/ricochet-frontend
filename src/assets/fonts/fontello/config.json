@@ -1175,6 +1175,12 @@
       "css": "arrows-cw",
       "code": 59479,
       "src": "fontawesome"
+    },
+    {
+      "uid": "8c0ffa714cecbf5144e022d9c3df4a1f",
+      "css": "bank",
+      "code": 61852,
+      "src": "fontawesome"
     }
   ]
 }

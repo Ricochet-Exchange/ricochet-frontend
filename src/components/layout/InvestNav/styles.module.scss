@@ -8,11 +8,12 @@
     flex-shrink: 1;
     max-width: 23vw;
     @include tablet() {
-        @include flexbox(left, flex-start);
+        @include flexbox(flex-start, flex-start);
         flex-direction: row;
         max-width: 100%;
         text-align: center;
         border-right: none;
+        flex-wrap: wrap;
     }
 }
 
