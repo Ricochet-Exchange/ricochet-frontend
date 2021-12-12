@@ -127,9 +127,10 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
 
   const handleMaxDowngrade = () => {
     if (!balances || !downgradeAddress) return;
-
     setDownGradeValue(balances[downgradeAddress]);
   };
+
+  console.log(upgradeConfig?.key, state[upgradeConfig?.key!]);
 
   return (
     <div className={styles.wrapper}>
@@ -152,7 +153,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
             isUpgrade
             onSelectToken={handleVisionModal}
             isLoading={isLoading || isLoadingUpgrade}
-            disabledApprove={upgradeConfig && state[upgradeConfig?.key]}
+            disabledApprove={isLoading || (upgradeConfig && state[upgradeConfig?.key])}
           />
         </div>
         <div className={styles.downgrade}>

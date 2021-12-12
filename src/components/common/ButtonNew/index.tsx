@@ -49,7 +49,7 @@ export const ButtonNew: FC<PropsWithChildren<ButtonProps>> = ({
     disabled={disabled || isLoading}
     {...rest}
   >
-    {disabled ? <Loader loaderColor={loaderColor} /> : (
+    {isLoading ? <Loader loaderColor={loaderColor} /> : (
       <>
         {children}
       </>
