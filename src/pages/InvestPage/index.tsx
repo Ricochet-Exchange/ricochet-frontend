@@ -18,13 +18,14 @@ interface IProps {}
 const InvestPage: FC<IProps> = () => {
   const {
     address,
-    balances, 
+    balances,
+    isReadOnly,
   } = useShallowSelector(selectMain);
   const match = useRouteMatch();
   return (
     <MainLayout>
       <div className={styles.header}>
-        <HeaderContainer balance={balances && balances[RICAddress]} address={address || 'Connecting'} />
+        <HeaderContainer isReadOnly={isReadOnly} balance={balances && balances[RICAddress]} address={address || 'Connecting'} />
       </div>
       <div className={styles.content}>
         <InvestContainer key={match.path} flowConfig={RoutesToFlows[match.path]} />

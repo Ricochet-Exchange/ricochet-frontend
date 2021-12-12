@@ -20,10 +20,11 @@ interface IProps {
   language: LocaleKey,
   className?: string,
   onSelectLanguage: (value: LocaleKey) => void,
+  isReadOnly?:boolean,
 }
 
 export const UserSettings: FC<IProps> = ({
-  onSelectLanguage, ricBalance = '', account, language, className,
+  isReadOnly, onSelectLanguage, ricBalance = '', account, language, className,
 }) => {
   const history = useHistory();
   const handleFundButton = () => invokeRamp({
@@ -34,14 +35,14 @@ export const UserSettings: FC<IProps> = ({
   return (
     <div className={styles.user_settings}>
       <ButtonNew className={styles.balance_panel}>
-        <div className={styles.balance}>{`${numFormatter(parseFloat(ricBalance))} RIC`}</div>
+        <div className={styles.balance}>{ricBalance && `${numFormatter(parseFloat(ricBalance))} RIC`}</div>
         <div className={styles.address}>{account.substring(0, 6)}</div>
         <div className={styles.icon_wrap}>
           <FontIcon className={styles.icon} name={FontIconName.RicoUser} size={16} />
         </div>
       </ButtonNew>
       {account !== 'Connecting' && (
-      <ButtonNew className={styles.fund_panel} onClick={handleFundButton}>
+      <ButtonNew disabled={isReadOnly} className={styles.fund_panel} onClick={handleFundButton}>
         <div className={styles.fund_inner}>{t('Fund Wallet')}</div>
       </ButtonNew>
       )}

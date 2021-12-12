@@ -82,3 +82,7 @@ export const showTokenList = (coinType: Coin) => ({
   type: MainActionTypes.SHOW_TYPE_TOKEN_LIST,
   payload: { coinType },
 });
+
+export const mainGetReadOnlyData = () => ({
+  type: MainActionTypes.LOAD_READ_ONLY_DATA,
+});

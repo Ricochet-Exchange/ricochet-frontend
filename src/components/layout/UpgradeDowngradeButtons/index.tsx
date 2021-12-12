@@ -11,6 +11,7 @@ interface IProps {
   onClickDowngrade?: () => void,
   isLoading?: boolean;
   disabledApprove?: boolean;
+  isReadOnly?:boolean,
 }
 
 export const UpgradeDowngradeButtons: FC<IProps> = ({
@@ -20,6 +21,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
   onClickApprove = () => {},
   onClickUpgrade = () => {},
   onClickDowngrade = () => {},
+  isReadOnly,
 }) => (
   <div>
     {isUpgrade 
@@ -29,7 +31,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
             <ButtonNew
               color="secondary"
               loaderColor="#363B55"
-              disabled={!disabledApprove}
+              disabled={isReadOnly || !disabledApprove}
               onClick={onClickApprove}
               className={styles.approve}
             >
@@ -41,7 +43,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
             <ButtonNew
               color="primary"
               loaderColor="white"
-              disabled={isLoading} 
+              disabled={isReadOnly || isLoading}
               onClick={onClickUpgrade}
               className={styles.upgrade}
             >
@@ -55,7 +57,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
           <ButtonNew
             color="primary"
             loaderColor="white"
-            disabled={isLoading} 
+            disabled={isReadOnly || isLoading}
             onClick={onClickDowngrade}
             className={styles.downgrade}
           >

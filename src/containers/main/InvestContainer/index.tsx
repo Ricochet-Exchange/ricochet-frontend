@@ -28,7 +28,9 @@ interface IProps {
 export const InvestContainer :React.FC<IProps> = ({ flowConfig }) => {
   const { language, changeLanguage, t } = useLang();
   const state = useShallowSelector(selectMain);
-  const { address, balances, isLoading } = state;
+  const {
+    address, balances, isLoading, isReadOnly, 
+  } = state;
   const dispatch = useDispatch();
   const [search, setSearch] = useState('');
   const [filteredList, setFilteredList] = useState(flowConfig);
@@ -120,6 +122,7 @@ export const InvestContainer :React.FC<IProps> = ({ flowConfig }) => {
                 personalFlow={state[element.flowKey]?.placeholder}
                 mainLoading={isLoading}
                 flowType={element.type}
+                isReadOnly={state.isReadOnly}
               />
             </div>
           ))}
@@ -130,6 +133,7 @@ export const InvestContainer :React.FC<IProps> = ({ flowConfig }) => {
               className={styles.dot}
               ricBalance={balances && balances[RICAddress]}
               account={address || 'Connecting'}
+              isReadOnly={isReadOnly}
             />
           </div>
         </div>

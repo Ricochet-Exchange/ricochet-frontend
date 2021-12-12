@@ -17,10 +17,11 @@ interface IProps {
   onClickStop: () => void,
   coin: Coin;
   isLoading?: boolean;
+  isReadOnly?:boolean;
 }
 
 export const CoinRateForm: FC<IProps> = ({
-  value, onChange, onClickStart, onClickStop, placeholder, coin, isLoading,
+  value, onChange, onClickStart, onClickStop, placeholder, coin, isLoading, isReadOnly,
 }) => {
   const { t } = useTranslation('main');
   // Security Deposit is 4 hours worth of stream, so (4*60*60)/(30*24*60*60) = 1/180
@@ -39,14 +40,14 @@ export const CoinRateForm: FC<IProps> = ({
       </div>
       <div className={styles.buttons}>
         <div className={styles.start_wrap}>
-          <ButtonNew loaderColor="white" color="primary" onClick={onClickStart} className={styles.start} disabled={isLoading} data-tip data-for="depositTooltip">
+          <ButtonNew loaderColor="white" color="primary" onClick={onClickStart} className={styles.start} disabled={isReadOnly || isLoading} data-tip data-for="depositTooltip">
             {t('Start')}
             /
             {t('Edit')}
           </ButtonNew>
         </div>
         <div className={styles.stop_wrap}>
-          <ButtonNew loaderColor="#363B55" color="secondary" onClick={onClickStop} className={styles.stop} disabled={isLoading}>{t('Stop')}</ButtonNew>
+          <ButtonNew loaderColor="#363B55" color="secondary" onClick={onClickStop} className={styles.stop} disabled={isReadOnly || isLoading}>{t('Stop')}</ButtonNew>
         </div>
         <div style={{ flexBasis: '100%', height: '0' }}> </div>
 
