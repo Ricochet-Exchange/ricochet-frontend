@@ -17,15 +17,13 @@
     }
 }
 
-.nav_link {
+.link {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
     padding-right: 1rem;
     margin-right: 0;
     margin-bottom: 0.5rem;
-    border-radius: 9999px;
-    background-color: var(--color-white-dark);
     text-decoration: none;
     color: var(--color-black);
     overflow: hidden;
@@ -36,6 +34,12 @@
         margin-bottom: 0.5rem;
         margin-right: 0.5rem;
     }
+}
+
+.nav_link {
+    @extend .link;
+    border-radius: 9999px;
+    background-color: var(--color-white-dark);
 }
 
 .nav_link_active {

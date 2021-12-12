@@ -9,6 +9,7 @@ interface IProps {}
 const MainRouter: FC<IProps> = () => (
   <Switch>
     <Route path={Routes.Wallet} component={WalletPage} exact />
+    <Route path={Routes.InvestStreams} component={InvestPage} exact />
     <Route path={Routes.InvestLaunchpads} component={InvestPage} exact />
     <Route path={Routes.InvestLiquidityMarkets} component={InvestPage} exact />
     <Route path={Routes.Invest} component={InvestPage} exact />

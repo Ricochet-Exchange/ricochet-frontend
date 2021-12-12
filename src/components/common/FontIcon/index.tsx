@@ -33,6 +33,7 @@ export enum FontIconName {
   Swap = 'icon-shuffle-1',
   Loop = 'icon-loop',
   Bank = 'icon-bank',
+  External = 'icon-link-ext',
 }
 
 const FontIcon: FC<IProps> = ({ name, size = 24, className }) => (
