@@ -12,7 +12,7 @@ import { Coin } from '../../../constants/coins';
 import { CoinChange } from '../CoinChange';
 import { CoinBalancePanel } from '../CoinBalancePanel';
 import { CoinRateForm } from '../CoinRateForm';
-import { FlowType } from '../../../constants/flowConfig';
+import { FlowTypes } from '../../../constants/flowConfig';
 import Price from '../../common/Price';
 import LpAPY from '../../common/LpAPY';
 
@@ -30,7 +30,7 @@ interface IProps {
   subsidyRate?: { perso:number, total:number, endDate:string };
   personalFlow?: string;
   mainLoading?: boolean;
-  flowType: FlowType,
+  flowType: FlowTypes,
 }
 
 export const PanelChange: FC<IProps> = ({

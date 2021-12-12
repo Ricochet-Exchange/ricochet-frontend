@@ -1,13 +1,18 @@
-import React, { ChangeEvent, useCallback, useState } from 'react';
+import React, {
+  ChangeEvent, useCallback, useState, useEffect, 
+} from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
+import {
+  useRouteMatch,
+} from 'react-router-dom';
 import { TextInput } from 'components/common/TextInput';
 import { PanelChange } from 'components/layout/PanelChange';
 import { UserSettings } from 'components/layout/UserSettings';
 import { InvestNav } from 'components/layout/InvestNav';
 import { useLang } from 'hooks/useLang';
-import { FlowEnum, InvestmentFlow } from 'constants/flowConfig';
+import { flowConfig, FlowEnum, RoutesToFlowTypes } from 'constants/flowConfig';
 import { useShallowSelector } from 'hooks/useShallowSelector';
-import { selectMain } from 'store/main/selectors';
+import { selectMain, selectUserStreams } from 'store/main/selectors';
 import { RICAddress } from 'constants/polygon_config';
 import { useDispatch } from 'react-redux';
 import { startFlowAction, stopFlowAction } from 'store/main/actionCreators';
@@ -21,17 +26,34 @@ function endDate(bal:number, outgoing:number):string {
   return `${endDateStr}`;
 }
 
-interface IProps {
-  flowConfig: InvestmentFlow[]
-}
+interface IProps {}
 
-export const InvestContainer :React.FC<IProps> = ({ flowConfig }) => {
+export const InvestContainer :React.FC<IProps> = () => {
   const { language, changeLanguage, t } = useLang();
   const state = useShallowSelector(selectMain);
+  const userStreams = useShallowSelector(selectUserStreams);
   const { address, balances, isLoading } = state;
   const dispatch = useDispatch();
   const [search, setSearch] = useState('');
   const [filteredList, setFilteredList] = useState(flowConfig);
+  const match = useRouteMatch();
+  const flowType = RoutesToFlowTypes[match.path];
+  
+  useEffect(() => {
+    if (flowType) {
+      setFilteredList(flowConfig.filter((each) => each.type === flowType));
+    } else {
+      const sortedUserStreams = userStreams.sort(
+        (a, b) => {
+          const flowA = parseFloat(state[a.flowKey]?.placeholder || '0'); 
+          const flowB = parseFloat(state[b.flowKey]?.placeholder || '0');
+          return flowB - flowA;
+        },
+      );
+      setFilteredList(sortedUserStreams);
+    }
+  }, [flowType]);
+
   const handleStart = useCallback((config: { [key: string]: string }) => (
     amount: string,
     callback: (e?:string) => void,
@@ -44,15 +66,6 @@ export const InvestContainer :React.FC<IProps> = ({ flowConfig }) => {
   ) => {
     dispatch(stopFlowAction(config, callback));
   }, [dispatch, balances]);
-  
-  // Sort flows given their placeholder float value
-  flowConfig.sort(
-    (a, b) => {
-      const flowA = parseFloat(state[a.flowKey]?.placeholder || '0'); 
-      const flowB = parseFloat(state[b.flowKey]?.placeholder || '0');
-      return flowB - flowA;
-    },
-  );
 
   function retrieveEndDate(flowKey:FlowEnum, currentState:any, currentBalances:any) {
     const flow = flowConfig.find((flow_) => flow_.flowKey === flowKey);
