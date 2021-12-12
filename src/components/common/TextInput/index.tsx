@@ -53,6 +53,7 @@ const TextInput: FC<TextInputProps> = ({
       <ButtonNew
         color="secondary"
         disabled={isReadOnly || isLoading}
+        isLoading={isLoading}
         onClick={onClickMax}
         className={styles.max}
 

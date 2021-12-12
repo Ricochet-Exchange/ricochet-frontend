@@ -32,6 +32,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
               color="secondary"
               loaderColor="#363B55"
               disabled={isReadOnly || !disabledApprove}
+              isLoading={isLoading}
               onClick={onClickApprove}
               className={styles.approve}
             >
@@ -44,6 +45,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
               color="primary"
               loaderColor="white"
               disabled={isReadOnly || isLoading}
+              isLoading={isLoading}
               onClick={onClickUpgrade}
               className={styles.upgrade}
             >
@@ -58,6 +60,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
             color="primary"
             loaderColor="white"
             disabled={isReadOnly || isLoading}
+            isLoading={isLoading}
             onClick={onClickDowngrade}
             className={styles.downgrade}
           >
