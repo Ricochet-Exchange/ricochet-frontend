@@ -71,20 +71,20 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
               {showWarningToolTip ? 'Downgrade ⚠️' : 'Downgrade'}
             </ButtonNew>
             {showWarningToolTip && (
-                <ReactTooltip
-                    id="downgradeTooltip"
-                    place="right"
-                    effect="solid"
-                    className={styles.downgrade_wrap}
-                    multiline
-                >
+            <ReactTooltip
+              id="downgradeToolTip"
+              place="right"
+              effect="solid"
+              className={styles.downgrade_wrap}
+              multiline
+            >
               <span
-                  className={styles.downgrade_wrap_span}
+                className={styles.downgrade_wrap_span}
               >
                 Downgrading your tokens could lead to the ongoing stream running out of funds
                 and you losing your deposit!
               </span>
-                </ReactTooltip>
+            </ReactTooltip>
             )}
           </div>
         )}

@@ -175,6 +175,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
             isUpgrade={false}
             onSelectToken={handleVisionModal}
             isLoading={isLoading || isLoadingDowngrade}
+            showWarningToolTip={showWarningToolTip}
           />
         </div>
         <div className={styles.settings_mob}>
