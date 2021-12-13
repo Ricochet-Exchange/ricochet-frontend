@@ -1,0 +1,94 @@
+@import 'assets/styles/branding';
+
+.BankDetails {
+  background-color: #ffffff;
+  border-radius: 10px;
+  margin-bottom: 35px;
+}
+
+.BankDetails__header {
+  @include box;
+  width: 100%;
+  padding: 25px 35px 14px 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px dashed $notwhitetxt;
+}
+
+.BankDetails__header h2 {
+  margin: 0;
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin: 0 20px 0 0;
+}
+
+.BankDetails__header p {
+  color: $textgrey;
+  margin: 0 20px 0 0;
+}
+
+// .BankDetails__header .EtherscanLink {
+//   flex: 1;
+// }
+
+.BankDetails__address {
+  // width: 100px;
+  flex: 1;
+}
+
+.BankDetails__content {
+  @include box;
+  width: 100%;
+  padding: 25px 45px 30px 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.BankDetails__content p {
+  font-size: 0.875rem;
+  color: $mediumgrey;
+  line-height: 1.15rem;
+  margin: 0;
+}
+
+.BankDetail {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.BankDetail h3 {
+  font-size: 1.25rem;
+  color: $purple;
+  margin: 0 0 4px 0;
+}
+
+.BankDetails__Column {
+  width: 165px;
+}
+
+.BigDetail {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.BigDetail h1 {
+  font-size: 4rem;
+  line-height: 4.75rem;
+  margin: 10px 0 0 0;
+}
+
+.BigDetail h3 {
+  margin: 0 0 8px 10px;
+}
+
+.flexer {
+  flex: 1;
+}

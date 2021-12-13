@@ -1,0 +1,328 @@
+@import '~antd/dist/antd.css';
+@import '../../assets/styles/branding';
+@import '../../assets/styles/mixins';
+
+h1 {
+  color: $purple;
+}
++a {
+  text-decoration: none !important;
+}
+
+.App, .ant-layout-content {
+  background-color: $lightgrey;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: auto!important;
+  margin: 0;
+}
+
+/* ALL SIDER STUFF */
+.ant-layout-sider {
+  background-color: var(--color-purple);
+  @include font;
+  @include box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 50px;
+}
+.ant-menu, .ant-menu-dark {
+  background: transparent;
+  border: none;
+  margin-top: 0px;
+}
+
+.ant-layout-sider-children {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ant-menu-inline .ant-menu-item {
+  width: 100%;
+  height: 110px;
+  margin: 0 !important;
+  padding: 0;
+  // background-color: red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.5;
+  transition: 0.25s ease all;
+}
+
+.ant-menu-inline .ant-menu-item:hover {
+  opacity: 0.65;
+}
+
+.ant-menu-inline .ant-menu-item a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color:white;
+  font-size: 1.05rem;
+}
+
+.ant-menu-inline .ant-menu-item a img {
+  margin-bottom: -10px;
+}
+
+.ant-menu-inline .ant-menu-item-selected {
+  background: none !important;
+  opacity: 1 !important;
+  border: none !important;
+  margin: 0 !important;
+}
+
+.ant-menu-inline .ant-menu-item::after {
+  border: none;
+}
+
+.ant-menu-inline .ant-menu-item-active {
+  background: none;
+}
+
+.web3feedback {
+  margin: 20px 0 80px 0;
+}
+
+.web3feedback button {
+  @include lightshadow;
+}
+
+
+
+
+
+/* ANT+OTHER BUTTONS STUFF*/
+.ant-btn-round {
+  font-weight: bold;
+  padding: 10px 30px;
+  border-radius: 44px;
+  height: auto;
+  font-size: 0.75rem;
+  color: $purple;
+}
+.ant-btn-round:hover, .ant-btn-round:focus {
+  color: $purple !important;
+}
+
+.ant-btn-link {
+  font-weight: bold;
+  color: $purple;
+}
+
+.ant-btn-link span {
+  text-decoration: underline !important;
+}
+
+.purplebutton {
+  background-color: $purple;
+  color: white;
+}
+.purplebutton:hover, .purplebutton .ant-btn:focus {
+  background-color: $purple !important;
+  color:white !important;
+  outline:0 !important;
+}
+
+.extrapurplebutton {
+  background-color: $extrapurple;
+  color: white;
+}
+.extrapurplebutton:hover, .extrapurplebutton .ant-btn:focus {
+  background-color: $extrapurple !important;
+  color:white !important;
+  outline:0 !important;
+}
+
+.ant-btn[disabled] {
+color: rgba(0, 0, 0, 0.2) !important;
+background: rgba(0, 0, 0, 0.05) !important;
+border: none !important;
+}
+
+.purpleoutlined {
+  color: $purple;
+  background: transparent !important;
+  border: 2px solid $purple !important;
+}
+.purpleoutlined:hover {
+  color: $purple;
+  border: 2px solid $purple !important;
+}
+
+.ant-btn[disabled] {
+  color: rgba(0, 0, 0, 0.2) !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+  border: none !important;
+  }
+  
+
+.purpledropdown {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.purpledropdown svg {
+  margin: 0 0 0 8px;
+}
+
+
+.biggestbutton, .biggestbutton:hover, .biggestbutton:focus {
+  background-color: $lightgrey;
+  color: $purple;
+  -webkit-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16) !important;
+  -moz-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.1) !important;
+  box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16) !important;
+}
+
+
+.biggestbutton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  padding: 1.05rem 4.75rem !important;
+}
+
+a, .ant-btn-lg span {
+  text-decoration: none !important;
+
+}
+
+
+
+/* ANT INPUT STUFF */
+.ant-input {
+  border:none;
+  color: $purple;
+  font-weight: bold;
+}
+.ant-input-group-addon {
+  border-top:none;
+  border-right:none;
+  border-bottom:none;
+  border-left: 1px solid $lightgrey !important;
+  background-color: white;
+}
+
+
+
+/* ANT MODAL STUFF */
+.ant-modal-content {
+  @include font;
+  background-color: $lightgrey;
+  border-radius: 10px;
+
+}
+
+.ant-modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  @include box;
+
+  padding: 4rem 0 4rem 0;
+}
+
+.ant-modal-content p {
+  font-size: 1rem;
+  line-height: 1.45;
+  color: black;
+}
+
+.ant-modal-content h2 {
+  font-size: 1.5rem;
+  color: $purple;
+}
+
+.ant-modal-content .purplebutton {
+  min-width: 165px;
+  margin: 20px 0 10px 0;
+}
+.ant-modal-close-x {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
+
+
+
+/*OTHER REOCCURRING STYLING STUFF*/
+
+.ContentTotal {
+  width: 100%;
+  @include box;
+  padding: 50px 4vw 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background-color: $lightgrey;
+}
+
+.Loading__big {
+  @include font;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.Loading__small {
+  width: 90px;
+  @include font;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.smalltxt {
+  font-size: 0.75rem !important;
+  line-height: 1rem !important;
+  color: #7C7D7E !important;
+  margin: 0.5rem 0 1rem 0;
+}
+
+.disabled {
+  opacity: 0.25;
+}
+
+.fullframe {
+  min-height: initial;
+  width: 100%;
+  @include font;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+
+.flexer {
+  flex: 1;
+}
+
+.overlayModal{
+  @include not_blur();
+  border-radius: 0;
+}

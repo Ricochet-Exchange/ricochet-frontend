@@ -52,6 +52,12 @@ export const HeaderContainer:FC<IProps> = ({ address, balance, isReadOnly }) => 
           >
             <div>{t('Wallet')}</div>
           </Link>
+          <Link
+            to={Routes.Banks}
+            className={styles.banks_link}
+          >
+            <div>{t('Banks')}</div>
+          </Link>
         </div>
         <div className={styles.settings_wrap}>
           <UserSettings

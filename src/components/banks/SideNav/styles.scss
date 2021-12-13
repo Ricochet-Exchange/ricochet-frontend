@@ -1,0 +1,26 @@
+@import 'assets/styles/mixins';
+@import '~antd/dist/antd.css';
+
+
+.ant-menu-item-selected {
+    background: none;
+}
+
+.connected {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--color-purple);
+  @include lightshadow;
+  height: 40px;
+  border-radius: 20px;
+  padding: 0;
+}
+
+.connected p {
+  margin: 0;
+  line-height: 1rem;
+  font-size: 0.875rem;
+}

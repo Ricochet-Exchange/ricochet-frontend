@@ -1,0 +1,99 @@
+@import 'assets/styles/branding.scss';
+@import 'assets/styles/_mixins.scss';
+
+// .VaultTransaction,
+// .VaultTransaction__preview,
+// .VaultTransaction__buttons {
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-around;
+//   align-items: center;
+// }
+
+.VaultTransaction {
+  @include lightshadow;
+  @include box;
+  padding: 40px 42px 55px 50px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  background-color: #f5f7fa;
+  border-radius: 0 0 10px 10px;
+
+}
+
+.VaultTransaction__preview {
+  @include box;
+  padding: 20px;
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border: 1px dashed #bdbdbd;
+  min-width: 220px;
+  border-radius: 8px;
+}
+
+.VaultTransaction__preview p {
+  font-size: 0.875rem;
+  line-height: 1.15rem;
+  margin: 0;
+  color: #848484;
+}
+
+.VaultTransaction__preview h3 {
+  color: #333 !important;
+}
+
+.VaultTransaction__preview .VaultDetail {
+  min-width: 220px;
+}
+
+
+.VaultTransaction__form__Total {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.VaultTransaction__form {
+  width: 100%;
+  max-width: 330px;
+}
+
+.VaultTransaction__form p {
+  font-weight: bold;
+  color: $purple;
+}
+
+.VaultTransaction__buttons {
+  margin: 20px 0 0 0;
+}
+
+.VaultTransaction__buttons .purplebutton {
+  width: 235px;
+}
+
+// .VaultTransaction__preview {
+//   padding: 25px 35px 14px 50px;
+//   border: 1px dashed $notwhitetxt;
+//   div {
+//     margin-right: 20px;
+//   }
+// }
+
+// .VaultTransaction__form,
+// .VaultTransaction__buttons {
+//   padding: 25px 35px 14px 50px;
+// }
+
+.loader{
+  @include not_blur();
+  background-color: #f5f7fa;
+}

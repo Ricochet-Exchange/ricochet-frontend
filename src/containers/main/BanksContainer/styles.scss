@@ -1,0 +1,23 @@
+@import 'assets/styles/branding';
+
+.BankStatusBar,
+.BankDetails,
+.VaultDetails {
+  @include font;
+  width: 100%;
+}
+
+.BankStatusBar {
+  margin: 0;
+}
+
+.BankDetails,
+.VaultDetails {
+  max-width: 1400px;
+}
+/* Desktop XL */
+@media only screen and (min-width: 1824px) {
+  .BankDetails {
+    margin-top: 20px;
+  }
+}

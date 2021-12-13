@@ -1,0 +1,10 @@
+.BankStatusBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1;
+  div {
+    margin-left: 20px;
+  }
+}

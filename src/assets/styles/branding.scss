@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+@mixin purplebg {
+    background-color: var(--color-purple);
+}
+@mixin greybg {
+    background: url(../src/images/bg_grey.png);
+}
+
+@mixin font {
+    font-family: 'DM Sans', sans-serif;
+}
+
+@mixin box {
+    box-sizing: border-box;
+}
+
+@mixin heavyshadow {
+    -webkit-box-shadow: 0px 13px 26px 0px rgba(0,0,0,0.16);
+    -moz-box-shadow: 0px 13px 26px 0px rgba(0,0,0,0.16);
+    box-shadow: 0px 13px 26px 0px rgba(0,0,0,0.16);
+}
+
+@mixin lightshadow {
+    -webkit-box-shadow: 0px 13px 26px 0px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 13px 26px 0px rgba(0,0,0,0.1);
+    box-shadow: 0px 13px 26px 0px rgba(0, 0, 0, 0.1);
+}
+
+
+$notwhitetxt: #B1B7DD;
+$lightgrey: #F5F7FA;
+$mediumgrey: #a0a0a0;
+$purple: #4F56B5;
+$extrapurple: #4d55bf;
+$textgrey: #848484;
+$tellorgreen: #69EAAE;
+
+a {
+    color: $purple;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.heavyshadow {
+    @include heavyshadow;
+}
+
+.lightshadow {
+    @include lightshadow;
+}
+
+.ant-btn-lg {
+    border: none;
+    font-size: 1.25rem;
+    font-weight: 700;
+    padding: 1.75rem;
+    height: auto;
+    border-radius: 10px;
+}
+button {
+    transition-property: all;
+    transition-duration: 0.05s !important;
+    transition-timing-function: ease-in-out;
+    transition-delay: 0s;
+}
+
+button:hover {
+    transform: scale(0.98,0.98);
+}
+
+button[disabled]:hover {
+    transform: none;
+}

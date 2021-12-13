@@ -1,0 +1,129 @@
+@import 'assets/styles/branding.scss';
+
+.VaultDetails {
+  background-color: #ffffff;
+
+  margin-bottom: 35px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.VaultDetails__header,
+.VaultDetails__content {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.VaultDetails__header {
+  @include box;
+  width: 100%;
+  padding: 25px 35px 14px 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px dashed $notwhitetxt;
+}
+
+.VaultDetails__Column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.VaultDetails__Column p {
+  font-size: 0.875rem;
+  line-height: 1.15rem;
+  margin: 0;
+  color: $mediumgrey;
+}
+
+.VaultDetail {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.VaultDetail h3 {
+  font-size: 1.25rem;
+  color: black;
+  margin: 0 0 4px 0;
+}
+
+.VaultDetails__Bank {
+  flex: 1;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  color: #848484;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  margin: 0 -6px 0 0;
+}
+
+.VaultDetails__Bank p {
+  margin: 0 8px 0 0;
+}
+
+.BankData {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 12px 0 0 0;
+}
+
+.BankDataTxt {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin: 0 12px 0 0;
+}
+
+.BankName {
+  font-weight: bold;
+  color: black;
+}
+
+.BankDataTxt p {
+  margin: 0;
+}
+
+.collrat {
+  margin-right: 3.5rem;
+}
+
+.liqprice h1 {
+  font-weight: normal;
+  color: black;
+}
+
+.liqprice h3 {
+  margin: 0 0 8px 8px;
+}
+
+.tellorgreen {
+  color: $tellorgreen;
+}
+
+.firstrow {
+  border-bottom: 1px dashed $notwhitetxt;
+}
+
+.VaultDetails__content {
+  @include box;
+  width: 100%;
+  padding: 28px 35px 20px 50px;
+}
+
+.VaultDetails__content .VaultDetail {
+  min-width: 190px;
+}

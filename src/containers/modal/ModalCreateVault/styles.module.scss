@@ -1,0 +1,97 @@
+@import '../../../assets/styles/mixins';
+
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.container {
+    @include flexbox(center, center);
+    background-color: #f5f7fa;
+    width: 520px;
+    transform-origin: 803px 4px;
+    border-radius: 10px;
+    flex-direction: column;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 4rem 0;
+    position: relative;
+}
+  
+  .modal {
+    @include flexbox(stretch, space-between);
+    flex-direction: column;
+
+    padding: 24px;
+    font-size: 14px;
+    line-height: 1.5715;
+    word-wrap: break-word;
+  
+    @include tablet {
+      margin: 95px auto;
+    }
+  
+    @include for_mobile {
+      max-width: 335px;
+      width: 100%;
+      margin: 95px 10px;
+    }
+  }
+
+  .create {
+    @include flexbox(center, center);
+  }
+  
+.create_title {
+    font-style: normal;
+    font-weight: bold;
+    line-height: 110%;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: #4f56b5;
+    font-family: $default-font;
+}
+
+.close_btn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    padding: 15px 10px;
+    color: rgba(0,0,0,.45);
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    transition: color .3s;
+}
+
+.create_text{
+    font-size: 1rem;
+    line-height: 1.45;
+    color: #000;
+}
+
+.start_button{
+    min-width: 165px;
+    margin: 20px 0 10px;
+    height: 40px;
+    padding: 6.4px 20px;
+    font-size: 16px;
+    border-radius: 40px;
+    background-color: #4f56b5;
+    color: #fff;
+    border:none;
+    font-weight: 700;
+}

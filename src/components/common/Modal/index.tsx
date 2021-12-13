@@ -12,18 +12,20 @@ import styles from './styles.module.scss';
 ReactModal.setAppElement('#root');
 
 export type ModalComponentProps = { 
-  onCloseModal: () => void 
+  onCloseModal: () => void,
 };
 
 const modalRenderers: Record<ModalType, FC<ModalComponentProps>> = {
   [ModalType.Metamask]: ModalMetamask,
   [ModalType.Network]: ModalNetwork,
-  [ModalType.SelectToken]: ModalContainer,  
+  [ModalType.SelectToken]: ModalContainer,
 };
 
-interface IProps {}
+interface IProps {
+  classNameOverlay?: string,
+}
 
-export const Modal: FC<IProps> = () => {
+export const Modal: FC<IProps> = ({ classNameOverlay }) => {
   const {
     current, active, onCloseModal,
   } = useModal();
@@ -35,7 +37,7 @@ export const Modal: FC<IProps> = () => {
 
     disablePageScroll();
     return () => enablePageScroll();
-  }, [active]);
+  }, [active, current]);
 
   if (!active || !current) {
     return null;
@@ -47,8 +49,8 @@ export const Modal: FC<IProps> = () => {
       className={cx(styles.modal, {
         [styles.modal_token]: !!ModalType.SelectToken,
       })}
-      overlayClassName={styles.modal_overlay}
-      preventScroll
+      overlayClassName={cx(styles.modal_overlay, classNameOverlay)}
+      parentSelector={() => document.querySelector('#content')!}
     >
       {React.createElement(modalRenderers[current], { onCloseModal })}
     </ReactModal>

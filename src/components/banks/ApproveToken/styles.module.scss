@@ -1,0 +1,6 @@
+@import 'assets/styles/_mixins';
+
+.loader{
+  @include not_blur();
+  background-color: #f5f7fa;
+}
