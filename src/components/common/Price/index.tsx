@@ -24,7 +24,7 @@ export default function Price(props: Props) {
 
   React.useEffect(() => {
     getPrice().then((p) => setPrice(p));
-  }, []);
+  });
 
   return (
     <div className={styles.balance_container}>
