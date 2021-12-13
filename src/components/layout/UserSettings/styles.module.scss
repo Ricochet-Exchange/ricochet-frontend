@@ -222,11 +222,9 @@
 
 .connect_wallet {
   @include flexbox(center, center);
-
-  padding: 8px 0 8px 16px;
   font-size: 14px;
   line-height: 17px;
   letter-spacing: -0.01em;
   white-space: nowrap;
-  margin: 0 10px 0 0;
+  margin: 10px;
 }

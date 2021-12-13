@@ -11,7 +11,6 @@ import logo from 'assets/images/logo.png';
 import styles from './styles.module.scss';
 import { SelectLanguage } from '../SelectLanguage';
 import { Routes } from '../../../constants/routes';
-import { modalShow } from '../../../store/modal/actionCreators';
 import { ModalType } from '../../../store/modal/types';
 import { useModal } from '../../../hooks/useModal';
 
