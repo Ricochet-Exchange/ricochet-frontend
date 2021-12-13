@@ -39,14 +39,32 @@ export const CoinRateForm: FC<IProps> = ({
       </div>
       <div className={styles.buttons}>
         <div className={styles.start_wrap}>
-          <ButtonNew color="primary" onClick={onClickStart} className={styles.start} disabled={isLoading} data-tip data-for="depositTooltip">
+          <ButtonNew
+            loaderColor="white"
+            color="primary"
+            onClick={onClickStart}
+            className={styles.start}
+            disabled={isLoading}
+            isLoading={isLoading}
+            data-tip
+            data-for="depositTooltip"
+          >
             {t('Start')}
             /
             {t('Edit')}
           </ButtonNew>
         </div>
         <div className={styles.stop_wrap}>
-          <ButtonNew color="secondary" onClick={onClickStop} className={styles.stop} disabled={isLoading}>{t('Stop')}</ButtonNew>
+          <ButtonNew
+            loaderColor="#363B55"
+            color="secondary"
+            onClick={onClickStop}
+            className={styles.stop}
+            disabled={isLoading}
+            isLoading={isLoading}
+          >
+            {t('Stop')}
+          </ButtonNew>
         </div>
         <div style={{ flexBasis: '100%', height: '0' }}> </div>
 

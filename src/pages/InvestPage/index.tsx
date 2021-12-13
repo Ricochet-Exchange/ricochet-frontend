@@ -16,7 +16,6 @@ const InvestPage: FC<IProps> = () => {
     address,
     balances, 
   } = useShallowSelector(selectMain);
-
   return (
     <MainLayout>
       <div className={styles.header}>

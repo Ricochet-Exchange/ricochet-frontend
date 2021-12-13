@@ -48,7 +48,8 @@ export function* upgradeMainSaga({ payload }: ReturnType<typeof upgradeAction>) 
       superTokenAddress, value,
     } = payload;
     // Superfluid upgrade contract requires the upgrade value to be scaled by 1e18 and not decimals
-    const amount = web3.utils.toWei((Number(value) * 1e18).toString(), 'wei'); 
+    const amount = web3.utils.toWei(value, 'ether');
+
     yield call(upgradeSaga, superTokenAddress, amount);
     payload.callback();
     yield all([

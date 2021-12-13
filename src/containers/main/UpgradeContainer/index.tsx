@@ -43,16 +43,20 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
   }>();
   const [upgradeValue, setUpgradeValue] = useState('');
   const dispatch = useDispatch();
+
   const { language, changeLanguage } = useLang();
   const { t } = useTranslation('main');
+
   const handleVisionModal = (coinType: Coin) => {
     dispatch(showTokenList(coinType));
   };
+
   const callback = (e?: string) => {
     if (e) {
       showErrorToast(e, 'Error');
     }
   };
+
   useEffect(() => {
     const coin = downgradeTokensList.find((el) => el.coin === selectedDowngradeCoin);
     if (coin) {
@@ -64,15 +68,18 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
       setDowngradeCoin(coin.coin);
     }
   }, [selectedDowngradeCoin]);
+
   const handleDowngradeValue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setDownGradeValue(e.target.value);
   }, []);
+
   const handleDowngrade = useCallback(() => {
     if (Number(downgradeValue) <= 0 || (balances && Number(balances[downgradeAddress]) === 0)) {
       return;
     }
     dispatch(downgradeAction(downgradeValue, downgradeAddress, callback));
   }, [dispatch, downgradeAddress, downgradeValue, balances]);
+
   useEffect(() => {
     const coin = upgradeTokensList.find((el) => el.coin === selectedUpgradeCoin);
     if (coin) {
@@ -80,9 +87,11 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
       setUpgradeCoin(coin.coin);
     }
   }, [selectedUpgradeCoin]);
+
   const handleUpgradeValue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setUpgradeValue(e.target.value);
   }, []);
+
   const handleUpgrade = useCallback(() => {
     if (Number(upgradeValue) < 0 || 
     (balances && upgradeConfig && Number(balances[upgradeConfig.tokenAddress]) === 0)) {
@@ -113,14 +122,19 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
       ));
     }
   }, [upgradeValue, balances, upgradeConfig]);
+
   const handleMaxUpgrade = () => {
     if (!balances || !upgradeConfig) return;
+
     setUpgradeValue(balances[upgradeConfig.tokenAddress]);
   };
+
   const handleMaxDowngrade = () => {
     if (!balances || !downgradeAddress) return;
+
     setDownGradeValue(balances[downgradeAddress]);
   };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -143,7 +157,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
             showWarningToolTip={false}
             onSelectToken={handleVisionModal}
             isLoading={isLoading || isLoadingUpgrade}
-            disabledApprove={upgradeConfig && state[upgradeConfig?.key]}
+            disabledApprove={isLoading || (upgradeConfig && state[upgradeConfig?.key])}
           />
         </div>
         <div className={styles.downgrade}>
@@ -159,7 +173,6 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
             placeholder={t('Input Amount')} 
             value={downgradeValue}
             isUpgrade={false}
-            showWarningToolTip={showWarningToolTip}
             onSelectToken={handleVisionModal}
             isLoading={isLoading || isLoadingDowngrade}
           />
