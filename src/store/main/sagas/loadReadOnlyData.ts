@@ -13,6 +13,6 @@ export function* loadReadOnlyData() {
     }));
   } catch (e) {
     if (process.env.REACT_APP_API_NODE_URL) yield put(mainGetReadOnlyData());
-    else console.error('Missing mandatory environment variable REACT_APP_API_NODE_URL, ', e);
-  } 
+    else throw new Error(`Missing mandatory environment variable REACT_APP_API_NODE_URL. Error: ${e?.message}`);
+  }
 }
