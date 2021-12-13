@@ -15,4 +15,6 @@ build.tar.gz
 build
 .vscode
 
+.env.local
 .env
+
