@@ -575,7 +575,7 @@ export const getBankData = async (
     .getReserveCollateralBalance()
     .call();
 
-  return [{
+  return {
     bankAddress,
     vault,
     debtToken,
@@ -587,7 +587,7 @@ export const getBankData = async (
     reserveBalance,
     reserveCollateralBalance,
     name,
-  }];
+  };
 };
 
 export const makeDeposit = async (

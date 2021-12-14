@@ -14,13 +14,21 @@ import Icons from 'assets/icons/Icons';
 import { SignInButton } from 'components/banks/SignInButton';
 import { LoadingWrapper } from 'components/common/LoadingWrapper';
 import { VaultDetails } from 'components/banks/VaultDetails';
+import { useDispatch } from 'react-redux';
+import { banksGetData } from 'store/banks/actionCreators';
 
 export const VaultsContainer = () => {
+  const dispatch = useDispatch();
+
   const { banks } = useShallowSelector(selectBanks);
   const { address: accountAddress, isLoading } = useShallowSelector(selectMain);
   const [hasVault, setHasVault] = useState(false);
   const [activeTransaction, setActiveTransaction] = useState('');
   const [transactionHash, setTransactionHash] = useState('');
+
+  useEffect(() => {
+    if (!banks[0]) dispatch(banksGetData());
+  }, [banks]);
 
   const handleOnClick = useCallback((e: MouseEvent) => {
     e.preventDefault();

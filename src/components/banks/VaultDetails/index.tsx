@@ -115,7 +115,9 @@ export const VaultDetails: FC<Props> = ({
           <div className="VaultDetail">
             <p>Available to borrow</p>
             <h3>
-              {vaultCalcValues.borrowAvailable.toFixed(4)}
+              {vaultCalcValues.borrowAvailable > +bank.reserveBalance ?
+                (+bank.reserveBalance / 1e18).toFixed()
+                : vaultCalcValues.borrowAvailable.toFixed(4)}
               {' '}
               {bank.debtToken.symbol}
             </h3>

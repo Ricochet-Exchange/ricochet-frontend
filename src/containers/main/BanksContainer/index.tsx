@@ -1,6 +1,5 @@
 import React, {
-  useCallback,
-  useState,
+  useEffect,
 } from 'react';
 import { BankDetails } from 'components/banks/BankDetails';
 import { LoadingWrapper } from 'components/common/LoadingWrapper';
@@ -8,19 +7,18 @@ import { selectMain } from 'store/main/selectors';
 import { selectBanks } from 'store/banks/selectors';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { BankType } from 'store/banks/types';
+import { useDispatch } from 'react-redux';
+import { banksGetData } from 'store/banks/actionCreators';
 import './styles.scss';
 
 export const BanksContainer = () => {
+  const dispatch = useDispatch();
   const { banks } = useShallowSelector(selectBanks);
   const { address: accountAddress, isLoading } = useShallowSelector(selectMain);
-  const [visibleModal, setVisibleModal] = useState(false);
-  const handleOnCloseModal = useCallback(() => {
-    setVisibleModal(false);
-  }, [setVisibleModal]);
 
-  const handleVisionModal = () => {
-    setVisibleModal(true);
-  };
+  useEffect(() => {
+    if (!banks[0]) dispatch(banksGetData());
+  }, [banks]);
 
   const renderBanks = () => (
     banks.map((bank: BankType) => (
@@ -28,9 +26,6 @@ export const BanksContainer = () => {
         key={bank.bankAddress}
         bank={bank}
         accountAddress={accountAddress}
-        visibleModal={visibleModal}
-        onCreateVault={handleVisionModal}
-        onCloseModal={handleOnCloseModal}
       />
     ))
   );

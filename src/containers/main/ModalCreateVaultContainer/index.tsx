@@ -78,6 +78,11 @@ export const ModalCreateVaultContainer: FC<Props> = ({
     ));
   }, [dispatch, bank]);
 
+  const handleOnCloseModal = useCallback(() => {
+    onCloseModal();
+    setError('');
+  }, [onCloseModal, setError]);
+
   return (
     <ModalCreateVault
       bank={bank}
@@ -93,7 +98,7 @@ export const ModalCreateVaultContainer: FC<Props> = ({
       onSubmit={handlerOnSubmit}
       onStartClick={handleOnStartClick}
       onApproveClick={handleApproveToken}
-      onCloseModal={onCloseModal}
+      onCloseModal={handleOnCloseModal}
     />
   );
 };

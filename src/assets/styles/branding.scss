@@ -1,14 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
 @mixin purplebg {
-    background-color: var(--color-purple);
+    background: linear-gradient(
+        180deg,#294661,#678eb5);
 }
 @mixin greybg {
-    background: url(../src/images/bg_grey.png);
+    background: var(--color-blue-dark)
 }
 
 @mixin font {
     font-family: 'DM Sans', sans-serif;
 }
+
+:root {
+    --color-primary: #55B88D;
+    --color-secondary: #363b55;
+    --color-white: #ffffff;
+    --color-error: #CC193E;
+    --color-black: #222638;
+    --color-blue-dark: #2775CA; // used
+    --color-blue: #678EB5; // used
+    --color-blue-light: #EDF3FB; //used
+    --color-yellow: #F7B91A;
+    --color-black-dark: #222529;
+    --color-grey: #7D8581;
+    --color-middle: #6F767E;
+    --color-white-dark: #EDF3FB; // used
+  }
 
 @mixin box {
     box-sizing: border-box;
@@ -30,8 +47,8 @@
 $notwhitetxt: #B1B7DD;
 $lightgrey: #F5F7FA;
 $mediumgrey: #a0a0a0;
-$purple: #4F56B5;
-$extrapurple: #4d55bf;
+$purple: var(--color-blue);
+$extrapurple: var(--color-blue-dark);
 $textgrey: #848484;
 $tellorgreen: #69EAAE;
 
