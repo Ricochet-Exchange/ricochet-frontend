@@ -31,6 +31,7 @@ interface IProps {
   personalFlow?: string;
   mainLoading?: boolean;
   flowType: FlowTypes,
+  isReadOnly?:boolean,
 }
 
 export const PanelChange: FC<IProps> = ({
@@ -47,7 +48,7 @@ export const PanelChange: FC<IProps> = ({
   subsidyRate,
   personalFlow,
   mainLoading = false,
-  flowType,
+  flowType, isReadOnly,
 }) => {
   const [inputShow, setInputShow] = useState(false);
   const [value, setValue] = useState('');
@@ -199,6 +200,7 @@ export const PanelChange: FC<IProps> = ({
             onClickStop={handleStop}
             coin={coinA}
             isLoading={isLoading}
+            isReadOnly={isReadOnly}
           />
         </div>
         ) }
@@ -212,6 +214,7 @@ export const PanelChange: FC<IProps> = ({
               onClickStop={handleStop}
               coin={coinA}
               isLoading={isLoading}
+              isReadOnly={isReadOnly}
             />
           </div>
         )}

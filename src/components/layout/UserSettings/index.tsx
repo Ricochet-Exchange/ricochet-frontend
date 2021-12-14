@@ -1,6 +1,4 @@
-import React, {
-  FC,
-} from 'react';
+import React, { FC } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { Dropdown } from 'components/common/Dropdown';
 import { LocaleKey, localeNames } from 'i18n/utils';
@@ -13,6 +11,8 @@ import logo from 'assets/images/logo.png';
 import styles from './styles.module.scss';
 import { SelectLanguage } from '../SelectLanguage';
 import { Routes } from '../../../constants/routes';
+import { ModalType } from '../../../store/modal/types';
+import { useModal } from '../../../hooks/useModal';
 
 interface IProps {
   account: string;
@@ -20,30 +20,45 @@ interface IProps {
   language: LocaleKey,
   className?: string,
   onSelectLanguage: (value: LocaleKey) => void,
+  isReadOnly?:boolean,
 }
 
 export const UserSettings: FC<IProps> = ({
-  onSelectLanguage, ricBalance = '', account, language, className,
+  isReadOnly, onSelectLanguage, ricBalance = '', account, language, className,
 }) => {
   const history = useHistory();
+  const { showModal } = useModal();
   const handleFundButton = () => invokeRamp({
     hostLogoUrl: `${window.location.origin}${logo}`,
     userAddress: account,
   }, () => { history.push(Routes.Wallet); });
+
   const { t } = useTranslation('main');
+  const isConnecting = account === 'Connecting';
   return (
     <div className={styles.user_settings}>
+      {!isReadOnly && (
       <ButtonNew className={styles.balance_panel}>
-        <div className={styles.balance}>{`${numFormatter(parseFloat(ricBalance))} RIC`}</div>
-        <div className={styles.address}>{account.substring(0, 6)}</div>
+        <div
+          className={styles.balance}
+        >
+          {!isConnecting && ricBalance && `${numFormatter(parseFloat(ricBalance))} RIC`}
+        </div>
+        <div className={styles.address}>{isConnecting ? account : account.substring(0, 6)}</div>
         <div className={styles.icon_wrap}>
           <FontIcon className={styles.icon} name={FontIconName.RicoUser} size={16} />
         </div>
       </ButtonNew>
-      {account !== 'Connecting' && (
-      <ButtonNew className={styles.fund_panel} onClick={handleFundButton}>
-        <div className={styles.fund_inner}>{t('Fund Wallet')}</div>
+      )}
+      {isReadOnly && (
+      <ButtonNew className={styles.balance_panel} onClick={showModal(ModalType.Metamask)}>
+        <div className={styles.connect_wallet}>{t('Connect Wallet')}</div>
       </ButtonNew>
+      )}
+      {!isConnecting && (
+        <ButtonNew disabled={isReadOnly} className={styles.fund_panel} onClick={handleFundButton}>
+          <div className={styles.fund_inner}>{t('Fund Wallet')}</div>
+        </ButtonNew>
       )}
       <div className={styles.language_wrap}>
         <Dropdown

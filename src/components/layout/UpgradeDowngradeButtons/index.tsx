@@ -13,6 +13,7 @@ interface IProps {
   isLoading?: boolean;
   disabledApprove?: boolean;
   showWarningToolTip?:boolean;
+  isReadOnly?:boolean,
 }
 
 export const UpgradeDowngradeButtons: FC<IProps> = ({
@@ -23,50 +24,35 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
   onClickApprove = () => {},
   onClickUpgrade = () => {},
   onClickDowngrade = () => {},
-}) => {
-  console.log('here', disabledApprove, isUpgrade);
-  return (
-    <div>
-      {isUpgrade
-        ? (
-          <div className={styles.buttons_upgrade}>
-            <div className={styles.approve_wrap}>
-              <ButtonNew
-                color="secondary"
-                loaderColor="#363B55"
-                disabled={!disabledApprove}
-                isLoading={isLoading}
-                onClick={onClickApprove}
-                className={styles.approve}
-              >
-                Approve
-              </ButtonNew>
-            </div>
-            <div className={styles.upgrade_wrap}>
-              <ButtonNew
-                color="primary"
-                loaderColor="white"
-                disabled={isLoading}
-                isLoading={isLoading}
-                onClick={onClickUpgrade}
-                className={styles.upgrade}
-              >
-                Upgrade
-              </ButtonNew>
-            </div>
+  isReadOnly,
+}) => (
+  <div>
+    {isUpgrade 
+      ? (
+        <div className={styles.buttons_upgrade}>
+          <div className={styles.approve_wrap}>
+            <ButtonNew
+              color="secondary"
+              loaderColor="#363B55"
+              disabled={isReadOnly || !disabledApprove}
+              isLoading={isLoading}
+              onClick={onClickApprove}
+              className={styles.approve}
+            >
+              Approve
+
+            </ButtonNew>
           </div>
-        )
-        : (
-          <div className={styles.downgrade_wrap}>
+          <div className={styles.upgrade_wrap}>
             <ButtonNew
               data-tip
               data-for="downgradeToolTip"
               color="primary"
               loaderColor="white"
-              disabled={isLoading}
+              disabled={isReadOnly || isLoading}
               isLoading={isLoading}
-              onClick={onClickDowngrade}
-              className={styles.downgrade}
+              onClick={onClickUpgrade}
+              className={styles.upgrade}
             >
               {showWarningToolTip ? 'Downgrade ⚠️' : 'Downgrade'}
             </ButtonNew>
@@ -87,7 +73,21 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
             </ReactTooltip>
             )}
           </div>
-        )}
-    </div>
-  );
-};
+        </div>
+      )
+      : (
+        <div className={styles.downgrade_wrap}>
+          <ButtonNew
+            color="primary"
+            loaderColor="white"
+            disabled={isReadOnly || isLoading}
+            isLoading={isLoading}
+            onClick={onClickDowngrade}
+            className={styles.downgrade}
+          >
+            Downgrade
+          </ButtonNew>
+        </div>
+      )}
+  </div>
+);
