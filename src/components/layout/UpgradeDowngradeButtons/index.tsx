@@ -54,30 +54,16 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
               onClick={onClickUpgrade}
               className={styles.upgrade}
             >
-              {showWarningToolTip ? 'Downgrade ⚠️' : 'Downgrade'}
+              Upgrade
             </ButtonNew>
-            {showWarningToolTip && (
-            <ReactTooltip
-              id="downgradeToolTip"
-              place="right"
-              effect="solid"
-              className={styles.downgrade_wrap}
-              multiline
-            >
-              <span
-                className={styles.downgrade_wrap_span}
-              >
-                Downgrading your tokens could lead to the ongoing stream running out of funds
-                and you losing your deposit!
-              </span>
-            </ReactTooltip>
-            )}
           </div>
         </div>
       )
       : (
         <div className={styles.downgrade_wrap}>
           <ButtonNew
+            data-tip
+            data-for="downgradeTooltip"
             color="primary"
             loaderColor="white"
             disabled={isReadOnly || isLoading}
@@ -85,8 +71,24 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
             onClick={onClickDowngrade}
             className={styles.downgrade}
           >
-            Downgrade
+            {showWarningToolTip ? 'Downgrade ⚠️' : 'Downgrade'}
           </ButtonNew>
+          {showWarningToolTip && (
+              <ReactTooltip
+                  id="downgradeTooltip"
+                  place="right"
+                  effect="solid"
+                  className={styles.downgrade_wrap}
+                  multiline
+              >
+              <span
+                  className={styles.downgrade_wrap_span}
+              >
+                Downgrading your tokens could lead to the ongoing stream running out of funds
+                and you losing your deposit!
+              </span>
+              </ReactTooltip>
+          )}
         </div>
       )}
   </div>
