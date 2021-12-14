@@ -1,4 +1,5 @@
 import { call, put } from 'redux-saga/effects';
+import { banksGetData } from 'store/banks/actionCreators';
 import { modalHide, modalShow } from 'store/modal/actionCreators';
 import { ModalType } from 'store/modal/types';
 import { mainCheck, mainGetData, mainGetReadOnlyData } from '../actionCreators';
@@ -16,6 +17,7 @@ export function* mainCheckSaga() {
       if (chainId === Number(process.env.REACT_APP_CHAIN_ID)) {
         yield put(modalHide());
         yield put(mainGetData());
+        yield put(banksGetData());
       } else {
         // run modal switch network
         yield put(modalShow(ModalType.Network));
