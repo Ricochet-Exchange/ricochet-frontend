@@ -27,7 +27,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
   const state = useShallowSelector(selectMain);
   const {
     balances, isLoading, isLoadingDowngrade, 
-    isLoadingUpgrade, selectedDowngradeCoin, selectedUpgradeCoin,
+    isLoadingUpgrade, selectedDowngradeCoin, selectedUpgradeCoin, isReadOnly,
   } = state;
   
   const [downgradeCoin, setDowngradeCoin] = useState(selectedDowngradeCoin);
@@ -127,10 +127,9 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
 
   const handleMaxDowngrade = () => {
     if (!balances || !downgradeAddress) return;
+
     setDownGradeValue(balances[downgradeAddress]);
   };
-
-  console.log(upgradeConfig?.key, state[upgradeConfig?.key!]);
 
   return (
     <div className={styles.wrapper}>
@@ -154,6 +153,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
             onSelectToken={handleVisionModal}
             isLoading={isLoading || isLoadingUpgrade}
             disabledApprove={isLoading || (upgradeConfig && state[upgradeConfig?.key])}
+            isReadOnly={isReadOnly}
           />
         </div>
         <div className={styles.downgrade}>
@@ -171,6 +171,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
             isUpgrade={false}
             onSelectToken={handleVisionModal}
             isLoading={isLoading || isLoadingDowngrade}
+            isReadOnly={isReadOnly}
           />
         </div>
         <div className={styles.settings_mob}>
@@ -180,6 +181,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
             className={styles.dot}
             ricBalance={balance}
             account={address}
+            isReadOnly={isReadOnly}
           />
         </div>
       </div>

@@ -14,3 +14,7 @@ yarn-error.log
 build.tar.gz
 build
 .vscode
+
+.env.local
+.env
+

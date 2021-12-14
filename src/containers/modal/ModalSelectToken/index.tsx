@@ -72,7 +72,10 @@ export const ModalSelectToken: FC<IProps> = ({
                   {filteredList.map(({ coin, tokenAddress }) => (
                     <div key={coin} className={styles.row_wrap}>
               
-                      <ButtonNew className={styles.coin_wrap} onClick={() => onSelectCoin(coin)}>
+                      <ButtonNew
+                        className={styles.coin_wrap}
+                        onClick={() => onSelectCoin(coin)}
+                      >
                         <img src={iconsCoin[coin]} alt={coin} />
                         <div className={styles.coin_name_wrap}>
                           <div className={styles.coin_name}>

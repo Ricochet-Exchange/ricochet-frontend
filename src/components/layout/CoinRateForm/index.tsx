@@ -17,10 +17,11 @@ interface IProps {
   onClickStop: () => void,
   coin: Coin;
   isLoading?: boolean;
+  isReadOnly?:boolean;
 }
 
 export const CoinRateForm: FC<IProps> = ({
-  value, onChange, onClickStart, onClickStop, placeholder, coin, isLoading,
+  value, onChange, onClickStart, onClickStop, placeholder, coin, isLoading, isReadOnly,
 }) => {
   const { t } = useTranslation('main');
   // Security Deposit is 4 hours worth of stream, so (4*60*60)/(30*24*60*60) = 1/180
@@ -44,7 +45,7 @@ export const CoinRateForm: FC<IProps> = ({
             color="primary"
             onClick={onClickStart}
             className={styles.start}
-            disabled={isLoading}
+            disabled={isReadOnly || isLoading}
             isLoading={isLoading}
             data-tip
             data-for="depositTooltip"
@@ -60,7 +61,7 @@ export const CoinRateForm: FC<IProps> = ({
             color="secondary"
             onClick={onClickStop}
             className={styles.stop}
-            disabled={isLoading}
+            disabled={isReadOnly || isLoading}
             isLoading={isLoading}
           >
             {t('Stop')}

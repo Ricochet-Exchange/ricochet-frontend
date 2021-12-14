@@ -12,6 +12,7 @@ export interface TextInputProps extends HTMLProps<HTMLInputElement> {
   containerClassName?: string;
   onClickMax?: () => void;
   isLoading?: boolean;
+  isReadOnly?:boolean,
 }
 
 const IconRenderer: FC<{ error?: boolean }> = ({ children, error }) =>
@@ -35,6 +36,7 @@ const TextInput: FC<TextInputProps> = ({
   className,
   onClickMax,
   isLoading,
+  isReadOnly,
   ...props
 }) => (
   <TextInputWrap error={hasError} className={containerClassName}>
@@ -50,7 +52,7 @@ const TextInput: FC<TextInputProps> = ({
     <div className={styles.max_wrap}>
       <ButtonNew
         color="secondary"
-        disabled={isLoading}
+        disabled={isReadOnly || isLoading}
         isLoading={isLoading}
         onClick={onClickMax}
         className={styles.max}

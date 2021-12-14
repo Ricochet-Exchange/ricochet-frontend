@@ -1,5 +1,5 @@
 import React, {
-  ChangeEvent, useCallback, useState, useEffect, 
+  ChangeEvent, useCallback, useState, useEffect,
 } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import {
@@ -31,21 +31,23 @@ interface IProps {}
 export const InvestContainer :React.FC<IProps> = () => {
   const { language, changeLanguage, t } = useLang();
   const state = useShallowSelector(selectMain);
+  const {
+    address, balances, isLoading, isReadOnly,
+  } = state;
   const userStreams = useShallowSelector(selectUserStreams);
-  const { address, balances, isLoading } = state;
   const dispatch = useDispatch();
   const [search, setSearch] = useState('');
   const [filteredList, setFilteredList] = useState(flowConfig);
   const match = useRouteMatch();
   const flowType = RoutesToFlowTypes[match.path];
-  
+
   useEffect(() => {
     if (flowType) {
       setFilteredList(flowConfig.filter((each) => each.type === flowType));
     } else {
       const sortedUserStreams = userStreams.sort(
         (a, b) => {
-          const flowA = parseFloat(state[a.flowKey]?.placeholder || '0'); 
+          const flowA = parseFloat(state[a.flowKey]?.placeholder || '0');
           const flowB = parseFloat(state[b.flowKey]?.placeholder || '0');
           return flowB - flowA;
         },
@@ -133,6 +135,7 @@ export const InvestContainer :React.FC<IProps> = () => {
                 personalFlow={state[element.flowKey]?.placeholder}
                 mainLoading={isLoading}
                 flowType={element.type}
+                isReadOnly={state.isReadOnly}
               />
             </div>
           ))}
@@ -143,6 +146,7 @@ export const InvestContainer :React.FC<IProps> = () => {
               className={styles.dot}
               ricBalance={balances && balances[RICAddress]}
               account={address || 'Connecting'}
+              isReadOnly={isReadOnly}
             />
           </div>
         </div>
