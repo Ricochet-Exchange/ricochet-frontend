@@ -23,8 +23,8 @@ interface IProps {
   isLoading?: boolean;
   isReadOnly?:boolean,
   disabledApprove?:boolean;
+  showWarningToolTip?:boolean;
 }
-
 export const UpgradePanel: FC<IProps> = ({
   balance = '',
   nameCoin,
@@ -39,6 +39,7 @@ export const UpgradePanel: FC<IProps> = ({
   onClickMax,
   value,
   isUpgrade,
+  showWarningToolTip,
   onSelectToken,
 }) => (
   <section className={styles.panel_mob}>
@@ -73,6 +74,7 @@ export const UpgradePanel: FC<IProps> = ({
             onClickDowngrade={onClickDowngrade}
             isUpgrade={isUpgrade}
             isLoading={isLoading}
+            showWarningToolTip={showWarningToolTip}
             disabledApprove={disabledApprove}
             isReadOnly={isReadOnly}
 
@@ -86,6 +88,7 @@ export const UpgradePanel: FC<IProps> = ({
         onClickUpgrade={onClickUpgrade}
         onClickDowngrade={onClickDowngrade}
         isUpgrade={isUpgrade}
+        showWarningToolTip={showWarningToolTip}
         isLoading={isLoading}
         isReadOnly={isReadOnly}
       />
