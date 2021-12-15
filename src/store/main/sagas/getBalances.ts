@@ -1,7 +1,8 @@
 import { put, call } from 'redux-saga/effects';
 import { fromWei } from 'utils/balances';
 import {
-  SLPxAddress,
+  rexLPETHAddress,
+  rexLPIDLEAddress,
   USDCxAddress,
   USDCAddress,
   DAIxAddress,
@@ -16,6 +17,8 @@ import {
   WETHAddress,
   WBTCxAddress,
   WBTCAddress,
+  IDLExAddress,
+  IDLEAddress,
   RICAddress,
 } from 'constants/polygon_config';
 import { getContract } from 'utils/getContract';
@@ -33,7 +36,9 @@ export function* getBalances(address: string) {
     USDCxAddress, USDCAddress,
     WETHxAddress, WETHAddress,
     WBTCxAddress, WBTCAddress,
-    RICAddress, SLPxAddress];
+    IDLExAddress, IDLEAddress,
+    RICAddress, rexLPETHAddress, rexLPIDLEAddress,
+  ];
   const contracts = contractsAddress.map((el) => getContract(el, erc20ABI));
   const requests = contracts.map((el) => el.methods.balanceOf(address).call);
   const results: string[] = yield call(makeBatchRequest, requests);

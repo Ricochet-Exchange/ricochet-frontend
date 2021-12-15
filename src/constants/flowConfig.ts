@@ -20,11 +20,15 @@ import {
   ethxDaixExchangeAddress,
   daixMaticxExchangeAddress,
   MATICxAddress,
+  IDLExAddress,
   maticxDaixExchangeAddress,
   usdcxMaticxExchangeAddress,
   maticxUsdcxExchangeAddress,
-  SLPxAddress,
-  usdcxSlpxExchangeAddress,
+  usdcxIdleExchangeAddress,
+  usdcxEthSlpxExchangeAddress,
+  usdcxIdleSlpxExchangeAddress,
+  rexLPETHAddress,
+  rexLPIDLEAddress,
 } from './polygon_config';
 
 export enum FlowEnum {
@@ -43,7 +47,9 @@ export enum FlowEnum {
   wethUsdcFlowQuery = 'wethUsdcFlowQuery',
   wbtcUsdcFlowQuery = 'wbtcUsdcFlowQuery',
   usdcRicFlowQuery = 'usdcRicFlowQuery',
-  usdcSlpFlowQuery = 'usdcSlpFlowQuery',
+  usdcSlpEthFlowQuery = 'usdcSlpEthFlowQuery',
+  usdcSlpIdleFlowQuery = 'usdcSlpIdleFlowQuery',
+  usdcIdleFlowQuery = 'usdcIdleFlowQuery',
 }
 
 export enum FlowTypes {
@@ -63,6 +69,15 @@ export type InvestmentFlow = {
 };
 
 const markets: InvestmentFlow[] = [
+  {
+    superToken: usdcxIdleExchangeAddress,
+    tokenA: USDCxAddress,
+    tokenB: IDLExAddress,
+    coinA: Coin.USDC,
+    coinB: Coin.IDLE,
+    flowKey: FlowEnum.usdcIdleFlowQuery,
+    type: FlowTypes.market,
+  },
   {
     superToken: usdcxWethxExchangeAddress,
     tokenA: USDCxAddress,
@@ -193,12 +208,21 @@ const markets: InvestmentFlow[] = [
 
 const liquidityMarkets: InvestmentFlow[] = [
   {
-    superToken: usdcxSlpxExchangeAddress,
+    superToken: usdcxEthSlpxExchangeAddress,
     tokenA: USDCxAddress,
-    tokenB: SLPxAddress,
+    tokenB: rexLPETHAddress,
     coinA: Coin.USDC,
     coinB: Coin.SLP,
-    flowKey: FlowEnum.usdcSlpFlowQuery,
+    flowKey: FlowEnum.usdcSlpEthFlowQuery,
+    type: FlowTypes.sushiLP,
+  },
+  {
+    superToken: usdcxIdleSlpxExchangeAddress,
+    tokenA: USDCxAddress,
+    tokenB: rexLPIDLEAddress,
+    coinA: Coin.USDC,
+    coinB: Coin.rexLPIdle,
+    flowKey: FlowEnum.usdcSlpIdleFlowQuery,
     type: FlowTypes.sushiLP,
   },
 ];

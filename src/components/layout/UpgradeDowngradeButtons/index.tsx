@@ -1,7 +1,6 @@
 import React, {
   FC,
 } from 'react';
-import ReactTooltip from 'react-tooltip';
 import styles from './styles.module.scss';
 import ButtonNew from '../../common/ButtonNew';
 
@@ -20,14 +19,13 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
   isUpgrade,
   isLoading,
   disabledApprove,
-  showWarningToolTip,
   onClickApprove = () => {},
   onClickUpgrade = () => {},
   onClickDowngrade = () => {},
   isReadOnly,
 }) => (
   <div>
-    {isUpgrade 
+    {isUpgrade
       ? (
         <div className={styles.buttons_upgrade}>
           <div className={styles.approve_wrap}>
@@ -71,24 +69,8 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
             onClick={onClickDowngrade}
             className={styles.downgrade}
           >
-            {showWarningToolTip ? 'Downgrade ⚠️' : 'Downgrade'}
+            Downgrade
           </ButtonNew>
-          {showWarningToolTip && (
-              <ReactTooltip
-                  id="downgradeTooltip"
-                  place="right"
-                  effect="solid"
-                  className={styles.downgrade_wrap}
-                  multiline
-              >
-              <span
-                  className={styles.downgrade_wrap_span}
-              >
-                Downgrading your tokens could lead to the ongoing stream running out of funds
-                and you losing your deposit!
-              </span>
-              </ReactTooltip>
-          )}
         </div>
       )}
   </div>

@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  approveAction, downgradeAction, showTokenList, upgradeAction, 
+  approveAction, downgradeAction, showTokenList, upgradeAction,
 } from 'store/main/actionCreators';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
@@ -26,7 +26,7 @@ interface IProps {
 export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
   const state = useShallowSelector(selectMain);
   const {
-    balances, isLoading, isLoadingDowngrade, 
+    balances, isLoading, isLoadingDowngrade,
     isLoadingUpgrade, selectedDowngradeCoin, selectedUpgradeCoin, isReadOnly,
   } = state;
   const [showWarningToolTip, setShowWarningToolTip] = useState(false);
@@ -34,12 +34,12 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
   const [downgradeAddress, setDowngradeAddress] = useState('');
   const [downgradeValue, setDownGradeValue] = useState('');
   const [upgradeCoin, setUpgradeCoin] = useState(selectedUpgradeCoin);
-  const [upgradeConfig, setUpgradeConfig] = useState<{  
+  const [upgradeConfig, setUpgradeConfig] = useState<{
     coin: Coin,
     tokenAddress: string,
     superTokenAddress: string,
     multi: number,
-    key: 'hasWethApprove' | 'hasUsdcApprove' | 'hasWbtcApprove' | 'hasDaiApprove' | 'hasMkrApprove' | 'hasMaticApprove' | 'hasSushiApprove',
+    key: 'hasWethApprove' | 'hasUsdcApprove' | 'hasWbtcApprove' | 'hasDaiApprove' | 'hasMkrApprove' | 'hasMaticApprove' | 'hasSushiApprove' | 'hasIdleApprove',
   }>();
   const [upgradeValue, setUpgradeValue] = useState('');
   const dispatch = useDispatch();
@@ -93,7 +93,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
   }, []);
 
   const handleUpgrade = useCallback(() => {
-    if (Number(upgradeValue) < 0 || 
+    if (Number(upgradeValue) < 0 ||
     (balances && upgradeConfig && Number(balances[upgradeConfig.tokenAddress]) === 0)) {
       return;
     }
@@ -106,9 +106,9 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
       ));
     }
   }, [dispatch, upgradeConfig, upgradeValue, balances]);
-  
+
   const handleApprove = useCallback(() => {
-    if (Number(upgradeValue) < 0 || 
+    if (Number(upgradeValue) < 0 ||
     (balances && upgradeConfig && Number(balances[upgradeConfig.tokenAddress]) === 0)) {
       return;
     }
@@ -144,9 +144,9 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
           </div>
           <UpgradePanel
             placeholder={t('Input Amount')}
-            balance={balances && 
+            balance={balances &&
               upgradeConfig &&
-               (+balances[upgradeConfig?.tokenAddress]).toFixed(6)} 
+               (+balances[upgradeConfig?.tokenAddress]).toFixed(6)}
             nameCoin={upgradeCoin}
             onChange={handleUpgradeValue}
             onClickApprove={handleApprove}
@@ -165,13 +165,13 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
           <div className={styles.header_downgrade}>
             {t('Downgrade')}
           </div>
-          <UpgradePanel 
-            balance={balances && (+balances[downgradeAddress]).toFixed(6)} 
+          <UpgradePanel
+            balance={balances && (+balances[downgradeAddress]).toFixed(6)}
             nameCoin={downgradeCoin}
             onChange={handleDowngradeValue}
             onClickDowngrade={handleDowngrade}
             onClickMax={handleMaxDowngrade}
-            placeholder={t('Input Amount')} 
+            placeholder={t('Input Amount')}
             value={downgradeValue}
             isUpgrade={false}
             onSelectToken={handleVisionModal}
@@ -183,7 +183,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
         <div className={styles.settings_mob}>
           <UserSettings
             onSelectLanguage={changeLanguage}
-            language={language} 
+            language={language}
             className={styles.dot}
             ricBalance={balance}
             account={address}

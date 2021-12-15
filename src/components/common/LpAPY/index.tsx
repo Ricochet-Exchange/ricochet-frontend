@@ -7,13 +7,14 @@ import styles from './styles.module.scss';
 // Get SUSHI APY
 // Rewards APY
 const rewardsUrl = 'https://api.thegraph.com/subgraphs/name/sushiswap/matic-minichef'; // https://thegraph.com/hosted-service/subgraph/sushiswap/matic-minichef
-const rewardsQuery = `
-  { # or pool(id: 1) which is usdc/weth
+function rewardsQuery(contractAddress: string, pid: number) {
+  return `
+  { # or pool(id: ${pid}) which is usdc/weth
     pools(
       first: 5
       where: {
         pair_in: [
-          "0x34965ba0ac2451a34a0471f04cca3f990b8dea27" # USDC/WETH on polygon
+          "${contractAddress}" # USDC/WETH on polygon
         ]
       }
     ) {
@@ -36,34 +37,52 @@ const rewardsQuery = `
     }
   }
   `;
+}
 
 // Fees APY
 const feesUrl = 'https://api.thegraph.com/subgraphs/name/sushiswap/matic-exchange'; // https://thegraph.com/hosted-service/subgraph/sushiswap/matic-exchange
-const feesQuery = `
-{
-    pair(
-      id: "0x34965ba0ac2451a34a0471f04cca3f990b8dea27"
-    ) {
-      id
-      liquidityProviderCount
-      dayData (
-        orderBy: date
-        orderDirection: desc
-        first: 365
+function feesQuery(contractAddress: string) {
+  return `
+  {
+      pair(
+        id: "${contractAddress}"
       ) {
-        volumeUSD
-        reserveUSD
-        date
+        id
+        liquidityProviderCount
+        dayData (
+          orderBy: date
+          orderDirection: desc
+          first: 365
+        ) {
+          volumeUSD
+          reserveUSD
+          date
+        }
       }
-    }
+  }
+  `;
 }
-`;
 // Get coingecko price feed
 const coingeckoUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=matic-network%2Csushi&vs_currencies=usd';
 
-const retrieveAPY = async (): Promise<{ apy: number, rewardsApy: number, feesApy: number }> => {
+const retrieveAPY = async (contractAddress: string): Promise<{
+  apy: number, rewardsApy: number, feesApy: number }> => {
+  let addr = '';
+  let pid = 1;
+  if (contractAddress === '0xeb367F6a0DDd531666D778BC096d212a235a6f78') {
+    addr = '0x34965ba0ac2451a34a0471f04cca3f990b8dea27';
+    pid = 1;
+  } else if (contractAddress === '0x0cb9cd99dbC614d9a0B31c9014185DfbBe392eb5') {
+    addr = '0x5518a3af961eee8771657050c5cb23d2b3e2f6ee';
+    pid = 44;
+  } else {
+    addr = '';
+    pid = 0;
+  }
+
   // Retrieve feesAPY
-  const feesResp = await axios.post(feesUrl, { query: feesQuery });
+  console.log(feesQuery(addr));
+  const feesResp = await axios.post(feesUrl, { query: feesQuery(addr) });
   const { pair } = feesResp.data.data;
   // const yesterdayFees = (pair.dayData[0].volumeUSD /
   // pair.dayData[0].reserveUSD) * 365 * 0.25; // 0.05 goes to xsushi holders
@@ -80,7 +99,7 @@ const retrieveAPY = async (): Promise<{ apy: number, rewardsApy: number, feesApy
   const sushiPrice = coingeckoResp.data.sushi.usd;
 
   // Rertrieve Rewards APY (sushi and wmatic)
-  const rewardsResp = await axios.post(rewardsUrl, { query: rewardsQuery });
+  const rewardsResp = await axios.post(rewardsUrl, { query: rewardsQuery(addr, pid) });
   const pool = rewardsResp.data.data.pools[0];
   const maticRewardsPerSecond = (pool.rewarder.rewardPerSecond *
       pool.allocPoint) / pool.miniChef.totalAllocPoint;
@@ -103,6 +122,7 @@ const retrieveAPY = async (): Promise<{ apy: number, rewardsApy: number, feesApy
 };
 
 type Props = {
+  contractAddress: string
 } & React.HTMLProps<HTMLSpanElement>;
 
 export default function LpApy(props: Props) {
@@ -111,7 +131,7 @@ export default function LpApy(props: Props) {
   const [feesApy, setFeesApy] = React.useState('');
 
   React.useEffect(() => {
-    retrieveAPY().then((p) => {
+    retrieveAPY(props.contractAddress).then((p) => {
       setApy(p.apy.toFixed(2));
       setRewardsApy(p.rewardsApy.toFixed(2));
       setFeesApy(p.feesApy.toFixed(2));

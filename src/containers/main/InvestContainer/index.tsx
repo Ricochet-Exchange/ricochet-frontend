@@ -86,12 +86,12 @@ export const InvestContainer :React.FC<IProps> = () => {
   }
 
   const streamEnds = computeStreamEnds(state, balances);
-    
+
   const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearch(value);
     const filtered = flowConfig.filter(
-      (el) => el.coinA.toUpperCase().includes(value.toUpperCase()) || 
+      (el) => el.coinA.toUpperCase().includes(value.toUpperCase()) ||
         el.coinB.toUpperCase().includes(value.toUpperCase()),
     );
     setFilteredList(filtered);
@@ -102,11 +102,11 @@ export const InvestContainer :React.FC<IProps> = () => {
       <InvestNav />
       <div className={styles.container}>
         <div className={styles.input_wrap}>
-          <TextInput 
+          <TextInput
             value={search}
             placeholder={t('Search by Name')}
-            onChange={handleSearch} 
-            className={styles.input} 
+            onChange={handleSearch}
+            className={styles.input}
             containerClassName={styles.container_input}
             left={<FontIcon name={FontIconName.Search} className={styles.search} size={16} />}
           />
@@ -120,9 +120,9 @@ export const InvestContainer :React.FC<IProps> = () => {
         <div className={styles.content}>
           {filteredList.map((element) => (
             <div className={styles.panel} key={`${element.coinA}-${element.coinB}`}>
-              <PanelChange 
-                placeholder={t('Input Rate')} 
-                onClickStart={handleStart(element)} 
+              <PanelChange
+                placeholder={t('Input Rate')}
+                onClickStart={handleStart(element)}
                 onClickStop={handleStop(element)}
                 coinA={element.coinA}
                 coinB={element.coinB}
@@ -136,6 +136,7 @@ export const InvestContainer :React.FC<IProps> = () => {
                 mainLoading={isLoading}
                 flowType={element.type}
                 isReadOnly={state.isReadOnly}
+                contractAddress={element.superToken} 
               />
             </div>
           ))}
@@ -150,9 +151,9 @@ export const InvestContainer :React.FC<IProps> = () => {
             />
           </div>
         </div>
-        
+
         <div>
-          <span className={styles.fee_disclaimer}> 
+          <span className={styles.fee_disclaimer}>
             {t('Ricochet takes a 2% fee on swaps.')}
           </span>
         </div>

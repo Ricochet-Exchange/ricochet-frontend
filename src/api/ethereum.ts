@@ -5,7 +5,8 @@ import web3 from 'utils/web3instance';
 import { CoinOption } from 'types/coinOption';
 import {
   RICAddress,
-  SLPxAddress,
+  rexLPETHAddress,
+  rexLPIDLEAddress,
   SUSHIxAddress,
   MATICxAddress,
 } from 'constants/polygon_config';
@@ -18,19 +19,19 @@ export const downgrade = (
   address: string,
 ) => contract.methods
   .downgrade(amount)
-  .send({ 
-    from: address, 
+  .send({
+    from: address,
     gasPrice,
   });
-  
+
 export const downgradeMatic = (
   contract: any,
   amount: string,
   address: string,
 ) => contract.methods
   .downgradeToETH(amount)
-  .send({ 
-    from: address, 
+  .send({
+    from: address,
     // value: amount,
     gasPrice,
   });
@@ -50,8 +51,8 @@ export const approve = (
   amount: string,
 ) => contract.methods
   .approve(tokenAddress, amount)
-  .send({ 
-    from: address, 
+  .send({
+    from: address,
     gasPrice,
   });
 
@@ -61,8 +62,8 @@ export const upgrade = (
   address: string,
 ) => contract.methods
   .upgrade(amount)
-  .send({ 
-    from: address, 
+  .send({
+    from: address,
     gasPrice,
   });
 
@@ -73,8 +74,8 @@ export const upgradeMatic = (
 ) => {
   contract.methods
     .upgradeByETH()
-    .send({ 
-      from: address, 
+    .send({
+      from: address,
       value: amount,
       gasPrice,
     });
@@ -198,7 +199,8 @@ export const startFlow = async (
             ),
           ],
         ];
-      } else if (outputTokenAddress === SLPxAddress) {
+      } else if (outputTokenAddress === rexLPETHAddress
+        || outputTokenAddress === rexLPIDLEAddress) {
         call = [
           [
             201, // approve the ticket fee

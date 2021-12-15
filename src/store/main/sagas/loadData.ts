@@ -10,6 +10,7 @@ import {
   checkIfApproveDai,
   checkIfApproveSushi,
   checkIfApproveMatic,
+  checkIfApproveIdle,
 } from './checkIfApprove';
 import { getBalances } from './getBalances';
 import { sweepQueryFlow } from './sweepQueryFlow';
@@ -18,7 +19,7 @@ export function* loadData() {
   try {
     yield put(mainSetState({ isLoading: true }));
     const address: Unwrap<typeof getAddress> = yield call(getAddress);
-    yield call(getBalances, address); 
+    yield call(getBalances, address);
     yield all([
       call(checkIfApproveUsdc),
       call(checkIfApproveMkr),
@@ -26,6 +27,7 @@ export function* loadData() {
       call(checkIfApproveWeth),
       call(checkIfApproveWbtc),
       call(checkIfApproveSushi),
+      call(checkIfApproveIdle),
       call(checkIfApproveMatic),
       call(sweepQueryFlow),
     ]);
@@ -35,5 +37,5 @@ export function* loadData() {
     }));
   } catch (e) {
     yield put(mainGetData());
-  } 
+  }
 }
