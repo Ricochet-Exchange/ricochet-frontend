@@ -17,19 +17,19 @@ import { downgradeTokensList } from 'constants/downgradeConfig';
 import { upgradeTokensList } from 'constants/upgradeConfig';
 import { useTranslation } from 'i18n';
 import styles from './styles.module.scss';
+import { flowConfig } from '../../../constants/flowConfig';
 
 interface IProps {
   address: string;
   balance?: string;
 }
-
 export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
   const state = useShallowSelector(selectMain);
   const {
     balances, isLoading, isLoadingDowngrade,
-    isLoadingUpgrade, selectedDowngradeCoin, selectedUpgradeCoin,
+    isLoadingUpgrade, selectedDowngradeCoin, selectedUpgradeCoin, isReadOnly,
   } = state;
-
+  const [showWarningToolTip, setShowWarningToolTip] = useState(false);
   const [downgradeCoin, setDowngradeCoin] = useState(selectedDowngradeCoin);
   const [downgradeAddress, setDowngradeAddress] = useState('');
   const [downgradeValue, setDownGradeValue] = useState('');
@@ -60,6 +60,10 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
   useEffect(() => {
     const coin = downgradeTokensList.find((el) => el.coin === selectedDowngradeCoin);
     if (coin) {
+      setShowWarningToolTip(!!flowConfig
+        .filter((config) => config.tokenA === coin.tokenAddress)
+        .flatMap((filteredConfig) => filteredConfig.flowKey)
+        .find((filteredFlowKey) => state[filteredFlowKey]?.flowsReceived! > 0));
       setDowngradeAddress(coin.tokenAddress);
       setDowngradeCoin(coin.coin);
     }
@@ -150,9 +154,11 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
             onClickMax={handleMaxUpgrade}
             value={upgradeValue}
             isUpgrade
+            showWarningToolTip={false}
             onSelectToken={handleVisionModal}
             isLoading={isLoading || isLoadingUpgrade}
-            disabledApprove={upgradeConfig && state[upgradeConfig?.key]}
+            disabledApprove={isLoading || (upgradeConfig && state[upgradeConfig?.key])}
+            isReadOnly={isReadOnly}
           />
         </div>
         <div className={styles.downgrade}>
@@ -170,6 +176,8 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
             isUpgrade={false}
             onSelectToken={handleVisionModal}
             isLoading={isLoading || isLoadingDowngrade}
+            showWarningToolTip={showWarningToolTip}
+            isReadOnly={isReadOnly}
           />
         </div>
         <div className={styles.settings_mob}>
@@ -179,6 +187,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
             className={styles.dot}
             ricBalance={balance}
             account={address}
+            isReadOnly={isReadOnly}
           />
         </div>
       </div>

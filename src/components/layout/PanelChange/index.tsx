@@ -12,7 +12,7 @@ import { Coin } from '../../../constants/coins';
 import { CoinChange } from '../CoinChange';
 import { CoinBalancePanel } from '../CoinBalancePanel';
 import { CoinRateForm } from '../CoinRateForm';
-import { FlowType } from '../../../constants/flowConfig';
+import { FlowTypes } from '../../../constants/flowConfig';
 import Price from '../../common/Price';
 import LpAPY from '../../common/LpAPY';
 
@@ -30,8 +30,9 @@ interface IProps {
   subsidyRate?: { perso:number, total:number, endDate:string };
   personalFlow?: string;
   mainLoading?: boolean;
-  flowType: FlowType,
+  flowType: FlowTypes,
   contractAddress: string,
+  isReadOnly?:boolean,
 }
 
 export const PanelChange: FC<IProps> = ({
@@ -49,6 +50,7 @@ export const PanelChange: FC<IProps> = ({
   personalFlow,
   mainLoading = false,
   flowType,
+  isReadOnly,
   contractAddress,
 }) => {
   const [inputShow, setInputShow] = useState(false);
@@ -201,6 +203,7 @@ export const PanelChange: FC<IProps> = ({
             onClickStop={handleStop}
             coin={coinA}
             isLoading={isLoading}
+            isReadOnly={isReadOnly}
           />
         </div>
         ) }
@@ -214,6 +217,7 @@ export const PanelChange: FC<IProps> = ({
               onClickStop={handleStop}
               coin={coinA}
               isLoading={isLoading}
+              isReadOnly={isReadOnly}
             />
           </div>
         )}

@@ -11,7 +11,7 @@
 
 body {
   // background-image: url('../images/background.png');
-  background: $default-background;
+  background: $default-background no-repeat fixed;
   background-size: cover;
   font-family: $default-font;
   width: 100%;

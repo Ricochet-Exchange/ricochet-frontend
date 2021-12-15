@@ -14,13 +14,14 @@ interface IProps {}
 const WalletPage: FC<IProps> = () => {
   const {
     address,
-    balances, 
+    balances,
+    isReadOnly,
   } = useShallowSelector(selectMain);
 
   return (
     <MainLayout>
       <div className={styles.header}>
-        <HeaderContainer balance={balances && balances[RICAddress]} address={address || 'Connecting'} />
+        <HeaderContainer isReadOnly={isReadOnly} balance={balances && balances[RICAddress]} address={address || 'Connecting'} />
       </div>
       <div className={styles.content}>
         <UpgradeContainer balance={balances && balances[RICAddress]} address={address || 'Connecting'} />
