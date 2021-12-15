@@ -45,14 +45,12 @@
   
 }
 
-.dca_link,
-.upgrade_link {
+.dca_link {
   padding: 0 30px 0 0;
 }
 
 .dca_link,
-.upgrade_link,
-.banks_link {
+.upgrade_link {
   color: var(--color-white-dark);
   font-family: $default-font;
   font-style: normal;
@@ -68,18 +66,6 @@
     color: var(--color-white) ;
     font-weight: bold;
     text-decoration: underline;
-  }
-}
-
-.banks_link {
-  &:active,
-  &:checked {
-    color: var(--color-white-dark);
-    font-weight: normal;
-    text-decoration: none;
-  }
-  &:hover{
-    opacity: 0.7;
   }
 }
 

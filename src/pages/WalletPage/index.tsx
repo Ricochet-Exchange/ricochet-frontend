@@ -2,7 +2,6 @@ import { RICAddress } from 'constants/polygon_config';
 import { HeaderContainer } from 'containers/main/HeaderContainer';
 import { UpgradeContainer } from 'containers/main/UpgradeContainer';
 import { MainLayout } from 'containers/MainLayout';
-import { Modal } from 'components/common/Modal';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import React, {
   FC, 

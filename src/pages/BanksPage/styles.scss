@@ -229,6 +229,13 @@ a, .ant-btn-lg span {
 
 }
 
+.ant-modal-body{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
 .ant-modal-content {
   display: flex;
   flex-direction: column;
@@ -310,7 +317,7 @@ a, .ant-btn-lg span {
 
 .fullframe {
   @include font;
-  min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

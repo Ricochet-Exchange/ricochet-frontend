@@ -31,13 +31,11 @@ export const BanksContainer = () => {
   );
 
   return (
-    <div>
-      <LoadingWrapper
-        isLoading={isLoading}
-        className="fullframe"
-      >
-        <div className="ContentTotal">{renderBanks()}</div>
-      </LoadingWrapper>
-    </div>
+    <LoadingWrapper
+      isLoading={isLoading}
+      className="fullframe"
+    >
+      <div className="ContentTotal">{renderBanks()}</div>
+    </LoadingWrapper>
   );
 };

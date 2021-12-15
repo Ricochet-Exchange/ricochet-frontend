@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 import { Button } from 'antd';
+import { useModal } from 'hooks/useModal';
+import { ModalType } from 'store/modal/types';
 
 type Props = {
   size?: string,
@@ -7,15 +9,15 @@ type Props = {
 };
 
 export const SignInButton: FC<Props> = ({ size = 'big', color }) => {
-  const activate = () => {};
-  
+  const { showModal } = useModal();
+
   return (
     <>
       {size === 'big' ? (
         <Button
           className="lightshadow biggestbutton"
           size="large"
-          onClick={() => activate()}
+          onClick={showModal(ModalType.Metamask)}
         >
           Sign in with Web3
         </Button>
@@ -24,7 +26,7 @@ export const SignInButton: FC<Props> = ({ size = 'big', color }) => {
           className={color ? `${color}button` : ''}
           size="large"
           shape="round"
-          onClick={() => activate()}
+          onClick={showModal(ModalType.Metamask)}
         >
           Sign in with Web3
         </Button>

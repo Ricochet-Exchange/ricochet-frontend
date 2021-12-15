@@ -17,7 +17,7 @@ import menuImg from '../../../assets/images/menu.svg';
 interface IProps {
   address: string;
   balance?: string;
-  isReadOnly?:boolean;
+  isReadOnly?: boolean;
 }
 
 export const HeaderContainer:FC<IProps> = ({ address, balance, isReadOnly }) => {
@@ -51,12 +51,6 @@ export const HeaderContainer:FC<IProps> = ({ address, balance, isReadOnly }) => 
             activeClassName={styles.active}
           >
             <div>{t('Wallet')}</div>
-          </Link>
-          <Link
-            to={Routes.Banks}
-            className={styles.banks_link}
-          >
-            <div>{t('Banks')}</div>
           </Link>
         </div>
         <div className={styles.settings_wrap}>

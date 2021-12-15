@@ -25,7 +25,7 @@
 }
   
   .modal {
-    @include flexbox(stretch, space-between);
+    @include flexbox(center, center);
     flex-direction: column;
 
     padding: 24px;

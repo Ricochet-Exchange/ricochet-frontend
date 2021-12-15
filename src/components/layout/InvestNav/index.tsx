@@ -48,17 +48,14 @@ export const InvestNav = () => {
         <FontIcon name={FontIconName.Shuttle} size={16} />
   &nbsp;rexLaunchpad
       </NavLink>
-      <a 
-        className={styles.link} 
-        href="https://bank.ricochet.exchange/"
-        target="_blank"
-        rel="noopener noreferrer"
+      <NavLink
+        className={styles.nav_link}
+        activeClassName={styles.nav_link_active} 
+        to={Routes.Banks}
       >
         <FontIcon name={FontIconName.Bank} size={16} />
-  &nbsp;rexBank 
-        {' '}
-        <FontIcon name={FontIconName.External} size={16} />
-      </a>
+  &nbsp;rexBank
+      </NavLink>
     </div>
   );
 };

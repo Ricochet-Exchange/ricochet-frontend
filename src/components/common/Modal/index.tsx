@@ -50,7 +50,7 @@ export const Modal: FC<IProps> = ({ classNameOverlay }) => {
         [styles.modal_token]: !!ModalType.SelectToken,
       })}
       overlayClassName={cx(styles.modal_overlay, classNameOverlay)}
-      parentSelector={() => document.querySelector('#content')!}
+      preventScroll
     >
       {React.createElement(modalRenderers[current], { onCloseModal })}
     </ReactModal>

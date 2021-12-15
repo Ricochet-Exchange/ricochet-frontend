@@ -16,6 +16,7 @@ import { LoadingWrapper } from 'components/common/LoadingWrapper';
 import { VaultDetails } from 'components/banks/VaultDetails';
 import { useDispatch } from 'react-redux';
 import { banksGetData } from 'store/banks/actionCreators';
+import styles from './styles.module.scss';
 
 export const VaultsContainer = () => {
   const dispatch = useDispatch();
@@ -92,7 +93,7 @@ export const VaultsContainer = () => {
           </LoadingWrapper>
         </>
       ) : (
-        <div className="fullframe">
+        <div className={styles.container}>
           <p>Sign in to see your vaults</p>
           <SignInButton />
         </div>
