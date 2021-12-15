@@ -1,12 +1,13 @@
 import { Coin } from './coins';
 import {
-  USDCxAddress, 
+  USDCxAddress,
   WETHxAddress,
   DAIxAddress,
   MKRxAddress,
   WBTCxAddress,
   MATICxAddress,
   SUSHIxAddress,
+  IDLExAddress,
 } from './polygon_config';
 
 export const downgradeTokensList = [
@@ -37,5 +38,9 @@ export const downgradeTokensList = [
   {
     coin: Coin.SUSHIx,
     tokenAddress: SUSHIxAddress,
+  },
+  {
+    coin: Coin.IDLEx,
+    tokenAddress: IDLExAddress,
   },
 ];

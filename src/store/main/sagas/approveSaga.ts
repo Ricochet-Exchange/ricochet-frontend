@@ -16,8 +16,9 @@ import {
   checkIfApproveMkr,
   checkIfApproveWeth,
   checkIfApproveWbtc,
-  checkIfApproveSushi, 
+  checkIfApproveSushi,
   checkIfApproveMatic,
+  checkIfApproveIdle,
 } from './checkIfApprove';
 import { getBalances } from './getBalances';
 
@@ -34,9 +35,9 @@ export function* approveSaga(
   );
   // max uint256 is (2 ** 256 - 1)
   let uint256Max = web3.utils.toBN(amount).toString();
-  uint256Max = web3.utils.toBN('2').pow(web3.utils.toBN('256')).sub(web3.utils.toBN('1')).toString(); 
+  uint256Max = web3.utils.toBN('2').pow(web3.utils.toBN('256')).sub(web3.utils.toBN('1')).toString();
   // Allow max instead of amount
-  yield call(approve, contract, address, superTokenAddress, uint256Max); 
+  yield call(approve, contract, address, superTokenAddress, uint256Max);
   yield call(getBalances, address);
 }
 
@@ -44,10 +45,10 @@ export function* approveMainSaga({ payload }: ReturnType<typeof approveAction>) 
   try {
     yield put(mainSetState({ isLoadingUpgrade: true }));
     const {
-      tokenAddress, superTokenAddress, value, multi, 
+      tokenAddress, superTokenAddress, value, multi,
     } = payload;
     const amount = web3.utils.toWei((Number(value) * (multi)).toString(), 'wei');
-    
+
     yield call(approveSaga, tokenAddress, superTokenAddress, amount);
     payload.callback();
     yield all([
@@ -58,6 +59,7 @@ export function* approveMainSaga({ payload }: ReturnType<typeof approveAction>) 
       call(checkIfApproveWbtc),
       call(checkIfApproveSushi),
       call(checkIfApproveMatic),
+      call(checkIfApproveIdle),
     ]);
   } catch (e) {
     const error = transformError(e);

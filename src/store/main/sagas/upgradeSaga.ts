@@ -20,6 +20,7 @@ import {
   checkIfApproveWbtc,
   checkIfApproveSushi,
   checkIfApproveMatic,
+  checkIfApproveIdle,
 } from './checkIfApprove';
 import { getBalances } from './getBalances';
 
@@ -48,7 +49,7 @@ export function* upgradeMainSaga({ payload }: ReturnType<typeof upgradeAction>) 
       superTokenAddress, value,
     } = payload;
     // Superfluid upgrade contract requires the upgrade value to be scaled by 1e18 and not decimals
-    const amount = web3.utils.toWei((Number(value) * 1e18).toString(), 'wei'); 
+    const amount = web3.utils.toWei((Number(value) * 1e18).toString(), 'wei');
     yield call(upgradeSaga, superTokenAddress, amount);
     payload.callback();
     yield all([
@@ -59,6 +60,7 @@ export function* upgradeMainSaga({ payload }: ReturnType<typeof upgradeAction>) 
       call(checkIfApproveWbtc),
       call(checkIfApproveSushi),
       call(checkIfApproveMatic),
+      call(checkIfApproveIdle),
     ]);
   } catch (e) {
     const error = transformError(e);

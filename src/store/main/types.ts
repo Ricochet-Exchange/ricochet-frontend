@@ -10,6 +10,7 @@ export type MainState = {
   hasWbtcApprove?: boolean;
   hasMaticApprove?: boolean;
   hasSushiApprove?: boolean;
+  hasIdleApprove?: boolean;
   apy?: number,
   rewardsApy?: number,
   feesApy?: number,
@@ -148,7 +149,15 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
-  }
+  },
+  usdcIdleFlowQuery?: {
+    flowKey: string,
+    flowsReceived: number,
+    flowsOwned: string,
+    totalFlows: number,
+    placeholder: string,
+    subsidyRate: { perso:number, total:number, endDate:string },
+  },
   isLoadingDowngrade: boolean,
   isLoadingUpgrade: boolean,
   isLoading: boolean,

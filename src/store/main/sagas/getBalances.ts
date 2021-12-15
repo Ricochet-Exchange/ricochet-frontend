@@ -17,6 +17,8 @@ import {
   WETHAddress,
   WBTCxAddress,
   WBTCAddress,
+  IDLExAddress,
+  IDLEAddress,
   RICAddress,
 } from 'constants/polygon_config';
 import { getContract } from 'utils/getContract';
@@ -34,6 +36,7 @@ export function* getBalances(address: string) {
     USDCxAddress, USDCAddress,
     WETHxAddress, WETHAddress,
     WBTCxAddress, WBTCAddress,
+    IDLExAddress, IDLEAddress,
     RICAddress, rexLPETHAddress, rexLPIDLEAddress,
   ];
   const contracts = contractsAddress.map((el) => getContract(el, erc20ABI));

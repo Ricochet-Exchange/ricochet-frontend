@@ -159,7 +159,7 @@ export const PanelChange: FC<IProps> = ({
                 <span>
                   <span className={styles.number}>{totalFlow}</span>
                   {`${coinA}x/mo.  `}
-                  { ((subsidyRate?.total && flowType !== 'sushiLP') || 0) > 0 ? (
+                  { ((subsidyRate?.total) || 0) > 0 ? (
                     <span>
                       <span data-tip data-for={`depositTooltipTotal-${uuid}`}>🔥</span>
                       <ReactTooltip

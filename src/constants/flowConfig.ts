@@ -19,9 +19,11 @@ import {
   ethxDaixExchangeAddress,
   daixMaticxExchangeAddress,
   MATICxAddress,
+  IDLExAddress,
   maticxDaixExchangeAddress,
   usdcxMaticxExchangeAddress,
   maticxUsdcxExchangeAddress,
+  usdcxIdleExchangeAddress,
   usdcxEthSlpxExchangeAddress,
   usdcxIdleSlpxExchangeAddress,
   rexLPETHAddress,
@@ -46,6 +48,7 @@ export enum FlowEnum {
   usdcRicFlowQuery = 'usdcRicFlowQuery',
   usdcSlpEthFlowQuery = 'usdcSlpEthFlowQuery',
   usdcSlpIdleFlowQuery = 'usdcSlpIdleFlowQuery',
+  usdcIdleFlowQuery = 'usdcIdleFlowQuery',
 }
 
 export type FlowType = 'launchpad' | 'market' | 'sushiLP';
@@ -85,6 +88,15 @@ export const flowConfig: {
     coinB: Coin.rexLPIdle,
     flowKey: FlowEnum.usdcSlpIdleFlowQuery,
     type: 'sushiLP',
+  },
+  {
+    superToken: usdcxIdleExchangeAddress,
+    tokenA: USDCxAddress,
+    tokenB: IDLExAddress,
+    coinA: Coin.USDC,
+    coinB: Coin.IDLE,
+    flowKey: FlowEnum.usdcIdleFlowQuery,
+    type: 'market',
   },
   {
     superToken: usdcxWethxExchangeAddress,
