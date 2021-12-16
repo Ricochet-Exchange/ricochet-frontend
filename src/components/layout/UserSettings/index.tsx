@@ -92,7 +92,7 @@ export const UserSettings: FC<IProps> = ({
                   <span className={styles.description}>{t('Documentations for users of Ricochet')}</span>
                 </li>
                 <li className={styles.paper}>
-                  <a className={styles.head} href="./RicochetExchangeWhitepaper.pdf" target="_blank" rel="noreferrer">{t('White Paper')}</a>
+                  <a className={styles.head} href={`${process.env.PUBLIC_URL}/RicochetExchangeWhitepaper.pdf`} target="_blank" rel="noreferrer">{t('White Paper')}</a>
                   <span className={styles.description}>{t('Check out our fundamental ideas')}</span>
                 </li>
                 <li className={styles.discord}>
