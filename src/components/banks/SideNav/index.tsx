@@ -9,9 +9,10 @@ import './styles.scss';
 
 type Props = {
   address: string;
+  isReadOnly: boolean;
 };
 
-const SideNav: FC<Props> = ({ address }) => (
+const SideNav: FC<Props> = ({ address, isReadOnly }) => (
   <Menu
     defaultSelectedKeys={['/banks', '/vaults']}
     mode="inline"
@@ -27,7 +28,7 @@ const SideNav: FC<Props> = ({ address }) => (
             </p>
           </div>
         ) : (
-          <SignInButton size="small" />
+          <SignInButton size="small" isReadOnly={isReadOnly} />
         )}
     </div>
     <Menu.Item key="/banks">

@@ -22,7 +22,7 @@ export const VaultsContainer = () => {
   const dispatch = useDispatch();
 
   const { banks } = useShallowSelector(selectBanks);
-  const { address: accountAddress, isLoading } = useShallowSelector(selectMain);
+  const { address: accountAddress, isLoading, isReadOnly } = useShallowSelector(selectMain);
   const [hasVault, setHasVault] = useState(false);
   const [activeTransaction, setActiveTransaction] = useState('');
   const [transactionHash, setTransactionHash] = useState('');
@@ -45,7 +45,7 @@ export const VaultsContainer = () => {
   }, [banks]);
 
   const renderVaults = () => (
-    banks.map((bank) => {
+    banks.map((bank: BankType) => {
       if (bank.vault.hasVault) {
         return (
           <VaultDetails
@@ -95,7 +95,7 @@ export const VaultsContainer = () => {
       ) : (
         <div className={styles.container}>
           <p>Sign in to see your vaults</p>
-          <SignInButton />
+          <SignInButton isReadOnly={isReadOnly} />
         </div>
       )}
     </>

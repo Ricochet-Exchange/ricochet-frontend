@@ -14,7 +14,7 @@ import './styles.scss';
 export const BanksContainer = () => {
   const dispatch = useDispatch();
   const { banks } = useShallowSelector(selectBanks);
-  const { address: accountAddress, isLoading } = useShallowSelector(selectMain);
+  const { address: accountAddress, isLoading, isReadOnly } = useShallowSelector(selectMain);
 
   useEffect(() => {
     if (!banks[0]) dispatch(banksGetData());
@@ -26,6 +26,7 @@ export const BanksContainer = () => {
         key={bank.bankAddress}
         bank={bank}
         accountAddress={accountAddress}
+        isReadOnly={isReadOnly}
       />
     ))
   );

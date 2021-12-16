@@ -2,7 +2,6 @@ import { RICAddress } from 'constants/polygon_config';
 import { HeaderContainer } from 'containers/main/HeaderContainer';
 import { InvestContainer } from 'containers/main/InvestContainer';
 import { MainLayout } from 'containers/MainLayout';
-import { Modal } from 'components/common/Modal';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import React, {
   FC,
@@ -20,11 +19,10 @@ const InvestPage: FC<IProps> = () => {
   } = useShallowSelector(selectMain);
   return (
     <MainLayout>
-      <Modal />
       <div className={styles.header}>
         <HeaderContainer isReadOnly={isReadOnly} balance={balances && balances[RICAddress]} address={address || 'Connecting'} />
       </div>
-      <div id="content" className={styles.content}>
+      <div className={styles.content}>
         <InvestContainer />
       </div>
     </MainLayout>

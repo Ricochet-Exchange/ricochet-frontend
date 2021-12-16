@@ -11,11 +11,13 @@ import { ModalCreateVaultContainer } from 'containers/main/ModalCreateVaultConta
 type Props = {
   bank: BankType,
   accountAddress: string,
+  isReadOnly: boolean,
 };
 
 export const BankDetails: FC<Props> = ({
   bank,
   accountAddress,
+  isReadOnly,
 }) => {
   const [visibleModal, setVisibleModal] = useState(false);
 
@@ -49,7 +51,11 @@ export const BankDetails: FC<Props> = ({
               ) : null}
             </>
           ) : (
-            <SignInButton size="small" color="purple" />
+            <SignInButton
+              size="small"
+              color="purple"
+              isReadOnly={isReadOnly}
+            />
           )}
         </div>
 

@@ -17,6 +17,7 @@ interface IProps {}
 export const VaultsPage: FC<IProps> = () => {
   const {
     address,
+    isReadOnly,
   } = useShallowSelector(selectMain);
 
   return (
@@ -25,7 +26,10 @@ export const VaultsPage: FC<IProps> = () => {
         <Modal classNameOverlay="overlayModal" />
         <Sider width="240px">
           <img src={logo} alt="icon" width="87px" />
-          <SideNav address={address} />
+          <SideNav
+            address={address}
+            isReadOnly={isReadOnly}
+          />
         </Sider>
         <Layout>
           <Content id="content">
