@@ -9,9 +9,8 @@
 .modal_overlay {
   @include flexbox(center, center);
   @include blur();
-  border-radius: 30px 30px 0 0;
 
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -22,8 +21,4 @@
 
 .modal_token {
   height: 100%;
-}
-
-.modal_hidden{
-  display: none;
 }
