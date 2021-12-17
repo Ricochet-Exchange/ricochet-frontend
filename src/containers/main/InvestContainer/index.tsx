@@ -54,7 +54,7 @@ export const InvestContainer :React.FC<IProps> = () => {
       );
       setFilteredList(sortedUserStreams);
     }
-  }, [flowType]);
+  }, [flowType, userStreams]);
 
   const handleStart = useCallback((config: { [key: string]: string }) => (
     amount: string,
