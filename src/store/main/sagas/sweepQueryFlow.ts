@@ -1,4 +1,6 @@
-import { call, all, put } from 'redux-saga/effects';
+import {
+  call, all, put, select, 
+} from 'redux-saga/effects';
 import { RICAddress } from 'constants/polygon_config';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
@@ -12,11 +14,14 @@ import { streamExchangeABI, erc20ABI } from 'constants/abis';
 import { getContract } from 'utils/getContract';
 
 import { mainSetState } from '../actionCreators';
+import { selectMain } from '../selectors';
 
 const exchangeContractsAddresses = flowConfig.map((f) => f.superToken);
 
 export function* sweepQueryFlow() {
-  const address: Unwrap<typeof getAddress> = yield call(getAddress);
+  const main: ReturnType<typeof selectMain> = yield select(selectMain);
+  const { web3 } = main;
+  const address: Unwrap<typeof getAddress> = yield call(getAddress, web3);
   const results: any[] = yield all(exchangeContractsAddresses.map(
     (addr) => call(queryFlows, addr),
   ));
@@ -36,15 +41,13 @@ export function* sweepQueryFlow() {
     const flow = flowConfig.find((flow_) => flow_.flowKey === flowKey);
     const outgoing = parseFloat(placeholder);
     const totalFlow = parseFloat(flowsOwned);
-
     const exchangeContract = flow?.superToken || '0';
-    const contract = getContract(exchangeContract, streamExchangeABI);
+    const contract = getContract(exchangeContract, streamExchangeABI, web3);
     const subsidyRate = await contract.methods.getSubsidyRate().call();
 
     const subsidyRateTotal = (subsidyRate * 30 * 24 * 60 * 60) / 1e18;
     const subsidyRatePerso = (subsidyRateTotal * outgoing) / totalFlow;
-
-    const RIC = getContract(RICAddress, erc20ABI);
+    const RIC = getContract(RICAddress, erc20ABI, web3);
     const exchangeContractRic = await RIC.methods.balanceOf(exchangeContract).call();
     const endDateTimestamp = Date.now() + (exchangeContractRic / subsidyRate) * 1000;
     const endDate = (new Date(endDateTimestamp)).toLocaleDateString();

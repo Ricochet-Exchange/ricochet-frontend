@@ -18,6 +18,7 @@ const WalletPage: FC<IProps> = () => {
     isReadOnly,
   } = useShallowSelector(selectMain);
 
+  console.log(balances);
   return (
     <MainLayout>
       <div className={styles.header}>

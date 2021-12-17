@@ -1,6 +1,8 @@
+import Web3 from 'web3';
 import { Coin } from '../../constants/coins';
 
 export type MainState = {
+  web3: Web3;
   address: string;
   balances?: { [key:string]: string };
   hasUsdcApprove?: boolean;

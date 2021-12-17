@@ -15,18 +15,20 @@ import {
 } from 'constants/polygon_config';
 import { upgradeTokensList } from 'constants/upgradeConfig';
 import { mainSetState } from '../actionCreators';
-import { selectBalances } from '../selectors';
+import { selectBalances, selectMain } from '../selectors';
 
 export function* checkIfApprove(
   tokenAddress: string,
   superTokenAddress: string,
   param: 'hasWethApprove' | 'hasUsdcApprove' | 'hasWbtcApprove' | 'hasDaiApprove' | 'hasMkrApprove' | 'hasMaticApprove' | 'hasSushiApprove' | 'hasIdleApprove',
 ) {
-  const address: Unwrap<typeof getAddress> = yield call(getAddress);
+  const main: ReturnType<typeof selectMain> = yield select(selectMain);
+  const { web3 } = main;
+  const address: Unwrap<typeof getAddress> = yield call(getAddress, web3);
   const contract: Unwrap<typeof getContract> = yield call(
     getContract,
     tokenAddress,
-    erc20ABI,
+    erc20ABI, web3,
   );
   const allowAmount: Unwrap<typeof allowance> = yield call(allowance,
     contract, address, superTokenAddress);
