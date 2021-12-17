@@ -59,7 +59,7 @@ export const ModalSelectToken: FC<IProps> = ({
                   className={styles.icon_button}
                   onClick={() => onSelectCoin(coin)}
                 >
-                  <img width="32px" src={iconsCoin[coin]} alt={coin} />
+                  <img className={styles.icon_size} src={iconsCoin[coin]} alt={coin} />
                   <div className={styles.icon_name}>{coin}</div>
                 </ButtonNew>
               </span>
