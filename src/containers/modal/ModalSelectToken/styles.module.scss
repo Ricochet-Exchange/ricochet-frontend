@@ -132,11 +132,11 @@
 
 .icon_wrap {
   @include flexbox(center, flex-start);
-
+  margin-top: 15px;
   flex-wrap: wrap;
-
+  gap: 15px 20px;
   & > span {
-    padding: 15px 20px 0 0;
+    //padding: 15px 20px 0 0;
   }
 
   @include for_mobile{
@@ -146,7 +146,7 @@
   }
 
   & span:nth-child(3n) {
-    padding: 15px 0 0 0;
+    //padding: 15px 0 0 0;
   }
 
   .icon_button {
