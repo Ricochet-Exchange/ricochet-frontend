@@ -1,0 +1,48 @@
+@import 'assets/styles/_mixins.scss';
+.nav_container {
+    @include flexbox(flex-start, flex-start);
+    border-right: 1px var(--color-blue-light) solid;
+    padding: 1.75rem 1rem 1.75rem 1.75rem;
+    flex-direction: column;
+    text-align: left;
+    flex-shrink: 1;
+    max-width: 23vw;
+    @include tablet() {
+        @include flexbox(flex-start, flex-start);
+        flex-direction: row;
+        max-width: 100%;
+        text-align: center;
+        border-right: none;
+        flex-wrap: wrap;
+    }
+}
+
+.link {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+    color: var(--color-black);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    @include tablet() {
+        margin-bottom: 0.5rem;
+        margin-right: 0.5rem;
+    }
+}
+
+.nav_link {
+    @extend .link;
+    border-radius: 9999px;
+    background-color: var(--color-white-dark);
+}
+
+.nav_link_active {
+    background-color: var(--color-blue-dark);
+    color: var(--color-white-dark);
+}

@@ -11,7 +11,9 @@ export const useModal = () => {
   const onCloseModal = useCallback(() => dispatch(modalHide()), [dispatch]);
   const showModal = useCallback(
     (modal: ModalType) =>
-      () => dispatch(modalShow(modal)), [dispatch],
+      () => {
+        dispatch(modalShow(modal));
+      }, [dispatch],
   ); 
   return {
     current, active, onCloseModal, showModal,

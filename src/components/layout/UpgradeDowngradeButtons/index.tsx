@@ -1,6 +1,7 @@
 import React, {
   FC,
 } from 'react';
+import ReactTooltip from 'react-tooltip';
 import styles from './styles.module.scss';
 import ButtonNew from '../../common/ButtonNew';
 
@@ -11,24 +12,30 @@ interface IProps {
   onClickDowngrade?: () => void,
   isLoading?: boolean;
   disabledApprove?: boolean;
+  showWarningToolTip?:boolean;
+  isReadOnly?:boolean,
 }
 
 export const UpgradeDowngradeButtons: FC<IProps> = ({
   isUpgrade,
   isLoading,
   disabledApprove,
+  showWarningToolTip,
   onClickApprove = () => {},
   onClickUpgrade = () => {},
   onClickDowngrade = () => {},
+  isReadOnly,
 }) => (
   <div>
-    {isUpgrade 
+    {isUpgrade
       ? (
         <div className={styles.buttons_upgrade}>
           <div className={styles.approve_wrap}>
             <ButtonNew
               color="secondary"
-              disabled={isLoading || disabledApprove}
+              loaderColor="#363B55"
+              disabled={isReadOnly || !disabledApprove}
+              isLoading={isLoading}
               onClick={onClickApprove}
               className={styles.approve}
             >
@@ -38,8 +45,12 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
           </div>
           <div className={styles.upgrade_wrap}>
             <ButtonNew
+              data-tip
+              data-for="downgradeToolTip"
               color="primary"
-              disabled={isLoading || !disabledApprove} 
+              loaderColor="white"
+              disabled={isReadOnly || isLoading}
+              isLoading={isLoading}
               onClick={onClickUpgrade}
               className={styles.upgrade}
             >
@@ -51,13 +62,33 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
       : (
         <div className={styles.downgrade_wrap}>
           <ButtonNew
+            data-tip
+            data-for="downgradeTooltip"
             color="primary"
-            disabled={isLoading} 
+            loaderColor="white"
+            disabled={isReadOnly || isLoading}
+            isLoading={isLoading}
             onClick={onClickDowngrade}
             className={styles.downgrade}
           >
-            Downgrade
+            {showWarningToolTip ? 'Downgrade ⚠️' : 'Downgrade'}
           </ButtonNew>
+          {showWarningToolTip && (
+          <ReactTooltip
+            id="downgradeTooltip"
+            place="right"
+            effect="solid"
+            className={styles.downgrade_wrap}
+            multiline
+          >
+            <span
+              className={styles.downgrade_wrap_span}
+            >
+              Downgrading your tokens could lead to the ongoing stream running out of funds
+              and you losing your deposit!
+            </span>
+          </ReactTooltip>
+          )}
         </div>
       )}
   </div>

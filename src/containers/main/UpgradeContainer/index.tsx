@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  approveAction, downgradeAction, showTokenList, upgradeAction, 
+  approveAction, downgradeAction, showTokenList, upgradeAction,
 } from 'store/main/actionCreators';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
@@ -17,29 +17,29 @@ import { downgradeTokensList } from 'constants/downgradeConfig';
 import { upgradeTokensList } from 'constants/upgradeConfig';
 import { useTranslation } from 'i18n';
 import styles from './styles.module.scss';
+import { flowConfig } from '../../../constants/flowConfig';
 
 interface IProps {
   address: string;
   balance?: string;
 }
-
 export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
   const state = useShallowSelector(selectMain);
   const {
-    balances, isLoading, isLoadingDowngrade, 
-    isLoadingUpgrade, selectedDowngradeCoin, selectedUpgradeCoin,
+    balances, isLoading, isLoadingDowngrade,
+    isLoadingUpgrade, selectedDowngradeCoin, selectedUpgradeCoin, isReadOnly,
   } = state;
-  
+  const [showWarningToolTip, setShowWarningToolTip] = useState(false);
   const [downgradeCoin, setDowngradeCoin] = useState(selectedDowngradeCoin);
   const [downgradeAddress, setDowngradeAddress] = useState('');
   const [downgradeValue, setDownGradeValue] = useState('');
   const [upgradeCoin, setUpgradeCoin] = useState(selectedUpgradeCoin);
-  const [upgradeConfig, setUpgradeConfig] = useState<{  
+  const [upgradeConfig, setUpgradeConfig] = useState<{
     coin: Coin,
     tokenAddress: string,
     superTokenAddress: string,
     multi: number,
-    key: 'hasWethApprove' | 'hasUsdcApprove' | 'hasWbtcApprove' | 'hasDaiApprove' | 'hasMkrApprove' | 'hasMaticApprove' | 'hasSushiApprove',
+    key: 'hasWethApprove' | 'hasUsdcApprove' | 'hasWbtcApprove' | 'hasDaiApprove' | 'hasMkrApprove' | 'hasMaticApprove' | 'hasSushiApprove' | 'hasIdleApprove',
   }>();
   const [upgradeValue, setUpgradeValue] = useState('');
   const dispatch = useDispatch();
@@ -60,6 +60,10 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
   useEffect(() => {
     const coin = downgradeTokensList.find((el) => el.coin === selectedDowngradeCoin);
     if (coin) {
+      setShowWarningToolTip(!!flowConfig
+        .filter((config) => config.tokenA === coin.tokenAddress)
+        .flatMap((filteredConfig) => filteredConfig.flowKey)
+        .find((filteredFlowKey) => state[filteredFlowKey]?.flowsReceived! > 0));
       setDowngradeAddress(coin.tokenAddress);
       setDowngradeCoin(coin.coin);
     }
@@ -89,7 +93,7 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
   }, []);
 
   const handleUpgrade = useCallback(() => {
-    if (Number(upgradeValue) < 0 || 
+    if (Number(upgradeValue) < 0 ||
     (balances && upgradeConfig && Number(balances[upgradeConfig.tokenAddress]) === 0)) {
       return;
     }
@@ -102,9 +106,9 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
       ));
     }
   }, [dispatch, upgradeConfig, upgradeValue, balances]);
-  
+
   const handleApprove = useCallback(() => {
-    if (Number(upgradeValue) < 0 || 
+    if (Number(upgradeValue) < 0 ||
     (balances && upgradeConfig && Number(balances[upgradeConfig.tokenAddress]) === 0)) {
       return;
     }
@@ -140,9 +144,9 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
           </div>
           <UpgradePanel
             placeholder={t('Input Amount')}
-            balance={balances && 
+            balance={balances &&
               upgradeConfig &&
-               (+balances[upgradeConfig?.tokenAddress]).toFixed(6)} 
+               (+balances[upgradeConfig?.tokenAddress]).toFixed(6)}
             nameCoin={upgradeCoin}
             onChange={handleUpgradeValue}
             onClickApprove={handleApprove}
@@ -150,35 +154,40 @@ export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
             onClickMax={handleMaxUpgrade}
             value={upgradeValue}
             isUpgrade
+            showWarningToolTip={false}
             onSelectToken={handleVisionModal}
             isLoading={isLoading || isLoadingUpgrade}
-            disabledApprove={upgradeConfig && state[upgradeConfig?.key]}
+            disabledApprove={isLoading || (upgradeConfig && state[upgradeConfig?.key])}
+            isReadOnly={isReadOnly}
           />
         </div>
         <div className={styles.downgrade}>
           <div className={styles.header_downgrade}>
             {t('Downgrade')}
           </div>
-          <UpgradePanel 
-            balance={balances && (+balances[downgradeAddress]).toFixed(6)} 
+          <UpgradePanel
+            balance={balances && (+balances[downgradeAddress]).toFixed(6)}
             nameCoin={downgradeCoin}
             onChange={handleDowngradeValue}
             onClickDowngrade={handleDowngrade}
             onClickMax={handleMaxDowngrade}
-            placeholder={t('Input Amount')} 
+            placeholder={t('Input Amount')}
             value={downgradeValue}
             isUpgrade={false}
             onSelectToken={handleVisionModal}
             isLoading={isLoading || isLoadingDowngrade}
+            showWarningToolTip={showWarningToolTip}
+            isReadOnly={isReadOnly}
           />
         </div>
         <div className={styles.settings_mob}>
           <UserSettings
             onSelectLanguage={changeLanguage}
-            language={language} 
+            language={language}
             className={styles.dot}
             ricBalance={balance}
             account={address}
+            isReadOnly={isReadOnly}
           />
         </div>
       </div>
