@@ -32,7 +32,6 @@ export enum Coin {
   WETHx = 'WETHx',
   WBTCx = 'WBTCx',
   rexLPEth = 'USDC/ETH',
-  rexLPIdle = 'IDLE/ETH',
   SUSHI = 'SUSHI',
   MATICx = 'MATICx',
   SUSHIx = 'SUSHIx',
@@ -58,10 +57,6 @@ export const namesCoinX = [
   Coin.WBTCx,
   Coin.WETHx,
   Coin.rexLPEth,
-<<<<<<< HEAD
-  Coin.rexLPIdle,
-=======
->>>>>>> main
   Coin.MATICx,
   Coin.SUSHIx,
   Coin.IDLEx,
@@ -86,10 +81,6 @@ export const iconsCoin: Partial<Record<Coin, string>> = {
   [Coin.WBTCx]: wbtc,
   [Coin.WETHx]: eth,
   [Coin.rexLPEth]: slp,
-<<<<<<< HEAD
-  [Coin.rexLPIdle]: slp,
-=======
->>>>>>> main
   [Coin.IDLE]: idle,
   [Coin.IDLEx]: idle,
   [Coin.SUSHI]: sushi,

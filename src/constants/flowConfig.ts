@@ -26,13 +26,7 @@ import {
   maticxUsdcxExchangeAddress,
   usdcxIdleExchangeAddress,
   usdcxEthSlpxExchangeAddress,
-<<<<<<< HEAD
-  usdcxIdleSlpxExchangeAddress,
   rexLPETHAddress,
-  rexLPIDLEAddress,
-=======
-  rexLPETHAddress,
->>>>>>> main
 } from './polygon_config';
 
 export enum FlowEnum {
@@ -52,10 +46,6 @@ export enum FlowEnum {
   wbtcUsdcFlowQuery = 'wbtcUsdcFlowQuery',
   usdcRicFlowQuery = 'usdcRicFlowQuery',
   usdcSlpEthFlowQuery = 'usdcSlpEthFlowQuery',
-<<<<<<< HEAD
-  usdcSlpIdleFlowQuery = 'usdcSlpIdleFlowQuery',
-=======
->>>>>>> main
   usdcIdleFlowQuery = 'usdcIdleFlowQuery',
 }
 
@@ -211,39 +201,6 @@ const markets: InvestmentFlow[] = [
     flowKey: FlowEnum.maticUsdcFlowQuery,
     type: FlowTypes.market,
   },
-  {
-    superToken: usdcxIdleSlpxExchangeAddress,
-    tokenA: USDCxAddress,
-    tokenB: rexLPIDLEAddress,
-    coinA: Coin.USDC,
-    coinB: Coin.rexLPIdle,
-    flowKey: FlowEnum.usdcSlpIdleFlowQuery,
-    type: FlowTypes.sushiLP,
-  },
-];
-
-const launchpads: InvestmentFlow[] = [
-  {
-    superToken: usdcxRicExchangeAddress,
-    tokenA: USDCxAddress,
-    tokenB: RICAddress,
-    coinA: Coin.USDC,
-    coinB: Coin.RIC,
-    flowKey: FlowEnum.usdcRicFlowQuery,
-    type: FlowTypes.launchpad,
-  },
-];
-
-export const RoutesToFlowTypes = {
-  [<string>Routes.Invest]: FlowTypes.market,
-  [<string>Routes.InvestLiquidityMarkets]: FlowTypes.sushiLP,
-  [<string>Routes.InvestLaunchpads]: FlowTypes.launchpad,
-};
-
-export const flowConfig: InvestmentFlow[] = [
-  ...markets,
-  ...liquidityMarkets,
-  ...launchpads,
 ];
 
 const liquidityMarkets: InvestmentFlow[] = [

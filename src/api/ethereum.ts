@@ -122,7 +122,7 @@ export const stopFlow = async (exchangeAddress: string, inputTokenAddress: strin
       recipient,
       flowRate: '0',
     });
-  } catch (e: any) {
+  } catch (e) {
     throw new Error(e);
   }
 };
