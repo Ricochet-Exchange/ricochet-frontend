@@ -29,6 +29,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+<<<<<<< HEAD
   },
   usdcSlpIdleFlowQuery?: {
     flowKey: string,
@@ -37,6 +38,8 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+=======
+>>>>>>> main
   },
   usdcWethFlowQuery?: {
     flowKey: string,

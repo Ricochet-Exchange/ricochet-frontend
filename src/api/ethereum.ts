@@ -6,7 +6,6 @@ import { CoinOption } from 'types/coinOption';
 import {
   RICAddress,
   rexLPETHAddress,
-  rexLPIDLEAddress,
   SUSHIxAddress,
   MATICxAddress,
 } from 'constants/polygon_config';
@@ -199,8 +198,7 @@ export const startFlow = async (
             ),
           ],
         ];
-      } else if (outputTokenAddress === rexLPETHAddress
-        || outputTokenAddress === rexLPIDLEAddress) {
+      } else if (outputTokenAddress === rexLPETHAddress) {
         call = [
           [
             201, // approve the ticket fee

@@ -50,7 +50,16 @@ export const CoinBalance: FC<IProps> = ({
             </div>
           </div>
         </div>
+<<<<<<< HEAD
        
+=======
+        <div
+          onClick={() => onSelectToken(nameCoin)}
+          aria-hidden="true"
+        >
+          <FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} size={35} />
+        </div>
+>>>>>>> main
       </div>
     </ButtonNew>
   );

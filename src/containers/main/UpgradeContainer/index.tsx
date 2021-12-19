@@ -36,16 +36,11 @@ interface IProps {
   address: string;
   balance?: string;
 }
-export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
+export const UpgradeContainer:FC<IProps> = ({ address, balance }) => {
   const state = useShallowSelector(selectMain);
   const {
-    balances,
-    isLoading,
-    isLoadingDowngrade,
-    isLoadingUpgrade,
-    selectedDowngradeCoin,
-    selectedUpgradeCoin,
-    isReadOnly,
+    balances, isLoading, isLoadingDowngrade,
+    isLoadingUpgrade, selectedDowngradeCoin, selectedUpgradeCoin, isReadOnly,
   } = state;
   const [showWarningToolTip, setShowWarningToolTip] = useState(false);
   const [downgradeCoin, setDowngradeCoin] = useState(selectedDowngradeCoin);
@@ -61,19 +56,11 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
   }>();
   const [upgradeCoin, setUpgradeCoin] = useState(selectedUpgradeCoin);
   const [upgradeConfig, setUpgradeConfig] = useState<{
-    coin: Coin;
-    tokenAddress: string;
-    superTokenAddress: string;
-    multi: number;
-    key:
-    | 'hasWethApprove'
-    | 'hasUsdcApprove'
-    | 'hasWbtcApprove'
-    | 'hasDaiApprove'
-    | 'hasMkrApprove'
-    | 'hasMaticApprove'
-    | 'hasSushiApprove'
-    | 'hasIdleApprove';
+    coin: Coin,
+    tokenAddress: string,
+    superTokenAddress: string,
+    multi: number,
+    key: 'hasWethApprove' | 'hasUsdcApprove' | 'hasWbtcApprove' | 'hasDaiApprove' | 'hasMkrApprove' | 'hasMaticApprove' | 'hasSushiApprove' | 'hasIdleApprove',
   }>();
   const [upgradeValue, setUpgradeValue] = useState('');
   const dispatch = useDispatch();
@@ -117,12 +104,10 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
       (el) => el.coin === selectedDowngradeCoin,
     );
     if (coin) {
-      setShowWarningToolTip(
-        !!flowConfig
-          .filter((config) => config.tokenA === coin.tokenAddress)
-          .flatMap((filteredConfig) => filteredConfig.flowKey)
-          .find((filteredFlowKey) => state[filteredFlowKey]?.flowsReceived! > 0),
-      );
+      setShowWarningToolTip(!!flowConfig
+        .filter((config) => config.tokenA === coin.tokenAddress)
+        .flatMap((filteredConfig) => filteredConfig.flowKey)
+        .find((filteredFlowKey) => state[filteredFlowKey]?.flowsReceived! > 0));
       setDowngradeAddress(coin.tokenAddress);
       setDowngradeCoin(coin.coin);
     }
@@ -160,12 +145,8 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
   }, []);
 
   const handleUpgrade = useCallback(() => {
-    if (
-      Number(upgradeValue) < 0 ||
-      (balances &&
-        upgradeConfig &&
-        Number(balances[upgradeConfig.tokenAddress]) === 0)
-    ) {
+    if (Number(upgradeValue) < 0 ||
+    (balances && upgradeConfig && Number(balances[upgradeConfig.tokenAddress]) === 0)) {
       return;
     }
     if (upgradeConfig) {
@@ -181,12 +162,8 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
   }, [dispatch, upgradeConfig, upgradeValue, balances]);
 
   const handleApprove = useCallback(() => {
-    if (
-      Number(upgradeValue) < 0 ||
-      (balances &&
-        upgradeConfig &&
-        Number(balances[upgradeConfig.tokenAddress]) === 0)
-    ) {
+    if (Number(upgradeValue) < 0 ||
+    (balances && upgradeConfig && Number(balances[upgradeConfig.tokenAddress]) === 0)) {
       return;
     }
     if (upgradeConfig) {
