@@ -12,7 +12,7 @@ import { Coin } from '../../../constants/coins';
 import { CoinChange } from '../CoinChange';
 import { CoinBalancePanel } from '../CoinBalancePanel';
 import { CoinRateForm } from '../CoinRateForm';
-import { FlowType } from '../../../constants/flowConfig';
+import { FlowTypes } from '../../../constants/flowConfig';
 import Price from '../../common/Price';
 import LpAPY from '../../common/LpAPY';
 
@@ -27,10 +27,12 @@ interface IProps {
   totalFlow?: string;
   totalFlows?: number;
   streamEnd?: string;
-  subsidyRate?: { perso:number, total:number };
+  subsidyRate?: { perso:number, total:number, endDate:string };
   personalFlow?: string;
   mainLoading?: boolean;
-  flowType: FlowType,
+  flowType: FlowTypes,
+  contractAddress: string,
+  isReadOnly?:boolean,
 }
 
 export const PanelChange: FC<IProps> = ({
@@ -48,6 +50,8 @@ export const PanelChange: FC<IProps> = ({
   personalFlow,
   mainLoading = false,
   flowType,
+  isReadOnly,
+  contractAddress,
 }) => {
   const [inputShow, setInputShow] = useState(false);
   const [value, setValue] = useState('');
@@ -95,14 +99,16 @@ export const PanelChange: FC<IProps> = ({
         <div className={styles.btn_arrow} onClick={toggleInputShow} role="presentation">
           <div className={styles.container}>
             <div className={styles.wrap}>
-              <div className={styles.coin}>
-                <CoinChange nameCoinLeft={coinA} nameCoinRight={coinB} />
-                {flowType === 'launchpad' && <Price />}
-                {flowType === 'sushiLP' && <LpAPY />}
-              </div>
-              <div className={styles.streaming_mob}>
-                <span className={styles.number}>{totalFlow}</span>
-                {`${coinA}x/mo.`}
+              <div className={styles.row}>
+                <div className={styles.coin}>
+                  <CoinChange nameCoinLeft={coinA} nameCoinRight={coinB} />
+                  {flowType === 'launchpad' && <Price />}
+                  {flowType === 'sushiLP' && <LpAPY contractAddress={contractAddress} />}
+                </div>
+                <div className={styles.streaming_mob}>
+                  <span className={styles.number}>{totalFlow}</span>
+                  {`${coinA}x/mo.`}
+                </div>
               </div>
               <div className={styles.stream}>
                 <span>
@@ -112,18 +118,18 @@ export const PanelChange: FC<IProps> = ({
                     { (subsidyRate?.perso || 0) > 0 ? (
                       <span>
                         <span data-tip data-for={`depositTooltipPerso-${uuid}`}>🔥</span>
-                        <ReactTooltip 
+                        <ReactTooltip
                           id={`depositTooltipPerso-${uuid}`}
-                          place="right" 
-                          effect="solid" 
+                          place="right"
+                          effect="solid"
                           multiline
                           className={styles.depositTooltip}
                         >
                           <span className={styles.depositTooltip_span}>
                             {`Earning ${((subsidyRate?.perso || 0)).toFixed(2)} RIC/mo. subsidy`}
-                          </span> 
+                          </span>
                         </ReactTooltip>
-                      </span> 
+                      </span>
                     ) : <span /> }
                   </div>
                 </span>
@@ -133,9 +139,9 @@ export const PanelChange: FC<IProps> = ({
                     {`Runs out on ${streamEnd}`}
                   </div>
                   )}
-                  
+
                 </span>
-                
+
               </div>
               <div className={styles.balances}>
                 <div className={styles.first_balance_container}>
@@ -155,19 +161,19 @@ export const PanelChange: FC<IProps> = ({
                 <span>
                   <span className={styles.number}>{totalFlow}</span>
                   {`${coinA}x/mo.  `}
-                  { (subsidyRate?.perso || 0) > 0 ? (
+                  { ((subsidyRate?.total) || 0) > 0 ? (
                     <span>
                       <span data-tip data-for={`depositTooltipTotal-${uuid}`}>🔥</span>
-                      <ReactTooltip 
+                      <ReactTooltip
                         id={`depositTooltipTotal-${uuid}`}
-                        place="right" 
-                        effect="solid" 
+                        place="right"
+                        effect="solid"
                         multiline
                         className={styles.depositTooltip}
                       >
                         <span className={styles.depositTooltip_span}>
-                          {`Total subsidy: ${((subsidyRate?.total || 0) / 1e3).toFixed(0)}k RIC/mo.`}
-                        </span> 
+                          {`Total subsidy: ${((subsidyRate?.total || 0) / 1e3).toFixed(0)}k RIC/mo. | Rewards End: ${subsidyRate?.endDate}`}
+                        </span>
                       </ReactTooltip>
                     </span>
                   ) : <span /> }
@@ -197,6 +203,7 @@ export const PanelChange: FC<IProps> = ({
             onClickStop={handleStop}
             coin={coinA}
             isLoading={isLoading}
+            isReadOnly={isReadOnly}
           />
         </div>
         ) }
@@ -210,6 +217,7 @@ export const PanelChange: FC<IProps> = ({
               onClickStop={handleStop}
               coin={coinA}
               isLoading={isLoading}
+              isReadOnly={isReadOnly}
             />
           </div>
         )}

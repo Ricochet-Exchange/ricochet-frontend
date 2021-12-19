@@ -17,18 +17,19 @@ interface IProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void,
   onClickApprove?: () => void,
   onClickUpgrade?: () => void,
-  onSelectToken: (coin: Coin) => void,
   onClickDowngrade?: () => void,
   onClickMax?: () => void,
   isLoading?: boolean;
+  isReadOnly?:boolean,
   disabledApprove?:boolean;
+  showWarningToolTip?:boolean;
 }
-
 export const UpgradePanel: FC<IProps> = ({
   balance = '',
   nameCoin,
   placeholder,
   isLoading,
+  isReadOnly,
   disabledApprove,
   onChange,
   onClickApprove,
@@ -37,7 +38,7 @@ export const UpgradePanel: FC<IProps> = ({
   onClickMax,
   value,
   isUpgrade,
-  onSelectToken,
+  showWarningToolTip,
 }) => (
   <section className={styles.panel_mob}>
     <section className={styles.panel}>
@@ -47,7 +48,6 @@ export const UpgradePanel: FC<IProps> = ({
             className={styles.label} 
             nameCoin={nameCoin} 
             balance={Number(balance)} 
-            onSelectToken={onSelectToken}
             onClickMax={onClickMax}
           />
         </div>
@@ -61,6 +61,7 @@ export const UpgradePanel: FC<IProps> = ({
             type="number"
             onClickMax={onClickMax}
             isLoading={isLoading}
+            isReadOnly={isReadOnly}
           />
         </div>
         <div className={styles.buttons}>
@@ -70,7 +71,10 @@ export const UpgradePanel: FC<IProps> = ({
             onClickDowngrade={onClickDowngrade}
             isUpgrade={isUpgrade}
             isLoading={isLoading}
+            showWarningToolTip={showWarningToolTip}
             disabledApprove={disabledApprove}
+            isReadOnly={isReadOnly}
+
           />
         </div>
       </div>
@@ -81,7 +85,9 @@ export const UpgradePanel: FC<IProps> = ({
         onClickUpgrade={onClickUpgrade}
         onClickDowngrade={onClickDowngrade}
         isUpgrade={isUpgrade}
+        showWarningToolTip={showWarningToolTip}
         isLoading={isLoading}
+        isReadOnly={isReadOnly}
       />
     </div>
   </section>

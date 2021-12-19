@@ -219,3 +219,12 @@
 .language_name {
   padding: 0 15px 0 0;
 }
+
+.connect_wallet {
+  @include flexbox(center, center);
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  margin: 10px;
+}

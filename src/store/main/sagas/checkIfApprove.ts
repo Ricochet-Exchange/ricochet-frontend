@@ -11,6 +11,7 @@ import {
   WETHAddress, WETHxAddress,
   WBTCAddress, WBTCxAddress,
   SUSHIAddress, SUSHIxAddress,
+  IDLEAddress, IDLExAddress,
 } from 'constants/polygon_config';
 import { upgradeTokensList } from 'constants/upgradeConfig';
 import { mainSetState } from '../actionCreators';
@@ -19,7 +20,7 @@ import { selectBalances } from '../selectors';
 export function* checkIfApprove(
   tokenAddress: string,
   superTokenAddress: string,
-  param: 'hasWethApprove' | 'hasUsdcApprove' | 'hasWbtcApprove' | 'hasDaiApprove' | 'hasMkrApprove' | 'hasMaticApprove' | 'hasSushiApprove',
+  param: 'hasWethApprove' | 'hasUsdcApprove' | 'hasWbtcApprove' | 'hasDaiApprove' | 'hasMkrApprove' | 'hasMaticApprove' | 'hasSushiApprove' | 'hasIdleApprove',
 ) {
   const address: Unwrap<typeof getAddress> = yield call(getAddress);
   const contract: Unwrap<typeof getContract> = yield call(
@@ -32,7 +33,6 @@ export function* checkIfApprove(
   const balances: ReturnType<typeof selectBalances> = yield select(selectBalances);
   const coin = upgradeTokensList.find((c) => c.tokenAddress === tokenAddress);
   const decimals = coin ? coin.multi : 1;
-  // console.log(Number(allowAmount) / decimals, Number(balances && balances[tokenAddress]));
   const hasApprove = Number(allowAmount) > Number(balances && balances[tokenAddress]) * decimals;
   yield put(mainSetState({ [param]: hasApprove }));
 }
@@ -65,4 +65,8 @@ export function* checkIfApproveMatic() {
 
 export function* checkIfApproveSushi() {
   yield call(checkIfApprove, SUSHIAddress, SUSHIxAddress, 'hasSushiApprove');
+}
+
+export function* checkIfApproveIdle() {
+  yield call(checkIfApprove, IDLEAddress, IDLExAddress, 'hasIdleApprove');
 }

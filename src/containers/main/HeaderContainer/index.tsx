@@ -17,9 +17,10 @@ import menuImg from '../../../assets/images/menu.svg';
 interface IProps {
   address: string;
   balance?: string;
+  isReadOnly?:boolean;
 }
 
-export const HeaderContainer:FC<IProps> = ({ address, balance }) => {
+export const HeaderContainer:FC<IProps> = ({ address, balance, isReadOnly }) => {
   const location = useLocation();
   const { language, changeLanguage } = useLang();
   const { t } = useTranslation('main');
@@ -59,7 +60,18 @@ export const HeaderContainer:FC<IProps> = ({ address, balance }) => {
             language={language}
             ricBalance={balance}
             account={address}
+            isReadOnly={isReadOnly}
           />
+        </div>
+        <div className={styles.mob_head}>
+          {location.pathname === Routes.Wallet ? (
+            t('Wallet')
+          ) : (
+            <>
+              <div>{t('Invest')}</div>
+              <WalletButton ricBalance={balance} account={address} />
+            </>
+          )}
         </div>
         <div className={styles.mob_menu}>
           <ButtonNew className={styles.menu_button} onClick={toggleMenuMobile}>
@@ -67,16 +79,6 @@ export const HeaderContainer:FC<IProps> = ({ address, balance }) => {
           </ButtonNew>
         </div>
         {isShowMenu && <MobileMenu closeMenu={toggleMenuMobile} />}
-      </div>
-      <div className={styles.mob_head}>
-        {location.pathname === Routes.Wallet ? (
-          t('Wallet')
-        ) : (
-          <>
-            <div>{t('Invest')}</div>
-            <WalletButton ricBalance={balance} account={address} />
-          </>
-        )}
       </div>
     </div>
   );
