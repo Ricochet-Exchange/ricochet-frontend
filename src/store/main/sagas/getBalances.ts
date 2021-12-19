@@ -2,7 +2,6 @@ import { put, call } from 'redux-saga/effects';
 import { fromWei } from 'utils/balances';
 import {
   rexLPETHAddress,
-  rexLPIDLEAddress,
   USDCxAddress,
   USDCAddress,
   DAIxAddress,
@@ -37,7 +36,7 @@ export function* getBalances(address: string) {
     WETHxAddress, WETHAddress,
     WBTCxAddress, WBTCAddress,
     IDLExAddress, IDLEAddress,
-    RICAddress, rexLPETHAddress, rexLPIDLEAddress,
+    RICAddress, rexLPETHAddress,
   ];
   const contracts = contractsAddress.map((el) => getContract(el, erc20ABI));
   const requests = contracts.map((el) => el.methods.balanceOf(address).call);
