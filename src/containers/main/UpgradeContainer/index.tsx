@@ -20,7 +20,6 @@ import {
 
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
-import { downgradeTokensList } from 'constants/downgradeConfig';
 import { upgradeTokensList } from 'constants/upgradeConfig';
 import { useTranslation } from 'i18n';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
@@ -30,7 +29,6 @@ import { Popover } from 'react-tiny-popover';
 import styles from './styles.module.scss';
 import { queryFlows } from '../../../api';
 import { Flow } from '../../../types/flow';
-import { flowConfig } from '../../../constants/flowConfig';
 
 interface IProps {
   address: string;
