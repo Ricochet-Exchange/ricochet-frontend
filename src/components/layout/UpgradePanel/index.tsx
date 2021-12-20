@@ -17,7 +17,6 @@ interface IProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void,
   onClickApprove?: () => void,
   onClickUpgrade?: () => void,
-  onSelectToken: (coin: Coin) => void,
   onClickDowngrade?: () => void,
   onClickMax?: () => void,
   isLoading?: boolean;
@@ -40,7 +39,6 @@ export const UpgradePanel: FC<IProps> = ({
   value,
   isUpgrade,
   showWarningToolTip,
-  onSelectToken,
 }) => (
   <section className={styles.panel_mob}>
     <section className={styles.panel}>
@@ -50,7 +48,6 @@ export const UpgradePanel: FC<IProps> = ({
             className={styles.label} 
             nameCoin={nameCoin} 
             balance={Number(balance)} 
-            onSelectToken={onSelectToken}
             onClickMax={onClickMax}
           />
         </div>

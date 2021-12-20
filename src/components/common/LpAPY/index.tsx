@@ -81,7 +81,6 @@ const retrieveAPY = async (contractAddress: string): Promise<{
   }
 
   // Retrieve feesAPY
-  console.log(feesQuery(addr));
   const feesResp = await axios.post(feesUrl, { query: feesQuery(addr) });
   const { pair } = feesResp.data.data;
   // const yesterdayFees = (pair.dayData[0].volumeUSD /

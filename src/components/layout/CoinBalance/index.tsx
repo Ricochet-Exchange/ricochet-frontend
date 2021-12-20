@@ -1,7 +1,6 @@
 import React, {
   FC,
 } from 'react';
-import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import ButtonNew from 'components/common/ButtonNew';
 import { useTranslation } from 'i18n';
 import { Coin, iconsCoin } from '../../../constants/coins';
@@ -11,12 +10,11 @@ interface IProps {
   nameCoin: Coin,
   balance?: number,
   className: string,
-  onSelectToken: (coin: Coin) => void,
   onClickMax: (() => void) | undefined,
 }
 
 export const CoinBalance: FC<IProps> = ({
-  nameCoin, balance, onSelectToken, className, onClickMax,
+  nameCoin, balance, className, onClickMax,
 }) => {
   const { t } = useTranslation('main');
   
@@ -30,14 +28,12 @@ export const CoinBalance: FC<IProps> = ({
             src={iconsCoin[nameCoin]}
             alt={nameCoin}
             width="40px"
-            onClick={() => onSelectToken(nameCoin)}
             aria-hidden="true"
           />
         </div>
         <div className={styles.balance_wrap}>
           <div
             className={styles.name_wrap}
-            onClick={() => onSelectToken(nameCoin)}
             aria-hidden="true"
           >
             <div className={styles.name}>
@@ -50,16 +46,11 @@ export const CoinBalance: FC<IProps> = ({
               :
             </div>
             <div className={styles.balance_value_container}>
-              <div className={styles.balance_value}>{balance}</div>
+              <div className={styles.balance_value}>{balance?.toFixed(2)}</div>
             </div>
           </div>
         </div>
-        <div
-          onClick={() => onSelectToken(nameCoin)}
-          aria-hidden="true"
-        >
-          <FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} size={35} />
-        </div>
+       
       </div>
     </ButtonNew>
   );

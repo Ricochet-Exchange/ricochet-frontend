@@ -1,10 +1,117 @@
 @import '../../../assets/styles/mixins';
 
+@include tablet {
+  .dextable td:not(:first-child):not(:last-child) {
+    display: none;
+    max-height: 0;
+  }
+}
+
+  .dextable {
+    border-collapse: collapse;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+    border: 1px solid var(--color-white);
+    width: 100%;
+  }
+  
+  .dextable thead tr {
+    background-color: rgb(252, 253, 254);
+    color: #678EB5;
+    text-transform: uppercase;
+    text-align: left;
+    line-height: 16px;
+    letter-spacing: 0px;
+    border-bottom: 1px solid var(--color-blue);
+    font-size: 0.8em;
+  
+  
+  }
+  
+  .dextable th, 
+  .dextable td {
+    word-break: break-word;
+    padding: 15px 15px 16px 12px;
+  }
+  
+  .dextable td.section {
+    border-right: 1px solid var(--color-blue-light);
+  
+  }
+  
+  .dextable tbody tr {
+    border-bottom: 1px solid var(--color-blue-light);
+    font-size: 0.9em;
+    font-weight: 501;
+  
+  }
+  
+  .dextable tbody tr:last-of-type {
+    border-bottom: 2px solid var(--color-blue);
+  }
+  
+
+
+
+.redFont {
+  color: var(--color-red);
+}
+.greenFont {
+  color: var(--color-primary);
+}
+.currDisplay {  
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  gap: 15px;
+  
+}
+
+.currDisplayImg {
+  width: 24px;
+  height: 24px;
+ 
+}
+
+.currDisplayName {
+  height: 24px;
+}
+
+.displaybutton {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 10px;
+}
+
+.displaybutton span.upgradeButton {
+  height: 32px;
+  width: auto;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: rgba(16,187,52,.16);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.displaybutton span.downgradeButton {
+  height: 32px;
+  width: auto;
+  display: inline-block;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 4px;
+  background-color: rgba(229,26,69,.16);
+
+}
+
+
+
 .wrapper {
   font-family: $default-font;
   height: 100vh;
   width: 100%;
-  padding: 110px 0 0 0;
+  padding: 10px 24px 10px 24px;
 
   @include tablet {
     padding: 40px 20px 20px 20px;

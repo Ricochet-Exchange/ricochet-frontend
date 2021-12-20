@@ -1,25 +1,13 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "name":"Ricochet Exchange",
+  "short_name":"Ricochet Exchange",
+  "start_url":"/",
+  "display":"standalone",
+  "iconPath":"icons/icon-96x96.png",
+  "description":"Ricochet Exchange is focused on producing novel tools that allow people to invest their crypto assets in real-time using Superfluid's finance framework. Learn more about each of our projects below.",
+  "providedBy":{
+    "name":"Ricochet",
+    "url":"https://www.ricochet.exchange/"
+  },
+  "icons":[]
 }
