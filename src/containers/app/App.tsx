@@ -7,7 +7,6 @@ import { Banner } from 'components/layout/Banner';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-  
   useEffect(() => {
     dispatch(mainCheck());
   }, [dispatch]);
