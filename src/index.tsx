@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { CookiesProvider } from 'react-cookie';
 import { ConnectedRouter } from 'connected-react-router';
 import { PersistGate } from 'redux-persist/integration/react';
 import App from 'containers/app/App';
@@ -16,7 +17,9 @@ ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <PersistGate loading={null} persistor={persistor}>
-        <App />
+        <CookiesProvider>
+          <App />
+        </CookiesProvider>
       </PersistGate>
     </ConnectedRouter>
   </Provider>,
