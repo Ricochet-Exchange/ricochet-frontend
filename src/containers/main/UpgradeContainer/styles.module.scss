@@ -33,7 +33,6 @@
   .dextable td {
     word-break: break-word;
     padding: 15px 15px 16px 12px;
-  
   }
   
   .dextable td.section {
@@ -63,8 +62,10 @@
 }
 .currDisplay {  
   display: flex;
+  align-items: flex-start;
   flex-direction: row;
-  justify-content: space-evenly;
+  gap: 15px;
+  
 }
 
 .currDisplayImg {
@@ -88,7 +89,7 @@
   width: auto;
   display: inline-block;
   border-radius: 4px;
-  background-color: rgba(229,26,69,.16);
+  background-color: rgba(16,187,52,.16);
   cursor: pointer;
   padding: 4px;
 }
@@ -98,9 +99,10 @@
   width: auto;
   display: inline-block;
   border-radius: 4px;
-  background-color: rgba(16,187,52,.16);
   cursor: pointer;
   padding: 4px;
+  background-color: rgba(229,26,69,.16);
+
 }
 
 
