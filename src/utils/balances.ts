@@ -1,16 +1,16 @@
-import web3 from './web3instance';
+import Web3 from 'web3';
 
-const zero = web3.utils.toBN(0);
-const negative1 = web3.utils.toBN(-1);
+const zero = Web3.utils.toBN(0);
+const negative1 = Web3.utils.toBN(-1);
 
 function fromWei(
   weiInput: string,
   decimals: number,
   options: { pad?: boolean, commify?: boolean } = { pad: false, commify: false },
 ) {
-  let wei = web3.utils.toBN(weiInput); // eslint-disable-line
+  let wei = Web3.utils.toBN(weiInput); // eslint-disable-line
   let negative = wei.lt(zero); // eslint-disable-line
-  const base = web3.utils.toBN(10).pow(web3.utils.toBN(decimals));
+  const base = Web3.utils.toBN(10).pow(Web3.utils.toBN(decimals));
   const baseLength = decimals;
   if (negative) {
     wei = wei.mul(negative1);

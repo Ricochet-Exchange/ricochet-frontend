@@ -14,8 +14,8 @@ import { loadReadOnlyData } from './loadReadOnlyData';
 export default function* mainSaga() {
   yield takeLeading(MainActionTypes.MAIN_CHECK, mainCheckSaga);
   yield takeLeading(MainActionTypes.MAIN_SWITCH_NETWORK, switchNetworkSaga);
-  yield takeEvery(MainActionTypes.LOAD_DATA, loadData);
   yield takeLeading(MainActionTypes.MAIN_SWITCH_NETWORK, switchNetworkSaga);
+  yield takeEvery(MainActionTypes.LOAD_DATA, loadData);
 
   yield takeLeading(MainActionTypes.START_FLOW, startFlowSaga);
   yield takeLeading(MainActionTypes.STOP_FLOW, stopFlowSaga);

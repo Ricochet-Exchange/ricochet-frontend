@@ -1,21 +1,9 @@
-import web3 from 'utils/web3instance';
+import Web3 from 'web3';
+// @ts-ignore
+import { aggregate } from '@makerdao/multicall';
 
-export const makeBatchRequest = (calls: any[]) => {
-  const batch = new web3.BatchRequest();
-
-  const promises = calls.map((call) => new Promise((resolve, reject) => {
-    batch.add(
-      call.request({}, (err: any, result: unknown) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result);
-        }
-      }),
-    );
-  }));
-
-  batch.execute();
-
-  return Promise.all(promises);
+export const makeBatchRequest = async (calls: any[], web3: Web3) => {
+  const config = { web3, multicallAddress: process.env.REACT_APP_MULTICALL_CONTRACT_ADDRESS };
+  const response = await aggregate(calls, config);
+  return response?.results?.transformed || [];
 };
