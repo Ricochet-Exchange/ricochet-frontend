@@ -1,4 +1,6 @@
-import { put, call, all } from 'redux-saga/effects';
+import {
+  put, call, all, select, 
+} from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
 import { mainGetData, mainSetState } from '../actionCreators';
@@ -14,11 +16,14 @@ import {
 } from './checkIfApprove';
 import { getBalances } from './getBalances';
 import { sweepQueryFlow } from './sweepQueryFlow';
+import { selectMain } from '../selectors';
 
 export function* loadData() {
   try {
     yield put(mainSetState({ isLoading: true }));
-    const address: Unwrap<typeof getAddress> = yield call(getAddress);
+    const main: ReturnType<typeof selectMain> = yield select(selectMain);
+    const { web3 } = main;
+    const address: Unwrap<typeof getAddress> = yield call(getAddress, web3);
     yield call(getBalances, address);
     yield all([
       call(checkIfApproveUsdc),
