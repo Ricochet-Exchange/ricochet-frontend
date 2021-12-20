@@ -130,7 +130,8 @@ export default function LpApy(props: Props) {
   const [feesApy, setFeesApy] = React.useState('');
 
   React.useEffect(() => {
-    retrieveAPY(props.contractAddress).then((p) => {
+    const { contractAddress } = props;
+    retrieveAPY(contractAddress).then((p) => {
       setApy(p.apy.toFixed(2));
       setRewardsApy(p.rewardsApy.toFixed(2));
       setFeesApy(p.feesApy.toFixed(2));
