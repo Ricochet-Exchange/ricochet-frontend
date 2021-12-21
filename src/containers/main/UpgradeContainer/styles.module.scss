@@ -11,14 +11,12 @@
     border-collapse: collapse;
     border-radius: 5px 5px 0 0;
     overflow: hidden;
-    box-shadow: 0 0 20px rgba(0,0,0,0.15);
     border: 1px solid var(--color-white);
     width: 100%;
   }
   
   .dextable thead tr {
-    background-color: rgb(252, 253, 254);
-    color: #678EB5;
+    color: var(--color-blue);
     text-transform: uppercase;
     text-align: left;
     line-height: 16px;
