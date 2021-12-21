@@ -14,15 +14,15 @@ import 'assets/styles/main.scss';
 const root = document.getElementById('root');
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <PersistGate loading={null} persistor={persistor}>
-        <CookiesProvider>
+  <CookiesProvider>
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <PersistGate loading={null} persistor={persistor}>
           <App />
-        </CookiesProvider>
-      </PersistGate>
-    </ConnectedRouter>
-  </Provider>,
+        </PersistGate>
+      </ConnectedRouter>
+    </Provider>
+  </CookiesProvider>,
   root,
 );
 
