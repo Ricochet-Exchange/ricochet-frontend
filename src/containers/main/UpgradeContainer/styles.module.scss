@@ -6,34 +6,46 @@
     max-height: 0;
   }
 }
+  .streamshow {
+    display: inline-flex;
+    }
 
   .dextable {
     border-collapse: collapse;
-    border-radius: 5px 5px 0 0;
     overflow: hidden;
-    border: 1px solid var(--color-white);
     width: 100%;
   }
   
+  .blue {
+    color: var(--color-blue-dark);
+    font-weight: 500;
+  }
+
   .dextable thead tr {
-    color: var(--color-blue);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 140%;
     text-transform: uppercase;
+    color: var(--color-grey);
     text-align: left;
-    line-height: 16px;
     letter-spacing: 0px;
     border-bottom: 1px solid var(--color-blue);
-    font-size: 0.8em;
-  
-  
+
   }
   
   .dextable th, 
   .dextable td {
     word-break: break-word;
     padding: 15px 15px 16px 12px;
+    line-height: 25px;
+    text-align: right;
+
+
   }
   
   .dextable td.section {
+    text-align: right;
     border-right: 1px solid var(--color-blue-light);
   
   }
@@ -41,7 +53,7 @@
   .dextable tbody tr {
     border-bottom: 1px solid var(--color-blue-light);
     font-size: 0.9em;
-    font-weight: 501;
+    font-weight: 500;
   
   }
   
@@ -62,7 +74,7 @@
   display: flex;
   align-items: flex-start;
   flex-direction: row;
-  gap: 15px;
+  gap: 5px;
   
 }
 
@@ -84,22 +96,28 @@
 
 .displaybutton span.upgradeButton {
   height: 32px;
-  width: auto;
+  width: 40px;
+  text-align: center;
   display: inline-block;
   border-radius: 4px;
-  background-color: rgba(16,187,52,.16);
+  background-color: rgba(16,187,52,.15);
   cursor: pointer;
   padding: 4px;
+  color: #10bb34;
+  font-size: 15px;
 }
 
 .displaybutton span.downgradeButton {
   height: 32px;
-  width: auto;
+  width: 40px;
+  text-align: center;
+  font-size: 19px;
+  color: #e74d39;
   display: inline-block;
   border-radius: 4px;
   cursor: pointer;
   padding: 4px;
-  background-color: rgba(229,26,69,.16);
+  background-color: rgba(229,26,69,.15);
 
 }
 

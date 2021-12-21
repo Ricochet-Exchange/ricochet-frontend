@@ -225,22 +225,26 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
             <td>
               Market Price
               <br />
-              in USD
+              in
+              <span className={styles.blue}> USD</span>
             </td>
             <td className={styles.section}>
               SuperToken Balance
               <br />
-              in USD
+              in
+              <span className={styles.blue}> USD</span>
             </td>
             <td>
               Incoming Outgoing
               <br />
-              Per Month in USD
+              Per Month in
+              <span className={styles.blue}> USD</span>
             </td>
             <td className={styles.section}>
               Monthly net Flow
               <br />
-              in USD
+              in
+              <span className={styles.blue}> USD</span>
             </td>
 
             <td>
@@ -257,29 +261,38 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                 (geckoMapping as any)[token.coin]
               ].usd;
               const usdPrice = new Big(parseFloat(usdPriceString));
-
-              const inFlowString =
-                flows?.flowsOwned?.filter(
+              let inFlowRate = 0;
+              const inFlowArray = flows?.flowsOwned
+                ?.filter(
                   (flow: Flow) =>
                     flow.token.id === token.superTokenAddress.toLowerCase(),
-                )[0]?.flowRate || '0';
-              let inFlow = new Big(inFlowString);
+                );
+              for (let i = 0; i < (inFlowArray?.length || 0); i += 1) {
+                if (inFlowArray !== undefined) inFlowRate += parseInt(inFlowArray[i].flowRate, 10);
+              }
+              let inFlow = new Big(inFlowRate);
               inFlow = inFlow
                 .times(new Big('2592000'))
                 .div(new Big('10e17'))
                 .times(usdPrice);
-
-              const outFlowString =
-                flows?.flowsReceived?.filter(
+              
+              let outFlowRate = 0;
+              const outFlowArray = flows?.flowsReceived
+                ?.filter(
                   (flow: Flow) =>
                     flow.token.id === token.superTokenAddress.toLowerCase(),
-                )[0]?.flowRate || '0';
-
-              let outFlow = new Big(outFlowString);
+                );
+              for (let i = 0; i < (outFlowArray?.length || 0); i += 1) {
+                if (outFlowArray !== undefined) { 
+                  outFlowRate += parseInt(outFlowArray[i].flowRate, 10); 
+                }
+              }
+              let outFlow = new Big(outFlowRate);
               outFlow = outFlow
                 .times(new Big('2592000'))
                 .div(new Big('10e17'))
                 .times(usdPrice);
+                
               return (
                 <tr>
                   <td>
@@ -304,6 +317,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                       parseFloat(balances[token.superTokenAddress]).toFixed(2)}
                   </td>
                   <td>
+                    $
                     {geckoPriceList &&
                       parseFloat(
                         (geckoPriceList as any)[
@@ -312,6 +326,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                       ).toFixed(2)}
                   </td>
                   <td className={styles.section}>
+                    $
                     {balances &&
                       geckoPriceList &&
                       (
@@ -324,17 +339,25 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                       ).toFixed(2)}
                   </td>
                   <td>
-                    $
-                    {inFlow.toFixed(2)}
-                    <span className={styles.redFont}>
-                      <FontIcon name={FontIconName.ArrowUp} size={15} />
-                    </span>
+                    <div className={styles.streamshow}>
+                      - $
+                      {inFlow.toFixed(2)}
+                      <FontIcon
+                        className={styles.redFont}
+                        name={FontIconName.ArrowUp}
+                        size={15}
+                      />
+                    </div>
                     <br />
-                    $
-                    {outFlow.toFixed(2)}
-                    <span className={styles.greenFont}>
-                      <FontIcon name={FontIconName.ArrowDown} size={15} />
-                    </span>
+                    <div className={styles.streamshow}>
+                      + $
+                      {outFlow.toFixed(2)}
+                      <FontIcon
+                        className={styles.greenFont}
+                        name={FontIconName.ArrowDown}
+                        size={15}
+                      />
+                    </div>
                   </td>
                   <td className={styles.section}>
                     {outFlow.minus(inFlow) < new Big(0) ? (
@@ -343,7 +366,10 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                         {inFlow.minus(outFlow).toFixed(2)}
                       </>
                     ) : (
-                      <>{outFlow.minus(inFlow).toFixed(2)}</>
+                      <>
+                        + $
+                        {outFlow.minus(inFlow).toFixed(2)}
+                      </>
                     )}
                   </td>
 
