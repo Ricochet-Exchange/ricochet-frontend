@@ -83,7 +83,6 @@
 .icon-up-open:before { content: '\e851'; } /* '' */
 .icon-search:before { content: '\e852'; } /* '' */
 .icon-dot-3:before { content: '\e853'; } /* '' */
-.icon-minus:before { content: '\2212' ;}
 .icon-chart-line:before { content: '\e854'; } /* '' */
 .icon-shuffle-1:before { content: '\e855'; } /* '' */
 .icon-shuffle:before { content: '\e856'; } /* '' */
@@ -93,3 +92,4 @@
 .icon-rocket:before { content: '\f135'; } /* '' */
 .icon-space-shuttle:before { content: '\f197'; } /* '' */
 .icon-bank:before { content: '\f19c'; } /* '' */
+.icon-minus:before { content: '\2212' ;}
