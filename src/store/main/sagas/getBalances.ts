@@ -39,6 +39,48 @@ export function* getBalances(address: string) {
     IDLExAddress, IDLEAddress,
     RICAddress, rexLPETHAddress, rexLPIDLEAddress,
   ];
+
+  const coingeckoIds = new Map<string, string>([
+    [DAIAddress, 'dai'],
+    [USDCAddress, 'usd-coin'],
+    [WETHAddress, 'weth'],
+    [WBTCAddress, 'wrapped-bitcoin'],
+    [WMATICAddress, 'matic-network'],
+    [MKRAddress, 'maker'],
+  ]);
+
+  async function getCoingeckoRates() {
+    const ids = [...coingeckoIds.values()];
+    const coingeckoRequestUrl =
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=USD&ids=${ids.join(',')}`;
+    return fetch(coingeckoRequestUrl, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((responseData) => responseData)
+      .catch((error) => console.error(error));
+  }
+
+  const tokenAddresses = [...coingeckoIds.keys()];
+  const coingeckoPrices: { [key:string]: number } = {};
+
+  getCoingeckoRates().then((response:any) => {
+    tokenAddresses.forEach((tokenAddress) => {
+      const id = coingeckoIds?.get(tokenAddress);
+      const tokenData = response.filter((res:any) => res.id === id!);
+      if (tokenData === undefined) {
+        coingeckoPrices[tokenAddress] = 0;
+        console.warn('Could not fetch price for token ', tokenAddress);
+      } else {
+        coingeckoPrices[tokenAddress] = tokenData[0].current_price;
+      }
+    });
+  });
+
   const contracts = contractsAddress.map((el) => getContract(el, erc20ABI));
   const requests = contracts.map((el) => el.methods.balanceOf(address).call);
   const results: string[] = yield call(makeBatchRequest, requests);
@@ -57,5 +99,5 @@ export function* getBalances(address: string) {
   // Edit matic balance
   balances[WMATICAddress] = fromWei(yield web3.eth.getBalance(address), 18);
 
-  yield put(mainSetState({ balances }));
+  yield put(mainSetState({ balances, coingeckoPrices }));
 }

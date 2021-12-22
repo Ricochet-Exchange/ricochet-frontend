@@ -22,6 +22,7 @@ interface IProps {
   onClickStop: (callback: (e?: string) => void) => void
   coinA: Coin,
   coinB: Coin,
+  coingeckoPrice: number;
   balanceA?: string;
   balanceB?: string;
   totalFlow?: string;
@@ -40,6 +41,7 @@ export const PanelChange: FC<IProps> = ({
   onClickStop,
   placeholder,
   coinA,
+  coingeckoPrice,
   coinB,
   balanceA,
   balanceB,
@@ -177,6 +179,12 @@ export const PanelChange: FC<IProps> = ({
                       </ReactTooltip>
                     </span>
                   ) : <span /> }
+                </span>
+                <span>
+                  <span className={styles.number}>
+                    {(parseFloat(totalFlow as string) * coingeckoPrice).toFixed(2)}
+                  </span>
+                  {'$/mo.  '}
                 </span>
                 <span>
                   <span className={styles.number}>{totalFlows}</span>

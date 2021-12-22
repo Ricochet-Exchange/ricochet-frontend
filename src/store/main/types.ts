@@ -3,6 +3,7 @@ import { Coin } from '../../constants/coins';
 export type MainState = {
   address: string;
   balances?: { [key:string]: string };
+  coingeckoPrices?: { [key:string]: number };
   hasUsdcApprove?: boolean;
   hasDaiApprove?: boolean;
   hasMkrApprove?: boolean;
