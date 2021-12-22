@@ -36,7 +36,6 @@
     "@superfluid-finance/js-sdk": "^0.4.3",
     "@truffle/contract": "^4.3.31",
     "@types/ramda": "^0.27.45",
-    "antd": "^4.5.2",
     "axios": "0.21.1",
     "classnames": "2.2.6",
     "connected-react-router": "6.8.0",

@@ -1,12 +1,12 @@
 import React, { FC, ChangeEvent } from 'react';
-import { Button, Input } from 'antd';
+import { TextInput } from 'components/common/TextInput';
+import { Button } from 'components/common/Button';
 import { getVaultTxCalcValues } from 'utils/helpers';
 import { EtherscanLink } from 'components/banks/EtherScanLink';
 import { ApproveToken } from 'components/banks/ApproveToken';
-
 import { LoadingWrapper } from 'components/common/LoadingWrapper';
 import { BankType } from 'store/banks/types';
-import './VaultTransaction.scss';
+import styles from './styles.module.scss';
 
 type Props = {
   bank: BankType,
@@ -57,15 +57,15 @@ export const VaultTransaction: FC<Props> = ({
   );
   
   return (
-    <div className="VaultTransaction">
+    <div className={styles.VaultTransaction}>
       <LoadingWrapper
         isLoading={isLoadingTransaction}
-        className="fullframe"
-        classNameLoader="loader"
+        className={styles.fullframe}
+        classNameLoader={styles.loader}
       >
         <>
-          <div className="VaultTransaction__preview">
-            <div className="VaultDetail">
+          <div className={styles.VaultTransaction__preview}>
+            <div className={styles.VaultDetail}>
               <p>New collateralization ratio</p>
               <h3>
                 {vaultTxCalcValues.newCollateralizationRatio === Infinity
@@ -75,7 +75,7 @@ export const VaultTransaction: FC<Props> = ({
                 %
               </h3>
             </div>
-            <div className="VaultDetail">
+            <div className={styles.VaultDetail}>
               <p>New liquidation price</p>
               <h3>
                 {vaultTxCalcValues.newLiquidationPrice.toFixed(4)}
@@ -85,8 +85,8 @@ export const VaultTransaction: FC<Props> = ({
               </h3>
             </div>
           </div>
-          <div className="VaultTransaction__form__Total">
-            <div className="VaultTransaction__form">
+          <div className={styles.VaultTransaction__form__Total}>
+            <div className={styles.VaultTransaction__form}>
               {needsRepayUnlock() ? (
                 <>
                   <p>Please give allowance for your repay to continue.</p>
@@ -107,44 +107,47 @@ export const VaultTransaction: FC<Props> = ({
                     {`do you wish to ${activeTransaction}?`}
                   </p>
 
-                  <Input
+                  <TextInput
                     type="number"
-                    size="large"
                     value={value}
                     onChange={onChange}
-                    addonAfter={
-                      isCollateral
-                        ? bank.collateralToken.symbol
-                        : bank.debtToken.symbol
-                    }
+                    right={(
+                      <div className={styles.right}>
+                        {isCollateral ?
+                          bank.collateralToken.symbol
+                          : bank.debtToken.symbol}
+                      </div>
+                    )}
                   />
                 </>
               )}
             </div>
-            <div className="VaultTransaction__buttons">
+            <div className={styles.VaultTransaction__buttons}>
               {activeTransaction === 'repay' ? (
-                <Button type="link" onClick={onMaxRepay}>
-                  repay max
-                </Button>
+                <Button
+                  label="repay max"
+                  presentation="link"
+                  onClick={onMaxRepay}
+                  className={styles.linkButton}
+                />
               ) : null}
-              <Button type="link" onClick={onCancel}>
-                cancel
-              </Button>
               <Button
-                type="primary"
-                shape="round"
-                size="large"
-                className="purplebutton"
+                label="cancel"
+                presentation="link"
+                onClick={onCancel}
+                className={styles.linkButton}
+              />
+              <Button
+                label={activeTransaction}
+                className={styles.actionButton}
                 onClick={onMakeAction}
                 disabled={!value}
-              >
-                {activeTransaction}
-              </Button>
+              />
             </div>
           </div>
 
           {error ? (
-            <div>
+            <div className={styles.errorWrap}>
               <p>{error}</p>
             </div>
           ) : null}

@@ -1,45 +1,17 @@
-import React, { FC, useCallback } from 'react';
-import { Button } from 'antd';
-import { useModal } from 'hooks/useModal';
-import { ModalType } from 'store/modal/types';
-import { useDispatch } from 'react-redux';
-import { mainCheck } from 'store/main/actionCreators';
+import React, { FC } from 'react';
+import cx from 'classnames';
+import { Button } from 'components/common/Button';
+import styles from './styles.module.scss';
 
 type Props = {
-  isReadOnly?: boolean,
-  size?: string,
-  color?: string,
+  className?: string,
+  onClick: () => void,
 };
 
-export const SignInButton: FC<Props> = ({ size = 'big', color, isReadOnly }) => {
-  const { showModal } = useModal();
-  const dispatch = useDispatch();
-  const onClick = useCallback(() => {
-    if (isReadOnly) {
-      showModal(ModalType.Metamask);
-    } else dispatch(mainCheck());
-  }, [dispatch, showModal]);
-
-  return (
-    <>
-      {size === 'big' ? (
-        <Button
-          className="lightshadow biggestbutton"
-          size="large"
-          onClick={onClick}
-        >
-          Sign in with Web3
-        </Button>
-      ) : (
-        <Button
-          className={color ? `${color}button` : ''}
-          size="large"
-          shape="round"
-          onClick={onClick}
-        >
-          Sign in with Web3
-        </Button>
-      )}
-    </>
-  );
-};
+export const SignInButton: FC<Props> = ({ className, onClick }) => (
+  <Button
+    className={cx(styles.button, className)}
+    onClick={onClick}
+    label="Sign in with Web3"
+  />
+);

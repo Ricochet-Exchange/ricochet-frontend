@@ -1,11 +1,12 @@
 import React, { ChangeEvent, FC } from 'react';
 import { Link } from 'react-router-dom';
-import { ButtonNew } from 'components/common/ButtonNew';
+import { Button } from 'components/common/Button';
 import Icons from 'assets/icons/Icons';
 import { BankType } from 'store/banks/types';
 import { DepositBorrow } from 'components/banks/DepositBorrow';
 import { VaultType } from 'types/vaultType';
-import { Button, Modal } from 'antd';
+import ReactModal from 'react-modal';
+import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import styles from './styles.module.scss';
 
 type Props = {
@@ -54,12 +55,11 @@ export const ModalCreateVault: FC<Props> = ({
                 ${bank.debtToken.symbol}`}
               </strong>
             </p>
-            <ButtonNew
+            <Button
+              label="start"
               className={styles.start_button}
               onClick={onStartClick}
-            >
-              start
-            </ButtonNew>
+            />
           </>
         );
       }
@@ -83,11 +83,17 @@ export const ModalCreateVault: FC<Props> = ({
         return (
           <>
             <p>Setup succesful!</p>
-            <Icons.Vmark className="vmark" />
-            <Link to="/vaults?new=true">
-              <Button className="biggestbutton heavyshadow" size="large">
-                <Icons.Vault fill="#4F56B5" />
-                view vault
+            <Icons.Vmark className={styles.vmark} />
+            <Link
+              to="/vaults?new=true"
+              className={styles.link}
+            >
+              <Button
+                label="view vault"
+                className={styles.view_button}
+                onClick={onCloseModal}
+              >
+                <Icons.Vault fill="#678eb5" />
               </Button>
             </Link>
           </>
@@ -100,18 +106,26 @@ export const ModalCreateVault: FC<Props> = ({
   };
 
   return (
-    <Modal
-      wrapClassName="vertical-center-modal"
-      visible={visibleModal}
-      onCancel={onCloseModal}
-      maskClosable={false}
-      footer={null}
-      closeIcon={<Icons.Xmark width="22px" />}
+    <ReactModal
+      isOpen={visibleModal}
+      className={styles.modal}
+      overlayClassName={styles.modal_overlay}
+      preventScroll
     >
-      <h2 className={styles.create_title}>
-        Creating a Vault
-      </h2>
-      {renderStep()}
-    </Modal>
+      <div className={styles.container}>
+        <div className={styles.content}>
+          <h2 className={styles.create_title}>
+            Creating a Vault
+          </h2>
+          <div className={styles.close_wrap}>
+            <button className={styles.close_btn} onClick={onCloseModal}>
+              <FontIcon name={FontIconName.Close} className={styles.close} size={24} />
+            </button>
+          </div>
+          {renderStep()}          
+        </div>
+      </div>
+      <div className={styles.backdrop} onClick={onCloseModal} role="presentation" />
+    </ReactModal>
   );
 };

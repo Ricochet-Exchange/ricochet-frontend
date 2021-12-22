@@ -1,12 +1,12 @@
 import React, { FC, MouseEvent } from 'react';
-
+import cx from 'classnames';
 import { VaultActions } from 'components/banks/VaultActions';
-import Icons from 'assets/icons/Icons';
 import { truncateAddr, getVaultCalcValues } from 'utils/helpers';
 import { BankStatusBar } from 'components/banks/BankStatusBar';
 import { BankType } from 'store/banks/types';
 import { VaultTransactionContainer } from 'containers/main/VaultTransactionContainer';
-import './VaultDetails.scss';
+import { FontIcon, FontIconName } from 'components/common/FontIcon';
+import styles from './styles.module.scss';
 
 type Props = {
   bank: BankType,
@@ -28,44 +28,50 @@ export const VaultDetails: FC<Props> = ({
   const vaultCalcValues = getVaultCalcValues(bank);
 
   return (
-    <div className="VaultDetails">
-      <div className="VaultDetails__header">
-        <div className="VaultDetails__Column collrat">
-          <p>Collateralization Ratio</p>
-          <div className="BigDetail">
-            <h1 className="tellorgreen">
-              {+bank.vault.collateralizationRatio / 100}
-            </h1>
-            <h3 className="tellorgreen">%</h3>
+    <div className={styles.VaultDetails}>
+      <div className={styles.VaultDetails__header}>
+        <div className={styles.header_column}>
+          <div className={cx(styles.VaultDetails__Column, styles.collrat)}>
+            <p>Collateralization Ratio</p>
+            <div className={cx(styles.BigDetail, styles.collateralPrice)}>
+              <h1 className={styles.tellorgreen}>
+                {+bank.vault.collateralizationRatio / 100}
+              </h1>
+              <h3 className={styles.tellorgreen}>%</h3>
+            </div>
           </div>
-        </div>
-        <div className="VaultDetails__Column">
-          <div className="VaultDetail">
-            <p>Liquidation Price</p>
-            <div className="BigDetail liqprice">
-              <h1>{vaultCalcValues.liquidationPrice.toFixed(2)}</h1>
-              <h3>
-                {bank.collateralToken.symbol}
-                /USD
-              </h3>
+          <div className={styles.VaultDetails__Column}>
+            <div className={styles.VaultDetail}>
+              <p>Liquidation Price</p>
+              <div className={cx(styles.BigDetail, styles.liqprice)}>
+                <h1>{vaultCalcValues.liquidationPrice.toFixed(2)}</h1>
+                <h3>
+                  {bank.collateralToken.symbol}
+                  /USD
+                </h3>
+              </div>
             </div>
           </div>
         </div>
-        <div className="VaultDetails__Bank">
+        <div className={styles.VaultDetails__Bank}>
           <p>This vault is part of</p>
-          <div className="BankData">
-            <div className="BankDataTxt">
-              <p className="BankName">{bank.name}</p>
+          <div className={styles.BankData}>
+            <div className={styles.BankDataTxt}>
+              <p className={styles.BankName}>{bank.name}</p>
               <p>{truncateAddr(bank.bankAddress)}</p>
             </div>
-            <Icons.Bank fill="#848484" />
+            <FontIcon
+              className={styles.bankIcon}
+              name={FontIconName.Bank}
+              size={26}
+            />
           </div>
         </div>
       </div>
 
-      <div className="VaultDetails__content firstrow">
-        <div className="VaultDetails__Column">
-          <div className="VaultDetail">
+      <div className={cx(styles.VaultDetails__content, styles.firstrow)}>
+        <div className={styles.VaultDetails__Column}>
+          <div className={styles.VaultDetail}>
             <p>Total Collateral Locked</p>
             <h3>
               {(+bank.vault.collateralAmount / 1e18).toFixed(4)}
@@ -74,8 +80,8 @@ export const VaultDetails: FC<Props> = ({
             </h3>
           </div>
         </div>
-        <div className="VaultDetails__Column">
-          <div className="VaultDetail">
+        <div className={styles.VaultDetails__Column}>
+          <div className={styles.VaultDetail}>
             <p>Available to withdraw</p>
             <h3>
               {vaultCalcValues.withdrawAvailable.toFixed(4)}
@@ -84,7 +90,7 @@ export const VaultDetails: FC<Props> = ({
             </h3>
           </div>
         </div>
-        <div className="VaultDetails__Column flexer">
+        <div className={cx(styles.VaultDetails__Column, styles.flexer)}>
           <BankStatusBar
             vault
             coll
@@ -100,9 +106,9 @@ export const VaultDetails: FC<Props> = ({
         />
       </div>
 
-      <div className="VaultDetails__content">
-        <div className="VaultDetails__Column">
-          <div className="VaultDetail">
+      <div className={styles.VaultDetails__content}>
+        <div className={styles.VaultDetails__Column}>
+          <div className={styles.VaultDetail}>
             <p>Total Debt Owed</p>
             <h3>
               {(+bank.vault.debtAmount / 1e18).toFixed(4)}
@@ -111,8 +117,8 @@ export const VaultDetails: FC<Props> = ({
             </h3>
           </div>
         </div>
-        <div className="VaultDetails__Column">
-          <div className="VaultDetail">
+        <div className={styles.VaultDetails__Column}>
+          <div className={styles.VaultDetail}>
             <p>Available to borrow</p>
             <h3>
               {vaultCalcValues.borrowAvailable > +bank.reserveBalance ?
@@ -123,7 +129,7 @@ export const VaultDetails: FC<Props> = ({
             </h3>
           </div>
         </div>
-        <div className="VaultDetails__Column flexer">
+        <div className={cx(styles.VaultDetails__Column, styles.flexer)}>
           <BankStatusBar
             vault
             debtToken={bank.debtToken}

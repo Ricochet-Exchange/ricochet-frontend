@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Button } from 'antd';
+import { Button } from 'components/common/Button';
 import { LoadingWrapper } from 'components/common/LoadingWrapper';
 import styles from './styles.module.scss';
 
@@ -12,19 +12,16 @@ export const ApproveToken: FC<Props> = ({
   isLoadingApprove,
   onApproveClick,
 }) => (
-  <div className="ApproveToken">
+  <div className={styles.approveToken}>
     <LoadingWrapper
       isLoading={isLoadingApprove}
       classNameLoader={styles.loader}
     >
       <Button
-        shape="round"
-        size="large"
-        className="purpleoutlined"
+        className={styles.button}
         onClick={onApproveClick}
-      >
-        give allowance
-      </Button>
+        label="give allowance"
+      />
     </LoadingWrapper>
   </div>
 );

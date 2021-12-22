@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { NavLink } from 'react-router-dom';
 import { selectUserStreams } from 'store/main/selectors';
@@ -55,6 +56,13 @@ export const InvestNav = () => {
       >
         <FontIcon name={FontIconName.Bank} size={16} />
   &nbsp;rexBank
+      </NavLink>
+      <NavLink
+        className={cx(styles.nav_link, styles.vaults_link)}
+        activeClassName={styles.nav_link_active} 
+        to={Routes.Vaults}
+      >
+  &nbsp;rexVault
       </NavLink>
     </div>
   );

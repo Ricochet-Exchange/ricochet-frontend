@@ -1,10 +1,10 @@
 import React, { ChangeEvent, FC } from 'react';
-import { Input } from 'antd';
+import { TextInput } from 'components/common/TextInput';
 import cx from 'classnames';
 import { ApproveToken } from 'components/banks/ApproveToken';
 import { LoadingWrapper } from 'components/common/LoadingWrapper';
 import { EtherscanLink } from 'components/banks/EtherScanLink';
-import ButtonNew from 'components/common/ButtonNew';
+import { Button } from 'components/common/Button';
 import { BankType } from 'store/banks/types';
 import { VaultType } from 'types/vaultType';
 import styles from './styles.module.scss';
@@ -44,24 +44,23 @@ export const DepositBorrow: FC<Props> = ({
         isLoading={isLoadingSubmit}
         classNameLoader={styles.loader}
       >
-        <div className={styles.CreateVault__Steps}>
-          <div className={styles.CreateVault__Step}>
+        <div className={styles.createVault_steps}>
+          <div className={styles.createVault_step}>
             <p className={styles.text}>
               {`How much ${vaultData.collateralToken} do you want to lock up as
               collateral?`}
             </p>
-            <Input
-              type="number"
+            <TextInput
               name="depositAmount"
-              size="large"
               value={vaultData.depositAmount}
               onChange={onChange}
-              addonAfter={vaultData.collateralToken}
+              right={<div className={styles.right}>{vaultData.collateralToken}</div>}
+              type="number"
             />
 
             {needsUnlock ? (
               <>
-                <p className="smalltxt">
+                <p className={styles.smalltxt}>
                   Please give allowance for your collateral to continue.
                 </p>
                 <ApproveToken
@@ -71,37 +70,35 @@ export const DepositBorrow: FC<Props> = ({
               </>
             ) : null}
           </div>
-          <div className={styles.CreateVault__Step}>
-            <p className={cx(styles.text, needsUnlock ? 'disabled' : '')}>
+          <div className={styles.createVault_step}>
+            <p className={cx(styles.text, needsUnlock && styles.disabled)}>
               {`How much ${vaultData.debtToken} do you want to borrow?`}
             </p>
-            <Input
-              type="number"
+            <TextInput
               name="borrowAmount"
-              size="large"
               disabled={needsUnlock}
               value={vaultData.borrowAmount}
               onChange={onChange}
-              addonAfter={vaultData.debtToken}
+              right={<div className={styles.right}>{vaultData.debtToken}</div>}
+              type="number"
             />
 
             {error ? (
-              <div>
-                <p className={styles.error}>
+              <div className={styles.errorWrap}>
+                <p className={cx(styles.text, styles.error)}>
                   {error}
                 </p>
               </div>
             ) : null}
           </div>
-          <div className={styles.CreateVault__Submitter}>
-            <ButtonNew
+          <div className={styles.createVault_submitter}>
+            <Button
               className={styles.button}
               disabled={needsUnlock}
               onClick={onSubmit}
-            >
-              submit
-            </ButtonNew>
-            <p className={`smalltxt  ${needsUnlock && 'disabled'}`}>
+              label="submit"
+            />
+            <p className={cx(styles.smalltxt, needsUnlock && styles.disabled)}>
               Upon submitting, 2 transactions will be initiated.
             </p>
           </div>

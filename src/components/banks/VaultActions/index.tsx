@@ -1,9 +1,11 @@
 import React, { FC, MouseEvent } from 'react';
-import { Button } from 'antd';
+import cx from 'classnames';
+import { Button } from 'components/common/Button';
 
-import './VaultActions.scss';
+import styles from './styles.module.scss';
 
 type Props = {
+  className?: string,
   section: string,
   activeTransaction: string,
   onClick: (e: MouseEvent) => void,
@@ -11,62 +13,47 @@ type Props = {
 };
 
 export const VaultActions: FC<Props> = ({
+  className,
   section,
   activeTransaction,
   onClick,
   transactionHash,
 }) => (
   // can use activeTransaction to set a class on active state
-  <div className="VaultActions">
+  <div className={cx(styles.VaultActions, className)}>
     {section === 'locked' ? (
       <>
         <Button
+          label="withdraw"
           id="withdraw"
-          type="default"
-          shape="round"
-          size="large"
-          className="purpleoutlined"
+          className={styles.button}
           disabled={Boolean(transactionHash || activeTransaction)}
           onClick={onClick}
-        >
-          withdraw
-        </Button>
+        />
         <Button
+          label="deposit"
           id="deposit"
-          type="primary"
-          shape="round"
-          size="large"
-          className="purplebutton"
+          className={styles.button}
           disabled={Boolean(transactionHash || activeTransaction)}
           onClick={onClick}
-        >
-          deposit
-        </Button>
+        />
       </>
     ) : (
       <>
         <Button
+          label="borrow"
           id="borrow"
-          type="default"
-          shape="round"
-          size="large"
-          className="purpleoutlined"
+          className={styles.button}
           disabled={Boolean(transactionHash || activeTransaction)}
           onClick={onClick}
-        >
-          borrow
-        </Button>
+        />
         <Button
+          label="repay"
           id="repay"
-          type="primary"
-          shape="round"
-          size="large"
-          className="purplebutton"
+          className={styles.button}
           disabled={Boolean(transactionHash || activeTransaction)}
           onClick={onClick}
-        >
-          repay
-        </Button>
+        />
       </>
     )}
   </div>

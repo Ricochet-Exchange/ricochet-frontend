@@ -1,30 +1,23 @@
-@import 'assets/styles/branding.scss';
+@import 'assets/styles/mixins';
 
 .VaultDetails {
-  background-color: #ffffff;
+  background-color: var(--color-blue-light);
 
   margin-bottom: 35px;
   border-radius: 10px;
   width: 100%;
 }
 
-.VaultDetails__header,
-.VaultDetails__content {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-}
-
 .VaultDetails__header {
-  @include box;
+  @include flexbox(flex-start, space-between);
+  flex-wrap: wrap;
   width: 100%;
   padding: 25px 35px 14px 50px;
-  display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
   border-bottom: 1px dashed $notwhitetxt;
+  @include tablet {
+    justify-content: space-around;
+  }
 }
 
 .VaultDetails__Column {
@@ -32,6 +25,8 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  margin-right: 1vw;
+  margin-bottom: 2vh;
 }
 
 .VaultDetails__Column p {
@@ -50,12 +45,11 @@
 
 .VaultDetail h3 {
   font-size: 1.25rem;
-  color: black;
+  color: var(--color-blue);;
   margin: 0 0 4px 0;
 }
 
 .VaultDetails__Bank {
-  flex: 1;
   text-align: right;
   display: flex;
   flex-direction: column;
@@ -99,15 +93,29 @@
 
 .collrat {
   margin-right: 3.5rem;
+  @include tablet {
+    margin-right: 1rem;
+  }
 }
 
 .liqprice h1 {
+  font-size: 4rem;
   font-weight: normal;
-  color: black;
+  color: var(--color-blue);;
+  margin-bottom: 0;
 }
 
 .liqprice h3 {
-  margin: 0 0 8px 8px;
+  margin: 0 0 20px 8px;
+}
+
+.collateralPrice h3 {
+  margin: 0 0 20px 8px;
+}
+
+.collateralPrice h1 {
+  font-size: 4rem;
+  margin-bottom: 0;
 }
 
 .tellorgreen {
@@ -119,11 +127,23 @@
 }
 
 .VaultDetails__content {
-  @include box;
+  @include flexbox(flex-start, space-around);
   width: 100%;
   padding: 28px 35px 20px 50px;
+  flex-wrap: wrap;
 }
 
-.VaultDetails__content .VaultDetail {
-  min-width: 190px;
+.BigDetail {
+  @include flexbox(flex-end, center);
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.header_column {
+  @include flexbox(flex-start, flex-start);
+  flex-direction: row;
+}
+
+.bankIcon {
+  color: var(--color-black);
 }

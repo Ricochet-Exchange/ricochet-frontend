@@ -1,0 +1,39 @@
+@import 'assets/styles/variables';
+@import 'assets/styles/mixins';
+
+.button {
+    background-color: var(--color-blue);
+    color: white;
+    font-family: inherit;
+    border-color: $purple;
+    height: 40px;
+    padding: 6.4px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    width: 160px;
+    margin-right: 25px;
+    &:last-child {
+        margin-right: 0;
+    }
+    transition-property: all;
+  transition-duration: 0.05s;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0s;
+}
+
+.button:hover:not(:disabled) {
+    box-shadow: none;
+    -webkit-transform: scale(.98);
+    transform: scale(.98);
+}  
+
+.button:disabled, button[disabled]{
+    opacity: 0.25;
+}
+
+.VaultActions {
+    @include flexbox(flex-start, flex-start);
+    flex-direction: row;
+    align-self: center;
+}

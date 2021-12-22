@@ -2,15 +2,12 @@ import React, {
   FC,
 } from 'react';
 import { useShallowSelector } from 'hooks/useShallowSelector';
+import { RICAddress } from 'constants/polygon_config';
 import { selectMain } from 'store/main/selectors';
-import SideNav from 'components/banks/SideNav';
 import { BanksContainer } from 'containers/main/BanksContainer';
-import logo from 'assets/images/logo.svg';
-import { Layout } from 'antd';
-import { Modal } from 'components/common/Modal';
-import './styles.scss';
-
-const { Content, Sider } = Layout;
+import { MainLayout } from 'containers/MainLayout';
+import { HeaderContainer } from 'containers/main/HeaderContainer';
+import styles from './styles.module.scss';
 
 interface IProps {}
 
@@ -18,25 +15,17 @@ export const BanksPage: FC<IProps> = () => {
   const {
     address,
     isReadOnly,
+    balances,
   } = useShallowSelector(selectMain);
 
   return (
-    <div>
-      <Layout style={{ minHeight: '100vh' }}>
-        <Modal classNameOverlay="overlayModal" />
-        <Sider width="240px">
-          <img src={logo} alt="icon" width="87px" />
-          <SideNav
-            address={address}
-            isReadOnly={isReadOnly}
-          />
-        </Sider>
-        <Layout>
-          <Content id="content">
-            <BanksContainer />
-          </Content>
-        </Layout>
-      </Layout>
-    </div>
+    <MainLayout>
+      <div className={styles.header}>
+        <HeaderContainer isReadOnly={isReadOnly} balance={balances && balances[RICAddress]} address={address || 'Connecting'} />
+      </div>
+      <div className={styles.content}>
+        <BanksContainer />
+      </div>
+    </MainLayout>
   );
 };

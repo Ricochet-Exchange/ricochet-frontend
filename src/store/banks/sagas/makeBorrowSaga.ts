@@ -8,9 +8,9 @@ import { banksMakeBorrow, banksSetState } from '../actionCreators';
 
 export function* makeBorrowSaga({ payload }: ReturnType<typeof banksMakeBorrow>) {
   yield put(banksSetState({ isLoadingSubmit: true }));
-  const accountAddress: Unwrap<typeof getAddress> = yield call(getAddress);
-  const bankContract = getContract(payload.bankAddress, BankAbi.abi);
   try {
+    const accountAddress: Unwrap<typeof getAddress> = yield call(getAddress);
+    const bankContract = getContract(payload.bankAddress, BankAbi.abi);
     const { transactionHash } = yield call(
       makeBorrow,
       bankContract,

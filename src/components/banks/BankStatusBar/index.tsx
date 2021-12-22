@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { TokenType } from 'store/banks/types';
 
-import './styles.scss';
+import styles from './styles.module.scss';
 
 type Props = {
   vault?: boolean,
@@ -22,20 +22,20 @@ export const BankStatusBar: FC<Props> = ({
           <>
             {coll
               ? (
-                <div className="VaultDetail">
-                  <p>
+                <div className={styles.vaultDetail}>
+                  <p className={styles.title}>
                     {`${collateralToken.symbol} Price (USD)`}
                   </p>
-                  <h3>
+                  <h3 className={styles.value}>
                     {`${+collateralToken.price / granularity} $`}
                   </h3>
                 </div>
               ) : (
-                <div className="VaultDetail">
-                  <p>
+                <div className={styles.vaultDetail}>
+                  <p className={styles.title}>
                     {`${debtToken.symbol} Price (USD)`}
                   </p>
-                  <h3>
+                  <h3 className={styles.value}>
                     {`${+debtToken.price / granularity} $`}
                   </h3>
                 </div>
@@ -43,19 +43,19 @@ export const BankStatusBar: FC<Props> = ({
           </>
         ) : (
           <>
-            <div className="BankDetail">
-              <p>
+            <div className={styles.bankDetail}>
+              <p className={styles.title}>
                 {`${collateralToken.symbol} Price (USD)`}
               </p>
-              <h3>
+              <h3 className={styles.value}>
                 {`${+collateralToken.price / granularity} $`}
               </h3>
             </div>
-            <div className="BankDetail">
-              <p>
+            <div className={styles.bankDetail}>
+              <p className={styles.title}>
                 {`${debtToken.symbol} Price (USD)`}
               </p>
-              <h3>
+              <h3 className={styles.value}>
                 {`${+debtToken.price / granularity} $`}
               </h3>
             </div>
