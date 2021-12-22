@@ -1,6 +1,8 @@
+import Web3 from 'web3';
 import { Coin } from '../../constants/coins';
 
 export type MainState = {
+  web3: Web3;
   address: string;
   balances?: { [key:string]: string };
   coingeckoPrices?: { [key:string]: number };
@@ -24,14 +26,6 @@ export type MainState = {
     subsidyRate: { perso:number, total:number, endDate:string },
   },
   usdcSlpEthFlowQuery?: {
-    flowKey: string,
-    flowsReceived: number,
-    flowsOwned: string,
-    totalFlows: number,
-    placeholder: string,
-    subsidyRate: { perso:number, total:number, endDate:string },
-  },
-  usdcSlpIdleFlowQuery?: {
     flowKey: string,
     flowsReceived: number,
     flowsOwned: string,

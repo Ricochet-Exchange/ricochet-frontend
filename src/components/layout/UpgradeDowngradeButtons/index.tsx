@@ -34,7 +34,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
             <ButtonNew
               color="secondary"
               loaderColor="#363B55"
-              disabled={isReadOnly || !disabledApprove}
+              disabled={isReadOnly || disabledApprove}
               isLoading={isLoading}
               onClick={onClickApprove}
               className={styles.approve}

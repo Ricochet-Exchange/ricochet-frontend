@@ -132,21 +132,14 @@
 
 .icon_wrap {
   @include flexbox(center, flex-start);
-
+  margin-top: 15px;
   flex-wrap: wrap;
-
-  & > span {
-    padding: 15px 20px 0 0;
-  }
+  gap: 15px 20px;
 
   @include for_mobile{
     & > span {
       padding: 15px 15px 0 0;
     }
-  }
-
-  & span:nth-child(3n) {
-    padding: 15px 0 0 0;
   }
 
   .icon_button {
@@ -180,6 +173,11 @@
   font-size: 18px;
   line-height: 140%;
   color: var(--color-black-dark);
+}
+
+.icon_size{
+  width: 32px;
+  height: 32px;
 }
 
 .table_wrap {

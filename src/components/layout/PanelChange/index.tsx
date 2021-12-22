@@ -13,8 +13,9 @@ import { CoinChange } from '../CoinChange';
 import { CoinBalancePanel } from '../CoinBalancePanel';
 import { CoinRateForm } from '../CoinRateForm';
 import { FlowTypes } from '../../../constants/flowConfig';
-import Price from '../../common/Price';
+// import Price from '../../common/Price';
 import LpAPY from '../../common/LpAPY';
+import Price from '../../common/Price';
 
 interface IProps {
   placeholder?:string,

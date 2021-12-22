@@ -1,8 +1,7 @@
-import { put, call } from 'redux-saga/effects';
+import { put, call, select } from 'redux-saga/effects';
 import { fromWei } from 'utils/balances';
 import {
   rexLPETHAddress,
-  rexLPIDLEAddress,
   USDCxAddress,
   USDCAddress,
   DAIxAddress,
@@ -21,11 +20,9 @@ import {
   IDLEAddress,
   RICAddress,
 } from 'constants/polygon_config';
-import { getContract } from 'utils/getContract';
-import { erc20ABI } from 'constants/abis';
 import { makeBatchRequest } from 'utils/makeBatchRequest';
-import web3 from 'utils/web3instance';
 import { mainSetState } from '../actionCreators';
+import { selectMain } from '../selectors';
 
 export function* getBalances(address: string) {
   const contractsAddress = [
@@ -37,16 +34,16 @@ export function* getBalances(address: string) {
     WETHxAddress, WETHAddress,
     WBTCxAddress, WBTCAddress,
     IDLExAddress, IDLEAddress,
-    RICAddress, rexLPETHAddress, rexLPIDLEAddress,
+    RICAddress, rexLPETHAddress,
   ];
 
   const coingeckoIds = new Map<string, string>([
-    [DAIAddress, 'dai'],
-    [USDCAddress, 'usd-coin'],
-    [WETHAddress, 'weth'],
-    [WBTCAddress, 'wrapped-bitcoin'],
-    [WMATICAddress, 'matic-network'],
-    [MKRAddress, 'maker'],
+    [DAIxAddress, 'dai'],
+    [USDCxAddress, 'usd-coin'],
+    [WETHxAddress, 'weth'],
+    [WBTCxAddress, 'wrapped-bitcoin'],
+    [MATICxAddress, 'matic-network'],
+    [MKRxAddress, 'maker'],
   ]);
 
   async function getCoingeckoRates() {
@@ -81,21 +78,28 @@ export function* getBalances(address: string) {
     });
   });
 
-  const contracts = contractsAddress.map((el) => getContract(el, erc20ABI));
-  const requests = contracts.map((el) => el.methods.balanceOf(address).call);
-  const results: string[] = yield call(makeBatchRequest, requests);
+  const main: ReturnType<typeof selectMain> = yield select(selectMain);
+  const { web3 } = main;
+  const requests = contractsAddress.map((el) => ({
+    target: el,
+    call: ['balanceOf(address)(uint256)', address],
+    returns: [[el, (result: string) => {
+      if (el === WBTCAddress) {
+        return fromWei(result, 8);
+      } if (el === USDCAddress) {
+        return fromWei(result, 6);
+      } 
+      return fromWei(result, 18);
+    }]],
+  }));
+ 
+  const results: string[] = yield call(makeBatchRequest, requests, web3);
   const balances: { [key:string]: string } = {};
-  contractsAddress.map((el:string, i:number) => {
+  Object.entries(results).forEach((entry:[string, string]) => {
     // TODO: Use decimals() method instead of hardcoded
-    if (el === WBTCAddress) {
-      balances[el] = fromWei(results[i], 8);
-    } else if (el === USDCAddress) {
-      balances[el] = fromWei(results[i], 6);
-    } else {
-      balances[el] = fromWei(results[i], 18);
-    }
-    return null;
+    Object.assign(balances, { [entry[0]]: entry[1] });
   });
+
   // Edit matic balance
   balances[WMATICAddress] = fromWei(yield web3.eth.getBalance(address), 18);
 

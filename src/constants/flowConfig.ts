@@ -26,15 +26,7 @@ import {
   maticxUsdcxExchangeAddress,
   usdcxIdleExchangeAddress,
   usdcxEthSlpxExchangeAddress,
-  usdcxIdleSlpxExchangeAddress,
   rexLPETHAddress,
-  rexLPIDLEAddress,
-  USDCAddress,
-  WETHAddress,
-  WBTCAddress,
-  DAIAddress,
-  MKRAddress,
-  WMATICAddress,
 } from './polygon_config';
 
 export enum FlowEnum {
@@ -54,7 +46,6 @@ export enum FlowEnum {
   wbtcUsdcFlowQuery = 'wbtcUsdcFlowQuery',
   usdcRicFlowQuery = 'usdcRicFlowQuery',
   usdcSlpEthFlowQuery = 'usdcSlpEthFlowQuery',
-  usdcSlpIdleFlowQuery = 'usdcSlpIdleFlowQuery',
   usdcIdleFlowQuery = 'usdcIdleFlowQuery',
 }
 
@@ -67,7 +58,6 @@ export enum FlowTypes {
 export type InvestmentFlow = {
   superToken: string,
   tokenA: string,
-  tokenAUnderlying: string
   tokenB: string,
   coinA: Coin,
   coinB: Coin,
@@ -79,7 +69,6 @@ const markets: InvestmentFlow[] = [
   {
     superToken: usdcxIdleExchangeAddress,
     tokenA: USDCxAddress,
-    tokenAUnderlying: USDCAddress,
     tokenB: IDLExAddress,
     coinA: Coin.USDC,
     coinB: Coin.IDLE,
@@ -89,7 +78,6 @@ const markets: InvestmentFlow[] = [
   {
     superToken: usdcxWethxExchangeAddress,
     tokenA: USDCxAddress,
-    tokenAUnderlying: USDCAddress,
     tokenB: WETHxAddress,
     coinA: Coin.USDC,
     coinB: Coin.WETH,
@@ -99,7 +87,6 @@ const markets: InvestmentFlow[] = [
   {
     superToken: usdcxWbtcxExchangeAddress,
     tokenA: USDCxAddress,
-    tokenAUnderlying: USDCAddress,
     tokenB: WBTCxAddress,
     coinA: Coin.USDC,
     coinB: Coin.WBTC,
@@ -109,7 +96,6 @@ const markets: InvestmentFlow[] = [
   {
     superToken: wethxUsdcxExchangeAddress,
     tokenA: WETHxAddress,
-    tokenAUnderlying: WETHAddress,
     tokenB: USDCxAddress,
     coinA: Coin.WETH,
     coinB: Coin.USDC,
@@ -119,7 +105,6 @@ const markets: InvestmentFlow[] = [
   {
     superToken: wbtcxUsdcxExchangeAddress,
     tokenA: WBTCxAddress,
-    tokenAUnderlying: WBTCAddress,
     tokenB: USDCxAddress,
     coinA: Coin.WBTC,
     coinB: Coin.USDC,
@@ -129,7 +114,6 @@ const markets: InvestmentFlow[] = [
   {
     superToken: daixMkrxExchangeAddress,
     tokenA: DAIxAddress,
-    tokenAUnderlying: DAIAddress,
     tokenB: MKRxAddress,
     coinA: Coin.DAI,
     coinB: Coin.MKR,
@@ -139,7 +123,6 @@ const markets: InvestmentFlow[] = [
   {
     superToken: mkrxDaixExchangeAddress,
     tokenA: MKRxAddress,
-    tokenAUnderlying: MKRAddress,
     tokenB: DAIxAddress,
     coinA: Coin.MKR,
     coinB: Coin.DAI,
@@ -149,7 +132,6 @@ const markets: InvestmentFlow[] = [
   {
     superToken: usdcxMkrxExchangeAddress,
     tokenA: USDCxAddress,
-    tokenAUnderlying: USDCAddress,
     tokenB: MKRxAddress,
     coinA: Coin.USDC,
     coinB: Coin.MKR,
@@ -159,7 +141,6 @@ const markets: InvestmentFlow[] = [
   {
     superToken: mkrxUsdcxExchangeAddress,
     tokenA: MKRxAddress,
-    tokenAUnderlying: MKRAddress,
     tokenB: USDCxAddress,
     coinA: Coin.MKR,
     coinB: Coin.USDC,
@@ -169,7 +150,6 @@ const markets: InvestmentFlow[] = [
   {
     superToken: daixEthxExchangeAddress,
     tokenA: DAIxAddress,
-    tokenAUnderlying: DAIAddress,
     tokenB: WETHxAddress,
     coinA: Coin.DAI,
     coinB: Coin.ETH,
@@ -179,7 +159,6 @@ const markets: InvestmentFlow[] = [
   {
     superToken: ethxDaixExchangeAddress,
     tokenA: WETHxAddress,
-    tokenAUnderlying: WETHAddress,
     tokenB: DAIxAddress,
     coinA: Coin.ETH,
     coinB: Coin.DAI,
@@ -189,7 +168,6 @@ const markets: InvestmentFlow[] = [
   {
     superToken: daixMaticxExchangeAddress,
     tokenA: DAIxAddress,
-    tokenAUnderlying: DAIAddress,
     tokenB: MATICxAddress,
     coinA: Coin.DAI,
     coinB: Coin.MATIC,
@@ -199,7 +177,6 @@ const markets: InvestmentFlow[] = [
   {
     superToken: maticxDaixExchangeAddress,
     tokenA: MATICxAddress,
-    tokenAUnderlying: WMATICAddress,
     tokenB: DAIxAddress,
     coinA: Coin.MATIC,
     coinB: Coin.DAI,
@@ -209,7 +186,6 @@ const markets: InvestmentFlow[] = [
   {
     superToken: usdcxMaticxExchangeAddress,
     tokenA: USDCxAddress,
-    tokenAUnderlying: USDCAddress,
     tokenB: MATICxAddress,
     coinA: Coin.USDC,
     coinB: Coin.MATIC,
@@ -219,7 +195,6 @@ const markets: InvestmentFlow[] = [
   {
     superToken: maticxUsdcxExchangeAddress,
     tokenA: MATICxAddress,
-    tokenAUnderlying: WMATICAddress,
     tokenB: USDCxAddress,
     coinA: Coin.MATIC,
     coinB: Coin.USDC,
@@ -232,21 +207,10 @@ const liquidityMarkets: InvestmentFlow[] = [
   {
     superToken: usdcxEthSlpxExchangeAddress,
     tokenA: USDCxAddress,
-    tokenAUnderlying: USDCAddress,
     tokenB: rexLPETHAddress,
     coinA: Coin.USDC,
     coinB: Coin.SLP,
     flowKey: FlowEnum.usdcSlpEthFlowQuery,
-    type: FlowTypes.sushiLP,
-  },
-  {
-    superToken: usdcxIdleSlpxExchangeAddress,
-    tokenA: USDCxAddress,
-    tokenAUnderlying: USDCAddress,
-    tokenB: rexLPIDLEAddress,
-    coinA: Coin.USDC,
-    coinB: Coin.rexLPIdle,
-    flowKey: FlowEnum.usdcSlpIdleFlowQuery,
     type: FlowTypes.sushiLP,
   },
 ];
@@ -255,7 +219,6 @@ const launchpads: InvestmentFlow[] = [
   {
     superToken: usdcxRicExchangeAddress,
     tokenA: USDCxAddress,
-    tokenAUnderlying: USDCAddress,
     tokenB: RICAddress,
     coinA: Coin.USDC,
     coinB: Coin.RIC,

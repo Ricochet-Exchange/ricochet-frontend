@@ -1,5 +1,13 @@
 @import "../../../assets/styles/mixins";
 
+@include tablet {
+  .panel_mob {
+    background-color: var(--color-blue-light);
+    padding: 5px;
+    margin: 5px;
+    border-radius: 10px;
+  }
+}
 .panel {
   @include flexbox(center, center);
 
@@ -23,16 +31,16 @@
 
   .wrap {
     @include flexbox(center, flex-start);
-  
+
     .label {
       @include flexbox(center, center);
-  
+
       cursor: pointer;
       background: transparent;
       border: none;
       padding: 0;
       transition: 0.7s all;
-  
+
       &:hover,
       &:active {
         background: transparent;
@@ -41,7 +49,6 @@
     }
   }
 }
-
 
 .input_wrap {
   @include flexbox(center, center);

@@ -81,7 +81,6 @@ const retrieveAPY = async (contractAddress: string): Promise<{
   }
 
   // Retrieve feesAPY
-  console.log(feesQuery(addr));
   const feesResp = await axios.post(feesUrl, { query: feesQuery(addr) });
   const { pair } = feesResp.data.data;
   // const yesterdayFees = (pair.dayData[0].volumeUSD /
@@ -131,7 +130,8 @@ export default function LpApy(props: Props) {
   const [feesApy, setFeesApy] = React.useState('');
 
   React.useEffect(() => {
-    retrieveAPY(props.contractAddress).then((p) => {
+    const { contractAddress } = props;
+    retrieveAPY(contractAddress).then((p) => {
       setApy(p.apy.toFixed(2));
       setRewardsApy(p.rewardsApy.toFixed(2));
       setFeesApy(p.feesApy.toFixed(2));
