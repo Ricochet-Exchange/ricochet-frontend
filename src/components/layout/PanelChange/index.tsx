@@ -182,7 +182,8 @@ export const PanelChange: FC<IProps> = ({
                 </span>
                 <span>
                   <span className={styles.number}>
-                    {(parseFloat(totalFlow as string) * coingeckoPrice).toFixed(2)}
+                    {totalFlow && (parseFloat(totalFlow as string) * coingeckoPrice).toFixed(2)}
+                    {}
                   </span>
                   {'$/mo.  '}
                 </span>
