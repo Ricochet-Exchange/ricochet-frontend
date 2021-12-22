@@ -28,7 +28,13 @@ import {
   usdcxEthSlpxExchangeAddress,
   usdcxIdleSlpxExchangeAddress,
   rexLPETHAddress,
-  rexLPIDLEAddress, USDCAddress, WETHAddress, WBTCAddress, DAIAddress, MKRAddress, WMATICAddress,
+  rexLPIDLEAddress,
+  USDCAddress,
+  WETHAddress,
+  WBTCAddress,
+  DAIAddress,
+  MKRAddress,
+  WMATICAddress,
 } from './polygon_config';
 
 export enum FlowEnum {
