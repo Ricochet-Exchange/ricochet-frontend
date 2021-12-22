@@ -27,7 +27,8 @@ export function* startFlowSaga({ payload }: ReturnType<typeof startFlowAction >)
       config.superToken,
       config.tokenA,
       config.tokenB,
-      normalizedAmount);
+      normalizedAmount,
+      config.referralId);
     payload.callback();
     yield call(sweepQueryFlow);
   } catch (e) {

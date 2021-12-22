@@ -8,7 +8,8 @@ const cookies = new Cookies();
 export const referralMiddleware: Middleware = (store) => (next) => (action) => {
   const referralId = cookies.get('referralId', { doNotParse: true });
   if (referralId && action.type === MainActionTypes.START_FLOW) {
-    const actionWithReferralId = { ...action, payload: { ...action.payload, referralId } };
+    const actionWithReferralId = { ...action };
+    actionWithReferralId.payload.config.referralId = referralId;
     return next(actionWithReferralId);
   }
   return next(action);
