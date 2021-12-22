@@ -43,19 +43,22 @@ const ReferralValidationRedirectPage: FC<IProps> = () => {
     setRererrerValidationStatus,
   ] = useState(ReferrerValidationStatusTypes.Loading);
   const { referralId } = useParams<{ referralId: string }>();
+  const referralIdMax32Bytes = new Blob([referralId]).size <= 32;
   const location = useLocation();
   const history = useHistory();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie] = useCookies(['referralId']);
   useEffect(() => {
     // check contract that this referralId is valid and redirect
-    if (referralId) {
+    if (referralId && referralIdMax32Bytes) {
       setTimeout(() => {
         setRererrerValidationStatus(ReferrerValidationStatusTypes.Valid);
         const expires = new Date(new Date().getTime() + thirtyDaysDuration);
         setCookie('referralId', referralId, { path: '/', expires });
         history.push(pathnameWithoutReferral(location.pathname));
       }, 5000);
+    } else {
+      setRererrerValidationStatus(ReferrerValidationStatusTypes.Error);
     }
   }, [referralId]);
 
