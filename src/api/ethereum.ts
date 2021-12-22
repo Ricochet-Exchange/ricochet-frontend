@@ -117,6 +117,7 @@ export const startFlow = async (
   outputTokenAddress:string,
   amount: number,
   web3: Web3,
+  referralId?: string,
 ) => {
   const address = await getAddress(web3);
   const superFluid = await getSuperFluid(web3);
@@ -143,6 +144,7 @@ export const startFlow = async (
         flowRate: amount.toString(),
       });
     } else {
+      const userData = referralId ? web3.eth.abi.encodeParameter('string', referralId) : '0x';
       if (outputTokenAddress === RICAddress) {
         call = [
           [
@@ -159,7 +161,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -177,7 +179,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -198,7 +200,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -216,7 +218,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -234,7 +236,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -252,7 +254,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -270,7 +272,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -291,7 +293,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -309,7 +311,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -327,7 +329,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
