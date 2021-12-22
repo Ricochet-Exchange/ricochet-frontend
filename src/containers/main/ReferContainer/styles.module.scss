@@ -15,3 +15,67 @@
 .crimson {
     color:crimson;
 }
+
+.input_wrap {
+    @include flexbox(center, center);
+    flex-direction: column;
+    margin-top: 20px;
+    @include tablet{
+      width: 100%;
+      padding: 0 0 30px 0;
+    }
+  }
+  
+  .container_input {
+    width: 503px;
+    border-radius: 8px;
+    background: var(--color-blue-light);
+  
+    @include tablet{
+      width: 100%;
+    }
+  }
+
+  .hint {
+      margin-right: -10px;
+  }
+  
+  .input {
+    border-radius: 8px;
+    color: var(--color-green-dark);
+    font-family: $default-font;
+    padding: 0;
+    font-size: inherit;
+    font-weight: bold;
+  
+    &::placeholder {
+      color: var(--color-blue);
+      font-weight: normal;;
+  
+      &:focus{
+        color:transparent
+      }
+    }
+  }
+  
+  .register {
+    color: var(--color-blue);
+  }
+
+.register {
+  padding: 10px 20px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 140%;
+  width: 100%;
+  border: none;
+
+  &:active {
+    border: none;
+  }
+}
+
+.register_wrap {
+    width: 100px;
+}
