@@ -4,6 +4,7 @@ import { persistStore } from 'redux-persist';
 import reducers from './reducers';
 import sagas from './sagas';
 import { mainCheck, mainGetData } from './main/actionCreators';
+import { referralMiddleware } from './middleware/referral-middleware';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -20,7 +21,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
   || compose;
 
 const enhancer = composeEnhancers(
-  applyMiddleware(sagaMiddleware),
+  applyMiddleware(sagaMiddleware, referralMiddleware),
 );
 export const store = createStore(reducers, enhancer);
 export const persistor = persistStore(store);
