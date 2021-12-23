@@ -20,7 +20,7 @@ const InvestPage: FC<IProps> = () => {
   return (
     <MainLayout>
       <div className={styles.header}>
-        <HeaderContainer isReadOnly={isReadOnly} balance={balances && balances[RICAddress]} address={address || 'Connect'} />
+        <HeaderContainer isReadOnly={isReadOnly} balance={balances && balances[RICAddress]} address={address || 'Connect Wallet'} />
       </div>
       <div className={styles.content}>
         <InvestContainer />

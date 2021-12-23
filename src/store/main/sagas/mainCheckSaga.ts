@@ -49,7 +49,6 @@ export function* mainCheckSaga() {
       const provider = yield call(web3Modal.connect);
       const web3 = new Web3(provider);
       const chainId = yield call(web3.eth.net.getId);
-      console.log('chainId', provider, chainId);
       if (chainId === Number(process.env.REACT_APP_CHAIN_ID)) {
         yield put(modalHide());
         yield put(mainGetData());
@@ -66,7 +65,6 @@ export function* mainCheckSaga() {
       const provider = yield call(web3Modal.connect);
       const web3 = new Web3(provider);
       const chainId = yield call(web3.eth.net.getId);
-      console.log('chainId', provider, chainId);
       if (chainId === Number(process.env.REACT_APP_CHAIN_ID)) {
         yield put(modalHide());
         yield put(mainGetData());

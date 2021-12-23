@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC, useCallback } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { Dropdown } from 'components/common/Dropdown';
 import { LocaleKey, localeNames } from 'i18n/utils';
@@ -10,7 +10,6 @@ import { invokeRamp } from 'api/rampNetwork';
 import logo from 'assets/images/logo.png';
 import { useDispatch } from 'react-redux';
 import { mainCheck } from 'store/main/actionCreators';
-import { useModal } from 'hooks/useModal';
 import { SelectLanguage } from '../SelectLanguage';
 import { Routes } from '../../../constants/routes';
 import styles from './styles.module.scss';
@@ -34,7 +33,6 @@ export const UserSettings: FC<IProps> = ({
 }) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { showModal } = useModal();
   const handleFundButton = () =>
     invokeRamp(
       {
@@ -49,7 +47,7 @@ export const UserSettings: FC<IProps> = ({
     dispatch(mainCheck());
   }, [dispatch]);
   const { t } = useTranslation('main');
-  const preConnect = account === 'Connect';
+  const preConnect = account === 'Connect Wallet';
 
   return (
     <div className={styles.user_settings}>
