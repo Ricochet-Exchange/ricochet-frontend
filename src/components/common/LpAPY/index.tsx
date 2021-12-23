@@ -111,11 +111,17 @@ export default function LpApy(props: Props) {
   const [feesApy, setFeesApy] = React.useState('');
 
   React.useEffect(() => {
+    let mounted = true;
     retrieveAPY().then((p) => {
-      setApy(p.apy.toFixed(2));
-      setRewardsApy(p.rewardsApy.toFixed(2));
-      setFeesApy(p.feesApy.toFixed(2));
+      if (mounted) {
+        setApy(p.apy.toFixed(2));
+        setRewardsApy(p.rewardsApy.toFixed(2));
+        setFeesApy(p.feesApy.toFixed(2)); 
+      }
     });
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   return (

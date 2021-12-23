@@ -23,7 +23,13 @@ export default function Price(props: Props) {
   const [price, setPrice] = React.useState('');
 
   React.useEffect(() => {
-    getPrice().then((p) => setPrice(p));
+    let mounted = true;
+    getPrice().then((p) => {
+      if (mounted) setPrice(p);
+    });
+    return () => {
+      mounted = false;
+    };
   });
 
   return (

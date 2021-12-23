@@ -147,5 +147,5 @@ export type MainState = {
   selectedDowngradeCoin: Coin,
   selectedUpgradeCoin: Coin,
   coinType: Coin,
-  isReadOnly: boolean
+  isReadOnly: boolean,
 };

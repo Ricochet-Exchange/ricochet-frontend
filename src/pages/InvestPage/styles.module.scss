@@ -1,6 +1,7 @@
 @import '../../assets/styles/mixins';
 
 .content {
+  position: relative;
   background: var(--color-white);
   border-radius: 30px;
   width: 100%;

@@ -1,0 +1,123 @@
+@import 'assets/styles/_mixins.scss';
+
+.VaultTransaction {
+  width: 100%;
+  @include lightshadow;
+  padding: 8vh 4vw 8vh 4vw;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  background-color: #f5f7fa;
+  border-radius: 0 0 10px 10px;
+  @include tablet {
+    padding: 8vh 1.5vw 8vh 1.5vw;
+  }
+}
+
+.fullframe {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.VaultTransaction__preview {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  border: 1px dashed #bdbdbd;
+  border-radius: 8px;
+  margin-right: 2vw;
+}
+
+.VaultTransaction__preview p {
+  font-size: 0.875rem;
+  line-height: 1.15rem;
+  margin: 0;
+  color: #848484;
+}
+
+.VaultTransaction__preview h3 {
+  color: #333 !important;
+}
+
+
+.VaultTransaction__form__Total {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.VaultTransaction__form {
+  width: 100%;
+  max-width: 330px;
+}
+
+.VaultTransaction__form p {
+  font-weight: bold;
+  color: $purple;
+}
+
+.VaultTransaction__buttons {
+  margin: 20px 0 0 0;
+}
+
+.VaultTransaction__buttons .purplebutton {
+  width: 235px;
+}
+
+.loader{
+  @include not_blur();
+  background-color: #f5f7fa;
+}
+
+.linkButton {
+    text-decoration: underline;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    margin-right: 15px;
+}
+
+.actionButton {
+  background-color: var(--color-blue);
+  color: white;
+  font-family: inherit;
+  border-color: $purple;
+  height: 40px;
+  padding: 6.4px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  width: 200px;
+  transition-property: all;
+  transition-duration: 0.05s;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0s;
+}
+
+.actionButton:hover:not(:disabled) {
+  box-shadow: none;
+  -webkit-transform: scale(.98);
+    transform: scale(.98);
+}  
+
+.actionButton:disabled, button[disabled]{
+  opacity: 0.25;
+}
+
+.errorWrap {
+  align-self: flex-start;
+}
