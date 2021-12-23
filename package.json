@@ -84,6 +84,7 @@
     "lint-staged": "10.2.11",
     "node-sass": "5.0.0"
   },
+  "proxy": "https://gnosis-safe.io/",
   "lint-staged": {
     "*.{ts,tsx}": [
       "yarn lint",
