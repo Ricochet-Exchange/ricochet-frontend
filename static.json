@@ -1,6 +1,9 @@
 {
   "root": "build/",
-  "/**": "index.html",
+  "clean_urls": false,
+  "routes": {
+    "/**": "index.html"
+  },
   "headers": {
     "/manifest.json": {
       "Access-Control-Allow-Origin": "https://gnosis-safe.io",
