@@ -1,10 +1,8 @@
 {
   "root": "build/",
+  "clean_urls": false,
   "routes": {
-    "/": "index.html",
-    "/invest/rex-launchpad": "/invest/rex-launchpad",
-    "/invest/rex-market": "/invest/rex-market",
-    "/invest/rex-lp": "/invest/rex-lp"
+    "/**": "index.html"
   },
   "headers": {
     "/manifest.json": {
