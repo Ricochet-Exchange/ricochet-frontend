@@ -3,7 +3,7 @@
   "short_name":"Ricochet Exchange",
   "start_url":"/",
   "display":"standalone",
-  "iconPath":"icons/icon-96x96.png",
+  "iconPath":"icons/icon.svg",
   "description":"Ricochet Exchange is focused on producing novel tools that allow people to invest their crypto assets in real-time using Superfluid's finance framework. Learn more about each of our projects below.",
   "providedBy":{
     "name":"Ricochet",
