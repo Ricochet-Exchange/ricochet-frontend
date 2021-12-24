@@ -1,6 +1,6 @@
 {
   "root": "build/",
-  "/**": "index.html",
+  "/*": "index.html",
   "headers": {
     "/manifest.json": {
       "Access-Control-Allow-Origin": "https://gnosis-safe.io",
