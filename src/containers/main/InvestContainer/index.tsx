@@ -146,7 +146,7 @@ export const InvestContainer :React.FC<IProps> = () => {
               onSelectLanguage={changeLanguage}
               className={styles.dot}
               ricBalance={balances && balances[RICAddress]}
-              account={address || 'Connecting'}
+              account={address || 'Connect Wallet'}
               isReadOnly={isReadOnly}
             />
           </div>
