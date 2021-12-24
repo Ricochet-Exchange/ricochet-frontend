@@ -2,17 +2,17 @@ import { getSuperFluid } from 'utils/fluidSDKinstance';
 import { getAddress } from 'utils/getAddress';
 import { getContract } from 'utils/getContract';
 import { chainSettings } from 'constants/chainSettings';
-import web3 from 'utils/web3instance';
 import { CoinOption } from 'types/coinOption';
 import {
   RICAddress,
-  SLPxAddress,
+  rexLPETHAddress,
   SUSHIxAddress,
   MATICxAddress,
 } from 'constants/polygon_config';
 import Erc20Abi from 'constants/Erc20.json';
 import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
 import BankAbi from 'constants/Bank.json';
+import Web3 from 'web3';
 
 const gasPrice = 35_000_000_000; // 35 gwei default gas
 
@@ -22,19 +22,19 @@ export const downgrade = (
   address: string,
 ) => contract.methods
   .downgrade(amount)
-  .send({ 
-    from: address, 
+  .send({
+    from: address,
     gasPrice,
   });
-  
+
 export const downgradeMatic = (
   contract: any,
   amount: string,
   address: string,
 ) => contract.methods
   .downgradeToETH(amount)
-  .send({ 
-    from: address, 
+  .send({
+    from: address,
     // value: amount,
     gasPrice,
   });
@@ -54,8 +54,8 @@ export const approve = (
   amount: string,
 ) => contract.methods
   .approve(tokenAddress, amount)
-  .send({ 
-    from: address, 
+  .send({
+    from: address,
     gasPrice,
   });
 
@@ -65,8 +65,8 @@ export const upgrade = (
   address: string,
 ) => contract.methods
   .upgrade(amount)
-  .send({ 
-    from: address, 
+  .send({
+    from: address,
     gasPrice,
   });
 
@@ -77,42 +77,16 @@ export const upgradeMatic = (
 ) => {
   contract.methods
     .upgradeByETH()
-    .send({ 
-      from: address, 
+    .send({
+      from: address,
       value: amount,
       gasPrice,
     });
 };
 
-export const approveSubscription = async (tokenAddress:string, exchangeAddress:string) => {
-  const superFluid = await getSuperFluid();
-
-  const call = [
-    [
-      201, // approve the ticket fee
-      superFluid.agreements.ida.address,
-      web3.eth.abi.encodeParameters(
-        ['bytes', 'bytes'],
-        [
-          superFluid.agreements.ida.contract.methods
-            .approveSubscription(
-              tokenAddress,
-              exchangeAddress,
-              1, // INDEX_ID
-              '0x',
-            )
-            .encodeABI(), // callData
-          '0x', // userData
-        ],
-      ),
-    ],
-  ];
-  await superFluid.host.batchCall(call);
-};
-
-export const stopFlow = async (exchangeAddress: string, inputTokenAddress: string) => {
-  const address = await getAddress();
-  const superFluid = await getSuperFluid();
+export const stopFlow = async (exchangeAddress: string, inputTokenAddress: string, web3: Web3) => {
+  const address = await getAddress(web3);
+  const superFluid = await getSuperFluid(web3);
   const sfUser = superFluid.user({
     address,
     token: inputTokenAddress,
@@ -137,9 +111,10 @@ export const startFlow = async (
   inputTokenAddress: string,
   outputTokenAddress:string,
   amount: number,
+  web3: Web3,
 ) => {
-  const address = await getAddress();
-  const superFluid = await getSuperFluid();
+  const address = await getAddress(web3);
+  const superFluid = await getSuperFluid(web3);
   const sfUser = superFluid.user({
     address,
     token: inputTokenAddress,
@@ -202,7 +177,7 @@ export const startFlow = async (
             ),
           ],
         ];
-      } else if (outputTokenAddress === SLPxAddress) {
+      } else if (outputTokenAddress === rexLPETHAddress) {
         call = [
           [
             201, // approve the ticket fee

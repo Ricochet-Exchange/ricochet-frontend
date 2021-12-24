@@ -1,4 +1,6 @@
-import { call, all, put } from 'redux-saga/effects';
+import {
+  call, all, put, select, 
+} from 'redux-saga/effects';
 import { RICAddress } from 'constants/polygon_config';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
@@ -8,15 +10,18 @@ import { getOwnedFlows } from 'utils/getOwnedFlows';
 import { Flow } from 'types/flow';
 
 import { flowConfig, FlowEnum } from 'constants/flowConfig';
-import { streamExchangeABI, erc20ABI } from 'constants/abis'; 
+import { streamExchangeABI, erc20ABI } from 'constants/abis';
 import { getContract } from 'utils/getContract';
 
 import { mainSetState } from '../actionCreators';
+import { selectMain } from '../selectors';
 
 const exchangeContractsAddresses = flowConfig.map((f) => f.superToken);
 
 export function* sweepQueryFlow() {
-  const address: Unwrap<typeof getAddress> = yield call(getAddress);
+  const main: ReturnType<typeof selectMain> = yield select(selectMain);
+  const { web3 } = main;
+  const address: Unwrap<typeof getAddress> = yield call(getAddress, web3);
   const results: any[] = yield all(exchangeContractsAddresses.map(
     (addr) => call(queryFlows, addr),
   ));
@@ -31,48 +36,46 @@ export function* sweepQueryFlow() {
   });
 
   // load abi, create contract instance, get subsidy rate, return
-  async function getSubsidyRate(flowKey:string, placeholder:string, 
+  async function getSubsidyRate(flowKey:string, placeholder:string,
     flowsOwned:string): Promise< { perso:number, total:number, endDate:string }> {
     const flow = flowConfig.find((flow_) => flow_.flowKey === flowKey);
     const outgoing = parseFloat(placeholder);
     const totalFlow = parseFloat(flowsOwned);
-    
     const exchangeContract = flow?.superToken || '0';
-    const contract = getContract(exchangeContract, streamExchangeABI);
+    const contract = getContract(exchangeContract, streamExchangeABI, web3);
     const subsidyRate = await contract.methods.getSubsidyRate().call();
-    
+
     const subsidyRateTotal = (subsidyRate * 30 * 24 * 60 * 60) / 1e18;
     const subsidyRatePerso = (subsidyRateTotal * outgoing) / totalFlow;
-
-    const RIC = getContract(RICAddress, erc20ABI);
+    const RIC = getContract(RICAddress, erc20ABI, web3);
     const exchangeContractRic = await RIC.methods.balanceOf(exchangeContract).call();
     const endDateTimestamp = Date.now() + (exchangeContractRic / subsidyRate) * 1000;
     const endDate = (new Date(endDateTimestamp)).toLocaleDateString();
-      
+
     // const subsidyTokenAddr = await contract.methods.getSubsidyToken().call();
-    // const subsidyToken = (subsidyTokenAddr.toLowerCase() === RICAddress.toLowerCase()) ? 
-    //   'RIC' : 
+    // const subsidyToken = (subsidyTokenAddr.toLowerCase() === RICAddress.toLowerCase()) ?
+    //   'RIC' :
     //   downgradeTokensList.find(
     //     (t:any) => t.tokenAddress.toLowerCase() === subsidyTokenAddr.toLowerCase(),
     //   );
-    // const subsidyRates = `${subsidyRatePerso.toFixed(3)} ${subsidyToken}/mo. 
+    // const subsidyRates = `${subsidyRatePerso.toFixed(3)} ${subsidyToken}/mo.
     //     (out of ${(subsidyRateTotal / 1e3).toFixed(0)} kRIC/mo. total pooled) for ${flowKey}`;
     // console.log(subsidyRates);
-    
+
     return { perso: subsidyRatePerso, total: subsidyRateTotal, endDate };
   }
-  
+
   function buildFlowQuery(flowKey:string) {
     const flowConfigObject = flowConfig.find((o) => o.flowKey === flowKey);
     const exchangeAddress = flowConfigObject?.superToken || '';
     const tokenAxAddress = flowConfigObject?.tokenA || '';
     const tokenAtokenBFlows = flows[exchangeAddress];
-    const tokenAtokenBFlowsReceived = getReceviedFlows(tokenAtokenBFlows.flowsReceived, 
+    const tokenAtokenBFlowsReceived = getReceviedFlows(tokenAtokenBFlows.flowsReceived,
       tokenAxAddress, address);
     const tokenAtokenBPlaceholder = ((tokenAtokenBFlowsReceived / 10 ** 18) *
       (30 * 24 * 60 * 60)).toFixed(6);
     const flowsOwned = getOwnedFlows(tokenAtokenBFlows.flowsReceived, tokenAxAddress);
-    const subsidyRate = { perso: 0, total: 0, endDate: 'unknown' }; 
+    const subsidyRate = { perso: 0, total: 0, endDate: 'unknown' };
     /*
     getSubsidyRate(flowKey, tokenAtokenBPlaceholder, flowsOwned)
       .then((p) => { subsidyRate = p; });
@@ -83,11 +86,11 @@ export function* sweepQueryFlow() {
       flowsOwned,
       totalFlows: tokenAtokenBFlows.flowsReceived.length,
       placeholder: tokenAtokenBPlaceholder,
-      subsidyRate, // await getSubsidyRate(FlowEnum.daiMkrFlowQuery, 
+      subsidyRate, // await getSubsidyRate(FlowEnum.daiMkrFlowQuery,
       // usdcRicPlaceholder, flowsOwned),
     };
   }
-  
+
   const usdcRicFlowQuery = buildFlowQuery(FlowEnum.usdcRicFlowQuery);
   const daiEthFlowQuery = buildFlowQuery(FlowEnum.daiEthFlowQuery);
   const ethDaiFlowQuery = buildFlowQuery(FlowEnum.ethDaiFlowQuery);
@@ -103,8 +106,9 @@ export function* sweepQueryFlow() {
   const usdcWbtcFlowQuery = buildFlowQuery(FlowEnum.usdcWbtcFlowQuery);
   const wethUsdcFlowQuery = buildFlowQuery(FlowEnum.wethUsdcFlowQuery);
   const wbtcUsdcFlowQuery = buildFlowQuery(FlowEnum.wbtcUsdcFlowQuery);
-  const usdcSlpFlowQuery = buildFlowQuery(FlowEnum.usdcSlpFlowQuery);
-  
+  const usdcSlpEthFlowQuery = buildFlowQuery(FlowEnum.usdcSlpEthFlowQuery);
+  const usdcIdleFlowQuery = buildFlowQuery(FlowEnum.usdcIdleFlowQuery);
+
   function getSubsidyRateFromQuery(query:any) {
     return getSubsidyRate(
       query.flowKey, query.placeholder, query.flowsOwned,
@@ -126,8 +130,9 @@ export function* sweepQueryFlow() {
   usdcWbtcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcWbtcFlowQuery);
   wethUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, wethUsdcFlowQuery);
   wbtcUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, wbtcUsdcFlowQuery);
-  usdcSlpFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcSlpFlowQuery);
-  
+  usdcSlpEthFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcSlpEthFlowQuery);
+  usdcIdleFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcIdleFlowQuery);
+
   yield put(mainSetState({
     usdcRicFlowQuery,
     daiEthFlowQuery,
@@ -144,6 +149,7 @@ export function* sweepQueryFlow() {
     usdcWbtcFlowQuery,
     wethUsdcFlowQuery,
     wbtcUsdcFlowQuery,
-    usdcSlpFlowQuery,
+    usdcSlpEthFlowQuery,
+    usdcIdleFlowQuery,
   }));
 }
