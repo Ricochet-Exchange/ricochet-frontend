@@ -1,6 +1,11 @@
 {
   "root": "build/",
-  "/*": "index.html",
+  "routes": {
+    "/": "index.html",
+    "/invest/rex-launchpad": "/invest/rex-launchpad",
+    "/invest/rex-market": "/invest/rex-market",
+    "/invest/rex-lp": "/invest/rex-lp"
+  },
   "headers": {
     "/manifest.json": {
       "Access-Control-Allow-Origin": "https://gnosis-safe.io",
