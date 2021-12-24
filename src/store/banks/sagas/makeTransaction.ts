@@ -1,4 +1,4 @@
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
 import { getContract } from 'utils/getContract';
@@ -9,13 +9,15 @@ import {
   makeWithdraw,
 } from 'api/ethereum';
 import BankAbi from 'constants/Bank.json';
+import { selectMain } from 'store/main/selectors';
 import { banksMakeTransaction, banksSetState } from '../actionCreators';
 
 export function* makeTransactionSaga({ payload }: ReturnType<typeof banksMakeTransaction>) {
-  yield put(banksSetState({ isLoadingTransaction: true }));
-  const accountAddress: Unwrap<typeof getAddress> = yield call(getAddress);
-  const bankContract = getContract(payload.bankAddress, BankAbi.abi);
   try {
+    yield put(banksSetState({ isLoadingTransaction: true }));
+    const { web3 }: ReturnType<typeof selectMain> = yield select(selectMain);
+    const accountAddress: Unwrap<typeof getAddress> = yield call(getAddress, web3);
+    const bankContract = getContract(payload.bankAddress, BankAbi.abi, web3);
     if (payload.transactionType === 'withdraw') {
       const { transactionHash } = yield call(
         makeWithdraw,

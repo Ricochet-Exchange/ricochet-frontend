@@ -3,6 +3,7 @@ export type BanksState = {
   activePair: string,
   bankAddresses: string[],
   banks: BankType[],
+  isLoading: boolean,
   isLoadingSubmit: boolean,
   isLoadingApprove: boolean,
   isLoadingTransaction: boolean,
