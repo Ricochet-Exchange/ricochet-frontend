@@ -1,7 +1,7 @@
 @import '../../../assets/styles/mixins';
 
 @include tablet {
-  .dextable td:not(:first-child):not(:last-child) {
+  .dextable td:not(:first-child):not(:last-child):not(:nth-child(2)):not(:nth-child(3)) {
     display: none;
     max-height: 0;
   }
