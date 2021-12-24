@@ -66,7 +66,7 @@ export const PanelChange: FC<IProps> = ({
   }, [mainLoading]);
 
   function getFormattedNumber(num: string) {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parseFloat(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   function getFlowUSDValue(flow:string) {
