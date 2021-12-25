@@ -72,9 +72,6 @@ const retrieveAPY = async (contractAddress: string): Promise<{
   if (contractAddress === '0xeb367F6a0DDd531666D778BC096d212a235a6f78') {
     addr = '0x34965ba0ac2451a34a0471f04cca3f990b8dea27';
     pid = 1;
-  } else if (contractAddress === '0x0cb9cd99dbC614d9a0B31c9014185DfbBe392eb5') {
-    addr = '0x5518a3af961eee8771657050c5cb23d2b3e2f6ee';
-    pid = 44;
   } else {
     addr = '';
     pid = 0;
