@@ -70,7 +70,7 @@ export const PanelChange: FC<IProps> = ({
   }
 
   function getFlowUSDValue(flow:string) {
-    return (parseFloat(flow as string) * coingeckoPrice).toFixed(2);
+    return (parseFloat(flow as string) * coingeckoPrice).toFixed(0);
   }
 
   const toggleInputShow = useCallback(() => { setInputShow(!inputShow); },
