@@ -4,6 +4,7 @@ import { Banner } from 'components/layout/Banner';
 import { Modal } from 'components/common/Modal';
 import { mainCheck } from 'store/main/actionCreators';
 import { useDispatch } from 'react-redux';
+import { InfoBanner } from 'components/layout/InfoBanner';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const App: React.FC = () => {
   
   return (
     <>
+      <InfoBanner />
       <Banner />
       <Modal />
       <MainRouter />
