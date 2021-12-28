@@ -8,7 +8,6 @@ import { getBankData } from 'api/ethereum';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
 import { transformError } from 'utils/transformError';
-// import { mainSetState } from 'store/main/actionCreators';
 import { selectMain } from 'store/main/selectors';
 import { banksSetState } from '../actionCreators';
 import { BankType } from '../types';
@@ -18,7 +17,7 @@ export function* getBanksDataSaga() {
   try {
     yield put(banksSetState({ isLoading: true }));
     const bankAddresses:ReturnType<typeof selectBanksAddresses> =
-    yield select(selectBanksAddresses);
+      yield select(selectBanksAddresses);
 
     const { web3 }: ReturnType<typeof selectMain> = yield select(selectMain);
 
@@ -31,10 +30,9 @@ export function* getBanksDataSaga() {
         web3,
       )
     )));
-    yield put(banksSetState({ banks }));
-    yield put(banksSetState({ isLoading: false }));
+    yield put(banksSetState({ banks, isLoading: false }));
   } catch (e) {
-    console.log('e', e);
     transformError(e);
+    yield put(banksSetState({ isLoading: false }));
   }
 }

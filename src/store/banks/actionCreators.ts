@@ -7,7 +7,7 @@ export const banksSetState = (payload: Partial<BanksState>) => ({
 });
 
 export const banksGetData = () => ({
-  type: BanksActionTypes.LOAD_DATA,
+  type: BanksActionTypes.LOAD_BANKS_DATA,
 });
 
 export const banksMakeDeposit = (
