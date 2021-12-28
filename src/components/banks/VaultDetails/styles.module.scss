@@ -1,0 +1,149 @@
+@import 'assets/styles/mixins';
+
+.VaultDetails {
+  background-color: var(--color-blue-light);
+
+  margin-bottom: 35px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.VaultDetails__header {
+  @include flexbox(flex-start, space-between);
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 25px 35px 14px 50px;
+  flex-direction: row;
+  border-bottom: 1px dashed $notwhitetxt;
+  @include tablet {
+    justify-content: space-around;
+  }
+}
+
+.VaultDetails__Column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-right: 1vw;
+  margin-bottom: 2vh;
+}
+
+.VaultDetails__Column p {
+  font-size: 0.875rem;
+  line-height: 1.15rem;
+  margin: 0;
+  color: $mediumgrey;
+}
+
+.VaultDetail {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.VaultDetail h3 {
+  font-size: 1.25rem;
+  color: var(--color-blue);;
+  margin: 0 0 4px 0;
+}
+
+.VaultDetails__Bank {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  color: #848484;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  margin: 0 -6px 0 0;
+}
+
+.VaultDetails__Bank p {
+  margin: 0 8px 0 0;
+}
+
+.BankData {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 12px 0 0 0;
+}
+
+.BankDataTxt {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin: 0 12px 0 0;
+}
+
+.BankName {
+  font-weight: bold;
+  color: black;
+}
+
+.BankDataTxt p {
+  margin: 0;
+}
+
+.collrat {
+  margin-right: 3.5rem;
+  @include tablet {
+    margin-right: 1rem;
+  }
+}
+
+.liqprice h1 {
+  font-size: 4rem;
+  font-weight: normal;
+  color: var(--color-blue);;
+  margin-bottom: 0;
+}
+
+.liqprice h3 {
+  margin: 0 0 20px 8px;
+}
+
+.collateralPrice h3 {
+  margin: 0 0 20px 8px;
+}
+
+.collateralPrice h1 {
+  font-size: 4rem;
+  margin-bottom: 0;
+}
+
+.tellorgreen {
+  color: $tellorgreen;
+}
+
+.firstrow {
+  border-bottom: 1px dashed $notwhitetxt;
+}
+
+.VaultDetails__content {
+  @include flexbox(flex-start, space-around);
+  width: 100%;
+  padding: 28px 35px 20px 50px;
+  flex-wrap: wrap;
+}
+
+.BigDetail {
+  @include flexbox(flex-end, center);
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.header_column {
+  @include flexbox(flex-start, flex-start);
+  flex-direction: row;
+}
+
+.bankIcon {
+  color: var(--color-black);
+}

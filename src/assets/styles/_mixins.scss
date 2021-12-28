@@ -25,6 +25,16 @@ $defaultFlexBoxJustify: center;
   }
 }
 
+@mixin not_blur() {
+  background: rgba(0,0,0,0.45);
+
+  @include can_backdrop {
+    backdrop-filter: inherit;
+    -webkit-backdrop-filter: inherit;
+    background: gba(0,0,0,0.45);
+  }
+}
+
 
 // Media request mixins MobileFirst
 @mixin for_mobile {
@@ -61,4 +71,10 @@ $defaultFlexBoxJustify: center;
   visibility: hidden;
   pointer-events: none;
   opacity: 0;
+}
+
+@mixin lightshadow {
+  -webkit-box-shadow: 0px 13px 26px 0px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 13px 26px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 13px 26px 0px rgba(0, 0, 0, 0.1);
 }

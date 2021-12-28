@@ -1,5 +1,5 @@
 import React, {
-  ButtonHTMLAttributes, DetailedHTMLProps, PropsWithChildren, 
+  ButtonHTMLAttributes, DetailedHTMLProps, MouseEvent, PropsWithChildren, 
 } from 'react';
 import cx from 'classnames';
 import styles from './styles.module.scss';
@@ -19,7 +19,7 @@ HTMLButtonElement
 > & {
   presentation?: ButtonPresentation,
   label: string | JSX.Element;
-  onClick?: () => void;
+  onClick?: (e: MouseEvent) => void ;
   slide?: ButtonSlideAnimation
   className?: string;
 };
@@ -30,6 +30,7 @@ export const Button:React.FC<PropsWithChildren<Props>> = ({
   onClick, 
   slide = ButtonSlideAnimation.right, 
   className,
+  children,
   ...rest
 }) => (
   <button
@@ -42,6 +43,7 @@ export const Button:React.FC<PropsWithChildren<Props>> = ({
     )}
     onClick={onClick}
   >
+    {children}
     {label}
   </button>
 );
