@@ -421,6 +421,7 @@ export const getVaultData = async (
 export const getCollateralTokenData = async (
   contract: any,
   accountAddress: string,
+  web3: Web3,
 ) => {
   const collateralTokenAddress = await contract.methods
     .getCollateralTokenAddress()
@@ -429,11 +430,13 @@ export const getCollateralTokenData = async (
   const tokenContract = getContract(
     collateralTokenAddress,
     Erc20Abi,
+    web3,
   );
 
   const token32Contract = getContract(
     collateralTokenAddress,
     Erc20Bytes32Abi,
+    web3,
   );
 
   const unlockedAmount = accountAddress ? await tokenContract.methods
@@ -476,6 +479,7 @@ export const getCollateralTokenData = async (
 export const getDebtTokenData = async (
   contract: any,
   accountAddress: string,
+  web3: Web3,
 ) => {
   const debtTokenAddress = await contract.methods
     .getDebtTokenAddress()
@@ -484,11 +488,13 @@ export const getDebtTokenData = async (
   const tokenContract = getContract(
     debtTokenAddress,
     Erc20Abi,
+    web3,
   );
 
   const token32Contract = getContract(
     debtTokenAddress,
     Erc20Bytes32Abi,
+    web3,
   );
   const unlockedAmount = accountAddress ? await tokenContract.methods
     .allowance(accountAddress, debtTokenAddress)
@@ -530,11 +536,12 @@ export const getDebtTokenData = async (
 export const getBankData = async (
   bankAddress: string,
   address: string,
+  web3: Web3,
 ) => {
-  const bankContract = getContract(bankAddress, BankAbi.abi);
+  const bankContract = getContract(bankAddress, BankAbi.abi, web3);
   const vault = await getVaultData(bankContract, address, bankAddress);
-  const debtToken = await getDebtTokenData(bankContract, address);
-  const collateralToken = await getCollateralTokenData(bankContract, address);
+  const debtToken = await getDebtTokenData(bankContract, address, web3);
+  const collateralToken = await getCollateralTokenData(bankContract, address, web3);
   const name = bankAddress === '0x91093c77720e744F415D33551C2fC3FAf7333c8c' ? 
     '✨ REX Bank' : await bankContract.methods.getName().call();
   const interestRate = await bankContract.methods.getInterestRate().call();
@@ -603,6 +610,7 @@ export const approveToken = async (
   accountAddress: string,
   bankAddress: string,
   tokenContract: any,
+  web3: Web3,
   wad?: any,
 ) => {
   const mainWad = wad || web3.utils

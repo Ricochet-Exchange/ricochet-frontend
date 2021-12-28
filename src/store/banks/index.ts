@@ -11,6 +11,7 @@ export const banksInitialState: Readonly<BanksState> = {
   activePair: TOKEN_PAIRS[0],
   bankAddresses: CONTRACT_ADDRESSES[chainID],
   banks: [],
+  isLoading: false,
   isLoadingSubmit: false,
   isLoadingApprove: false,
   isLoadingTransaction: false,

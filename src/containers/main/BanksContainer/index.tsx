@@ -18,8 +18,8 @@ import styles from './styles.module.scss';
 
 export const BanksContainer = () => {
   const dispatch = useDispatch();
-  const { banks } = useShallowSelector(selectBanks);
-  const { address: accountAddress, isLoading, isReadOnly } = useShallowSelector(selectMain);
+  const { banks, isLoading: isLoadingBank } = useShallowSelector(selectBanks);
+  const { address: accountAddress, isReadOnly, isLoading } = useShallowSelector(selectMain);
 
   const handleSignIn = useCallback(() => {
     if (isReadOnly) {
@@ -28,8 +28,8 @@ export const BanksContainer = () => {
   }, [dispatch, modalShow, isReadOnly]);
 
   useEffect(() => {
-    if (!banks[0]) dispatch(banksGetData());
-  }, [banks]);
+    if (!isLoading) dispatch(banksGetData());
+  }, [isLoading]);
 
   const renderBanks = () => (
     banks.map((bank: BankType) => (
@@ -47,7 +47,7 @@ export const BanksContainer = () => {
       <InvestNav />
       <div className={styles.container}>
         <LoadingWrapper
-          isLoading={isLoading}
+          isLoading={isLoadingBank || isLoading}
           className={styles.fullframe}
         >
           <div className={styles.contentTotal}>{renderBanks()}</div>
