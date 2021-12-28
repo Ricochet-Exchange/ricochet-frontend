@@ -1,7 +1,7 @@
 @import '../../../assets/styles/mixins';
 
 @include tablet {
-  .dextable td:not(:first-child):not(:last-child) {
+  .dextable td:not(:first-child):not(:last-child):not(:nth-child(2)):not(:nth-child(3)) {
     display: none;
     max-height: 0;
   }
@@ -19,6 +19,12 @@
   .blue {
     color: var(--color-blue-dark);
     font-weight: 500;
+  }
+
+  .grey {
+    color: var(--color-grey);
+    font-size: 12px;
+    font-weight: 400;
   }
 
   .dextable thead tr {

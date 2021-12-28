@@ -32,7 +32,7 @@ export const InvestContainer :React.FC<IProps> = () => {
   const { language, changeLanguage, t } = useLang();
   const state = useShallowSelector(selectMain);
   const {
-    address, balances, isLoading, isReadOnly,
+    address, balances, isLoading, isReadOnly, coingeckoPrices,
   } = state;
   const userStreams = useShallowSelector(selectUserStreams);
   const dispatch = useDispatch();
@@ -125,6 +125,7 @@ export const InvestContainer :React.FC<IProps> = () => {
                 onClickStart={handleStart(element)}
                 onClickStop={handleStop(element)}
                 coinA={element.coinA}
+                coingeckoPrice={coingeckoPrices ? coingeckoPrices[element.tokenA] : 0}
                 coinB={element.coinB}
                 balanceA={balances && balances[element.tokenA]}
                 balanceB={balances && balances[element.tokenB]}
