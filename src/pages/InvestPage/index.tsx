@@ -25,7 +25,6 @@ const InvestPage: FC<IProps> = () => {
       <div className={styles.content}>
         <InvestContainer />
       </div>
-    
     </MainLayout>
   );
 };

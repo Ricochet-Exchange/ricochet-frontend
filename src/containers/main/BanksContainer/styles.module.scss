@@ -1,0 +1,63 @@
+@import 'assets/styles/mixins';
+@import 'assets/styles/variables';
+
+.fullframe {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.contentTotal {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.outer_container {
+  display: flex;
+  overflow: auto;
+  @include tablet() {
+    display: block;
+  }
+}
+
+.container {
+  @include flexbox(center, center);
+  width: 100%;
+  height: 100%;
+  font-family: $default-font;
+  padding: 40px 40px 40px 40px;
+
+
+  @include tablet{
+    padding: 0 30px 30px 30px;
+  }
+}
+
+.BankStatusBar,
+.BankDetails,
+.VaultDetails {
+
+  width: 100%;
+}
+
+.BankStatusBar {
+  margin: 0;
+}
+
+.BankDetails,
+.VaultDetails {
+  max-width: 1400px;
+}
+
+@media only screen and (min-width: 1824px) {
+  .BankDetails {
+    margin-top: 20px;
+  }
+}
+

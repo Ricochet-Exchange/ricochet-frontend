@@ -26,7 +26,6 @@ const WalletPage: FC<IProps> = () => {
       <div className={styles.content}>
         <UpgradeContainer balance={balances && balances[RICAddress]} address={address || 'Connecting'} />
       </div>
-    
     </MainLayout>
   );
 };

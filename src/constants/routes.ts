@@ -4,4 +4,6 @@ export enum Routes {
   InvestLiquidityMarkets = '/invest/rex-lp',
   InvestLaunchpads = '/invest/rex-launchpad',
   Wallet = '/wallet',
+  Banks = '/banks',
+  Vaults = '/vaults',
 }

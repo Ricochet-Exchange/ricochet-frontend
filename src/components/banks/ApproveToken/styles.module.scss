@@ -1,0 +1,33 @@
+@import 'assets/styles/_mixins';
+
+.loader{
+  @include not_blur();
+  background-color: #f5f7fa;
+}
+
+
+.button {
+  background-color: transparent;
+  color: $purple;
+  font-family: inherit;
+  border-color: $purple;
+  height: 40px;
+  padding: 6.4px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  transition-property: all;
+  transition-duration: 0.05s;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0s;
+}
+
+.button:hover:not(:disabled){
+  box-shadow: none;
+  -webkit-transform: scale(.98);
+    transform: scale(.98);
+}
+
+.approveToken {
+  @include flexbox(center, center);
+}
