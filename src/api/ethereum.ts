@@ -385,7 +385,6 @@ export const registerToken = async (options: CoinOption) => {
 export const getVaultData = async (
   contract: any,
   accountAddress: string,
-  bankAddress: string,
 ) => {
   const collateralAmount = await contract.methods
     .getVaultCollateralAmount()
@@ -404,10 +403,7 @@ export const getVaultData = async (
       .call();
   }
 
-  let hasVault = +debtAmount > 0 || +collateralAmount > 0;
-  if (bankAddress !== '0xaD39F774A75C7673eE0c8Ca2A7b88454580D7F53') {
-    hasVault = true;
-  }
+  const hasVault = +debtAmount > 0 || +collateralAmount > 0;
 
   return {
     collateralAmount,
@@ -539,7 +535,7 @@ export const getBankData = async (
   web3: Web3,
 ) => {
   const bankContract = getContract(bankAddress, BankAbi.abi, web3);
-  const vault = await getVaultData(bankContract, address, bankAddress);
+  const vault = await getVaultData(bankContract, address);
   const debtToken = await getDebtTokenData(bankContract, address, web3);
   const collateralToken = await getCollateralTokenData(bankContract, address, web3);
   const name = bankAddress === '0x91093c77720e744F415D33551C2fC3FAf7333c8c' ? 
@@ -616,7 +612,6 @@ export const approveToken = async (
   const mainWad = wad || web3.utils
     .toBN(2)
     .pow(web3.utils.toBN(255));
-  console.log(tokenContract);
   const approveRes = await tokenContract.methods
     .approve(bankAddress, mainWad)
     .send({ from: accountAddress })

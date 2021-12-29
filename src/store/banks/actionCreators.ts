@@ -35,12 +35,14 @@ export const banksMakeBorrow = (
 export const banksApproveToken = (
   tokenAddress: string,
   bankAddress: string,
+  amount: string,
   callback: (error?: string) => void,
 ) => ({
   type: BanksActionTypes.APPROVE_TOKEN,
   payload: {
     tokenAddress,
     bankAddress,
+    amount,
     callback,
   },
 });

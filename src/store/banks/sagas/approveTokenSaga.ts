@@ -3,7 +3,7 @@ import { getContract } from 'utils/getContract';
 import Erc20Abi from 'constants/Erc20.json';
 import { getAddress } from 'utils/getAddress';
 import { Unwrap } from 'types/unwrap';
-import { approveToken } from 'api/ethereum';
+import { allowance, approveToken } from 'api/ethereum';
 import { selectMain } from 'store/main/selectors';
 import { banksApproveToken, banksSetState } from '../actionCreators';
 import { selectBanks } from '../selectors';
@@ -20,7 +20,11 @@ export function* approveTokenSaga({ payload }: ReturnType<typeof banksApproveTok
       Erc20Abi,
       web3,
     );
-    yield call(approveToken, accountAddress, payload.bankAddress, tokenContract, web3);
+    const allowanceAmount: Unwrap<typeof allowance> = yield call(allowance,
+      tokenContract, accountAddress, payload.bankAddress);
+    if (Number(allowanceAmount) < Number(payload.amount)) {
+      yield call(approveToken, accountAddress, payload.bankAddress, tokenContract, web3);
+    }
     payload.callback();
   } catch (e) {
     const { isLoadingApprove }: ReturnType<typeof selectBanks> = yield select(selectBanks);

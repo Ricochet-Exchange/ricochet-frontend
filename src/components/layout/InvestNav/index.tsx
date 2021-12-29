@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { selectUserStreams } from 'store/main/selectors';
 import { Routes } from 'constants/routes';
 import { useShallowSelector } from 'hooks/useShallowSelector';
@@ -9,6 +9,7 @@ import styles from './styles.module.scss';
 
 export const InvestNav = () => {
   const userStreams = useShallowSelector(selectUserStreams);
+  const location = useLocation();
   return (
     <div className={styles.nav_container}>
       {userStreams.length > 0 && (
@@ -57,13 +58,15 @@ export const InvestNav = () => {
         <FontIcon name={FontIconName.Bank} size={16} />
   &nbsp;rexBank
       </NavLink>
+      {(location.pathname === Routes.Banks || location.pathname === Routes.Vaults) && (
       <NavLink
         className={cx(styles.nav_link, styles.vaults_link)}
-        activeClassName={styles.nav_link_active} 
+        activeClassName={styles.nav_link_active}
         to={Routes.Vaults}
       >
-  &nbsp;rexVault
+        &nbsp;rexVault
       </NavLink>
+      )}
     </div>
   );
 };

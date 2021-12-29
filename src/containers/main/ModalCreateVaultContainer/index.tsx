@@ -74,6 +74,7 @@ export const ModalCreateVaultContainer: FC<Props> = ({
     dispatch(banksApproveToken(
       bank.collateralToken.address,
       bank.bankAddress,
+      vaultData.depositAmount,
       callbackApprove,
     ));
   }, [dispatch, bank]);

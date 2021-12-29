@@ -76,6 +76,7 @@ export const VaultTransactionContainer: FC<Props> = ({
     dispatch(banksApproveToken(
       bank.collateralToken.address,
       bank.bankAddress,
+      bank.vault.debtAmount,
       callbackApprove,
     ));
   }, [dispatch, bank]);
