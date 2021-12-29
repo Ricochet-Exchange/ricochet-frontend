@@ -37,6 +37,8 @@ export enum FontIconName {
   Loop = 'icon-loop',
   Bank = 'icon-bank',
   External = 'icon-link-ext',
+  Vault = 'icon-suitcase',
+
 }
 
 const FontIcon: FC<IProps> = ({ name, size = 24, className }) => (

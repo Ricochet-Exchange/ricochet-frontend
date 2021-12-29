@@ -60,10 +60,11 @@ export const InvestNav = () => {
       </NavLink>
       {(location.pathname === Routes.Banks || location.pathname === Routes.Vaults) && (
       <NavLink
-        className={cx(styles.nav_link, styles.vaults_link)}
+        className={cx(styles.nav_link)}
         activeClassName={styles.nav_link_active}
         to={Routes.Vaults}
       >
+        <FontIcon name={FontIconName.Lock} size={16} />
         &nbsp;rexVault
       </NavLink>
       )}

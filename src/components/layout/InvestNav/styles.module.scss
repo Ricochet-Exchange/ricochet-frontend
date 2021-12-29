@@ -47,13 +47,6 @@
     color: var(--color-white-dark);
 }
 
-.vaults_link {
-    @include flexbox(center, center);
-    position: relative;
-    padding-left: 40px;
-    height: 41px;
-}
-
 .vaultIcon{
     position: absolute;
     left: 10px;
