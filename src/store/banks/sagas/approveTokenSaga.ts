@@ -22,7 +22,7 @@ export function* approveTokenSaga({ payload }: ReturnType<typeof banksApproveTok
     );
     const allowanceAmount: Unwrap<typeof allowance> = yield call(allowance,
       tokenContract, accountAddress, payload.bankAddress);
-    if (Number(allowanceAmount) < Number(payload.amount)) {
+    if (Number(allowanceAmount) === 0 || Number(allowanceAmount) < Number(payload.amount)) {
       yield call(approveToken, accountAddress, payload.bankAddress, tokenContract, web3);
     }
     payload.callback();
