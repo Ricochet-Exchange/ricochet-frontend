@@ -53,20 +53,20 @@ export const InvestNav = () => {
   &nbsp;rexLaunchpad
       </NavLink>
       <NavLink
-        className={styles.nav_link}
-        activeClassName={styles.nav_link_active} 
+        className={styles.link}
         to={Routes.Banks}
       >
         <FontIcon name={FontIconName.Bank} size={16} />
-  &nbsp;rexBank
+  &nbsp;rexBank&nbsp;
+        <FontIcon name={FontIconName.External} size={16} />
       </NavLink>
       <NavLink
-        className={styles.nav_link}
+        className={styles.link}
         to={{ pathname: TUTORIAL_LINK }}
         target="_blank"
       >
         <FontIcon name={FontIconName.Desktop} size={20} />
-        Tutorial
+        Tutorial&nbsp;
         <FontIcon name={FontIconName.External} size={16} />
       </NavLink>
 
