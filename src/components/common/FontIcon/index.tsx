@@ -38,6 +38,7 @@ export enum FontIconName {
   Bank = 'icon-bank',
   External = 'icon-link-ext',
   Vault = 'icon-suitcase',
+  Desktop = 'icon-desktop',
 
 }
 
