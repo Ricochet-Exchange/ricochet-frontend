@@ -17,7 +17,7 @@ import {
 import { getBalances } from './getBalances';
 import { sweepQueryFlow } from './sweepQueryFlow';
 import { selectMain } from '../selectors';
-import { getCoingeckoRates } from '../../../utils/getCoingeckoPrices';
+import { getCoingeckoPrices } from '../../../utils/getCoingeckoPrices';
 
 export function* loadData() {
   try {
@@ -25,7 +25,7 @@ export function* loadData() {
     const main: ReturnType<typeof selectMain> = yield select(selectMain);
     const { web3 } = main;
     const address: Unwrap<typeof getAddress> = yield call(getAddress, web3);
-    const coingeckoRates: Unwrap<typeof getCoingeckoRates> = yield call(getCoingeckoRates);
+    const coingeckoPrices: Unwrap<typeof getCoingeckoPrices> = yield call(getCoingeckoPrices);
     yield call(getBalances, address);
     yield all([
       call(checkIfApproveUsdc),
@@ -40,7 +40,7 @@ export function* loadData() {
     ]);
     yield put(mainSetState({
       address,
-      coingeckoPrices: coingeckoRates,
+      coingeckoPrices,
       isLoading: false,
     }));
   } catch (e) {

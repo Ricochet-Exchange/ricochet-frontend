@@ -16,7 +16,7 @@ const coingeckoIds = new Map<string, string>([
   [MKRxAddress, 'maker'],
 ]);
 
-async function getRates() {
+async function getPrices() {
   const ids = [...coingeckoIds.values()];
   const coingeckoRequestUrl =
         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=USD&ids=${ids.join(',')}`;
@@ -32,11 +32,11 @@ async function getRates() {
     .catch((error) => console.error(error));
 }
 
-export const getCoingeckoRates = async (): Promise<{ [key:string]: number }> => {
+export const getCoingeckoPrices = async (): Promise<{ [key:string]: number }> => {
   const tokenAddresses = [...coingeckoIds.keys()];
   const coingeckoPrices: { [key:string]: number } = {};
 
-  await getRates().then((response:any) => {
+  await getPrices().then((response:any) => {
     tokenAddresses.forEach((tokenAddress) => {
       const id = coingeckoIds?.get(tokenAddress);
       const tokenData = response.filter((res:any) => res.id === id!);
