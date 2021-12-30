@@ -1,6 +1,8 @@
 import { put, call, all } from 'redux-saga/effects';
 import { mainGetReadOnlyData, mainSetState } from '../actionCreators';
 import { sweepQueryFlow } from './sweepQueryFlow';
+import { Unwrap } from '../../../types/unwrap';
+import { getCoingeckoPrices } from '../../../utils/getCoingeckoPrices';
 
 export function* loadReadOnlyData() {
   try {
@@ -8,7 +10,9 @@ export function* loadReadOnlyData() {
     yield all([
       call(sweepQueryFlow),
     ]);
+    const coingeckoPrices: Unwrap<typeof getCoingeckoPrices> = yield call(getCoingeckoPrices);
     yield put(mainSetState({
+      coingeckoPrices,
       isLoading: false,
     }));
   } catch (e) {
