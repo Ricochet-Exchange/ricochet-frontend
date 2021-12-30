@@ -1,6 +1,6 @@
 export const getQueryGrath = (queryAddress: string) => `{
     account(id: "${queryAddress.toLowerCase()}") {
-        flowsOwned {
+        flowsOwned(first: 1000) {
             lastUpdate
             flowRate
             sum
@@ -19,7 +19,7 @@ export const getQueryGrath = (queryAddress: string) => `{
               }
             }
         }
-        flowsReceived(where:{flowRate_gt:0}) {
+        flowsReceived(first: 1000, where:{flowRate_gt:0}) {
           lastUpdate
           flowRate
           sum
