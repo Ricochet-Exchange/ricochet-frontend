@@ -7,6 +7,8 @@ import { Routes } from 'constants/routes';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import styles from './styles.module.scss';
 
+const TUTORIAL_LINK = 'https://docs.ricochet.exchange/tutorial/using-the-dapp';
+
 export const InvestNav = () => {
   const userStreams = useShallowSelector(selectUserStreams);
   const location = useLocation();
@@ -20,7 +22,7 @@ export const InvestNav = () => {
         to={Routes.InvestStreams}
       >
         <FontIcon name={FontIconName.RicoUser} size={16} />
-  &nbsp;streams (
+  &nbsp;Streams (
         {userStreams.length}
         )
       </NavLink>
@@ -51,13 +53,23 @@ export const InvestNav = () => {
   &nbsp;rexLaunchpad
       </NavLink>
       <NavLink
-        className={styles.nav_link}
+        className={styles.nav_link} 
         activeClassName={styles.nav_link_active} 
         to={Routes.Banks}
       >
         <FontIcon name={FontIconName.Bank} size={16} />
   &nbsp;rexBank
       </NavLink>
+      <NavLink
+        className={styles.link}
+        to={{ pathname: TUTORIAL_LINK }}
+        target="_blank"
+      >
+        <FontIcon name={FontIconName.Desktop} size={20} />
+        Tutorial&nbsp;
+        <FontIcon name={FontIconName.External} size={16} />
+      </NavLink>
+
       {(location.pathname === Routes.Banks || location.pathname === Routes.Vaults) && (
       <NavLink
         className={cx(styles.nav_link)}
