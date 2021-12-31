@@ -176,6 +176,7 @@
 
 .lang_dropdown,
 .settings_dropdown {
+  z-index: 1;
   font-family: $default-font;
   background: var(--color-white);
   border-radius: 20px;
