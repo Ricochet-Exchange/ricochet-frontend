@@ -135,7 +135,7 @@ export const VaultTransaction: FC<Props> = ({
               ) : null}
               <Button
                 label="MAX"
-                className={styles.linkButtonMax}
+                className={styles.linkButton}
                 presentation="link"
                 onClick={onMaxAmount}
               />

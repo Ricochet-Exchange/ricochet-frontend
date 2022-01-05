@@ -86,16 +86,9 @@
 .linkButton {
     text-decoration: underline;
     font-family: inherit;
-    font-size: 25px;
+    font-size: 16px;
     font-weight: 700;
     margin-right: 15px;
-}
-
-.linkButtonMax {
-  font-family: inherit;
-  font-size: 25px;
-  font-weight: 700;
-  margin-right: 15px;
 }
 
 .actionButton {
@@ -108,7 +101,7 @@
   font-size: 16px;
   border-radius: 8px;
   font-weight: 700;
-  width: 125px;
+  width: 200px;
   transition-property: all;
   transition-duration: 0.05s;
   transition-timing-function: ease-in-out;
