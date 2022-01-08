@@ -8,6 +8,7 @@ import { numFormatter } from 'utils/balances';
 import { useTranslation } from 'i18n';
 import { invokeRamp } from 'api/rampNetwork';
 import logo from 'assets/images/logo.png';
+import useENS from 'hooks/useENS';
 import styles from './styles.module.scss';
 import { SelectLanguage } from '../SelectLanguage';
 import { Routes } from '../../../constants/routes';
@@ -32,6 +33,7 @@ export const UserSettings: FC<IProps> = ({
     hostLogoUrl: `${window.location.origin}${logo}`,
     userAddress: account,
   }, () => { history.push(Routes.Wallet); });
+  const { ensName } = useENS(account);
 
   const { t } = useTranslation('main');
   const isConnecting = account === 'Connecting';
@@ -44,7 +46,9 @@ export const UserSettings: FC<IProps> = ({
         >
           {!isConnecting && ricBalance && `${numFormatter(parseFloat(ricBalance))} RIC`}
         </div>
-        <div className={styles.address}>{isConnecting ? account : account.substring(0, 6)}</div>
+        <div className={styles.address}>
+          {isConnecting ? account : ensName || account.substring(0, 6)}
+        </div>
         <div className={styles.icon_wrap}>
           <FontIcon className={styles.icon} name={FontIconName.RicoUser} size={16} />
         </div>
