@@ -31,7 +31,7 @@ export const UserSettings: FC<IProps> = ({
   className,
 }) => {
   const history = useHistory();
-
+  const { ensName } = useENS(account);
   const handleFundButton = () =>
     invokeRamp(
       {
@@ -42,7 +42,6 @@ export const UserSettings: FC<IProps> = ({
         history.push(Routes.Wallet);
       },
     );
-  const { ensName } = useENS(account);
   const { t } = useTranslation('main');
   const preConnect = account === 'Connect Wallet';
 
