@@ -19,7 +19,10 @@ spec:
       containers:
       - name: website
         image: amazonaws.com/ricochet
-
+        imagePullPolicy: Always
+        env:
+        - name: IMAGE_TAG
+          value: kustomized_ricochet
         ports:
         - containerPort: 3000
           name: frontend

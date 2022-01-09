@@ -50,7 +50,7 @@ install-eksctl() {
     fi
 }
 
-# install yq if missing (only yq version 2.x is supported)
+# install yq if missing (no update)
 install-yq() {
     if [[ -z $(which yq) ]]
     then
@@ -169,7 +169,7 @@ setup() {
     create-env
 }
 
-# local development (by calling yarn script directly installs nvm to use correct version)
+# local development (by calling yarn script directly)
 dev() {
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
     export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"

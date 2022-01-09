@@ -7,7 +7,7 @@ RUN apk update
 RUN apk add git
 
 # copy files for build
-COPY ./site /opt/ricochet-frontend
+COPY ./ /opt/ricochet-frontend
 
 # run build & start website
 CMD cd /opt/ricochet-frontend && yarn && yarn start
