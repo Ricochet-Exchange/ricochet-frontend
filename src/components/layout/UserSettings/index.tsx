@@ -1,15 +1,13 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { Dropdown } from 'components/common/Dropdown';
 import { LocaleKey, localeNames } from 'i18n/utils';
 import ButtonNew from 'components/common/ButtonNew';
 import { useHistory } from 'react-router-dom';
-import { numFormatter } from 'utils/balances';
 import { useTranslation } from 'i18n';
 import { invokeRamp } from 'api/rampNetwork';
 import logo from 'assets/images/logo.png';
-import { useDispatch } from 'react-redux';
-import { mainCheck } from 'store/main/actionCreators';
+import { WalletButton } from 'components/common/WalletButton';
 import { SelectLanguage } from '../SelectLanguage';
 import { Routes } from '../../../constants/routes';
 import styles from './styles.module.scss';
@@ -32,7 +30,7 @@ export const UserSettings: FC<IProps> = ({
   className,
 }) => {
   const history = useHistory();
-  const dispatch = useDispatch();
+
   const handleFundButton = () =>
     invokeRamp(
       {
@@ -43,31 +41,13 @@ export const UserSettings: FC<IProps> = ({
         history.push(Routes.Wallet);
       },
     );
-  const dispatchMain = useCallback(() => {
-    dispatch(mainCheck());
-  }, [dispatch]);
+  
   const { t } = useTranslation('main');
   const preConnect = account === 'Connect Wallet';
 
   return (
     <div className={styles.user_settings}>
-      <ButtonNew className={styles.balance_panel} onClick={dispatchMain}>
-        <div className={styles.balance}>
-          {!preConnect &&
-            ricBalance &&
-            `${numFormatter(parseFloat(ricBalance))} RIC`}
-        </div>
-        <div className={styles.address}>
-          {preConnect ? account : account.substring(0, 6)}
-        </div>
-        <div className={styles.icon_wrap}>
-          <FontIcon
-            className={styles.icon}
-            name={FontIconName.RicoUser}
-            size={16}
-          />
-        </div>
-      </ButtonNew>
+      <WalletButton ricBalance={ricBalance} account={account} />
       {!preConnect && (
         <ButtonNew
           disabled={isReadOnly}
