@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { mainSwitchNetwork } from 'store/main/actionCreators';
 import ButtonNew from 'components/common/ButtonNew';
+import { chainSettings } from 'constants/chainSettings';
 import styles from './styles.module.scss';
 
 export const ModalNetwork:React.FC = () => {
@@ -24,7 +25,7 @@ export const ModalNetwork:React.FC = () => {
         </li>
         <li>
           <span className={styles.label}>RPC URL - </span>
-          https://polygon-rpc.com
+          {chainSettings.rpcUrls}
 
         </li>
         <li>

@@ -2,9 +2,8 @@
 
 .balance_panel {
   @include flexbox(center, center);
-
+  width:fit-content;
   max-width: 210px;
-  min-width: 0;
   height: 33px !important;
   background: var(--color-blue);
   border: 1px solid var(--color-blue);
@@ -12,18 +11,16 @@
   color: var(--color-white);
   font-family: $default-font;
   font-style: normal;
-  padding: 0;
+  padding: 8px 16px;
   cursor: pointer;
 
   @include tablet {
-    margin-top: 10px;
     width: 100%;
     max-width: 100%;
   }
 }
 
 .icon_wrap {
-  padding: 8.25px 19px 9px 0;
   margin: 0 0 0 auto;
 }
 
@@ -37,23 +34,24 @@
 
 .balance {
   @include flexbox(center, center);
-
-  padding: 8px 0 8px 16px;
+  vertical-align: middle;
   font-weight: bold;
   font-size: 14px;
-  line-height: 17px;
   letter-spacing: -0.01em;
   font-weight: 700px;
   white-space: nowrap;
-  margin: 0 10px 0 0;
+  margin-right: 8px;
+}
+.balance:empty {
+  display: none;
 }
 .address {
+  @include flexbox(center, center);
   font-weight: normal;
   font-size: 12px;
-  line-height: 17px;
   letter-spacing: -0.01em;
-  padding: 8px 0 8px 0;
   margin: 0 7px 0 0;
+  vertical-align: middle;
 
   text-overflow: ellipsis;
   overflow: hidden;
