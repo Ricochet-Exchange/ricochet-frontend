@@ -13,7 +13,7 @@ export const ModalNetwork:React.FC = () => {
 
   return (
     <div className={styles.wrap}>
-      <p className={styles.title}>You should switch to Polygon network</p>
+      <p className={styles.title}>Switch to Polygon network</p>
       <ul className={styles.params}>
         <li>
           <span className={styles.label}>name - </span>
