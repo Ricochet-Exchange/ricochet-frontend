@@ -5,6 +5,7 @@ export type MainState = {
   web3: Web3;
   address: string;
   balances?: { [key:string]: string };
+  coingeckoPrices?: { [key:string]: number };
   hasUsdcApprove?: boolean;
   hasDaiApprove?: boolean;
   hasMkrApprove?: boolean;
@@ -158,5 +159,5 @@ export type MainState = {
   selectedDowngradeCoin: Coin,
   selectedUpgradeCoin: Coin,
   coinType: Coin,
-  isReadOnly: boolean
+  isReadOnly: boolean,
 };

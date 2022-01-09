@@ -17,7 +17,7 @@ import menuImg from '../../../assets/images/menu.svg';
 interface IProps {
   address: string;
   balance?: string;
-  isReadOnly?:boolean;
+  isReadOnly?: boolean;
 }
 
 export const HeaderContainer:FC<IProps> = ({ address, balance, isReadOnly }) => {

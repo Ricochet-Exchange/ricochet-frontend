@@ -8,6 +8,7 @@ import { useTranslation } from 'i18n';
 import { invokeRamp } from 'api/rampNetwork';
 import logo from 'assets/images/logo.png';
 import { WalletButton } from 'components/common/WalletButton';
+import useENS from 'hooks/useENS';
 import { SelectLanguage } from '../SelectLanguage';
 import { Routes } from '../../../constants/routes';
 import styles from './styles.module.scss';
@@ -41,13 +42,13 @@ export const UserSettings: FC<IProps> = ({
         history.push(Routes.Wallet);
       },
     );
-  
+  const { ensName } = useENS(account);
   const { t } = useTranslation('main');
   const preConnect = account === 'Connect Wallet';
 
   return (
     <div className={styles.user_settings}>
-      <WalletButton ricBalance={ricBalance} account={account} />
+      <WalletButton ricBalance={ricBalance} account={ensName || account} />
       {!preConnect && (
         <ButtonNew
           disabled={isReadOnly}

@@ -36,6 +36,7 @@ export function* getBalances(address: string) {
     IDLExAddress, IDLEAddress,
     RICAddress, rexLPETHAddress,
   ];
+
   const main: ReturnType<typeof selectMain> = yield select(selectMain);
   const { web3 } = main;
   const requests = contractsAddress.map((el) => ({

@@ -40,6 +40,12 @@ export const MobileMenu: FC<IProps> = ({ closeMenu }) => {
           >
             <div>{t('Wallet')}</div>
           </Link>
+          <Link
+            to={Routes.Banks}
+            className={styles.banks}
+          >
+            <div>{t('Banks')}</div>
+          </Link>
         </div>
       </div>
     </div>

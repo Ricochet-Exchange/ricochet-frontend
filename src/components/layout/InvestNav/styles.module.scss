@@ -46,3 +46,17 @@
     background-color: var(--color-blue-dark);
     color: var(--color-white-dark);
 }
+
+.vaultIcon{
+    position: absolute;
+    left: 10px;
+    fill: black;
+}
+
+.vaultIcon:hover {
+    fill: #40a9ff;
+}
+
+.vaultIcon:active{
+    fill: white;
+}

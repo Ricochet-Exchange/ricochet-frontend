@@ -222,12 +222,6 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
               <br />
               Balance
             </td>
-            <td>
-              Market Price
-              <br />
-              in
-              <span className={styles.blue}> USD</span>
-            </td>
             <td className={styles.section}>
               SuperToken Balance
               <br />
@@ -316,15 +310,6 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                     {balances &&
                       parseFloat(balances[token.superTokenAddress]).toFixed(2)}
                   </td>
-                  <td>
-                    $
-                    {geckoPriceList &&
-                      parseFloat(
-                        (geckoPriceList as any)[
-                          (geckoMapping as any)[token.coin]
-                        ].usd,
-                      ).toFixed(2)}
-                  </td>
                   <td className={styles.section}>
                     $
                     {balances &&
@@ -337,6 +322,14 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                           ].usd,
                         )
                       ).toFixed(2)}
+                    <div className={styles.grey}>
+                      @ $
+                      {parseFloat(
+                        (geckoPriceList as any)[
+                          (geckoMapping as any)[token.coin]
+                        ].usd,
+                      ) }
+                    </div>
                   </td>
                   <td>
                     <div className={styles.streamshow}>

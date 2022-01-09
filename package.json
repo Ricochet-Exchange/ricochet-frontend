@@ -43,6 +43,7 @@
     "classnames": "2.2.6",
     "connected-react-router": "6.8.0",
     "cross-env": "7.0.3",
+    "ethers": "^5.5.2",
     "i18next": "^21.3.2",
     "ramda": "^0.27.1",
     "react": "^17.0.2",

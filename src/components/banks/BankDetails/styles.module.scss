@@ -1,0 +1,167 @@
+@import 'assets/styles/variables';
+@import 'assets/styles/mixins';
+
+.bankDetails {
+  background: var(--color-blue-light);
+  border-radius: 10px;
+  margin-bottom: 35px;
+  width: 100%;
+  .button:hover {
+    box-shadow: none;
+  }
+}
+
+.bankDetails__header {
+  width: 100%;
+  padding: 7vh 3vw 6vh 3vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed $notwhitetxt;
+  @include tablet() {
+    justify-content: space-between;
+  }
+  @include for_large_mobile {
+    flex-direction: column;
+  }
+}
+
+.bankName {
+  margin: 0;
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin: 0 15px 0 0;
+  white-space: nowrap;
+}
+
+.address {
+  color: $textgrey;
+  margin: 0 15px 0 0;
+}
+
+.etherLink {
+  margin: 0 15px 0 0;
+  white-space: nowrap;
+}
+
+.flexer {
+  flex: 1;
+  margin: 0 20px 0 0;
+}
+
+.bankDetails__content {
+  width: 100%;
+  padding: 8vh 3.5vw 8vh 3.5vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  @include tablet {
+    flex-wrap: wrap;
+  }
+}
+
+.text {
+  white-space: nowrap;
+  font-size: 0.875rem;
+  color: $mediumgrey;
+  line-height: 1.15rem;
+  margin: 0;
+  @include tablet {
+    white-space: pre-wrap;
+  }
+}
+
+.bankDetail {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.value {
+  font-size: 1.25rem;
+  color: $purple;
+  margin: 0 0 4px 0;
+}
+
+.bankDetails__columns {
+  width: 165px;
+  @include tablet {
+    width: 100%;
+    margin-right: 2vw;
+  }
+}
+
+.bigDetail {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.balance{
+  font-size: 4rem;
+  line-height: 4.75rem;
+  color: $purple;
+  margin: 10px 0 0 0;
+}
+
+.symbol {
+  margin: 0 0 8px 10px;
+  color: $purple;
+}
+
+.button {
+  background-color: transparent;
+  color: $purple;
+  font-family: inherit;
+  border-color: $purple;
+  height: 40px;
+  padding: 6.4px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.button:hover:not(:disabled) {
+  -webkit-transform: scale(.98);
+    transform: scale(.98);
+}
+
+.column_header{
+  @include flexbox(center, center);
+  flex-direction: row;
+  @include tablet {
+    flex-direction: column;
+  }
+}
+
+.header_with_button {
+  @include flexbox(center, center);
+  flex-direction: row;
+  flex-wrap: wrap;
+  @include for_large_mobile {
+    flex-direction: column;
+  }
+}
+
+.bankDetail_firstColumn {
+  @include flexbox(flex-start, center);
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+.bankDetail_secondColumn {
+  @include flexbox(flex-start, flex-end);
+  width: 100%;
+  flex-direction: row;
+  flex-grow: 1;
+  @include tablet {
+    flex-grow: 0;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+}
