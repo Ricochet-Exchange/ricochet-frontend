@@ -17,7 +17,9 @@ export function* mainCheckSaga() {
     walletconnect: {
       package: WalletConnectProvider, // required
       options: {
-        infuraId: process.env.REACT_APP_INFURA_ID, // required
+        rpc: {
+          137: process.env.REACT_APP_RPC_URLS,
+        },
       },
     },
   };
@@ -44,6 +46,7 @@ export function* mainCheckSaga() {
     } else if (ethereum) {
       const web3Modal = new Web3Modal({
         providerOptions,
+        cacheProvider: true,
       });
       const provider = yield call(web3Modal.connect);
       const web3 = new Web3(provider);
@@ -60,6 +63,7 @@ export function* mainCheckSaga() {
       const web3Modal = new Web3Modal({
         providerOptions,
         disableInjectedProvider: true,
+        cacheProvider: true,
       });
       const provider = yield call(web3Modal.connect);
       const web3 = new Web3(provider);
