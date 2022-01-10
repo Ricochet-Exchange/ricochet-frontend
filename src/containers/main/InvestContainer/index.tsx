@@ -132,7 +132,13 @@ export const InvestContainer :React.FC<IProps> = () => {
                 totalFlow={state[element.flowKey]?.flowsOwned}
                 totalFlows={state[element.flowKey]?.totalFlows}
                 streamEnd={streamEnds[element.flowKey]}
-                subsidyRate={state[element.flowKey]?.subsidyRate}
+                subsidyRate={
+                  new Date().toLocaleDateString().split('/').reverse()
+                    .join('') 
+                  >= (state[element.flowKey]?.subsidyRate.endDate.split('/').reverse()
+                    .join('') || '0')
+                    ? undefined : state[element.flowKey]?.subsidyRate
+                }
                 personalFlow={state[element.flowKey]?.placeholder}
                 mainLoading={isLoading}
                 flowType={element.type}
