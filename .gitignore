@@ -17,4 +17,5 @@ build
 
 .env.local
 .env
+KUBECONFIG
 
