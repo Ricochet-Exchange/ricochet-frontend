@@ -76,6 +76,15 @@ const markets: InvestmentFlow[] = [
     type: FlowTypes.market,
   },
   {
+    superToken: ethxDaixExchangeAddress,
+    tokenA: WETHxAddress,
+    tokenB: DAIxAddress,
+    coinA: Coin.ETH,
+    coinB: Coin.DAI,
+    flowKey: FlowEnum.ethDaiFlowQuery,
+    type: FlowTypes.market,
+  },
+  {
     superToken: usdcxWethxExchangeAddress,
     tokenA: USDCxAddress,
     tokenB: WETHxAddress,
@@ -154,15 +163,6 @@ const markets: InvestmentFlow[] = [
     coinA: Coin.DAI,
     coinB: Coin.ETH,
     flowKey: FlowEnum.daiEthFlowQuery,
-    type: FlowTypes.market,
-  },
-  {
-    superToken: ethxDaixExchangeAddress,
-    tokenA: WETHxAddress,
-    tokenB: DAIxAddress,
-    coinA: Coin.ETH,
-    coinB: Coin.DAI,
-    flowKey: FlowEnum.ethDaiFlowQuery,
     type: FlowTypes.market,
   },
   {
