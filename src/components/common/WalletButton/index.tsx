@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import ButtonNew from 'components/common/ButtonNew';
 import { numFormatter } from 'utils/balances';
@@ -16,12 +16,12 @@ export const WalletButton: FC<IProps> = ({ ricBalance = '', account, mobile }) =
   const dispatch = useDispatch();
   const preConnect = account === 'Connect Wallet';
   const [connecting, setConnecting] = useState(false);
-  const dispatchMain = () => {
+  const dispatchMain = useEffect(() => {
     if (preConnect) {
       setConnecting(true);
       dispatch(mainCheck());
     }
-  };
+  }, [dispatch]);
   if (!preConnect && connecting) {
     console.log(account);
     setConnecting(false);
