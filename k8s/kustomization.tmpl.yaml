@@ -1,0 +1,18 @@
+patchesJson6902:
+- target:
+    version: v1
+    kind: Ingress
+    name: ingress-frontend
+  path: ingress_patch.yaml
+namespace: ${IMAGE_TAG}
+resources:
+- deployment.yaml
+- service.yaml
+- namespace.yaml
+- ingress-frontend.yaml
+
+images:
+- name: amazonaws.com/ricochet
+  newName: ${ECR_REPOSITORY}
+  newTag: ${IMAGE_TAG}
+

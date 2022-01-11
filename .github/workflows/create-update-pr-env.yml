@@ -1,0 +1,104 @@
+on:
+  pull_request:
+    types: [reopened, opened, synchronize, edited]
+
+name: build docker image and create PR env
+jobs:
+  create_or_update_pr_env:
+    runs-on: ubuntu-latest
+    env:
+      SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
+      BRANCH_NAME: ${{ github.head_ref }}
+      AWS_REGION: eu-west-1
+      DOCKERHUB_REGISTRY: testricochet
+      DOCKERHUB_REPOSITORY: ricochet-frontend      
+      ECR_REPOSITORY: ricochet
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      
+      - name: Setup NodeJS 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      
+      - name: check dependencies
+        run: yarn audit
+        continue-on-error: true
+      
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+      
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push to dockerhub 
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: testricochet/ricochet-frontend:${{ env.BRANCH_NAME }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          cat > .env << EOF
+          PUBLIC_URL=${{ env.BRANCH_NAME }} 
+          REACT_APP_API_GRATH=https://api.thegraph.com/subgraphs/name/superfluid-finance/superfluid-matic
+          REACT_APP_CHAIN_ID=137
+          EOF
+          docker image build \
+          --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.BRANCH_NAME }} \
+          .
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.BRANCH_NAME }}
+      - name: Install and configure kubectl and deploy
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+          curl https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl \
+          --progress-bar \
+          --location \
+          --remote-name
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+          curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator
+          curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator.sha256 && openssl sha1 -sha256 aws-iam-authenticator
+          chmod +x aws-iam-authenticator
+          mv aws-iam-authenticator /usr/local/bin/
+      - name: Kubernetes set context
+        uses: Azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBEKONFIG }}
+
+      - name: deploy to eks
+        env:
+           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |  
+          export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
+          export IMAGE_TAG=${{ env.BRANCH_NAME }}
+          envsubst < k8s/kustomization.tmpl.yaml > k8s/kustomization.yaml
+          envsubst < k8s/ingress_patch.tmpl.yaml > k8s/ingress_patch.yaml
+          kubectl kustomize k8s | kubectl  apply -f -
+      - name: print url
+        run: |
+          kubectl get ingress

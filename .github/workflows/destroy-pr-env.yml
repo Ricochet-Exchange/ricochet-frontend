@@ -1,0 +1,45 @@
+on:
+  pull_request:
+    types: [closed]
+name: destroy namespace
+jobs:
+  destroy_pr_env:
+    runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: ${{ github.head_ref }}
+      AWS_REGION: eu-west-1
+      ECR_REPOSITORY: ricochet
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Install and configure kubectl and deploy
+        run: |
+          VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+          curl https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl \
+          --progress-bar \
+          --location \
+          --remote-name
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+          curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator
+          curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator.sha256 && openssl sha1 -sha256 aws-iam-authenticator
+          chmod +x aws-iam-authenticator
+          mv aws-iam-authenticator /usr/local/bin/
+
+      - name: Kubernetes set context
+        uses: Azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBEKONFIG }}
+
+      - name: delete namespace
+        run: |  
+          kubectl delete ns ${{ env.BRANCH_NAME }}
