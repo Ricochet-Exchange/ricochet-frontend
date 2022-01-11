@@ -45,6 +45,7 @@ export function* mainCheckSaga() {
       }
     } else if (ethereum) {
       const web3Modal = new Web3Modal({
+        network: 'matic',
         providerOptions,
         cacheProvider: true,
       });
@@ -61,6 +62,7 @@ export function* mainCheckSaga() {
       yield put(mainSetState({ web3 }));
     } else {
       const web3Modal = new Web3Modal({
+        network: 'matic',
         providerOptions,
         disableInjectedProvider: true,
         cacheProvider: true,
