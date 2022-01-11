@@ -102,4 +102,4 @@ jobs:
       - name: get url
         id: get_url
         run: |
-          URL=$(kubectl get ingress -n $IMAGE_TAGE |awk '{print $4}' |sed -e 's/^/.com\n/; s/$/'\\/''$IMAGE_TAG'/')
+          URL=$(kubectl get ingress --all-namespaces  |awk '{print $5}' |sed -e 's/^/.com\n/; s/$/'\\/''$IMAGE_TAG'/')
