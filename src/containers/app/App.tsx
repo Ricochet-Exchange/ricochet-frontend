@@ -7,10 +7,12 @@ import { useDispatch } from 'react-redux';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     if (localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) {
       dispatch(mainCheck());
+    } else {
+      dispatch(mainCheck(true));
     }
   }, [dispatch, localStorage]);
   

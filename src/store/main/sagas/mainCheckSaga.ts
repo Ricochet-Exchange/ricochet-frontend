@@ -7,12 +7,13 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import {
   mainCheck,
   mainGetData,
+  mainGetReadOnlyData,
   mainSetState,
 } from '../actionCreators';
 import { getConnectedSafe, requestProvider } from '../../../utils/getSafeInfo';
 import { Unwrap } from '../../../types/unwrap';
 
-export function* mainCheckSaga() {
+export function* mainCheckSaga(payload: { init:boolean }) {
   const providerOptions = {
     walletconnect: {
       package: WalletConnectProvider, // required
@@ -23,63 +24,64 @@ export function* mainCheckSaga() {
       },
     },
   };
-  try {
-    const { ethereum } = window as any;
-    const gnosisSafeProvider: Unwrap<typeof requestProvider> = yield call(
-      requestProvider,
-    );
-    // Check we are inside gnosis safe
-    if (gnosisSafeProvider) {
-      yield put(mainSetState({ web3: new Web3(<any>gnosisSafeProvider!) }));
-      const connectedSafe: Unwrap<typeof getConnectedSafe> = yield call(
-        getConnectedSafe,
+  const web3Modal = new Web3Modal({
+    network: 'matic',
+    providerOptions,
+    cacheProvider: true,
+  });
+  if (payload.init) {
+    yield put(mainSetState({ 
+      web3: new Web3(new Web3.providers.HttpProvider(process.env.REACT_APP_API_NODE_URL!)), 
+    }));
+    yield put(mainGetReadOnlyData());
+  } else {
+    try {
+      const { ethereum } = window as any;
+      const gnosisSafeProvider: Unwrap<typeof requestProvider> = yield call(
+        requestProvider,
       );
-      const chainId = connectedSafe?.chainId;
-      // Check we are on polygon chain
-      if (chainId === Number(process.env.REACT_APP_CHAIN_ID)) {
-        yield put(modalHide());
-        yield put(mainGetData());
-      } else {
+      // Check we are inside gnosis safe
+      if (gnosisSafeProvider) {
+        yield put(mainSetState({ web3: new Web3(<any>gnosisSafeProvider!) }));
+        const connectedSafe: Unwrap<typeof getConnectedSafe> = yield call(
+          getConnectedSafe,
+        );
+        const chainId = connectedSafe?.chainId;
+        // Check we are on polygon chain
+        if (chainId === Number(process.env.REACT_APP_CHAIN_ID)) {
+          yield put(modalHide());
+          yield put(mainGetData());
+        } else {
         // Run modal switch network
-        yield put(modalShow(ModalType.Network));
-      }
-    } else if (ethereum) {
-      const web3Modal = new Web3Modal({
-        network: 'matic',
-        providerOptions,
-        cacheProvider: true,
-      });
-      const provider = yield call(web3Modal.connect);
-      const web3 = new Web3(provider);
-      const chainId = yield call(web3.eth.net.getId);
-      if (chainId === Number(process.env.REACT_APP_CHAIN_ID)) {
-        yield put(modalHide());
-        yield put(mainGetData());
-      } else {
+          yield put(modalShow(ModalType.Network));
+        }
+      } else if (ethereum) {
+        const provider = yield call(web3Modal.connect);
+        const web3 = new Web3(provider);
+        const chainId = yield call(web3.eth.net.getId);
+        if (chainId === Number(process.env.REACT_APP_CHAIN_ID)) {
+          yield put(modalHide());
+          yield put(mainGetData());
+        } else {
         // Run modal switch network
-        yield put(modalShow(ModalType.Network));
-      }
-      yield put(mainSetState({ web3 }));
-    } else {
-      const web3Modal = new Web3Modal({
-        network: 'matic',
-        providerOptions,
-        disableInjectedProvider: true,
-        cacheProvider: true,
-      });
-      const provider = yield call(web3Modal.connect);
-      const web3 = new Web3(provider);
-      const chainId = yield call(web3.eth.net.getId);
-      if (chainId === Number(process.env.REACT_APP_CHAIN_ID)) {
-        yield put(modalHide());
-        yield put(mainGetData());
+          yield put(modalShow(ModalType.Network));
+        }
+        yield put(mainSetState({ web3 }));
       } else {
+        const provider = yield call(web3Modal.connect);
+        const web3 = new Web3(provider);
+        const chainId = yield call(web3.eth.net.getId);
+        if (chainId === Number(process.env.REACT_APP_CHAIN_ID)) {
+          yield put(modalHide());
+          yield put(mainGetData());
+        } else {
         // Run modal switch network
-        yield put(modalShow(ModalType.Network));
+          yield put(modalShow(ModalType.Network));
+        }
+        yield put(mainSetState({ web3 }));
       }
-      yield put(mainSetState({ web3 }));
+    } catch (e) {
+      yield put(mainCheck());
     }
-  } catch (e) {
-    yield put(mainCheck());
   }
 }

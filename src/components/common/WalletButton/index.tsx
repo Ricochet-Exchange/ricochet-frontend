@@ -23,7 +23,6 @@ export const WalletButton: FC<IProps> = ({ ricBalance = '', account, mobile }) =
     }
   };
   if (!preConnect && connecting) {
-    console.log(account);
     setConnecting(false);
   }
   return (
