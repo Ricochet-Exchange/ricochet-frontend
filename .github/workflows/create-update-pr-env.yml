@@ -99,6 +99,7 @@ jobs:
           envsubst < k8s/kustomization.tmpl.yaml > k8s/kustomization.yaml
           envsubst < k8s/ingress_patch.tmpl.yaml > k8s/ingress_patch.yaml
           kubectl kustomize k8s | kubectl  apply -f -
-      - name: print url
+      - name: get url
+        id: get_url
         run: |
-          kubectl get ingress
+          kubectl get ingress --all-namespaces  |awk '{print $5}' |sed -e 's/^/.com\n/; s/$/'\\/''$IMAGE_TAG'/'
