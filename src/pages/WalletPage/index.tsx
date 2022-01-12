@@ -21,10 +21,10 @@ const WalletPage: FC<IProps> = () => {
   return (
     <MainLayout>
       <div className={styles.header}>
-        <HeaderContainer isReadOnly={isReadOnly} balance={balances && balances[RICAddress]} address={address || 'Connecting'} />
+        <HeaderContainer isReadOnly={isReadOnly} balance={balances && balances[RICAddress]} address={address || 'Connect Wallet'} />
       </div>
       <div className={styles.content}>
-        <UpgradeContainer balance={balances && balances[RICAddress]} address={address || 'Connecting'} />
+        <UpgradeContainer balance={balances && balances[RICAddress]} address={address || 'Connect Wallet'} />
       </div>
     </MainLayout>
   );
