@@ -16,7 +16,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      
+
+      - name: Lint
+        uses: Krizzu/eslint-check-action@v1.1.0
+        with:
+          ghToken: ${{ secrets.ACCESS_TOKEN }}
+          eslintFiles: "lib, scripts"
+          eslintConfig: ".eslintrc.js",
+          eslintExt: "ts, tsx" 
+
       - name: Setup NodeJS 14
         uses: actions/setup-node@v1
         with:
