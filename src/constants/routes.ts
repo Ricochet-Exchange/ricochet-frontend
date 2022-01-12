@@ -1,4 +1,4 @@
-const home = process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "";
+const home = process.env.PUBLIC_URL ? process.env.PUBLIC_URL : '';
 export const Routes: any = {
   Invest: `${home}/invest/rex-market`,
   InvestStreams: `${home}/invest/streams`,
