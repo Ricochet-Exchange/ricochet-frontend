@@ -10,7 +10,6 @@ This is a ricochet app frontend, made in react, using redux and redux-saga.
 
 # run tests (by calling yarn script directly)
 ./make.sh test
-
 ```
 
 ```docker
