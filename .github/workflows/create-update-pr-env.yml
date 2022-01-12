@@ -22,7 +22,7 @@ jobs:
         with:
           ghToken: ${{ secrets.ACCESS_TOKEN }}
           eslintFiles: "lib, scripts"
-          eslintConfig: ".eslintrc.js",
+          eslintConfig: ".eslintrc.js"
           eslintExt: "ts, tsx" 
 
       - name: Setup NodeJS 14
