@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
-      BRANCH_NAME: $(echo ${{ github.head_ref }} | sed 's|[:?!*&$\;=+{}#,]||g' 
+      BRANCH_NAME: $(echo ${{ github.head_ref }} | sed 's|[:?!*&$\;=+{}#,]||g') 
       AWS_REGION: eu-west-1
       DOCKERHUB_REGISTRY: testricochet
       DOCKERHUB_REPOSITORY: ricochet-frontend      
