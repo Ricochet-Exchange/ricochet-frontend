@@ -26,7 +26,7 @@ This is a ricochet app frontend, made in react, using redux and redux-saga.
 
 # run a specific image using code in PR
 
-docker run -p 3000:3000 testricochet/ricochet-frontend:branch-name
+docker run -p 3000:3000 testricochet/ricochet-frontend:latest
 
 ```
 #### Project structure
