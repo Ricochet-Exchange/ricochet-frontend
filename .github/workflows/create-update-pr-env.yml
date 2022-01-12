@@ -8,8 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
-      BRANCH_NAME: $(echo ${{ github.head_ref }} | sed -e "s/[[:punct:]]/-/g") 
       AWS_REGION: eu-west-1
+      BRANCH_NAME_CLEANED: $(echo ${{ github.head_ref }} | sed -e "s/[[:punct:]]/-/g" | sed -e  "s/[[:punct:]]/-/g") >> $NAME_ENV
+      BRANCH_NAME: $NAME_ENV
       DOCKERHUB_REGISTRY: testricochet
       DOCKERHUB_REPOSITORY: ricochet-frontend      
       ECR_REPOSITORY: ricochet
@@ -37,6 +38,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push to dockerhub 
+        env: 
         id: docker_build
         uses: docker/build-push-action@v2
         with:
