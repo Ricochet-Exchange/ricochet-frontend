@@ -17,7 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
-      - name: Lint
+      - name: eslint
         uses: Krizzu/eslint-check-action@v1.1.0
         with:
           ghToken: ${{ secrets.ACCESS_TOKEN }}
