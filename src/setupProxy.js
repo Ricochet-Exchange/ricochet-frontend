@@ -10,7 +10,7 @@ module.exports = function(app) {
     })
     app.use("/", function(req, res, next) {
         res.set({
-            "Content-Security-Policy": "frame-ancestors 'self' https://dapp-browser.apps.ledger.com",
+            "Content-Security-Policy": "frame-ancestors 'self' https://dapp-browser.apps.ledger.com https://gnosis-safe.io/",
         })
         next()
     })
