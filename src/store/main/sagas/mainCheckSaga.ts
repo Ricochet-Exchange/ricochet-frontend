@@ -3,15 +3,19 @@ import { modalHide, modalShow } from 'store/modal/actionCreators';
 import { ModalType } from 'store/modal/types';
 import Web3 from 'web3';
 import {
-  mainCheck, mainGetData, mainGetReadOnlyData, mainSetState, 
+  mainCheck, mainGetData, mainGetReadOnlyData, mainSetState,
 } from '../actionCreators';
-import { getConnectedSafe, requestProvider } from '../../../utils/getSafeInfo';
+import { getConnectedSafe, getSafeProvider } from '../../../utils/getSafeInfo';
 import { Unwrap } from '../../../types/unwrap';
+import { LedgerHQFrameConnector } from '../../../utils/ledgerhq-frame-connector/connector';
+import { getLedgerChainId, getLedgerProvider } from '../../../utils/getLedgerInfo';
 
 export function* mainCheckSaga() {
   try {
+    const ledgerHQFrame = new LedgerHQFrameConnector();
+
     const { ethereum } = (window as any);
-    const gnosisSafeProvider: Unwrap<typeof requestProvider > = yield call(requestProvider);
+    const gnosisSafeProvider: Unwrap<typeof getSafeProvider > = yield call(getSafeProvider);
     // Check we are inside gnosis safe
     if (gnosisSafeProvider) {
       yield put(mainSetState({ web3: new Web3(<any>gnosisSafeProvider!) }));
@@ -19,6 +23,21 @@ export function* mainCheckSaga() {
       const chainId = connectedSafe?.chainId;
       // Check we are on polygon chain
       if (chainId === Number(process.env.REACT_APP_CHAIN_ID)) {
+        yield put(modalHide());
+        yield put(mainGetData());
+      } else {
+        // Run modal switch network
+        yield put(modalShow(ModalType.Network));
+      }
+    } else if (ledgerHQFrame.isLedgerApp()) {
+      const ledgerProvider: Unwrap<typeof getLedgerProvider> =
+          yield call(getLedgerProvider, ledgerHQFrame);
+      const chainId: Unwrap<typeof getLedgerChainId> =
+          yield call(getLedgerChainId, ledgerHQFrame);
+
+      console.log(parseInt(chainId.toString(), 16));
+      yield put(mainSetState({ web3: new Web3(<any>ledgerProvider!) }));
+      if (parseInt(chainId.toString(), 16) === Number(process.env.REACT_APP_CHAIN_ID)) {
         yield put(modalHide());
         yield put(mainGetData());
       } else {
@@ -46,6 +65,7 @@ export function* mainCheckSaga() {
       yield put(mainGetReadOnlyData());
     }
   } catch (e) {
+    console.error(e);
     yield put(mainCheck());
   } 
 }
