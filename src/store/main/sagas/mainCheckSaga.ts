@@ -34,8 +34,6 @@ export function* mainCheckSaga() {
           yield call(getLedgerProvider, ledgerHQFrame);
       const chainId: Unwrap<typeof getLedgerChainId> =
           yield call(getLedgerChainId, ledgerHQFrame);
-
-      console.log(parseInt(chainId.toString(), 16));
       yield put(mainSetState({ web3: new Web3(<any>ledgerProvider!) }));
       if (parseInt(chainId.toString(), 16) === Number(process.env.REACT_APP_CHAIN_ID)) {
         yield put(modalHide());
@@ -65,7 +63,6 @@ export function* mainCheckSaga() {
       yield put(mainGetReadOnlyData());
     }
   } catch (e) {
-    console.error(e);
     yield put(mainCheck());
   } 
 }
