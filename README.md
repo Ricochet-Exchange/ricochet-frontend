@@ -29,14 +29,14 @@ docker run -p 3000:3000 testricochet/ricochet-frontend:latest
 ```
 ```create a pr environment for qa
 
-# from your fork create a branch and include your changes into it
+# from your fork create a branch and include your changes into it,
+# if you don't use forks you can simply create a branch from main onofficial ricochet-frontend repo
 git checkout -b your-branch-name
 
-# run the docker image on localhost
-create a pull request on github
+# create a pull request on github
 
-# once the workflow will be finished your environment will be available in a few minutes on this url
-a380c3be5e6284f4ca1dfc37a12b3033-851332533.eu-west-1.elb.amazonaws.com/yaur-branch-name
+# once the github actions workflow will be finished your environment will be available in a few minutes on this url
+a380c3be5e6284f4ca1dfc37a12b3033-851332533.eu-west-1.elb.amazonaws.com/your-branch-name
 
 ```
 
