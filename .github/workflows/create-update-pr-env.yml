@@ -9,7 +9,7 @@ jobs:
     env:
       SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
       AWS_REGION: eu-west-1
-      BRANCH_NAME: $(echo ${{ github.head_ref }} | sed -e "s/[[:punct:]]/-/g")
+      BRANCH_NAME: $(echo ${{ github.head_ref }} | sed -e "s/[[:punct:]]/-/g" | awk '{print tolower($0)}')
       DOCKERHUB_REGISTRY: testricochet
       DOCKERHUB_REPOSITORY: ricochet-frontend      
       ECR_REPOSITORY: ricochet
