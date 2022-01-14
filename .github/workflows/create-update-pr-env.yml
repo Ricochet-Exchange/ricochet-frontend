@@ -7,13 +7,18 @@ jobs:
   create_or_update_pr_env:
     runs-on: ubuntu-latest
     env:
-      SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
       AWS_REGION: eu-west-1
-      BRANCH_NAME: $(echo ${{ github.head_ref }} | sed -e "s/[[:punct:]]/-/g" | awk '{print tolower($0)}')
       DOCKERHUB_REGISTRY: testricochet
       DOCKERHUB_REPOSITORY: ricochet-frontend      
       ECR_REPOSITORY: ricochet
+      URL-PUBLIC: a380c3be5e6284f4ca1dfc37a12b3033-851332533.eu-west-1.elb.amazonaws.com
     steps:
+
+      - name: sanitize branch name
+        id: branch-name
+        run: |
+          echo "::set-output name=BRANCH::$(echo ${{ github.head_ref }} | sed -e "s/[[:punct:]]/-/g" | tr A-Z a-z | sed -e "s/--/-/g" | sed -e "s/-$//g")"
+
       - name: Checkout
         uses: actions/checkout@v1
       
@@ -42,6 +47,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          BRANCH_NAME: ${{ steps.branch-name.outputs.BRANCH }}
         run: |
           cat > .env << EOF
           PUBLIC_URL=${{ env.BRANCH_NAME }} 
@@ -76,14 +82,19 @@ jobs:
       - name: deploy to eks
         env:
            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+           BRANCH_NAME: ${{ steps.branch-name.outputs.BRANCH }}
         run: |  
           export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
           export IMAGE_TAG=${{ env.BRANCH_NAME }}
           envsubst < k8s/kustomization.tmpl.yaml > k8s/kustomization.yaml
           envsubst < k8s/ingress_patch.tmpl.yaml > k8s/ingress_patch.yaml
           kubectl kustomize k8s | kubectl  apply -f -
+   
       - name: get url
-        id: get_url
-        run: |
-          kubectl get ingress --all-namespaces  |awk '{print $5}' |sed -e 's/^/.com\n/; s/$/'\\/''$IMAGE_TAG'/'
+        env:
+          BRANCH_NAME: ${{ steps.branch-name.outputs.BRANCH }} 
+          URL-PUBLIC: a380c3be5e6284f4ca1dfc37a12b3033-851332533.eu-west-1.elb.amazonaws.com
 
+        run: |
+          echo "your PR environment is available on this url:"
+          echo "$URL-PUBLIC""/""$BRANCH_NAME"
