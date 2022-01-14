@@ -54,7 +54,7 @@ jobs:
           REACT_APP_API_GRATH=https://api.thegraph.com/subgraphs/name/superfluid-finance/superfluid-matic
           REACT_APP_CHAIN_ID=137
           EOF
-          docker image build \
+          docker image build --no-cache \
           --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.BRANCH_NAME }} \
           .
           docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.BRANCH_NAME }}
