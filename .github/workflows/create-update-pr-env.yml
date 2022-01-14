@@ -17,7 +17,7 @@ jobs:
       - name: sanitize_branch_name
         id: branch-name
         run: |
-        echo ${{ github.head_ref }} | sed -e "s/[[:punct:]]/-/g" | tr A-Z a-z
+          echo ${{ github.head_ref }} | sed -e "s/[[:punct:]]/-/g" | tr A-Z a-z
 
       - name: Checkout
         uses: actions/checkout@v1
