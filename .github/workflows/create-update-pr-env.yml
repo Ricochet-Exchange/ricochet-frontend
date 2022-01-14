@@ -97,4 +97,4 @@ jobs:
 
         run: |
           echo "your PR environment is available on this url:"
-          echo "$URL-PUBLIC""/""$BRANCH_NAME"
+          echo a380c3be5e6284f4ca1dfc37a12b3033-851332533.eu-west-1.elb.amazonaws.com/"$BRANCH_NAME"
