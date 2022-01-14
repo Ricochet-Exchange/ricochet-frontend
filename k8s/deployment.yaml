@@ -24,11 +24,7 @@ spec:
               memory: 2048Mi
             requests:
               memory: 2048Mi
-              cpu: 100m
-        livenessProbe:
-          httpGet:
-            path: /index.html
-            port: 3000
+              cpu: 300m
         imagePullPolicy: Always
         env:
         - name: IMAGE_TAG
