@@ -16,6 +16,5 @@ build
 .vscode
 
 .env.local
-.env
 KUBECONFIG
 
