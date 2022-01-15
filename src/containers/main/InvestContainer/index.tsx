@@ -40,6 +40,31 @@ export const InvestContainer :React.FC<IProps> = () => {
   const [filteredList, setFilteredList] = useState(flowConfig);
   const match = useRouteMatch();
   const flowType = RoutesToFlowTypes[match.path];
+  const [percent, setPercent] = useState(0);
+  const [circleForground, setCircleForground] = useState("#678eb5");
+  const [circleBackround, setCircleBackground] = useState("#294661");
+  const pace = percent / 0.5;
+
+  const updatePercentage = () => {
+    setTimeout(() => {
+      if(percent === 100){
+        setPercent(0);
+      }else{
+        setPercent(percent + 1);
+      }
+    }, pace);
+  };
+
+  useEffect(() => {
+    updatePercentage();
+  }, [percent]);
+
+  const circleConfig = {
+    viewBox: '0 0 38 38',
+    x: '19',
+    y: '19',
+    radio: '15.91549430918954',
+  }
 
   useEffect(() => {
     if (flowType) {
@@ -110,7 +135,31 @@ export const InvestContainer :React.FC<IProps> = () => {
             containerClassName={styles.container_input}
             left={<FontIcon name={FontIconName.Search} className={styles.search} size={16} />}
           />
+          <div className={styles.circle}>
+            <svg viewBox={circleConfig.viewBox}>
+              <circle
+                className="ring"
+                cx={circleConfig.x}
+                cy={circleConfig.y}
+                r={circleConfig.radio}
+                stroke-width="5"
+                fill="transparent"
+                stroke={`${circleBackround}`}/>
+
+              <circle
+                className="path"
+                cx={circleConfig.x}
+                cy={circleConfig.y}
+                r={circleConfig.radio}
+                stroke-width="5"
+                strokeDasharray={`${percent} ${100 - percent}`}
+                fill="transparent"
+                stroke={`${circleForground}`}
+              />
+            </svg>
+          </div>
         </div>
+
         <div className={styles.headers}>
           <div className={styles.market}>{t('Stream Market')}</div>
           <div className={styles.stream}>{t('Your Stream')}</div>
