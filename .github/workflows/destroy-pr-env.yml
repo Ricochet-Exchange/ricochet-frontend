@@ -6,10 +6,14 @@ jobs:
   destroy_pr_env:
     runs-on: ubuntu-latest
     env:
-      BRANCH_NAME: ${{ github.head_ref }}
       AWS_REGION: eu-west-1
       ECR_REPOSITORY: ricochet
     steps:
+      - name: sanitize branch name
+        id: branch-name
+        run: |
+          echo "::set-output name=BRANCH::$(echo ${{ github.head_ref }} | sed -e "s/[[:punct:]]/-/g" | tr A-Z a-z | sed -e "s/--/-/g" | sed -e "s/-$//g")"
+
       - name: Checkout
         uses: actions/checkout@v2
       
@@ -41,5 +45,7 @@ jobs:
           kubeconfig: ${{ secrets.KUBEKONFIG }}
 
       - name: delete namespace
+        env:
+          BRANCH_NAME: ${{ steps.branch-name.outputs.BRANCH }}
         run: |  
           kubectl delete ns ${{ env.BRANCH_NAME }}
