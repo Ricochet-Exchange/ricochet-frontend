@@ -16,6 +16,7 @@ import { selectMain, selectUserStreams } from 'store/main/selectors';
 import { RICAddress } from 'constants/polygon_config';
 import { useDispatch } from 'react-redux';
 import { startFlowAction, stopFlowAction } from 'store/main/actionCreators';
+import { LoadingAnimation } from 'components/common/loadingAnimation';
 import styles from './styles.module.scss';
 
 function sumStrings(a:number, b:string):number { return (a + parseFloat(b)); }
@@ -40,41 +41,6 @@ export const InvestContainer :React.FC<IProps> = () => {
   const [filteredList, setFilteredList] = useState(flowConfig);
   const match = useRouteMatch();
   const flowType = RoutesToFlowTypes[match.path];
-  const [percent, setPercent] = useState(0);
-  const [AnimationState, setAnimationState] = useState(0);
-  const [circleForground, setCircleForground] = useState("#678eb5");
-  const [circleBackround, setCircleBackground] = useState("#294661");
-  const pace = percent / 1;
-
-  const updatePercentage = () => {
-    setTimeout(() => {
-      if(percent === 100){
-        if(AnimationState === 0){
-          setCircleBackground("#294661");
-          setCircleForground("#678eb5");
-          setAnimationState(AnimationState+1);
-        }if(AnimationState === 1){
-          setCircleBackground("#678eb5");
-          setCircleForground("#294661");
-          setAnimationState(0);
-        }
-        setPercent(0);
-      }else{
-        setPercent(percent + 1);
-      }
-    }, pace);
-  };
-
-  useEffect(() => {
-    updatePercentage();
-  }, [percent]);
-
-  const circleConfig = {
-    viewBox: '0 0 38 38',
-    x: '19',
-    y: '19',
-    radio: '15.91549430918954',
-  }
 
   useEffect(() => {
     if (flowType) {
@@ -145,29 +111,7 @@ export const InvestContainer :React.FC<IProps> = () => {
             containerClassName={styles.container_input}
             left={<FontIcon name={FontIconName.Search} className={styles.search} size={16} />}
           />
-          <div className={styles.circle}>
-            <svg viewBox={circleConfig.viewBox}>
-              <circle
-                className="ring"
-                cx={circleConfig.x}
-                cy={circleConfig.y}
-                r={circleConfig.radio}
-                stroke-width="5"
-                fill="transparent"
-                stroke={`${circleBackround}`}/>
-
-              <circle
-                className="path"
-                cx={circleConfig.x}
-                cy={circleConfig.y}
-                r={circleConfig.radio}
-                stroke-width="5"
-                strokeDasharray={`${percent} ${100 - percent}`}
-                fill="transparent"
-                stroke={`${circleForground}`}
-              />
-            </svg>
-          </div>
+          <LoadingAnimation />
         </div>
 
         <div className={styles.headers}>
