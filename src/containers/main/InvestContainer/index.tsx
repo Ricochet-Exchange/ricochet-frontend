@@ -41,13 +41,23 @@ export const InvestContainer :React.FC<IProps> = () => {
   const match = useRouteMatch();
   const flowType = RoutesToFlowTypes[match.path];
   const [percent, setPercent] = useState(0);
+  const [AnimationState, setAnimationState] = useState(0);
   const [circleForground, setCircleForground] = useState("#678eb5");
   const [circleBackround, setCircleBackground] = useState("#294661");
-  const pace = percent / 0.5;
+  const pace = percent / 1;
 
   const updatePercentage = () => {
     setTimeout(() => {
       if(percent === 100){
+        if(AnimationState === 0){
+          setCircleBackground("#294661");
+          setCircleForground("#678eb5");
+          setAnimationState(AnimationState+1);
+        }if(AnimationState === 1){
+          setCircleBackground("#678eb5");
+          setCircleForground("#294661");
+          setAnimationState(0);
+        }
         setPercent(0);
       }else{
         setPercent(percent + 1);
