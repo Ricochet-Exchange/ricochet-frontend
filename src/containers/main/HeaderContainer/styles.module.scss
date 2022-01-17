@@ -107,7 +107,9 @@
 
   @include tablet {
     @include flexbox(center, center);
-
+    span {
+      margin-bottom: 10px;
+    }
     padding: 30px 0 50px 0;
     font-family: $default-font;
     display: block;
