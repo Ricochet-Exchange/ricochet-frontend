@@ -98,6 +98,7 @@
   display: flex;
   justify-content: space-evenly;
   gap: 10px;
+  float: right;
 }
 
 .displaybutton span.upgradeButton {
@@ -126,7 +127,6 @@
   background-color: rgba(229,26,69,.15);
 
 }
-
 
 
 .wrapper {
