@@ -134,6 +134,7 @@ export const startFlow = async (
         recipient: await superFluid.user({
           address: exchangeAddress,
           token: inputTokenAddress,
+          userData: web3.eth.abi.encodeParameter('string', 'mikeghen'),
         }), // address: would be rickosheaAppaddress, currently not deployed
         flowRate: amount.toString(),
       });
@@ -172,7 +173,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                web3.eth.abi.encodeParameter('string', 'mikeghen'), // userData
               ],
             ),
           ],
@@ -538,7 +539,7 @@ export const getBankData = async (
   const vault = await getVaultData(bankContract, address);
   const debtToken = await getDebtTokenData(bankContract, address, web3);
   const collateralToken = await getCollateralTokenData(bankContract, address, web3);
-  const name = bankAddress === '0x91093c77720e744F415D33551C2fC3FAf7333c8c' ? 
+  const name = bankAddress === '0x91093c77720e744F415D33551C2fC3FAf7333c8c' ?
     '✨ REX Bank' : await bankContract.methods.getName().call();
   const interestRate = await bankContract.methods.getInterestRate().call();
   const originationFee = await bankContract.methods.getOriginationFee().call();

@@ -27,6 +27,7 @@ import {
   usdcxIdleExchangeAddress,
   usdcxEthSlpxExchangeAddress,
   rexLPETHAddress,
+  usdcxRicLaunchpadAddress,
 } from './polygon_config';
 
 export enum FlowEnum {
@@ -66,6 +67,15 @@ export type InvestmentFlow = {
 };
 
 const markets: InvestmentFlow[] = [
+  {
+    superToken: usdcxRicExchangeAddress,
+    tokenA: USDCxAddress,
+    tokenB: RICAddress,
+    coinA: Coin.USDC,
+    coinB: Coin.RIC,
+    flowKey: FlowEnum.usdcRicFlowQuery,
+    type: FlowTypes.market,
+  },
   {
     superToken: usdcxIdleExchangeAddress,
     tokenA: USDCxAddress,
@@ -217,7 +227,7 @@ const liquidityMarkets: InvestmentFlow[] = [
 
 const launchpads: InvestmentFlow[] = [
   {
-    superToken: usdcxRicExchangeAddress,
+    superToken: usdcxRicLaunchpadAddress,
     tokenA: USDCxAddress,
     tokenB: RICAddress,
     coinA: Coin.USDC,
