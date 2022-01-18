@@ -12,6 +12,7 @@ jobs:
       DOCKERHUB_REPOSITORY: ricochet-frontend      
       ECR_REPOSITORY: ricochet
       URL-PUBLIC: a380c3be5e6284f4ca1dfc37a12b3033-851332533.eu-west-1.elb.amazonaws.com
+      SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
     steps:
 
       - name: sanitize branch name
@@ -37,7 +38,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
-
       
       - name: Login to Amazon ECR
         id: login-ecr
@@ -47,7 +47,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          BRANCH_NAME: ${{ steps.branch-name.outputs.BRANCH }}
+          SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
         run: |
           cat > .env << EOF
           PUBLIC_URL=${{ env.BRANCH_NAME }} 
@@ -55,9 +55,9 @@ jobs:
           REACT_APP_CHAIN_ID=137
           EOF
           docker image build --no-cache \
-          --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.BRANCH_NAME }} \
+          --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.SHORT_SHA }} \
           .
-          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.BRANCH_NAME }}
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.SHORT_SHA }}
       - name: Install and configure kubectl and deploy
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -83,9 +83,11 @@ jobs:
         env:
            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
            BRANCH_NAME: ${{ steps.branch-name.outputs.BRANCH }}
+           SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
         run: |  
           export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
           export IMAGE_TAG=${{ env.BRANCH_NAME }}
+          export SHORT_SHA=${{ env.SHORT_SHA }}
           envsubst < k8s/kustomization.tmpl.yaml > k8s/kustomization.yaml
           envsubst < k8s/ingress_patch.tmpl.yaml > k8s/ingress_patch.yaml
           kubectl kustomize k8s | kubectl  apply -f -

@@ -14,5 +14,5 @@ resources:
 images:
 - name: amazonaws.com/ricochet
   newName: ${ECR_REPOSITORY}
-  newTag: ${IMAGE_TAG}
+  newTag: ${SHORT_SHA}
 
