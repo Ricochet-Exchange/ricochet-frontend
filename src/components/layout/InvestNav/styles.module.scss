@@ -10,7 +10,7 @@
     @include tablet() {
         @include flexbox(flex-start, flex-start);
         flex-direction: row;
-        max-width: 100%;
+        max-width: 80%;
         text-align: center;
         border-right: none;
         flex-wrap: wrap;
