@@ -12,13 +12,17 @@ jobs:
       DOCKERHUB_REPOSITORY: ricochet-frontend      
       ECR_REPOSITORY: ricochet
       URL-PUBLIC: a380c3be5e6284f4ca1dfc37a12b3033-851332533.eu-west-1.elb.amazonaws.com
-      RANDOM_VAL: echo $RANDOM | md5sum | head -c 7; echo;
     steps:
 
       - name: sanitize branch name
         id: branch-name
         run: |
           echo "::set-output name=BRANCH::$(echo ${{ github.head_ref }} | sed -e "s/[[:punct:]]/-/g" | tr A-Z a-z | sed -e "s/--/-/g" | sed -e "s/-$//g")"
+      
+      - name: create a random value
+        id: random-value
+        run: |
+          echo "::set-output name=RANDOM::$(echo $RANDOM | md5sum | head -c 10; echo;)"
 
       - name: Checkout
         uses: actions/checkout@v1
@@ -48,7 +52,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           BRANCH_NAME: ${{ steps.branch-name.outputs.BRANCH }} 
-          SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
+          RANDOM_VAL: ${{ steps.random-value.outputs.RANDOM }}
         run: |
           cat > .env << EOF
           PUBLIC_URL=${{ env.BRANCH_NAME }} 
@@ -84,10 +88,10 @@ jobs:
         env:
            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
            BRANCH_NAME: ${{ steps.branch-name.outputs.BRANCH }}
-           RANDOM_VAL: echo $RANDOM | md5sum | head -c 10; echo;
+           RANDOM_VAL: ${{ steps.random-value.outputs.RANDOM }}
         run: |  
           export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
-          export BRANCH-NAME=${{ env.BRANCH_NAME }}
+          export BRANCH_NAME=${{ env.BRANCH_NAME }}
           export RANDOM_VAL=${{ env.RANDOM_VAL }}
           envsubst < k8s/kustomization.tmpl.yaml > k8s/kustomization.yaml
           envsubst < k8s/ingress_patch.tmpl.yaml > k8s/ingress_patch.yaml
