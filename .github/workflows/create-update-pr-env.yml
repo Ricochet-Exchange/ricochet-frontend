@@ -48,6 +48,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
+          BRANCH_NAME: ${{ steps.branch-name.outputs.BRANCH }} 
         run: |
           cat > .env << EOF
           PUBLIC_URL=${{ env.BRANCH_NAME }} 
