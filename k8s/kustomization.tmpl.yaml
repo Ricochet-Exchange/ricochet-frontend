@@ -4,7 +4,7 @@ patchesJson6902:
     kind: Ingress
     name: ingress-frontend
   path: ingress_patch.yaml
-namespace: ${IMAGE_TAG}
+namespace: ${BRANCH_NAME}
 resources:
 - deployment.yaml
 - service.yaml
@@ -14,5 +14,5 @@ resources:
 images:
 - name: amazonaws.com/ricochet
   newName: ${ECR_REPOSITORY}
-  newTag: ${SHORT_SHA}
+  newTag: ${RANDOM_VAL}
 

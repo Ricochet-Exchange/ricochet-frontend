@@ -27,7 +27,7 @@ spec:
               cpu: 300m
         imagePullPolicy: Always
         env:
-        - name: SHORT_SHA
+        - name: RANDOM_VAL
           value: kustomized_ricochet
         ports:
         - containerPort: 3000
