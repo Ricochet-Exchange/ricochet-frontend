@@ -1,7 +1,7 @@
 @import 'assets/styles/_mixins.scss';
 .nav_container {
     @include flexbox(flex-start, flex-start);
-    border-right: 1px var(--color-blue-light) solid;
+    border-right: 1px var(--color-red-light) solid;
     padding: 1.75rem 1rem 1.75rem 1.75rem;
     flex-direction: column;
     text-align: left;
