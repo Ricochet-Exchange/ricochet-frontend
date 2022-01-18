@@ -47,6 +47,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          BRANCH_NAME: ${{ steps.branch-name.outputs.BRANCH }} 
           SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
         run: |
           cat > .env << EOF
