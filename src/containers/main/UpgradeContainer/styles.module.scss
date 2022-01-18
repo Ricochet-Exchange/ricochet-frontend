@@ -98,6 +98,7 @@
   display: flex;
   justify-content: space-evenly;
   gap: 10px;
+  float: right;
 }
 
 .displaybutton span.upgradeButton {
@@ -108,7 +109,7 @@
   border-radius: 4px;
   background-color: rgba(16,187,52,.15);
   cursor: pointer;
-  padding: 4px;
+  padding: 3px;
   color: #10bb34;
   font-size: 15px;
 }
@@ -122,16 +123,15 @@
   display: inline-block;
   border-radius: 4px;
   cursor: pointer;
-  padding: 4px;
+  padding: 0px;
   background-color: rgba(229,26,69,.15);
 
 }
 
 
-
 .wrapper {
   font-family: $default-font;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   padding: 10px 24px 10px 24px;
 
