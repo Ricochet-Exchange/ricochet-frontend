@@ -150,6 +150,7 @@ export const VaultDetails: FC<Props> = ({
           transactionHash={transactionHash}
           setTransactionHash={setTransactionHash}
           bank={bank}
+          maxAvailableWithdraw={vaultCalcValues.withdrawAvailable.toFixed(4)}
         />
       ) : null}
     </div>

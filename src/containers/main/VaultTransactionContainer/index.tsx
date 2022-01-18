@@ -17,6 +17,7 @@ type Props = {
   transactionHash: string,
   setTransactionHash: (transactionHash: string) => void,
   setActiveTransaction: (transaction: string) => void,
+  maxAvailableWithdraw: string
 };
 
 export const VaultTransactionContainer: FC<Props> = ({
@@ -25,6 +26,7 @@ export const VaultTransactionContainer: FC<Props> = ({
   transactionHash,
   setTransactionHash,
   setActiveTransaction,
+  maxAvailableWithdraw,
 }) => {
   const dispatch = useDispatch();
   const { isLoadingTransaction, isLoadingApprove } = useShallowSelector(selectBanks);
@@ -64,6 +66,10 @@ export const VaultTransactionContainer: FC<Props> = ({
     setActiveTransaction('');
   }, [setActiveTransaction, setValue]);
 
+  const handleMaxAmount = useCallback(() => {
+    setValue(maxAvailableWithdraw);
+  }, [setValue]);
+
   const handleOnChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   }, [setValue]);
@@ -95,6 +101,7 @@ export const VaultTransactionContainer: FC<Props> = ({
       onChange={handleOnChange}
       onMakeAction={handleMakeAction}
       onMaxRepay={handleMaxRepay}
+      onMaxAmount={handleMaxAmount}
       onApproveClick={handleApproveToken}
     />
   );

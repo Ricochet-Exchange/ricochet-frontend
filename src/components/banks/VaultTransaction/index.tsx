@@ -20,6 +20,7 @@ type Props = {
   onApproveClick: () => void,
   onChange: (e: ChangeEvent<HTMLInputElement>) => void,
   onMaxRepay: () => void,
+  onMaxAmount: () => void,
   onCancel: () => void,
   onMakeAction: () => void,
 };
@@ -36,6 +37,7 @@ export const VaultTransaction: FC<Props> = ({
   onApproveClick,
   onChange,
   onMaxRepay,
+  onMaxAmount,
   onCancel,
   onMakeAction,
 }) => {
@@ -132,13 +134,19 @@ export const VaultTransaction: FC<Props> = ({
                 />
               ) : null}
               <Button
+                label="MAX"
+                className={styles.linkButton}
+                presentation="link"
+                onClick={onMaxAmount}
+              />
+              <Button
                 label="cancel"
                 presentation="link"
                 onClick={onCancel}
                 className={styles.linkButton}
               />
               <Button
-                label={activeTransaction}
+                label="withdraw"
                 className={styles.actionButton}
                 onClick={onMakeAction}
                 disabled={!value}
