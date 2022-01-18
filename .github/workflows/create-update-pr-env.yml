@@ -35,7 +35,8 @@ jobs:
           node-version: 14
       
       - name: check dependencies
-        run: yarn build
+        run: yarn audit 
+        continue-on-error: true
       
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
