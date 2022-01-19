@@ -1,7 +1,7 @@
 on:
   pull_request:
     types: [closed]
-      branches: [main]
+    branches: [main]
 
 name: destroy namespace
 jobs:
