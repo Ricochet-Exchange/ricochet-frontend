@@ -1,5 +1,6 @@
 on:
-  pull_request_target:
+  pull_request:
+    branches: [main]
     types: [closed]
 
 name: destroy namespace
@@ -16,7 +17,7 @@ jobs:
           echo "::set-output name=BRANCH::$(echo ${{ github.head_ref }} | sed -e "s/[[:punct:]]/-/g" | tr A-Z a-z | sed -e "s/--/-/g" | sed -e "s/-$//g")"
 
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Setup NodeJS 14 
       - name: Configure AWS credentials
