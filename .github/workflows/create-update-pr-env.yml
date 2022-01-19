@@ -26,7 +26,8 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
-              
+        with:
+          ref: ${{ github.head_ref }} 
       - name: Setup NodeJS 14
         uses: actions/setup-node@v1
         with:
