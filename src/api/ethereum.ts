@@ -14,7 +14,20 @@ import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
 import BankAbi from 'constants/Bank.json';
 import Web3 from 'web3';
 
-const gasPrice = 35_000_000_000; // 35 gwei default gas
+const getGasPrice: ()=> Promise<number> = async () => {
+  // const provider = call(web3Modal.connect);
+  const web3 = new Web3(new Web3.providers.HttpProvider(process.env.REACT_APP_API_NODE_URL!));
+  const gasPrice = web3.eth.getGasPrice()
+    .then((price:string) => parseInt(price, 10))
+    .catch((e) => {
+      console.error(e);
+      return 35_000_000_000;
+    });
+  return gasPrice;
+};
+const gasPrice = getGasPrice().then((price:number) => price);// 35_000_000_000 35 gwei default gas
+console.log(` GAS PRICE ${gasPrice}`);
+debugger;
 
 export const downgrade = (
   contract: any,
