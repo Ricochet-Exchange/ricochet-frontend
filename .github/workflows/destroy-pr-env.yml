@@ -1,6 +1,8 @@
 on:
-  pull_request_target:
+  pull_request:
     types: [closed]
+      branches: [main]
+
 name: destroy namespace
 jobs:
   destroy_pr_env:
@@ -16,8 +18,6 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
 
       - name: Setup NodeJS 14 
       - name: Configure AWS credentials
