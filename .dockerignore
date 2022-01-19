@@ -17,4 +17,4 @@ build
 k8s
 .env.local
 KUBECONFIG
-
+.git
