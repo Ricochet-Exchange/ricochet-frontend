@@ -128,6 +128,18 @@
 
 }
 
+.displaybutton span.disabledButton {
+  height: 32px;
+  width: 40px;
+  text-align: center;
+  font-size: 19px;
+  color: #B7C2D6;
+  display: inline-block;
+  border-radius: 4px;
+  padding: 0px;
+  background-color: rgb(225, 232, 248);
+  pointer-events: none;
+}
 
 .wrapper {
   font-family: $default-font;
