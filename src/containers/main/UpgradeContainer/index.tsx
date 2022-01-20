@@ -389,8 +389,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                               showWarningToolTip={false}
                               isLoading={isLoading || isLoadingUpgrade}
                               disabledApprove={
-                                isLoading || token.coin === Coin.RIC ||
-                                (upgradeConfig && state[upgradeConfig?.key])
+                                isLoading || (upgradeConfig && state[upgradeConfig?.key])
                               }
                               isReadOnly={isReadOnly}
                             />
