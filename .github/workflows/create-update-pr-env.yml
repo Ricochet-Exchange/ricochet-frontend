@@ -18,17 +18,24 @@ jobs:
         id: branch-name
         run: |
           echo "::set-output name=BRANCH::$(echo ${{ github.head_ref }} | sed -e "s/[[:punct:]]/-/g" | tr A-Z a-z | sed -e "s/--/-/g" | sed -e "s/-$//g")"
+      
+      - name: create a random value
+        id: random-value
+        run: |
+          echo "::set-output name=RANDOM::$(echo $RANDOM | md5sum | head -c 10; echo;)"
 
       - name: Checkout
-        uses: actions/checkout@v1
-      
+        uses: actions/checkout@v2
+        with:
+          ref: ${{github.event.pull_request.head.ref}}
+          repository: ${{github.event.pull_request.head.repo.full_name}} 
       - name: Setup NodeJS 14
         uses: actions/setup-node@v1
         with:
           node-version: 14
       
       - name: check dependencies
-        run: yarn audit
+        run: yarn audit 
         continue-on-error: true
       
       - name: Configure AWS credentials
@@ -37,7 +44,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
-
       
       - name: Login to Amazon ECR
         id: login-ecr
@@ -47,17 +53,19 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          BRANCH_NAME: ${{ steps.branch-name.outputs.BRANCH }}
+          BRANCH_NAME: ${{ steps.branch-name.outputs.BRANCH }} 
+          RANDOM_VAL: ${{ steps.random-value.outputs.RANDOM }}
         run: |
           cat > .env << EOF
           PUBLIC_URL=${{ env.BRANCH_NAME }} 
           REACT_APP_API_GRATH=https://api.thegraph.com/subgraphs/name/superfluid-finance/superfluid-matic
           REACT_APP_CHAIN_ID=137
           EOF
-          docker image build --no-cache \
-          --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.BRANCH_NAME }} \
+          docker image build --no-cache=true \
+          --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.RANDOM_VAL }} \
           .
-          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.BRANCH_NAME }}
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.RANDOM_VAL }}
+      
       - name: Install and configure kubectl and deploy
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -73,6 +81,7 @@ jobs:
           curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator.sha256 && openssl sha1 -sha256 aws-iam-authenticator
           chmod +x aws-iam-authenticator
           mv aws-iam-authenticator /usr/local/bin/
+      
       - name: Kubernetes set context
         uses: Azure/k8s-set-context@v1
         with:
@@ -83,9 +92,11 @@ jobs:
         env:
            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
            BRANCH_NAME: ${{ steps.branch-name.outputs.BRANCH }}
+           RANDOM_VAL: ${{ steps.random-value.outputs.RANDOM }}
         run: |  
           export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
-          export IMAGE_TAG=${{ env.BRANCH_NAME }}
+          export BRANCH_NAME=${{ env.BRANCH_NAME }}
+          export RANDOM_VAL=${{ env.RANDOM_VAL }}
           envsubst < k8s/kustomization.tmpl.yaml > k8s/kustomization.yaml
           envsubst < k8s/ingress_patch.tmpl.yaml > k8s/ingress_patch.yaml
           kubectl kustomize k8s | kubectl  apply -f -
@@ -94,7 +105,6 @@ jobs:
         env:
           BRANCH_NAME: ${{ steps.branch-name.outputs.BRANCH }} 
           URL-PUBLIC: a380c3be5e6284f4ca1dfc37a12b3033-851332533.eu-west-1.elb.amazonaws.com
-
         run: |
           echo "your PR environment is available on this url:"
           echo a380c3be5e6284f4ca1dfc37a12b3033-851332533.eu-west-1.elb.amazonaws.com/"$BRANCH_NAME"

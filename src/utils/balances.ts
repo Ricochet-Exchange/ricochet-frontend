@@ -49,13 +49,23 @@ function trimPad(amount: string, decimals: number) {
 }
 
 function numFormatter(num: number) {
-  let output;
-  if (num > 999 && num < 1000000) {
-    output = (num / 1000).toFixed(1).toString().concat('K'); // convert to K for number from > 1000 < 1 million
-  } else {
-    output = trimPad(num.toString(), 6); // if value < 1000, nothing to do
+  const si = [
+    { value: 1, symbol: '' },
+    { value: 1E3, symbol: 'K' },
+    { value: 1E6, symbol: 'M' },
+    { value: 1E9, symbol: 'B' },
+    { value: 1E12, symbol: 'T' },
+    { value: 1E15, symbol: 'P' },
+    { value: 1E18, symbol: 'E' },
+  ];
+  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+  let i;
+  for (i = si.length - 1; i > 0; i -= 1) {
+    if (num >= si[i].value) {
+      break;
+    }
   }
-  return output;
+  return (num / si[i].value).toFixed(1).toString().replace(rx, '$1') + si[i].symbol;
 }
 
 export { fromWei, trimPad, numFormatter };
