@@ -85,7 +85,7 @@ export const upgradeMatic = (
     .send({
       from: address,
       value: amount,
-      gasPrice,
+      gasPrice: getGasPrice(address),
     });
 };
 
