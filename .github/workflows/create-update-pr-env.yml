@@ -61,6 +61,16 @@ jobs:
           REACT_APP_API_GRATH=https://api.thegraph.com/subgraphs/name/superfluid-finance/superfluid-matic
           REACT_APP_CHAIN_ID=137
           EOF
+          cat > .env.local << EOF
+          REACT_APP_API_GRATH=https://api.thegraph.com/subgraphs/name/superfluid-finance/superfluid-matic
+          REACT_APP_CHAIN_ID=0x89
+          REACT_APP_RPC_URLS=https://polygon-rpc.com/
+          REACT_APP_BLOCK_URLS=https://polygonscan.com
+          REACT_APP_CHAIN_NAME=Matic
+          ESLINT_NO_DEV_ERRORS=true
+          REACT_APP_API_NODE_URL=https://polygon-rpc.com/
+          REACT_APP_MULTICALL_CONTRACT_ADDRESS=0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507
+          EOF
           docker image build --no-cache=true \
           --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.RANDOM_VAL }} \
           .

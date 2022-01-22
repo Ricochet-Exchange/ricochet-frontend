@@ -15,6 +15,5 @@ build.tar.gz
 build
 .vscode
 k8s
-.env.local
 KUBECONFIG
 .git
