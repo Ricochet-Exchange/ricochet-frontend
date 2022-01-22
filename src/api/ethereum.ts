@@ -14,13 +14,6 @@ import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
 import BankAbi from 'constants/Bank.json';
 import Web3 from 'web3';
 
-// @BAD @ACTOR const gasPrice = 35_000_000_000; // 35 gwei default gas
-
-const getGasPrice = (from: string) => {
-  const web3 = Web3.givenProvider;
-  web3.eth.estimateGas(from);
-};
-
 export const downgrade = (
   contract: any,
   amount: string,
@@ -29,7 +22,6 @@ export const downgrade = (
   .downgrade(amount)
   .send({
     from: address,
-    gasPrice: getGasPrice(address),
   });
 
 export const downgradeMatic = (
@@ -41,7 +33,6 @@ export const downgradeMatic = (
   .send({
     from: address,
     // value: amount,
-    gasPrice: getGasPrice(address),
   });
 
 export const allowance = (
@@ -61,7 +52,6 @@ export const approve = (
   .approve(tokenAddress, amount)
   .send({
     from: address,
-    gasPrice: getGasPrice(address),
   });
 
 export const upgrade = (
@@ -72,7 +62,6 @@ export const upgrade = (
   .upgrade(amount)
   .send({
     from: address,
-    gasPrice: getGasPrice(address),
   });
 
 export const upgradeMatic = (
@@ -85,7 +74,6 @@ export const upgradeMatic = (
     .send({
       from: address,
       value: amount,
-      gasPrice: getGasPrice(address),
     });
 };
 
