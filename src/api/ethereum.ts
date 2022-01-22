@@ -14,8 +14,6 @@ import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
 import BankAbi from 'constants/Bank.json';
 import Web3 from 'web3';
 
-const gasPrice = 35_000_000_000; // 35 gwei default gas
-
 export const downgrade = (
   contract: any,
   amount: string,
@@ -24,7 +22,6 @@ export const downgrade = (
   .downgrade(amount)
   .send({
     from: address,
-    gasPrice,
   });
 
 export const downgradeMatic = (
@@ -36,7 +33,6 @@ export const downgradeMatic = (
   .send({
     from: address,
     // value: amount,
-    gasPrice,
   });
 
 export const allowance = (
@@ -56,7 +52,6 @@ export const approve = (
   .approve(tokenAddress, amount)
   .send({
     from: address,
-    gasPrice,
   });
 
 export const upgrade = (
@@ -67,7 +62,6 @@ export const upgrade = (
   .upgrade(amount)
   .send({
     from: address,
-    gasPrice,
   });
 
 export const upgradeMatic = (
@@ -80,7 +74,6 @@ export const upgradeMatic = (
     .send({
       from: address,
       value: amount,
-      gasPrice,
     });
 };
 
@@ -100,7 +93,7 @@ export const stopFlow = async (exchangeAddress: string, inputTokenAddress: strin
       recipient,
       flowRate: '0',
     });
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(e);
   }
 };
@@ -330,7 +323,7 @@ export const startFlow = async (
       }
       await superFluid.host.batchCall(call);
     }
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(e);
   }
 };
@@ -345,7 +338,7 @@ export const switchNetwork = async () => {
     });
 
     return true;
-  } catch (error) {
+  } catch (error: any) {
     if (error.code === 4902) {
       try {
         await ethereum.request({

@@ -2,21 +2,13 @@
 import { showErrorToast } from 'components/common/Toaster';
 import { UpgradePanel } from 'components/layout/UpgradePanel';
 import { UserSettings } from 'components/layout/UserSettings';
-import { iconsCoin, Coin } from 'constants/coins';
+import { Coin, iconsCoin } from 'constants/coins';
 import { useLang } from 'hooks/useLang';
 import React, {
-  ChangeEvent,
-  FC,
-  useCallback,
-  useState,
-  useEffect,
+  ChangeEvent, FC, useCallback, useEffect, useState, 
 } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  approveAction,
-  downgradeAction,
-  upgradeAction,
-} from 'store/main/actionCreators';
+import { approveAction, downgradeAction, upgradeAction } from 'store/main/actionCreators';
 
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
@@ -86,7 +78,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
   };
 
   const coingeckoUrl =
-    'https://api.coingecko.com/api/v3/simple/price?ids=usd-coin%2Cdai%2Cmaker%2Cethereum%2Cwrapped-bitcoin%2Cidle%2Cmatic-network%2Csushi&vs_currencies=usd';
+    'https://api.coingecko.com/api/v3/simple/price?ids=richochet%2Cusd-coin%2Cdai%2Cmaker%2Cethereum%2Cwrapped-bitcoin%2Cidle%2Cmatic-network%2Csushi&vs_currencies=usd';
   const geckoMapping = {
     USDC: 'usd-coin',
     MATIC: 'matic-network',
@@ -96,6 +88,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
     MKR: 'maker',
     DAI: 'dai',
     IDLE: 'idle',
+    RIC: 'richochet',
   };
   useEffect(() => {
     async function getGraphData() {
@@ -286,7 +279,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                 .times(new Big('2592000'))
                 .div(new Big('10e17'))
                 .times(usdPrice);
-                
+
               return (
                 <tr>
                   <td>
@@ -303,7 +296,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                     </div>
                   </td>
                   <td>
-                    {balances &&
+                    {token.coin === Coin.RIC ? 'NA' : balances &&
                       parseFloat(balances[token.tokenAddress]).toFixed(2)}
                   </td>
                   <td className={styles.section}>
@@ -366,7 +359,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                     )}
                   </td>
 
-                  <td className={styles.displaybutton}>
+                  <td className={styles.section}>
                     <Popover
                       onClickOutside={() => {
                         setSelectedIndex(-1);
@@ -396,8 +389,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                               showWarningToolTip={false}
                               isLoading={isLoading || isLoadingUpgrade}
                               disabledApprove={
-                                isLoading ||
-                                (upgradeConfig && state[upgradeConfig?.key])
+                                isLoading || (upgradeConfig && state[upgradeConfig?.key])
                               }
                               isReadOnly={isReadOnly}
                             />
@@ -438,9 +430,10 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                             setUpgradeCoin(token.coin);
                             setUpgradeConfig(token);
                           }}
-                          className={styles.upgradeButton}
+                          className={token.coin === Coin.RIC
+                            ? styles.disabledButton : styles.upgradeButton}
                         >
-                          <FontIcon name={FontIconName.Plus} size={15} />
+                          <FontIcon name={FontIconName.Plus} size={12} />
                         </span>
                         <span
                           role="button"
@@ -458,7 +451,8 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                             setDowngradeAddress(token.superTokenAddress);
                             setDowngradeCoin(token.coin);
                           }}
-                          className={styles.downgradeButton}
+                          className={token.coin === Coin.RIC
+                            ? styles.disabledButton : styles.downgradeButton}
                         >
                           <FontIcon name={FontIconName.Minus} size={15} />
                         </span>
