@@ -5,6 +5,7 @@ import { WalletPage } from 'pages/WalletPage';
 import { InvestPage } from 'pages/InvestPage';
 import { BanksPage } from 'pages/BanksPage';
 import { VaultsPage } from 'pages/VaultPage';
+import { TradePage } from 'pages/TradePage';
 
 interface IProps {}
 
@@ -17,6 +18,7 @@ const MainRouter: FC<IProps> = () => (
     <Route path={Routes.Invest} component={InvestPage} exact />
     <Route path={Routes.Banks} component={BanksPage} exact />
     <Route path={Routes.Vaults} component={VaultsPage} exact />
+    <Route path={Routes.Trade} component={TradePage} exact />
     <Redirect to={Routes.Invest} />
   </Switch>
 );

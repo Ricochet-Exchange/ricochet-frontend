@@ -4,6 +4,7 @@ export const Routes: any = {
   InvestStreams: `${home}/invest/streams`,
   InvestLiquidityMarkets: `${home}/invest/rex-lp`,
   InvestLaunchpads: `${home}/invest/rex-launchpad`,
+  Trade: `${home}/trade`,
   Wallet: `${home}/wallet`,
   Banks: `${home}/banks`,
   Vaults: `${home}/vaults`,
