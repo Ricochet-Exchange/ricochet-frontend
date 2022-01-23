@@ -16,11 +16,12 @@ import Web3 from 'web3';
 import axios from 'axios';
 
 const polygonApiUrl = 'https://gasstation-mainnet.matic.network/v2';
-const getSuggestedPriorityGasFee = () => {
-  axios.get(polygonApiUrl).then((response) => response.data.standard.maxPriorityFee);
+const getSuggestedPriorityGasFee = async () => {
+  const fee = await axios.get(polygonApiUrl).then((r) => r.data.standard.maxPriorityFee);
+  return Math.round(fee * (10 ** 9)); // this converts to GWEI
 };
 
-export const downgrade = (
+export const downgrade = async (
   contract: any,
   amount: string,
   address: string,
@@ -28,10 +29,10 @@ export const downgrade = (
   .downgrade(amount)
   .send({
     from: address,
-    maxPriorityFeePerGas: getSuggestedPriorityGasFee(),
+    maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
   });
 
-export const downgradeMatic = (
+export const downgradeMatic = async (
   contract: any,
   amount: string,
   address: string,
@@ -40,7 +41,7 @@ export const downgradeMatic = (
   .send({
     from: address,
     // value: amount,
-    maxPriorityFeePerGas: getSuggestedPriorityGasFee(),
+    maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
   });
 
 export const allowance = (
@@ -51,7 +52,7 @@ export const allowance = (
   .allowance(address, superTokenAddress)
   .call();
 
-export const approve = (
+export const approve = async (
   contract: any,
   address: string,
   tokenAddress: string,
@@ -60,10 +61,10 @@ export const approve = (
   .approve(tokenAddress, amount)
   .send({
     from: address,
-    maxPriorityFeePerGas: getSuggestedPriorityGasFee(),
+    maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
   });
 
-export const upgrade = (
+export const upgrade = async (
   contract: any,
   amount: string,
   address: string,
@@ -71,10 +72,10 @@ export const upgrade = (
   .upgrade(amount)
   .send({
     from: address,
-    maxPriorityFeePerGas: getSuggestedPriorityGasFee(),
+    maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
   });
 
-export const upgradeMatic = (
+export const upgradeMatic = async (
   contract: any,
   amount: string,
   address: string,
@@ -84,7 +85,7 @@ export const upgradeMatic = (
     .send({
       from: address,
       value: amount,
-      maxPriorityFeePerGas: getSuggestedPriorityGasFee(),
+      maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
     });
 };
 
