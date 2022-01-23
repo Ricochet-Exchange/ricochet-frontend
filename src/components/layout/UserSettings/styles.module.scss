@@ -143,8 +143,9 @@
   flex-direction: column;
  width: 100%;
  transition: 0.7s;
+ cursor: pointer;
   &:hover{
-    border-bottom: 2px solid rgba(93, 93, 93, 0.4);
+    background-color: lightgray;
   }
 }
 
@@ -156,19 +157,16 @@
   width: 100%;
   line-height: 110%;
   color: var(--color-black-dark);
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
+
 }
 
 .description,
 .lang {
   font-style: normal;
   font-weight: normal;
-  margin-top: 1em;
   font-size: 14px;
   line-height: 110%;
-  padding-bottom: 1em;
+  padding: 1em;
   color: var(--color-grey);
 }
 
