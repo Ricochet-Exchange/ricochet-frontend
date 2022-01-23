@@ -13,6 +13,12 @@ import Erc20Abi from 'constants/Erc20.json';
 import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
 import BankAbi from 'constants/Bank.json';
 import Web3 from 'web3';
+import axios from 'axios';
+
+const polygonApiUrl = 'https://gasstation-mainnet.matic.network/v2';
+const getSuggestedPriorityGasFee = () => {
+  axios.get(polygonApiUrl).then((response) => response.data.standard.maxPriorityFee);
+};
 
 export const downgrade = (
   contract: any,
@@ -22,6 +28,7 @@ export const downgrade = (
   .downgrade(amount)
   .send({
     from: address,
+    maxPriorityFeePerGas: getSuggestedPriorityGasFee(),
   });
 
 export const downgradeMatic = (
@@ -33,6 +40,7 @@ export const downgradeMatic = (
   .send({
     from: address,
     // value: amount,
+    maxPriorityFeePerGas: getSuggestedPriorityGasFee(),
   });
 
 export const allowance = (
@@ -52,6 +60,7 @@ export const approve = (
   .approve(tokenAddress, amount)
   .send({
     from: address,
+    maxPriorityFeePerGas: getSuggestedPriorityGasFee(),
   });
 
 export const upgrade = (
@@ -62,6 +71,7 @@ export const upgrade = (
   .upgrade(amount)
   .send({
     from: address,
+    maxPriorityFeePerGas: getSuggestedPriorityGasFee(),
   });
 
 export const upgradeMatic = (
@@ -74,6 +84,7 @@ export const upgradeMatic = (
     .send({
       from: address,
       value: amount,
+      maxPriorityFeePerGas: getSuggestedPriorityGasFee(),
     });
 };
 
