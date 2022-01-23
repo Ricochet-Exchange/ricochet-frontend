@@ -131,31 +131,33 @@
 
 .list,
 .lang_list {
-  list-style: none;
-  margin: 0;
   padding: 0;
-
-  & li:last-child {
-    padding: 0;
-  }
+  margin: 0;
 }
 
 .docs,
 .paper,
 .discord {
   @include flexbox(flex-start, center);
-
+ height: 100%;
   flex-direction: column;
-  padding: 0 0 30px 0;
+ width: 100%;
+ transition: 0.7s;
+  &:hover{
+    border-bottom: 2px solid rgba(93, 93, 93, 0.4);
+  }
 }
 
 .head {
   font-style: normal;
-  font-weight: 700;
-  font-size: 18px;
+  font-weight: 700; 
+  height: 100%;
+  padding: 1em;
+  width: 100%;
   line-height: 110%;
   color: var(--color-black-dark);
-  padding: 0 0 10px 0;
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
 }
 
@@ -163,8 +165,10 @@
 .lang {
   font-style: normal;
   font-weight: normal;
+  margin-top: 1em;
   font-size: 14px;
   line-height: 110%;
+  padding-bottom: 1em;
   color: var(--color-grey);
 }
 
