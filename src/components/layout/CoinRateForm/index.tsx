@@ -18,10 +18,12 @@ interface IProps {
   coin: Coin;
   isLoading?: boolean;
   isReadOnly?:boolean;
+  personalFlow: string,
 }
 
 export const CoinRateForm: FC<IProps> = ({
-  value, onChange, onClickStart, onClickStop, placeholder, coin, isLoading, isReadOnly,
+  value, onChange, onClickStart, onClickStop, placeholder, coin, isLoading, isReadOnly, 
+  personalFlow,
 }) => {
   const { t } = useTranslation('main');
   // Security Deposit is 4 hours worth of stream, so (4*60*60)/(30*24*60*60) = 1/180
@@ -56,6 +58,7 @@ export const CoinRateForm: FC<IProps> = ({
           </ButtonNew>
         </div>
         <div className={styles.stop_wrap}>
+          {personalFlow && personalFlow !== '0' && (          
           <ButtonNew
             loaderColor="#363B55"
             color="secondary"
@@ -66,6 +69,7 @@ export const CoinRateForm: FC<IProps> = ({
           >
             {t('Stop')}
           </ButtonNew>
+          )}
         </div>
         <div style={{ flexBasis: '100%', height: '0' }}> </div>
 
