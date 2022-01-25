@@ -146,7 +146,7 @@ export const VaultTransaction: FC<Props> = ({
                 className={styles.linkButton}
               />
               <Button
-                label="withdraw"
+                label={activeTransaction}
                 className={styles.actionButton}
                 onClick={onMakeAction}
                 disabled={!value}
