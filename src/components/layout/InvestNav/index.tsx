@@ -68,6 +68,14 @@ export const InvestNav = () => {
         Tutorial&nbsp;
         <FontIcon name={FontIconName.External} size={16} />
       </NavLink>
+      <NavLink
+        className={styles.nav_link} 
+        activeClassName={styles.nav_link_active} 
+        to={Routes.Trade}
+      >
+        <FontIcon name={FontIconName.Loop} size={16} />
+  &nbsp;rexTrade
+      </NavLink>
 
       {(location.pathname === Routes.Banks || location.pathname === Routes.Vaults) && (
       <NavLink
