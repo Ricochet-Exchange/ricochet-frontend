@@ -33,8 +33,8 @@ export const CoinRateForm: FC<IProps> = ({
         <TextInput
           value={value}
           className={styles.input}
-          onChange={onChange} 
-          containerClassName={styles.container_input} 
+          onChange={onChange}
+          containerClassName={styles.container_input}
           placeholder={placeholder}
           right={<div className={styles.right}>{`${coin}x/mo.`}</div>}
           type="number"
@@ -58,43 +58,46 @@ export const CoinRateForm: FC<IProps> = ({
           </ButtonNew>
         </div>
         <div className={styles.stop_wrap}>
-          {parseFloat(personalFlow) > 0 && (
-          <ButtonNew
-            loaderColor="#363B55"
-            color="secondary"
-            onClick={onClickStop}
-            className={styles.stop}
-            disabled={isReadOnly || isLoading}
-            isLoading={isLoading}
-          >
-            {t('Stop')}
-          </ButtonNew>)}
-          
+          {parseFloat(personalFlow) > 0 &&
+          (
+            <ButtonNew
+              loaderColor="#363B55"
+              color="secondary"
+              onClick={onClickStop}
+              className={styles.stop}
+              disabled={isReadOnly || isLoading}
+              isLoading={isLoading}
+            >
+              {t('Stop')}
+            </ButtonNew>
+          )}
+
         </div>
         <div style={{ flexBasis: '100%', height: '0' }}> </div>
 
-        { parseFloat(value) > 0 ? (
-          <ReactTooltip 
-            id="depositTooltip" 
-            place="right" 
-            effect="solid" 
-            multiline
-            className={styles.depositTooltip}
-          >
-            <span
-              className={styles.depositTooltip_span}
+        { parseFloat(value) > 0 ?
+          (
+            <ReactTooltip
+              id="depositTooltip"
+              place="right"
+              effect="solid"
+              multiline
+              className={styles.depositTooltip}
             >
-              Starting this stream will take a security deposit of 
-              <span style={{ fontWeight: 700 }}> 
-                {` ${(parseFloat(value) / 180.0).toFixed(6)} ${coin} `}
-              </span>
-              from your balance. 
-              The Deposit will be refunded in full when you close the stream or lost if 
-              your balance hits zero with the stream still open.
+              <span
+                className={styles.depositTooltip_span}
+              >
+                Starting this stream will take a security deposit of
+                <span style={{ fontWeight: 700 }}>
+                  {` ${(parseFloat(value) / 180.0).toFixed(6)} ${coin} `}
+                </span>
+                from your balance.
+                The Deposit will be refunded in full when you close the stream or lost if
+                your balance hits zero with the stream still open.
 
-            </span> 
-          </ReactTooltip>
-        )
+              </span>
+            </ReactTooltip>
+          )
           : null }
         <div />
       </div>
