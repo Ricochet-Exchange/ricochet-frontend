@@ -1,0 +1,61 @@
+.button {
+  color: #301e1e;
+  background-color: #7b8581;
+  border: 2px solid #bfc2c5;
+  border-radius: 0px;
+  padding: 5px 5px;
+  display: inline-block;
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  -webkit-box-shadow: inset 0 0 0 0 #abd2f3;
+          box-shadow: inset 0 0 0 0 #abd2f3;
+  -webkit-transition: ease-out 0.4s;
+  transition: ease-out 0.4s;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+button:disabled,
+button[disabled] {
+  background-color: white;
+  cursor: auto;
+}
+
+.down:hover:not(:disabled) {
+  -webkit-box-shadow: inset 0 100px 0 0 #abd2f3;
+          box-shadow: inset 0 100px 0 0 #abd2f3;
+}
+
+.right:hover:not(:disabled) {
+  -webkit-box-shadow: inset 400px 0 0 0 #abd2f3;
+          box-shadow: inset 400px 0 0 0 #abd2f3;
+}
+
+.left:hover:not(:disabled) {
+  -webkit-box-shadow: inset 0 0 0 50px #abd2f3;
+          box-shadow: inset 0 0 0 50px #abd2f3;
+}
+
+.diagonal:hover:not(:disabled) {
+  -webkit-box-shadow: inset 400px 50px 0 0 #abd2f3;
+          box-shadow: inset 400px 50px 0 0 #abd2f3;
+}
+
+.button.link, .button.link:hover {
+  color: #5f8eb9;
+  font-weight: bold;
+  background: none;
+  border: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.button.link:disabled,
+.button.link[disabled] {
+  color: #b9b9b9;
+  cursor: auto;
+}
+/*# sourceMappingURL=styles.module.css.map */
