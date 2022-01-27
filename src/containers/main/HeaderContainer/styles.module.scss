@@ -1,59 +1,9 @@
 @import '../../../assets/styles/mixins';
 
 
-
-
-@media only screen and (min-width: 769px){
-  .header_wrap{
-    height: 10vh; 
-    background-color: #294661;
-  }
-
-  .settings_wrap {
-   
-  }
-
-
-
-  .links {
- 
-  }
-
-  .dca_link {
-    
-  }
-
-  .dca_link,
-  .upgrade_link {
-    display: none
-  }
-
-  .active {
-    
-  }
-
-
-  .mob_menu {
-  
-  }
-
-  .mob_panel {
-    
-  }
-
-  .mob_head {
-  
-  }
-
-  .dot {
-   
-  }
-}
-
-
 .header_wrap {
   @include flexbox(center, space-between);
-  padding-left: 1em;
+
   width: 100%;
   position: relative;
 
@@ -75,7 +25,13 @@
     }
 }
 
+.logo {
+  margin: 46px 0 46px 0;
 
+  @include tablet {
+    margin: 24px 0 40px 20px;
+  }
+}
 
 .links {
   @include flexbox(center, center);
