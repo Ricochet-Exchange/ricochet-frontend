@@ -69,7 +69,8 @@ export const HeaderContainer:FC<IProps> = ({ address, balance, isReadOnly }) => 
           ) : (
             <>
               <div>{t('Invest')}</div>
-              <WalletButton ricBalance={balance} account={address} />
+              
+              <WalletButton ricBalance={balance} account={address} mobile />
             </>
           )}
         </div>

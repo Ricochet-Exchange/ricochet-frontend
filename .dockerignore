@@ -14,8 +14,6 @@ yarn-error.log
 build.tar.gz
 build
 .vscode
-
-.env.local
-.env
+k8s
 KUBECONFIG
-
+.git

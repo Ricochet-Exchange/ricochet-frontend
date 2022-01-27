@@ -37,6 +37,7 @@
 }
 
 .nav_link {
+    cursor: pointer;
     @extend .link;
     border-radius: 9999px;
     background-color: var(--color-white-dark);

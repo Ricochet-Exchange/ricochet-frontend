@@ -7,8 +7,9 @@ export const mainSetState = (payload: Partial<MainState>) => ({
   payload,
 });
 
-export const mainCheck = () => ({
+export const mainCheck = (init:boolean = false) => ({
   type: MainActionTypes.MAIN_CHECK,
+  init,
 });
 
 export const mainSwitchNetwork = () => ({

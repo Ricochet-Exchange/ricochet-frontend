@@ -65,7 +65,6 @@ export const InvestNav = () => {
         to={{ pathname: TUTORIAL_LINK }}
         target="_blank"
       >
-        <FontIcon name={FontIconName.Desktop} size={20} />
         Tutorial&nbsp;
         <FontIcon name={FontIconName.External} size={16} />
       </NavLink>
