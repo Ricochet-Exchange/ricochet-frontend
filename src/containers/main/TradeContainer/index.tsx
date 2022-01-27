@@ -6,20 +6,41 @@ import { Coin, namesCoin, iconsCoin, namesCoinX} from 'constants/coins'
 interface IProps {}
 
 const TokenModal = (props: any) => {
-  console.log(iconsCoin)
+
+  React.useEffect(() => {
+    namesCoinX.map((item) => {
+      console.log("-:", item)
+    })
+  }, []);
+
   return (
     <>
       {
       props.display ?
         <div className={styles.modal}>
+          
           <div className={styles.modal_container}>
-            {
-              namesCoinX.map((token) => {
-                <div>
-                  {token}
-                </div>
-              })
-            }
+            <div className={styles.row}>
+              <div>
+                select token:
+              </div>
+              <div>
+                <button onClick={() => props.onClick}>
+                  X
+                </button>
+              </div>
+            </div>
+            <div>
+              {
+                namesCoinX.map((item) => {
+                  return(
+                    <div className={styles.token_selection} key={item}>
+                      <img className={styles.token_image} src={iconsCoin.BTC} /> <span>{item}</span>
+                    </div>
+                  )
+                })
+              }
+            </div>
           </div>
         </div>
         :
@@ -62,10 +83,21 @@ const SettingsModal = (props: any) => {
 };
 
 export const TradeContainer :React.FC<IProps> = () => {
-  const [showTokenModal] = React.useState(true);
+  const [superTokenFrom] = React.useState();
+  const [superTokenTo] = React.useState();
+  const [ammountIn] = React.useState();
+  const [ammountOut] = React.useState();
+  const [address] = React.useState();
+  const [pool] = React.useState();
+  const [showTokenModal, setTokenModal] = React.useState(true);
   const [showWaringModal] = React.useState(false);
   const [tokenA, setTokenA] = React.useState({symbol: "none",token: "select token"});
   const [tokenB, setTokenB] = React.useState({symbol: "none",token: "select token"});
+
+  const closeModal = () => {
+    console.log("hello");
+  };
+
 
   return (
     <>

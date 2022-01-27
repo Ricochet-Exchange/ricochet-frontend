@@ -19,12 +19,41 @@
   height: 100vh;
   padding-top: 100px;
 
+  button{
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
+  .row{
+    display: flex;
+    flex-direction: row;
+    min-width: 100%;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .modal_container{
-    min-width: 200px;
+    min-width: 500px;
     min-height: 200px; 
     padding: 20px;
     border-radius: 20px;
     background: white;
+
+    .token_selection{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        cursor: pointer;
+        padding: 10px;
+
+        .token_image{
+          width: 30px;
+          height: 30px;
+          padding-right: 10px;
+        }
+    }
   }
 }
 
