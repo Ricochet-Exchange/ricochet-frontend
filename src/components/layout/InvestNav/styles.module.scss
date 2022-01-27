@@ -1,11 +1,12 @@
 @import 'assets/styles/_mixins.scss';
 .nav_container {
     @include flexbox(flex-start, flex-start);
+    border-right: 1px var(--color-blue-light) solid;
+    padding: 1.75rem 1rem 1.75rem 1.75rem;
     flex-direction: column;
     text-align: left;
     flex-shrink: 1;
-    background-color: #294661;
-    min-height: 100vh;
+    max-width: 23vw;
     @include tablet() {
         @include flexbox(flex-start, flex-start);
         flex-direction: row;
@@ -16,42 +17,35 @@
     }
 }
 
-.logo {
-    padding-top: 1em;
-    padding-left: 1em;
-    padding-bottom: 1em;
-  }
-
 .link {
-    padding: 1.5em;
-    width: 100%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-right: 0;
+    margin-bottom: 0.5rem;
     text-decoration: none;
-    color: rgba(255, 255, 255, 0.755);
+    color: var(--color-black);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: small;
-    width: 100%;
-    transition: 0.5s;
+    max-width: 100%;
     @include tablet() {
         margin-bottom: 0.5rem;
-    }
-
-    &:hover{
-        background-color: #1d64af;
+        margin-right: 0.5rem;
     }
 }
 
 .nav_link {
     cursor: pointer;
     @extend .link;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 9999px;
+    background-color: var(--color-white-dark);
 }
 
 .nav_link_active {
-    background-color: #2775CA;
-    color: rgb(255, 255, 255);
-    border-right: 1px solid black;
+    background-color: var(--color-blue-dark);
+    color: var(--color-white-dark);
 }
 
 .vaultIcon{
@@ -66,58 +60,4 @@
 
 .vaultIcon:active{
     fill: white;
-}
-
-.nav_link_desktop_only{
-    cursor: pointer;
-    @extend .link;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-}
-
-@media only screen and (max-width: 769px){
-
-    .nav_link_desktop_only{
-        display: none;
-    }
-
-    .logo {
-        display: none;
-      }
-
-    .nav_container {
-        display: flex;
-        min-height: 0;
-        flex-direction: row;
-        text-align: left;
-        background-color: #294661;
-        flex-wrap: nowrap;
-    }
-
-    .link {
-        padding: 1em;
-        width: 100%;
-        text-decoration: none;
-        color: rgba(255, 255, 255, 0.75);
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        width: 100%;
-        margin-bottom: 0;
-        font-size: smaller;
-    }
-
-    .nav_link_active {
-        background-color: #2775CA;
-        color: rgb(253, 253, 253);
-        border-right: 0px solid black;
-    }
-    
-}
-
-
-@media only screen and (max-width: 480px){
-    .link {
-        
-        font-size: xx-small;
-    }
 }

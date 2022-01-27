@@ -57,7 +57,27 @@ export const UserSettings: FC<IProps> = ({
           <div className={styles.fund_inner}>{t('Fund Wallet')}</div>
         </ButtonNew>
       )}
-    
+      <div className={styles.language_wrap}>
+        <Dropdown
+          placement="bottom-end"
+          popupClassName={styles.lang_dropdown}
+          buttonClassName={styles.lang_button}
+          label={(
+            <div className={styles.language}>
+              <div className={styles.language_name}>
+                {localeNames[language]}
+              </div>
+              <FontIcon
+                className={styles.lang_icon}
+                name={FontIconName.ArrowDown}
+                size={16}
+              />
+            </div>
+          )}
+        >
+          <SelectLanguage onChange={onSelectLanguage} />
+        </Dropdown>
+      </div>
 
       <div className={styles.dot_wrap}>
         <div className={styles.button}>
