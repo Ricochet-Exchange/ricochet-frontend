@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { Dropdown } from 'components/common/Dropdown';
-import { LocaleKey, localeNames } from 'i18n/utils';
 import ButtonNew from 'components/common/ButtonNew';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'i18n';
@@ -9,25 +8,20 @@ import { invokeRamp } from 'api/rampNetwork';
 import logo from 'assets/images/logo.png';
 import { WalletButton } from 'components/common/WalletButton';
 import useENS from 'hooks/useENS';
-import { SelectLanguage } from '../SelectLanguage';
 import { Routes } from '../../../constants/routes';
 import styles from './styles.module.scss';
 
 interface IProps {
   account: string;
   ricBalance?: string;
-  language: LocaleKey;
   className?: string;
-  onSelectLanguage: (value: LocaleKey) => void;
   isReadOnly?: boolean;
 }
 
 export const UserSettings: FC<IProps> = ({
   isReadOnly,
-  onSelectLanguage,
   ricBalance = '',
   account,
-  language,
   className,
 }) => {
   const history = useHistory();
@@ -57,7 +51,6 @@ export const UserSettings: FC<IProps> = ({
           <div className={styles.fund_inner}>{t('Fund Wallet')}</div>
         </ButtonNew>
       )}
-    
 
       <div className={styles.dot_wrap}>
         <div className={styles.button}>

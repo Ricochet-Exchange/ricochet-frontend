@@ -21,7 +21,7 @@ interface IProps {
 
 export const HeaderContainer:FC<IProps> = ({ address, balance, isReadOnly }) => {
   const location = useLocation();
-  const { language, changeLanguage } = useLang();
+  const { language } = useLang();
   const { t } = useTranslation('main');
 
   const [isShowMenu, setIsShowMenu] = useState(false);
@@ -51,10 +51,9 @@ export const HeaderContainer:FC<IProps> = ({ address, balance, isReadOnly }) => 
           </Link>
         </div>
         
-    <div className={styles.settings_wrap}>
+        <div className={styles.settings_wrap}>
           <UserSettings
             className={styles.dot} 
-            onSelectLanguage={changeLanguage}
             language={language}
             ricBalance={balance}
             account={address}

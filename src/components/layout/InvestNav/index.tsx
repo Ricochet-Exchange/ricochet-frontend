@@ -6,8 +6,6 @@ import { selectUserStreams } from 'store/main/selectors';
 import { Routes } from 'constants/routes';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import Link from 'components/common/Link';
-
-
 import logo from '../../../assets/images/logo.svg';
 import styles from './styles.module.scss';
 
@@ -33,30 +31,26 @@ export const InvestNav = () => {
       </NavLink>
       )}
 
-<div className={styles.logo}>
-          <Link to={Routes.Invest}><img src={logo} alt="Ricochet" /></Link>
-        </div>
+      <div className={styles.logo}>
+        <Link to={Routes.Invest}><img src={logo} alt="Ricochet" /></Link>
+      </div>
 
-
-<Link
-            to={Routes.Wallet}
-            className={styles.nav_link_desktop_only}
-            
-            activeClassName={styles.nav_link_active}
-          >
-            <div>{('Wallet')}</div>
-          </Link>
-
-
+      <Link 
+        to={Routes.Wallet} 
+        className={styles.nav_link_desktop_only} 
+        activeClassName={styles.nav_link_active}
+      >
+        <div>(Wallet)</div>
+      </Link>
      
       <NavLink 
         className={styles.nav_link} 
-        exact
+        exact  
         activeClassName={styles.nav_link_active} 
         to={Routes.Invest}
       >
         <FontIcon name={FontIconName.Swap} size={16} />
-  &nbsp;Market
+          &nbsp;Market
       </NavLink>
 
       <NavLink 
@@ -85,7 +79,6 @@ export const InvestNav = () => {
         <FontIcon name={FontIconName.Bank} size={16} />
   &nbsp;Bank
       </NavLink>
-     
 
       {(location.pathname === Routes.Banks || location.pathname === Routes.Vaults) && (
       <NavLink
@@ -106,7 +99,6 @@ export const InvestNav = () => {
         Tutorial&nbsp;
         <FontIcon name={FontIconName.External} size={16} />
       </NavLink>
-
        
     </div>
   );
