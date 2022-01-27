@@ -1,0 +1,32 @@
+.content_special {
+  position: relative;
+  background: var(--color-white);
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 10% 90%;
+      grid-template-columns: 10% 90%;
+}
+
+@media screen and (max-width: 768px) {
+  .content_special {
+    border-radius: 0;
+  }
+}
+
+.left-wallet_nav {
+  height: 100%;
+}
+
+@media only screen and (max-width: 769px) {
+  .content_special {
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+  }
+  .left-wallet_nav {
+    display: none;
+  }
+}
+/*# sourceMappingURL=styles.module.css.map */

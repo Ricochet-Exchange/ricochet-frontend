@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { useDispatch } from 'react-redux';
 import { approveAction, downgradeAction, upgradeAction } from 'store/main/actionCreators';
-
+import { InvestNav } from 'components/layout/InvestNav';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { upgradeTokensList } from 'constants/upgradeConfig';

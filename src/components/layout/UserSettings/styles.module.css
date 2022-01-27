@@ -1,0 +1,299 @@
+.user_settings .balance_panel {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  max-width: 210px;
+  min-width: 0;
+  height: 33px !important;
+  background: var(--color-blue);
+  border: 1px solid var(--color-blue);
+  border-radius: 10px;
+  color: var(--color-white);
+  font-family: "Helvetica Neue", "Open Sans";
+  font-style: normal;
+  padding: 0;
+  cursor: pointer;
+  background-color: black;
+}
+
+@media screen and (max-width: 768px) {
+  .user_settings .balance_panel {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+.user_settings .fund_panel {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-left: 10px;
+  max-width: 210px;
+  min-width: 0;
+  height: 33px !important;
+  background: rgba(14, 138, 22, 0.58);
+  border: 1px solid rgba(24, 224, 34, 0.58);
+  border-radius: 10px;
+  color: #18e022;
+  font-family: "Helvetica Neue", "Open Sans";
+  font-style: normal;
+  padding: 0;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .user_settings .fund_panel {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+.user_settings .fund_inner {
+  margin: 0 10px 0 10px;
+}
+
+.icon_wrap {
+  padding: 8.25px 19px 9px 0;
+  margin: 0 0 0 auto;
+}
+
+.icon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  color: var(--color-white);
+  width: 12px;
+  height: 15.75px;
+}
+
+.user_settings {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  padding-right: 1em;
+  width: 100%;
+}
+
+.balance {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 8px 0 8px 16px;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: -0.01em;
+  font-weight: 700px;
+  white-space: nowrap;
+  margin: 0 10px 0 0;
+}
+
+.address {
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 17px;
+  letter-spacing: -0.01em;
+  padding: 8px 0 8px 0;
+  margin: 0 7px 0 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.language_wrap {
+  margin: 0 0 0 10px;
+}
+
+.language {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-family: "Helvetica Neue", "Open Sans";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: -0.01em;
+  color: var(--color-white);
+  padding: 7px 14px 9px 10px;
+}
+
+.dot_wrap .button {
+  background: transparent;
+}
+
+.dot_wrap .button:hover, .dot_wrap .button:active {
+  background: transparent;
+}
+
+.settings_wrap a {
+  text-decoration: none;
+}
+
+.list,
+.lang_list {
+  padding: 0;
+  margin: 0;
+}
+
+.docs,
+.paper,
+.discord {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  cursor: pointer;
+}
+
+.docs:hover,
+.paper:hover,
+.discord:hover {
+  background-color: lightgray;
+}
+
+.head {
+  font-style: normal;
+  font-weight: 700;
+  height: 100%;
+  padding: 1em;
+  width: 100%;
+  line-height: 110%;
+  color: var(--color-black-dark);
+}
+
+.description,
+.lang {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 110%;
+  padding: 1em;
+  color: var(--color-grey);
+}
+
+.lang {
+  cursor: pointer;
+  padding: 0 0 10px 0;
+}
+
+.lang_dropdown,
+.settings_dropdown {
+  z-index: 1;
+  font-family: "Helvetica Neue", "Open Sans";
+  background: var(--color-white);
+  border-radius: 20px;
+  padding: 30px 30px 40px 20px;
+  -webkit-filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.15));
+          filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.15));
+}
+
+.lang_dropdown {
+  padding: 20px;
+}
+
+.settings_button {
+  background-color: transparent;
+  border: none;
+}
+
+.lang_button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  min-width: 0;
+  height: 33px;
+  background: var(--color-blue);
+  border: 1px solid var(--color-blue);
+  border-radius: 10px;
+  color: var(--color-white);
+  font-family: "Helvetica Neue", "Open Sans";
+  font-style: normal;
+  padding: 0;
+  cursor: pointer;
+  -webkit-transition: 0.3s all;
+  transition: 0.3s all;
+}
+
+.lang_button:hover {
+  opacity: 0.7;
+}
+
+.lang_icon {
+  padding: 0;
+}
+
+.language_name {
+  padding: 0 15px 0 0;
+}
+
+.connect_wallet {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  margin: 10px;
+}
+/*# sourceMappingURL=styles.module.css.map */

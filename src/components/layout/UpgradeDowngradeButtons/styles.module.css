@@ -1,0 +1,85 @@
+.buttons_upgrade,
+.downgrade_wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+@media screen and (max-width: 768px) {
+  .buttons_upgrade,
+  .downgrade_wrap {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .approve_wrap,
+  .upgrade_wrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    border-radius: 8px;
+    width: 100%;
+  }
+}
+
+.approve_wrap {
+  margin: 0 10px 0 0;
+}
+
+@media screen and (max-width: 768px) {
+  .approve_wrap {
+    border: 1px solid var(--color-blue);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .downgrade_wrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    border-radius: 8px;
+  }
+}
+
+.approve,
+.upgrade,
+.downgrade {
+  padding: 10px 20px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 140%;
+  width: 100%;
+  border: none;
+}
+
+.approve:active,
+.upgrade:active,
+.downgrade:active {
+  border: none;
+}
+/*# sourceMappingURL=styles.module.css.map */

@@ -1,0 +1,132 @@
+.menu_mob {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .menu_mob {
+    display: block;
+    position: fixed;
+    z-index: 20;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: -webkit-gradient(linear, left top, left bottom, from(#294661), to(#678eb5));
+    background: linear-gradient(180deg, #294661 0%, #678eb5 100%);
+  }
+}
+
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  font-family: "Helvetica Neue", "Open Sans";
+  width: 100%;
+  height: 100%;
+}
+
+.menu_head {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+  -webkit-box-flex: 0;
+      -ms-flex: 0;
+          flex: 0;
+}
+
+.links {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  height: 100%;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.invest,
+.wallet {
+  margin: 0 0 54px 0;
+}
+
+.invest,
+.wallet,
+.banks {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 100%;
+  text-align: center;
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+.invest:active, .invest:hover,
+.wallet:active,
+.wallet:hover,
+.banks:active,
+.banks:hover {
+  font-weight: bold;
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
+}
+
+.banks:active, .banks:hover {
+  font-weight: normal;
+  -webkit-text-decoration-line: none;
+          text-decoration-line: none;
+}
+
+.active {
+  font-weight: bold;
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
+}
+
+.logo {
+  margin: 24px 0 0 21px;
+}
+
+.close {
+  margin: 10px 25px 0 0;
+  background: transparent;
+  border: none;
+}
+
+.close:hover, .close:active {
+  background: transparent;
+}
+
+.close_icon {
+  color: var(--color-white);
+}
+/*# sourceMappingURL=styles.module.css.map */
