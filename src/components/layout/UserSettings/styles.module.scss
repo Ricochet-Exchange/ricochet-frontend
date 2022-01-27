@@ -16,6 +16,7 @@
     font-style: normal;
     padding: 0;
     cursor: pointer;
+    background-color: black;
   
     @include tablet {
       width: 100%;
@@ -64,8 +65,9 @@
 }
 
 .user_settings {
-  @include flexbox(center, center);
-
+  display: flex;
+  flex-direction: row;
+  padding-right: 1em;
   width: 100%;
 }
 
@@ -115,7 +117,7 @@
 
   .button {
     background: transparent;
-    border: none;
+ 
     &:hover,
     &:active {
       background: transparent;
