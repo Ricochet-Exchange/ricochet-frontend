@@ -2,15 +2,10 @@ import React, { FC } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { Dropdown } from 'components/common/Dropdown';
 import { LocaleKey, localeNames } from 'i18n/utils';
-import ButtonNew from 'components/common/ButtonNew';
-import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'i18n';
-import { invokeRamp } from 'api/rampNetwork';
-import logo from 'assets/images/logo.png';
 import { WalletButton } from 'components/common/WalletButton';
 import useENS from 'hooks/useENS';
 import { SelectLanguage } from '../SelectLanguage';
-import { Routes } from '../../../constants/routes';
 import styles from './styles.module.scss';
 
 interface IProps {
@@ -23,40 +18,18 @@ interface IProps {
 }
 
 export const UserSettings: FC<IProps> = ({
-  isReadOnly,
   onSelectLanguage,
   ricBalance = '',
   account,
   language,
   className,
 }) => {
-  const history = useHistory();
   const { ensName } = useENS(account);
-  const handleFundButton = () =>
-    invokeRamp(
-      {
-        hostLogoUrl: `${window.location.origin}${logo}`,
-        userAddress: account,
-      },
-      () => {
-        history.push(Routes.Wallet);
-      },
-    );
   const { t } = useTranslation('main');
-  const preConnect = account === 'Connect Wallet';
 
   return (
     <div className={styles.user_settings}>
       <WalletButton ricBalance={ricBalance} account={ensName || account} />
-      {!preConnect && (
-        <ButtonNew
-          disabled={isReadOnly}
-          className={styles.fund_panel}
-          onClick={handleFundButton}
-        >
-          <div className={styles.fund_inner}>{t('Fund Wallet')}</div>
-        </ButtonNew>
-      )}
       <div className={styles.language_wrap}>
         <Dropdown
           placement="bottom-end"
