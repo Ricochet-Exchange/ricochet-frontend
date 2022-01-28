@@ -3,13 +3,11 @@ import { showErrorToast } from 'components/common/Toaster';
 import { UpgradePanel } from 'components/layout/UpgradePanel';
 import { UserSettings } from 'components/layout/UserSettings';
 import { Coin, iconsCoin } from 'constants/coins';
-import { useLang } from 'hooks/useLang';
 import React, {
   ChangeEvent, FC, useCallback, useEffect, useState, 
 } from 'react';
 import { useDispatch } from 'react-redux';
 import { approveAction, downgradeAction, upgradeAction } from 'store/main/actionCreators';
-
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { upgradeTokensList } from 'constants/upgradeConfig';
@@ -68,7 +66,6 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
   const [upgradeValue, setUpgradeValue] = useState('');
   const dispatch = useDispatch();
 
-  const { language, changeLanguage } = useLang();
   const { t } = useTranslation('main');
 
   const callback = (e?: string) => {
@@ -467,8 +464,6 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
       <div>
         <div className={styles.settings_mob}>
           <UserSettings
-            onSelectLanguage={changeLanguage}
-            language={language}
             className={styles.dot}
             ricBalance={balance}
             account={address}

@@ -1,27 +1,21 @@
 import React, { FC } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { Dropdown } from 'components/common/Dropdown';
-import { LocaleKey, localeNames } from 'i18n/utils';
 import { useTranslation } from 'i18n';
 import { WalletButton } from 'components/common/WalletButton';
 import useENS from 'hooks/useENS';
-import { SelectLanguage } from '../SelectLanguage';
 import styles from './styles.module.scss';
 
 interface IProps {
   account: string;
   ricBalance?: string;
-  language: LocaleKey;
   className?: string;
-  onSelectLanguage: (value: LocaleKey) => void;
   isReadOnly?: boolean;
 }
 
 export const UserSettings: FC<IProps> = ({
-  onSelectLanguage,
   ricBalance = '',
   account,
-  language,
   className,
 }) => {
   const { ensName } = useENS(account);
@@ -30,28 +24,6 @@ export const UserSettings: FC<IProps> = ({
   return (
     <div className={styles.user_settings}>
       <WalletButton ricBalance={ricBalance} account={ensName || account} />
-      <div className={styles.language_wrap}>
-        <Dropdown
-          placement="bottom-end"
-          popupClassName={styles.lang_dropdown}
-          buttonClassName={styles.lang_button}
-          label={(
-            <div className={styles.language}>
-              <div className={styles.language_name}>
-                {localeNames[language]}
-              </div>
-              <FontIcon
-                className={styles.lang_icon}
-                name={FontIconName.ArrowDown}
-                size={16}
-              />
-            </div>
-          )}
-        >
-          <SelectLanguage onChange={onSelectLanguage} />
-        </Dropdown>
-      </div>
-
       <div className={styles.dot_wrap}>
         <div className={styles.button}>
           <Dropdown
