@@ -35,9 +35,10 @@ jobs:
           node-version: 14
       
       - name: check dependencies
-        run: yarn audit 
-        continue-on-error: true
-      
+        run: |
+          export NODE_OPTIONS="--max_old_space_size=4096"
+          yarn && yarn build
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
