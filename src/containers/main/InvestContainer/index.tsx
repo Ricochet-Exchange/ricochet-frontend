@@ -29,7 +29,7 @@ function endDate(bal:number, outgoing:number):string {
 interface IProps {}
 
 export const InvestContainer :React.FC<IProps> = () => {
-  const { language, changeLanguage, t } = useLang();
+  const { language, t } = useLang();
   const state = useShallowSelector(selectMain);
   const {
     address, balances, isLoading, isReadOnly, coingeckoPrices,
@@ -150,7 +150,6 @@ export const InvestContainer :React.FC<IProps> = () => {
           <div className={styles.settings_mob}>
             <UserSettings
               language={language}
-              onSelectLanguage={changeLanguage}
               className={styles.dot}
               ricBalance={balances && balances[RICAddress]}
               account={address || 'Connect Wallet'}
