@@ -71,6 +71,8 @@
   color: var(--color-grey);
   padding: 10px 0 11px 20px;
   border-radius: 8px;
+  -moz-appearance:textfield;
+  width: 25ch;
 }
 
 .container_input {

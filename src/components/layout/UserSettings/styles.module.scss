@@ -131,32 +131,33 @@
 
 .list,
 .lang_list {
-  list-style: none;
-  margin: 0;
   padding: 0;
-
-  & li:last-child {
-    padding: 0;
-  }
+  margin: 0;
 }
 
 .docs,
 .paper,
 .discord {
   @include flexbox(flex-start, center);
-
+ height: 100%;
   flex-direction: column;
-  padding: 0 0 30px 0;
+ width: 100%;
+ transition: 0.7s;
+ cursor: pointer;
+  &:hover{
+    background-color: lightgray;
+  }
 }
 
 .head {
   font-style: normal;
-  font-weight: 700;
-  font-size: 18px;
+  font-weight: 700; 
+  height: 100%;
+  padding: 1em;
+  width: 100%;
   line-height: 110%;
   color: var(--color-black-dark);
-  padding: 0 0 10px 0;
-  cursor: pointer;
+
 }
 
 .description,
@@ -165,6 +166,7 @@
   font-weight: normal;
   font-size: 14px;
   line-height: 110%;
+  padding: 1em;
   color: var(--color-grey);
 }
 
