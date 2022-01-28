@@ -15,7 +15,7 @@
   flex-direction: column;
   align-items: center;
   z-index: 99999999;
-  width: 100vw;
+  min-width: 100vw;
   height: 100vh;
   padding-top: 100px;
 
@@ -82,28 +82,33 @@
     outline: none;
     font-size: 38px;
     max-width: 200px;
+    margin-right: 20px;
+    background: none;
   }
 
   .trade_box{
     display: flex;
     flex-direction: column;
     padding: 20px;
-    border: 2px solid black;
+    border: 2px solid var(--color-blue-dark);
+    
     border-radius: 20px;
     .trade_input{
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
+      background: var(--color-blue-light);
       cursor: pointer;
       padding: 20px;
       width: 100%;
       margin-bottom: 10px;
       border: 1px solid white;
+      border-radius: 20px;
     }
 
     .trade_input:hover{
-      border: 1px solid blue;
+      border: 1px solid var(--color-blue-dark);
       border-radius: 20px;
     }
 
@@ -113,11 +118,12 @@
         width: 100%;
         cursor: pointer;
         color: white;
-        background: blue;
+        background: var(--color-blue-dark);
         padding: 20px;
         border: none;
         border-radius: 20px;
         outline: none;
+        font-weight: bold;
       }
     }
 
@@ -126,6 +132,12 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
+      background: var(--color-blue-dark);
+      color: white;
+      padding: 10px;
+      font-weight: bold;
+      border-radius: 50px;
+      margin-bottom: 10px;
     }
   }
 

@@ -6,11 +6,11 @@ import { Coin, namesCoin, iconsCoin, namesCoinX} from 'constants/coins'
 interface IProps {}
 
 const TokenModal = (props: any) => {
-
+  const [tokenList, setTokenList] = React.useState<any>();
+  
   React.useEffect(() => {
-    namesCoinX.map((item) => {
-      console.log("-:", item)
-    })
+    const result = Object.entries(Coin);
+    setTokenList(result);
   }, []);
 
   return (
@@ -22,20 +22,20 @@ const TokenModal = (props: any) => {
           <div className={styles.modal_container}>
             <div className={styles.row}>
               <div>
-                select token:
+                Select Token:
               </div>
               <div>
-                <button onClick={() => props.onClick}>
+                <button onClick={props.onClick}>
                   X
                 </button>
               </div>
             </div>
             <div>
               {
-                namesCoinX.map((item) => {
+                tokenList.forEach((item: any) => {
                   return(
                     <div className={styles.token_selection} key={item}>
-                      <img className={styles.token_image} src={iconsCoin.BTC} /> <span>{item}</span>
+                      <img className={styles.token_image} src={iconsCoin.WBTC} /> <span>{Coin}</span>
                     </div>
                   )
                 })
@@ -89,19 +89,22 @@ export const TradeContainer :React.FC<IProps> = () => {
   const [ammountOut] = React.useState();
   const [address] = React.useState();
   const [pool] = React.useState();
-  const [showTokenModal, setTokenModal] = React.useState(true);
+  const [showTokenModal, setTokenModal] = React.useState(false);
   const [showWaringModal] = React.useState(false);
   const [tokenA, setTokenA] = React.useState({symbol: "none",token: "select token"});
   const [tokenB, setTokenB] = React.useState({symbol: "none",token: "select token"});
 
-  const closeModal = () => {
-    console.log("hello");
+  const closeTokenModal = () => {
+    setTokenModal(false);
   };
 
+  const openTokenModal = () => {
+    setTokenModal(true);
+  };
 
   return (
     <>
-      <TokenModal display={showTokenModal}/>
+      <TokenModal onClick={() => closeTokenModal()} display={showTokenModal}/>
       <WarningModal display={showWaringModal}/>
       <div className={styles.outer_container}>
         <InvestNav />
@@ -115,7 +118,7 @@ export const TradeContainer :React.FC<IProps> = () => {
                 <input placeholder='0.0'/>
               </div>
               <div>
-                <button className={styles.swap_option}>
+                <button onClick={() => openTokenModal()} className={styles.swap_option}>
                   <div>{tokenA.symbol}</div>
                   <div>{tokenA.token}</div>
                 </button>
@@ -128,7 +131,7 @@ export const TradeContainer :React.FC<IProps> = () => {
                 <input placeholder='0.0'/>
               </div>
               <div>
-                <button className={styles.swap_option}>
+                <button onClick={() => openTokenModal()} className={styles.swap_option}>
                   <div>{tokenB.symbol}</div>
                   <div>{tokenB.token}</div>
                 </button>
