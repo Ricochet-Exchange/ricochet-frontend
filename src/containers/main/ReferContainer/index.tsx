@@ -141,7 +141,7 @@ export const ReferContainer: React.FC<IProps> = () => {
   if (isReadOnly || !address) {
     return (
       <div className={styles.container}>
-        <div>{t('You have to connect your wallet to be able to create and see your referrals')}</div>
+        <div>{t('You have to connect your wallet to be able to create referrals')}</div>
       </div>
     );
   }
