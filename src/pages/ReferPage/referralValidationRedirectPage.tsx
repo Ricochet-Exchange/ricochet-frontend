@@ -1,4 +1,7 @@
-import { RICAddress } from 'constants/polygon_config';
+import {
+  RICAddress,
+  rexReferralAddress,
+} from 'constants/polygon_config';
 import { HeaderContainer } from 'containers/main/HeaderContainer';
 import { MainLayout } from 'containers/MainLayout';
 import { useShallowSelector } from 'hooks/useShallowSelector';
@@ -8,6 +11,9 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+
+import { getContract } from 'utils/getContract';
+import { referralABI } from 'constants/abis';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { selectMain } from 'store/main/selectors';
 import { Routes } from 'constants/routes';
@@ -46,17 +52,33 @@ const ReferralValidationRedirectPage: FC<IProps> = () => {
   const referralIdMax32Bytes = new Blob([referralId]).size <= 32;
   const location = useLocation();
   const history = useHistory();
+  const contract = getContract(rexReferralAddress, referralABI);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie] = useCookies(['referralId']);
   useEffect(() => {
     // check contract that this referralId is valid and redirect
     if (referralId && referralIdMax32Bytes) {
-      setTimeout(() => {
-        setRererrerValidationStatus(ReferrerValidationStatusTypes.Valid);
-        const expires = new Date(new Date().getTime() + thirtyDaysDuration);
-        setCookie('referralId', referralId, { path: '/', expires });
-        history.push(pathnameWithoutReferral(location.pathname));
-      }, 5000);
+      contract.methods.affiliateIdToAffiliate(referralId).call()
+        .then((affiliateId: string) => {
+          if (affiliateId !== '0') {
+            return contract.methods.affiliates(affiliateId).call();
+          }
+          throw new Error('Not valid id');
+        })
+        .then((res: any) => {        
+          if (res.enabled === false) {
+            setRererrerValidationStatus(ReferrerValidationStatusTypes.Error);
+            return;
+          }
+
+          setRererrerValidationStatus(ReferrerValidationStatusTypes.Valid);
+          const expires = new Date(new Date().getTime() + thirtyDaysDuration);
+          setCookie('referralId', referralId, { path: '/', expires });
+          history.push(pathnameWithoutReferral(location.pathname));
+        })
+        .catch(() => {
+          setRererrerValidationStatus(ReferrerValidationStatusTypes.Error);
+        });
     } else {
       setRererrerValidationStatus(ReferrerValidationStatusTypes.Error);
     }
