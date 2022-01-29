@@ -3,7 +3,6 @@ import { TextInput } from 'components/common/TextInput';
 import { useLang } from 'hooks/useLang';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
-import web3 from 'utils/web3instance';
 import {
   rexReferralAddress,
 } from 'constants/polygon_config';
@@ -19,7 +18,10 @@ const AFFILIATE_URL_PREFIX = 'app.ricochet.exchange/ref/';
 export const ReferContainer: React.FC<IProps> = () => {
   const { t } = useLang();
   const { address, isReadOnly } = useShallowSelector(selectMain);
-  const contract = getContract(rexReferralAddress, referralABI);
+  const {
+    web3,
+  } = useShallowSelector(selectMain);
+  const contract = getContract(rexReferralAddress, referralABI, web3);
 
   const validations = (input: string) => {
     const criteria: [boolean, string][] = [
@@ -66,7 +68,6 @@ export const ReferContainer: React.FC<IProps> = () => {
       contract.methods.addressToAffiliate(address.toLowerCase()).call()
         .then((affiliateId: string) => contract.methods.affiliates(affiliateId).call())
         .then((res: any) => {
-          console.log(res);
           if (web3.utils.toBN(res.addr).isZero()) {
             setStatus('inactive');
             return;
@@ -88,7 +89,6 @@ export const ReferContainer: React.FC<IProps> = () => {
   useEffect(() => {
     if (status === 'registering' && address && contract) {
       const interval = setInterval(() => {
-        console.log('checking');
         contract.methods.addressToAffiliate(address.toLowerCase()).call()
           .then((affiliateId: string) => contract.methods.affiliates(affiliateId).call())
           .then((res: any) => {

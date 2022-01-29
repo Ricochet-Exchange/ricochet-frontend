@@ -11,7 +11,6 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-
 import { getContract } from 'utils/getContract';
 import { referralABI } from 'constants/abis';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
@@ -27,6 +26,7 @@ const thirtyDaysDuration = 30 * 24 * 60 * 60 * 1000;
 enum ReferrerValidationStatusTypes {
   Loading,
   Error,
+  NotExisting,
   Valid,
 }
 
@@ -42,6 +42,7 @@ const ReferralValidationRedirectPage: FC<IProps> = () => {
     address,
     balances,
     isReadOnly,
+    web3,
   } = useShallowSelector(selectMain);
 
   const [
@@ -52,20 +53,20 @@ const ReferralValidationRedirectPage: FC<IProps> = () => {
   const referralIdMax32Bytes = new Blob([referralId]).size <= 32;
   const location = useLocation();
   const history = useHistory();
-  const contract = getContract(rexReferralAddress, referralABI);
+  const contract = getContract(rexReferralAddress, referralABI, web3);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie] = useCookies(['referralId']);
   useEffect(() => {
     // check contract that this referralId is valid and redirect
-    if (referralId && referralIdMax32Bytes) {
+    if (referralId && referralIdMax32Bytes && web3 && web3.currentProvider) {
       contract.methods.affiliateIdToAffiliate(referralId).call()
-        .then((affiliateId: string) => {
-          if (affiliateId !== '0') {
-            return contract.methods.affiliates(affiliateId).call();
-          }
-          throw new Error('Not valid id');
-        })
-        .then((res: any) => {        
+        .then((affiliateId: string) => contract.methods.affiliates(affiliateId).call())
+        .then((res: any) => {
+          if (web3.utils.toBN(res.addr).isZero()) {
+            setRererrerValidationStatus(ReferrerValidationStatusTypes.NotExisting);
+            return;
+          } 
+          
           if (res.enabled === false) {
             setRererrerValidationStatus(ReferrerValidationStatusTypes.Error);
             return;
@@ -79,10 +80,8 @@ const ReferralValidationRedirectPage: FC<IProps> = () => {
         .catch(() => {
           setRererrerValidationStatus(ReferrerValidationStatusTypes.Error);
         });
-    } else {
-      setRererrerValidationStatus(ReferrerValidationStatusTypes.Error);
     }
-  }, [referralId]);
+  }, [referralId, web3]);
 
   return (
     <MainLayout>
@@ -100,6 +99,11 @@ const ReferralValidationRedirectPage: FC<IProps> = () => {
           {referrerVilidationStatus === ReferrerValidationStatusTypes.Error && (
           <>
             <div>Error during validation of this referral id</div>
+          </>
+          )}
+          {referrerVilidationStatus === ReferrerValidationStatusTypes.NotExisting && (
+          <>
+            <div>This referral id does not exist</div>
           </>
           )}
         </div>
