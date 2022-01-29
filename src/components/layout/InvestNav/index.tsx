@@ -6,7 +6,7 @@ import { selectUserStreams } from 'store/main/selectors';
 import { Routes } from 'constants/routes';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import Link from 'components/common/Link';
-import logo from '../../../assets/images/logo.svg';
+
 import styles from './styles.module.scss';
 
 const TUTORIAL_LINK = 'https://docs.ricochet.exchange/tutorial/using-the-dapp';
@@ -31,16 +31,12 @@ export const InvestNav = () => {
       </NavLink>
       )}
 
-      <div className={styles.logo}>
-        <Link to={Routes.Invest}><img src={logo} alt="Ricochet" /></Link>
-      </div>
-
       <Link 
         to={Routes.Wallet} 
         className={styles.nav_link_desktop_only} 
         activeClassName={styles.nav_link_active}
       >
-        <div>(Wallet)</div>
+        <div>Wallet</div>
       </Link>
      
       <NavLink 
