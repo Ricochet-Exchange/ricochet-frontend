@@ -17,17 +17,26 @@ interface IProps { }
 
 export const ReferContainer: React.FC<IProps> = () => {
   const { t } = useLang();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { address, isReadOnly } = useShallowSelector(selectMain);
+  const contract = getContract(rexReferralAddress, referralABI);
+
   // we could prefill this for the user either trying to fit 
   // their ENS name or trim their address utoo 32 chars.
   const [currentReferralId, setCurrentReferralId] = useState<string | undefined>();
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [referredBy, setReferredBy] = useState<string | undefined>();
 
   useEffect(() => {
-    console.log(address);
     setCurrentReferralId(address.toLowerCase().slice(0, 10));
-  }, [address]);
+
+    contract.methods
+      .customerToAffiliate(address.toLowerCase())
+      .call().then((affiliate: string) => {
+        if (affiliate !== '0') {
+          setReferredBy(affiliate);
+        }
+      });
+  }, [address, contract]);
 
   useEffect(() => {
     // getting the affilitae that has referred current account
@@ -68,9 +77,12 @@ export const ReferContainer: React.FC<IProps> = () => {
   return (
     <div className={styles.container}>
       <div>
-        <span>{t('You have been referred with ❤️')}</span>
-        {/* <FontIcon name={FontIconName.User} className={styles.crimson} size={16} /> */}
-        <span>by 0xFA453...</span>
+        {referredBy && (
+        <span>
+          {t('You have been referred with ❤️ by ')} 
+          {referredBy}
+        </span>
+        )}
       </div>
       <div className={styles.input_wrap}>
         <TextInput
