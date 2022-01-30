@@ -4,7 +4,9 @@
     flex-direction: column;
     text-align: left;
     flex-shrink: 1;
-    background-color: #294661;
+    background-image: linear-gradient(   #363b55,#3c4365, #1c5087);
+    padding-top: 1.5em;
+    width: 10vw;
     min-height: 100vh;
     @include tablet() {
         @include flexbox(flex-start, flex-start);
@@ -16,6 +18,11 @@
     }
 }
 
+.wallet_icon{
+    height: 14px;
+    filter: brightness(0) invert(1);
+}
+
 .logo {
     padding-top: 1em;
     padding-left: 1em;
@@ -23,14 +30,17 @@
   }
 
 .link {
-    padding: 1.5em;
+    padding: 1em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    padding-right: 2em;
     width: 100%;
     text-decoration: none;
-    color: rgba(255, 255, 255, 0.755);
+    color: rgba(255, 255, 255, 0.855);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: small;
+    font-size: smaller;
     width: 100%;
     transition: 0.5s;
     @include tablet() {
@@ -38,7 +48,8 @@
     }
 
     &:hover{
-        background-color: #1d64af;
+        padding-left: 0.5vw;
+        background-color: #3479c4;
     }
 }
 
@@ -76,6 +87,15 @@
 
 @media only screen and (max-width: 769px){
 
+
+    .nav_container {
+        @include flexbox(flex-start, flex-start);
+        flex-direction: row;
+        width: 100%;
+        padding-top: 0em;
+        overflow-x: scroll;
+    }
+
     .nav_link_desktop_only{
         display: none;
     }
@@ -103,13 +123,18 @@
         white-space: nowrap;
         width: 100%;
         margin-bottom: 0;
-        font-size: smaller;
+        font-size: x-small;
     }
 
     .nav_link_active {
         background-color: #2775CA;
         color: rgb(253, 253, 253);
         border-right: 0px solid black;
+    }
+
+    .wallet_icon{
+        height: 2px;
+        filter: brightness(0) invert(1);
     }
     
 }
