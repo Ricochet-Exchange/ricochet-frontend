@@ -3,6 +3,7 @@ import { TextInput } from 'components/common/TextInput';
 import { useLang } from 'hooks/useLang';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
+import { InvestNav } from 'components/layout/InvestNav';
 import {
   rexReferralAddress,
 } from 'constants/polygon_config';
@@ -64,7 +65,6 @@ export const ReferContainer: React.FC<IProps> = () => {
 
   useEffect(() => {
     if (address && contract) {
-      // contract.methods.addressToAffiliate('0xea65fd6c7779b61d4b18c9360c7b52c25e033f53').call()
       contract.methods.addressToAffiliate(address.toLowerCase()).call()
         .then((affiliateId: string) => contract.methods.affiliates(affiliateId).call())
         .then((res: any) => {
@@ -147,80 +147,86 @@ export const ReferContainer: React.FC<IProps> = () => {
   }
 
   return (
-    <div className={styles.container}>
-      <div>
-        {referredBy && (
-        <span>
-          {t('You have been referred with ❤️ by ')} 
-          {referredBy}
-        </span>
+    <div className={styles.outer_container}>
+      <InvestNav />
+      <div className={styles.container}>
+        <div>
+          {referredBy ? (
+            <span>
+              {t('You have been referred with ❤️ by ')} 
+              {referredBy}
+            </span>
+          ) : (
+            <span>
+              {t('You haven\'t been referred by anyone. 🥒 Organic FTW!')} 
+            </span>
+          )}
+          <div className={styles.explainer_container}>
+            <p>
+              <strong>V0 BETA</strong>
+              {' '}
+              Ricochet Referral system is in BETA. Apply to refer your friends and receive a % 
+              of fees that Ricochet Exchange charges. 
+              Becoming an affiliate currently requires manual verification.
+              Any links you register can stop working suddenly and without any 
+              prior notice when we upgrade versions. 
+              We cannot guarantee that referrals will be applied correctly.
+            </p>
+          </div>
+        </div>
+        {(status === 'inactive' || status === 'registering') && (
+        <div className={styles.input_wrap}>
+          <TextInput
+            value={currentReferralId}
+            placeholder={t('Your new referral id')}
+            onChange={handleReferralId}
+            className={styles.input}
+            containerClassName={styles.container_input}
+            left={(
+              <div className={styles.hint}>
+                {AFFILIATE_URL_PREFIX}
+              </div>
+)}
+          />
+          <div className={styles.validation_errors}>
+            {validationErrors.map((each) => <p key={each}>{each}</p>)}
+          </div>
+          <div className={styles.register_wrap}>
+            <ButtonNew
+              color="primary"
+              loaderColor="#363B55"
+              disabled={validationErrors.length > 0}
+              isLoading={status === 'registering'}
+              onClick={handleRegister}
+              className={styles.register}
+            >
+              {t('Register')}
+            </ButtonNew>
+          </div>
+        </div>
         )}
-        <div className={styles.explainer_container}>
+
+        {status === 'awaitingVerification' && (
+        <div>
           <p>
-            <strong>V0 BETA</strong>
-            {' '}
-            Ricochet Referral system is in BETA. Apply to refer your friends and receive a % 
-            of fees that Ricochet Exchange charges. 
-            Becoming an affiliate currently requires manual verification.
-            Any links you register can stop working suddenly and without any 
-            prior notice when we upgrade versions. 
-            We cannot guarantee that referrals will be applied correctly.
+            {t('Awaiting verification. Come back later or ping us on our discord: ')}
+            <a className={styles.black} href="https://discord.gg/mss4t2ED3y" target="_blank" rel="noreferrer">https://discord.gg/mss4t2ED3y</a>
           </p>
         </div>
-      </div>
-      {(status === 'inactive' || status === 'registering') && (
-      <div className={styles.input_wrap}>
-        <TextInput
-          value={currentReferralId}
-          placeholder={t('Your new referral id')}
-          onChange={handleReferralId}
-          className={styles.input}
-          containerClassName={styles.container_input}
-          left={(
-            <div className={styles.hint}>
-              {AFFILIATE_URL_PREFIX}
-            </div>
-)}
-        />
-        <div className={styles.validation_errors}>
-          {validationErrors.map((each) => <p key={each}>{each}</p>)}
-        </div>
-        <div className={styles.register_wrap}>
-          <ButtonNew
-            color="primary"
-            loaderColor="#363B55"
-            disabled={validationErrors.length > 0}
-            isLoading={status === 'registering'}
-            onClick={handleRegister}
-            className={styles.register}
-          >
-            {t('Register')}
-          </ButtonNew>
-        </div>
-      </div>
-      )}
+        )}
 
-      {status === 'awaitingVerification' && (
-      <div>
-        <p>
-          {t('Awaiting verification. Come back later or ping us on our discord: ')}
-          <a className={styles.black} href="https://discord.gg/mss4t2ED3y" target="_blank" rel="noreferrer">https://discord.gg/mss4t2ED3y</a>
-        </p>
+        {status === 'enabled' && (
+        <div className={styles.input_wrap}>
+          <TextInput
+            readOnly
+            value={`${AFFILIATE_URL_PREFIX}${currentReferralId}`}
+            className={styles.input_static}
+            containerClassName={styles.container_input}
+            right={<button className={styles.button_as_text} onClick={handleCopy}>copy</button>}
+          />
+        </div>
+        )}
       </div>
-      )}
-
-      {status === 'enabled' && (
-      <div className={styles.input_wrap}>
-        <TextInput
-          readOnly
-          value={`${AFFILIATE_URL_PREFIX}${currentReferralId}`}
-          className={styles.input_static}
-          containerClassName={styles.container_input}
-          right={<button className={styles.button_as_text} onClick={handleCopy}>copy</button>}
-        />
-      </div>
-      )}
-      
     </div>
   );
 };

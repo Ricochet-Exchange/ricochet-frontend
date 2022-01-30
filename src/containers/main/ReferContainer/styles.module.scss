@@ -1,5 +1,12 @@
 @import '../../../assets/styles/mixins';
 
+.outer_container {
+  display: flex;
+  overflow: auto;
+  @include tablet() {
+    display: block;
+  }
+}
 .container {
   width: 100%;
   height: 100%;
@@ -46,7 +53,7 @@
   
   .input {
     border-radius: 8px;
-    color: var(--color-blue);
+    color: var(--color-blue-dark);
     font-family: $default-font;
     padding: 0;
     font-size: inherit;
@@ -64,7 +71,7 @@
 
   .input_static {
     border-radius: 8px;
-    color: var(--color-blue);
+    color: var(--color-blue-dark);
     font-family: $default-font;
     padding: 0 10px;
     font-size: inherit;
@@ -106,7 +113,8 @@
   background: var(--color-blue-light);
   border: 1px solid var(--color-white);
   padding: 0 10px;
-  color: var(--color-blue-dark);
+  color: var(--color-blue);
+  margin-top: 10px;
 }
 
 .validation_errors {
