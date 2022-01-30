@@ -8,6 +8,7 @@ This is a ricochet app frontend, made in react, using redux and redux-saga.
 # creates a local development making sure that you are using the correct node version
 ./make.sh dev
 
+
 # run tests (by calling yarn script directly)
 ./make.sh test
 ```
