@@ -5,13 +5,12 @@
   background: var(--color-white);
   width: 100%;
   height: 100%;
-  min-height: 100vh;
+
   display: grid;
-  grid-template-columns: 10% 90%;
+  grid-template-columns: 10VW 1fr;;
   @include tablet {
     border-radius: 0;
   }
-
 }
 
 

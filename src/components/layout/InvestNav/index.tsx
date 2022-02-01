@@ -36,7 +36,9 @@ export const InvestNav = () => {
         className={styles.nav_link_desktop_only} 
         activeClassName={styles.nav_link_active}
       >
-        <div>Wallet</div>
+        <img src="https://cdn0.iconfinder.com/data/icons/zondicons/20/wallet-512.png" alt="wallet icon" className={styles.wallet_icon} />
+        &nbsp;Wallet
+        
       </Link>
      
       <NavLink 
