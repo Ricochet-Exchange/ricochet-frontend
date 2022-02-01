@@ -2,6 +2,7 @@ import React from 'react';
 import { InvestNav } from 'components/layout/InvestNav';
 import styles from './styles.module.scss';
 import { Coin, namesCoin, iconsCoin, namesCoinX} from 'constants/coins'
+import { shallowCopy } from 'ethers/lib/utils';
 
 interface IProps {}
 
@@ -31,15 +32,51 @@ const TokenModal = (props: any) => {
               </div>
             </div>
             <div>
-              {
-                tokenList.forEach((item: any) => {
-                  return(
-                    <div className={styles.token_selection} key={item}>
-                      <img className={styles.token_image} src={iconsCoin.WBTC} /> <span>{Coin}</span>
-                    </div>
-                  )
-                })
-              }
+              <div 
+                className={styles.token_selection}>
+                <img src={iconsCoin.RIC} />
+                <span>RIC</span>
+              </div>
+              <div
+                className={styles.token_selection}>
+                <img src={iconsCoin.DAI} />
+                <span>DAIx</span>
+              </div>
+              <div 
+                className={styles.token_selection}>
+                <img src={iconsCoin.MKR} />
+                <span>MKRx</span>
+              </div>
+              <div
+                className={styles.token_selection}>
+                <img src={iconsCoin.USDC} />
+                <span>USDCx</span>
+              </div>
+              <div 
+                className={styles.token_selection}>
+                <img src={iconsCoin.BTC} />
+                <span>WBTCx</span>
+              </div>
+              <div
+                className={styles.token_selection}>
+                <img src={iconsCoin.ETH} />
+                <span>WETHx</span>
+              </div>
+              <div
+                className={styles.token_selection}>
+                <img src={iconsCoin.MATIC} />
+                <span>MATICx</span>
+              </div>
+              <div
+                className={styles.token_selection}>
+                <img src={iconsCoin.SUSHI} />
+                <span>SUSHIx</span>
+              </div>
+              <div
+                className={styles.token_selection}>
+                <img src={iconsCoin.IDLE} />
+                <span>IDLEx</span>
+              </div>
             </div>
           </div>
         </div>
@@ -85,14 +122,15 @@ const SettingsModal = (props: any) => {
 export const TradeContainer :React.FC<IProps> = () => {
   const [superTokenFrom] = React.useState();
   const [superTokenTo] = React.useState();
-  const [ammountIn] = React.useState();
-  const [ammountOut] = React.useState();
+  const [amountIn, setAmountIn] = React.useState();
+  const [amountOut, setAmountOut] = React.useState();
   const [address] = React.useState();
   const [pool] = React.useState();
   const [showTokenModal, setTokenModal] = React.useState(false);
   const [showWaringModal] = React.useState(false);
-  const [tokenA, setTokenA] = React.useState({symbol: "none",token: "select token"});
-  const [tokenB, setTokenB] = React.useState({symbol: "none",token: "select token"});
+  const [tokenA, setTokenA] = React.useState({symbol: "",token: "select token"});
+  const [tokenB, setTokenB] = React.useState({symbol: "",token: "select token"});
+  const [input, setInput] = React.useState('');
 
   const closeTokenModal = () => {
     setTokenModal(false);
@@ -102,20 +140,41 @@ export const TradeContainer :React.FC<IProps> = () => {
     setTokenModal(true);
   };
 
+  const updateAmountIn = (e:any) => {
+    const validNumber = new RegExp(/^\d*\.?\d*$/);
+    if (validNumber.test(e.target.value)) {
+      setAmountIn(e.target.value);
+    }
+  };
+
+  const updateAmountOut = (e:any) => {
+    const validNumber = new RegExp(/^\d*\.?\d*$/);
+    if (validNumber.test(e.target.value)) {
+      setAmountOut(e.target.value);
+    }
+  };
+
+  const Swap = () => {
+  }
+
+  const setCoinA = (token: string, symbol:string) => {
+    setTokenA({token: "", symbol: ""});
+  }
+
   return (
     <>
       <TokenModal onClick={() => closeTokenModal()} display={showTokenModal}/>
-      <WarningModal display={showWaringModal}/>
+      {/*<WarningModal display={showWaringModal}/>*/}
       <div className={styles.outer_container}>
         <InvestNav />
         <div className={styles.container}>
           <div className={styles.trade_box}>
-          <div className={styles.row}>
-            <button>Setting</button>
-          </div>
+            <div className={styles.row}>
+              <button>Setting</button>
+            </div>
             <div className={styles.trade_input}>
               <div>
-                <input placeholder='0.0'/>
+                <input value={amountOut} placeholder='0.0' onInput={(e) => updateAmountOut(e)}/>
               </div>
               <div>
                 <button onClick={() => openTokenModal()} className={styles.swap_option}>
@@ -125,10 +184,9 @@ export const TradeContainer :React.FC<IProps> = () => {
                 <div>balance: 0</div>
               </div>
             </div>
-
             <div className={styles.trade_input}>
               <div>
-                <input placeholder='0.0'/>
+                <input value={amountIn} placeholder='0.0' onInput={(e) =>  updateAmountIn(e)}/>
               </div>
               <div>
                 <button onClick={() => openTokenModal()} className={styles.swap_option}>
@@ -138,7 +196,9 @@ export const TradeContainer :React.FC<IProps> = () => {
                 <div>balance: 0</div>
               </div>
             </div>
-            <div className={styles.trade_button}>
+            <div 
+              className={styles.trade_button} 
+              onClick={() => Swap()}>
               <button>Swap</button>
             </div>
           </div>

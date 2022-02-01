@@ -54,6 +54,10 @@
           padding-right: 10px;
         }
     }
+
+    .token_selection:hover{
+      font-weight: bold;
+    }
   }
 }
 
@@ -91,7 +95,6 @@
     flex-direction: column;
     padding: 20px;
     border: 2px solid var(--color-blue-dark);
-    
     border-radius: 20px;
     .trade_input{
       display: flex;
