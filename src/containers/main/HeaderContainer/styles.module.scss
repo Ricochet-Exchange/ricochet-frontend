@@ -9,9 +9,17 @@
     background-image: linear-gradient( #1c5087, #363b55);
   }
 
+
+
   .settings_wrap {
-   
-  }
+    margin: 0;
+    padding: 0;
+
+
+    @include tablet {
+      display: none;
+    }
+}
 
 
 
