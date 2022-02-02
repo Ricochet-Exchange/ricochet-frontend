@@ -16,6 +16,8 @@ import {
   SUSHIxAddress,
   IDLEAddress,
   IDLExAddress,
+  RICAddress,
+  ZeroAddress,
 } from './polygon_config';
 
 export const upgradeTokensList:{
@@ -25,6 +27,13 @@ export const upgradeTokensList:{
   multi: number,
   key: 'hasWethApprove' | 'hasUsdcApprove' | 'hasWbtcApprove' | 'hasDaiApprove' | 'hasMkrApprove' | 'hasMaticApprove' | 'hasSushiApprove' | 'hasIdleApprove',
 }[] = [
+  {
+    coin: Coin.RIC,
+    tokenAddress: ZeroAddress,
+    superTokenAddress: RICAddress,
+    multi: 1e6,
+    key: 'hasUsdcApprove',
+  },
   {
     coin: Coin.USDC,
     tokenAddress: USDCAddress,

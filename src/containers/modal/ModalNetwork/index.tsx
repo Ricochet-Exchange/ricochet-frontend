@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { mainSwitchNetwork } from 'store/main/actionCreators';
 import ButtonNew from 'components/common/ButtonNew';
+import { chainSettings } from 'constants/chainSettings';
 import styles from './styles.module.scss';
 
 export const ModalNetwork:React.FC = () => {
@@ -12,7 +13,15 @@ export const ModalNetwork:React.FC = () => {
 
   return (
     <div className={styles.wrap}>
-      <p className={styles.title}>You should switch to Polygon network</p>
+      <p className={styles.title}>Switch to Polygon Network</p>
+      <p className={styles.desc}>
+        Metamask Users: Use the following settings, 
+        or the button below.
+      </p>
+      <p className={styles.desc}>
+        Other wallets: Make sure 
+        your wallet supports Polygon.
+      </p>
       <ul className={styles.params}>
         <li>
           <span className={styles.label}>name - </span>
@@ -24,7 +33,7 @@ export const ModalNetwork:React.FC = () => {
         </li>
         <li>
           <span className={styles.label}>RPC URL - </span>
-          https://polygon-rpc.com
+          {chainSettings.rpcUrls}
 
         </li>
         <li>

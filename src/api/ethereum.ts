@@ -13,10 +13,15 @@ import Erc20Abi from 'constants/Erc20.json';
 import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
 import BankAbi from 'constants/Bank.json';
 import Web3 from 'web3';
+import axios from 'axios';
 
-const gasPrice = 35_000_000_000; // 35 gwei default gas
+const polygonApiUrl = 'https://gasstation-mainnet.matic.network/v2';
+const getSuggestedPriorityGasFee = async () => {
+  const fee = await axios.get(polygonApiUrl).then((r) => r.data.standard.maxPriorityFee);
+  return Math.round(fee * (10 ** 9)); // this converts to GWEI
+};
 
-export const downgrade = (
+export const downgrade = async (
   contract: any,
   amount: string,
   address: string,
@@ -24,10 +29,10 @@ export const downgrade = (
   .downgrade(amount)
   .send({
     from: address,
-    gasPrice,
+    maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
   });
 
-export const downgradeMatic = (
+export const downgradeMatic = async (
   contract: any,
   amount: string,
   address: string,
@@ -36,7 +41,7 @@ export const downgradeMatic = (
   .send({
     from: address,
     // value: amount,
-    gasPrice,
+    maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
   });
 
 export const allowance = (
@@ -47,7 +52,7 @@ export const allowance = (
   .allowance(address, superTokenAddress)
   .call();
 
-export const approve = (
+export const approve = async (
   contract: any,
   address: string,
   tokenAddress: string,
@@ -56,10 +61,10 @@ export const approve = (
   .approve(tokenAddress, amount)
   .send({
     from: address,
-    gasPrice,
+    maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
   });
 
-export const upgrade = (
+export const upgrade = async (
   contract: any,
   amount: string,
   address: string,
@@ -67,10 +72,10 @@ export const upgrade = (
   .upgrade(amount)
   .send({
     from: address,
-    gasPrice,
+    maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
   });
 
-export const upgradeMatic = (
+export const upgradeMatic = async (
   contract: any,
   amount: string,
   address: string,
@@ -80,7 +85,7 @@ export const upgradeMatic = (
     .send({
       from: address,
       value: amount,
-      gasPrice,
+      maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
     });
 };
 
@@ -100,7 +105,7 @@ export const stopFlow = async (exchangeAddress: string, inputTokenAddress: strin
       recipient,
       flowRate: '0',
     });
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(e);
   }
 };
@@ -112,6 +117,7 @@ export const startFlow = async (
   outputTokenAddress:string,
   amount: number,
   web3: Web3,
+  referralId?: string,
 ) => {
   const address = await getAddress(web3);
   const superFluid = await getSuperFluid(web3);
@@ -138,6 +144,7 @@ export const startFlow = async (
         flowRate: amount.toString(),
       });
     } else {
+      const userData = referralId ? web3.eth.abi.encodeParameter('string', referralId) : '0x';
       if (outputTokenAddress === RICAddress) {
         call = [
           [
@@ -154,7 +161,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -172,7 +179,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -193,7 +200,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -211,7 +218,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -229,7 +236,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -247,7 +254,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -265,7 +272,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -286,7 +293,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -304,7 +311,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -322,7 +329,7 @@ export const startFlow = async (
                     '0x',
                   )
                   .encodeABI(), // callData
-                '0x', // userData
+                userData, // userData
               ],
             ),
           ],
@@ -330,7 +337,7 @@ export const startFlow = async (
       }
       await superFluid.host.batchCall(call);
     }
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(e);
   }
 };
@@ -345,7 +352,7 @@ export const switchNetwork = async () => {
     });
 
     return true;
-  } catch (error) {
+  } catch (error: any) {
     if (error.code === 4902) {
       try {
         await ethereum.request({
@@ -577,7 +584,10 @@ export const makeDeposit = async (
   let transactionHash;
   const deposit = await bankContract.methods
     .vaultDeposit(amount)
-    .send({ from: accountAddress })
+    .send({ 
+      from: accountAddress,
+      maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
+    })
     .once('transactionHash', (txHash: string) => {
       transactionHash = txHash;
     })
@@ -594,7 +604,10 @@ export const makeBorrow = async (
   let transactionHash;
   const borrow = await bankContract.methods
     .vaultBorrow(amount)
-    .send({ from: accountAddress })
+    .send({ 
+      from: accountAddress,
+      maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
+    })
     .once('transactionHash', (txHash: string) => {
       transactionHash = txHash;
     })
@@ -614,7 +627,10 @@ export const approveToken = async (
     .pow(web3.utils.toBN(255));
   const approveRes = await tokenContract.methods
     .approve(bankAddress, mainWad)
-    .send({ from: accountAddress })
+    .send({ 
+      from: accountAddress,
+      maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
+    })
     .once('transactionHash', (txHash: string) => {
       console.log(txHash);
     })
@@ -632,7 +648,10 @@ export const makeWithdraw = async (
   let transactionHash;
   const whithdraw = await bankContract.methods
     .vaultWithdraw(amount)
-    .send({ from: accountAddress })
+    .send({ 
+      from: accountAddress,
+      maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
+    })
     .once('transactionHash', (txHash: string) => {
       transactionHash = txHash;
     })
@@ -649,7 +668,10 @@ export const makeRepay = async (
   let transactionHash;
   const repay = await bankContract.methods
     .vaultRepay(amount)
-    .send({ from: accountAddress })
+    .send({
+      from: accountAddress,
+      maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
+    })
     .once('transactionHash', (txHash: string) => {
       transactionHash = txHash;
     })

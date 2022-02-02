@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 
 export const ModalMetamask:React.FC = () => (
   <div className={styles.wrap}>
-    <p className={styles.title}>You should install Metamask</p>
+    <p className={styles.title}>Install Metamask</p>
     <a 
       href="https://metamask.io/"
       rel="noopener noreferrer"

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { CookiesProvider } from 'react-cookie';
 import { ConnectedRouter } from 'connected-react-router';
 import { PersistGate } from 'redux-persist/integration/react';
 import App from 'containers/app/App';
@@ -13,13 +14,15 @@ import 'assets/styles/main.scss';
 const root = document.getElementById('root');
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <PersistGate loading={null} persistor={persistor}>
-        <App />
-      </PersistGate>
-    </ConnectedRouter>
-  </Provider>,
+  <CookiesProvider>
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
+      </ConnectedRouter>
+    </Provider>
+  </CookiesProvider>,
   root,
 );
 
