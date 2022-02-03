@@ -148,7 +148,7 @@ export const startFlow = async (
       });
     } else {
       const userData = referralId ? web3.eth.abi.encodeParameter('string', referralId) : '0x';
-      if(inputTokenAddress === USDCxAddress && outputTokenAddress === WETHxAddress){
+      if (inputTokenAddress === USDCxAddress && outputTokenAddress === WETHxAddress) { 
         call = [
           [
             201, // approve the ticket fee
@@ -204,9 +204,8 @@ export const startFlow = async (
               ],
             ),
           ],
-        ];
-      }
-      else if ( inputTokenAddress === WETHxAddress && outputTokenAddress === USDCxAddress) {
+        ]; 
+      } else if (inputTokenAddress === WETHxAddress && outputTokenAddress === USDCxAddress) {
         call = [
           [
             201, // approve the ticket fee
@@ -263,8 +262,7 @@ export const startFlow = async (
             ),
           ],
         ];
-      }
-      else if (outputTokenAddress === RICAddress) {
+      } else if (outputTokenAddress === RICAddress) {
         call = [
           [
             201, // approve the ticket fee
