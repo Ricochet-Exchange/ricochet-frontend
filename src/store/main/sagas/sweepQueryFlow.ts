@@ -1,5 +1,5 @@
 import {
-  call, all, put, select, 
+  call, all, put, select,
 } from 'redux-saga/effects';
 import { RICAddress } from 'constants/polygon_config';
 import { Unwrap } from 'types/unwrap';
@@ -43,7 +43,8 @@ export function* sweepQueryFlow() {
     const totalFlow = parseFloat(flowsOwned);
     const exchangeContract = flow?.superToken || '0';
     const contract = getContract(exchangeContract, streamExchangeABI, web3);
-    const subsidyRate = await contract.methods.getSubsidyRate().call();
+    // NOTE: getSubsidyRate no longer exists, no longer 1 subsidy rate/contract
+    const subsidyRate = 0; //await contract.methods.getSubsidyRate().call();
 
     const subsidyRateTotal = (subsidyRate * 30 * 24 * 60 * 60) / 1e18;
     const subsidyRatePerso = (subsidyRateTotal * outgoing) / totalFlow;

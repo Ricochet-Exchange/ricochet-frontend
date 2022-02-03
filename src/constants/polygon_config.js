@@ -33,6 +33,7 @@ export const usdcxRicExchangeAddress = "0x98d463A3F29F259E67176482eB15107F364c7E
 export const usdcxEthSlpxExchangeAddress = "0xeb367F6a0DDd531666D778BC096d212a235a6f78"
 export const usdcxIdleExchangeAddress = "0xBe79a6fd39a8E8b0ff7E1af1Ea6E264699680584"
 export const rexLPETHAddress = "0x9d5753d8eb0Bc849C695461F866a851F13947CB3"
+export const usdcxEthTwoWayMarket = "0xF6a03FCf12Cdc8066aFaf12255105CA301E15ba6"
 export const SUSHIxAddress = "0xDaB943C03f9e84795DC7BF51DdC71DaF0033382b"
 export const SUSHIAddress = "0x0b3f868e0be5597d5db7feb59e1cadbb0fdda50a"
 export const IDLExAddress = "0xB63E38D21B31719e6dF314D3d2c351dF0D4a9162"
