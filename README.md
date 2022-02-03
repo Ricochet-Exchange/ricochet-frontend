@@ -1,6 +1,6 @@
 ### Ricochet frontend
 
-This is a ricochet app frontend, made in react, using redux and redux-saga.
+This is a ricochet app frontend, made in react, using redux and redux-saga
 
 #### How to start
 
