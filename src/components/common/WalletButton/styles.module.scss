@@ -22,6 +22,7 @@
 
 .icon_wrap {
     margin: 0 0 0 auto;
+    display: flex;
 }
 
 
@@ -31,6 +32,13 @@
     color: var(--color-white);
     width: 12px;
     height: 15.75px;
+}
+
+.avatar {
+    margin-left: 8px;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
 }
 
 .balance {

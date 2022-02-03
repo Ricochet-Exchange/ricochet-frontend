@@ -6,7 +6,7 @@ import { selectUserStreams } from 'store/main/selectors';
 import { Routes } from 'constants/routes';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import Link from 'components/common/Link';
-import logo from '../../../assets/images/logo.svg';
+
 import styles from './styles.module.scss';
 
 const TUTORIAL_LINK = 'https://docs.ricochet.exchange/tutorial/using-the-dapp';
@@ -24,23 +24,21 @@ export const InvestNav = () => {
         activeClassName={styles.nav_link_active} 
         to={Routes.InvestStreams}
       >
-        <FontIcon name={FontIconName.RicoUser} size={16} />
+        <FontIcon name={FontIconName.RicoUser} size={12} />
   &nbsp;Streams (
         {userStreams.length}
         )
       </NavLink>
       )}
 
-      <div className={styles.logo}>
-        <Link to={Routes.Invest}><img src={logo} alt="Ricochet" /></Link>
-      </div>
-
       <Link 
         to={Routes.Wallet} 
         className={styles.nav_link_desktop_only} 
         activeClassName={styles.nav_link_active}
       >
-        <div>(Wallet)</div>
+        <img src="https://cdn0.iconfinder.com/data/icons/zondicons/20/wallet-512.png" alt="wallet icon" className={styles.wallet_icon} />
+        &nbsp;Wallet
+        
       </Link>
      
       <NavLink 
@@ -49,7 +47,7 @@ export const InvestNav = () => {
         activeClassName={styles.nav_link_active} 
         to={Routes.Invest}
       >
-        <FontIcon name={FontIconName.Swap} size={16} />
+        <FontIcon name={FontIconName.Swap} size={12} />
           &nbsp;Market
       </NavLink>
 
@@ -58,7 +56,7 @@ export const InvestNav = () => {
         activeClassName={styles.nav_link_active} 
         to={Routes.InvestLiquidityMarkets}
       >
-        <FontIcon name={FontIconName.Loop} size={16} />
+        <FontIcon name={FontIconName.Loop} size={12} />
   &nbsp;Streaming
       </NavLink>
 
@@ -67,7 +65,7 @@ export const InvestNav = () => {
         activeClassName={styles.nav_link_active} 
         to={Routes.InvestLaunchpads}
       >
-        <FontIcon name={FontIconName.Shuttle} size={16} />
+        <FontIcon name={FontIconName.Shuttle} size={12} />
   &nbsp;Launchpad
       </NavLink>
       
@@ -76,7 +74,7 @@ export const InvestNav = () => {
         activeClassName={styles.nav_link_active} 
         to={Routes.Banks}
       >
-        <FontIcon name={FontIconName.Bank} size={16} />
+        <FontIcon name={FontIconName.Bank} size={12} />
   &nbsp;Bank
       </NavLink>
 
@@ -91,6 +89,14 @@ export const InvestNav = () => {
       </NavLink>
       )}
 
+      <NavLink 
+        to={Routes.Refer} 
+        className={styles.nav_link_desktop_only} 
+        activeClassName={styles.nav_link_active}
+      >
+        <div>Refer</div>
+      </NavLink>
+      
       <NavLink
         className={styles.link}
         to={{ pathname: TUTORIAL_LINK }}

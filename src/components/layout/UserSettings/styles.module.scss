@@ -145,6 +145,7 @@
   flex-direction: column;
  width: 100%;
  transition: 0.7s;
+ padding: 1em;
  cursor: pointer;
   &:hover{
     background-color: lightgray;
@@ -184,7 +185,8 @@
   font-family: $default-font;
   background: var(--color-white);
   border-radius: 20px;
-  padding: 30px 30px 40px 20px;
+  border: 1px solid rgba(0, 0, 0, 0.632);
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.374);
   filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.15));
 }
 
@@ -232,4 +234,12 @@
   letter-spacing: -0.01em;
   white-space: nowrap;
   margin: 10px;
+}
+
+@media only screen and (max-width: 769px){
+  .user_settings {
+    background-image: linear-gradient(   #363b55,#3c4365, #1c5087);
+    padding: 1em;
+    height: 100%;
+  }
 }

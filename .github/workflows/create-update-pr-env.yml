@@ -35,9 +35,10 @@ jobs:
           node-version: 14
       
       - name: check dependencies
-        run: yarn audit 
-        continue-on-error: true
-      
+        run: |
+          export NODE_OPTIONS="--max_old_space_size=4096"
+          yarn && yarn build
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -118,3 +119,15 @@ jobs:
         run: |
           echo "your PR environment is available on this url:"
           echo a380c3be5e6284f4ca1dfc37a12b3033-851332533.eu-west-1.elb.amazonaws.com/"$BRANCH_NAME"
+     
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            - A test environment has been created, visit this url
+            - https://a380c3be5e6284f4ca1dfc37a12b3033-851332533.eu-west-1.elb.amazonaws.com/${{ steps.branch-name.outputs.BRANCH }}  **Markdown** :sparkles:
+            - this environment will be destroyed once the pull request is merged or closed
+            - Created by ricochet-CI
+          reactions: '+1'
+
