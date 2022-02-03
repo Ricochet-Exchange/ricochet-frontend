@@ -10,3 +10,11 @@
   border: none;
   color: inherit;
 }
+
+@media screen and (max-width: 768px) {
+  .popper{
+    padding: 0;
+    border: 1px solid black;
+  }
+    
+}

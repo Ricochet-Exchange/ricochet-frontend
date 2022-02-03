@@ -1,82 +1,60 @@
 import React from 'react';
 import { InvestNav } from 'components/layout/InvestNav';
 import styles from './styles.module.scss';
-import { Coin, namesCoin, iconsCoin, namesCoinX} from 'constants/coins'
-import { shallowCopy } from 'ethers/lib/utils';
+import { Coin, iconsCoin } from 'constants/coins';
 
 interface IProps {}
 
-const TokenModal = (props: any) => {
+const TokenButton = (props: any ) => {
+  return(
+    <button
+      onClick={props.chooseToken}
+      className={styles.token_selection}>
+      <img className={styles.token_selection_image} src={props.symbol} alt="token image"/>
+      <span className={styles.token_selection_token}>{props.token}</span>
+    </button>
+  )
+}
+
+const TokenModal = (props: any, {closeTokenModal}: {closeTokenModal: void}) => {
   const [tokenList, setTokenList] = React.useState<any>();
   
   React.useEffect(() => {
     const result = Object.entries(Coin);
-    setTokenList(result);
+    setTokenList(result)
   }, []);
+
+
+  const Token = (image: string, name: any) => {
+    //console.log(image, name);
+    props.chooseToken(image, name);
+  }
 
   return (
     <>
       {
       props.display ?
         <div className={styles.modal}>
-          
           <div className={styles.modal_container}>
             <div className={styles.row}>
-              <div>
-                Select Token:
+              <div className={styles.modal_title}>
+                <h2>Select Token:</h2>
               </div>
-              <div>
-                <button onClick={props.onClick}>
-                  X
+              <div className={styles.modal_title}>
+                <button onClick={props.closeTokenModal}>
+                  <h2>X</h2>
                 </button>
               </div>
             </div>
             <div>
-              <div 
-                className={styles.token_selection}>
-                <img src={iconsCoin.RIC} />
-                <span>RIC</span>
-              </div>
-              <div
-                className={styles.token_selection}>
-                <img src={iconsCoin.DAI} />
-                <span>DAIx</span>
-              </div>
-              <div 
-                className={styles.token_selection}>
-                <img src={iconsCoin.MKR} />
-                <span>MKRx</span>
-              </div>
-              <div
-                className={styles.token_selection}>
-                <img src={iconsCoin.USDC} />
-                <span>USDCx</span>
-              </div>
-              <div 
-                className={styles.token_selection}>
-                <img src={iconsCoin.BTC} />
-                <span>WBTCx</span>
-              </div>
-              <div
-                className={styles.token_selection}>
-                <img src={iconsCoin.ETH} />
-                <span>WETHx</span>
-              </div>
-              <div
-                className={styles.token_selection}>
-                <img src={iconsCoin.MATIC} />
-                <span>MATICx</span>
-              </div>
-              <div
-                className={styles.token_selection}>
-                <img src={iconsCoin.SUSHI} />
-                <span>SUSHIx</span>
-              </div>
-              <div
-                className={styles.token_selection}>
-                <img src={iconsCoin.IDLE} />
-                <span>IDLEx</span>
-              </div>
+              <TokenButton token="RIC" symbol={iconsCoin.RIC} chooseToken={() => Token("RIC", iconsCoin.RIC)}/>
+              <TokenButton token="DAIx" symbol={iconsCoin.DAI} chooseToken={() => Token("DAIx", iconsCoin.DAI)}/>
+              <TokenButton token="MKRx" symbol={iconsCoin.MKR} chooseToken={() => Token("MKRx", iconsCoin.MKR)}/>
+              <TokenButton token="WBTCx" symbol={iconsCoin.WBTC} chooseToken={() => Token("WBTC", iconsCoin.BTC)}/>
+              <TokenButton token="WETHx" symbol={iconsCoin.ETH} chooseToken={() => Token("WETHx", iconsCoin.ETH)}/>
+              <TokenButton token="MATICx" symbol={iconsCoin.MATIC} chooseToken={() => Token("MATICx", iconsCoin.MATIC)}/>
+              <TokenButton token="SUSHIx" symbol={iconsCoin.SUSHI} chooseToken={() => Token("SUSHIx", iconsCoin.SUSHI)}/>
+              <TokenButton token="IDLEx" symbol={iconsCoin.IDLE} chooseToken={() => Token("IDLEx", iconsCoin.IDLE)}/>
             </div>
           </div>
         </div>
@@ -87,6 +65,7 @@ const TokenModal = (props: any) => {
   )
 };
 
+/*
 const WarningModal = (props: any) => {
   return (
     <>
@@ -117,11 +96,12 @@ const SettingsModal = (props: any) => {
       }
     </>
   )
-};
+};*/
 
 export const TradeContainer :React.FC<IProps> = () => {
   const [superTokenFrom] = React.useState();
   const [superTokenTo] = React.useState();
+  const [isTokenA, setIsTokenA] = React.useState(false);
   const [amountIn, setAmountIn] = React.useState();
   const [amountOut, setAmountOut] = React.useState();
   const [address] = React.useState();
@@ -131,13 +111,15 @@ export const TradeContainer :React.FC<IProps> = () => {
   const [tokenA, setTokenA] = React.useState({symbol: "",token: "select token"});
   const [tokenB, setTokenB] = React.useState({symbol: "",token: "select token"});
   const [input, setInput] = React.useState('');
-
+  const childRef = React.useRef();
+  
   const closeTokenModal = () => {
     setTokenModal(false);
   };
 
-  const openTokenModal = () => {
+  const openTokenModal = (choice: boolean) => {
     setTokenModal(true);
+    setIsTokenA(choice);
   };
 
   const updateAmountIn = (e:any) => {
@@ -154,31 +136,39 @@ export const TradeContainer :React.FC<IProps> = () => {
     }
   };
 
-  const Swap = () => {
+  const Swap = () => { 
   }
 
-  const setCoinA = (token: string, symbol:string) => {
-    setTokenA({token: "", symbol: ""});
-  }
+  const setCoin = (token: string, symbol:string) => {
+    if(isTokenA){
+      setTokenA({token: token, symbol: symbol});
+    }else{
+      setTokenB({token: token, symbol: symbol});
+    }
+  };
+
+  const chooseToken = (token: string, symbol:string) => {
+    setCoin(token, symbol);
+    closeTokenModal();
+  };
 
   return (
     <>
-      <TokenModal onClick={() => closeTokenModal()} display={showTokenModal}/>
-      {/*<WarningModal display={showWaringModal}/>*/}
+      <TokenModal 
+        closeTokenModal={() => closeTokenModal()}
+        chooseToken={(token: string, symbol:string) => chooseToken(token, symbol)}
+        display={showTokenModal}/>
       <div className={styles.outer_container}>
         <InvestNav />
         <div className={styles.container}>
           <div className={styles.trade_box}>
-            <div className={styles.row}>
-              <button>Setting</button>
-            </div>
             <div className={styles.trade_input}>
               <div>
                 <input value={amountOut} placeholder='0.0' onInput={(e) => updateAmountOut(e)}/>
               </div>
               <div>
-                <button onClick={() => openTokenModal()} className={styles.swap_option}>
-                  <div>{tokenA.symbol}</div>
+                <button onClick={() => openTokenModal(true)} className={styles.swap_option}>
+                  <div><img className={styles.token_selection_image} src={tokenA.symbol} alt="token image"/></div>
                   <div>{tokenA.token}</div>
                 </button>
                 <div>balance: 0</div>
@@ -189,8 +179,8 @@ export const TradeContainer :React.FC<IProps> = () => {
                 <input value={amountIn} placeholder='0.0' onInput={(e) =>  updateAmountIn(e)}/>
               </div>
               <div>
-                <button onClick={() => openTokenModal()} className={styles.swap_option}>
-                  <div>{tokenB.symbol}</div>
+                <button onClick={() => openTokenModal(false)} className={styles.swap_option}>
+                  <div><img className={styles.token_selection_image} src={tokenB.symbol} alt="token image"/></div>
                   <div>{tokenB.token}</div>
                 </button>
                 <div>balance: 0</div>

@@ -160,4 +160,5 @@ export type MainState = {
   selectedUpgradeCoin: Coin,
   coinType: Coin,
   isReadOnly: boolean,
+  referralId?: string,
 };

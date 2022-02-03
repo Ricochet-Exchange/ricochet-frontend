@@ -203,7 +203,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
           <tr>
             <td> Currency</td>
             <td>
-              Your Wallet
+              Wallet
               <br />
               Balance
             </td>
@@ -283,8 +283,8 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                     <div className={styles.currDisplay}>
                       <div className={styles.currDisplayImg}>
                         <img
-                          height="24px"
-                          width="24px"
+                          height="18px"
+                          width="18px"
                           src={iconsCoin[token.coin]}
                           alt="icon for token"
                         />

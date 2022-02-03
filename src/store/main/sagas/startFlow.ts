@@ -30,7 +30,9 @@ export function* startFlowSaga({ payload }: ReturnType<typeof startFlowAction >)
       config.superToken,
       config.tokenA,
       config.tokenB,
-      normalizedAmount, web3);
+      normalizedAmount,
+      web3,
+      config.referralId);
     payload.callback();
     yield call(sweepQueryFlow);
   } catch (e) {

@@ -25,7 +25,7 @@ export const UserSettings: FC<IProps> = ({
   className,
 }) => {
   const history = useHistory();
-  const { ensName } = useENS(account);
+  const { ensName, ensAvatar } = useENS(account);
   const handleFundButton = () =>
     invokeRamp(
       {
@@ -41,7 +41,7 @@ export const UserSettings: FC<IProps> = ({
 
   return (
     <div className={styles.user_settings}>
-      <WalletButton ricBalance={ricBalance} account={ensName || account} />
+      <WalletButton ricBalance={ricBalance} account={ensName || account} avatar={ensAvatar} />
       {!preConnect && (
         <ButtonNew
           disabled={isReadOnly}

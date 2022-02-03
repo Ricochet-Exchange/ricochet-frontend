@@ -17,6 +17,7 @@
   z-index: 99999999;
   min-width: 100vw;
   height: 100vh;
+  top: 0%;
   padding-top: 100px;
 
   button{
@@ -47,6 +48,14 @@
         justify-content: flex-start;
         cursor: pointer;
         padding: 10px;
+
+        .token_selection_image{
+          padding-right: 10px;
+        }
+
+        .token_selection_token{
+          font-size: 20px;
+        }
 
         .token_image{
           width: 30px;
