@@ -252,3 +252,16 @@
 
   }
 }
+
+@media only screen and (max-width: 359px){
+
+  .displaybutton{
+    height: 22px;
+    width: 30px;
+  }
+
+  .upgrade_downgrade_head{
+    font-size: xx-small;
+    text-align: left;
+  }
+}
