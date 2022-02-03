@@ -99,19 +99,19 @@ const SettingsModal = (props: any) => {
 };*/
 
 export const TradeContainer :React.FC<IProps> = () => {
-  const [superTokenFrom] = React.useState();
-  const [superTokenTo] = React.useState();
+  //const [superTokenFrom] = React.useState();
+  //const [superTokenTo] = React.useState();
   const [isTokenA, setIsTokenA] = React.useState(false);
   const [amountIn, setAmountIn] = React.useState();
   const [amountOut, setAmountOut] = React.useState();
-  const [address] = React.useState();
-  const [pool] = React.useState();
+  //const [address] = React.useState();
+  //const [pool] = React.useState();
   const [showTokenModal, setTokenModal] = React.useState(false);
-  const [showWaringModal] = React.useState(false);
-  const [tokenA, setTokenA] = React.useState({symbol: "",token: "select token"});
-  const [tokenB, setTokenB] = React.useState({symbol: "",token: "select token"});
-  const [input, setInput] = React.useState('');
-  const childRef = React.useRef();
+  //const [showWaringModal] = React.useState(false);
+  const [tokenA, setTokenA] = React.useState({symbol: undefined, token: "select token"});
+  const [tokenB, setTokenB] = React.useState({symbol: undefined, token: "select token"});
+  //const [input, setInput] = React.useState('');
+  //const childRef = React.useRef();
   
   const closeTokenModal = () => {
     setTokenModal(false);
@@ -141,15 +141,20 @@ export const TradeContainer :React.FC<IProps> = () => {
 
   const setCoin = (token: string, symbol:string) => {
     if(isTokenA){
-      setTokenA({token: token, symbol: symbol});
+      if(tokenB.token !== token){
+        setTokenA({token: token, symbol: symbol});
+        closeTokenModal();
+      }
     }else{
-      setTokenB({token: token, symbol: symbol});
+      if(tokenA.token !== token){
+        setTokenB({token: token, symbol: symbol});
+        closeTokenModal();
+      }
     }
   };
 
   const chooseToken = (token: string, symbol:string) => {
     setCoin(token, symbol);
-    closeTokenModal();
   };
 
   return (
@@ -168,7 +173,12 @@ export const TradeContainer :React.FC<IProps> = () => {
               </div>
               <div>
                 <button onClick={() => openTokenModal(true)} className={styles.swap_option}>
-                  <div><img className={styles.token_selection_image} src={tokenA.symbol} alt="token image"/></div>
+                  {
+                    tokenA.symbol ?
+                      <div><img className={styles.token_selection_image} src={tokenA.symbol} alt="token image"/></div>
+                      :
+                      null
+                  }
                   <div>{tokenA.token}</div>
                 </button>
                 <div>balance: 0</div>
@@ -180,7 +190,12 @@ export const TradeContainer :React.FC<IProps> = () => {
               </div>
               <div>
                 <button onClick={() => openTokenModal(false)} className={styles.swap_option}>
-                  <div><img className={styles.token_selection_image} src={tokenB.symbol} alt="token image"/></div>
+                  {
+                    tokenB.symbol ?
+                      <div><img className={styles.token_selection_image} src={tokenB.symbol} alt="token image"/></div>
+                      :
+                      null
+                  }
                   <div>{tokenB.token}</div>
                 </button>
                 <div>balance: 0</div>
