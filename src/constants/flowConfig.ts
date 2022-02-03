@@ -2,13 +2,11 @@ import { Routes } from 'constants/routes';
 import { Coin } from './coins';
 import {
   USDCxAddress,
-  usdcxWethxExchangeAddress,
   WETHxAddress,
   usdcxRicExchangeAddress,
   RICAddress,
   WBTCxAddress,
   usdcxWbtcxExchangeAddress,
-  wethxUsdcxExchangeAddress,
   wbtcxUsdcxExchangeAddress,
   daixMkrxExchangeAddress,
   DAIxAddress,
@@ -27,6 +25,7 @@ import {
   usdcxIdleExchangeAddress,
   usdcxEthSlpxExchangeAddress,
   rexLPETHAddress,
+  twoWayMarketAddress,
 } from './polygon_config';
 
 export enum FlowEnum {
@@ -47,6 +46,7 @@ export enum FlowEnum {
   usdcRicFlowQuery = 'usdcRicFlowQuery',
   usdcSlpEthFlowQuery = 'usdcSlpEthFlowQuery',
   usdcIdleFlowQuery = 'usdcIdleFlowQuery',
+  usdcEthTwoWayFlowQuery = 'usdcEthTwoWayFlowQuery',
 }
 
 export enum FlowTypes {
@@ -85,7 +85,7 @@ const markets: InvestmentFlow[] = [
     type: FlowTypes.market,
   },
   {
-    superToken: usdcxWethxExchangeAddress,
+    superToken: twoWayMarketAddress,
     tokenA: USDCxAddress,
     tokenB: WETHxAddress,
     coinA: Coin.USDC,
@@ -103,7 +103,7 @@ const markets: InvestmentFlow[] = [
     type: FlowTypes.market,
   },
   {
-    superToken: wethxUsdcxExchangeAddress,
+    superToken: twoWayMarketAddress,
     tokenA: WETHxAddress,
     tokenB: USDCxAddress,
     coinA: Coin.WETH,
