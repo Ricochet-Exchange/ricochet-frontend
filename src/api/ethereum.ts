@@ -132,8 +132,8 @@ export const startFlow = async (
   const isSubscribed = await idaContract.methods
     .getSubscription(
       outputTokenAddress,
-      exchangeAddress, // publisher
-      0, // indexId
+      twoWayMarketAddress, // publisher
+      1, // indexId
       sfUser.address,
     )
     .call();
@@ -141,7 +141,7 @@ export const startFlow = async (
     if (isSubscribed.approved) {
       await sfUser.flow({
         recipient: await superFluid.user({
-          address: exchangeAddress,
+          address: twoWayMarketAddress,
           token: inputTokenAddress,
         }), // address: would be rickosheaAppaddress, currently not deployed
         flowRate: amount.toString(),
