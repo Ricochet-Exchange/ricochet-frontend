@@ -111,10 +111,7 @@ export const InvestContainer :React.FC<IProps> = () => {
             containerClassName={styles.container_input}
             left={<FontIcon name={FontIconName.Search} className={styles.search} size={16} />}
           />
-          {
-          
-              <ShowDistribution />
-          }
+          <ShowDistribution />
         </div>
 
         <div className={styles.headers}>
