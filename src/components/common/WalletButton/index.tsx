@@ -8,11 +8,14 @@ import styles from './styles.module.scss';
 
 interface IProps {
   account: string;
+  avatar?: string;
   ricBalance?: string;
   mobile?: boolean;
 }
 
-export const WalletButton: FC<IProps> = ({ ricBalance = '', account, mobile }) => {
+export const WalletButton: FC<IProps> = ({
+  ricBalance = '', account, mobile, avatar,
+}) => {
   const dispatch = useDispatch();
   const preConnect = account === 'Connect Wallet';
   const [connecting, setConnecting] = useState(false);
@@ -38,17 +41,20 @@ export const WalletButton: FC<IProps> = ({ ricBalance = '', account, mobile }) =
         {/* eslint-disable-next-line no-nested-ternary */}
         {connecting ? 'Connecting' : (mobile ? (preConnect ? account : 'Connected') : (preConnect ? account : account.substring(0, 6)))}
       </div>
-      
+
       <div className={styles.icon_wrap}>
         {!preConnect && (
-        <FontIcon
-          className={styles.icon}
-          name={FontIconName.RicoUser}
-          size={16}
-        />
+          avatar ? <img className={styles.avatar} src={avatar} alt="user avatar" />
+            : (
+              <FontIcon
+                className={styles.icon}
+                name={FontIconName.RicoUser}
+                size={16}
+              />
+            )
         )}
       </div>
-      
+
     </ButtonNew>
   );
 };

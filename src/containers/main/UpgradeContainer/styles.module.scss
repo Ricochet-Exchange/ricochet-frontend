@@ -31,13 +31,12 @@
     font-style: normal;
     font-weight: 500;
     font-size: 12px;
-    line-height: 140%;
+    line-height: 120%;
     text-transform: uppercase;
     color: var(--color-grey);
     text-align: left;
     letter-spacing: 0px;
     border-bottom: 1px solid var(--color-blue);
-
   }
   
   .dextable th, 
@@ -99,6 +98,7 @@
   justify-content: space-evenly;
   gap: 10px;
   float: right;
+
 }
 
 .displaybutton span.upgradeButton {
@@ -107,7 +107,7 @@
   text-align: center;
   display: inline-block;
   border-radius: 4px;
-  background-color: rgba(16,187,52,.15);
+  background-color: rgba(16, 171, 50, 0.15);
   cursor: pointer;
   padding: 3px;
   color: #10bb34;
@@ -215,4 +215,53 @@
 .dot {
   color: var(--color-blue);
   margin: 0 0 0 23px;
+}
+
+
+@media only screen and (max-width: 769px){
+
+  .settings_mob {
+    display: none;
+  
+    @include tablet {
+      display: block;
+      width: 100%;
+      padding: 0px 0 0 0;
+      position: relative;
+    }
+  }
+
+  .currDisplayName{
+    font-size: x-small;
+  }
+
+  .wrapper {
+    font-family: $default-font;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+  }
+  
+  .dextable th, 
+  .dextable td {
+    word-break:keep-all;
+
+    line-height: 25px;
+    text-align: right;
+    border-right: 1px solid rgba(161, 175, 202, 0.53);
+
+  }
+}
+
+@media only screen and (max-width: 359px){
+
+  .displaybutton{
+    height: 22px;
+    width: 30px;
+  }
+
+  .upgrade_downgrade_head{
+    font-size: xx-small;
+    text-align: left;
+  }
 }

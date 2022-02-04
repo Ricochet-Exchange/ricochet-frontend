@@ -15,12 +15,7 @@
 }
 
 .container {
-  padding: 13px 36px 13px 30px;
-  width: 100%;
-
-  @include tablet {
-    padding: 20px 14px 6px 15px;
-  }
+  padding: 2em
 }
 
 .wrap {
@@ -264,4 +259,12 @@
     justify-content: space-evenly;
     text-align: right;
   }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: 80%;
+  }
+  
+
 }

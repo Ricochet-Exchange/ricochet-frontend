@@ -1,12 +1,13 @@
 @import 'assets/styles/_mixins.scss';
 .nav_container {
     @include flexbox(flex-start, flex-start);
-    border-right: 1px var(--color-blue-light) solid;
-    padding: 1.75rem 1rem 1.75rem 1.75rem;
     flex-direction: column;
     text-align: left;
     flex-shrink: 1;
-    max-width: 23vw;
+    background-image: linear-gradient(   #363b55,#3c4365, #1c5087);
+    padding-top: 1.5em;
+    width: 10vw;
+    min-height: 100vh;
     @include tablet() {
         @include flexbox(flex-start, flex-start);
         flex-direction: row;
@@ -17,35 +18,51 @@
     }
 }
 
+.wallet_icon{
+    height: 14px;
+    filter: brightness(0) invert(1);
+}
+
+.logo {
+    padding-top: 1em;
+    padding-left: 1em;
+    padding-bottom: 1em;
+  }
+
 .link {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    margin-right: 0;
-    margin-bottom: 0.5rem;
+    padding: 1em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    padding-right: 2em;
+    width: 100%;
     text-decoration: none;
-    color: var(--color-black);
+    color: rgba(255, 255, 255, 0.855);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 100%;
+    font-size: smaller;
+    width: 100%;
+    transition: 0.5s;
     @include tablet() {
         margin-bottom: 0.5rem;
-        margin-right: 0.5rem;
+    }
+
+    &:hover{
+        padding-left: 0.5vw;
+        background-color: #3479c4;
     }
 }
 
 .nav_link {
     cursor: pointer;
     @extend .link;
-    border-radius: 9999px;
-    background-color: var(--color-white-dark);
+    
 }
 
 .nav_link_active {
-    background-color: var(--color-blue-dark);
-    color: var(--color-white-dark);
+    background-color: #2775CA;
+    color: rgb(255, 255, 255);
+    border-right: 1px solid black;
 }
 
 .vaultIcon{
@@ -60,4 +77,73 @@
 
 .vaultIcon:active{
     fill: white;
+}
+
+.nav_link_desktop_only{
+    cursor: pointer;
+    @extend .link;
+}
+
+@media only screen and (max-width: 769px){
+    .nav_container {
+        @include flexbox(flex-start, flex-start);
+        flex-direction: row;
+        width: 100%;
+        padding-top: 0em;
+        overflow-x: scroll;
+        height: 100%;
+    }
+
+    .nav_link_desktop_only{
+        display: none;
+    }
+
+    .logo {
+        display: none;
+      }
+
+    .nav_container {
+        display: flex;
+        min-height: 0;
+        flex-direction: row;
+        flex-wrap: wrap;
+        text-align: left;
+        background-color: #294661;
+        flex-wrap: nowrap;
+    }
+
+    .link {
+        padding: 1em;
+        width: 100%;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.75);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+        margin-bottom: 0;
+        font-size: x-small;
+    }
+
+    .nav_link_active {
+        background-color: #2775CA;
+        color: rgb(253, 253, 253);
+        border-right: 0px solid black;
+    }
+
+    .wallet_icon{
+        height: 2px;
+        filter: brightness(0) invert(1);
+    }
+    
+    .nav_link_name{
+        display: none;
+    }
+}
+
+
+@media only screen and (max-width: 480px){
+    .link {
+        font-size: xx-small;
+    }
 }

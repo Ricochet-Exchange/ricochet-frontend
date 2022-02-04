@@ -1,9 +1,67 @@
 @import '../../../assets/styles/mixins';
 
 
+
+
+@media only screen and (min-width: 769px){
+  .header_wrap{
+    height: 9vh; 
+    background-image: linear-gradient( #1c5087, #363b55);
+  }
+
+
+
+  .settings_wrap {
+    margin: 0;
+    padding: 0;
+
+
+    @include tablet {
+      display: none;
+    }
+}
+
+
+
+  .links {
+ 
+  }
+
+  .dca_link {
+    
+  }
+
+  .dca_link,
+  .upgrade_link {
+    display: none
+  }
+
+  .active {
+    
+  }
+
+
+  .mob_menu {
+  
+  }
+
+  .mob_panel {
+    
+  }
+
+  .mob_head {
+  
+  }
+
+  .dot {
+   
+  }
+}
+
+
 .header_wrap {
   @include flexbox(center, space-between);
-
+  padding-left: 1em;
   width: 100%;
   position: relative;
 
@@ -25,13 +83,7 @@
     }
 }
 
-.logo {
-  margin: 46px 0 46px 0;
 
-  @include tablet {
-    margin: 24px 0 40px 20px;
-  }
-}
 
 .links {
   @include flexbox(center, center);
