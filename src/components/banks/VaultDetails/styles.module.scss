@@ -147,3 +147,18 @@
 .bankIcon {
   color: var(--color-black);
 }
+
+
+
+@media only screen and (max-width: 769px){
+  .VaultDetails__header {
+    padding: 2em;
+  }
+
+  .VaultDetails__content {
+    @include flexbox(flex-start, space-around);
+    width: 100%;
+    padding: 2em;
+    flex-wrap: wrap;
+  }
+}

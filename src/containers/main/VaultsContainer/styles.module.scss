@@ -92,3 +92,10 @@
 .bankIcon {
   color: var(--color-blue);
 }
+
+
+@media only screen and (max-width: 769px){
+  .container {
+    padding: 0;
+  }
+}

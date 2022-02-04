@@ -61,9 +61,11 @@ export const VaultTransaction: FC<Props> = ({
   return (
     <div className={styles.VaultTransaction}>
       <LoadingWrapper
+        loadingBar
         isLoading={isLoadingTransaction}
         className={styles.fullframe}
         classNameLoader={styles.loader}
+        loadingReason="This transaction is being processed, check your Metamask wallet extension and please do NOT leave or refresh this page until confirmation is completed."
       >
         <>
           <div className={styles.VaultTransaction__preview}>
@@ -128,35 +130,37 @@ export const VaultTransaction: FC<Props> = ({
               {activeTransaction === 'repay' ? (
                 <Button
                   label="repay max"
-                  presentation="link"
                   onClick={onMaxRepay}
                   className={styles.linkButton}
                 />
               ) : null}
               <Button
-                label="MAX"
+                label="Max"
                 className={styles.linkButton}
-                presentation="link"
                 onClick={onMaxAmount}
               />
               <Button
                 label="cancel"
-                presentation="link"
                 onClick={onCancel}
                 className={styles.linkButton}
               />
-              <Button
-                label={activeTransaction}
-                className={styles.actionButton}
-                onClick={onMakeAction}
-                disabled={!value}
-              />
+              
             </div>
+            <Button
+              label={activeTransaction}
+              className={styles.actionButton}
+              onClick={onMakeAction}
+              disabled={!value}
+            />
           </div>
 
           {error ? (
             <div className={styles.errorWrap}>
-              <p>{error}</p>
+              <p> 
+                {error}
+                <br />
+                We could not complete your request.  
+              </p>
             </div>
           ) : null}
         </>

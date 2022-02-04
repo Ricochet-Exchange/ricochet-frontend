@@ -37,3 +37,19 @@
     flex-direction: row;
     align-self: center;
 }
+
+@media only screen and (max-width: 769px){
+
+  
+.button {
+   
+    height: 40px;
+    padding: 6.4px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    width: 130px;
+    margin-right: 25px;
+    
+}
+}

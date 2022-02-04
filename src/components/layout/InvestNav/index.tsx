@@ -70,7 +70,7 @@ export const InvestNav = () => {
       </NavLink>
       
       <NavLink
-        className={styles.nav_link} 
+        className={styles.link} 
         activeClassName={styles.nav_link_active} 
         to={Routes.Banks}
       >
@@ -80,7 +80,7 @@ export const InvestNav = () => {
 
       {(location.pathname === Routes.Banks || location.pathname === Routes.Vaults) && (
       <NavLink
-        className={cx(styles.nav_link)}
+        className={cx(styles.link)}
         activeClassName={styles.nav_link_active}
         to={Routes.Vaults}
       >

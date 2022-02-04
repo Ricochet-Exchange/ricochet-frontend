@@ -3,8 +3,7 @@
 .VaultTransaction {
   width: 100%;
   @include lightshadow;
-  padding: 8vh 4vw 8vh 4vw;
-
+  padding-bottom: 2em;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -12,9 +11,6 @@
 
   background-color: #f5f7fa;
   border-radius: 0 0 10px 10px;
-  @include tablet {
-    padding: 8vh 1.5vw 8vh 1.5vw;
-  }
 }
 
 .fullframe {
@@ -28,10 +24,11 @@
 }
 
 .VaultTransaction__preview {
+  margin-left: 5em;
   padding: 20px;
   flex: 1;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-around;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -44,6 +41,8 @@
   font-size: 0.875rem;
   line-height: 1.15rem;
   margin: 0;
+  display: flex;
+  
   color: #848484;
 }
 
@@ -56,13 +55,11 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-end;
+  width: 50vw;
 }
 
 .VaultTransaction__form {
-  width: 100%;
-  max-width: 330px;
+  padding: 2.5em;
 }
 
 .VaultTransaction__form p {
@@ -71,12 +68,12 @@
 }
 
 .VaultTransaction__buttons {
-  margin: 20px 0 0 0;
+  padding: 1em;
+  padding-left: 2em;
+  display: flex;
+  flex-direction: row;
 }
 
-.VaultTransaction__buttons .purplebutton {
-  width: 235px;
-}
 
 .loader{
   @include not_blur();
@@ -84,11 +81,15 @@
 }
 
 .linkButton {
-    text-decoration: underline;
-    font-family: inherit;
-    font-size: 16px;
-    font-weight: 700;
-    margin-right: 15px;
+  border-color: $purple;
+  height: 40px;
+  padding: 6.4px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  width: 200px;
+  background-color: white;
+  margin-left: 0.5em;
 }
 
 .actionButton {
@@ -106,6 +107,7 @@
   transition-duration: 0.05s;
   transition-timing-function: ease-in-out;
   transition-delay: 0s;
+  margin-left: 2.5em;
 }
 
 .actionButton:hover:not(:disabled) {
@@ -120,4 +122,63 @@
 
 .errorWrap {
   align-self: flex-start;
+  margin-left: 5em;
+}
+
+@media only screen and (max-width: 769px){
+
+  .VaultTransaction {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .fullframe {
+    
+    display: flex;
+    flex-direction:column;
+  }
+
+  .VaultTransaction__preview {
+    text-align: center;
+    align-items: center;
+    margin-left: 0em;
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  
+
+.VaultTransaction__form__Total {
+  width: 100%;
+  text-align: center;
+}
+
+.VaultTransaction__form {
+  padding: 0em;
+}
+
+.VaultTransaction__buttons {
+  padding-left: 4.5em;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.loader{
+  @include not_blur();
+  background-color: #f5f7fa;
+}
+
+.linkButton {
+  margin-top: 0.5em;
+}
+
+.actionButton {
+
+  margin-left: 4.5em;
+}
+
 }

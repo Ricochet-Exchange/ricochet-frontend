@@ -32,7 +32,7 @@
 .link {
     padding: 1em;
     padding-top: 1.5em;
-    padding-bottom: 1.5em;
+
     padding-right: 2em;
     width: 100%;
     text-decoration: none;
@@ -43,10 +43,7 @@
     font-size: smaller;
     width: 100%;
     transition: 0.5s;
-    @include tablet() {
-        margin-bottom: 0.5rem;
-    }
-
+  
     &:hover{
         padding-left: 0.5vw;
         background-color: #3479c4;
@@ -110,6 +107,7 @@
         text-align: left;
         background-color: #294661;
         flex-wrap: nowrap;
+       
     }
 
     .link {
@@ -123,6 +121,10 @@
         width: 100%;
         margin-bottom: 0;
         font-size: x-small;
+    }
+
+    .nav_link{
+        padding: 1em;
     }
 
     .nav_link_active {
@@ -140,7 +142,6 @@
         display: none;
     }
 }
-
 
 @media only screen and (max-width: 480px){
     .link {

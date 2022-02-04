@@ -15,3 +15,48 @@
   @include blur();
 }
 
+
+
+.loading_reason_header{
+  font-size: large;
+  color: #F7B91A;
+  width: 80%;
+}
+
+.loading_bar{
+
+}
+
+@keyframes page-load {
+  from {
+      background-color: #ffc42200;
+      width: 0%;
+  }
+  to {
+      background-color: #c0392b;
+      width: 100%;
+  }
+}
+.loading_bar::before {
+  content:" ";
+  
+  top: 0;
+  left: 0;
+  position: absolute;
+  display:block;
+  z-index:10;
+  height:10px;
+  width:100%;
+  background-color:#06D;
+  animation: page-load infinite ease-out 16s;
+  box-shadow:0 2px 2px rgba(0,0,0,.2);
+}
+
+@media only screen and (max-width: 769px){
+  
+.loader {
+  display: flex;
+  flex-direction: column;
+}
+
+}
