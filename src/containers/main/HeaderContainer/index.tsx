@@ -10,6 +10,7 @@ import { useLang } from 'hooks/useLang';
 import ButtonNew from 'components/common/ButtonNew';
 import { WalletButton } from 'components/common/WalletButton';
 import { useTranslation } from 'i18n';
+import logo from '../../../assets/images/logo.svg';
 import styles from './styles.module.scss';
 import menuImg from '../../../assets/images/menu.svg';
 
@@ -33,6 +34,10 @@ export const HeaderContainer:FC<IProps> = ({ address, balance, isReadOnly }) => 
   return (
     <div className={styles.header_wrap}>
       <div className={styles.mob_panel}>
+
+        <div className={styles.logo}>
+          <Link to={Routes.Invest}><img src={logo} alt="Ricochet" /></Link>
+        </div>
        
         <div className={styles.links}>
           <Link

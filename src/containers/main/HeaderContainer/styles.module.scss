@@ -5,13 +5,21 @@
 
 @media only screen and (min-width: 769px){
   .header_wrap{
-    height: 10vh; 
-    background-color: #294661;
+    height: 9vh; 
+    background-image: linear-gradient( #1c5087, #363b55);
   }
 
+
+
   .settings_wrap {
-   
-  }
+    margin: 0;
+    padding: 0;
+
+
+    @include tablet {
+      display: none;
+    }
+}
 
 
 

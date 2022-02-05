@@ -18,12 +18,12 @@ export const UserSettings: FC<IProps> = ({
   account,
   className,
 }) => {
-  const { ensName } = useENS(account);
+  const { ensName, ensAvatar } = useENS(account);
   const { t } = useTranslation('main');
 
   return (
     <div className={styles.user_settings}>
-      <WalletButton ricBalance={ricBalance} account={ensName || account} />
+      <WalletButton ricBalance={ricBalance} account={ensName || account} avatar={ensAvatar} />
       <div className={styles.dot_wrap}>
         <div className={styles.button}>
           <Dropdown
