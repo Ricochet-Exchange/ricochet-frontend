@@ -18,10 +18,10 @@ export const InvestNav = () => {
     <div className={styles.nav_container}>
       {userStreams.length > 0 && (
 
-      <NavLink 
-        className={styles.nav_link} 
+      <NavLink
+        className={styles.nav_link}
         exact
-        activeClassName={styles.nav_link_active} 
+        activeClassName={styles.nav_link_active}
         to={Routes.InvestStreams}
       >
         <FontIcon name={FontIconName.RicoUser} size={12} />
@@ -31,51 +31,51 @@ export const InvestNav = () => {
       </NavLink>
       )}
 
-      <Link 
-        to={Routes.Wallet} 
-        className={styles.nav_link_desktop_only} 
+      <Link
+        to={Routes.Wallet}
+        className={styles.nav_link_desktop_only}
         activeClassName={styles.nav_link_active}
       >
         <img src="https://cdn0.iconfinder.com/data/icons/zondicons/20/wallet-512.png" alt="wallet icon" className={styles.wallet_icon} />
-        &nbsp;Wallet
-        
+        &nbsp;&nbsp;Wallet
+
       </Link>
-     
-      <NavLink 
-        className={styles.nav_link} 
-        exact  
-        activeClassName={styles.nav_link_active} 
+
+      <NavLink
+        className={styles.nav_link}
+        exact
+        activeClassName={styles.nav_link_active}
         to={Routes.Invest}
       >
         <FontIcon name={FontIconName.Swap} size={12} />
-          &nbsp;Market
+          &nbsp;Markets
       </NavLink>
 
-      <NavLink 
-        className={styles.nav_link} 
-        activeClassName={styles.nav_link_active} 
+      <NavLink
+        className={styles.nav_link}
+        activeClassName={styles.nav_link_active}
         to={Routes.InvestLiquidityMarkets}
       >
         <FontIcon name={FontIconName.Loop} size={12} />
-  &nbsp;Streaming
+        &nbsp;Liquidity Pools
       </NavLink>
 
-      <NavLink 
-        className={styles.nav_link} 
-        activeClassName={styles.nav_link_active} 
+      <NavLink
+        className={styles.nav_link}
+        activeClassName={styles.nav_link_active}
         to={Routes.InvestLaunchpads}
       >
         <FontIcon name={FontIconName.Shuttle} size={12} />
-  &nbsp;Launchpad
+  &nbsp;Launchpads
       </NavLink>
-      
+
       <NavLink
-        className={styles.nav_link} 
-        activeClassName={styles.nav_link_active} 
+        className={styles.nav_link}
+        activeClassName={styles.nav_link_active}
         to={Routes.Banks}
       >
         <FontIcon name={FontIconName.Bank} size={12} />
-  &nbsp;Bank
+  &nbsp;Banks
       </NavLink>
 
       {(location.pathname === Routes.Banks || location.pathname === Routes.Vaults) && (
@@ -89,14 +89,14 @@ export const InvestNav = () => {
       </NavLink>
       )}
 
-      <NavLink 
-        to={Routes.Refer} 
-        className={styles.nav_link_desktop_only} 
+      <NavLink
+        to={Routes.Refer}
+        className={styles.nav_link_desktop_only}
         activeClassName={styles.nav_link_active}
       >
         <div>Refer</div>
       </NavLink>
-      
+
       <NavLink
         className={styles.link}
         to={{ pathname: TUTORIAL_LINK }}
@@ -105,7 +105,7 @@ export const InvestNav = () => {
         Tutorial&nbsp;
         <FontIcon name={FontIconName.External} size={16} />
       </NavLink>
-       
+
     </div>
   );
 };

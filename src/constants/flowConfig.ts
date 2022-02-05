@@ -9,7 +9,7 @@ import {
 } from './polygon_config';
 
 export enum FlowEnum {
-  usdcEthTwoWayFlowQuery = 'usdcEthTwoWayFlowQuery',
+  usdcWethFlowQuery = 'usdcWethFlowQuery',
 }
 
 export enum FlowTypes {
