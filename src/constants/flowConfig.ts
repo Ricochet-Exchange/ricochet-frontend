@@ -10,6 +10,7 @@ import {
 
 export enum FlowEnum {
   usdcWethFlowQuery = 'usdcWethFlowQuery',
+  wethUsdcFlowQuery = 'wethUsdcFlowQuery',
 }
 
 export enum FlowTypes {
