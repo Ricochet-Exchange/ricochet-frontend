@@ -10,7 +10,6 @@ interface IProps {
   account: string;
   ricBalance?: string;
   className?: string;
-  isReadOnly?: boolean;
 }
 
 export const UserSettings: FC<IProps> = ({
