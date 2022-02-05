@@ -5,9 +5,6 @@
 </div>
 <br>
 <div align="center">
-    <a href="https://github.com/Ricochet-Exchange/ricochet-frontend/actions/workflows/nodejs.yml">
-        <img src="https://github.com/Ricochet-Exchange/ricochet-frontend/actions/workflows/nodejs.yml/badge.svg" alt="Node CI">
-    </a>
     <img src="https://img.shields.io/github/commit-activity/w/Ricochet-Exchange/ricochet-frontend" alt="GitHub commit activity">
     <a href="https://github.com/Ricochet-Exchange/ricochet-frontend/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22">
         <img src="https://img.shields.io/github/issues/Ricochet-Exchange/ricochet-frontend/help wanted" alt="GitHub issues help wanted">
