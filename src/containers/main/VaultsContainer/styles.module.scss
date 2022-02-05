@@ -94,8 +94,51 @@
 }
 
 
+.sign_in_card{
+  height: 50vh;
+  width: 30vw;
+  border: 2px solid black;
+  display: flex;
+  align-items: center;
+  box-shadow: 3px 3px rgba(133, 132, 132, 0.496);
+  border-radius: 5%;
+  background-color: #678EB5;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.sign_in_header{
+  width: 70%;
+  text-align: center;
+  color: white;
+  margin-bottom: 3em;
+  margin-top: 3em;
+}
+
 @media only screen and (max-width: 769px){
   .container {
     padding: 0;
+  }
+
+  .sign_in_card{
+    margin-top: 1em;
+
+    width: 80vw;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    box-shadow: 3px 3px rgba(133, 132, 132, 0.496);
+    border-radius: 5%;
+    background-color: #678EB5;
+    justify-content: flex-start;
+    flex-direction: column;
+  }
+  
+  .sign_in_header{
+    width: 70%;
+    text-align: center;
+    color: white;
+    margin-bottom: 3em;
+    margin-top: 3em;
   }
 }

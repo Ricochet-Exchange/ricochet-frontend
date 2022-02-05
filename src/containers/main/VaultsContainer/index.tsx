@@ -89,9 +89,9 @@ export const VaultsContainer = () => {
                 ) : (
                   <div className={styles.vault_empty}>
                     <p>
-                      You didn&apos;t create a vault yet.
+                      Welcome to REXVault
                       <br />
-                      <strong>Choose a bank to create a vault with.</strong>
+                      <strong>Open your bank to see your vault.</strong>
                     </p>
                     <Link
                       className={styles.link}
@@ -115,10 +115,13 @@ export const VaultsContainer = () => {
           </>
         ) : (
           <div className={styles.container}>
-            <p>Sign in to see your vaults</p>
-            <SignInButton
-              onClick={handleSignIn}
-            />
+            <div className={styles.sign_in_card}>
+              <h2 className={styles.sign_in_header}>Sign in to see your vaults</h2>
+              <SignInButton
+                onClick={handleSignIn}
+              />
+            </div>
+          
           </div>
         )}
       </div>

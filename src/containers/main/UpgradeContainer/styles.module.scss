@@ -48,6 +48,8 @@
 
 
   }
+
+  
   
   .dextable td.section {
     text-align: right;
@@ -78,6 +80,7 @@
 .currDisplay {  
   display: flex;
   align-items: flex-start;
+  justify-content: center;
   flex-direction: row;
   gap: 5px;
   

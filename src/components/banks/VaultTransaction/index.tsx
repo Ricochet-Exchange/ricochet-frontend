@@ -113,6 +113,7 @@ export const VaultTransaction: FC<Props> = ({
 
                   <TextInput
                     type="number"
+                    min="1"
                     value={value}
                     onChange={onChange}
                     right={(
@@ -129,18 +130,20 @@ export const VaultTransaction: FC<Props> = ({
             <div className={styles.VaultTransaction__buttons}>
               {activeTransaction === 'repay' ? (
                 <Button
-                  label="repay max"
+                  label="Repay max"
+                  disabled={activeTransaction === 'repay' && needsRepayUnlock()}
                   onClick={onMaxRepay}
                   className={styles.linkButton}
                 />
               ) : null}
               <Button
+                disabled={(activeTransaction === 'repay' && needsRepayUnlock())}
                 label="Max"
                 className={styles.linkButton}
                 onClick={onMaxAmount}
               />
               <Button
-                label="cancel"
+                label="Cancel"
                 onClick={onCancel}
                 className={styles.linkButton}
               />

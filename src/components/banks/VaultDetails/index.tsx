@@ -58,7 +58,14 @@ export const VaultDetails: FC<Props> = ({
           <div className={styles.BankData}>
             <div className={styles.BankDataTxt}>
               <p className={styles.BankName}>{bank.name}</p>
-              <p>{truncateAddr(bank.bankAddress)}</p>
+              <a  
+                href="https://polygonscan.com/address/0xe78dc447d404695541b540f2fbb7682fd24d778b"
+                target="_blank"
+                rel="noreferrer"
+                className={styles.polyscan_bank_link}
+              >
+                <p>{truncateAddr(bank.bankAddress)}</p>
+              </a>
             </div>
             <FontIcon
               className={styles.bankIcon}
