@@ -88,14 +88,6 @@ export const InvestNav = () => {
         &nbsp;Vault
       </NavLink>
       )}
-
-      <NavLink 
-        to={Routes.Refer} 
-        className={styles.nav_link_desktop_only} 
-        activeClassName={styles.nav_link_active}
-      >
-        <div>Refer</div>
-      </NavLink>
       
       <NavLink
         className={styles.link}
