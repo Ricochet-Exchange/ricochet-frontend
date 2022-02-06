@@ -8,6 +8,9 @@ import {
   rexLPETHAddress,
   SUSHIxAddress,
   MATICxAddress,
+  USDCxAddress,
+  WETHxAddress,
+  twoWayMarketAddress,
 } from 'constants/polygon_config';
 import Erc20Abi from 'constants/Erc20.json';
 import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
@@ -129,8 +132,8 @@ export const startFlow = async (
   const isSubscribed = await idaContract.methods
     .getSubscription(
       outputTokenAddress,
-      exchangeAddress, // publisher
-      0, // indexId
+      twoWayMarketAddress, // publisher
+      1, // indexId
       sfUser.address,
     )
     .call();
@@ -138,14 +141,128 @@ export const startFlow = async (
     if (isSubscribed.approved) {
       await sfUser.flow({
         recipient: await superFluid.user({
-          address: exchangeAddress,
+          address: twoWayMarketAddress,
           token: inputTokenAddress,
         }), // address: would be rickosheaAppaddress, currently not deployed
         flowRate: amount.toString(),
       });
     } else {
       const userData = referralId ? web3.eth.abi.encodeParameter('string', referralId) : '0x';
-      if (outputTokenAddress === RICAddress) {
+      if (inputTokenAddress === USDCxAddress && outputTokenAddress === WETHxAddress) { 
+        call = [
+          [
+            201, // approve the ticket fee
+            superFluid.agreements.ida.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.ida.contract.methods
+                  .approveSubscription(
+                    outputTokenAddress,
+                    twoWayMarketAddress,
+                    0, // INDEX_ID
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                userData, // userData
+              ],
+            ),
+          ],
+          [
+            201, // approve the ticket fee
+            superFluid.agreements.ida.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.ida.contract.methods
+                  .approveSubscription(
+                    RICAddress,
+                    twoWayMarketAddress,
+                    2, // INDEX_ID
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                userData, // userData
+              ],
+            ),
+          ],
+          [
+            201, // create constant flow (10/mo)
+            superFluid.agreements.cfa.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.cfa.contract.methods
+                  .createFlow(
+                    inputTokenAddress,
+                    twoWayMarketAddress,
+                    amount.toString(),
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                userData, // userData
+              ],
+            ),
+          ],
+        ]; 
+      } else if (inputTokenAddress === WETHxAddress && outputTokenAddress === USDCxAddress) {
+        call = [
+          [
+            201, // approve the ticket fee
+            superFluid.agreements.ida.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.ida.contract.methods
+                  .approveSubscription(
+                    USDCxAddress,
+                    twoWayMarketAddress,
+                    1, // INDEX_ID
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                userData, // userData
+              ],
+            ),
+          ],
+          [
+            201, // approve the ticket fee
+            superFluid.agreements.ida.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.ida.contract.methods
+                  .approveSubscription(
+                    RICAddress,
+                    twoWayMarketAddress,
+                    3, // INDEX_ID
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                userData, // userData
+              ],
+            ),
+          ],
+          [
+            201, // create constant flow (10/mo)
+            superFluid.agreements.cfa.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.cfa.contract.methods
+                  .createFlow(
+                    inputTokenAddress,
+                    twoWayMarketAddress,
+                    amount.toString(),
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                userData, // userData
+              ],
+            ),
+          ],
+        ];
+      } else if (outputTokenAddress === RICAddress) {
         call = [
           [
             201, // approve the ticket fee

@@ -1,8 +1,6 @@
 import { startFlow } from 'api/ethereum';
 import { idaABI } from 'constants/abis';
-import {
-  idaAddress,
-} from 'constants/polygon_config';
+import { idaAddress } from 'constants/polygon_config';
 import { call, select } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getContract } from 'utils/getContract';
@@ -23,6 +21,7 @@ export function* startFlowSaga({ payload }: ReturnType<typeof startFlowAction >)
       idaAddress,
       idaABI, web3,
     );
+    
     const { config } = payload;
     const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
     yield call(startFlow,
