@@ -9,7 +9,6 @@ import styles from './styles.module.scss';
 
 interface IProps {
   account: string;
-  avatar?: string;
   ricBalance?: string;
   mobile?: boolean;
 }
