@@ -111,8 +111,8 @@ position: relative;
 }
 
 @media screen and (max-width: 768px) {
-  .container{
-    padding:0;
-  } 
-  
+  .container {
+    padding: 0;
+    min-height: 100vh;
+  }
 }

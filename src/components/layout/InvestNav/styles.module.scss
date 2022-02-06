@@ -7,16 +7,7 @@
     background-image: linear-gradient(   #363b55,#3c4365, #1c5087);
     padding-top: 1.5em;
     width: 10vw;
-    min-height: 100vh;
-
-    @include tablet() {
-        @include flexbox(flex-start, flex-start);
-        flex-direction: row;
-        max-width: 100%;
-        text-align: center;
-        border-right: none;
-        flex-wrap: wrap;
-    }
+    min-height: 100vh; 
 }
 
 .wallet_icon{
@@ -84,12 +75,13 @@
 
 @media only screen and (max-width: 769px){
     .nav_container {
-        @include flexbox(flex-start, flex-start);
-        flex-direction: row;
-        width: 100%;
         padding-top: 0em;
-        overflow-x: scroll;
-        height: 100%;
+        min-height: 10vh; 
+        width: 100vw;
+        height: 10vh;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(2, 1fr);
     }
 
     .nav_link_desktop_only{
@@ -100,16 +92,6 @@
         display: none;
       }
 
-    .nav_container {
-        display: flex;
-        min-height: 0;
-        flex-direction: row;
-        flex-wrap: wrap;
-        text-align: left;
-        background-color: #294661;
-        flex-wrap: nowrap;
-       
-    }
 
     .link {
         padding: 1em;
@@ -119,13 +101,17 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        width: 100%;
-        margin-bottom: 0;
+        height: 100%;
+        margin-bottom: 0em;
+        margin-top: 0em;
         font-size: x-small;
     }
 
     .nav_link{
+        height: 100%;
         padding: 1em;
+        margin-bottom: 0em;
+        margin-top: 0em;
     }
 
     .nav_link_active {
@@ -135,8 +121,8 @@
     }
 
     .wallet_icon{
-        height: 2px;
-        filter: brightness(0) invert(1);
+        height: 2em;
+        filter: brightness(0) invert(0.8);
     }
     
     .nav_link_name{

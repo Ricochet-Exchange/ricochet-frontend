@@ -65,7 +65,7 @@ export const VaultTransaction: FC<Props> = ({
         isLoading={isLoadingTransaction}
         className={styles.fullframe}
         classNameLoader={styles.loader}
-        loadingReason="This transaction is being processed, check your Metamask wallet extension and please do NOT leave or refresh this page until confirmation is completed."
+        loadingReason="This transaction is being processed, check your Metamask wallet extension and please do NOT leave or refresh this page until confirmation is complete."
       >
         <>
           <div className={styles.VaultTransaction__preview}>
@@ -161,7 +161,7 @@ export const VaultTransaction: FC<Props> = ({
           {error ? (
             <div className={styles.errorWrap}>
               <p> 
-                We could not complete your request, please check back with Metamask and return at a later time
+                Metamask transactions take time to verify, please return at a later time.
               </p>
             </div>
           ) : null}

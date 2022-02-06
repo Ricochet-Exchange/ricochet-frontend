@@ -91,7 +91,7 @@ export const InvestNav = () => {
 
       <NavLink 
         to={Routes.Refer} 
-        className={styles.nav_link_desktop_only} 
+        className={styles.nav_link} 
         activeClassName={styles.nav_link_active}
       >
         <img src="https://i.imgur.com/EUjSB0N.png" alt="Referral icon" className={styles.wallet_icon} />
@@ -100,7 +100,7 @@ export const InvestNav = () => {
 
       <NavLink 
         to={Routes.Contracts} 
-        className={styles.nav_link_desktop_only} 
+        className={styles.nav_link} 
         activeClassName={styles.nav_link_active}
       >
         <img src="https://i.imgur.com/0QPB3ro.png" alt="Contract Icon" className={styles.wallet_icon} />
