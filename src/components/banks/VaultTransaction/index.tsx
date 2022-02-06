@@ -142,27 +142,26 @@ export const VaultTransaction: FC<Props> = ({
                 className={styles.linkButton}
                 onClick={onMaxAmount}
               />
-              <Button
-                label="Cancel"
-                onClick={onCancel}
-                className={styles.linkButton}
-              />
-              
             </div>
+            
             <Button
               label={activeTransaction}
               className={styles.actionButton}
               onClick={onMakeAction}
               disabled={!value}
             />
+
+            <Button
+              label="Cancel"
+              onClick={onCancel}
+              className={styles.linkButton}
+            />
           </div>
 
           {error ? (
             <div className={styles.errorWrap}>
               <p> 
-                {error}
-                <br />
-                We could not complete your request.  
+                We could not complete your request, please check back with Metamask and return at a later time
               </p>
             </div>
           ) : null}

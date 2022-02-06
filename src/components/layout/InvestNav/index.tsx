@@ -94,7 +94,17 @@ export const InvestNav = () => {
         className={styles.nav_link_desktop_only} 
         activeClassName={styles.nav_link_active}
       >
-        <div>Refer</div>
+        <img src="https://i.imgur.com/EUjSB0N.png" alt="Referral icon" className={styles.wallet_icon} />
+        &nbsp;Refer
+      </NavLink>
+
+      <NavLink 
+        to={Routes.Contracts} 
+        className={styles.nav_link_desktop_only} 
+        activeClassName={styles.nav_link_active}
+      >
+        <img src="https://i.imgur.com/0QPB3ro.png" alt="Contract Icon" className={styles.wallet_icon} />
+        &nbsp;Contracts
       </NavLink>
       
       <NavLink

@@ -76,6 +76,19 @@ export const UserSettings: FC<IProps> = ({
                     {t('Join the community on Discord')}
                   </span>
                 </li>
+                <li className={styles.discord}>
+                  <a
+                    className={styles.head}
+                    href="https://docs.ricochet.exchange/docs/network-directory"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {t('Contracts')}
+                  </a>
+                  <span className={styles.description}>
+                    {t('Check out our Contracts on Polyscan')}
+                  </span>
+                </li>
                 <li className={styles.terms}>
                   <a
                     className={styles.head}

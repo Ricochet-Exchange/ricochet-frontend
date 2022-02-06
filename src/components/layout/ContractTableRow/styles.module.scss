@@ -1,0 +1,67 @@
+@import 'assets/styles/mixins';
+@import 'assets/styles/variables';
+
+.table{
+    margin-top: 2em;
+}
+
+.contract_table{
+    border: 1px solid lightgray;
+
+    width: 70%;
+}
+
+.contract_row{
+    margin-top: 0;
+    padding-top: 0;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    border: 1px solid lightgray ;
+    padding-left: 1em;
+}
+
+.column_title{
+    color: #47494c;
+    font-weight: 400;
+}
+
+.contract_link_wrapper{
+    font-size: small;
+    color: rgb(27, 109, 137);
+}
+
+@media only screen and (max-width: 1000px){
+    
+    .contract_table{
+        border: 1px solid lightgray;
+
+        width: 90%;
+    }
+
+}
+
+
+@media only screen and (max-width: 769px){
+    .contract_table{
+        border: 1px solid lightgray;
+        width: 100%;
+    }
+
+    
+    .column_title{
+        color: #47494c;
+        font-weight: 400;
+        font-size: x-small;
+    }
+
+    .contract_link_wrapper{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-left: 1em;
+    }
+  
+    .main_header{
+        margin-left: 1em;
+    }
+}

@@ -15,6 +15,7 @@
   padding: 6.4px 20px;
   font-size: 16px;
   border-radius: 8px;
+  width: 200px;
   font-weight: 700;
   transition-property: all;
   transition-duration: 0.05s;
@@ -29,5 +30,13 @@
 }
 
 .approveToken {
-  @include flexbox(center, center);
+  @include flexbox(left, left);
+}
+
+@media only screen and (max-width: 769px){
+
+  .approveToken {
+    @include flexbox(center, center);
+  }
+
 }

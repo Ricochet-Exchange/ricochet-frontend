@@ -1,0 +1,33 @@
+@import 'assets/styles/mixins';
+@import 'assets/styles/variables';
+
+.container {
+    width: 100%;
+    height: 100%;
+    padding-left: 2em;
+    padding-bottom: 2em;
+}
+
+.main_header{
+  color:#222529;
+}
+
+.small_header{
+  color:#6F767E; 
+}
+
+@media only screen and (max-width: 786px) {
+  .container {
+    width: 100vw;
+    padding-left: 0em;
+    padding-bottom: 2em;
+}
+
+.main_header{
+  margin-left: 1em;
+}
+
+.small_header{
+  margin-left: 1em;
+}
+}

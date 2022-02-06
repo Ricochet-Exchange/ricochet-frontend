@@ -8,6 +8,7 @@
     padding-top: 1.5em;
     width: 10vw;
     min-height: 100vh;
+
     @include tablet() {
         @include flexbox(flex-start, flex-start);
         flex-direction: row;
@@ -20,6 +21,7 @@
 
 .wallet_icon{
     height: 14px;
+    margin-right: 0.5em;
     filter: brightness(0) invert(1);
 }
 
@@ -32,7 +34,7 @@
 .link {
     padding: 1em;
     padding-top: 1.5em;
-
+    border-bottom: 1px solid rgba(245, 245, 245, 0.101);
     padding-right: 2em;
     width: 100%;
     text-decoration: none;
@@ -53,7 +55,6 @@
 .nav_link {
     cursor: pointer;
     @extend .link;
-    
 }
 
 .nav_link_active {

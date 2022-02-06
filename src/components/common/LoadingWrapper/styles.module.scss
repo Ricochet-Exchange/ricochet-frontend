@@ -19,7 +19,7 @@
 
 .loading_reason_header{
   font-size: large;
-  color: #F7B91A;
+  color: #191918;
   width: 80%;
 }
 
@@ -45,7 +45,7 @@
   position: absolute;
   display:block;
   z-index:10;
-  height:10px;
+  height:3px;
   width:100%;
   background-color:#06D;
   animation: page-load infinite ease-out 16s;

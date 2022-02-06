@@ -230,6 +230,13 @@ export const ReferContainer: React.FC<IProps> = () => {
           />
         </div>
         )}
+
+        <div className={styles.referral_contract}>
+          <h4 className=''>Check out the referral contract on PolygonScan</h4>
+          <a href='https://polygonscan.com/address/0xA0eC9E1542485700110688b3e6FbebBDf23cd901' target="_blank">
+            View Contract
+          </a>
+        </div>
       </div>
     </div>
   );
