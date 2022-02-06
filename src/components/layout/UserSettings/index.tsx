@@ -78,7 +78,7 @@ export const UserSettings: FC<IProps> = ({
                     {t('Join the community on Discord')}
                   </span>
                 </li>
-                <li className={styles.discord}>
+                <li className={styles.terms}>
                   <a
                     className={styles.head}
                     href="https://github.com/Ricochet-Exchange/ricochet-frontend/blob/main/TERMS.md"
