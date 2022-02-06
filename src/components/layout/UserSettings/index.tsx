@@ -3,7 +3,6 @@ import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { Dropdown } from 'components/common/Dropdown';
 import { useTranslation } from 'i18n';
 import { WalletButton } from 'components/common/WalletButton';
-import useENS from 'hooks/useENS';
 import styles from './styles.module.scss';
 
 interface IProps {
@@ -17,12 +16,11 @@ export const UserSettings: FC<IProps> = ({
   account,
   className,
 }) => {
-  const { ensName, ensAvatar } = useENS(account);
   const { t } = useTranslation('main');
 
   return (
     <div className={styles.user_settings}>
-      <WalletButton ricBalance={ricBalance} account={ensName || account} avatar={ensAvatar} />
+      <WalletButton ricBalance={ricBalance} account={account} />
       <div className={styles.dot_wrap}>
         <div className={styles.button}>
           <Dropdown
