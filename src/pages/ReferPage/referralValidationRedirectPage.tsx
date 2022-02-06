@@ -15,7 +15,7 @@ import { getContract } from 'utils/getContract';
 import { referralABI } from 'constants/abis';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { selectMain } from 'store/main/selectors';
-import { Routes } from 'constants/routes';
+import { REFERRAL_URL_PREFIX } from 'constants/routes';
 import { Loader } from '../../components/common/Loader';
 import styles from './stylesReferralValidationRedirectPage.module.scss';
 
@@ -31,7 +31,7 @@ enum ReferrerValidationStatusTypes {
 }
 
 const pathnameWithoutReferral = (pathname: string) => {
-  const referralWord = Routes.Referral.split('/')[1];
+  const referralWord = REFERRAL_URL_PREFIX;
   const pathnameParts = pathname.split('/');
   const index = pathnameParts.findIndex((each) => each === referralWord);
   return pathnameParts.slice(0, index).join('/');
