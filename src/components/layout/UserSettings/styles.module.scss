@@ -139,7 +139,8 @@
 
 .docs,
 .paper,
-.discord {
+.discord,
+.terms {
   @include flexbox(flex-start, center);
  height: 100%;
   flex-direction: column;
@@ -150,6 +151,14 @@
   &:hover{
     background-color: lightgray;
   }
+}
+
+.docs {
+  border-radius: 20px 20px 0 0;
+}
+
+.terms {
+  border-radius: 0 0 20px 20px;
 }
 
 .head {

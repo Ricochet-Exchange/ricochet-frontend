@@ -10,7 +10,7 @@ import { getOwnedFlows } from 'utils/getOwnedFlows';
 import { Flow } from 'types/flow';
 
 import { flowConfig, FlowEnum } from 'constants/flowConfig';
-import { streamExchangeABI, erc20ABI } from 'constants/abis';
+import { erc20ABI } from 'constants/abis';
 import { getContract } from 'utils/getContract';
 
 import { mainSetState } from '../actionCreators';
@@ -42,9 +42,9 @@ export function* sweepQueryFlow() {
     const outgoing = parseFloat(placeholder);
     const totalFlow = parseFloat(flowsOwned);
     const exchangeContract = flow?.superToken || '0';
-    const contract = getContract(exchangeContract, streamExchangeABI, web3);
-    const subsidyRate = await contract.methods.getSubsidyRate().call();
-
+    // const contract = getContract(exchangeContract, streamExchangeABI, web3);
+    // NOTE: getSubsidyRate no longer exists, no longer 1 subsidy rate/contract
+    const subsidyRate = 0;
     const subsidyRateTotal = (subsidyRate * 30 * 24 * 60 * 60) / 1e18;
     const subsidyRatePerso = (subsidyRateTotal * outgoing) / totalFlow;
     const RIC = getContract(RICAddress, erc20ABI, web3);
