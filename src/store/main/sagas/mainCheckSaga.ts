@@ -4,6 +4,7 @@ import { ModalType } from 'store/modal/types';
 import Web3 from 'web3';
 import Web3Modal from 'web3modal';
 import WalletConnectProvider from '@walletconnect/web3-provider';
+import WalletLink from 'walletlink';
 import {
   mainCheck,
   mainGetData,
@@ -12,6 +13,7 @@ import {
 } from '../actionCreators';
 import { getConnectedSafe, requestProvider } from '../../../utils/getSafeInfo';
 import { Unwrap } from '../../../types/unwrap';
+import coinbase from '../../../assets/images/coinbase.svg';
 
 export function* mainCheckSaga(payload: { init:boolean }) {
   const providerOptions = {
@@ -21,6 +23,28 @@ export function* mainCheckSaga(payload: { init:boolean }) {
         rpc: {
           137: process.env.REACT_APP_RPC_URLS,
         },
+      },
+    },
+    'custom-coinbase': {
+      display: {
+        logo: coinbase,
+        name: 'Coinbase',
+        description: 'Scan with WalletLink to connect',
+      },
+      options: {
+        appName: 'Ricochet Exchange',
+        networkUrl: process.env.REACT_APP_RPC_URLS,
+        chainId: 137,
+      },
+      package: WalletLink,
+      connector: async (_: any, options: any) => {
+        const { appName, networkUrl, chainId } = options;
+        const walletLink = new WalletLink({
+          appName,
+        });
+        const provider = walletLink.makeWeb3Provider(networkUrl, chainId);
+        await provider.enable();
+        return provider;
       },
     },
   };

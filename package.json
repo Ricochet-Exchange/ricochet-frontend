@@ -67,6 +67,7 @@
     "redux-saga": "^1.1.3",
     "scroll-lock": "^2.1.5",
     "typescript": "4.0.8",
+    "walletlink": "^2.4.6",
     "web-vitals": "^1.0.1",
     "web3": "^1.6.1",
     "web3modal": "^1.9.4",
