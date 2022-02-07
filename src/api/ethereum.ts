@@ -129,16 +129,34 @@ export const startFlow = async (
     token: inputTokenAddress,
   });
   let call = [];
-  const isSubscribed = await idaContract.methods
+
+  const isSubscribedUSDC = await idaContract.methods
     .getSubscription(
-      outputTokenAddress,
+      USDCxAddress,
+      twoWayMarketAddress, // publisher
+      0, // indexId
+      sfUser.address,
+    )
+    .call();
+
+  const isSubscribedETH = await idaContract.methods
+    .getSubscription(
+      WETHxAddress,
       twoWayMarketAddress, // publisher
       1, // indexId
       sfUser.address,
     )
     .call();
   try {
-    if (isSubscribed.approved) {
+    if (isSubscribedETH.approved && inputTokenAddress === WETHxAddress) {
+      await sfUser.flow({
+        recipient: await superFluid.user({
+          address: twoWayMarketAddress,
+          token: inputTokenAddress,
+        }), // address: would be rickosheaAppaddress, currently not deployed
+        flowRate: amount.toString(),
+      });
+    } else if (isSubscribedUSDC.approved && inputTokenAddress === USDCxAddress) {
       await sfUser.flow({
         recipient: await superFluid.user({
           address: twoWayMarketAddress,
@@ -158,7 +176,7 @@ export const startFlow = async (
               [
                 superFluid.agreements.ida.contract.methods
                   .approveSubscription(
-                    outputTokenAddress,
+                    USDCxAddress,
                     twoWayMarketAddress,
                     0, // INDEX_ID
                     '0x',
@@ -215,7 +233,7 @@ export const startFlow = async (
               [
                 superFluid.agreements.ida.contract.methods
                   .approveSubscription(
-                    USDCxAddress,
+                    WETHxAddress,
                     twoWayMarketAddress,
                     1, // INDEX_ID
                     '0x',
