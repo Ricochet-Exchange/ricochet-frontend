@@ -23,7 +23,11 @@ export const InvestNav = () => {
           to={Routes.InvestStreams}
         >
           <FontIcon name={FontIconName.RicoUser} size={16} />
-          <div className={styles.nav_text}>Streams ({userStreams.length})</div>
+          <div className={styles.nav_text}>
+            Streams (
+            {userStreams.length}
+            )
+          </div>
         </NavLink>
       )}
 
