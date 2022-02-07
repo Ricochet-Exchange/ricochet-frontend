@@ -8,6 +8,9 @@ import {
   rexLPETHAddress,
   SUSHIxAddress,
   MATICxAddress,
+  USDCxAddress,
+  WETHxAddress,
+  twoWayMarketAddress,
 } from 'constants/polygon_config';
 import Erc20Abi from 'constants/Erc20.json';
 import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
@@ -126,26 +129,158 @@ export const startFlow = async (
     token: inputTokenAddress,
   });
   let call = [];
-  const isSubscribed = await idaContract.methods
+
+  const isSubscribedUSDC = await idaContract.methods
     .getSubscription(
-      outputTokenAddress,
-      exchangeAddress, // publisher
+      USDCxAddress,
+      twoWayMarketAddress, // publisher
       0, // indexId
       sfUser.address,
     )
     .call();
+
+  const isSubscribedETH = await idaContract.methods
+    .getSubscription(
+      WETHxAddress,
+      twoWayMarketAddress, // publisher
+      1, // indexId
+      sfUser.address,
+    )
+    .call();
   try {
-    if (isSubscribed.approved) {
+    if (isSubscribedUSDC.approved && inputTokenAddress === WETHxAddress) {
       await sfUser.flow({
         recipient: await superFluid.user({
-          address: exchangeAddress,
+          address: twoWayMarketAddress,
+          token: inputTokenAddress,
+        }), // address: would be rickosheaAppaddress, currently not deployed
+        flowRate: amount.toString(),
+      });
+    } else if (isSubscribedETH.approved && inputTokenAddress === USDCxAddress) {
+      await sfUser.flow({
+        recipient: await superFluid.user({
+          address: twoWayMarketAddress,
           token: inputTokenAddress,
         }), // address: would be rickosheaAppaddress, currently not deployed
         flowRate: amount.toString(),
       });
     } else {
       const userData = referralId ? web3.eth.abi.encodeParameter('string', referralId) : '0x';
-      if (outputTokenAddress === RICAddress) {
+      if (inputTokenAddress === USDCxAddress && outputTokenAddress === WETHxAddress) {
+        call = [
+          [
+            201, // approve the ticket fee
+            superFluid.agreements.ida.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.ida.contract.methods
+                  .approveSubscription(
+                    WETHxAddress,
+                    twoWayMarketAddress,
+                    1, // INDEX_ID
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                userData, // userData
+              ],
+            ),
+          ],
+          [
+            201, // approve the ticket fee
+            superFluid.agreements.ida.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.ida.contract.methods
+                  .approveSubscription(
+                    RICAddress,
+                    twoWayMarketAddress,
+                    3, // INDEX_ID
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                userData, // userData
+              ],
+            ),
+          ],
+          [
+            201, // create constant flow (10/mo)
+            superFluid.agreements.cfa.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.cfa.contract.methods
+                  .createFlow(
+                    inputTokenAddress,
+                    twoWayMarketAddress,
+                    amount.toString(),
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                userData, // userData
+              ],
+            ),
+          ],
+        ];
+      } else if (inputTokenAddress === WETHxAddress && outputTokenAddress === USDCxAddress) {
+        call = [
+          [
+            201, // approve the ticket fee
+            superFluid.agreements.ida.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.ida.contract.methods
+                  .approveSubscription(
+                    USDCxAddress,
+                    twoWayMarketAddress,
+                    0, // INDEX_ID
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                userData, // userData
+              ],
+            ),
+          ],
+          [
+            201, // approve the ticket fee
+            superFluid.agreements.ida.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.ida.contract.methods
+                  .approveSubscription(
+                    RICAddress,
+                    twoWayMarketAddress,
+                    2, // INDEX_ID
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                userData, // userData
+              ],
+            ),
+          ],
+          [
+            201, // create constant flow (10/mo)
+            superFluid.agreements.cfa.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.cfa.contract.methods
+                  .createFlow(
+                    inputTokenAddress,
+                    twoWayMarketAddress,
+                    amount.toString(),
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                userData, // userData
+              ],
+            ),
+          ],
+        ];
+      } else if (outputTokenAddress === RICAddress) {
         call = [
           [
             201, // approve the ticket fee
@@ -545,7 +680,7 @@ export const getBankData = async (
   const vault = await getVaultData(bankContract, address);
   const debtToken = await getDebtTokenData(bankContract, address, web3);
   const collateralToken = await getCollateralTokenData(bankContract, address, web3);
-  const name = bankAddress === '0x91093c77720e744F415D33551C2fC3FAf7333c8c' ? 
+  const name = bankAddress === '0x91093c77720e744F415D33551C2fC3FAf7333c8c' ?
     '✨ REX Bank' : await bankContract.methods.getName().call();
   const interestRate = await bankContract.methods.getInterestRate().call();
   const originationFee = await bankContract.methods.getOriginationFee().call();
@@ -584,7 +719,7 @@ export const makeDeposit = async (
   let transactionHash;
   const deposit = await bankContract.methods
     .vaultDeposit(amount)
-    .send({ 
+    .send({
       from: accountAddress,
       maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
     })
@@ -604,7 +739,7 @@ export const makeBorrow = async (
   let transactionHash;
   const borrow = await bankContract.methods
     .vaultBorrow(amount)
-    .send({ 
+    .send({
       from: accountAddress,
       maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
     })
@@ -627,7 +762,7 @@ export const approveToken = async (
     .pow(web3.utils.toBN(255));
   const approveRes = await tokenContract.methods
     .approve(bankAddress, mainWad)
-    .send({ 
+    .send({
       from: accountAddress,
       maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
     })
@@ -648,7 +783,7 @@ export const makeWithdraw = async (
   let transactionHash;
   const whithdraw = await bankContract.methods
     .vaultWithdraw(amount)
-    .send({ 
+    .send({
       from: accountAddress,
       maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
     })
