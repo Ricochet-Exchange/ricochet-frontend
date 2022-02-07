@@ -41,7 +41,6 @@ const ReferralValidationRedirectPage: FC<IProps> = () => {
   const {
     address,
     balances,
-    isReadOnly,
     web3,
   } = useShallowSelector(selectMain);
 
@@ -86,7 +85,7 @@ const ReferralValidationRedirectPage: FC<IProps> = () => {
   return (
     <MainLayout>
       <div className={styles.header}>
-        <HeaderContainer isReadOnly={isReadOnly} balance={balances && balances[RICAddress]} address={address || 'Connecting'} />
+        <HeaderContainer balance={balances && balances[RICAddress]} address={address || 'Connecting'} />
       </div>
       <div className={styles.content}>
         <div className={styles.inner_content}>
