@@ -280,7 +280,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                 .times(usdPrice);
 
               return (
-                <tr>
+                <tr key={token.coin}>
                   <td>
                     <div className={styles.currDisplay}>
                       <div className={styles.currDisplayImg}>
