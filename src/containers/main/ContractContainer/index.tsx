@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContractTableRow } from 'components/layout/ContractTableRow';
+import { ContractTables } from 'components/layout/ContractTables';
 import styles from './styles.module.scss';
 
 export const ContractContainer = () => (
@@ -8,7 +8,7 @@ export const ContractContainer = () => (
       <h1 className={styles.main_header}>Network Directory</h1>
       <h5 className={styles.small_header}>Contract addresses on Polygon and more</h5>
       <hr />
-      <ContractTableRow />
+      <ContractTables />
     </div>
   )
 );

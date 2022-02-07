@@ -161,7 +161,7 @@ export const VaultTransaction: FC<Props> = ({
           {error ? (
             <div className={styles.errorWrap}>
               <p> 
-                Metamask transactions take time to verify, please return at a later time.
+                Transactions take time to verify, please check your wallet and refresh the page.
               </p>
             </div>
           ) : null}

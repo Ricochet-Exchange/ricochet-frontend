@@ -2,7 +2,7 @@ import React from 'react';
 import { DisplayContracts } from 'constants/DisplayContracts';
 import styles from './styles.module.scss';
 
-export const ContractTableRow = () => (
+export const ContractTables = () => (
   (
     <div className={styles.contract_table_container}>
       {DisplayContracts.map((subject) => 
