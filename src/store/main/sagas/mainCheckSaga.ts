@@ -13,7 +13,6 @@ import {
 } from '../actionCreators';
 import { getConnectedSafe, requestProvider } from '../../../utils/getSafeInfo';
 import { Unwrap } from '../../../types/unwrap';
-import coinbase from '../../../assets/images/coinbase.svg';
 
 export function* mainCheckSaga(payload: { init:boolean }) {
   const providerOptions = {
@@ -25,26 +24,11 @@ export function* mainCheckSaga(payload: { init:boolean }) {
         },
       },
     },
-    'custom-coinbase': {
-      display: {
-        logo: coinbase,
-        name: 'Coinbase',
-        description: 'Scan with WalletLink to connect',
-      },
-      options: {
-        appName: 'Ricochet Exchange',
-        networkUrl: process.env.REACT_APP_RPC_URLS,
-        chainId: 137,
-      },
+    walletlink: {
       package: WalletLink,
-      connector: async (_: any, options: any) => {
-        const { appName, networkUrl, chainId } = options;
-        const walletLink = new WalletLink({
-          appName,
-        });
-        const provider = walletLink.makeWeb3Provider(networkUrl, chainId);
-        await provider.enable();
-        return provider;
+      options: {
+        rpc: process.env.REACT_APP_RPC_URLS,
+        chainId: 137,
       },
     },
   };
