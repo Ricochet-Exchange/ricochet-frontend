@@ -110,7 +110,7 @@ export const getLastDistributionOnPair = async (
 ): Promise<Date> => {
   const contract = getContract(
     getExchangeAddressFromKey(exchangeKey),
-    launchpadABI,
+    streamExchangeABI,
     web3,
   );
   const lastDate = await contract.methods.getLastDistributionAt().call();
