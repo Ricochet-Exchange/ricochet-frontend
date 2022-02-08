@@ -7,6 +7,13 @@ import { showErrorToast } from 'components/common/Toaster';
 // import { useTranslation } from 'i18n';
 // import { generateDate } from 'utils/generateDate';
 import ReactTooltip from 'react-tooltip';
+import { getLastDistributionAtRexLaunchPad, getLastDistributionAtRexMarket } from 'utils/getLastDistributions';
+import { useShallowSelector } from 'hooks/useShallowSelector';
+import { selectMain } from 'store/main/selectors';
+import { useLocation } from 'react-router-dom';
+import ReactTimeAgo from 'react-time-ago';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
 import styles from './styles.module.scss';
 import { Coin } from '../../../constants/coins';
 import { CoinChange } from '../CoinChange';
@@ -16,6 +23,8 @@ import { FlowTypes } from '../../../constants/flowConfig';
 // import Price from '../../common/Price';
 import LpAPY from '../../common/LpAPY';
 import Price from '../../common/Price';
+
+TimeAgo.addDefaultLocale(en);
 
 interface IProps {
   placeholder?:string,
@@ -56,14 +65,31 @@ export const PanelChange: FC<IProps> = ({
   isReadOnly,
   contractAddress,
 }) => {
+  const { web3 } = useShallowSelector(selectMain);
   const [inputShow, setInputShow] = useState(false);
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [lastDistribution, setLastDistribution] = useState<Date>();
+  const location = useLocation();
   // const { t } = useTranslation('main');
 
   useEffect(() => {
     setIsLoading(mainLoading);
   }, [mainLoading]);
+
+  useEffect(() => {
+    if (web3?.currentProvider === null) return;
+    if (location.pathname === '/invest/rex-launchpad') {
+      getLastDistributionAtRexLaunchPad(web3).then((p) => {
+        setLastDistribution(p);
+      });
+    }
+    if (location.pathname === '/invest/rex-market') {
+      getLastDistributionAtRexMarket(web3).then((p) => {
+        setLastDistribution(p);
+      });
+    }
+  }, [location, web3]);
 
   function getFormattedNumber(num: string) {
     return parseFloat(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -215,6 +241,13 @@ export const PanelChange: FC<IProps> = ({
                   <span>
                     <span className={styles.number}>{totalFlows}</span>
                     total streams
+                  </span>
+                  <span className={styles.distributed_time}>
+                    Distributed
+                    {' '}
+                    <b>
+                      {lastDistribution && <ReactTimeAgo date={lastDistribution} />}
+                    </b>
                   </span>
                 </div>
               )}
