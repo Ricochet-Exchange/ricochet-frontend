@@ -8,8 +8,6 @@ import {
   rexLPETHAddress,
   SUSHIxAddress,
   MATICxAddress,
-  USDCxAddress,
-  WETHxAddress,
   twoWayMarketAddress,
 } from 'constants/polygon_config';
 import Erc20Abi from 'constants/Erc20.json';
@@ -17,6 +15,7 @@ import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
 import BankAbi from 'constants/Bank.json';
 import Web3 from 'web3';
 import axios from 'axios';
+import { indexIDA } from '../constants/flowConfig';
 
 const polygonApiUrl = 'https://gasstation-mainnet.matic.network/v2';
 const getSuggestedPriorityGasFee = async () => {
@@ -24,12 +23,6 @@ const getSuggestedPriorityGasFee = async () => {
   return Math.round(fee * (10 ** 9)); // this converts to GWEI
 };
 
-export enum IDAIndex {
-  UsdcxWbtcx,
-  WbtcxUsdcx,
-  UsdcxRic,
-  WbtcxRic
-}
 export const downgrade = async (
   contract: any,
   amount: string,
@@ -121,9 +114,9 @@ export const stopFlow = async (exchangeAddress: string, inputTokenAddress: strin
 
 export const startFlow = async (
   idaContract: any,
-  exchangeAddress: string,
+  exchangeAddress:string,
   inputTokenAddress: string,
-  outputTokenAddress: string,
+  outputTokenAddress:string,
   amount: number,
   web3: Web3,
   referralId?: string,
@@ -136,55 +129,28 @@ export const startFlow = async (
   });
   let call = [];
 
-  // const isSubscribedUSDC = await idaContract.methods
-  //   .getSubscription(
-  //     USDCxAddress,
-  //     twoWayMarketAddress, // publisher
-  //     0, // indexId
-  //     sfUser.address,
-  //   )
-  //   .call();
-
-  // const isSubscribedETH = await idaContract.methods
-  //   .getSubscription(
-  //     WETHxAddress,
-  //     twoWayMarketAddress, // publisher
-  //     1, // indexId
-  //     sfUser.address,
-  //   )
-  //   .call();
+  // eslint-disable-next-line max-len
+  const config = indexIDA.filter((data) => data.input === inputTokenAddress && data.output === outputTokenAddress)[0];
 
   const isSubscribed = await idaContract.methods
     .getSubscription(
-      outputTokenAddress,
-      exchangeAddress, // publisher
-      IDAIndex.UsdcxWbtcx,
+      config.output,
+      twoWayMarketAddress, // publisher
+      config.outputIndex, // indexId
       sfUser.address,
     )
     .call();
-
   try {
-
     if (isSubscribed.approved) {
-      // if (isSubscribedUSDC.approved && inputTokenAddress === WETHxAddress) {
       await sfUser.flow({
         recipient: await superFluid.user({
-          address: exchangeAddress,
+          address: twoWayMarketAddress,
           token: inputTokenAddress,
         }), // address: would be rickosheaAppaddress, currently not deployed
         flowRate: amount.toString(),
       });
-      // } else if (isSubscribedETH.approved && inputTokenAddress === USDCxAddress) {
-      //   await sfUser.flow({
-      //     recipient: await superFluid.user({
-      //       address: twoWayMarketAddress,
-      //       token: inputTokenAddress,
-      //     }), // address: would be rickosheaAppaddress, currently not deployed
-      //     flowRate: amount.toString(),
-      //   });
     } else {
       const userData = referralId ? web3.eth.abi.encodeParameter('string', referralId) : '0x';
-      //   if (inputTokenAddress === USDCxAddress && outputTokenAddress === WETHxAddress) {
       if (outputTokenAddress === RICAddress) {
         call = [
           [
@@ -197,7 +163,7 @@ export const startFlow = async (
                   .approveSubscription(
                     outputTokenAddress,
                     exchangeAddress,
-                    IDAIndex.WbtcxUsdcx, // INDEX_ID
+                    0, // INDEX_ID
                     '0x',
                   )
                   .encodeABI(), // callData
@@ -207,19 +173,15 @@ export const startFlow = async (
           ],
           [
             201, // create constant flow (10/mo)
-            superFluid.agreements.cfa.address,  // JR It was ida
+            superFluid.agreements.cfa.address,
             web3.eth.abi.encodeParameters(
               ['bytes', 'bytes'],
               [
-                superFluid.agreements.cfa.contract.methods  // JR It was ida
+                superFluid.agreements.cfa.contract.methods
                   .createFlow(
                     inputTokenAddress,
                     exchangeAddress,
                     amount.toString(),
-                    // .approveSubscription(
-                    //   RICAddress,
-                    //   twoWayMarketAddress,
-                    //   3, // INDEX_ID
                     '0x',
                   )
                   .encodeABI(), // callData
@@ -228,26 +190,6 @@ export const startFlow = async (
             ),
           ],
         ];
-        //       [
-        //         201, // create constant flow (10/mo)
-        //         superFluid.agreements.cfa.address,
-        //         web3.eth.abi.encodeParameters(
-        //           ['bytes', 'bytes'],
-        //           [
-        //             superFluid.agreements.cfa.contract.methods
-        //               .createFlow(
-        //                 inputTokenAddress,
-        //                 twoWayMarketAddress,
-        //                 amount.toString(),
-        //                 '0x',
-        //               )
-        //               .encodeABI(), // callData
-        //             userData, // userData
-        //           ],
-        //         ),
-        //       ],
-        //     ];
-        // } else if (inputTokenAddress === WETHxAddress && outputTokenAddress === USDCxAddress) {
       } else if (outputTokenAddress === rexLPETHAddress) {
         call = [
           [
@@ -260,7 +202,7 @@ export const startFlow = async (
                   .approveSubscription(
                     outputTokenAddress,
                     exchangeAddress,
-                    IDAIndex.UsdcxWbtcx, // INDEX_ID
+                    0, // INDEX_ID
                     '0x',
                   )
                   .encodeABI(), // callData
@@ -278,105 +220,7 @@ export const startFlow = async (
                   .approveSubscription(
                     RICAddress,
                     exchangeAddress,
-                    IDAIndex.WbtcxUsdcx, // INDEX_ID
-                    '0x',
-                  )
-                  .encodeABI(), // callData
-                userData, // userData
-              ],
-            ),
-          ],
-          [
-            201, // approve the SUSHIx rewards subsidy
-            superFluid.agreements.ida.address,
-            web3.eth.abi.encodeParameters(
-              ['bytes', 'bytes'],
-              [
-                superFluid.agreements.ida.contract.methods
-                  .approveSubscription(
-                    inputTokenAddress,
-                    exchangeAddress,
-                    IDAIndex.UsdcxRic,  // INDEX_ID
-                    '0x',
-                  )
-                  .encodeABI(), // callData
-                userData, // userData
-              ],
-            ),
-          ],
-          // ];
-          // } else if (outputTokenAddress === RICAddress) {
-          // call = [
-          [
-            201, // approve the MATICx rewards
-            superFluid.agreements.ida.address,
-            web3.eth.abi.encodeParameters(
-              ['bytes', 'bytes'],
-              [
-                superFluid.agreements.ida.contract.methods
-                  .approveSubscription(
-                    outputTokenAddress, // MATICxAddress
-                    exchangeAddress,
-                    IDAIndex.WbtcxRic, // INDEX_ID
-                    '0x',
-                  )
-                  .encodeABI(), // callData
-                userData, // userData
-              ],
-            ),
-          ],
-          [
-            201, // create constant flow (10/mo)
-            superFluid.agreements.cfa.address,
-            web3.eth.abi.encodeParameters(
-              ['bytes', 'bytes'],
-              [
-                superFluid.agreements.cfa.contract.methods
-                  .createFlow(
-                    inputTokenAddress,
-                    exchangeAddress,
-                    amount.toString(),
-                    '0x',
-                  )
-                  .encodeABI(), // callData
-                userData, // userData
-              ],
-            ),
-          ],
-        ];
-        // } else if (outputTokenAddress === rexLPETHAddress) {
-        //   call = [
-      } else {
-        call = [
-          [
-            201, // approve the ticket fee
-            superFluid.agreements.cfa.address,
-            web3.eth.abi.encodeParameters(
-              ['bytes', 'bytes'],
-              [
-                superFluid.agreements.cfa.contract.methods
-                  .createFlow(
-                    inputTokenAddress,
-                    exchangeAddress,
-                    amount.toString(),
-                    '0x',
-                  )
-                  .encodeABI(), // callData
-                userData, // userData
-              ],
-            ),
-          ],
-          [
-            201, // approve the RIC subsidy
-            superFluid.agreements.ida.address,
-            web3.eth.abi.encodeParameters(
-              ['bytes', 'bytes'],
-              [
-                superFluid.agreements.ida.contract.methods
-                  .approveSubscription(
-                    RICAddress,
-                    exchangeAddress,
-                    IDAIndex.WbtcxUsdcx, 
+                    1, // INDEX_ID
                     '0x',
                   )
                   .encodeABI(), // callData
@@ -394,7 +238,7 @@ export const startFlow = async (
                   .approveSubscription(
                     SUSHIxAddress,
                     exchangeAddress,
-                    IDAIndex.UsdcxRic,
+                    2, // INDEX_ID
                     '0x',
                   )
                   .encodeABI(), // callData
@@ -412,7 +256,7 @@ export const startFlow = async (
                   .approveSubscription(
                     MATICxAddress,
                     exchangeAddress,
-                    IDAIndex.WbtcxRic, //  3, 
+                    3, // INDEX_ID
                     '0x',
                   )
                   .encodeABI(), // callData
@@ -449,9 +293,9 @@ export const startFlow = async (
               [
                 superFluid.agreements.ida.contract.methods
                   .approveSubscription(
-                    outputTokenAddress,
+                    config.output,
                     exchangeAddress,
-                    IDAIndex.UsdcxWbtcx, // 0,
+                    config.outputIndex, // INDEX_ID
                     '0x',
                   )
                   .encodeABI(), // callData
@@ -460,24 +304,24 @@ export const startFlow = async (
             ),
           ],
           [
-            201, // approve the RIC subsidy
+            201, // approve the subsidy token
             superFluid.agreements.ida.address,
             web3.eth.abi.encodeParameters(
               ['bytes', 'bytes'],
               [
                 superFluid.agreements.ida.contract.methods
                   .approveSubscription(
-                    RICAddress,
+                    config.subsidy,
                     exchangeAddress,
-                    IDAIndex.WbtcxUsdcx, // 1, 
+                    config.subsidyIndex, // INDEX_ID
                     '0x',
                   )
                   .encodeABI(), // callData
                 userData, // userData
               ],
             ),
-            [
-            ],
+          ],
+          [
             201, // create constant flow (10/mo)
             superFluid.agreements.cfa.address,
             web3.eth.abi.encodeParameters(
@@ -485,7 +329,7 @@ export const startFlow = async (
               [
                 superFluid.agreements.cfa.contract.methods
                   .createFlow(
-                    inputTokenAddress,
+                    config.input,
                     exchangeAddress,
                     amount.toString(),
                     '0x',
