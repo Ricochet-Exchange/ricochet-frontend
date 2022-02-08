@@ -13,7 +13,6 @@ const TUTORIAL_LINK = 'https://docs.ricochet.exchange/tutorial/using-the-dapp';
 
 export const InvestNav = () => {
   const userStreams = useShallowSelector(selectUserStreams);
-  const location = useLocation();
   return (
     <div className={styles.nav_container}>
       {userStreams.length > 0 && (
