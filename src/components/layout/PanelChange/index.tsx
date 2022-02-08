@@ -7,10 +7,9 @@ import { showErrorToast } from 'components/common/Toaster';
 // import { useTranslation } from 'i18n';
 // import { generateDate } from 'utils/generateDate';
 import ReactTooltip from 'react-tooltip';
-import { getLastDistributionAtRexLaunchPad, getLastDistributionAtRexMarket } from 'utils/getLastDistributions';
+import { getLastDistributionOnPair } from 'utils/getLastDistributions';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
-import { useLocation } from 'react-router-dom';
 import ReactTimeAgo from 'react-time-ago';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
@@ -43,7 +42,8 @@ interface IProps {
   mainLoading?: boolean;
   flowType: FlowTypes,
   contractAddress: string,
-  isReadOnly?:boolean,
+  exchangeKey: string,
+  isReadOnly?: boolean,
 }
 
 export const PanelChange: FC<IProps> = ({
@@ -64,13 +64,13 @@ export const PanelChange: FC<IProps> = ({
   flowType,
   isReadOnly,
   contractAddress,
+  exchangeKey,
 }) => {
   const { web3 } = useShallowSelector(selectMain);
   const [inputShow, setInputShow] = useState(false);
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [lastDistribution, setLastDistribution] = useState<Date>();
-  const location = useLocation();
   // const { t } = useTranslation('main');
 
   useEffect(() => {
@@ -79,17 +79,10 @@ export const PanelChange: FC<IProps> = ({
 
   useEffect(() => {
     if (web3?.currentProvider === null) return;
-    if (location.pathname === '/invest/rex-launchpad') {
-      getLastDistributionAtRexLaunchPad(web3).then((p) => {
-        setLastDistribution(p);
-      });
-    }
-    if (location.pathname === '/invest/rex-market') {
-      getLastDistributionAtRexMarket(web3).then((p) => {
-        setLastDistribution(p);
-      });
-    }
-  }, [location, web3]);
+    getLastDistributionOnPair(web3, exchangeKey).then((p) => {
+      setLastDistribution(p);
+    });
+  }, [web3]);
 
   function getFormattedNumber(num: string) {
     return parseFloat(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -291,7 +284,6 @@ export const PanelChange: FC<IProps> = ({
             />
           </div>
         )}
-
       </section>
     </>
   );

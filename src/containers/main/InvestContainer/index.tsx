@@ -144,7 +144,8 @@ export const InvestContainer :React.FC<IProps> = () => {
                 mainLoading={isLoading}
                 flowType={element.type}
                 isReadOnly={state.isReadOnly}
-                contractAddress={element.superToken} 
+                contractAddress={element.superToken}
+                exchangeKey={element.flowKey.replace('FlowQuery', 'ExchangeAddress')}
               />
             </div>
           ))}
