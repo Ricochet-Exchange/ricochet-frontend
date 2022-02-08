@@ -11,7 +11,7 @@ import {
 export enum FlowEnum {
   usdcWethFlowQuery = 'usdcWethFlowQuery',
   wethUsdcFlowQuery = 'wethUsdcFlowQuery',
-  // usdcRicFlowQuery = 'usdcRicFlowQuery',
+  usdcRicFlowQuery = 'usdcRicFlowQuery',
 }
 // eslint-disable-next-line max-len
 export const indexIDA : { input: string, output:string, subsidy?: string, subsidyIndex?: number, inputIndex: number, outputIndex: number }[] = [
