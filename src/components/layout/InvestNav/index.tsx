@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { selectUserStreams } from 'store/main/selectors';
 import { Routes } from 'constants/routes';
 import { useShallowSelector } from 'hooks/useShallowSelector';
