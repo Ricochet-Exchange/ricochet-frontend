@@ -16,7 +16,6 @@ import { selectMain, selectUserStreams } from 'store/main/selectors';
 import { RICAddress } from 'constants/polygon_config';
 import { useDispatch } from 'react-redux';
 import { startFlowAction, stopFlowAction } from 'store/main/actionCreators';
-import { ShowDistribution } from 'components/common/lastDistribution';
 import styles from './styles.module.scss';
 
 function sumStrings(a:number, b:string):number { return (a + parseFloat(b)); }
@@ -111,7 +110,6 @@ export const InvestContainer :React.FC<IProps> = () => {
             containerClassName={styles.container_input}
             left={<FontIcon name={FontIconName.Search} className={styles.search} size={16} />}
           />
-          <ShowDistribution />
         </div>
 
         <div className={styles.headers}>
@@ -146,7 +144,8 @@ export const InvestContainer :React.FC<IProps> = () => {
                 mainLoading={isLoading}
                 flowType={element.type}
                 isReadOnly={state.isReadOnly}
-                contractAddress={element.superToken} 
+                contractAddress={element.superToken}
+                exchangeKey={element.flowKey.replace('FlowQuery', '')}
               />
             </div>
           ))}
