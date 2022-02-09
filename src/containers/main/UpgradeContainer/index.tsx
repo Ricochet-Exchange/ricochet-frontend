@@ -469,7 +469,6 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
             className={styles.dot}
             ricBalance={balance}
             account={address}
-            isReadOnly={isReadOnly}
           />
         </div>
       </div>
