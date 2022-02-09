@@ -52,6 +52,8 @@
     background-color: #2775CA;
     color: rgb(255, 255, 255);
     border-right: 1px solid black;
+    font-weight: bold;
+    letter-spacing: 0.5px;
 }
 
 .vaultIcon{
@@ -71,6 +73,8 @@
 .nav_link_desktop_only{
     cursor: pointer;
     @extend .link;
+    display: flex;
+    align-items: center;
 }
 
 @media only screen and (max-width: 769px){
