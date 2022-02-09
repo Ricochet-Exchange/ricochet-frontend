@@ -16,7 +16,7 @@ import {
   usdcxWethxExchangeAddress,
   wbtcxUsdcxExchangeAddress,
   wethxUsdcxExchangeAddress,
-} from 'constants/polygon_config';
+} from "constants/polygon_config";
 
 export const getExchangeAddressFromKey = (exchangeKey: string) => {
   const addresses = {
@@ -32,7 +32,7 @@ export const getExchangeAddressFromKey = (exchangeKey: string) => {
     usdcIdle: usdcxIdleExchangeAddress,
     usdcMatic: usdcxMaticxExchangeAddress,
     usdcMkr: usdcxMkrxExchangeAddress,
-    usdcRicEchangeAddress: usdcxRicExchangeAddress,
+    usdcRic: usdcxRicExchangeAddress,
     usdcWbtc: usdcxWbtcxExchangeAddress,
     usdcWeth: usdcxWethxExchangeAddress,
     wbtcUsdc: wbtcxUsdcxExchangeAddress,
