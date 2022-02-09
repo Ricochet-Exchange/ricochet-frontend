@@ -160,6 +160,15 @@ export const InvestContainer :React.FC<IProps> = () => {
           </div>
         </div>
 
+        {filteredList.length === 0 && (
+          <div className={styles.empty_state}>
+            <FontIcon name={FontIconName.Search} size={30} />
+            <span className={styles.empty_state_text}>
+              <div>{t('No results found')}</div>
+            </span>
+          </div>
+        )}
+
         <div>
           <span className={styles.fee_disclaimer}>
             {t('Ricochet takes a 2% fee on swaps.')}
