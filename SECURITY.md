@@ -38,7 +38,7 @@ The following websited are covered by the bounty:
 
 ## Important Legal Information
 
-The bug bounty program is a discretionary rewards program for the Ricochet community to encourage and reward those who are helping to improve the platform. It is not a competition. You should know that we can cancel the program at any time, and awards are at the sole discretion of the Ricochet team. In addition, we are not able to issue awards to individuals who are on sanctions lists or who are in countries on sanctions lists (e.g. North Korea, Iran, etc). You are responsible for all taxes. All awards are subject to applicable law. Any patches must be offered under the same license as the repository they affect. Finally, your testing must not violate any law or compromise any data that is not yours.
+The bug bounty program is a discretionary rewards program for the Ricochet community to encourage and reward those who are helping to improve the platform. It is not a competition. You should know that we can cancel the program at any time, and awards are at the sole discretion of the Ricochet team. You are responsible for all taxes. All awards are subject to applicable law. Any patches must be offered under the same license as the repository they affect. Finally, your testing must not violate any law or compromise any data that is not yours.
 
 ## Submitting a Bug
 
