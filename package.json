@@ -10,7 +10,8 @@
     "lint": "eslint . --ext .ts,.tsx --fix",
     "tsc": "tsc --noEmit",
     "fontello": "bash ./fontello.sh",
-    "fontello:open": "fontello-cli --config src/assets/fonts/fontello/config.json open"
+    "fontello:open": "fontello-cli --config src/assets/fonts/fontello/config.json open",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -90,7 +91,7 @@
     "eslint-plugin-react": "7.20.3",
     "eslint-plugin-react-hooks": "4.2.0",
     "fontello-cli": "0.6.2",
-    "husky": "4.2.5",
+    "husky": ">=6",
     "lint-staged": "10.2.11",
     "node-sass": "^6.0.0"
   },
