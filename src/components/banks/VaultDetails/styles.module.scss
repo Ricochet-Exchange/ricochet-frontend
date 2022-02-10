@@ -120,7 +120,7 @@
 }
 
 .VaultDetails__content {
-  @include flexbox(flex-start, space-around);
+  @include flexbox(flex-start, space-between);
   width: 100%;
   padding: 2em;
   flex-wrap: wrap;
