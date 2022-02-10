@@ -15,12 +15,11 @@ const InvestPage: FC<IProps> = () => {
   const {
     address,
     balances,
-    isReadOnly,
   } = useShallowSelector(selectMain);
   return (
     <MainLayout>
       <div className={styles.header}>
-        <HeaderContainer isReadOnly={isReadOnly} balance={balances && balances[RICAddress]} address={address || 'Connect Wallet'} />
+        <HeaderContainer balance={balances && balances[RICAddress]} address={address || 'Connect Wallet'} />
       </div>
       <div className={styles.content}>
         <InvestContainer />
