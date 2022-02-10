@@ -14,7 +14,7 @@ import {
   mainSetState,
 } from '../actionCreators';
 
-export function* mainCheckSaga(payload: { init:boolean }): Generator<any, void, any> {
+export function* mainCheckSaga(payload: ReturnType<typeof mainCheck>): Generator<any, void, any> {
   const providerOptions = {
     walletconnect: {
       package: WalletConnectProvider, // required

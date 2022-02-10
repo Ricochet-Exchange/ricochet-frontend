@@ -12,7 +12,6 @@ import { selectDowngradeCoinSaga, selectUpgradeCoinSaga, showTokenListSaga } fro
 import { loadReadOnlyData } from './loadReadOnlyData';
 
 export default function* mainSaga() {
-  // @ts-ignore
   yield takeLeading(MainActionTypes.MAIN_CHECK, mainCheckSaga);
   yield takeLeading(MainActionTypes.MAIN_SWITCH_NETWORK, switchNetworkSaga);
   yield takeLeading(MainActionTypes.MAIN_SWITCH_NETWORK, switchNetworkSaga);

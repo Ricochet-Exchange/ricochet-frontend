@@ -15,9 +15,8 @@ export function* loadReadOnlyData() {
       coingeckoPrices,
       isLoading: false,
     }));
-  } catch (e) {
+  } catch (e: any) {
     if (process.env.REACT_APP_API_NODE_URL) yield put(mainGetReadOnlyData());
-    // @ts-ignore
     else throw new Error(`Missing mandatory environment variable REACT_APP_API_NODE_URL. Error: ${e?.message}`);
   }
 }
