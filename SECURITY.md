@@ -30,7 +30,7 @@ In addition to Severity, other variables are also considered when the Ricochet t
 * Quality of reproducibility. Please include test code, scripts and detailed instructions. The easier it is for us to reproduce and verify the vulnerability, the higher the reward.
 * Quality of fix, if included. Higher rewards are paid for submissions with clear description of how to fix the issue.
 
-## Covered Websited
+## Covered Websites
 
 The following websited are covered by the bounty:
 
