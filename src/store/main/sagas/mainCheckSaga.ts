@@ -5,16 +5,16 @@ import Web3 from 'web3';
 import Web3Modal from 'web3modal';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import WalletLink from 'walletlink';
+import { getConnectedSafe, requestProvider } from 'utils/getSafeInfo';
+import { Unwrap } from 'types/unwrap';
 import {
   mainCheck,
   mainGetData,
   mainGetReadOnlyData,
   mainSetState,
 } from '../actionCreators';
-import { getConnectedSafe, requestProvider } from '../../../utils/getSafeInfo';
-import { Unwrap } from '../../../types/unwrap';
 
-export function* mainCheckSaga(payload: { init:boolean }) {
+export function* mainCheckSaga(payload: { init:boolean }): Generator<any, void, any> {
   const providerOptions = {
     walletconnect: {
       package: WalletConnectProvider, // required
