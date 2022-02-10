@@ -16,8 +16,8 @@ The value of rewards paid out will vary depending on Severity. The severity is c
 
 Reward sizes are _guided_ by the rules below, but are in the end, determined at the sole discretion of the Ricochet team
 
-* **Critical**: up to $10,000 USD
-* **High**: up to $8,000 USD
+* **Critical**: up to $25,000 USD
+* **High**: up to $12,500 USD
 * **Medium**: up to $5,000 USD
 * **Low**: up to $2,000 USD
 * **Note**: up to $1,000 USD
