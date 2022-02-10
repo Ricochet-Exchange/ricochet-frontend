@@ -1,11 +1,11 @@
 import { streamExchangeABI } from 'constants/abis';
 import { getContract } from 'utils/getContract';
 import Web3 from 'web3';
-import { getExchangeAddressFromKey } from './getExchangeAddress';
+import { getExchangeAddressFromKey, ExchangeKeys } from './getExchangeAddress';
 
 export const getLastDistributionOnPair = async (
   web3: Web3,
-  exchangeKey: string,
+  exchangeKey: ExchangeKeys,
 ): Promise<Date> => {
   const contract = getContract(
     getExchangeAddressFromKey(exchangeKey),

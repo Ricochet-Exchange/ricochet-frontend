@@ -16,6 +16,7 @@ import { selectMain, selectUserStreams } from 'store/main/selectors';
 import { RICAddress } from 'constants/polygon_config';
 import { useDispatch } from 'react-redux';
 import { startFlowAction, stopFlowAction } from 'store/main/actionCreators';
+import { ExchangeKeys } from 'utils/getExchangeAddress';
 import styles from './styles.module.scss';
 
 function sumStrings(a:number, b:string):number { return (a + parseFloat(b)); }
@@ -145,7 +146,7 @@ export const InvestContainer :React.FC<IProps> = () => {
                 flowType={element.type}
                 isReadOnly={state.isReadOnly}
                 contractAddress={element.superToken}
-                exchangeKey={element.flowKey.replace('FlowQuery', '')}
+                exchangeKey={element.flowKey.replace('FlowQuery', '') as ExchangeKeys}
               />
             </div>
           ))}
