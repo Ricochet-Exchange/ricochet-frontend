@@ -283,7 +283,7 @@ export const startFlow = async (
             ),
           ],
         ];
-      } else {
+      } else if (config.subsidy) {
         call = [
           [
             201, // approve the ticket fee
@@ -314,6 +314,45 @@ export const startFlow = async (
                     config.subsidy,
                     exchangeAddress,
                     config.subsidyIndex, // INDEX_ID
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                userData, // userData
+              ],
+            ),
+          ],
+          [
+            201, // create constant flow (10/mo)
+            superFluid.agreements.cfa.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.cfa.contract.methods
+                  .createFlow(
+                    config.input,
+                    exchangeAddress,
+                    amount.toString(),
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                userData, // userData
+              ],
+            ),
+          ],
+        ];
+      } else {
+        call = [
+          [
+            201, // approve the ticket fee
+            superFluid.agreements.ida.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.ida.contract.methods
+                  .approveSubscription(
+                    config.output,
+                    exchangeAddress,
+                    config.outputIndex, // INDEX_ID
                     '0x',
                   )
                   .encodeABI(), // callData
