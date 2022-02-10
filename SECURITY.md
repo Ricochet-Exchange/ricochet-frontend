@@ -42,4 +42,4 @@ The bug bounty program is a discretionary rewards program for the Ricochet commu
 
 ## Submitting a Bug
 
-Bugs should be submitted via email to bugs@ricochet.exchange.
+Bugs should be submitted via email to mike@mikeghen.com, or on Discord to shepardblue#8122.
