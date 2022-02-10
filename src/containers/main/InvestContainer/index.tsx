@@ -16,7 +16,6 @@ import { selectMain, selectUserStreams } from 'store/main/selectors';
 import { RICAddress } from 'constants/polygon_config';
 import { useDispatch } from 'react-redux';
 import { startFlowAction, stopFlowAction } from 'store/main/actionCreators';
-import { ShowDistribution } from 'components/common/lastDistribution';
 import styles from './styles.module.scss';
 
 function sumStrings(a:number, b:string):number { return (a + parseFloat(b)); }
@@ -30,10 +29,10 @@ function endDate(bal:number, outgoing:number):string {
 interface IProps {}
 
 export const InvestContainer :React.FC<IProps> = () => {
-  const { language, t } = useLang();
+  const { t } = useLang();
   const state = useShallowSelector(selectMain);
   const {
-    address, balances, isLoading, isReadOnly, coingeckoPrices,
+    address, balances, isLoading, coingeckoPrices,
   } = state;
   const userStreams = useShallowSelector(selectUserStreams);
   const dispatch = useDispatch();
@@ -111,7 +110,6 @@ export const InvestContainer :React.FC<IProps> = () => {
             containerClassName={styles.container_input}
             left={<FontIcon name={FontIconName.Search} className={styles.search} size={16} />}
           />
-          <ShowDistribution />
         </div>
 
         <div className={styles.headers}>
@@ -146,20 +144,28 @@ export const InvestContainer :React.FC<IProps> = () => {
                 mainLoading={isLoading}
                 flowType={element.type}
                 isReadOnly={state.isReadOnly}
-                contractAddress={element.superToken} 
+                contractAddress={element.superToken}
+                exchangeKey={element.flowKey.replace('FlowQuery', '')}
               />
             </div>
           ))}
           <div className={styles.settings_mob}>
             <UserSettings
-              language={language}
               className={styles.dot}
               ricBalance={balances && balances[RICAddress]}
               account={address || 'Connect Wallet'}
-              isReadOnly={isReadOnly}
             />
           </div>
         </div>
+
+        {filteredList.length === 0 && (
+          <div className={styles.empty_state}>
+            <FontIcon name={FontIconName.Search} size={30} />
+            <span className={styles.empty_state_text}>
+              <div>{t('No results found')}</div>
+            </span>
+          </div>
+        )}
 
         <div>
           <span className={styles.fee_disclaimer}>

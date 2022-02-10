@@ -11,12 +11,13 @@ import {
 export enum FlowEnum {
   usdcWethFlowQuery = 'usdcWethFlowQuery',
   wethUsdcFlowQuery = 'wethUsdcFlowQuery',
-  // usdcRicFlowQuery = 'usdcRicFlowQuery',
+  usdcRicFlowQuery = 'usdcRicFlowQuery',
 }
 
 export enum FlowTypes {
   launchpad = 'launchpad',
   market = 'market',
+  sushiLP = 'sushiLP',
 }
 
 export type InvestmentFlow = {

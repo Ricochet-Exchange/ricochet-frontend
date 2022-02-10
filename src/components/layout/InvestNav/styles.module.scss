@@ -19,7 +19,8 @@
 }
 
 .wallet_icon{
-    height: 14px;
+    height: 16px;
+    margin-right: 6px;
     filter: brightness(0) invert(1);
 }
 
@@ -56,13 +57,28 @@
 .nav_link {
     cursor: pointer;
     @extend .link;
-    
+    display: flex;
+    align-items: center;
+}
+
+.nav_text_tutorial {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-right: 6px;
+}
+
+.nav_text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-left: 6px;
 }
 
 .nav_link_active {
     background-color: #2775CA;
     color: rgb(255, 255, 255);
     border-right: 1px solid black;
+    font-weight: bold;
+    letter-spacing: 0.5px;
 }
 
 .vaultIcon{
@@ -82,6 +98,8 @@
 .nav_link_desktop_only{
     cursor: pointer;
     @extend .link;
+    display: flex;
+    align-items: center;
 }
 
 @media only screen and (max-width: 769px){
