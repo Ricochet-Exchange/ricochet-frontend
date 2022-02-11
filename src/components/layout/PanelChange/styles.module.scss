@@ -1,4 +1,4 @@
-@import '../../../assets/styles/mixins';
+@import "../../../assets/styles/mixins";
 .panel {
   @include flexbox(flex-start, center);
 
@@ -15,7 +15,7 @@
 }
 
 .container {
-  padding: 2em
+  padding: 2em;
 }
 
 .wrap {
@@ -33,7 +33,6 @@
 .block {
   @include flexbox(center, center);
 }
-
 
 .currency {
   @include flexbox(center, center);
@@ -64,8 +63,8 @@
   width: 100%;
 
   @include tablet {
-    @include flexbox(flex-end, center);
-    
+    @include flexbox(flex-start, center);
+    padding: 0 0 5px 10px;
     flex: 0 0 35%;
   }
 }
@@ -117,13 +116,12 @@
     flex: 0 0 100%;
     text-align: center;
   }
-
 }
 
-.btn_arrow{
+.btn_arrow {
   width: 100%;
   cursor: pointer;
-  
+
   &:active {
     background: transparent;
   }
@@ -157,7 +155,7 @@
   width: 100%;
   flex: 1;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   align-items: flex-start;
   @include tablet {
     flex: 1 0 65%;
@@ -174,10 +172,11 @@
     @include flexbox(flex-start, center);
     display: flex;
     flex-direction: row;
-    align-items: flex-end;
+    align-items: flex-start;
     position: relative;
     flex-direction: column;
     flex: 0 0 25%;
+    padding: 0 0 20px 10px;
   }
 }
 
@@ -195,7 +194,6 @@
   width: 100%;
   flex-direction: column;
   align-items: flex-end;
-
   @include tablet {
     display: none;
   }
@@ -205,7 +203,7 @@
   display: none;
 
   @include tablet {
-    @include flexbox(flex-end, center);
+    @include flexbox(flex-start, center);
     flex-direction: column;
     position: relative;
     flex: 0 0 25%;
@@ -227,8 +225,7 @@
 }
 
 .form {
-
-  @include tablet{
+  @include tablet {
     display: none;
   }
 }
@@ -236,7 +233,7 @@
 .form_mob {
   display: none;
 
-  @include tablet{
+  @include tablet {
     display: block;
     width: 100%;
     flex: 0 0 100%;
@@ -253,18 +250,19 @@
 .depositTooltip {
   background: var(--color-blue-dark) !important;
 }
-.__react_component_tooltip::before, .__react_component_tooltip::after {
+.__react_component_tooltip::before,
+.__react_component_tooltip::after {
   border-top: 5px solid #062e56 !important;
 }
 
 .row {
-  @include tablet{
+  @include tablet {
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: space-evenly;
     justify-content: space-evenly;
-    text-align: right;
+    padding-bottom: 20px;
   }
 }
 
@@ -272,6 +270,4 @@
   .container {
     width: 80%;
   }
-  
-
 }
