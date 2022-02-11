@@ -8,7 +8,6 @@ import {
   rexLPETHAddress,
   SUSHIxAddress,
   MATICxAddress,
-  twoWayMarketAddress,
 } from 'constants/polygon_config';
 import Erc20Abi from 'constants/Erc20.json';
 import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
@@ -135,7 +134,7 @@ export const startFlow = async (
   const isSubscribed = await idaContract.methods
     .getSubscription(
       config.output,
-      twoWayMarketAddress, // publisher
+      exchangeAddress, // publisher
       config.outputIndex, // indexId
       sfUser.address,
     )
@@ -144,7 +143,7 @@ export const startFlow = async (
     if (isSubscribed.approved) {
       await sfUser.flow({
         recipient: await superFluid.user({
-          address: twoWayMarketAddress,
+          address: exchangeAddress,
           token: inputTokenAddress,
         }), // address: would be rickosheaAppaddress, currently not deployed
         flowRate: amount.toString(),
