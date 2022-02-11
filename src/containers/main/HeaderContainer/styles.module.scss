@@ -5,8 +5,9 @@
 
 @media only screen and (min-width: 769px){
   .header_wrap{
-    height: 9vh; 
-    background-image: linear-gradient( #1c5087, #363b55);
+    height: 10vh;
+    padding-right: 1em; 
+    background-color: #363b55;
   }
 
 
@@ -64,7 +65,7 @@
   padding-left: 1em;
   width: 100%;
   position: relative;
-
+  background-color: #363b55;
   @include tablet {
     @include flexbox(center, center);
     display: flex;
