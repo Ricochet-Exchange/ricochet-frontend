@@ -7,6 +7,7 @@ import { showErrorToast } from 'components/common/Toaster';
 // import { useTranslation } from 'i18n';
 // import { generateDate } from 'utils/generateDate';
 import ReactTooltip from 'react-tooltip';
+import { ExchangeKeys } from 'utils/getExchangeAddress';
 import { getLastDistributionOnPair } from 'utils/getLastDistributions';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
@@ -42,7 +43,7 @@ interface IProps {
   mainLoading?: boolean;
   flowType: FlowTypes,
   contractAddress: string,
-  exchangeKey: string,
+  exchangeKey: ExchangeKeys,
   isReadOnly?: boolean,
 }
 
