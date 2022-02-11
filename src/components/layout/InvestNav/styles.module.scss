@@ -2,12 +2,14 @@
 
 @media only screen and (min-width: 769px){
     .nav_container {
+        position: fixed;
+        top: 0vh;
+        left: 0;
         @include flexbox(flex-start, flex-start);
         flex-direction: column;
         text-align: left;
         flex-shrink: 1;
         background-color: #363b55;
-        padding-top: 1.5em;
         width: 10vw;
         min-height: 100vh;
         @include tablet() {
@@ -19,7 +21,7 @@
             flex-wrap: wrap;
         }
     }
-    
+
     .wallet_icon{
         height: 16px;
         margin-right: 6px;
@@ -27,13 +29,17 @@
     }
     
     .logo {
-        padding-top: 1em;
+        padding-top: 2.5em;
         padding-left: 1em;
-        padding-bottom: 1em;
+        padding-bottom: 5.5em;
+      }
+
+      .logo_img{
+            height: 6vh;
       }
     
     .link {
-        padding: 1em;
+        padding-left: 1em;
         padding-top: 1.5em;
         padding-bottom: 1.5em;
         padding-right: 2em;
@@ -52,7 +58,7 @@
     
         &:hover{
             padding-left: 0.5vw;
-            background-color: #3479c4;
+            background-color: #678EB5;
         }
     }
     
@@ -76,7 +82,7 @@
     }
     
     .nav_link_active {
-        background-color: #2775CA;
+        background-color: #678EB5;
         color: rgb(255, 255, 255);
         font-weight: bold;
         letter-spacing: 0.5px;
@@ -147,7 +153,7 @@
     }
 
     .nav_link_active {
-        background-color: #2775CA;
+        background-color: #678EB5;
         color: rgb(253, 253, 253);
         border-right: 0px solid black;
     }
