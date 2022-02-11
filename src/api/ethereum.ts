@@ -139,6 +139,7 @@ export const startFlow = async (
       sfUser.address,
     )
     .call();
+  console.log('is subsribed', isSubscribed);
   try {
     if (isSubscribed.approved) {
       await sfUser.flow({
@@ -283,6 +284,7 @@ export const startFlow = async (
           ],
         ];
       } else if (config.subsidy) {
+        console.log('cnofig subsidy', config.subsidy);
         call = [
           [
             201, // approve the ticket fee

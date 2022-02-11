@@ -6,11 +6,15 @@ import {
   RICAddress,
   usdcxRicExchangeAddress,
   twoWayMarketAddress,
+  twoWayMarketWBTCAddress,
+  WBTCAddress,
 } from './polygon_config';
 
 export enum FlowEnum {
   usdcWethFlowQuery = 'usdcWethFlowQuery',
   wethUsdcFlowQuery = 'wethUsdcFlowQuery',
+  wbtcUsdcFlowQuery = 'wbtcUsdcFlowQuery',
+  usdcWbtcFlowQuery = 'usdcWbtcFlowQuery',
   usdcRicFlowQuery = 'usdcRicFlowQuery',
 }
 // eslint-disable-next-line max-len
@@ -30,6 +34,18 @@ export const indexIDA : { input: string, output:string, subsidy?: string, subsid
     subsidyIndex: 2,
     inputIndex: 1,
     outputIndex: 0, 
+  },
+  {
+    input: WBTCAddress,
+    output: USDCxAddress,
+    inputIndex: 1,
+    outputIndex: 0, 
+  },
+  {
+    input: USDCxAddress,
+    output: WBTCAddress,
+    inputIndex: 0,
+    outputIndex: 1, 
   },
 ];
 
@@ -66,6 +82,24 @@ const markets: InvestmentFlow[] = [
     coinA: Coin.WETH,
     coinB: Coin.USDC,
     flowKey: FlowEnum.wethUsdcFlowQuery,
+    type: FlowTypes.market,
+  },
+  {
+    superToken: twoWayMarketWBTCAddress,
+    tokenA: WBTCAddress,
+    tokenB: USDCxAddress,
+    coinA: Coin.WBTC,
+    coinB: Coin.USDC,
+    flowKey: FlowEnum.wbtcUsdcFlowQuery,
+    type: FlowTypes.market,
+  },
+  {
+    superToken: twoWayMarketWBTCAddress,
+    tokenA: USDCxAddress,
+    tokenB: WBTCAddress,
+    coinA: Coin.USDC,
+    coinB: Coin.WBTC,
+    flowKey: FlowEnum.usdcWbtcFlowQuery,
     type: FlowTypes.market,
   },
 
