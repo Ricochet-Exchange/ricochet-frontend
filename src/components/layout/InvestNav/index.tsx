@@ -65,7 +65,7 @@ export const InvestNav = () => {
         to={Routes.InvestLiquidityMarkets}
       >
         <FontIcon name={FontIconName.Loop} size={16} />
-        <div className={styles.nav_text}>Streaming</div>
+        <div className={styles.nav_text}>LP</div>
       </NavLink>
 
       <NavLink
