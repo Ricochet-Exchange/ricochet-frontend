@@ -181,7 +181,7 @@ export const PanelChange: FC<IProps> = ({
                   balance={balanceB}
                 />
               </div>
-              {isLoading ? (
+              {mainLoading ? (
                 <span className={styles.streaming}>
                   <span className={styles.number}> Loading total values...</span>
                 </span>

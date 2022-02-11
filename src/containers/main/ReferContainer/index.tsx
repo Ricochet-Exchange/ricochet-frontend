@@ -18,7 +18,7 @@ const AFFILIATE_URL_PREFIX = 'app.ricochet.exchange/ref/';
 
 export const ReferContainer: React.FC<IProps> = () => {
   const { t } = useLang();
-  const { address, isReadOnly } = useShallowSelector(selectMain);
+  const { address } = useShallowSelector(selectMain);
   const {
     web3,
   } = useShallowSelector(selectMain);
@@ -138,7 +138,7 @@ export const ReferContainer: React.FC<IProps> = () => {
     navigator.clipboard.writeText(`${AFFILIATE_URL_PREFIX}${currentReferralId}`).catch();
   };
 
-  if (isReadOnly || !address) {
+  if (!address) {
     return (
       <div className={styles.container}>
         <div>{t('You have to connect your wallet to be able to create referrals')}</div>

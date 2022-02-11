@@ -103,7 +103,7 @@ export const InvestNav = () => {
         target="_blank"
       >
         Tutorial&nbsp;
-        <FontIcon name={FontIconName.External} size={16} />
+        <FontIcon name={FontIconName.External} size={12} />
       </NavLink>
        
     </div>
