@@ -28,6 +28,7 @@
 ### How to start
 
 bash:
+
 ```bash
 # creates a local development making sure that you are using the correct node version
 ./make.sh dev
@@ -35,7 +36,9 @@ bash:
 # run tests (by calling yarn script directly)
 ./make.sh test
 ```
+
 docker:
+
 ```docker
 
 # build a dev docker image locally
@@ -45,17 +48,18 @@ docker:
 ./make.sh run
 
 # remove the running container
-./make.sh rm 
+./make.sh rm
 
-# run the latest docker image 
+# run the latest docker image
 docker run -p 3000:3000 testricochet/ricochet-frontend:latest
 ```
+
 ### Project structure
 
 - `components` - contains react components. They can't have own state and business logic. Should be developed in storybook.
-- `containers` - containers use components, adding business logic for them
-- `store` - all data and global business logic placed here. Separate folder for each reducer
-- `utils` - common functions for project
+- `containers` - containers use components, adding business logic for them.
+- `store` - all data and global business logic placed here. Separate folder for each reducer.
+- `utils` - common functions for project.
 - `hooks` - common business logic, that can be reused between containers.
 
 ### Configuring project
@@ -69,14 +73,13 @@ REACT_APP_CHAIN_ID=137
 
 ### Test before merge to main
 
-- `fork the project` - fork the ricochet-frontend repo
+- `fork the project` - fork the ricochet-frontend repo.
 
-- `create a branch` - please avoid using special characters in your branch name: 
-https://docs.github.com/en/get-started/using-git/dealing-with-special-characters-in-branch-and-tag-names
+- `create a branch` - please avoid using special characters in your branch name:
+  https://docs.github.com/en/get-started/using-git/dealing-with-special-characters-in-branch-and-tag-names
 
-- `create a PR` - create a pull request on Github 
+- `create a PR` - create a pull request on GitHub.
 
-- `test your changes` - Check github actions, once all checks are succesful a new environment will be created in a few minutes, please check comments to get the complete url. I will look something like this:
-a380c3be5e6284f4ca1dfc37a12b3033-851332533.eu-west-1.elb.amazonaws.com/your-branch-name
-the environment will be destroyed once the PR is merged or closed
-
+- `test your changes` - Check github actions, once all checks are successful, a new environment will be created in a few minutes, please check comments to get the complete url. It will look something like this:
+  `a380c3be5e6284f4ca1dfc37a12b3033-851332533.eu-west-1.elb.amazonaws.com/your-branch-name`
+  the environment will be destroyed once the PR is merged or closed.
