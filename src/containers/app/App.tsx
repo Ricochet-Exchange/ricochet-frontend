@@ -7,10 +7,14 @@ import { Banner } from 'components/layout/Banner';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-
+  
   useEffect(() => {
-    dispatch(mainCheck());
-  }, [dispatch]);
+    if (localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) {
+      dispatch(mainCheck());
+    } else {
+      dispatch(mainCheck(true));
+    }
+  }, [dispatch, localStorage]);
 
   return (
     <>
