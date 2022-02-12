@@ -25,6 +25,59 @@ export const HeaderContainer:FC<IProps> = ({ address, balance }) => {
   const toggleMenuMobile = useCallback(() => {
     setIsShowMenu(!isShowMenu);
   }, [isShowMenu, setIsShowMenu]);
+  
+  const HeaderText = () => {
+    switch (location.pathname) {
+      case Routes.Wallet:
+        return (
+          <>
+            <div>{t('Wallet')}</div>
+            <WalletButton ricBalance={balance} account={address} mobile />
+          </>
+        );
+      case Routes.Invest:
+        return (
+          <>
+            <div>{t('Invest')}</div>
+            <WalletButton ricBalance={balance} account={address} mobile />
+          </>
+        );
+      case Routes.Banks:
+        return (
+          <>
+            <div>{t('Banks')}</div>
+            <WalletButton ricBalance={balance} account={address} mobile />
+          </>
+        );
+      case Routes.Vaults:
+        return (
+          <>
+            <div>{t('Vaults')}</div>
+            <WalletButton ricBalance={balance} account={address} mobile />
+          </>
+        );
+      case Routes.InvestLaunchpads:
+        return (
+          <>
+            <div>{t('Launchpad')}</div>
+            <WalletButton ricBalance={balance} account={address} mobile />
+          </>
+        );
+      case Routes.Refer:
+        return (
+          <>
+            <div>{t('Refer')}</div>
+            <WalletButton ricBalance={balance} account={address} mobile />
+          </>
+        );
+      default:
+        return (
+          <>
+            <WalletButton ricBalance={balance} account={address} mobile />
+          </>
+        );
+    }
+  };
 
   return (
     <div className={styles.header_wrap}>
@@ -58,15 +111,7 @@ export const HeaderContainer:FC<IProps> = ({ address, balance }) => {
           />
         </div>
         <div className={styles.mob_head}>
-          {location.pathname === Routes.Wallet ? (
-            t('Wallet')
-          ) : (
-            <>
-              <div>{t('Invest')}</div>
-              
-              <WalletButton ricBalance={balance} account={address} mobile />
-            </>
-          )}
+          <HeaderText />
         </div>
         <div className={styles.mob_menu}>
           <ButtonNew className={styles.menu_button} onClick={toggleMenuMobile}>
