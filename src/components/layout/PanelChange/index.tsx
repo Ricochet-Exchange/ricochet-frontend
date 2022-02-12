@@ -145,7 +145,6 @@ export const PanelChange: FC<IProps> = ({
                   </div>
                 )}
               </div>
-
               {isLoading && !personalFlow ? (
                 <span className={styles.stream}>
                   <span className={styles.number}>Loading your streams... </span>

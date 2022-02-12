@@ -13,6 +13,25 @@ export enum FlowEnum {
   wethUsdcFlowQuery = 'wethUsdcFlowQuery',
   usdcRicFlowQuery = 'usdcRicFlowQuery',
 }
+// eslint-disable-next-line max-len
+export const indexIDA : { input: string, output:string, subsidy?: string, subsidyIndex?: number, inputIndex: number, outputIndex: number }[] = [
+  {
+    input: USDCxAddress,
+    output: WETHxAddress,
+    subsidy: RICAddress,
+    subsidyIndex: 3,
+    inputIndex: 0,
+    outputIndex: 1, 
+  },
+  {
+    input: WETHxAddress,
+    output: USDCxAddress,
+    subsidy: RICAddress, 
+    subsidyIndex: 2,
+    inputIndex: 1,
+    outputIndex: 0, 
+  },
+];
 
 export enum FlowTypes {
   launchpad = 'launchpad',
