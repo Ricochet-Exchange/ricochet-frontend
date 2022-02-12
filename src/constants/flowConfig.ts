@@ -74,7 +74,7 @@ const launchpads: InvestmentFlow[] = [
 
 export const RoutesToFlowTypes = {
   [<string>Routes.Invest]: FlowTypes.market,
-  [<string>Routes.InvestLiquidityMarkets]: FlowTypes.sushiLP,
+  // [<string>Routes.InvestLiquidityMarkets]: FlowTypes.sushiLP,
   [<string>Routes.InvestLaunchpads]: FlowTypes.launchpad,
 };
 

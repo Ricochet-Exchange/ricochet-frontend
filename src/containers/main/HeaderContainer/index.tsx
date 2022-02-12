@@ -29,22 +29,21 @@ export const HeaderContainer:FC<IProps> = ({ address, balance }) => {
   return (
     <div className={styles.header_wrap}>
       <div className={styles.mob_panel}>
-
         <div className={styles.logo}>
           <Link to={Routes.Invest}><img src={logo} alt="Ricochet" /></Link>
         </div>
-       
+
         <div className={styles.links}>
           <Link
             to={Routes.Invest}
-            className={styles.dca_link} 
+            className={styles.dca_link}
             activeClassName={styles.active}
           >
             <div>{t('Invest')}</div>
           </Link>
           <Link
             to={Routes.Wallet}
-            className={styles.upgrade_link} 
+            className={styles.upgrade_link}
             activeClassName={styles.active}
           >
             <div>{t('Wallet')}</div>

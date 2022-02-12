@@ -20,6 +20,7 @@ export const WalletButton: FC<IProps> = ({
   const preConnect = account === 'Connect Wallet';
   const [connecting, setConnecting] = useState(false);
   const { ensName, ensAvatar } = useENS(account);
+
   const dispatchConnectWeb3Modal = () => {
     if (preConnect) {
       setConnecting(true);
