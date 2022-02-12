@@ -1,6 +1,4 @@
-import React, {
-  FC,
-} from 'react';
+import React, { FC } from 'react';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { MainLayout } from 'containers/MainLayout';
@@ -14,14 +12,13 @@ interface IProps {}
 export const VaultsPage: FC<IProps> = () => {
   const {
     address,
-    isReadOnly,
     balances,
   } = useShallowSelector(selectMain);
 
   return (
     <MainLayout>
       <div className={styles.header}>
-        <HeaderContainer isReadOnly={isReadOnly} balance={balances && balances[RICAddress]} address={address || 'Connect Wallet'} />
+        <HeaderContainer balance={balances && balances[RICAddress]} address={address || 'Connect Wallet'} />
       </div>
       <div className={styles.content}>
         <VaultsContainer />

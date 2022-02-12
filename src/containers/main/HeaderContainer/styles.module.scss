@@ -5,58 +5,29 @@
 
 @media only screen and (min-width: 769px){
   .header_wrap{
-    height: 9vh; 
-    background-image: linear-gradient( #1c5087, #363b55);
+    height: 10vh;
+    padding: 4em;
+    padding-right: 2em; 
+    background-color: #363b55;
   }
-
-
 
   .settings_wrap {
-    margin: 0;
-    padding: 0;
+    position: relative;
+    right: 0;
+}
+
+  .links{
+    display: none;
+  }
+
+  .logo{
+    display: none;
+  }
 
 
-    @include tablet {
-      display: none;
-    }
 }
 
 
-
-  .links {
- 
-  }
-
-  .dca_link {
-    
-  }
-
-  .dca_link,
-  .upgrade_link {
-    display: none
-  }
-
-  .active {
-    
-  }
-
-
-  .mob_menu {
-  
-  }
-
-  .mob_panel {
-    
-  }
-
-  .mob_head {
-  
-  }
-
-  .dot {
-   
-  }
-}
 
 
 .header_wrap {
@@ -64,7 +35,7 @@
   padding-left: 1em;
   width: 100%;
   position: relative;
-
+  background-color: #363b55;
   @include tablet {
     @include flexbox(center, center);
     display: flex;
@@ -86,15 +57,7 @@
 
 
 .links {
-  @include flexbox(center, center);
-  
-  margin: 56px 0 56px 0;
-
-  @include tablet {
-    display: none;
-  }
-
-  
+  opacity: 0.0001;
 }
 
 .dca_link {
@@ -145,7 +108,7 @@
 }
 
 .mob_panel {
-  @include flexbox(center, space-between);
+  @include flexbox(center, flex-end);
 
   width: 100%;
   @include tablet {
@@ -179,4 +142,24 @@
   color: var(--color-white-dark);
   margin: 0 0 0 23px;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 769px){
+  .header_wrap {
+    @include flexbox(center, space-between);
+    margin-top: 2.5em;
+    padding-left: 1em;
+    width: 100%;
+    position: relative;
+    background-color: #363b55;
+    @include tablet {
+      @include flexbox(center, center);
+      display: flex;
+      flex-direction: row;
+      max-height: 100px;
+    }
+  
+    
+  }
+  
 }

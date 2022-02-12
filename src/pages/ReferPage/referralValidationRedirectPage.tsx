@@ -1,21 +1,14 @@
-import {
-  RICAddress,
-  rexReferralAddress,
-} from 'constants/polygon_config';
+import { rexReferralAddress, RICAddress } from 'constants/polygon_config';
 import { HeaderContainer } from 'containers/main/HeaderContainer';
 import { MainLayout } from 'containers/MainLayout';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { useCookies } from 'react-cookie';
-import React, {
-  FC, 
-  useEffect,
-  useState,
-} from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { getContract } from 'utils/getContract';
 import { referralABI } from 'constants/abis';
-import { useParams, useLocation, useHistory } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { selectMain } from 'store/main/selectors';
-import { Routes } from 'constants/routes';
+import { REFERRAL_URL_PREFIX } from 'constants/routes';
 import { Loader } from '../../components/common/Loader';
 import styles from './stylesReferralValidationRedirectPage.module.scss';
 
@@ -31,7 +24,7 @@ enum ReferrerValidationStatusTypes {
 }
 
 const pathnameWithoutReferral = (pathname: string) => {
-  const referralWord = Routes.Referral.split('/')[1];
+  const referralWord = REFERRAL_URL_PREFIX;
   const pathnameParts = pathname.split('/');
   const index = pathnameParts.findIndex((each) => each === referralWord);
   return pathnameParts.slice(0, index).join('/');
@@ -41,7 +34,6 @@ const ReferralValidationRedirectPage: FC<IProps> = () => {
   const {
     address,
     balances,
-    isReadOnly,
     web3,
   } = useShallowSelector(selectMain);
 
@@ -86,7 +78,7 @@ const ReferralValidationRedirectPage: FC<IProps> = () => {
   return (
     <MainLayout>
       <div className={styles.header}>
-        <HeaderContainer isReadOnly={isReadOnly} balance={balances && balances[RICAddress]} address={address || 'Connecting'} />
+        <HeaderContainer balance={balances && balances[RICAddress]} address={address || 'Connecting'} />
       </div>
       <div className={styles.content}>
         <div className={styles.inner_content}>

@@ -1,4 +1,4 @@
-import { put, call, all } from 'redux-saga/effects';
+import { all, call, put } from 'redux-saga/effects';
 import { mainGetReadOnlyData, mainSetState } from '../actionCreators';
 import { sweepQueryFlow } from './sweepQueryFlow';
 import { Unwrap } from '../../../types/unwrap';
@@ -17,6 +17,8 @@ export function* loadReadOnlyData() {
     }));
   } catch (e) {
     if (process.env.REACT_APP_API_NODE_URL) yield put(mainGetReadOnlyData());
-    else throw new Error(`Missing mandatory environment variable REACT_APP_API_NODE_URL. Error: ${e?.message}`);
+    else if (e instanceof Error) {
+      throw new Error(`Missing mandatory environment variable REACT_APP_API_NODE_URL. Error: ${e?.message}`);
+    }
   }
 }

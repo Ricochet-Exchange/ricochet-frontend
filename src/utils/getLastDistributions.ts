@@ -1,17 +1,17 @@
-import { launchpadABI, streamExchangeABI } from 'constants/abis';
+import { streamExchangeABI } from 'constants/abis';
 import { getContract } from 'utils/getContract';
-import { usdcxRicExchangeAddress } from 'constants/polygon_config';
 import Web3 from 'web3';
+import { ExchangeKeys, getExchangeAddressFromKey } from './getExchangeAddress';
 
-export const getLastDistributionAtRexMarket = async (web3:Web3): Promise<Date> => {
-  const contract = getContract(usdcxRicExchangeAddress, streamExchangeABI, web3);
-  const lastDate = await contract.methods.getLastDistributionAt().call();
-  const date = new Date(lastDate * 1000);
-  return date;
-};
-
-export const getLastDistributionAtRexLaunchPad = async (web3:Web3): Promise<Date> => {
-  const contract = getContract(usdcxRicExchangeAddress, launchpadABI, web3);
+export const getLastDistributionOnPair = async (
+  web3: Web3,
+  exchangeKey: ExchangeKeys,
+): Promise<Date> => {
+  const contract = getContract(
+    getExchangeAddressFromKey(exchangeKey),
+    streamExchangeABI,
+    web3,
+  );
   const lastDate = await contract.methods.getLastDistributionAt().call();
   const date = new Date(lastDate * 1000);
   return date;

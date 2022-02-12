@@ -3,7 +3,7 @@ import { modalHide, modalShow } from 'store/modal/actionCreators';
 import { ModalType } from 'store/modal/types';
 import Web3 from 'web3';
 import {
-  mainCheck, mainGetData, mainGetReadOnlyData, mainSetState,
+  connectWeb3Modal, mainCheck, mainGetData, mainGetReadOnlyData, mainSetState, 
 } from '../actionCreators';
 import { getConnectedSafe, getSafeProvider } from '../../../utils/getSafeInfo';
 import { Unwrap } from '../../../types/unwrap';
@@ -26,6 +26,8 @@ export function* mainCheckSaga() {
         // Run modal switch network
         yield put(modalShow(ModalType.Network));
       }
+    } else if (localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) {
+      yield put(connectWeb3Modal());
     } else {
       yield put(mainSetState({
         web3: new Web3(new Web3.providers.HttpProvider(process.env.REACT_APP_API_NODE_URL!)),

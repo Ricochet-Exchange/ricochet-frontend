@@ -1,28 +1,23 @@
-import React, {
-  FC, useCallback, useState,
-} from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Routes } from 'constants/routes';
 import { UserSettings } from 'components/layout/UserSettings';
 import Link from 'components/common/Link';
 import { MobileMenu } from 'components/layout/MobileMenu';
-import { useLang } from 'hooks/useLang';
 import ButtonNew from 'components/common/ButtonNew';
 import { WalletButton } from 'components/common/WalletButton';
 import { useTranslation } from 'i18n';
-import logo from '../../../assets/images/logo.svg';
 import styles from './styles.module.scss';
 import menuImg from '../../../assets/images/menu.svg';
+import logo from '../../../assets/images/logo.svg';
 
 interface IProps {
   address: string;
   balance?: string;
-  isReadOnly?: boolean;
 }
 
-export const HeaderContainer:FC<IProps> = ({ address, balance, isReadOnly }) => {
+export const HeaderContainer:FC<IProps> = ({ address, balance }) => {
   const location = useLocation();
-  const { language } = useLang();
   const { t } = useTranslation('main');
 
   const [isShowMenu, setIsShowMenu] = useState(false);
@@ -58,11 +53,9 @@ export const HeaderContainer:FC<IProps> = ({ address, balance, isReadOnly }) => 
         
         <div className={styles.settings_wrap}>
           <UserSettings
-            className={styles.dot} 
-            language={language}
+            className={styles.dot}
             ricBalance={balance}
             account={address}
-            isReadOnly={isReadOnly}
           />
         </div>
         <div className={styles.mob_head}>

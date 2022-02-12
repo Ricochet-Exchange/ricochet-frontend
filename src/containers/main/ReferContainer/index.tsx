@@ -1,12 +1,10 @@
-import React, { ChangeEvent, useState, useEffect } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { TextInput } from 'components/common/TextInput';
 import { useLang } from 'hooks/useLang';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { InvestNav } from 'components/layout/InvestNav';
-import {
-  rexReferralAddress,
-} from 'constants/polygon_config';
+import { rexReferralAddress } from 'constants/polygon_config';
 import { getContract } from 'utils/getContract';
 import { referralABI } from 'constants/abis';
 import ButtonNew from '../../../components/common/ButtonNew';
@@ -130,6 +128,9 @@ export const ReferContainer: React.FC<IProps> = () => {
         .send({ from: address }))
       .catch((err: Error) => { 
         setStatus('inactive');
+        setValidationErrors([
+          'Error registering this url: possible duplicate. Please try another url',
+        ]);
         console.error(err);
       });
   };
@@ -140,8 +141,9 @@ export const ReferContainer: React.FC<IProps> = () => {
 
   if (!address) {
     return (
-      <div className={styles.container}>
-        <div>{t('You have to connect your wallet to be able to create referrals')}</div>
+      <div className={styles.container_special}>
+        <InvestNav />
+        <div className={styles.container_explain}>{t('You have to connect your wallet to be able to create referrals')}</div>
       </div>
     );
   }
@@ -176,6 +178,7 @@ export const ReferContainer: React.FC<IProps> = () => {
         </div>
         {(status === 'inactive' || status === 'registering') && (
         <div className={styles.input_wrap}>
+          <p>Customise your referral url</p>
           <TextInput
             value={currentReferralId}
             placeholder={t('Your new referral id')}
@@ -186,7 +189,7 @@ export const ReferContainer: React.FC<IProps> = () => {
               <div className={styles.hint}>
                 {AFFILIATE_URL_PREFIX}
               </div>
-)}
+            )}
           />
           <div className={styles.validation_errors}>
             {validationErrors.map((each) => <p key={each}>{each}</p>)}
