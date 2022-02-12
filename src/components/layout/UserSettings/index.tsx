@@ -1,84 +1,26 @@
 import React, { FC } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { Dropdown } from 'components/common/Dropdown';
-import { LocaleKey, localeNames } from 'i18n/utils';
-import ButtonNew from 'components/common/ButtonNew';
-import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'i18n';
-import { invokeRamp } from 'api/rampNetwork';
-import logo from 'assets/images/logo.png';
 import { WalletButton } from 'components/common/WalletButton';
-import useENS from 'hooks/useENS';
-import { SelectLanguage } from '../SelectLanguage';
-import { Routes } from '../../../constants/routes';
 import styles from './styles.module.scss';
 
 interface IProps {
   account: string;
   ricBalance?: string;
-  language: LocaleKey;
   className?: string;
-  onSelectLanguage: (value: LocaleKey) => void;
-  isReadOnly?: boolean;
 }
 
 export const UserSettings: FC<IProps> = ({
-  isReadOnly,
-  onSelectLanguage,
   ricBalance = '',
   account,
-  language,
   className,
 }) => {
-  const history = useHistory();
-  const { ensName } = useENS(account);
-  const handleFundButton = () =>
-    invokeRamp(
-      {
-        hostLogoUrl: `${window.location.origin}${logo}`,
-        userAddress: account,
-      },
-      () => {
-        history.push(Routes.Wallet);
-      },
-    );
   const { t } = useTranslation('main');
-  const preConnect = account === 'Connect Wallet';
 
   return (
     <div className={styles.user_settings}>
-      <WalletButton ricBalance={ricBalance} account={ensName || account} isReadOnly={isReadOnly} />
-      {!preConnect && (
-        <ButtonNew
-          disabled={isReadOnly}
-          className={styles.fund_panel}
-          onClick={handleFundButton}
-        >
-          <div className={styles.fund_inner}>{t('Fund Wallet')}</div>
-        </ButtonNew>
-      )}
-      <div className={styles.language_wrap}>
-        <Dropdown
-          placement="bottom-end"
-          popupClassName={styles.lang_dropdown}
-          buttonClassName={styles.lang_button}
-          label={(
-            <div className={styles.language}>
-              <div className={styles.language_name}>
-                {localeNames[language]}
-              </div>
-              <FontIcon
-                className={styles.lang_icon}
-                name={FontIconName.ArrowDown}
-                size={16}
-              />
-            </div>
-          )}
-        >
-          <SelectLanguage onChange={onSelectLanguage} />
-        </Dropdown>
-      </div>
-
+      <WalletButton ricBalance={ricBalance} account={account} />
       <div className={styles.dot_wrap}>
         <div className={styles.button}>
           <Dropdown
@@ -134,7 +76,7 @@ export const UserSettings: FC<IProps> = ({
                     {t('Join the community on Discord')}
                   </span>
                 </li>
-                <li className={styles.discord}>
+                <li className={styles.terms}>
                   <a
                     className={styles.head}
                     href="https://github.com/Ricochet-Exchange/ricochet-frontend/blob/main/TERMS.md"

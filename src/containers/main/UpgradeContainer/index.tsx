@@ -3,13 +3,11 @@ import { showErrorToast } from 'components/common/Toaster';
 import { UpgradePanel } from 'components/layout/UpgradePanel';
 import { UserSettings } from 'components/layout/UserSettings';
 import { Coin, iconsCoin } from 'constants/coins';
-import { useLang } from 'hooks/useLang';
 import React, {
   ChangeEvent, FC, useCallback, useEffect, useState, 
 } from 'react';
 import { useDispatch } from 'react-redux';
 import { approveAction, downgradeAction, upgradeAction } from 'store/main/actionCreators';
-
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { upgradeTokensList } from 'constants/upgradeConfig';
@@ -68,7 +66,6 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
   const [upgradeValue, setUpgradeValue] = useState('');
   const dispatch = useDispatch();
 
-  const { language, changeLanguage } = useLang();
   const { t } = useTranslation('main');
 
   const callback = (e?: string) => {
@@ -206,12 +203,14 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
           <tr>
             <td> Currency</td>
             <td>
-              Your Wallet
+              Wallet
               <br />
               Balance
             </td>
             <td className={styles.section}>
-              SuperToken
+              Super
+              <br />
+              Token
               <br />
               Balance
             </td>
@@ -234,7 +233,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
               <span className={styles.blue}> USD</span>
             </td>
 
-            <td>
+            <td className={styles.upgrade_downgrade_head}>
               Upgrade or
               <br />
               Downgrade
@@ -281,13 +280,13 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                 .times(usdPrice);
 
               return (
-                <tr>
+                <tr key={token.coin}>
                   <td>
                     <div className={styles.currDisplay}>
                       <div className={styles.currDisplayImg}>
                         <img
-                          height="24px"
-                          width="24px"
+                          height="18px"
+                          width="18px"
                           src={iconsCoin[token.coin]}
                           alt="icon for token"
                         />
@@ -420,25 +419,6 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                           role="button"
                           onClick={() => {
                             setSelectedIndex(index);
-                            setSelectType('upgrade');
-                            setUpgradeCoin(token.coin);
-                            setUpgradeConfig(token);
-                          }}
-                          onKeyDown={() => {
-                            setSelectedIndex(index);
-                            setSelectType('upgrade');
-                            setUpgradeCoin(token.coin);
-                            setUpgradeConfig(token);
-                          }}
-                          className={token.coin === Coin.RIC
-                            ? styles.disabledButton : styles.upgradeButton}
-                        >
-                          <FontIcon name={FontIconName.Plus} size={12} />
-                        </span>
-                        <span
-                          role="button"
-                          onClick={() => {
-                            setSelectedIndex(index);
                             setSelectType('downgrade');
                             setDowngradeCoin(token.coin);
                             setDowngradeAddress(token.superTokenAddress);
@@ -456,6 +436,25 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                         >
                           <FontIcon name={FontIconName.Minus} size={15} />
                         </span>
+                        <span
+                          role="button"
+                          onClick={() => {
+                            setSelectedIndex(index);
+                            setSelectType('upgrade');
+                            setUpgradeCoin(token.coin);
+                            setUpgradeConfig(token);
+                          }}
+                          onKeyDown={() => {
+                            setSelectedIndex(index);
+                            setSelectType('upgrade');
+                            setUpgradeCoin(token.coin);
+                            setUpgradeConfig(token);
+                          }}
+                          className={token.coin === Coin.RIC
+                            ? styles.disabledButton : styles.upgradeButton}
+                        >
+                          <FontIcon name={FontIconName.Plus} size={12} />
+                        </span>
                       </div>
                     </Popover>
                   </td>
@@ -467,12 +466,9 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
       <div>
         <div className={styles.settings_mob}>
           <UserSettings
-            onSelectLanguage={changeLanguage}
-            language={language}
             className={styles.dot}
             ricBalance={balance}
             account={address}
-            isReadOnly={isReadOnly}
           />
         </div>
       </div>
