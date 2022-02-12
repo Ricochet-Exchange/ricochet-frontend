@@ -77,16 +77,14 @@
 }
 .currDisplay {  
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   flex-direction: row;
   gap: 5px;
-  
 }
 
 .currDisplayImg {
-  width: 24px;
-  height: 24px;
- 
+  width: 18px;
+  height: 18px;
 }
 
 .currDisplayName {

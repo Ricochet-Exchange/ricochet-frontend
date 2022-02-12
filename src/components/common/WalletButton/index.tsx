@@ -4,21 +4,22 @@ import ButtonNew from 'components/common/ButtonNew';
 import { numFormatter } from 'utils/balances';
 import { useDispatch } from 'react-redux';
 import { mainCheck } from 'store/main/actionCreators';
+import useENS from 'hooks/useENS';
 import styles from './styles.module.scss';
 
 interface IProps {
   account: string;
-  avatar?: string;
   ricBalance?: string;
   mobile?: boolean;
 }
 
 export const WalletButton: FC<IProps> = ({
-  ricBalance = '', account, mobile, avatar,
+  ricBalance = '', account, mobile,
 }) => {
   const dispatch = useDispatch();
   const preConnect = account === 'Connect Wallet';
   const [connecting, setConnecting] = useState(false);
+  const { ensName, ensAvatar } = useENS(account);
   const dispatchMain = () => {
     if (preConnect) {
       setConnecting(true);
@@ -39,12 +40,12 @@ export const WalletButton: FC<IProps> = ({
       )}
       <div className={styles.address}>
         {/* eslint-disable-next-line no-nested-ternary */}
-        {connecting ? 'Connecting' : (mobile ? (preConnect ? account : 'Connected') : (preConnect ? account : account.substring(0, 6)))}
+        {connecting ? 'Connecting' : (mobile ? (preConnect ? ensName || account : 'Connected') : (preConnect ? account : ensName || account.substring(0, 6)))}
       </div>
 
       <div className={styles.icon_wrap}>
         {!preConnect && (
-          avatar ? <img className={styles.avatar} src={avatar} alt="user avatar" />
+          ensAvatar ? <img className={styles.avatar} src={ensAvatar} alt="user avatar" />
             : (
               <FontIcon
                 className={styles.icon}

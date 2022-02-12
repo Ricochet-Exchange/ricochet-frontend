@@ -4,16 +4,17 @@ import { ModalType } from 'store/modal/types';
 import Web3 from 'web3';
 import Web3Modal from 'web3modal';
 import WalletConnectProvider from '@walletconnect/web3-provider';
+import WalletLink from 'walletlink';
+import { getConnectedSafe, requestProvider } from 'utils/getSafeInfo';
+import { Unwrap } from 'types/unwrap';
 import {
   mainCheck,
   mainGetData,
   mainGetReadOnlyData,
   mainSetState,
 } from '../actionCreators';
-import { getConnectedSafe, requestProvider } from '../../../utils/getSafeInfo';
-import { Unwrap } from '../../../types/unwrap';
 
-export function* mainCheckSaga(payload: { init:boolean }) {
+export function* mainCheckSaga(payload: ReturnType<typeof mainCheck>): Generator<any, void, any> {
   const providerOptions = {
     walletconnect: {
       package: WalletConnectProvider, // required
@@ -21,6 +22,13 @@ export function* mainCheckSaga(payload: { init:boolean }) {
         rpc: {
           137: process.env.REACT_APP_RPC_URLS,
         },
+      },
+    },
+    walletlink: {
+      package: WalletLink,
+      options: {
+        rpc: process.env.REACT_APP_RPC_URLS,
+        chainId: 137,
       },
     },
   };
