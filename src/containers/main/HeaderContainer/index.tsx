@@ -9,9 +9,9 @@ import { MobileMenu } from 'components/layout/MobileMenu';
 import ButtonNew from 'components/common/ButtonNew';
 import { WalletButton } from 'components/common/WalletButton';
 import { useTranslation } from 'i18n';
-import logo from '../../../assets/images/logo.svg';
 import styles from './styles.module.scss';
 import menuImg from '../../../assets/images/menu.svg';
+import logo from '../../../assets/images/logo.svg';
 
 interface IProps {
   address: string;

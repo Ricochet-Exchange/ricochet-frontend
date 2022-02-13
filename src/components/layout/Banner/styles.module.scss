@@ -4,8 +4,8 @@
   top: 0;
   right: 0;
   left: 0;
-  z-index: 2;
-
+  z-index: 1000000;
+  position: absolute;
   background-color: var(--color-yellow);
   color: var(--color-black-dark);
 

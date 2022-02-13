@@ -134,13 +134,12 @@ export const startFlow = async (
     .getSubscription(
       config.output,
       exchangeAddress, // publisher
-      config.outputIndex.toString(), // indexId
+      config.outputIndex, // indexId
       sfUser.address,
     )
     .call();
   try {
     if (isSubscribed.approved) {
-      console.log('approved');
       await sfUser.flow({
         recipient: await superFluid.user({
           address: exchangeAddress,
@@ -283,7 +282,6 @@ export const startFlow = async (
           ],
         ];
       } else if (config.subsidy) {
-        console.log('cnofig subsidy', config.subsidy);
         call = [
           [
             201, // approve the ticket fee
