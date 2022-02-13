@@ -7,7 +7,7 @@ import {
   usdcxRicExchangeAddress,
   twoWayMarketAddress,
   twoWayMarketWBTCAddress,
-  WBTCAddress,
+  WBTCxAddress,
 } from './polygon_config';
 
 export enum FlowEnum {
@@ -36,14 +36,18 @@ export const indexIDA : { input: string, output:string, subsidy?: string, subsid
     outputIndex: 0, 
   },
   {
-    input: WBTCAddress,
+    input: WBTCxAddress,
     output: USDCxAddress,
+    subsidy: RICAddress, 
+    subsidyIndex: 3,
     inputIndex: 1,
     outputIndex: 0, 
   },
   {
     input: USDCxAddress,
-    output: WBTCAddress,
+    output: WBTCxAddress,
+    subsidy: RICAddress, 
+    subsidyIndex: 2,
     inputIndex: 0,
     outputIndex: 1, 
   },
@@ -86,7 +90,7 @@ const markets: InvestmentFlow[] = [
   },
   {
     superToken: twoWayMarketWBTCAddress,
-    tokenA: WBTCAddress,
+    tokenA: WBTCxAddress,
     tokenB: USDCxAddress,
     coinA: Coin.WBTC,
     coinB: Coin.USDC,
@@ -96,7 +100,7 @@ const markets: InvestmentFlow[] = [
   {
     superToken: twoWayMarketWBTCAddress,
     tokenA: USDCxAddress,
-    tokenB: WBTCAddress,
+    tokenB: WBTCxAddress,
     coinA: Coin.USDC,
     coinB: Coin.WBTC,
     flowKey: FlowEnum.usdcWbtcFlowQuery,

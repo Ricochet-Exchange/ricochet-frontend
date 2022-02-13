@@ -130,18 +130,17 @@ export const startFlow = async (
 
   // eslint-disable-next-line max-len
   const config = indexIDA.filter((data) => data.input === inputTokenAddress && data.output === outputTokenAddress)[0];
-
   const isSubscribed = await idaContract.methods
     .getSubscription(
       config.output,
       exchangeAddress, // publisher
-      config.outputIndex, // indexId
+      config.outputIndex.toString(), // indexId
       sfUser.address,
     )
     .call();
-  console.log('is subsribed', isSubscribed);
   try {
     if (isSubscribed.approved) {
+      console.log('approved');
       await sfUser.flow({
         recipient: await superFluid.user({
           address: exchangeAddress,
@@ -342,6 +341,7 @@ export const startFlow = async (
           ],
         ];
       } else {
+        console.log('cnofig subsidy', config.subsidy);
         call = [
           [
             201, // approve the ticket fee
