@@ -339,7 +339,6 @@ export const startFlow = async (
           ],
         ];
       } else {
-        console.log('cnofig subsidy', config.subsidy);
         call = [
           [
             201, // approve the ticket fee
