@@ -195,7 +195,10 @@
   flex-direction: column;
   align-items: flex-end;
   @include tablet {
-    display: none;
+    align-items: flex-start;
+    padding-left: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
   }
 }
 
