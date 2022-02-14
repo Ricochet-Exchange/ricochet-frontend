@@ -6,10 +6,7 @@ import { Unwrap } from 'types/unwrap';
 import { getContract } from 'utils/getContract';
 import { transformError } from 'utils/transformError';
 import { sweepQueryFlow } from './sweepQueryFlow';
-import {
-
-  startFlowAction,
-} from '../actionCreators';
+import { startFlowAction } from '../actionCreators';
 import { selectMain } from '../selectors';
 
 export function* startFlowSaga({ payload }: ReturnType<typeof startFlowAction >) {

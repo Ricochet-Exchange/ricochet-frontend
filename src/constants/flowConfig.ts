@@ -1,11 +1,7 @@
 import { Routes } from 'constants/routes';
 import { Coin } from './coins';
 import {
-  USDCxAddress,
-  WETHxAddress,
-  RICAddress,
-  usdcxRicExchangeAddress,
-  twoWayMarketAddress,
+  RICAddress, twoWayMarketAddress, USDCxAddress, usdcxRicExchangeAddress, WETHxAddress, 
 } from './polygon_config';
 
 export enum FlowEnum {
@@ -97,7 +93,7 @@ const launchpads: InvestmentFlow[] = [
 
 export const RoutesToFlowTypes = {
   [<string>Routes.Invest]: FlowTypes.market,
-  [<string>Routes.InvestLiquidityMarkets]: FlowTypes.sushiLP,
+  // [<string>Routes.InvestLiquidityMarkets]: FlowTypes.sushiLP,
   [<string>Routes.InvestLaunchpads]: FlowTypes.launchpad,
 };
 

@@ -3,9 +3,7 @@ import { HeaderContainer } from 'containers/main/HeaderContainer';
 import { InvestContainer } from 'containers/main/InvestContainer';
 import { MainLayout } from 'containers/MainLayout';
 import { useShallowSelector } from 'hooks/useShallowSelector';
-import React, {
-  FC,
-} from 'react';
+import React, { FC } from 'react';
 import { selectMain } from 'store/main/selectors';
 import styles from './styles.module.scss';
 
