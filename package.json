@@ -35,6 +35,8 @@
     "@makerdao/multicall": "^0.12.0",
     "@popperjs/core": "^2.10.2",
     "@ramp-network/ramp-instant-sdk": "^2.5.1",
+    "@sentry/react": "^6.17.6",
+    "@sentry/tracing": "^6.17.6",
     "@superfluid-finance/js-sdk": "^0.4.3",
     "@truffle/contract": "^4.3.31",
     "@types/big.js": "^6.1.2",
