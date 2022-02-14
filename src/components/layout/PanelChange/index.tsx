@@ -1,6 +1,5 @@
 import React, {
-  ChangeEvent,
-  FC, useCallback, useEffect, useState,
+  ChangeEvent, FC, useCallback, useEffect, useState, 
 } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { showErrorToast } from 'components/common/Toaster';
@@ -100,7 +99,12 @@ export const PanelChange: FC<IProps> = ({
     [inputShow, setInputShow]);
 
   const handleChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    // @ts-ignore
+    if (e.target.value < 0) {
+      e.preventDefault();
+    } else {
+      setValue(e.target.value);
+    }
   }, []);
 
   const callback = (e?: string) => {
@@ -149,7 +153,6 @@ export const PanelChange: FC<IProps> = ({
                   </div>
                 )}
               </div>
-
               {isLoading && !personalFlow ? (
                 <span className={styles.stream}>
                   <span className={styles.number}>Loading your streams... </span>
@@ -205,7 +208,7 @@ export const PanelChange: FC<IProps> = ({
                   balance={balanceB}
                 />
               </div>
-              {isLoading ? (
+              {mainLoading ? (
                 <span className={styles.streaming}>
                   <span className={styles.number}> Loading total values...</span>
                 </span>
@@ -247,6 +250,7 @@ export const PanelChange: FC<IProps> = ({
                       {lastDistribution && <ReactTimeAgo date={lastDistribution} />}
                     </b>
                   </span>
+                  <AddressLink addressLink={link} address={contractAddress} />
                 </div>
               )}
               {inputShow

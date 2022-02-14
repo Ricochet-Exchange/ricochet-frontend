@@ -59,7 +59,9 @@
 
 
 .links {
-  opacity: 0.0001;
+  @include tablet {
+    display: none;
+  }
 }
 
 .dca_link {
@@ -84,6 +86,7 @@
     font-weight: bold;
     text-decoration: underline;
   }
+
 }
 
 .active {

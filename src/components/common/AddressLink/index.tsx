@@ -8,7 +8,6 @@ type Props = {
 
 export const AddressLink: React.FC<Props> = ({
   addressLink,
-}) => (
   <a href={addressLink} target="_blank" rel="noreferrer" className={(styles.wrap)}>
     <img src={leavePage} alt="contract-address-button" className={styles.address_link_btn} />
   </a>

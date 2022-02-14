@@ -34,6 +34,12 @@ export const MobileMenu: FC<IProps> = ({ closeMenu }) => {
             <div>{t('Invest')}</div>
           </Link>
           <Link
+            to={Routes.Refer}
+            className={styles.refer}
+          >
+            <div>{t('Refer')}</div>
+          </Link>
+          <Link
             to={Routes.Wallet}
             className={styles.wallet} 
             activeClassName={styles.active}
@@ -46,6 +52,7 @@ export const MobileMenu: FC<IProps> = ({ closeMenu }) => {
           >
             <div>{t('Banks')}</div>
           </Link>
+
         </div>
       </div>
     </div>

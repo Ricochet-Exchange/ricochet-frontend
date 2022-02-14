@@ -1,6 +1,4 @@
-import React, {
-  FC,
-} from 'react';
+import React, { FC } from 'react';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { RICAddress } from 'constants/polygon_config';
 import { selectMain } from 'store/main/selectors';
@@ -20,7 +18,7 @@ export const BanksPage: FC<IProps> = () => {
   return (
     <MainLayout>
       <div className={styles.header}>
-        <HeaderContainer balance={balances && balances[RICAddress]} address={address || 'Connecting'} />
+        <HeaderContainer balance={balances && balances[RICAddress]} address={address || 'Connect Wallet'} />
       </div>
       <div className={styles.content}>
         <BanksContainer />
