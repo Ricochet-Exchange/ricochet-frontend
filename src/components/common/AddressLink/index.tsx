@@ -4,7 +4,6 @@ import styles from './styles.module.scss';
 
 type Props = {
   addressLink?: string;
-  address: string;
 };
 
 export const AddressLink: React.FC<Props> = ({
