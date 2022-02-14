@@ -6,6 +6,7 @@ import { EtherscanLink } from 'components/banks/EtherScanLink';
 import { ApproveToken } from 'components/banks/ApproveToken';
 import { LoadingWrapper } from 'components/common/LoadingWrapper';
 import { BankType } from 'store/banks/types';
+import { blockInvalidChar } from 'utils/blockInvalidChars';
 import styles from './styles.module.scss';
 
 type Props = {
@@ -112,7 +113,9 @@ export const VaultTransaction: FC<Props> = ({
                   <TextInput
                     type="number"
                     value={value}
+                    min={0}
                     onChange={onChange}
+                    onKeyDown={blockInvalidChar}
                     right={(
                       <div className={styles.right}>
                         {isCollateral ?
@@ -127,21 +130,20 @@ export const VaultTransaction: FC<Props> = ({
             <div className={styles.VaultTransaction__buttons}>
               {activeTransaction === 'repay' ? (
                 <Button
-                  label="repay max"
-                  presentation="link"
+                  label="Repay max"
+                  disabled={activeTransaction === 'repay' && needsRepayUnlock()}
                   onClick={onMaxRepay}
                   className={styles.linkButton}
                 />
               ) : null}
               <Button
-                label="MAX"
+                label="Max"
                 className={styles.linkButton}
-                presentation="link"
+                disabled={activeTransaction === 'repay' && needsRepayUnlock()}
                 onClick={onMaxAmount}
               />
               <Button
-                label="cancel"
-                presentation="link"
+                label="Cancel"
                 onClick={onCancel}
                 className={styles.linkButton}
               />

@@ -2,7 +2,6 @@
 
 .VaultDetails {
   background-color: var(--color-blue-light);
-
   margin-bottom: 35px;
   border-radius: 10px;
   width: 100%;
@@ -99,22 +98,22 @@
 }
 
 .liqprice h1 {
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: normal;
   color: var(--color-blue);;
   margin-bottom: 0;
 }
 
 .liqprice h3 {
-  margin: 0 0 20px 8px;
+  margin: 0 0 10px 8px;
 }
 
 .collateralPrice h3 {
-  margin: 0 0 20px 8px;
+  margin: 0 0 10px 8px;
 }
 
 .collateralPrice h1 {
-  font-size: 4rem;
+  font-size: 3rem;
   margin-bottom: 0;
 }
 
@@ -127,7 +126,7 @@
 }
 
 .VaultDetails__content {
-  @include flexbox(flex-start, space-around);
+  @include flexbox(flex-start, space-between);
   width: 100%;
   padding: 28px 35px 20px 50px;
   flex-wrap: wrap;
