@@ -1,7 +1,9 @@
 import React, { FC, MouseEvent } from 'react';
 import cx from 'classnames';
 import { VaultActions } from 'components/banks/VaultActions';
-import { truncateAddr, getVaultCalcValues } from 'utils/helpers';
+import { AddressLink } from 'components/common/AddressLink';
+import { getAddressLink } from 'utils/getAddressLink';
+import { getVaultCalcValues } from 'utils/helpers';
 import { BankStatusBar } from 'components/banks/BankStatusBar';
 import { BankType } from 'store/banks/types';
 import { VaultTransactionContainer } from 'containers/main/VaultTransactionContainer';
@@ -26,6 +28,7 @@ export const VaultDetails: FC<Props> = ({
   setTransactionHash,
 }) => {
   const vaultCalcValues = getVaultCalcValues(bank);
+  const link = getAddressLink(bank.bankAddress);
 
   return (
     <div className={styles.VaultDetails}>
@@ -58,7 +61,7 @@ export const VaultDetails: FC<Props> = ({
           <div className={styles.BankData}>
             <div className={styles.BankDataTxt}>
               <p className={styles.BankName}>{bank.name}</p>
-              <p>{truncateAddr(bank.bankAddress)}</p>
+              <AddressLink addressLink={link} address={bank.bankAddress} />
             </div>
             <FontIcon
               className={styles.bankIcon}

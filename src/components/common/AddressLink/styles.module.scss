@@ -1,0 +1,55 @@
+@import "../../../assets/styles/mixins";
+
+.address_link_btn{
+    height: 3vh;
+   
+}
+
+.wrap{
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-top: 0.7em;
+    height: 5vh;
+    color: rgb(45, 45, 45);
+    text-decoration: none; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 8vw;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    flex-direction: row;
+
+    @include tablet {
+        margin-top: 2em;
+        min-width: 40vw;
+        justify-content: space-between;
+        border: none;
+    }
+}
+
+.contract_head{
+    margin: 0;
+    font-size: smaller;
+
+    @include tablet {
+        font-size: medium;
+    }
+}
+
+.contract{
+    margin-top: 0;
+    font-size: xx-small;
+    color: rgba(74, 74, 74, 0.741);
+    @include tablet {
+        font-size:small;
+    }
+}
+
+.address_headers{
+    height: 5vh;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 2.5vh;
+}
