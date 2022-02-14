@@ -10,6 +10,8 @@ import ReactTooltip from 'react-tooltip';
 import { ExchangeKeys } from 'utils/getExchangeAddress';
 import { getLastDistributionOnPair } from 'utils/getLastDistributions';
 import { useShallowSelector } from 'hooks/useShallowSelector';
+import { AddressLink } from 'components/common/AddressLink';
+import { getAddressLink } from 'utils/getAddressLink';
 import { selectMain } from 'store/main/selectors';
 import ReactTimeAgo from 'react-time-ago';
 import TimeAgo from 'javascript-time-ago';
@@ -43,6 +45,7 @@ interface IProps {
   mainLoading?: boolean;
   flowType: FlowTypes,
   contractAddress: string,
+  addressLink?: string, 
   exchangeKey: ExchangeKeys,
   isReadOnly?: boolean,
 }
@@ -67,6 +70,7 @@ export const PanelChange: FC<IProps> = ({
   contractAddress,
   exchangeKey,
 }) => {
+  const link = getAddressLink(contractAddress);
   const { web3 } = useShallowSelector(selectMain);
   const [inputShow, setInputShow] = useState(false);
   const [value, setValue] = useState('');
@@ -243,6 +247,7 @@ export const PanelChange: FC<IProps> = ({
                       {lastDistribution && <ReactTimeAgo date={lastDistribution} />}
                     </b>
                   </span>
+                  <AddressLink addressLink={link} address={contractAddress} />
                 </div>
               )}
               {inputShow

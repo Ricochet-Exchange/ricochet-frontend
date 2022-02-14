@@ -6,7 +6,9 @@
 @media only screen and (min-width: 769px){
   .header_wrap{
     height: 10vh;
-    padding: 4em;
+    padding: 3.5em;
+    display: flex;
+    align-items: center;
     padding-right: 2em; 
     background-color: #363b55;
   }
