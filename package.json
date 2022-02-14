@@ -53,7 +53,7 @@
     "react-cookies": "^0.1.1",
     "react-dom": "^17.0.2",
     "react-flow-renderer": "^9.7.3",
-    "react-i18next": "^11.12.0",
+    "react-i18next": "^11.15.4",
     "react-modal": "3.12.1",
     "react-popper": "^2.2.5",
     "react-redux": "^7.2.4",
