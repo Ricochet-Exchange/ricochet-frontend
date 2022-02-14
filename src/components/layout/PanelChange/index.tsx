@@ -138,6 +138,7 @@ export const PanelChange: FC<IProps> = ({
                   <CoinChange nameCoinLeft={coinA} nameCoinRight={coinB} />
                   {flowType === 'launchpad' && <Price />}
                   {flowType === 'sushiLP' && <LpAPY contractAddress={contractAddress} />}
+                  <AddressLink addressLink={link} address={contractAddress} />
                 </div>
                 {isLoading ? <span className={styles.streaming_mob}>Loading</span> : (
                   <div className={styles.streaming_mob}>
@@ -246,7 +247,6 @@ export const PanelChange: FC<IProps> = ({
                       {lastDistribution && <ReactTimeAgo date={lastDistribution} />}
                     </b>
                   </span>
-                  <AddressLink addressLink={link} address={contractAddress} />
                 </div>
               )}
               {inputShow
