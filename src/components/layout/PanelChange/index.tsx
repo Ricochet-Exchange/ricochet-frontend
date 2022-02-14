@@ -96,7 +96,12 @@ export const PanelChange: FC<IProps> = ({
     [inputShow, setInputShow]);
 
   const handleChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    // @ts-ignore
+    if (e.target.value < 0) {
+      e.preventDefault();
+    } else {
+      setValue(e.target.value);
+    }
   }, []);
 
   const callback = (e?: string) => {
