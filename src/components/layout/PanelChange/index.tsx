@@ -250,7 +250,7 @@ export const PanelChange: FC<IProps> = ({
                       {lastDistribution && <ReactTimeAgo date={lastDistribution} />}
                     </b>
                   </span>
-                  <AddressLink addressLink={link} address={contractAddress} />
+                  <AddressLink addressLink={link} />
                 </div>
               )}
               {inputShow
