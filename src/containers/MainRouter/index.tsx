@@ -23,6 +23,7 @@ const MainRouter: FC<IProps> = () => (
     <SentryRoute path={Routes.Vaults} component={VaultsPage} exact />
     <SentryRoute path={Routes.Refer} component={ReferPage} exact />
     <SentryRoute path={Routes.Referral} component={ReferralValidationRedirectPage} exact />
+    <Redirect to={Routes.Invest} />
   </Switch>
 );
 
