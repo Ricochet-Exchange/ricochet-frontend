@@ -45,7 +45,6 @@ interface IProps {
   mainLoading?: boolean;
   flowType: FlowTypes,
   contractAddress: string,
-  addressLink?: string, 
   exchangeKey: ExchangeKeys,
   isReadOnly?: boolean,
 }
