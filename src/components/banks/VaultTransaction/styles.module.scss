@@ -134,3 +134,65 @@
 .errorWrap {
   align-self: flex-start;
 }
+
+
+@media only screen and (max-width: 769px){
+  .VaultTransaction {
+    width: 100%;
+    @include lightshadow;
+    padding: 1em;
+  }
+  
+  .fullframe {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .VaultTransaction__preview {
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  .VaultTransaction__form__Total {
+    max-width: 100vw;
+    width: 100%;
+    padding: 0em;
+    margin: 0;
+  }
+
+  .VaultTransaction__buttons {
+    margin: 0px 0 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
+
+  .linkButton {
+    border: 2px solid var(--color-blue);
+    background-color: #f5f7fa;
+        font-family: inherit;
+        border-color: $purple;
+        height: 40px;
+        padding: 6.4px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        font-weight: 700;
+        width: 40vw;
+  }
+  
+  .actionButton {
+    background-color: var(--color-blue);
+    color: white;
+    font-family: inherit;
+    border-color: $purple;
+    height: 40px;
+    padding: 6.4px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    width: 40vw;
+  }
+}

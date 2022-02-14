@@ -146,3 +146,47 @@
 .bankIcon {
   color: var(--color-black);
 }
+
+
+@media only screen and (max-width: 769px){
+  .liqprice h1 {
+    font-size: 2rem;
+  }
+
+  
+.collateralPrice h1 {
+  font-size: 2rem;
+  margin-bottom: 0;
+}
+
+.VaultDetails__content {
+  @include flexbox(flex-start, space-between);
+}
+
+.VaultDetails__header {
+  @include flexbox(flex-start, space-between);
+  padding: 1em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  flex-direction: row;
+  border-bottom: 1px dashed $notwhitetxt;
+  @include tablet {
+    justify-content: space-between;
+  }
+}
+
+
+.VaultDetails__Column {
+  padding: 0;
+}
+
+.VaultDetails__content {
+  @include flexbox(flex-start, space-between);
+  width: 100%;
+  padding: 0px;
+  padding: 1em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  flex-wrap: wrap;
+}
+}
