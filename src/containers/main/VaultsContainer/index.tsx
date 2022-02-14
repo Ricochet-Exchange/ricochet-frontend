@@ -1,8 +1,5 @@
 import React, {
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useState,
+  MouseEvent, useCallback, useEffect, useState, 
 } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'components/common/Button';
@@ -17,16 +14,14 @@ import { useDispatch } from 'react-redux';
 import { banksGetData } from 'store/banks/actionCreators';
 import { InvestNav } from 'components/layout/InvestNav';
 import { Routes } from 'constants/routes';
-import { mainCheck } from 'store/main/actionCreators';
-import { ModalType } from 'store/modal/types';
+import { connectWeb3Modal } from 'store/main/actionCreators';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
-import { modalShow } from 'store/modal/actionCreators';
 import styles from './styles.module.scss';
 
 export const VaultsContainer = () => {
   const dispatch = useDispatch();
   const { banks } = useShallowSelector(selectBanks);
-  const { address: accountAddress, isLoading, isReadOnly } = useShallowSelector(selectMain);
+  const { address: accountAddress, isLoading } = useShallowSelector(selectMain);
   const [hasVault, setHasVault] = useState(false);
   const [activeTransaction, setActiveTransaction] = useState('');
   const [transactionHash, setTransactionHash] = useState('');
@@ -34,17 +29,15 @@ export const VaultsContainer = () => {
   useEffect(() => {
     if (!banks[0]) dispatch(banksGetData());
   }, [banks]);
-
+  
   const handleOnClick = useCallback((e: MouseEvent) => {
     e.preventDefault();
     setActiveTransaction(e.currentTarget.id);
   }, [setActiveTransaction]);
 
   const handleSignIn = useCallback(() => {
-    if (isReadOnly) {
-      dispatch(modalShow(ModalType.Metamask));
-    } else dispatch(mainCheck());
-  }, [dispatch, modalShow, isReadOnly]);
+    dispatch(connectWeb3Modal());
+  }, [dispatch]);
 
   useEffect(() => {
     if (banks) {

@@ -1,5 +1,5 @@
 import {
-  call, all, put, select, 
+  all, call, put, select, 
 } from 'redux-saga/effects';
 import { RICAddress } from 'constants/polygon_config';
 import { Unwrap } from 'types/unwrap';
@@ -103,9 +103,9 @@ export function* sweepQueryFlow() {
   // const usdcMaticFlowQuery = buildFlowQuery(FlowEnum.usdcMaticFlowQuery);
   // const maticUsdcFlowQuery = buildFlowQuery(FlowEnum.maticUsdcFlowQuery);
   const usdcWethFlowQuery = buildFlowQuery(FlowEnum.usdcWethFlowQuery);
-  // const usdcWbtcFlowQuery = buildFlowQuery(FlowEnum.usdcWbtcFlowQuery);
+  const usdcWbtcFlowQuery = buildFlowQuery(FlowEnum.usdcWbtcFlowQuery);
   const wethUsdcFlowQuery = buildFlowQuery(FlowEnum.wethUsdcFlowQuery);
-  // const wbtcUsdcFlowQuery = buildFlowQuery(FlowEnum.wbtcUsdcFlowQuery);
+  const wbtcUsdcFlowQuery = buildFlowQuery(FlowEnum.wbtcUsdcFlowQuery);
   // const usdcSlpEthFlowQuery = buildFlowQuery(FlowEnum.usdcSlpEthFlowQuery);
   // const usdcIdleFlowQuery = buildFlowQuery(FlowEnum.usdcIdleFlowQuery);
 
@@ -127,9 +127,9 @@ export function* sweepQueryFlow() {
   // usdcMaticFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcMaticFlowQuery);
   // maticUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, maticUsdcFlowQuery);
   usdcWethFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcWethFlowQuery);
-  // usdcWbtcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcWbtcFlowQuery);
+  usdcWbtcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcWbtcFlowQuery);
   wethUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, wethUsdcFlowQuery);
-  // wbtcUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, wbtcUsdcFlowQuery);
+  wbtcUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, wbtcUsdcFlowQuery);
   // usdcSlpEthFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcSlpEthFlowQuery);
   // usdcIdleFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcIdleFlowQuery);
 
@@ -146,9 +146,9 @@ export function* sweepQueryFlow() {
     // usdcMaticFlowQuery,
     // maticUsdcFlowQuery,
     usdcWethFlowQuery,
-    // usdcWbtcFlowQuery,
+    usdcWbtcFlowQuery,
     wethUsdcFlowQuery,
-    // wbtcUsdcFlowQuery,
+    wbtcUsdcFlowQuery,
     // usdcSlpEthFlowQuery,
     // usdcIdleFlowQuery,
   }));

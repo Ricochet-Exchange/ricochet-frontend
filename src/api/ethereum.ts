@@ -130,7 +130,6 @@ export const startFlow = async (
 
   // eslint-disable-next-line max-len
   const config = indexIDA.filter((data) => data.input === inputTokenAddress && data.output === outputTokenAddress)[0];
-
   const isSubscribed = await idaContract.methods
     .getSubscription(
       config.output,

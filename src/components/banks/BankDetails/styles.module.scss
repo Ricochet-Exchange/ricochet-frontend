@@ -132,7 +132,8 @@
 }
 
 .column_header{
-  @include flexbox(center, center);
+  width: 100%;
+  @include flexbox(center, space-between);
   flex-direction: row;
   @include tablet {
     flex-direction: column;
