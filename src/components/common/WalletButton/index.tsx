@@ -3,7 +3,7 @@ import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import ButtonNew from 'components/common/ButtonNew';
 import { numFormatter } from 'utils/balances';
 import { useDispatch } from 'react-redux';
-import { mainCheck } from 'store/main/actionCreators';
+import { connectWeb3Modal } from 'store/main/actionCreators';
 import useENS from 'hooks/useENS';
 import styles from './styles.module.scss';
 
@@ -20,17 +20,19 @@ export const WalletButton: FC<IProps> = ({
   const preConnect = account === 'Connect Wallet';
   const [connecting, setConnecting] = useState(false);
   const { ensName, ensAvatar } = useENS(account);
-  const dispatchMain = () => {
+
+  const dispatchConnectWeb3Modal = () => {
     if (preConnect) {
       setConnecting(true);
-      dispatch(mainCheck());
+      dispatch(connectWeb3Modal());
     }
   };
   if (!preConnect && connecting) {
     setConnecting(false);
   }
+
   return (
-    <ButtonNew className={styles.balance_panel} onClick={dispatchMain}>
+    <ButtonNew className={styles.balance_panel} onClick={dispatchConnectWeb3Modal}>
       {!mobile && (
         <div className={styles.balance}>
           {!preConnect &&

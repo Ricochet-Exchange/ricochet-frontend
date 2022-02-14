@@ -1,6 +1,5 @@
 import React, {
-  ChangeEvent,
-  FC, useCallback, useEffect, useState,
+  ChangeEvent, FC, useCallback, useEffect, useState, 
 } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { showErrorToast } from 'components/common/Toaster';
@@ -200,7 +199,7 @@ export const PanelChange: FC<IProps> = ({
                   balance={balanceB}
                 />
               </div>
-              {isLoading ? (
+              {mainLoading ? (
                 <span className={styles.streaming}>
                   <span className={styles.number}> Loading total values...</span>
                 </span>

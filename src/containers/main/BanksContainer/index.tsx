@@ -1,7 +1,4 @@
-import React, {
-  useEffect,
-  useCallback,
-} from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { BankDetails } from 'components/banks/BankDetails';
 import { LoadingWrapper } from 'components/common/LoadingWrapper';
 import { selectMain } from 'store/main/selectors';
@@ -10,23 +7,19 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { BankType } from 'store/banks/types';
 import { useDispatch } from 'react-redux';
 import { banksGetData } from 'store/banks/actionCreators';
-import { mainCheck } from 'store/main/actionCreators';
+import { connectWeb3Modal } from 'store/main/actionCreators';
 import { InvestNav } from 'components/layout/InvestNav';
-import { ModalType } from 'store/modal/types';
-import { modalShow } from 'store/modal/actionCreators';
 import styles from './styles.module.scss';
 
 export const BanksContainer = () => {
   const dispatch = useDispatch();
   const { banks, isLoading: isLoadingBank } = useShallowSelector(selectBanks);
-  const { address: accountAddress, isReadOnly, isLoading } = useShallowSelector(selectMain);
+  const { address: accountAddress, isLoading } = useShallowSelector(selectMain);
 
   const handleSignIn = useCallback(() => {
-    if (isReadOnly) {
-      dispatch(modalShow(ModalType.Metamask));
-    } else dispatch(mainCheck());
-  }, [dispatch, modalShow, isReadOnly]);
-
+    dispatch(connectWeb3Modal());
+  }, [dispatch]);
+  
   useEffect(() => {
     if (!isLoading) dispatch(banksGetData());
   }, [isLoading]);

@@ -15,10 +15,10 @@ export const InvestNav = () => {
   const location = useLocation();
   return (
     <div className={styles.nav_container}>
-      
+
       <div className={styles.logo}>
         <Link to={Routes.Invest}><img src={logo} alt="Ricochet" className={styles.logo_img} /></Link>
-      </div> 
+      </div>
 
       {userStreams.length > 0 && (
         <NavLink
@@ -59,14 +59,14 @@ export const InvestNav = () => {
         <div className={styles.nav_text}>Market</div>
       </NavLink>
 
-      <NavLink
-        className={styles.nav_link}
-        activeClassName={styles.nav_link_active}
-        to={Routes.InvestLiquidityMarkets}
-      >
-        <FontIcon name={FontIconName.Loop} size={16} />
-        <div className={styles.nav_text}>LP</div>
-      </NavLink>
+      {/* <NavLink */}
+      {/*  className={styles.nav_link} */}
+      {/*  activeClassName={styles.nav_link_active} */}
+      {/*  to={Routes.InvestLiquidityMarkets} */}
+      {/* > */}
+      {/*  <FontIcon name={FontIconName.Loop} size={16} /> */}
+      {/*  <div className={styles.nav_text}>LP</div> */}
+      {/* </NavLink> */}
 
       <NavLink
         className={styles.nav_link}
