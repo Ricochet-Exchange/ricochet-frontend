@@ -4,9 +4,11 @@ import { SafeAppProvider } from '@gnosis.pm/safe-apps-provider';
 const SDK = new SafeAppsSDK();
 
 export const getConnectedSafe = async (): Promise<SafeInfo | undefined> => SDK.safe.getInfo();
+
+export const isIFrame = () => window?.parent !== window;
 export const isSafeApp = async (): Promise<boolean> => {
   // check if we're in an iframe
-  if (window?.parent === window) {
+  if (!isIFrame()) {
     return false;
   }
   const safe = await getConnectedSafe();
@@ -19,7 +21,7 @@ export const getProvider = async (): Promise<SafeAppProvider> => {
   return new SafeAppProvider(safe, SDK);
 };
 
-export const requestProvider = async (): Promise<SafeAppProvider | undefined> => {
+export const getSafeProvider = async (): Promise<SafeAppProvider | undefined> => {
   if (await isSafeApp()) {
     return getProvider();
   }
