@@ -195,6 +195,7 @@
   font-family: $default-font;
   background: var(--color-white);
   border-radius: 20px;
+  min-width: 20vw;
   border: 1px solid rgba(0, 0, 0, 0.632);
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.374);
   filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.15));
@@ -225,7 +226,7 @@
   transition: 0.3s all;
 
   &:hover {
-    opacity: 0.7;
+    opacity: 0.9;
   }
 }
 

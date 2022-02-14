@@ -1,4 +1,3 @@
-import ButtonNew from 'components/common/ButtonNew';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { Coin, iconsCoin } from 'constants/coins';
 import React, {
@@ -16,12 +15,12 @@ export const CoinChange: FC<IProps> = ({
 }) => (
   <div className={styles.currency}>
     <div className={styles.labels}>
-      <ButtonNew name={nameCoinLeft} className={styles.img_usd}>
+      <div className={styles.img_usd}>
         <img src={iconsCoin[nameCoinLeft]} alt={nameCoinLeft} />
-      </ButtonNew>
-      <ButtonNew className={styles.img_bitcoin}>
+      </div>
+      <div className={styles.img_bitcoin}>
         <img src={iconsCoin[nameCoinRight]} alt={nameCoinRight} />
-      </ButtonNew>
+      </div>
     </div>
     <div className={styles.currency_name_container}>
       <div className={styles.currency_name}>
