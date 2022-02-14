@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { Routes } from 'constants/routes';
 import { WalletPage } from 'pages/WalletPage';
 import { InvestPage } from 'pages/InvestPage';
@@ -14,7 +14,7 @@ const MainRouter: FC<IProps> = () => (
     <Route path={Routes.Wallet} component={WalletPage} exact />
     <Route path={Routes.InvestStreams} component={InvestPage} exact />
     <Route path={Routes.InvestLaunchpads} component={InvestPage} exact />
-    <Route path={Routes.InvestLiquidityMarkets} component={InvestPage} exact />
+    {/* <Route path={Routes.InvestLiquidityMarkets} component={InvestPage} exact /> */}
     <Route path={Routes.Invest} component={InvestPage} exact />
     <Route path={Routes.Banks} component={BanksPage} exact />
     <Route path={Routes.Vaults} component={VaultsPage} exact />

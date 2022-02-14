@@ -1,4 +1,4 @@
-import { put, call, all } from 'redux-saga/effects';
+import { all, call, put } from 'redux-saga/effects';
 import { mainGetReadOnlyData, mainSetState } from '../actionCreators';
 import { sweepQueryFlow } from './sweepQueryFlow';
 import { Unwrap } from '../../../types/unwrap';

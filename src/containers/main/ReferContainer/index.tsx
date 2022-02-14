@@ -1,12 +1,10 @@
-import React, { ChangeEvent, useState, useEffect } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { TextInput } from 'components/common/TextInput';
 import { useLang } from 'hooks/useLang';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { InvestNav } from 'components/layout/InvestNav';
-import {
-  rexReferralAddress,
-} from 'constants/polygon_config';
+import { rexReferralAddress } from 'constants/polygon_config';
 import { getContract } from 'utils/getContract';
 import { referralABI } from 'constants/abis';
 import ButtonNew from '../../../components/common/ButtonNew';
@@ -18,7 +16,7 @@ const AFFILIATE_URL_PREFIX = 'app.ricochet.exchange/ref/';
 
 export const ReferContainer: React.FC<IProps> = () => {
   const { t } = useLang();
-  const { address, isReadOnly } = useShallowSelector(selectMain);
+  const { address } = useShallowSelector(selectMain);
   const {
     web3,
   } = useShallowSelector(selectMain);
@@ -141,7 +139,7 @@ export const ReferContainer: React.FC<IProps> = () => {
     navigator.clipboard.writeText(`${AFFILIATE_URL_PREFIX}${currentReferralId}`).catch();
   };
 
-  if (isReadOnly || !address) {
+  if (!address) {
     return (
       <div className={styles.container_special}>
         <InvestNav />

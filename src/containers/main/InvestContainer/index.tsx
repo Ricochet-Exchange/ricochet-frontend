@@ -1,10 +1,8 @@
 import React, {
-  ChangeEvent, useCallback, useState, useEffect,
+  ChangeEvent, useCallback, useEffect, useState, 
 } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
-import {
-  useRouteMatch,
-} from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { TextInput } from 'components/common/TextInput';
 import { PanelChange } from 'components/layout/PanelChange';
 import { UserSettings } from 'components/layout/UserSettings';

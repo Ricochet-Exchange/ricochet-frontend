@@ -31,7 +31,9 @@ export default function Price(props: Props) {
     if (web3?.currentProvider === null) return;
     getPrice(web3).then((p) => setPrice(p));
   });
-  
+
+  if (!price) return null;
+
   return (
     <div className={styles.balance_container}>
       <span {...props} className={styles.balance}>{`🚀 ${trimPad(price, 2)} USDC/RIC`}</span>

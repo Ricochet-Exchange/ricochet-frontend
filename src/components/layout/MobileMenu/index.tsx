@@ -1,6 +1,4 @@
-import React, {
-  FC,
-} from 'react';
+import React, { FC } from 'react';
 import Link from 'components/common/Link';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { useTranslation } from 'i18n';
@@ -34,6 +32,12 @@ export const MobileMenu: FC<IProps> = ({ closeMenu }) => {
             <div>{t('Invest')}</div>
           </Link>
           <Link
+            to={Routes.Refer}
+            className={styles.refer}
+          >
+            <div>{t('Refer')}</div>
+          </Link>
+          <Link
             to={Routes.Wallet}
             className={styles.wallet} 
             activeClassName={styles.active}
@@ -46,6 +50,7 @@ export const MobileMenu: FC<IProps> = ({ closeMenu }) => {
           >
             <div>{t('Banks')}</div>
           </Link>
+
         </div>
       </div>
     </div>

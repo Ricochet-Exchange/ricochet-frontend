@@ -5,6 +5,7 @@ import { isLedgerDappBrowserProvider } from './ledgerhq-frame-connector/helpers'
 const SDK = new SafeAppsSDK();
 
 export const getConnectedSafe = async (): Promise<SafeInfo | undefined> => SDK.safe.getInfo();
+
 export const isSafeApp = async (): Promise<boolean> => {
   // check if we're in an iframe
   if (window?.parent === window || isLedgerDappBrowserProvider()) {

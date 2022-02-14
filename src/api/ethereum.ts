@@ -4,10 +4,7 @@ import { getContract } from 'utils/getContract';
 import { chainSettings } from 'constants/chainSettings';
 import { CoinOption } from 'types/coinOption';
 import {
-  RICAddress,
-  rexLPETHAddress,
-  SUSHIxAddress,
-  MATICxAddress,
+  MATICxAddress, rexLPETHAddress, RICAddress, SUSHIxAddress, 
 } from 'constants/polygon_config';
 import Erc20Abi from 'constants/Erc20.json';
 import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
@@ -130,7 +127,6 @@ export const startFlow = async (
 
   // eslint-disable-next-line max-len
   const config = indexIDA.filter((data) => data.input === inputTokenAddress && data.output === outputTokenAddress)[0];
-
   const isSubscribed = await idaContract.methods
     .getSubscription(
       config.output,

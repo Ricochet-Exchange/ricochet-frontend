@@ -1,9 +1,9 @@
 import React, { FC, useCallback, useState } from 'react';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import cx from 'classnames';
-import { truncateAddr } from 'utils/helpers';
 import { SignInButton } from 'components/banks/SignInButton';
-import { EtherscanLink } from 'components/banks/EtherScanLink';
+import { AddressLink } from 'components/common/AddressLink';
+import { getAddressLink } from 'utils/getAddressLink';
 import { Button } from 'components/common/Button';
 import { BankStatusBar } from 'components/banks/BankStatusBar';
 import { BankType } from 'store/banks/types';
@@ -22,7 +22,7 @@ export const BankDetails: FC<Props> = ({
   handleSignIn,
 }) => {
   const [visibleModal, setVisibleModal] = useState(false);
-  
+  const link = getAddressLink(bank.bankAddress);
   const handleOnCloseModal = useCallback(() => {
     setVisibleModal(false);
     enablePageScroll();
@@ -39,8 +39,7 @@ export const BankDetails: FC<Props> = ({
         <div className={styles.bankDetails__header}>
           <div className={styles.column_header}>
             <h2 className={styles.bankName}>{bank.name}</h2>
-            <p className={styles.address}>{truncateAddr(bank.bankAddress)}</p>
-            <EtherscanLink className={styles.etherLink} path="address" hash={bank.bankAddress} />
+            <AddressLink addressLink={link} address={bank.bankAddress} />
           </div>
           {accountAddress ? (
             <>
