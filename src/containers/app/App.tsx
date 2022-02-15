@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { MainRouter } from 'containers/MainRouter';
-import { Banner } from 'components/layout/Banner';
 import { Modal } from 'components/common/Modal';
-import { mainCheck } from 'store/main/actionCreators';
+import { MainRouter } from 'containers/MainRouter';
 import { useDispatch } from 'react-redux';
+import { mainCheck } from 'store/main/actionCreators';
+import { Banner } from 'components/layout/Banner';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
