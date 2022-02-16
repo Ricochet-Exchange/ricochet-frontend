@@ -39,7 +39,7 @@ export const BankDetails: FC<Props> = ({
         <div className={styles.bankDetails__header}>
           <div className={styles.column_header}>
             <h2 className={styles.bankName}>{bank.name}</h2>
-            <AddressLink addressLink={link} address={bank.bankAddress} />
+            <AddressLink addressLink={link} />
           </div>
           {accountAddress ? (
             <>

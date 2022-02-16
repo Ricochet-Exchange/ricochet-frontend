@@ -6,20 +6,18 @@
 }
 
 .wrap{
-    padding-left: 1em;
-    padding-right: 1em;
-    margin-top: 0.7em;
-    height: 5vh;
+    height: 4vh;
     color: rgb(45, 45, 45);
     text-decoration: none; 
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    min-width: 8vw;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-right: 8vw;
+    padding-top: 1.5em;
     flex-direction: row;
 
     @include tablet {
+        padding-top: 0em;
         margin-top: 2em;
         min-width: 40vw;
         justify-content: space-between;
@@ -27,29 +25,11 @@
     }
 }
 
-.contract_head{
-    margin: 0;
-    font-size: smaller;
+@media only screen and (max-width: 769px){
 
-    @include tablet {
-        font-size: medium;
+    .wrap{
+       padding-top: 0;
+       margin-top: 1em;
     }
-}
-
-.contract{
-    margin-top: 0;
-    font-size: xx-small;
-    color: rgba(74, 74, 74, 0.741);
-    @include tablet {
-        font-size:small;
-    }
-}
-
-.address_headers{
-    height: 5vh;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    justify-content: center;
-    padding-top: 2.5vh;
+    
 }
