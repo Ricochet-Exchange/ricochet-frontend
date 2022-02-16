@@ -138,9 +138,9 @@ export const PanelChange: FC<IProps> = ({
           <div className={styles.container}>
             <div className={styles.wrap}>
               <div className={styles.row}>
+                {flowType === 'launchpad' && <Price />}
                 <div className={styles.coin}>
                   <CoinChange nameCoinLeft={coinA} nameCoinRight={coinB} />
-                  {flowType === 'launchpad' && <Price />}
                   {flowType === 'sushiLP' && <LpAPY contractAddress={contractAddress} />}
                   <AddressLink addressLink={link} />
                 </div>
@@ -250,7 +250,6 @@ export const PanelChange: FC<IProps> = ({
                       {lastDistribution && <ReactTimeAgo date={lastDistribution} />}
                     </b>
                   </span>
-                  <AddressLink addressLink={link} />
                 </div>
               )}
               {inputShow
