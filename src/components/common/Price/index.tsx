@@ -40,7 +40,7 @@ export default function Price(props: Props) {
     return () => {
       isMounted = false;
     };
-  });
+  }, [web3]);
 
   if (!price) return null;
 
