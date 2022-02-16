@@ -24,14 +24,14 @@ export const VaultActions: FC<Props> = ({
     {section === 'locked' ? (
       <>
         <Button
-          label="withdraw"
+          label="Withdraw"
           id="withdraw"
           className={styles.button}
           disabled={Boolean(transactionHash || activeTransaction)}
           onClick={onClick}
         />
         <Button
-          label="deposit"
+          label="Deposit"
           id="deposit"
           className={styles.button}
           disabled={Boolean(transactionHash || activeTransaction)}
@@ -41,14 +41,14 @@ export const VaultActions: FC<Props> = ({
     ) : (
       <>
         <Button
-          label="borrow"
+          label="Borrow"
           id="borrow"
           className={styles.button}
           disabled={Boolean(transactionHash || activeTransaction)}
           onClick={onClick}
         />
         <Button
-          label="repay"
+          label="Repay"
           id="repay"
           className={styles.button}
           disabled={Boolean(transactionHash || activeTransaction)}
