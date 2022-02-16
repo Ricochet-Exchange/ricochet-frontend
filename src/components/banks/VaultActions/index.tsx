@@ -1,7 +1,7 @@
 import React, { FC, MouseEvent } from 'react';
 import cx from 'classnames';
 import { Button } from 'components/common/Button';
-
+import { useTranslation } from 'i18n';
 import styles from './styles.module.scss';
 
 type Props = {
@@ -11,6 +11,8 @@ type Props = {
   onClick: (e: MouseEvent) => void,
   transactionHash: string,
 };
+
+const { t } = useTranslation('main');
 
 export const VaultActions: FC<Props> = ({
   className,
@@ -24,14 +26,14 @@ export const VaultActions: FC<Props> = ({
     {section === 'locked' ? (
       <>
         <Button
-          label="withdraw"
+          label={t('Withdraw')}
           id="withdraw"
           className={styles.button}
           disabled={Boolean(transactionHash || activeTransaction)}
           onClick={onClick}
         />
         <Button
-          label="deposit"
+          label={t('Deposit')}
           id="deposit"
           className={styles.button}
           disabled={Boolean(transactionHash || activeTransaction)}
@@ -41,14 +43,14 @@ export const VaultActions: FC<Props> = ({
     ) : (
       <>
         <Button
-          label="borrow"
+          label={t('Borrow')}
           id="borrow"
           className={styles.button}
           disabled={Boolean(transactionHash || activeTransaction)}
           onClick={onClick}
         />
         <Button
-          label="repay"
+          label={t('Repay')}
           id="repay"
           className={styles.button}
           disabled={Boolean(transactionHash || activeTransaction)}

@@ -37,3 +37,18 @@
     flex-direction: row;
     align-self: center;
 }
+
+@media only screen and (max-width: 769px){
+    .button {
+        background-color: var(--color-blue);
+        color: white;
+        font-family: inherit;
+        border-color: $purple;
+        height: 40px;
+        padding: 6.4px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        font-weight: 700;
+        width: 40vw;
+    }
+}
