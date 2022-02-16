@@ -79,10 +79,17 @@ export const PanelChange: FC<IProps> = ({
   }, [mainLoading]);
 
   useEffect(() => {
+    let isMounted = true;
     if (web3?.currentProvider === null) return;
     getLastDistributionOnPair(web3, exchangeKey).then((p) => {
-      setLastDistribution(p);
+      if (isMounted) {
+        setLastDistribution(p);
+      }
     });
+
+    return () => {
+      isMounted = false;
+    };
   }, [web3]);
 
   function getFormattedNumber(num: string) {
