@@ -1,8 +1,6 @@
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { Coin, iconsCoin } from 'constants/coins';
-import React, {
-  FC,
-} from 'react';
+import React, { FC } from 'react';
 import styles from './styles.module.scss';
 
 interface IProps {

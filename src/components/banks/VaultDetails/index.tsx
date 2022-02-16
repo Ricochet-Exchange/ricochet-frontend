@@ -61,7 +61,7 @@ export const VaultDetails: FC<Props> = ({
           <div className={styles.BankData}>
             <div className={styles.BankDataTxt}>
               <p className={styles.BankName}>{bank.name}</p>
-              <AddressLink addressLink={link} address={bank.bankAddress} />
+              <AddressLink addressLink={link} />
             </div>
             <FontIcon
               className={styles.bankIcon}
