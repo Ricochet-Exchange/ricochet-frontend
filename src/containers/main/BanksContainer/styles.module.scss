@@ -1,5 +1,66 @@
-@import 'assets/styles/mixins';
-@import 'assets/styles/variables';
+@import "assets/styles/mixins";
+@import "assets/styles/variables";
+
+@include tablet {
+  .dextable
+    td:not(:first-child):not(:last-child):not(:nth-child(2)):not(:nth-child(3)) {
+    display: none;
+    max-height: 0;
+  }
+}
+
+.dextable {
+  border-collapse: collapse;
+  overflow: hidden;
+  width: 100%;
+}
+
+.blue {
+  color: var(--color-blue-dark);
+  font-weight: 500;
+}
+
+.grey {
+  color: var(--color-grey);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.dextable thead tr {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 120%;
+  text-transform: uppercase;
+  color: var(--color-grey);
+  text-align: left;
+  letter-spacing: 0px;
+  border-bottom: 1px solid var(--color-blue);
+}
+
+.dextable th,
+.dextable td {
+  word-break: break-word;
+  padding: 15px 15px 16px 12px;
+  line-height: 25px;
+  text-align: right;
+}
+
+.dextable td.section {
+  text-align: right;
+  border-right: 1px solid var(--color-blue-light);
+}
+
+@media only screen and (max-width: 769px) {
+  .dextable th,
+  .dextable td {
+    word-break: keep-all;
+
+    line-height: 25px;
+    text-align: right;
+    border-right: 1px solid rgba(161, 175, 202, 0.53);
+  }
+}
 
 .fullframe {
   width: 100%;
@@ -42,7 +103,6 @@
 .BankStatusBar,
 .BankDetails,
 .VaultDetails {
-
   width: 100%;
 }
 
@@ -61,12 +121,10 @@
   }
 }
 
-
-@media only screen and (max-width: 769px){
-
+@media only screen and (max-width: 769px) {
 }
 
-@media only screen and (min-width: 769px){
+@media only screen and (min-width: 769px) {
   .outer_container {
     display: grid;
     grid-template-columns: 10vw 1fr;
@@ -74,7 +132,7 @@
     height: 100%;
     background-color: #363b55;
   }
-  
+
   .container {
     grid-column: 2;
     height: 100%;

@@ -1,116 +1,87 @@
-@import 'assets/styles/variables';
-@import 'assets/styles/mixins';
+@import "assets/styles/variables";
+@import "assets/styles/mixins";
 
-.bankDetails {
-  background: var(--color-blue-light);
-  border-radius: 10px;
-  margin-bottom: 35px;
-  width: 100%;
-  .button:hover {
-    box-shadow: none;
+@include tablet {
+  .dextable
+    td:not(:first-child):not(:last-child):not(:nth-child(2)):not(:nth-child(3)) {
+    display: none;
+    max-height: 0;
   }
 }
 
-.bankDetails__header {
+.dextable {
+  border-collapse: collapse;
+  overflow: hidden;
   width: 100%;
-  padding: 7vh 3vw 6vh 3vw;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+}
+
+.blue {
+  color: var(--color-blue-dark);
+  font-weight: 500;
+}
+
+.grey {
+  color: var(--color-grey);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.dextable th,
+.dextable td {
+  word-break: break-word;
+  padding: 15px 15px 16px 12px;
+  line-height: 25px;
+  text-align: right;
+}
+
+.priceWithIcon {
+  display: flex !important;
   align-items: center;
-  border-bottom: 1px dashed $notwhitetxt;
-  @include tablet() {
-    justify-content: space-between;
-  }
-  @include for_large_mobile {
-    flex-direction: column;
-  }
-}
+  float: right;
 
-.bankName {
-  margin: 0;
-  font-weight: bold;
-  font-size: 1.25rem;
-  margin: 0 15px 0 0;
-  white-space: nowrap;
-}
-
-.address {
-  color: $textgrey;
-  margin: 0 15px 0 0;
-}
-
-.etherLink {
-  margin: 0 15px 0 0;
-  white-space: nowrap;
-}
-
-.flexer {
-  flex: 1;
-  margin: 0 20px 0 0;
-}
-
-.bankDetails__content {
-  width: 100%;
-  padding: 8vh 3.5vw 8vh 3.5vw;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  @include tablet {
-    flex-wrap: wrap;
+  img {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
   }
 }
 
-.text {
-  white-space: nowrap;
-  font-size: 0.875rem;
-  color: $mediumgrey;
-  line-height: 1.15rem;
-  margin: 0;
-  @include tablet {
-    white-space: pre-wrap;
+.dextable td.section {
+  text-align: right;
+  border-right: 1px solid var(--color-blue-light);
+}
+
+.dextable tbody tr {
+  border-bottom: 1px solid var(--color-blue-light);
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.dextable tbody tr:last-of-type {
+  border-bottom: 2px solid var(--color-blue);
+}
+
+@media only screen and (max-width: 769px) {
+  .dextable th,
+  .dextable td {
+    word-break: keep-all;
+
+    line-height: 25px;
+    text-align: right;
+    border-right: 1px solid rgba(161, 175, 202, 0.53);
   }
 }
 
-.bankDetail {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-
-.value {
-  font-size: 1.25rem;
-  color: $purple;
-  margin: 0 0 4px 0;
-}
-
-.bankDetails__columns {
-  width: 165px;
-  @include tablet {
-    width: 100%;
-    margin-right: 2vw;
+@media only screen and (max-width: 359px) {
+  .displaybutton {
+    height: 22px;
+    width: 30px;
   }
-}
 
-.bigDetail {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-end;
-}
-
-.balance{
-  font-size: 4rem;
-  line-height: 4.75rem;
-  color: $purple;
-  margin: 10px 0 0 0;
-}
-
-.symbol {
-  margin: 0 0 8px 10px;
-  color: $purple;
+  .upgrade_downgrade_head {
+    font-size: xx-small;
+    text-align: left;
+  }
 }
 
 .button {
@@ -127,42 +98,10 @@
 }
 
 .button:hover:not(:disabled) {
-  -webkit-transform: scale(.98);
-    transform: scale(.98);
+  -webkit-transform: scale(0.98);
+  transform: scale(0.98);
 }
 
-.column_header{
-  width: 100%;
-  @include flexbox(center, space-between);
-  flex-direction: row;
-  @include tablet {
-    flex-direction: column;
-  }
-}
-
-.header_with_button {
-  @include flexbox(center, center);
-  flex-direction: row;
-  flex-wrap: wrap;
-  @include for_large_mobile {
-    flex-direction: column;
-  }
-}
-
-.bankDetail_firstColumn {
-  @include flexbox(flex-start, center);
-  flex-direction: row;
-  flex-grow: 1;
-}
-
-.bankDetail_secondColumn {
-  @include flexbox(flex-start, flex-end);
-  width: 100%;
-  flex-direction: row;
-  flex-grow: 1;
-  @include tablet {
-    flex-grow: 0;
-    justify-content: space-between;
-    margin-top: 10px;
-  }
+.bankDetails {
+  background: var(--color-blue-light);
 }
