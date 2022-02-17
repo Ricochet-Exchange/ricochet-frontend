@@ -94,8 +94,9 @@
   font-family: $default-font;
   padding: 40px 40px 40px 40px;
 
-  @include tablet {
-    padding: 0 30px 30px 30px;
+
+  @include tablet{
+    padding: 0 0px 30px 0px;
   }
 }
 

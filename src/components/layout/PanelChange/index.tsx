@@ -3,8 +3,6 @@ import React, {
 } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { showErrorToast } from 'components/common/Toaster';
-// import { useTranslation } from 'i18n';
-// import { generateDate } from 'utils/generateDate';
 import ReactTooltip from 'react-tooltip';
 import { ExchangeKeys } from 'utils/getExchangeAddress';
 import { getLastDistributionOnPair } from 'utils/getLastDistributions';
@@ -81,10 +79,17 @@ export const PanelChange: FC<IProps> = ({
   }, [mainLoading]);
 
   useEffect(() => {
+    let isMounted = true;
     if (web3?.currentProvider === null) return;
     getLastDistributionOnPair(web3, exchangeKey).then((p) => {
-      setLastDistribution(p);
+      if (isMounted) {
+        setLastDistribution(p);
+      }
     });
+
+    return () => {
+      isMounted = false;
+    };
   }, [web3]);
 
   function getFormattedNumber(num: string) {
@@ -138,10 +143,11 @@ export const PanelChange: FC<IProps> = ({
           <div className={styles.container}>
             <div className={styles.wrap}>
               <div className={styles.row}>
+                {flowType === 'launchpad' && <Price />}
                 <div className={styles.coin}>
                   <CoinChange nameCoinLeft={coinA} nameCoinRight={coinB} />
-                  {flowType === 'launchpad' && <Price />}
                   {flowType === 'sushiLP' && <LpAPY contractAddress={contractAddress} />}
+                  <AddressLink addressLink={link} />
                 </div>
                 {isLoading ? <span className={styles.streaming_mob}>Loading</span> : (
                   <div className={styles.streaming_mob}>
@@ -249,7 +255,6 @@ export const PanelChange: FC<IProps> = ({
                       {lastDistribution && <ReactTimeAgo date={lastDistribution} />}
                     </b>
                   </span>
-                  <AddressLink addressLink={link} address={contractAddress} />
                 </div>
               )}
               {inputShow

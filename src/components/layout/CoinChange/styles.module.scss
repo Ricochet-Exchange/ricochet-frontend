@@ -36,10 +36,10 @@
 }
 
 .currency_name_container {
-  width: 290px;
-  padding: 28px 0 28px 64px;
+  width: 100%;
+  padding:1em;
+  padding-left: 5em;
 }
-
 .currency_name {
   @include flexbox(center, flex-start);
   flex-wrap: wrap;

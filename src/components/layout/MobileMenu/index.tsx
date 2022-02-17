@@ -1,6 +1,4 @@
-import React, {
-  FC,
-} from 'react';
+import React, { FC } from 'react';
 import Link from 'components/common/Link';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { useTranslation } from 'i18n';

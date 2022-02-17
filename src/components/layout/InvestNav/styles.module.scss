@@ -135,7 +135,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         text-align: left;
-        background-color: #294661;
+        background-color: #363b55;
         flex-wrap: nowrap;
     }
 
@@ -172,5 +172,6 @@
 @media only screen and (max-width: 480px){
     .link {
         font-size: xx-small;
+        text-align: center;
     }
 }

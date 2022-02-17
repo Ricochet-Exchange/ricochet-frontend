@@ -1,14 +1,14 @@
 import SafeAppsSDK, { SafeInfo } from '@gnosis.pm/safe-apps-sdk';
 import { SafeAppProvider } from '@gnosis.pm/safe-apps-provider';
+import { isLedgerDappBrowserProvider } from './ledgerhq-frame-connector/helpers';
 
 const SDK = new SafeAppsSDK();
 
 export const getConnectedSafe = async (): Promise<SafeInfo | undefined> => SDK.safe.getInfo();
 
-export const isIFrame = () => window?.parent !== window;
 export const isSafeApp = async (): Promise<boolean> => {
   // check if we're in an iframe
-  if (!isIFrame()) {
+  if (window?.parent === window || isLedgerDappBrowserProvider()) {
     return false;
   }
   const safe = await getConnectedSafe();
