@@ -95,6 +95,20 @@
   text-decoration-line: underline;
 }
 
+.logo {
+  @media screen and (max-width: 768px) {
+    background: none;
+    border: none;
+    display: block;
+    width: 33px;
+    height: 32px;
+    position: relative;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+}
+
 
 .mob_menu {
   display: none;
@@ -130,7 +144,7 @@
     span {
       margin-bottom: 10px;
     }
-    padding: 40px 0 50px 0;
+    padding: 40px 0 50px 50px;
     font-family: $default-font;
     display: block;
     font-style: normal;
@@ -167,4 +181,11 @@
     
   }
   
+}
+
+.hamburger_container {
+  display: none;
+  @media screen and (max-width: 768px) {
+    display: flex;
+  }
 }
