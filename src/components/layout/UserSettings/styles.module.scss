@@ -1,56 +1,5 @@
 @import "../../../assets/styles/mixins";
 
-.user_settings {
-
-  .balance_panel {
-    @include flexbox(center, center);
-  
-    max-width: 210px;
-    min-width: 0;
-    height: 33px !important;
-    background: var(--color-blue);
-    border: 1px solid var(--color-blue);
-    border-radius: 10px;
-    color: var(--color-white);
-    font-family: $default-font;
-    font-style: normal;
-    padding: 0;
-    cursor: pointer;
-    background-color: black;
-  
-    @include tablet {
-      width: 100%;
-      max-width: 100%;
-    }
-  }
-
-  .fund_panel {
-    @include flexbox(center, center);
-    margin-left: 10px;
-    max-width: 210px;
-    min-width: 0;
-    height: 33px !important;
-    background: rgba(14, 138, 22, 0.58);
-    border: 1px solid rgba(24, 224, 34, 0.58);
-    border-radius: 10px;
-    color: rgb(24, 224, 34);
-    font-family: $default-font;
-    font-style: normal;
-    padding: 0;
-    cursor: pointer;
-  
-    @include tablet {
-      width: 100%;
-      max-width: 100%;
-    }
-  }
-
-  .fund_inner {
-    margin: 0 10px 0 10px;
-  }
-
-}
-
 .icon_wrap {
   padding: 8.25px 19px 9px 0;
   margin: 0 0 0 auto;
@@ -84,6 +33,7 @@
   white-space: nowrap;
   margin: 0 10px 0 0;
 }
+
 .address {
   font-weight: normal;
   font-size: 12px;
@@ -97,28 +47,10 @@
   white-space: nowrap;
 }
 
-.language_wrap {
-  margin: 0 0 0 10px;
-}
-
-.language {
-  @include flexbox(center, center);
-
-  font-family: $default-font;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 17px;
-  letter-spacing: -0.01em;
-  color: var(--color-white);
-  padding: 7px 14px 9px 10px;
-}
-
 .dot_wrap {
-
   .button {
     background: transparent;
- 
+
     &:hover,
     &:active {
       background: transparent;
@@ -143,13 +75,12 @@
 .discord,
 .terms {
   @include flexbox(flex-start, center);
- height: 100%;
-  flex-direction: column;
- width: 100%;
- transition: 0.7s;
- padding: 1em;
- cursor: pointer;
-  &:hover{
+  height: 100%;
+  width: 100%;
+  transition: 0.7s;
+  padding: 0 1em;
+  cursor: pointer;
+  &:hover {
     background-color: lightgray;
   }
 }
@@ -164,78 +95,31 @@
 
 .head {
   font-style: normal;
-  font-weight: 700; 
+  font-weight: 700;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 1em;
   width: 100%;
   line-height: 110%;
   color: var(--color-black-dark);
-
 }
 
-.description,
-.lang {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 110%;
-  padding: 1em;
-  color: var(--color-grey);
-}
-
-
-.lang {
-  cursor: pointer;
-  padding: 0 0 10px 0;
-}
-
-.lang_dropdown,
 .settings_dropdown {
   z-index: 1;
   font-family: $default-font;
   background: var(--color-white);
   border-radius: 20px;
-  min-width: 20vw;
+  min-width: 15vw;
   border: 1px solid rgba(0, 0, 0, 0.632);
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.374);
   filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.15));
 }
 
-.lang_dropdown {
-  padding: 20px;
-}
-
 .settings_button {
   background-color: transparent;
   border: none;
-}
-
-.lang_button {
-  @include flexbox(center, center);
-
-  min-width: 0;
-  height: 33px;
-  background: var(--color-blue);
-  border: 1px solid var(--color-blue);
-  border-radius: 10px;
-  color: var(--color-white);
-  font-family: $default-font;
-  font-style: normal;
-  padding: 0;
-  cursor: pointer;
-  transition: 0.3s all;
-
-  &:hover {
-    opacity: 0.9;
-  }
-}
-
-.lang_icon {
-  padding: 0;
-}
-
-.language_name {
-  padding: 0 15px 0 0;
 }
 
 .connect_wallet {
@@ -247,7 +131,7 @@
   margin: 10px;
 }
 
-@media only screen and (max-width: 769px){
+@media only screen and (max-width: 769px) {
   .user_settings {
     background-color: #363b55;
     padding: 1em;

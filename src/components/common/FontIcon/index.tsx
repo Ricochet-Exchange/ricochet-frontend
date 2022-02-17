@@ -39,7 +39,10 @@ export enum FontIconName {
   External = 'icon-link-ext',
   Vault = 'icon-suitcase',
   Desktop = 'icon-desktop',
-
+  Book = 'icon-book',
+  Paper = 'icon-newspaper',
+  GitHub = 'icon-github-circled',
+  Chat = 'icon-chat',
 }
 
 const FontIcon: FC<IProps> = ({ name, size = 24, className }) => (
