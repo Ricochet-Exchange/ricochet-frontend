@@ -44,11 +44,12 @@ export const UserSettings: FC<IProps> = ({
                     target="_blank"
                     rel="noreferrer"
                   >
-                    {t('Docs')}
+                    <div>{t('Docs')}</div>
+                    <FontIcon
+                      name={FontIconName.Book} 
+                      size={16}
+                    />
                   </a>
-                  <span className={styles.description}>
-                    {t('Documentations for users of Ricochet')}
-                  </span>
                 </li>
                 <li className={styles.paper}>
                   <a
@@ -57,11 +58,12 @@ export const UserSettings: FC<IProps> = ({
                     target="_blank"
                     rel="noreferrer"
                   >
-                    {t('White Paper')}
+                    <div>{t('White Paper')}</div>
+                    <FontIcon
+                      name={FontIconName.Paper} 
+                      size={16}
+                    />
                   </a>
-                  <span className={styles.description}>
-                    {t('Check out our fundamental ideas')}
-                  </span>
                 </li>
                 <li className={styles.discord}>
                   <a
@@ -70,11 +72,26 @@ export const UserSettings: FC<IProps> = ({
                     target="_blank"
                     rel="noreferrer"
                   >
-                    {t('Discord')}
+                    <div>{t('Discord')}</div>
+                    <FontIcon
+                      name={FontIconName.Chat}
+                      size={16}
+                    />
                   </a>
-                  <span className={styles.description}>
-                    {t('Join the community on Discord')}
-                  </span>
+                </li>
+                <li className={styles.discord}>
+                  <a
+                    className={styles.head}
+                    href="https://discord.gg/https://github.com/Ricochet-Exchange"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <div>{t('GitHub')}</div>
+                    <FontIcon
+                      name={FontIconName.GitHub}
+                      size={16}
+                    />
+                  </a>
                 </li>
                 <li className={styles.terms}>
                   <a
@@ -83,11 +100,12 @@ export const UserSettings: FC<IProps> = ({
                     target="_blank"
                     rel="noreferrer"
                   >
-                    {t('Terms')}
+                    <div>{t('Terms')}</div>
+                    <FontIcon
+                      name={FontIconName.Lock}
+                      size={16}
+                    />
                   </a>
-                  <span className={styles.description}>
-                    {t('Read our terms of service')}
-                  </span>
                 </li>
               </ul>
             </div>

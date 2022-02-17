@@ -88,9 +88,10 @@
 .icon-shuffle:before { content: '\e856'; } /* '' */
 .icon-arrows-cw:before { content: '\e857'; } /* '' */
 .icon-loop:before { content: '\e858'; } /* '' */
+.icon-book:before { content: '\e859'; } /* '' */
 .icon-link-ext:before { content: '\f08e'; } /* '' */
+.icon-github-circled:before { content: '\f09b'; } /* '' */
 .icon-rocket:before { content: '\f135'; } /* '' */
 .icon-space-shuttle:before { content: '\f197'; } /* '' */
 .icon-bank:before { content: '\f19c'; } /* '' */
-.icon-minus:before { content: '\2212' ;}
-.icon-desktop:before { content: '\f108'; } /* 'ÔÑà' */
+.icon-newspaper:before { content: '\f1ea'; } /* '' */

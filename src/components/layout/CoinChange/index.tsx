@@ -28,7 +28,7 @@ export const CoinChange: FC<IProps> = ({
             name={FontIconName.ArrowRightCircled} 
             className={styles.arrow_circle}
             size={20}
-          /> 
+          />
         </div>
         <div className={styles.currency_second}>{nameCoinRight}</div>
       </div>
