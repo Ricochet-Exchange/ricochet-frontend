@@ -28,9 +28,19 @@ export default function Price(props: Props) {
     web3,
   } = useShallowSelector(selectMain);
   React.useEffect(() => {
+    let isMounted = true;
     if (web3?.currentProvider === null) return;
-    getPrice(web3).then((p) => setPrice(p));
-  });
+
+    getPrice(web3).then((p) => {
+      if (isMounted) {
+        setPrice(p);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [web3]);
 
   if (!price) return null;
 

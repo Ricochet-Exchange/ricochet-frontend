@@ -12,51 +12,52 @@ type Props = {
   transactionHash: string,
 };
 
-const { t } = useTranslation('main');
-
 export const VaultActions: FC<Props> = ({
   className,
   section,
   activeTransaction,
   onClick,
   transactionHash,
-}) => (
-  // can use activeTransaction to set a class on active state
-  <div className={cx(styles.VaultActions, className)}>
-    {section === 'locked' ? (
-      <>
-        <Button
-          label={t('Withdraw')}
-          id="withdraw"
-          className={styles.button}
-          disabled={Boolean(transactionHash || activeTransaction)}
-          onClick={onClick}
-        />
-        <Button
-          label={t('Deposit')}
-          id="deposit"
-          className={styles.button}
-          disabled={Boolean(transactionHash || activeTransaction)}
-          onClick={onClick}
-        />
-      </>
-    ) : (
-      <>
-        <Button
-          label={t('Borrow')}
-          id="borrow"
-          className={styles.button}
-          disabled={Boolean(transactionHash || activeTransaction)}
-          onClick={onClick}
-        />
-        <Button
-          label={t('Repay')}
-          id="repay"
-          className={styles.button}
-          disabled={Boolean(transactionHash || activeTransaction)}
-          onClick={onClick}
-        />
-      </>
-    )}
-  </div>
-);
+}) => {
+  const { t } = useTranslation('main');
+  return (
+    // can use activeTransaction to set a class on active state
+    <div className={cx(styles.VaultActions, className)}>
+      {section === 'locked' ? (
+        <>
+          <Button
+            label={t('Withdraw')}
+            id="withdraw"
+            className={styles.button}
+            disabled={Boolean(transactionHash || activeTransaction)}
+            onClick={onClick}
+          />
+          <Button
+            label={t('Deposit')}
+            id="deposit"
+            className={styles.button}
+            disabled={Boolean(transactionHash || activeTransaction)}
+            onClick={onClick}
+          />
+        </>
+      ) : (
+        <>
+          <Button
+            label={t('Borrow')}
+            id="borrow"
+            className={styles.button}
+            disabled={Boolean(transactionHash || activeTransaction)}
+            onClick={onClick}
+          />
+          <Button
+            label={t('Repay')}
+            id="repay"
+            className={styles.button}
+            disabled={Boolean(transactionHash || activeTransaction)}
+            onClick={onClick}
+          />
+        </>
+      )}
+    </div>
+  );
+};
