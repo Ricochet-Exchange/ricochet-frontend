@@ -28,9 +28,8 @@ export const InvestNav = () => {
         >
           <FontIcon name={FontIconName.RicoUser} size={16} />
           <div className={styles.nav_text}>
-            Streams (
-            {userStreams.length}
-            )
+            Streams
+            <span className={styles.badge}>{userStreams.length}</span>
           </div>
         </NavLink>
       )}

@@ -20,6 +20,10 @@ import styles from './styles.module.scss';
 import { queryFlows } from '../../../api';
 import { Flow } from '../../../types/flow';
 
+function getFormattedNumber(num: string) {
+  return parseFloat(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
 interface IProps {
   address: string;
   balance?: string;
@@ -316,7 +320,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                       ).toFixed(2)}
                     <div className={styles.grey}>
                       @ $
-                      {parseFloat(
+                      {getFormattedNumber(
                         (geckoPriceList as any)[
                           (geckoMapping as any)[token.coin]
                         ].usd,
