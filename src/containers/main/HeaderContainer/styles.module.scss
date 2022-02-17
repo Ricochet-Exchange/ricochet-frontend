@@ -96,14 +96,17 @@
 }
 
 .logo {
-  background: none;
-  border: none;
-  display: block;
-  width: 33px;
-  height: 32px;
-  position: relative;
-  cursor: pointer;
-  z-index: 2;
+  @media screen and (max-width: 768px) {
+    background: none;
+    border: none;
+    display: block;
+    width: 33px;
+    height: 32px;
+    position: relative;
+    cursor: pointer;
+    z-index: 2;
+  }
+
 }
 
 
