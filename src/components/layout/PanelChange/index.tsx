@@ -192,9 +192,22 @@ export const PanelChange: FC<IProps> = ({
                   </div>
                   <span>
                     {((personalFlow || 0) > 0 && (balanceA || 0) > 0) && (
-                    <div className={styles.stream_values}>
-                      {`Runs out on ${streamEnd}`}
-                    </div>
+                      <div>
+                        <div className={styles.stream_values}>
+                          {`Runs out on ${streamEnd}`}
+                        </div>
+                        <div className={styles.stream_values}>
+                          Streamed 
+                          {' '}
+                          <b>
+                            $
+                            {/* @ts-ignore */}
+                            {(personalFlow - balanceA).toFixed(4)}
+                          </b>
+                          {' '}
+                          so far
+                        </div>
+                      </div>
                     )}
                   </span>
                 </div>
