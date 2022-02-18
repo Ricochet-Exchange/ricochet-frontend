@@ -17,14 +17,12 @@
   &:hover {
     color: rgb(45, 45, 45);
   }
-
-  @include tablet {
-    padding-top: 0em;
-    margin-top: 2em;
-    min-width: 40vw;
-    justify-content: space-between;
-    border: none;
-  }
+    @include tablet {
+        padding-top: 0em;
+        margin-top: 2em;
+        justify-content: space-between;
+        border: none;
+    }
 }
 
 @media only screen and (max-width: 769px) {

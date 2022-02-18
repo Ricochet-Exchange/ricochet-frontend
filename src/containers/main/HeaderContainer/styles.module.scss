@@ -157,6 +157,7 @@
     @include tablet {
       @include flexbox(center, center);
       display: flex;
+      margin-top: 3.5em;
       flex-direction: row;
       max-height: 100px;
     }
