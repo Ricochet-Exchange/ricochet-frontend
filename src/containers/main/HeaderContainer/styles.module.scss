@@ -1,36 +1,28 @@
-@import '../../../assets/styles/mixins';
+@import "../../../assets/styles/mixins";
 
-
-
-
-@media only screen and (min-width: 769px){
-  .header_wrap{
+@media only screen and (min-width: 769px) {
+  .header_wrap {
     height: 10vh;
     padding: 3.5em;
     display: flex;
     align-items: center;
-    padding-right: 2em; 
+    padding-right: 2em;
     background-color: #363b55;
   }
 
   .settings_wrap {
     position: relative;
     right: 0;
-}
+  }
 
-  .links{
+  .links {
     display: none;
   }
 
-  .logo{
+  .logo {
     display: none;
   }
-
-
 }
-
-
-
 
 .header_wrap {
   @include flexbox(center, space-between);
@@ -44,19 +36,15 @@
     flex-direction: row;
     max-height: 100px;
   }
-
-  
 }
 
 .settings_wrap {
-    margin: 50px 0 50px 0;
-  
-    @include tablet {
-      display: none;
-    }
+  margin: 68px 0 50px 0;
+
+  @include tablet {
+    display: none;
+  }
 }
-
-
 
 .links {
   @include tablet {
@@ -79,14 +67,13 @@
   text-align: center;
   letter-spacing: -0.015em;
   text-decoration: none;
-  
+
   &:active,
   &:checked {
-    color: var(--color-white) ;
+    color: var(--color-white);
     font-weight: bold;
     text-decoration: underline;
   }
-
 }
 
 .active {
@@ -106,9 +93,7 @@
     cursor: pointer;
     z-index: 2;
   }
-
 }
-
 
 .mob_menu {
   display: none;
@@ -119,11 +104,9 @@
 
   .menu_button {
     background: transparent;
-    padding: 0 ;
+    padding: 0;
     border: none;
   }
-  
-
 }
 
 .mob_panel {
@@ -163,7 +146,7 @@
   cursor: pointer;
 }
 
-@media only screen and (max-width: 769px){
+@media only screen and (max-width: 769px) {
   .header_wrap {
     @include flexbox(center, space-between);
     margin-top: 2.5em;
@@ -178,10 +161,7 @@
       flex-direction: row;
       max-height: 100px;
     }
-  
-    
   }
-  
 }
 
 .hamburger_container {

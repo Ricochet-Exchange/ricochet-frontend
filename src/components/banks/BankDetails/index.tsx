@@ -5,6 +5,7 @@ import { Button } from 'components/common/Button';
 import { BankType } from 'store/banks/types';
 import { ModalCreateVaultContainer } from 'containers/main/ModalCreateVaultContainer';
 import { Coin, iconsCoin } from 'constants/coins';
+import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import styles from './styles.module.scss';
 
 type Props = {
@@ -79,10 +80,12 @@ export const BankDetails: FC<Props> = ({
             <>
               {!bank.vault.hasVault ? (
                 <Button
-                  label="+"
+                  label=""
                   className={styles.button}
                   onClick={handleVisionModal}
-                />
+                >
+                  <FontIcon name={FontIconName.Plus} size={12} />
+                </Button>
               ) : null}
             </>
           ) : (

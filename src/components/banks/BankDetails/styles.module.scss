@@ -87,19 +87,9 @@
 .button {
   background-color: transparent;
   color: $purple;
-  font-family: inherit;
   border-color: $purple;
-  height: 40px;
-  padding: 6.4px 20px;
-  font-size: 16px;
+  padding: 7px 20px;
   border-radius: 8px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.button:hover:not(:disabled) {
-  -webkit-transform: scale(0.98);
-  transform: scale(0.98);
 }
 
 .bankDetails {
