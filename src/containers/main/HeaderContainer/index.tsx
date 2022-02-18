@@ -4,7 +4,6 @@ import { Routes } from 'constants/routes';
 import { UserSettings } from 'components/layout/UserSettings';
 import Link from 'components/common/Link';
 import { MobileMenu } from 'components/layout/MobileMenu';
-import { WalletButton } from 'components/common/WalletButton';
 import { Hamburger } from 'components/Hamburger';
 import { useTranslation } from 'i18n';
 import styles from './styles.module.scss';
@@ -31,48 +30,41 @@ export const HeaderContainer: FC<IProps> = ({ address, balance }) => {
         return (
           <>
             <div>{t('Wallet')}</div>
-            <WalletButton ricBalance={balance} account={address} mobile />
           </>
         );
       case Routes.Invest:
         return (
           <>
             <div>{t('Invest')}</div>
-            <WalletButton ricBalance={balance} account={address} mobile />
           </>
         );
       case Routes.Banks:
         return (
           <>
             <div>{t('Banks')}</div>
-            <WalletButton ricBalance={balance} account={address} mobile />
           </>
         );
       case Routes.Vaults:
         return (
           <>
             <div>{t('Vaults')}</div>
-            <WalletButton ricBalance={balance} account={address} mobile />
           </>
         );
       case Routes.InvestLaunchpads:
         return (
           <>
             <div>{t('Launchpad')}</div>
-            <WalletButton ricBalance={balance} account={address} mobile />
           </>
         );
       case Routes.Refer:
         return (
           <>
             <div>{t('Refer')}</div>
-            <WalletButton ricBalance={balance} account={address} mobile />
           </>
         );
       default:
         return (
           <>
-            <WalletButton ricBalance={balance} account={address} mobile />
           </>
         );
     }

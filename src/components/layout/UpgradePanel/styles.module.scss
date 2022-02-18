@@ -20,6 +20,10 @@
   width: 100%;
   font-size: 14px;
   font-family: $default-font;
+  @include tablet {
+    width: inherit;
+    margin: 0 15px
+  }
 }
 
 .container {

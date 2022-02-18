@@ -72,6 +72,13 @@
   transition-duration: 0.05s;
   transition-timing-function: ease-in-out;
   transition-delay: 0s;
+
+  @media only screen and (max-width: 769px){
+    max-width: 250px;
+    font-size: 0.75rem;
+    height: 50px;
+    padding: 1.05rem 2.75rem;
+}
 }
 
 .view_button:hover:not(:disabled) {

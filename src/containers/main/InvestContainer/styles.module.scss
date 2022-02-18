@@ -79,6 +79,10 @@
 
 .panel {
   margin: 0 0 10px 0;
+  @include tablet {
+    // width: inherit;
+    margin: 0 15px 15px 15px
+  }
 }
 
 .content {
