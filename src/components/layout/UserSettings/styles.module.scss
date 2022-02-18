@@ -104,6 +104,10 @@
   width: 100%;
   line-height: 110%;
   color: var(--color-black-dark);
+
+  &:hover {
+    color: var(--color-black-dark);
+  }
 }
 
 .settings_dropdown {

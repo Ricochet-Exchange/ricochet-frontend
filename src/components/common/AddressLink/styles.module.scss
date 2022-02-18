@@ -1,34 +1,35 @@
 @import "../../../assets/styles/mixins";
 
-.address_link_btn{
-    height: 3vh;
-   
+.address_link_btn {
+  height: 3vh;
 }
 
-.wrap{
-    height: 4vh;
+.wrap {
+  height: 4vh;
+  color: rgb(45, 45, 45);
+  text-decoration: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 8vw;
+  flex-direction: row;
+
+  &:hover {
     color: rgb(45, 45, 45);
-    text-decoration: none; 
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-right: 8vw;
-    flex-direction: row;
+  }
 
-    @include tablet {
-        padding-top: 0em;
-        margin-top: 2em;
-        min-width: 40vw;
-        justify-content: space-between;
-        border: none;
-    }
+  @include tablet {
+    padding-top: 0em;
+    margin-top: 2em;
+    min-width: 40vw;
+    justify-content: space-between;
+    border: none;
+  }
 }
 
-@media only screen and (max-width: 769px){
-
-    .wrap{
-       padding-top: 0;
-       margin-top: 1em;
-    }
-    
+@media only screen and (max-width: 769px) {
+  .wrap {
+    padding-top: 0;
+    margin-top: 1em;
+  }
 }
