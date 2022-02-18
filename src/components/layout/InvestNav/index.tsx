@@ -94,7 +94,8 @@ export const InvestNav = () => {
         className={styles.nav_link_desktop_only}
         activeClassName={styles.nav_link_active}
       >
-        <div>Refer</div>
+        <FontIcon name={FontIconName.Refer} size={16} />
+        <div className={styles.nav_text}>Refer</div>
       </NavLink>
 
       <NavLink
