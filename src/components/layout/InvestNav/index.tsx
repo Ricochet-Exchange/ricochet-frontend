@@ -39,11 +39,7 @@ export const InvestNav = () => {
         className={styles.nav_link_desktop_only}
         activeClassName={styles.nav_link_active}
       >
-        <img
-          src="https://cdn0.iconfinder.com/data/icons/zondicons/20/wallet-512.png"
-          alt="wallet icon"
-          className={styles.wallet_icon}
-        />
+        <FontIcon name={FontIconName.Wallet} size={16} />
         <div className={styles.nav_text}>Wallet</div>
       </Link>
 
@@ -98,7 +94,8 @@ export const InvestNav = () => {
         className={styles.nav_link_desktop_only}
         activeClassName={styles.nav_link_active}
       >
-        <div>Refer</div>
+        <FontIcon name={FontIconName.Refer} size={16} />
+        <div className={styles.nav_text}>Refer</div>
       </NavLink>
 
       <NavLink

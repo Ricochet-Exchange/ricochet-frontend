@@ -93,6 +93,20 @@ export const UserSettings: FC<IProps> = ({
                     />
                   </a>
                 </li>
+                <li className={styles.discord}>
+                  <a
+                    className={styles.head}
+                    href="https://twitter.com/ricochetxchange"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <div>{t('Twitter')}</div>
+                    <FontIcon
+                      name={FontIconName.Twitter}
+                      size={16}
+                    />
+                  </a>
+                </li>
                 <li className={styles.terms}>
                   <a
                     className={styles.head}
