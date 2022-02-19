@@ -18,6 +18,8 @@ export enum FontIconName {
   ArrowRightCircled = 'icon-right-circled',
   ArrowDown = 'icon-down-open',
   ArrowUp = 'icon-up-open',
+  ArrowUpStrong = 'icon-up-dir',
+  ArrowDownStrong = 'icon-down-dir',
   Search = 'icon-search',
   Dot = 'icon-dot-3',
   Plus = 'icon-plus',

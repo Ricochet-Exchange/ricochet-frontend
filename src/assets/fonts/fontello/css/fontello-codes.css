@@ -2,6 +2,8 @@
 .icon-minus:before { content: '\e800'; } /* '' */
 .icon-user-add-outline:before { content: '\e801'; } /* '' */
 .icon-chat:before { content: '\e802'; } /* '' */
+.icon-down-dir:before { content: '\e803'; } /* '' */
+.icon-up-dir:before { content: '\e804'; } /* '' */
 .icon-user:before { content: '\e808'; } /* '' */
 .icon-wallet:before { content: '\e809'; } /* '' */
 .icon-close:before { content: '\e823'; } /* '' */

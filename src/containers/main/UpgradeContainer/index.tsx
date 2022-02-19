@@ -329,21 +329,21 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                   </td>
                   <td>
                     <div className={styles.streamshow}>
-                      - $
-                      {inFlow.toFixed(2)}
+                      + $
+                      {outFlow.toFixed(2)}
                       <FontIcon
-                        className={styles.redFont}
-                        name={FontIconName.ArrowUp}
+                        className={styles.greenFont}
+                        name={FontIconName.ArrowUpStrong}
                         size={15}
                       />
                     </div>
                     <br />
                     <div className={styles.streamshow}>
-                      + $
-                      {outFlow.toFixed(2)}
+                      - $
+                      {inFlow.toFixed(2)}
                       <FontIcon
-                        className={styles.greenFont}
-                        name={FontIconName.ArrowDown}
+                        className={styles.redFont}
+                        name={FontIconName.ArrowDownStrong}
                         size={15}
                       />
                     </div>
