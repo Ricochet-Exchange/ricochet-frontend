@@ -19,7 +19,7 @@ import { Coin } from '../../../constants/coins';
 import { CoinChange } from '../CoinChange';
 import { CoinBalancePanel } from '../CoinBalancePanel';
 import { CoinRateForm } from '../CoinRateForm';
-import { FlowTypes } from '../../../constants/flowConfig';
+import { FlowTypes, indexIDA } from '../../../constants/flowConfig';
 // import Price from '../../common/Price';
 import LpAPY from '../../common/LpAPY';
 import Price from '../../common/Price';
@@ -121,12 +121,44 @@ export const PanelChange: FC<IProps> = ({
     setIsLoading(false);
   };
 
+  const getShareScaler = async (index: number) => {
+    const REXMarketAddress = '0xBdA1c295B5FB13304ee8D6aaaBCF6ce92311dEfA';
+    const REXMarketContract = getContract(REXMarketAddress, REXMarketABI, web3);
+    const response = await REXMarketContract.methods.getOuputPool(index).call();
+    return response.shareScaler;
+  };
+  const roundFlowRate = (shareScaler: any, val: any) => {
+    const secsInMonth = 2592000;
+    const granularity = 1e18;
+    const adjustedValue = (val * granularity) / secsInMonth;
+    const adjustedShareScaler = shareScaler * 1e3;
+    const roundedPerSecond = Math.floor(adjustedValue / adjustedShareScaler) * adjustedShareScaler;
+    return roundedPerSecond;
+  };
+
   const handleStart = useCallback(() => {
     if (Number(balanceA) <= 0 || Number(value) < 0) {
       return;
     }
     setIsLoading(true);
     // Insert middleware here
+    let index;
+    switch (coinB) {
+      case 'ETH':
+        index = indexIDA[0].outputIndex;
+        break;
+      case 'USDC':
+        index = indexIDA[1].outputIndex;
+        break;
+      case 'WBTC':
+        index = indexIDA[3].outputIndex;
+        break;
+      default:
+        console.log('INSIDE HANDLE START::: Unaccounted for coin type');
+        return;
+    }
+    const adjustedValue = getShareScaler(index).then((res) => roundFlowRate(res, value));
+    console.log(adjustedValue);
     onClickStart(value, callback);
   }, [value, balanceA]);
 
@@ -140,23 +172,7 @@ export const PanelChange: FC<IProps> = ({
 
   const uuid = (new Date()).getTime().toString(36) + Math.random().toString(36).slice(2);
 
-  const getShareScaler = async (index: any) => {
-    const REXMarketContract = getContract('0xBdA1c295B5FB13304ee8D6aaaBCF6ce92311dEfA', REXMarketABI, web3);
-    // index below will be replaced with whatever index number is the output. 
-    const response = await REXMarketContract.methods.getOuputPool(index).call();
-    return response.shareScaler;
-  };
-  const roundFlowRate = (shareScaler: any, val: any) => {
-    const secsInMonth = 2592000;
-    const granularity = 1e18;
-    const adjustedValue = (val * granularity) / secsInMonth;
-    const adjustedShareScaler = shareScaler * 1e3;
-    const roundedPerSecond = Math.floor(adjustedValue / adjustedShareScaler) * adjustedShareScaler;
-    // const effectiveRate = (roundedPerSecond * secsInMonth) / granularity;
-    return roundedPerSecond;
-  };
-
-  // const rates = [100, 1000, 2500, 5000, 10000, 25000, 50000, 100000];
+  console.log('indexIDA', indexIDA);
  
   getShareScaler(1).then((res) => roundFlowRate(res, 100)).then((res) => console.log(res));
     
