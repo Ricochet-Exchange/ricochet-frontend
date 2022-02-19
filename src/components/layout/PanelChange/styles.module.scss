@@ -7,7 +7,6 @@
   color: var(--color-black-dark);
   width: 100%;
   font-size: 14px;
-  font-family: $default-font;
   @include tablet {
   }
 }
@@ -43,7 +42,6 @@
 }
 
 .date {
-  font-family: $default-font;
   width: 100%;
   text-align: center;
 
@@ -179,7 +177,6 @@
 }
 
 .stream_values {
-  font-family: $default-font;
   padding: 0 0 4px 0;
 }
 
@@ -188,7 +185,6 @@
 
   flex: 1;
   flex-wrap: wrap;
-  font-family: $default-font;
   width: 100%;
   flex-direction: column;
   align-items: flex-end;
@@ -209,7 +205,6 @@
     position: relative;
     flex: 0 0 25%;
     flex-wrap: wrap;
-    font-family: $default-font;
     right: 0%;
     padding-left: 10px;
   }

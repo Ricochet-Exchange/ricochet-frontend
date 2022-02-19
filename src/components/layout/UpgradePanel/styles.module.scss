@@ -19,7 +19,6 @@
   color: var(--color-black-dark);
   width: 100%;
   font-size: 14px;
-  font-family: $default-font;
   @include tablet {
     width: inherit;
     margin: 0 15px
@@ -72,7 +71,6 @@
 }
 
 .input {
-  font-family: $default-font;
   background: var(--color-white);
   font-style: normal;
   font-weight: normal;

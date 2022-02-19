@@ -62,7 +62,6 @@
 
   border-radius: 20px;
   padding: 20px;
-  font-family: $default-font;
   animation: appear 0.5s forwards;
 
   @include tablet {
@@ -88,7 +87,6 @@
   font-size: 28.6154px;
   line-height: 110%;
   color: var(--color-black-dark);
-  font-family: $default-font;
 }
 
 .close_wrap {
@@ -120,10 +118,6 @@
 
 .search {
   color: var(--color-blue);
-}
-
-.common {
-  font-family: $default-font;
 }
 
 .common_wrap {
@@ -195,7 +189,6 @@
   @include flexbox(flex-start, center);
 
   flex-direction: column;
-  font-family: $default-font;
   margin: 0 0 0 8px;
 }
 
@@ -232,7 +225,6 @@
 }
 
 .description {
-  font-family: $default-font;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;

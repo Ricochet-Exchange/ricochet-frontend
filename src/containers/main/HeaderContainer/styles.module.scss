@@ -59,7 +59,6 @@
 .dca_link,
 .upgrade_link {
   color: var(--color-white-dark);
-  font-family: $default-font;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
@@ -128,7 +127,6 @@
       margin-bottom: 10px;
     }
     padding: 40px 0 50px 50px;
-    font-family: $default-font;
     display: block;
     font-style: normal;
     font-weight: bold;
