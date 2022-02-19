@@ -353,11 +353,25 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                       <>
                         - $
                         {inFlow.minus(outFlow).toFixed(2)}
+                        {inFlow.minus(outFlow).toFixed(2) !== '0.00' && (
+                          <FontIcon
+                            className={styles.redFont}
+                            name={FontIconName.ArrowDownStrong}
+                            size={15}
+                          />
+                        )}
                       </>
                     ) : (
                       <>
                         + $
                         {outFlow.minus(inFlow).toFixed(2)}
+                        {inFlow.minus(outFlow).toFixed(2) !== '0.00' && (
+                          <FontIcon
+                            className={styles.greenFont}
+                            name={FontIconName.ArrowUpStrong}
+                            size={15}
+                          />
+                        )}
                       </>
                     )}
                   </td>
