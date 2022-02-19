@@ -106,5 +106,8 @@
       "yarn lint",
       "bash -c tsc"
     ]
+  },
+  "engines": {
+    "node": "v14"
   }
 }
