@@ -243,7 +243,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                 {' '}
                 <b>
                   $
-                  {totalBalance || '0.00'}
+                  {totalBalance.toFixed(2) || '0.00'}
                 </b>
               </span>
             </td>
