@@ -289,8 +289,8 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                     <div className={styles.currDisplay}>
                       <div className={styles.currDisplayImg}>
                         <img
-                          height="18px"
-                          width="18px"
+                          height="25px"
+                          width="25px"
                           src={iconsCoin[token.coin]}
                           alt="icon for token"
                         />
