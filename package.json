@@ -39,6 +39,7 @@
     "@sentry/react": "^6.17.6",
     "@sentry/tracing": "^6.17.6",
     "@superfluid-finance/js-sdk": "^0.4.3",
+    "@toruslabs/torus-embed": "^1.20.4",
     "@truffle/contract": "^4.3.31",
     "@types/big.js": "^6.1.2",
     "@types/ramda": "^0.27.45",
