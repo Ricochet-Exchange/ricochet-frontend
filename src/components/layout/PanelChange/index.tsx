@@ -149,14 +149,6 @@ export const PanelChange: FC<IProps> = ({
                   {flowType === 'sushiLP' && <LpAPY contractAddress={contractAddress} />}
                   <AddressLink addressLink={link} />
                 </div>
-                {isLoading ? <span className={styles.streaming_mob}>Loading</span> : (
-                  <div className={styles.streaming_mob}>
-                    <span className={styles.number}>
-                      {`$${totalFlow && getFormattedNumber(getFlowUSDValue(totalFlow))}`}
-                    </span>
-                    /mo.
-                  </div>
-                )}
               </div>
               {isLoading && !personalFlow ? (
                 <span className={styles.stream}>

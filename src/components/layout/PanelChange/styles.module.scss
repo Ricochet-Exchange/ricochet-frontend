@@ -196,20 +196,6 @@
   }
 }
 
-.streaming_mob {
-  display: none;
-
-  @include tablet {
-    @include flexbox(flex-start, center);
-    flex-direction: column;
-    position: relative;
-    flex: 0 0 25%;
-    flex-wrap: wrap;
-    right: 0%;
-    padding-left: 10px;
-  }
-}
-
 .number_date {
   margin: 0 0 0 5px;
   color: var(--color-blue);
