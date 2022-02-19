@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { getDefaultProvider } from '@ethersproject/providers';
 import { useEffect, useState } from 'react';
 
 const useENS = (
@@ -9,8 +9,8 @@ const useENS = (
 
   useEffect(() => {
     const resolveENS = async () => {
-      if (address && ethers.utils.isAddress(address)) {
-        const provider = await ethers.providers.getDefaultProvider();
+      if (address) {
+        const provider = await getDefaultProvider();
         const name = await provider.lookupAddress(address);
         if (name) {
           const avatar = await provider.getAvatar(name);
