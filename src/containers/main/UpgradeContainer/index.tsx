@@ -200,6 +200,20 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
     setDownGradeValue(balances[downgradeAddress]);
   };
 
+  const totalBalance = upgradeTokensList.reduce((total, token) => {
+    const balancess = balances && geckoPriceList &&
+    (
+      parseFloat(balances[token.superTokenAddress]) *
+      parseFloat(
+        (geckoPriceList as any)[
+          (geckoMapping as any)[token.coin]
+        ].usd,
+      )
+    ).toFixed(2);
+
+    return total + parseFloat(balancess as any);
+  }, 0);
+
   return (
     <div className={styles.wrapper}>
       <table className={styles.dextable}>
@@ -223,6 +237,15 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
               <br />
               in
               <span className={styles.blue}> USD</span>
+              <br />
+              <span>
+                Total balance:
+                {' '}
+                <b>
+                  $
+                  {totalBalance || '0.00'}
+                </b>
+              </span>
             </td>
             <td>
               Incoming Outgoing
