@@ -24,7 +24,6 @@
   font-weight: 500;
   font-size: 1.5rem;
   color: var(--color-blue);
-  font-family: $default-font;
 }
 
 .close_btn {
@@ -161,7 +160,6 @@
 
   border-radius: 20px;
   padding: 20px;
-  font-family: $default-font;
   animation: appear 0.5s forwards;
 
 }

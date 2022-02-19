@@ -4,7 +4,6 @@
 .button {
   @include flexbox(center, center);
 
-  font-family: $default-font;
   padding: 15px 24px 16px;
   border-radius: 8px;
   font-weight: var(--weight-500);
