@@ -158,8 +158,7 @@ export const PanelChange: FC<IProps> = ({
         return;
     }
     const adjustedValue = getShareScaler(index).then((res) => roundFlowRate(res, value));
-    console.log(adjustedValue);
-    onClickStart(value, callback);
+    onClickStart(adjustedValue.toString(), callback);
   }, [value, balanceA]);
 
   const handleStop = useCallback(() => {
