@@ -55,9 +55,10 @@
 }
 
 .headers {
-  @include flexbox(center, space-between);
+  @include flexbox(center, space-around);
 
-  padding: 40px 50px 20px 30px;
+  // padding: 40px 50px 20px 30px;
+  padding: 2em;
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
@@ -66,13 +67,25 @@
   text-transform: uppercase;
   color: var(--color-grey);
 
-  & > div {
-    flex:1;
-  }
-
   @include tablet{
    display: none;
   }
+}
+
+.market {
+  flex: 1 1 0px;
+}
+.stream {
+  flex: 1 1 0px;
+}
+.balances {
+  flex: 1 1 0px;
+}
+.streaming {
+  flex: 1 1 0px;
+}
+.ends {
+  width: 30px;
 }
 
 .panel {
