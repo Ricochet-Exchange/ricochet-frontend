@@ -141,7 +141,6 @@ export const PanelChange: FC<IProps> = ({
       return;
     }
     setIsLoading(true);
-    // Insert middleware here
     let index;
     switch (coinB) {
       case 'ETH':
@@ -154,11 +153,12 @@ export const PanelChange: FC<IProps> = ({
         index = indexIDA[3].outputIndex;
         break;
       default:
-        console.log('INSIDE HANDLE START::: Unaccounted for coin type');
+        console.log('INSIDE HANDLE START::: Unaccounted coin type');
         return;
     }
-    const adjustedValue = getShareScaler(index).then((res) => roundFlowRate(res, value));
-    onClickStart(adjustedValue.toString(), callback);
+    getShareScaler(index)
+      .then((res) => roundFlowRate(res, value))
+      .then((res) => onClickStart(res.toString(), callback));
   }, [value, balanceA]);
 
   const handleStop = useCallback(() => {
@@ -170,10 +170,6 @@ export const PanelChange: FC<IProps> = ({
   // const date = generateDate(balanceA, personalFlow);
 
   const uuid = (new Date()).getTime().toString(36) + Math.random().toString(36).slice(2);
-
-  console.log('indexIDA', indexIDA);
- 
-  getShareScaler(1).then((res) => roundFlowRate(res, 100)).then((res) => console.log(res));
     
   return (
     <>
