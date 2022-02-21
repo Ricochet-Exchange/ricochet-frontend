@@ -46,7 +46,7 @@
     "@web3-react/abstract-connector": "^6.0.7",
     "@web3-react/types": "^6.0.7",
     "axios": "0.21.1",
-    "classnames": "2.2.6",
+    "classnames": "2.3.1",
     "connected-react-router": "6.9.2",
     "cross-env": "7.0.3",
     "ethers": "^5.5.2",
