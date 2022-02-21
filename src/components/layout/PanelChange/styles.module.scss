@@ -16,7 +16,7 @@
 }
 
 .wrap {
-  @include flexbox(center, space-between);
+  @include flexbox(center, space-around);
 
   width: 100%;
 
@@ -102,7 +102,6 @@
 .arrow_down,
 .arrow_up {
   color: var(--color-blue);
-  margin-left: 24px;
   &:active {
     background: var(--color-blue-light);
   }
@@ -112,6 +111,7 @@
     flex: 0 0 100%;
     text-align: center;
   }
+    width: 30px;
 }
 
 .btn_arrow {
@@ -153,6 +153,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   @include tablet {
     flex: 1 0 65%;
     @include flexbox(flex-start, flex-start);
@@ -160,7 +161,7 @@
 }
 
 .stream {
-  text-align: left;
+  text-align: center;
   flex: 1;
   width: 100%;
 
@@ -187,7 +188,7 @@
   flex-wrap: wrap;
   width: 100%;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   @include tablet {
     align-items: flex-start;
     padding-left: 1em;
@@ -246,6 +247,7 @@
     justify-content: space-evenly;
     padding-bottom: 20px;
   }
+  flex: 1;
 }
 
 @media screen and (max-width: 768px) {
