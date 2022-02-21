@@ -13,6 +13,9 @@
     "fontello:open": "fontello-cli --config src/assets/fonts/fontello/config.json open",
     "prepare": "husky install"
   },
+  "engines": {
+    "node": "14"
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
