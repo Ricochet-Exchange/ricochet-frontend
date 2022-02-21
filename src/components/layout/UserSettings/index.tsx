@@ -79,10 +79,10 @@ export const UserSettings: FC<IProps> = ({
                     />
                   </a>
                 </li>
-                <li className={styles.discord}>
+                <li className={styles.github}>
                   <a
                     className={styles.head}
-                    href="https://discord.gg/https://github.com/Ricochet-Exchange"
+                    href="https://github.com/Ricochet-Exchange"
                     target="_blank"
                     rel="noreferrer"
                   >
