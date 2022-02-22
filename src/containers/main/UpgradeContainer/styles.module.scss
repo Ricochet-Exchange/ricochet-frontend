@@ -27,6 +27,10 @@
     font-weight: 400;
   }
 
+  .currencyStyle {
+    text-align: left !important;
+  }
+
   .dextable thead tr {
     font-style: normal;
     font-weight: 500;
@@ -140,7 +144,6 @@
 }
 
 .wrapper {
-  font-family: $default-font;
   height: 100%;
   width: 100%;
   padding: 10px 24px 10px 24px;
@@ -234,7 +237,6 @@
   }
 
   .wrapper {
-    font-family: $default-font;
     height: 100%;
     width: 100%;
     padding: 0;
@@ -245,9 +247,8 @@
     word-break:keep-all;
 
     line-height: 25px;
-    text-align: right;
+    text-align: center;
     border-right: 1px solid rgba(161, 175, 202, 0.53);
-
   }
 }
 

@@ -4,7 +4,7 @@ import { UpgradePanel } from 'components/layout/UpgradePanel';
 import { UserSettings } from 'components/layout/UserSettings';
 import { Coin, iconsCoin } from 'constants/coins';
 import React, {
-  ChangeEvent, FC, useCallback, useEffect, useState, 
+  ChangeEvent, FC, useCallback, useEffect, useState,
 } from 'react';
 import { useDispatch } from 'react-redux';
 import { approveAction, downgradeAction, upgradeAction } from 'store/main/actionCreators';
@@ -19,6 +19,10 @@ import { Popover } from 'react-tiny-popover';
 import styles from './styles.module.scss';
 import { queryFlows } from '../../../api';
 import { Flow } from '../../../types/flow';
+
+function getFormattedNumber(num: string) {
+  return parseFloat(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 
 interface IProps {
   address: string;
@@ -196,12 +200,26 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
     setDownGradeValue(balances[downgradeAddress]);
   };
 
+  const totalBalance = upgradeTokensList.reduce((total, token) => {
+    const balancess = balances && geckoPriceList &&
+    (
+      parseFloat(balances[token.superTokenAddress]) *
+      parseFloat(
+        (geckoPriceList as any)[
+          (geckoMapping as any)[token.coin]
+        ].usd,
+      )
+    ).toFixed(2);
+
+    return total + parseFloat(balancess as any);
+  }, 0);
+
   return (
     <div className={styles.wrapper}>
       <table className={styles.dextable}>
         <thead>
           <tr>
-            <td> Currency</td>
+            <td className={styles.currencyStyle}> Currency</td>
             <td>
               Wallet
               <br />
@@ -219,6 +237,15 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
               <br />
               in
               <span className={styles.blue}> USD</span>
+              <br />
+              <span>
+                Total balance:
+                {' '}
+                <b>
+                  $
+                  {totalBalance.toFixed(2) || '0.00'}
+                </b>
+              </span>
             </td>
             <td>
               Incoming Outgoing
@@ -261,7 +288,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                 .times(new Big('2592000'))
                 .div(new Big('10e17'))
                 .times(usdPrice);
-              
+
               let outFlowRate = 0;
               const outFlowArray = flows?.flowsReceived
                 ?.filter(
@@ -269,8 +296,8 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                     flow.token.id === token.superTokenAddress.toLowerCase(),
                 );
               for (let i = 0; i < (outFlowArray?.length || 0); i += 1) {
-                if (outFlowArray !== undefined) { 
-                  outFlowRate += parseInt(outFlowArray[i].flowRate, 10); 
+                if (outFlowArray !== undefined) {
+                  outFlowRate += parseInt(outFlowArray[i].flowRate, 10);
                 }
               }
               let outFlow = new Big(outFlowRate);
@@ -316,11 +343,11 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                       ).toFixed(2)}
                     <div className={styles.grey}>
                       @ $
-                      {parseFloat(
+                      {getFormattedNumber(
                         (geckoPriceList as any)[
                           (geckoMapping as any)[token.coin]
                         ].usd,
-                      ) }
+                      )}
                     </div>
                   </td>
                   <td>

@@ -1,36 +1,28 @@
-@import '../../../assets/styles/mixins';
+@import "../../../assets/styles/mixins";
 
-
-
-
-@media only screen and (min-width: 769px){
-  .header_wrap{
+@media only screen and (min-width: 769px) {
+  .header_wrap {
     height: 10vh;
     padding: 3.5em;
     display: flex;
     align-items: center;
-    padding-right: 2em; 
+    padding-right: 2em;
     background-color: #363b55;
   }
 
   .settings_wrap {
     position: relative;
     right: 0;
-}
+  }
 
-  .links{
+  .links {
     display: none;
   }
 
-  .logo{
+  .logo {
     display: none;
   }
-
-
 }
-
-
-
 
 .header_wrap {
   @include flexbox(center, space-between);
@@ -44,19 +36,15 @@
     flex-direction: row;
     max-height: 100px;
   }
-
-  
 }
 
 .settings_wrap {
-    margin: 50px 0 50px 0;
-  
-    @include tablet {
-      display: none;
-    }
+  margin: 68px 0 50px 0;
+
+  @include tablet {
+    display: none;
+  }
 }
-
-
 
 .links {
   @include tablet {
@@ -71,7 +59,6 @@
 .dca_link,
 .upgrade_link {
   color: var(--color-white-dark);
-  font-family: $default-font;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
@@ -79,14 +66,13 @@
   text-align: center;
   letter-spacing: -0.015em;
   text-decoration: none;
-  
+
   &:active,
   &:checked {
-    color: var(--color-white) ;
+    color: var(--color-white);
     font-weight: bold;
     text-decoration: underline;
   }
-
 }
 
 .active {
@@ -95,6 +81,18 @@
   text-decoration-line: underline;
 }
 
+.logo {
+  @media screen and (max-width: 768px) {
+    background: none;
+    border: none;
+    display: block;
+    width: 33px;
+    height: 32px;
+    position: relative;
+    cursor: pointer;
+    z-index: 2;
+  }
+}
 
 .mob_menu {
   display: none;
@@ -105,11 +103,9 @@
 
   .menu_button {
     background: transparent;
-    padding: 0 ;
+    padding: 0;
     border: none;
   }
-  
-
 }
 
 .mob_panel {
@@ -130,8 +126,7 @@
     span {
       margin-bottom: 10px;
     }
-    padding: 30px 0 50px 0;
-    font-family: $default-font;
+    padding: 40px 0 50px 50px;
     display: block;
     font-style: normal;
     font-weight: bold;
@@ -149,7 +144,7 @@
   cursor: pointer;
 }
 
-@media only screen and (max-width: 769px){
+@media only screen and (max-width: 769px) {
   .header_wrap {
     @include flexbox(center, space-between);
     margin-top: 2.5em;
@@ -160,11 +155,16 @@
     @include tablet {
       @include flexbox(center, center);
       display: flex;
+      margin-top: 3.5em;
       flex-direction: row;
       max-height: 100px;
     }
-  
-    
   }
-  
+}
+
+.hamburger_container {
+  display: none;
+  @media screen and (max-width: 768px) {
+    display: flex;
+  }
 }

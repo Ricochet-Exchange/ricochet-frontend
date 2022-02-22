@@ -8,18 +8,10 @@ interface IProps {
 }
 
 export enum FontIconName {
-  Light = 'icon-light',
-  Dark = 'icon-dark',
   Close = 'icon-close',
   ChevronDown = 'icon-arrow-bottom-1',
-  View = 'icon-view',
   Lock = 'icon-lock',
   ArrowRight = 'icon-arrow-right',
-  ArrowLeftBold = 'icon-arrow-left-bold',
-  ArrowRightBold = 'icon-arrow-right-bold',
-  Email = 'icon-email',
-  Checked = 'icon-checked',
-  Copy = 'icon-copy',
   User = 'icon-user',
   Star = 'icon-star-filled',
   RicoUser = 'icon-userlogo',
@@ -31,7 +23,6 @@ export enum FontIconName {
   Plus = 'icon-plus',
   Minus = 'icon-minus',
   ArrowUpFilled = 'up-filled',
-  Rocket = 'icon-rocket',
   Shuttle = 'icon-space-shuttle',
   Swap = 'icon-shuffle-1',
   Loop = 'icon-loop',
@@ -39,7 +30,13 @@ export enum FontIconName {
   External = 'icon-link-ext',
   Vault = 'icon-suitcase',
   Desktop = 'icon-desktop',
-
+  Book = 'icon-book',
+  Paper = 'icon-newspaper',
+  GitHub = 'icon-github-circled',
+  Twitter = 'icon-twitter',
+  Chat = 'icon-chat',
+  Refer = 'icon-user-add-outline',
+  Wallet = 'icon-wallet',
 }
 
 const FontIcon: FC<IProps> = ({ name, size = 24, className }) => (

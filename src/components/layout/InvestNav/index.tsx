@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { selectUserStreams } from 'store/main/selectors';
 import { Routes } from 'constants/routes';
 import { useShallowSelector } from 'hooks/useShallowSelector';
@@ -12,7 +12,6 @@ const TUTORIAL_LINK = 'https://docs.ricochet.exchange/tutorial/using-the-dapp';
 
 export const InvestNav = () => {
   const userStreams = useShallowSelector(selectUserStreams);
-  const location = useLocation();
   return (
     <div className={styles.nav_container}>
 
@@ -29,9 +28,8 @@ export const InvestNav = () => {
         >
           <FontIcon name={FontIconName.RicoUser} size={16} />
           <div className={styles.nav_text}>
-            Streams (
-            {userStreams.length}
-            )
+            Streams
+            <span className={styles.badge}>{userStreams.length}</span>
           </div>
         </NavLink>
       )}
@@ -41,11 +39,7 @@ export const InvestNav = () => {
         className={styles.nav_link_desktop_only}
         activeClassName={styles.nav_link_active}
       >
-        <img
-          src="https://cdn0.iconfinder.com/data/icons/zondicons/20/wallet-512.png"
-          alt="wallet icon"
-          className={styles.wallet_icon}
-        />
+        <FontIcon name={FontIconName.Wallet} size={16} />
         <div className={styles.nav_text}>Wallet</div>
       </Link>
 
@@ -86,24 +80,22 @@ export const InvestNav = () => {
         <div className={styles.nav_text}>Bank</div>
       </NavLink>
 
-      {(location.pathname === Routes.Banks ||
-        location.pathname === Routes.Vaults) && (
-        <NavLink
-          className={styles.nav_link}
-          activeClassName={styles.nav_link_active}
-          to={Routes.Vaults}
-        >
-          <FontIcon name={FontIconName.Lock} size={16} />
-          <div className={styles.nav_text}>Vault</div>
-        </NavLink>
-      )}
+      <NavLink
+        className={styles.nav_link}
+        activeClassName={styles.nav_link_active}
+        to={Routes.Vaults}
+      >
+        <FontIcon name={FontIconName.Lock} size={16} />
+        <div className={styles.nav_text}>Vault</div>
+      </NavLink>    
 
       <NavLink
         to={Routes.Refer}
         className={styles.nav_link_desktop_only}
         activeClassName={styles.nav_link_active}
       >
-        <div>Refer</div>
+        <FontIcon name={FontIconName.Refer} size={16} />
+        <div className={styles.nav_text}>Refer</div>
       </NavLink>
 
       <NavLink

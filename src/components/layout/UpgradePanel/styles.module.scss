@@ -6,6 +6,9 @@
     padding: 5px;
     margin: 5px;
     border-radius: 10px;
+    @media screen and (max-width: 480px) {
+      max-width: 350px;
+    }
   }
 }
 .panel {
@@ -16,7 +19,10 @@
   color: var(--color-black-dark);
   width: 100%;
   font-size: 14px;
-  font-family: $default-font;
+  @include tablet {
+    width: inherit;
+    margin: 0 15px
+  }
 }
 
 .container {
@@ -59,10 +65,12 @@
   @include tablet {
     padding: 0 0 0 14px;
   }
+  @media screen and (max-width: 480px) {
+    width: 56%;
+  }
 }
 
 .input {
-  font-family: $default-font;
   background: var(--color-white);
   font-style: normal;
   font-weight: normal;

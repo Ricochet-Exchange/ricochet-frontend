@@ -1,10 +1,8 @@
 import React, { FC } from 'react';
 import Link from 'components/common/Link';
-import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { useTranslation } from 'i18n';
 import { Routes } from '../../../constants/routes';
 import styles from './styles.module.scss';
-import logo from '../../../assets/images/logo.svg';
 
 interface IProps {
   closeMenu?: () => void,
@@ -13,46 +11,53 @@ interface IProps {
 export const MobileMenu: FC<IProps> = ({ closeMenu }) => {
   const { t } = useTranslation('main');
   return (
-    <div className={styles.menu_mob}>
-      <div className={styles.container}>
-        <div className={styles.menu_head}>
-          <div className={styles.logo}>
-            <Link to={Routes.Invest}><img src={logo} alt="Ricochet" /></Link>
+    <nav className={styles.styled_menu} style={closeMenu ? { transform: 'translateX(0)' } : { transform: 'translateX(100%)' }}>
+      <div className={styles.mobile_links}>
+        <div className={styles.mobile_container}>
+          <div className={styles.mobile_styled_link}>
+            <div className={styles.anchor_container}>
+              <Link
+                to={Routes.Invest}
+              >
+                <div>{t('Invest')}</div>
+              </Link>
+            </div>
           </div>
-          <button className={styles.close} onClick={closeMenu} type="button">
-            <FontIcon name={FontIconName.Close} className={styles.close_icon} size={14} />
-          </button>
         </div>
-        <div className={styles.links}>
-          <Link
-            to={Routes.Invest}
-            className={styles.invest}
-            activeClassName={styles.active}
-          >
-            <div>{t('Invest')}</div>
-          </Link>
-          <Link
-            to={Routes.Refer}
-            className={styles.refer}
-          >
-            <div>{t('Refer')}</div>
-          </Link>
-          <Link
-            to={Routes.Wallet}
-            className={styles.wallet} 
-            activeClassName={styles.active}
-          >
-            <div>{t('Wallet')}</div>
-          </Link>
-          <Link
-            to={Routes.Banks}
-            className={styles.banks}
-          >
-            <div>{t('Banks')}</div>
-          </Link>
-
+        <div className={styles.mobile_container}>
+          <div className={styles.mobile_styled_link}>
+            <div className={styles.anchor_container}>
+              <Link
+                to={Routes.Refer}
+              >
+                <div>{t('Refer')}</div>
+              </Link>
+            </div>
+          </div>
+        </div>
+        <div className={styles.mobile_container}>
+          <div className={styles.mobile_styled_link}>
+            <div className={styles.anchor_container}>
+              <Link
+                to={Routes.Wallet}
+              >
+                <div>{t('Wallet')}</div>
+              </Link>
+            </div>
+          </div>
+        </div>
+        <div className={styles.mobile_container}>
+          <div className={styles.mobile_styled_link}>
+            <div className={styles.anchor_container}>
+              <Link
+                to={Routes.Banks}
+              >
+                <div>{t('Banks')}</div>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </nav>
   );
 };

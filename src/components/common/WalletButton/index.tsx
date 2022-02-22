@@ -14,7 +14,9 @@ interface IProps {
 }
 
 export const WalletButton: FC<IProps> = ({
-  ricBalance = '', account, mobile,
+  ricBalance = '',
+  account,
+  mobile,
 }) => {
   const dispatch = useDispatch();
   const preConnect = account === 'Connect Wallet';
@@ -25,6 +27,10 @@ export const WalletButton: FC<IProps> = ({
     if (preConnect) {
       setConnecting(true);
       dispatch(connectWeb3Modal());
+    } else {
+      window.location.reload();
+      localStorage.removeItem('WEB3_CONNECT_CACHED_PROVIDER');
+      localStorage.removeItem('persist:main');
     }
   };
   if (!preConnect && connecting) {
@@ -32,32 +38,49 @@ export const WalletButton: FC<IProps> = ({
   }
 
   return (
-    <ButtonNew className={styles.balance_panel} onClick={dispatchConnectWeb3Modal}>
+    <ButtonNew
+      className={styles.balance_panel}
+      onClick={dispatchConnectWeb3Modal}
+    >
       {!mobile && (
         <div className={styles.balance}>
           {!preConnect &&
-        ricBalance &&
-        `${numFormatter(parseFloat(ricBalance))} RIC`}
+            ricBalance &&
+            `${numFormatter(parseFloat(ricBalance))} RIC`}
         </div>
       )}
-      <div className={styles.address}>
-        {/* eslint-disable-next-line no-nested-ternary */}
-        {connecting ? 'Connecting' : (mobile ? (preConnect ? ensName || account : 'Connected') : (preConnect ? account : ensName || account.substring(0, 6)))}
-      </div>
+      <div className={styles.account}>
+        <div className={styles.address}>
+          {/* eslint-disable-next-line no-nested-ternary */}
+          {connecting
+            ? 'Connecting'
+            // eslint-disable-next-line no-nested-ternary
+            : mobile
+              ? preConnect
+                ? ensName || account
+                : 'Connected'
+              : preConnect
+                ? account
+                : ensName || account.substring(0, 6)}
+        </div>
 
-      <div className={styles.icon_wrap}>
-        {!preConnect && (
-          ensAvatar ? <img className={styles.avatar} src={ensAvatar} alt="user avatar" />
-            : (
+        <div className={styles.icon_wrap}>
+          {!preConnect &&
+            (ensAvatar ? (
+              <img
+                className={styles.avatar}
+                src={ensAvatar}
+                alt="user avatar"
+              />
+            ) : (
               <FontIcon
                 className={styles.icon}
                 name={FontIconName.RicoUser}
                 size={16}
               />
-            )
-        )}
+            ))}
+        </div>
       </div>
-
     </ButtonNew>
   );
 };

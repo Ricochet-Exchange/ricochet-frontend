@@ -19,12 +19,12 @@ export const BanksContainer = () => {
   const handleSignIn = useCallback(() => {
     dispatch(connectWeb3Modal());
   }, [dispatch]);
-  
+
   useEffect(() => {
     if (!isLoading) dispatch(banksGetData());
   }, [isLoading]);
 
-  const renderBanks = () => (
+  const renderBanks = () =>
     banks.map((bank: BankType) => (
       <BankDetails
         key={bank.bankAddress}
@@ -32,8 +32,7 @@ export const BanksContainer = () => {
         accountAddress={accountAddress}
         handleSignIn={handleSignIn}
       />
-    ))
-  );
+    ));
 
   return (
     <div className={styles.outer_container}>
@@ -43,7 +42,36 @@ export const BanksContainer = () => {
           isLoading={isLoadingBank || isLoading}
           className={styles.fullframe}
         >
-          <div className={styles.contentTotal}>{renderBanks()}</div>
+          <table className={styles.dextable}>
+            <thead>
+              <tr>
+                <td className={styles.section}>Name</td>
+                <td className={styles.section}>
+                  Available for
+                  <br />
+                  borrow
+                </td>
+                <td className={styles.section}>
+                  Collateral Price
+                  <br />
+                  in
+                  <span className={styles.blue}> USD</span>
+                </td>
+                <td className={styles.section}>
+                  Debt Price
+                  <br />
+                  in
+                  <span className={styles.blue}> USD</span>
+                </td>
+                <td className={styles.section}>Interest Rate</td>
+                <td className={styles.section}>Origination Fee</td>
+                <td className={styles.section}>Collateralization Ratio</td>
+                <td className={styles.section}>Liquidation Penalty</td>
+                <td>Create Vault</td>
+              </tr>
+            </thead>
+            <tbody>{renderBanks()}</tbody>
+          </table>
         </LoadingWrapper>
       </div>
     </div>
