@@ -13,7 +13,7 @@ import styles from './styles.module.scss';
 
 export const BanksContainer = () => {
   const dispatch = useDispatch();
-  const { banks, isLoading: isLoadingBank } = useShallowSelector(selectBanks);
+  const { banks } = useShallowSelector(selectBanks);
   const { address: accountAddress, isLoading } = useShallowSelector(selectMain);
 
   const handleSignIn = useCallback(() => {
@@ -39,7 +39,7 @@ export const BanksContainer = () => {
       <InvestNav />
       <div className={styles.container}>
         <LoadingWrapper
-          isLoading={isLoadingBank || isLoading}
+          isLoading={isLoading}
           className={styles.fullframe}
         >
           <table className={styles.dextable}>
