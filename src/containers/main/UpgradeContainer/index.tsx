@@ -216,6 +216,21 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
     return total + parseFloat(balancess as any);
   }, 0);
 
+  const getWalletBalance = (token: any) => (token.coin === Coin.RIC ? 'NA' : balances &&
+      parseFloat(balances[token.tokenAddress]).toFixed(2));
+
+  const getFlow = (outFlow: any, inFlow: any) => (outFlow.minus(inFlow) < new Big(0) ? (
+    <>
+      - $
+      {inFlow.minus(outFlow).toFixed(2)}
+    </>
+  ) : (
+    <>
+      + $
+      {outFlow.minus(inFlow).toFixed(2)}
+    </>
+  ));
+
   return (
     <div className={styles.wrapper}>
       <table className={styles.dextable}>
@@ -321,6 +336,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                             alt="icon for token"
                           />
                         </div>
+
                         <div className={styles.currDisplayName}>{token.coin}</div>
                       </div>
                     )
@@ -332,9 +348,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                       )}
                   </td>
                   <td>
-                    {token && token.coin && balances ? token.coin === Coin.RIC ? 'NA' : balances &&
-                      parseFloat(balances[token.tokenAddress]).toFixed(2)
-
+                    {token && token.coin && balances ? getWalletBalance(token)
                       :
                       (
                         <span className={styles.wallet_loading}>
@@ -429,19 +443,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                     </div>
                   </td>
                   <td className={styles.section}>
-                    {balances && outFlow ?
-                      outFlow.minus(inFlow) < new Big(0) ? (
-                        <>
-                          - $
-                          {inFlow.minus(outFlow).toFixed(2)}
-                        </>
-                      ) : (
-                        <>
-                          + $
-                          {outFlow.minus(inFlow).toFixed(2)}
-                        </>
-                      )
-
+                    {balances && outFlow && inFlow ? getFlow(outFlow, inFlow)
                       :
                       (
                         <span className={styles.wallet_loading}>
