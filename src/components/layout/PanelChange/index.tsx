@@ -1,6 +1,8 @@
 import React, {
-  ChangeEvent, FC, useCallback, useEffect, useState, 
+  ChangeEvent, FC, useCallback, useEffect, useState,
 } from 'react';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { showErrorToast } from 'components/common/Toaster';
 import ReactTooltip from 'react-tooltip';
@@ -26,7 +28,7 @@ import Price from '../../common/Price';
 TimeAgo.addDefaultLocale(en);
 
 interface IProps {
-  placeholder?:string,
+  placeholder?: string,
   onClickStart: (amount: string, callback: (e?: string) => void) => void,
   onClickStop: (callback: (e?: string) => void) => void
   coinA: Coin,
@@ -37,7 +39,7 @@ interface IProps {
   totalFlow?: string;
   totalFlows?: number;
   streamEnd?: string;
-  subsidyRate?: { perso:number, total:number, endDate:string };
+  subsidyRate?: { perso: number, total: number, endDate: string };
   personalFlow?: string;
   mainLoading?: boolean;
   flowType: FlowTypes,
@@ -96,14 +98,14 @@ export const PanelChange: FC<IProps> = ({
     return parseFloat(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
-  function getFlowUSDValue(flow:string) {
+  function getFlowUSDValue(flow: string) {
     return (parseFloat(flow as string) * coingeckoPrice).toFixed(0);
   }
 
   const toggleInputShow = useCallback(() => { setInputShow(!inputShow); },
     [inputShow, setInputShow]);
 
-  const handleChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     // @ts-ignore
     if (e.target.value < 0) {
       e.preventDefault();
@@ -135,6 +137,8 @@ export const PanelChange: FC<IProps> = ({
   // uncomment when need
   // const date = generateDate(balanceA, personalFlow);
 
+  console.log('checkkk', isLoading);
+
   const uuid = (new Date()).getTime().toString(36) + Math.random().toString(36).slice(2);
   return (
     <>
@@ -142,17 +146,26 @@ export const PanelChange: FC<IProps> = ({
         <div className={styles.btn_arrow} onClick={toggleInputShow} role="presentation">
           <div className={styles.container}>
             <div className={styles.wrap}>
-              <div className={styles.row}>
-                {flowType === 'launchpad' && <Price />}
-                <div className={styles.coin}>
-                  <CoinChange nameCoinLeft={coinA} nameCoinRight={coinB} />
-                  {flowType === 'sushiLP' && <LpAPY contractAddress={contractAddress} />}
-                  <AddressLink addressLink={link} />
-                </div>
-              </div>
+              {mainLoading ? (
+                <span className={styles.stream}>
+                  <Skeleton height={50} width={200} />
+                </span>
+              ) :
+
+                (
+                  <div className={styles.row}>
+                    {flowType === 'launchpad' && <Price />}
+                    <div className={styles.coin}>
+                      <CoinChange nameCoinLeft={coinA} nameCoinRight={coinB} />
+                      {flowType === 'sushiLP' && <LpAPY contractAddress={contractAddress} />}
+                      <AddressLink addressLink={link} />
+                    </div>
+                  </div>
+                )}
+
               {isLoading && !personalFlow ? (
                 <span className={styles.stream}>
-                  <span className={styles.number}>Loading your streams... </span>
+                  <Skeleton count={2} width={140} />
                 </span>
               ) : (
                 <div className={styles.stream}>
@@ -160,7 +173,7 @@ export const PanelChange: FC<IProps> = ({
                     <span className={styles.number}>
                       {`$${personalFlow && getFormattedNumber(getFlowUSDValue(personalFlow))} per month`}
                     </span>
-                    { ((subsidyRate?.perso) || 0) > 0 ? (
+                    {((subsidyRate?.perso) || 0) > 0 ? (
                       <span>
                         <span data-tip data-for={`depositTooltipTotalPerso-${uuid}`}>🔥</span>
                         <ReactTooltip
@@ -175,7 +188,7 @@ export const PanelChange: FC<IProps> = ({
                           </span>
                         </ReactTooltip>
                       </span>
-                    ) : <span /> }
+                    ) : <span />}
                   </span>
                   <div>
                     <span className={styles.token_amounts}>
@@ -184,30 +197,37 @@ export const PanelChange: FC<IProps> = ({
                   </div>
                   <span>
                     {((personalFlow || 0) > 0 && (balanceA || 0) > 0) && (
-                    <div className={styles.stream_values}>
-                      {`Runs out on ${streamEnd}`}
-                    </div>
+                      <div className={styles.stream_values}>
+                        {`Runs out on ${streamEnd}`}
+                      </div>
                     )}
                   </span>
                 </div>
               )}
-              <div className={styles.balances}>
-                <div className={styles.first_balance_container}>
-                  <CoinBalancePanel
-                    className={styles.currency_first_balance}
-                    name={coinA}
-                    balance={balanceA}
-                  />
-                </div>
-                <CoinBalancePanel
-                  className={styles.currency_second_balance}
-                  name={coinB}
-                  balance={balanceB}
-                />
-              </div>
+              {mainLoading ?
+                (
+                  <span className={styles.stream}>
+                    <Skeleton count={2} width={140} />
+                  </span>
+                ) : (
+                  <div className={styles.balances}>
+                    <div className={styles.first_balance_container}>
+                      <CoinBalancePanel
+                        className={styles.currency_first_balance}
+                        name={coinA}
+                        balance={balanceA}
+                      />
+                    </div>
+                    <CoinBalancePanel
+                      className={styles.currency_second_balance}
+                      name={coinB}
+                      balance={balanceB}
+                    />
+                  </div>
+                )}
               {mainLoading ? (
-                <span className={styles.streaming}>
-                  <span className={styles.number}> Loading total values...</span>
+                <span className={styles.stream}>
+                  <Skeleton count={4} width={140} />
                 </span>
               ) : (
                 <div className={styles.streaming}>
@@ -216,7 +236,7 @@ export const PanelChange: FC<IProps> = ({
                       {`$${totalFlow && getFormattedNumber(getFlowUSDValue(totalFlow))}`}
                     </span>
                     per month
-                    { ((subsidyRate?.total) || 0) > 0 ? (
+                    {((subsidyRate?.total) || 0) > 0 ? (
                       <span>
                         <span data-tip data-for={`depositTooltipTotal-${uuid}`}>🔥</span>
                         <ReactTooltip
@@ -231,7 +251,7 @@ export const PanelChange: FC<IProps> = ({
                           </span>
                         </ReactTooltip>
                       </span>
-                    ) : <span /> }
+                    ) : <span />}
                   </span>
                   <span className={styles.token_amounts}>
                     <span>{`${totalFlow && getFormattedNumber(totalFlow)} ${coinA}x / month`}</span>
@@ -260,20 +280,20 @@ export const PanelChange: FC<IProps> = ({
           </div>
         </div>
         {inputShow && personalFlow && (
-        <div className={styles.form_mob}>
-          <CoinRateForm
-            placeholder={placeholder}
-            value={value}
-            onChange={handleChange}
-            onClickStart={handleStart}
-            onClickStop={handleStop}
-            coin={coinA}
-            isLoading={isLoading}
-            isReadOnly={isReadOnly}
-            personalFlow={getFormattedNumber(getFlowUSDValue(personalFlow))}
-          />
-        </div>
-        ) }
+          <div className={styles.form_mob}>
+            <CoinRateForm
+              placeholder={placeholder}
+              value={value}
+              onChange={handleChange}
+              onClickStart={handleStart}
+              onClickStop={handleStop}
+              coin={coinA}
+              isLoading={isLoading}
+              isReadOnly={isReadOnly}
+              personalFlow={getFormattedNumber(getFlowUSDValue(personalFlow))}
+            />
+          </div>
+        )}
         {inputShow && personalFlow && (
           <div className={styles.form}>
             <CoinRateForm
