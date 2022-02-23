@@ -97,7 +97,7 @@ export const BanksContainer = () => {
           : 
           (
             <div className={styles.sign_container}>
-              <p>Sign in to see your vaults</p>
+              <p>Sign in to see the bank</p>
               <SignInButton
                 onClick={handleSignIn}
               />
