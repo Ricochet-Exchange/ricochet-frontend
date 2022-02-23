@@ -3,11 +3,12 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import WalletLink from 'walletlink';
 import Web3Modal from 'web3modal';
 import Web3 from 'web3';
+import Torus from '@toruslabs/torus-embed';
 import { mainGetData, mainSetState } from '../actionCreators';
 import { modalHide, modalShow } from '../../modal/actionCreators';
 import { ModalType } from '../../modal/types';
 
-export function* connectWeb3Modal():any {
+export function* connectWeb3Modal(): any {
   try {
     const providerOptions = {
       walletconnect: {
@@ -23,6 +24,14 @@ export function* connectWeb3Modal():any {
         options: {
           rpc: process.env.REACT_APP_RPC_URLS,
           chainId: 137,
+        },
+      },
+      torus: {
+        package: Torus,
+        options: {
+          networkParams: {
+            chainId: 137,
+          },
         },
       },
     };
