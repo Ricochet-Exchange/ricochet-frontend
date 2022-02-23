@@ -239,6 +239,12 @@
       "css": "warning-empty",
       "code": 59395,
       "src": "typicons"
+    },
+    {
+      "uid": "a204f0fa972408eaae5a363c444991b2",
+      "css": "login",
+      "code": 59396,
+      "src": "entypo"
     }
   ]
 }

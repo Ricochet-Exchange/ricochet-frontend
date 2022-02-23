@@ -38,6 +38,7 @@ export enum FontIconName {
   Refer = 'icon-user-add-outline',
   Wallet = 'icon-wallet',
   Warning = 'icon-warning-empty',
+  Login = 'icon-login',
 }
 
 const FontIcon: FC<IProps> = ({ name, size = 24, className }) => (
