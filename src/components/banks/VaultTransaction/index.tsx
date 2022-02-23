@@ -11,20 +11,20 @@ import { useTranslation } from 'i18n';
 import styles from './styles.module.scss';
 
 type Props = {
-  bank: BankType,
-  isLoadingTransaction: boolean,
-  isLoadingApprove: boolean,
-  activeTransaction: string,
-  value: string,
-  localApproved: boolean,
-  error: string,
-  transactionHash: string,
-  onApproveClick: () => void,
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void,
-  onMaxRepay: () => void,
-  onMaxAmount: () => void,
-  onCancel: () => void,
-  onMakeAction: () => void,
+  bank: BankType;
+  isLoadingTransaction: boolean;
+  isLoadingApprove: boolean;
+  activeTransaction: string;
+  value: string;
+  localApproved: boolean;
+  error: string;
+  transactionHash: string;
+  onApproveClick: () => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onMaxRepay: () => void;
+  onMaxAmount: () => void;
+  onCancel: () => void;
+  onMakeAction: () => void;
 };
 
 export const VaultTransaction: FC<Props> = ({
@@ -61,7 +61,7 @@ export const VaultTransaction: FC<Props> = ({
     activeTransaction,
     value,
   );
-  
+
   return (
     <div className={styles.VaultTransaction}>
       <LoadingWrapper
@@ -121,8 +121,8 @@ export const VaultTransaction: FC<Props> = ({
                     onKeyDown={blockInvalidChar}
                     right={(
                       <div className={styles.right}>
-                        {isCollateral ?
-                          bank.collateralToken.symbol
+                        {isCollateral
+                          ? bank.collateralToken.symbol
                           : bank.debtToken.symbol}
                       </div>
                     )}
@@ -166,7 +166,9 @@ export const VaultTransaction: FC<Props> = ({
           ) : null}
         </>
       </LoadingWrapper>
-      {transactionHash ? <EtherscanLink path="tx" hash={transactionHash} /> : null}
+      {transactionHash ? (
+        <EtherscanLink path="tx" hash={transactionHash} />
+      ) : null}
     </div>
   );
 };

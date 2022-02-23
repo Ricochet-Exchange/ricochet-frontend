@@ -4,8 +4,8 @@ import { LoadingWrapper } from 'components/common/LoadingWrapper';
 import styles from './styles.module.scss';
 
 type Props = {
-  isLoadingApprove: boolean,
-  onApproveClick: () => void,
+  isLoadingApprove: boolean;
+  onApproveClick: () => void;
 };
 
 export const ApproveToken: FC<Props> = ({
