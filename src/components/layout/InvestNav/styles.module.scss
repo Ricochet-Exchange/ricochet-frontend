@@ -120,6 +120,13 @@
 }
 
 @media only screen and (max-width: 769px) {
+  .badge {
+    padding: 1px 7px !important;
+    margin-left: 8px;
+    font-size: 9px;
+    border-radius: 19px;
+  }
+
   .nav_container {
     display: grid;
     grid-template-rows: repeat(2, 1fr);
