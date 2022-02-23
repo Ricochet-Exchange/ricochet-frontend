@@ -1,8 +1,5 @@
 import { TextInput } from 'components/common/TextInput';
-import React, {
-  ChangeEvent,
-  FC,
-} from 'react';
+import React, { ChangeEvent, FC } from 'react';
 import { useTranslation } from 'i18n';
 import ReactTooltip from 'react-tooltip';
 import ButtonNew from '../../common/ButtonNew';
@@ -10,19 +7,26 @@ import { Coin } from '../../../constants/coins';
 import styles from './styles.module.scss';
 
 interface IProps {
-  value: string,
-  placeholder?: string,
-  onChange: (e:ChangeEvent<HTMLInputElement>) => void,
-  onClickStart: () => void,
-  onClickStop: () => void,
+  value: string;
+  placeholder?: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onClickStart: () => void;
+  onClickStop: () => void;
   coin: Coin;
   isLoading?: boolean;
-  isReadOnly?:boolean;
-  personalFlow: string,
+  isReadOnly?: boolean;
+  personalFlow: string;
 }
 
 export const CoinRateForm: FC<IProps> = ({
-  value, onChange, onClickStart, onClickStop, placeholder, coin, isLoading, isReadOnly,
+  value,
+  onChange,
+  onClickStart,
+  onClickStop,
+  placeholder,
+  coin,
+  isLoading,
+  isReadOnly,
   personalFlow,
 }) => {
   const { t } = useTranslation('main');
@@ -47,7 +51,7 @@ export const CoinRateForm: FC<IProps> = ({
             color="primary"
             onClick={onClickStart}
             className={styles.start}
-            disabled={isReadOnly || isLoading}
+            disabled={isReadOnly || isLoading || !value}
             isLoading={isLoading}
             data-tip
             data-for="depositTooltip"
@@ -58,8 +62,7 @@ export const CoinRateForm: FC<IProps> = ({
           </ButtonNew>
         </div>
         <div className={styles.stop_wrap}>
-          {parseFloat(personalFlow) > 0 &&
-          (
+          {parseFloat(personalFlow) > 0 && (
             <ButtonNew
               loaderColor="#363B55"
               color="secondary"
@@ -71,34 +74,28 @@ export const CoinRateForm: FC<IProps> = ({
               {t('Stop')}
             </ButtonNew>
           )}
-
         </div>
         <div style={{ flexBasis: '100%', height: '0' }}> </div>
 
-        { parseFloat(value) > 0 ?
-          (
-            <ReactTooltip
-              id="depositTooltip"
-              place="right"
-              effect="solid"
-              multiline
-              className={styles.depositTooltip}
-            >
-              <span
-                className={styles.depositTooltip_span}
-              >
-                Starting this stream will take a security deposit of
-                <span style={{ fontWeight: 700 }}>
-                  {` ${(parseFloat(value) / 180.0).toFixed(6)} ${coin} `}
-                </span>
-                from your balance.
-                The Deposit will be refunded in full when you close the stream or lost if
-                your balance hits zero with the stream still open.
-
+        {parseFloat(value) > 0 ? (
+          <ReactTooltip
+            id="depositTooltip"
+            place="right"
+            effect="solid"
+            multiline
+            className={styles.depositTooltip}
+          >
+            <span className={styles.depositTooltip_span}>
+              Starting this stream will take a security deposit of
+              <span style={{ fontWeight: 700 }}>
+                {` ${(parseFloat(value) / 180.0).toFixed(6)} ${coin} `}
               </span>
-            </ReactTooltip>
-          )
-          : null }
+              from your balance. The Deposit will be refunded in full when you
+              close the stream or lost if your balance hits zero with the stream
+              still open.
+            </span>
+          </ReactTooltip>
+        ) : null}
         <div />
       </div>
     </div>
