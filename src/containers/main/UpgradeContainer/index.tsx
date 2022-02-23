@@ -6,6 +6,8 @@ import { Coin, iconsCoin } from 'constants/coins';
 import React, {
   ChangeEvent, FC, useCallback, useEffect, useState,
 } from 'react';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import { useDispatch } from 'react-redux';
 import { approveAction, downgradeAction, upgradeAction } from 'store/main/actionCreators';
 import { useShallowSelector } from 'hooks/useShallowSelector';
@@ -202,14 +204,14 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 
   const totalBalance = upgradeTokensList.reduce((total, token) => {
     const balancess = balances && geckoPriceList &&
-    (
-      parseFloat(balances[token.superTokenAddress]) *
-      parseFloat(
-        (geckoPriceList as any)[
-          (geckoMapping as any)[token.coin]
-        ].usd,
-      )
-    ).toFixed(2);
+      (
+        parseFloat(balances[token.superTokenAddress]) *
+        parseFloat(
+          (geckoPriceList as any)[
+            (geckoMapping as any)[token.coin]
+          ].usd,
+        )
+      ).toFixed(2);
 
     return total + parseFloat(balancess as any);
   }, 0);
@@ -309,80 +311,143 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
               return (
                 <tr key={token.coin}>
                   <td>
-                    <div className={styles.currDisplay}>
-                      <div className={styles.currDisplayImg}>
-                        <img
-                          height="18px"
-                          width="18px"
-                          src={iconsCoin[token.coin]}
-                          alt="icon for token"
-                        />
+                    {token && token.coin ? (
+                      <div className={styles.currDisplay}>
+                        <div className={styles.currDisplayImg}>
+                          <img
+                            height="18px"
+                            width="18px"
+                            src={iconsCoin[token.coin]}
+                            alt="icon for token"
+                          />
+                        </div>
+                        <div className={styles.currDisplayName}>{token.coin}</div>
                       </div>
-                      <div className={styles.currDisplayName}>{token.coin}</div>
-                    </div>
+                    )
+                      :
+                      (
+                        <span className={styles.wallet_loading}>
+                          <Skeleton count={2} width={140} />
+                        </span>
+                      )}
                   </td>
                   <td>
-                    {token.coin === Coin.RIC ? 'NA' : balances &&
-                      parseFloat(balances[token.tokenAddress]).toFixed(2)}
-                  </td>
-                  <td className={styles.section}>
-                    {balances &&
-                      parseFloat(balances[token.superTokenAddress]).toFixed(2)}
-                  </td>
-                  <td className={styles.section}>
-                    $
-                    {balances &&
-                      geckoPriceList &&
+                    {token && token.coin && balances ? token.coin === Coin.RIC ? 'NA' : balances &&
+                      parseFloat(balances[token.tokenAddress]).toFixed(2)
+
+                      :
                       (
+                        <span className={styles.wallet_loading}>
+                          <Skeleton height={30} width={60} />
+                        </span>
+                      )}
+                  </td>
+                  <td className={styles.section}>
+                    {token && balances ? balances &&
+                      parseFloat(balances[token.superTokenAddress]).toFixed(2)
+                      :
+                      (
+                        <span className={styles.wallet_loading}>
+                          <Skeleton height={30} width={60} />
+                        </span>
+                      )}
+                  </td>
+                  <td className={styles.section}>
+                    {balances && geckoPriceList ?
+                      `$${(
                         parseFloat(balances[token.superTokenAddress]) *
                         parseFloat(
                           (geckoPriceList as any)[
                             (geckoMapping as any)[token.coin]
                           ].usd,
                         )
-                      ).toFixed(2)}
-                    <div className={styles.grey}>
-                      @ $
-                      {getFormattedNumber(
-                        (geckoPriceList as any)[
-                          (geckoMapping as any)[token.coin]
-                        ].usd,
+                      ).toFixed(2)}`
+
+                      :
+                      (
+                        <span className={styles.wallet_loading}>
+                          <Skeleton count={1} width={60} />
+                        </span>
                       )}
+                    <div className={styles.grey}>
+                      {balances && geckoPriceList ?
+                        `@ $${getFormattedNumber(
+                          (geckoPriceList as any)[
+                            (geckoMapping as any)[token.coin]
+                          ].usd,
+                        )}`
+
+                        :
+                        (
+                          <span className={styles.wallet_loading}>
+                            <Skeleton count={1} width={100} />
+                          </span>
+                        )}
                     </div>
                   </td>
                   <td>
                     <div className={styles.streamshow}>
-                      - $
-                      {inFlow.toFixed(2)}
-                      <FontIcon
-                        className={styles.redFont}
-                        name={FontIconName.ArrowUp}
-                        size={15}
-                      />
+                      {balances && inFlow ?
+                        (
+                          <>
+                            - $
+                            {inFlow.toFixed(2)}
+                            <FontIcon
+                              className={styles.redFont}
+                              name={FontIconName.ArrowUp}
+                              size={15}
+                            />
+                          </>
+                        )
+                        :
+                        (
+                          <span className={styles.wallet_loading}>
+                            <Skeleton count={1} width={100} />
+                          </span>
+                        )}
                     </div>
                     <br />
                     <div className={styles.streamshow}>
-                      + $
-                      {outFlow.toFixed(2)}
-                      <FontIcon
-                        className={styles.greenFont}
-                        name={FontIconName.ArrowDown}
-                        size={15}
-                      />
+                      {balances && inFlow ?
+                        (
+                          <>
+                            + $
+                            {inFlow.toFixed(2)}
+                            <FontIcon
+                              className={styles.greenFont}
+                              name={FontIconName.ArrowDown}
+                              size={15}
+                            />
+                          </>
+                        )
+                        :
+                        (
+                          <span className={styles.wallet_loading}>
+                            <Skeleton count={1} width={100} />
+                          </span>
+                        )}
                     </div>
                   </td>
                   <td className={styles.section}>
-                    {outFlow.minus(inFlow) < new Big(0) ? (
-                      <>
-                        - $
-                        {inFlow.minus(outFlow).toFixed(2)}
-                      </>
-                    ) : (
-                      <>
-                        + $
-                        {outFlow.minus(inFlow).toFixed(2)}
-                      </>
-                    )}
+                    {balances && outFlow ?
+                      outFlow.minus(inFlow) < new Big(0) ? (
+                        <>
+                          - $
+                          {inFlow.minus(outFlow).toFixed(2)}
+                        </>
+                      ) : (
+                        <>
+                          + $
+                          {outFlow.minus(inFlow).toFixed(2)}
+                        </>
+                      )
+
+                      :
+                      (
+                        <span className={styles.wallet_loading}>
+                          <Skeleton count={1} width={70} />
+                        </span>
+                      )}
                   </td>
 
                   <td className={styles.section}>
@@ -442,46 +507,57 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                       )}
                     >
                       <div className={styles.displaybutton}>
-                        <span
-                          role="button"
-                          onClick={() => {
-                            setSelectedIndex(index);
-                            setSelectType('downgrade');
-                            setDowngradeCoin(token.coin);
-                            setDowngradeAddress(token.superTokenAddress);
-                            setDowngradeCoin(token.coin);
-                          }}
-                          onKeyDown={() => {
-                            setSelectedIndex(index);
-                            setSelectType('downgrade');
-                            setDowngradeCoin(token.coin);
-                            setDowngradeAddress(token.superTokenAddress);
-                            setDowngradeCoin(token.coin);
-                          }}
-                          className={token.coin === Coin.RIC
-                            ? styles.disabledButton : styles.downgradeButton}
-                        >
-                          <FontIcon name={FontIconName.Minus} size={15} />
-                        </span>
-                        <span
-                          role="button"
-                          onClick={() => {
-                            setSelectedIndex(index);
-                            setSelectType('upgrade');
-                            setUpgradeCoin(token.coin);
-                            setUpgradeConfig(token);
-                          }}
-                          onKeyDown={() => {
-                            setSelectedIndex(index);
-                            setSelectType('upgrade');
-                            setUpgradeCoin(token.coin);
-                            setUpgradeConfig(token);
-                          }}
-                          className={token.coin === Coin.RIC
-                            ? styles.disabledButton : styles.upgradeButton}
-                        >
-                          <FontIcon name={FontIconName.Plus} size={12} />
-                        </span>
+                        {balances && token ?
+                          (
+                            <>
+                              <span
+                                role="button"
+                                onClick={() => {
+                                  setSelectedIndex(index);
+                                  setSelectType('downgrade');
+                                  setDowngradeCoin(token.coin);
+                                  setDowngradeAddress(token.superTokenAddress);
+                                  setDowngradeCoin(token.coin);
+                                }}
+                                onKeyDown={() => {
+                                  setSelectedIndex(index);
+                                  setSelectType('downgrade');
+                                  setDowngradeCoin(token.coin);
+                                  setDowngradeAddress(token.superTokenAddress);
+                                  setDowngradeCoin(token.coin);
+                                }}
+                                className={token.coin === Coin.RIC
+                                  ? styles.disabledButton : styles.downgradeButton}
+                              >
+                                <FontIcon name={FontIconName.Minus} size={15} />
+                              </span>
+                              <span
+                                role="button"
+                                onClick={() => {
+                                  setSelectedIndex(index);
+                                  setSelectType('upgrade');
+                                  setUpgradeCoin(token.coin);
+                                  setUpgradeConfig(token);
+                                }}
+                                onKeyDown={() => {
+                                  setSelectedIndex(index);
+                                  setSelectType('upgrade');
+                                  setUpgradeCoin(token.coin);
+                                  setUpgradeConfig(token);
+                                }}
+                                className={token.coin === Coin.RIC
+                                  ? styles.disabledButton : styles.upgradeButton}
+                              >
+                                <FontIcon name={FontIconName.Plus} size={12} />
+                              </span>
+                            </>
+                          )
+                          :
+                          (
+                            <span className={styles.wallet_loading}>
+                              <Skeleton count={2} width={105} />
+                            </span>
+                          )}
                       </div>
                     </Popover>
                   </td>
