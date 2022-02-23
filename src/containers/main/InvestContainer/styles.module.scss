@@ -1,4 +1,4 @@
-@import '../../../assets/styles/mixins';
+@import "../../../assets/styles/mixins";
 
 .outer_container {
   display: flex;
@@ -19,8 +19,9 @@
 
 .input_wrap {
   @include flexbox(center, center);
+  margin-bottom: 20px;
 
-  @include tablet{
+  @include tablet {
     width: 100%;
     padding: 15px 15px 30px 15px;
   }
@@ -31,7 +32,7 @@
   border-radius: 8px;
   background: var(--color-blue-light);
 
-  @include tablet{
+  @include tablet {
     width: 100%;
   }
 }
@@ -44,8 +45,8 @@
   &::placeholder {
     color: var(--color-blue);
 
-    &:focus{
-      color:transparent
+    &:focus {
+      color: transparent;
     }
   }
 }
@@ -67,8 +68,8 @@
   text-transform: uppercase;
   color: var(--color-grey);
 
-  @include tablet{
-   display: none;
+  @include tablet {
+    display: none;
   }
 }
 
@@ -92,7 +93,7 @@
   margin: 0 0 10px 0;
   @include tablet {
     // width: inherit;
-    margin: 0 15px 15px 15px
+    margin: 0 15px 15px 15px;
   }
 }
 
@@ -102,14 +103,14 @@
 }
 
 .settings_mob {
-display: none;
+  display: none;
 
-@include tablet {
-display: block;
-width: 100%;
-padding: 0px 0 0 0;
-position: relative;
-}
+  @include tablet {
+    display: block;
+    width: 100%;
+    padding: 0px 0 0 0;
+    position: relative;
+  }
 }
 
 .dot {
@@ -143,8 +144,7 @@ position: relative;
 }
 
 @media screen and (max-width: 768px) {
-  .container{
-    padding:0;
-  } 
-  
+  .container {
+    padding: 0;
+  }
 }
