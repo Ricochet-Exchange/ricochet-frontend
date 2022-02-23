@@ -4,7 +4,7 @@ import { getContract } from 'utils/getContract';
 import { chainSettings } from 'constants/chainSettings';
 import { CoinOption } from 'types/coinOption';
 import {
-  MATICxAddress, rexLPETHAddress, RICAddress, SUSHIxAddress, 
+  MATICxAddress, rexLPETHAddress, RICAddress, SUSHIxAddress,
 } from 'constants/polygon_config';
 import Erc20Abi from 'constants/Erc20.json';
 import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
@@ -124,6 +124,7 @@ export const startFlow = async (
     token: inputTokenAddress,
   });
   let call = [];
+  const scaledAmount = Math.floor(amount / 1e12) * 1e12;
 
   // eslint-disable-next-line max-len
   const config = indexIDA.filter((data) => data.input === inputTokenAddress && data.output === outputTokenAddress)[0];
@@ -142,7 +143,7 @@ export const startFlow = async (
           address: exchangeAddress,
           token: inputTokenAddress,
         }), // address: would be rickosheaAppaddress, currently not deployed
-        flowRate: amount.toString(),
+        flowRate: scaledAmount.toString(),
       });
     } else {
       const userData = referralId ? web3.eth.abi.encodeParameter('string', referralId) : '0x';
@@ -176,7 +177,7 @@ export const startFlow = async (
                   .createFlow(
                     inputTokenAddress,
                     exchangeAddress,
-                    amount.toString(),
+                    scaledAmount.toString(),
                     '0x',
                   )
                   .encodeABI(), // callData
@@ -269,7 +270,7 @@ export const startFlow = async (
                   .createFlow(
                     inputTokenAddress,
                     exchangeAddress,
-                    amount.toString(),
+                    scaledAmount.toString(),
                     '0x',
                   )
                   .encodeABI(), // callData
@@ -326,7 +327,7 @@ export const startFlow = async (
                   .createFlow(
                     config.input,
                     exchangeAddress,
-                    amount.toString(),
+                    scaledAmount.toString(),
                     '0x',
                   )
                   .encodeABI(), // callData
@@ -365,7 +366,7 @@ export const startFlow = async (
                   .createFlow(
                     config.input,
                     exchangeAddress,
-                    amount.toString(),
+                    scaledAmount.toString(),
                     '0x',
                   )
                   .encodeABI(), // callData
