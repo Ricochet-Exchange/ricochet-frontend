@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import { Loader } from '../Loader';
+import { LoadingPopUp } from 'components/common/LoadingPopUp';
 import styles from './styles.module.scss';
 
 type Props = {
@@ -19,7 +19,7 @@ export const LoadingWrapper: React.FC<Props> = ({
     {children}
     {isLoading && (
     <div className={cx(styles.loader, classNameLoader)}>
-      <Loader size={64} />
+      <LoadingPopUp />
     </div>
     )}
   </div>
