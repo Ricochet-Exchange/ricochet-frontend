@@ -219,27 +219,26 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
       <table className={styles.dextable}>
         <thead>
           <tr>
-            <td className={styles.currencyStyle}> Currency</td>
+            <td className={styles.currencyStyle}>
+              {t('Currency')}
+            </td>
             <td>
-              Wallet
+              {t('Wallet')}
               <br />
-              Balance
+              {t('Balance')}
             </td>
             <td className={styles.section}>
-              Super
-              <br />
-              Token
-              <br />
-              Balance
+              {t('Super Token Balance')}
             </td>
             <td className={styles.section}>
-              SuperToken Balance
+              {t('Super Token Balance')}
               <br />
               in
               <span className={styles.blue}> USD</span>
               <br />
               <span>
-                Total balance:
+                {t('Total balance')}
+                :
                 {' '}
                 <b>
                   $
@@ -248,22 +247,28 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
               </span>
             </td>
             <td>
-              Incoming Outgoing
+              {t('Incoming')}
+              &nbsp;
+              {t('Outgoing')}
               <br />
-              Per Month in
+              {t('Per Month')}
+              &nbsp;
+              in
               <span className={styles.blue}> USD</span>
             </td>
             <td className={styles.section}>
-              Monthly net Flow
+              {t('Monthly net Flow')}
               <br />
               in
               <span className={styles.blue}> USD</span>
             </td>
 
             <td className={styles.upgrade_downgrade_head}>
-              Upgrade or
+              {t('Upgrade')}
+              &nbsp;
+              {t('or')}
               <br />
-              Downgrade
+              {t('Downgrade')}
             </td>
           </tr>
         </thead>

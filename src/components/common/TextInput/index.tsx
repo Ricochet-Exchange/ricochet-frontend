@@ -1,5 +1,6 @@
 import React, { FC, HTMLProps } from 'react';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import { TextInputWrap } from '../TextInputWrap';
 import ButtonNew from '../ButtonNew';
@@ -38,33 +39,37 @@ const TextInput: FC<TextInputProps> = ({
   isLoading,
   isReadOnly,
   ...props
-}) => (
-  <TextInputWrap error={hasError} className={containerClassName}>
-    <IconRenderer error={hasError}>{left}</IconRenderer>
+}) => {
+  const { t } = useTranslation('main');
 
-    <input
-      type={type}
-      {...props}
-      className={classNames(styles.input, className)}
-      size={1}
-    />
-    {onClickMax && (
-    <div className={styles.max_wrap}>
-      <ButtonNew
-        color="secondary"
-        disabled={isReadOnly || isLoading}
-        isLoading={isLoading}
-        onClick={onClickMax}
-        className={styles.max}
-
-      >
-        Max
-      </ButtonNew>
-    </div>
-    )}
-
-    <IconRenderer>{right}</IconRenderer>
-  </TextInputWrap>
-);
+  return (
+    <TextInputWrap error={hasError} className={containerClassName}>
+      <IconRenderer error={hasError}>{left}</IconRenderer>
+  
+      <input
+        type={type}
+        {...props}
+        className={classNames(styles.input, className)}
+        size={1}
+      />
+      {onClickMax && (
+      <div className={styles.max_wrap}>
+        <ButtonNew
+          color="secondary"
+          disabled={isReadOnly || isLoading}
+          isLoading={isLoading}
+          onClick={onClickMax}
+          className={styles.max}
+  
+        >
+          {t('Max')}
+        </ButtonNew>
+      </div>
+      )}
+  
+      <IconRenderer>{right}</IconRenderer>
+    </TextInputWrap>
+  );
+};
 
 export { TextInput };

@@ -2,6 +2,7 @@ import React, {
   FC,
 } from 'react';
 import ReactTooltip from 'react-tooltip';
+import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import ButtonNew from '../../common/ButtonNew';
 
@@ -25,71 +26,74 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
   onClickUpgrade = () => {},
   onClickDowngrade = () => {},
   isReadOnly,
-}) => (
-  <div>
-    {isUpgrade
-      ? (
-        <div className={styles.buttons_upgrade}>
-          <div className={styles.approve_wrap}>
-            <ButtonNew
-              color="secondary"
-              loaderColor="#363B55"
-              disabled={isReadOnly || disabledApprove}
-              isLoading={isLoading}
-              onClick={onClickApprove}
-              className={styles.approve}
-            >
-              Approve
+}) => {
+  const { t } = useTranslation('main');
 
-            </ButtonNew>
+  return (
+    <div>
+      {!isUpgrade
+        ? (
+          <div className={styles.buttons_upgrade}>
+            <div className={styles.approve_wrap}>
+              <ButtonNew
+                color="secondary"
+                loaderColor="#363B55"
+                disabled={isReadOnly || disabledApprove}
+                isLoading={isLoading}
+                onClick={onClickApprove}
+                className={styles.approve}
+              >
+                {t('Approve')}
+  
+              </ButtonNew>
+            </div>
+            <div className={styles.upgrade_wrap}>
+              <ButtonNew
+                data-tip
+                data-for="downgradeToolTip"
+                color="primary"
+                loaderColor="white"
+                disabled={isReadOnly || isLoading}
+                isLoading={isLoading}
+                onClick={onClickUpgrade}
+                className={styles.upgrade}
+              >
+                {t('Upgrade')}
+              </ButtonNew>
+            </div>
           </div>
-          <div className={styles.upgrade_wrap}>
+        )
+        : (
+          <div className={styles.downgrade_wrap}>
             <ButtonNew
               data-tip
-              data-for="downgradeToolTip"
+              data-for="downgradeTooltip"
               color="primary"
               loaderColor="white"
               disabled={isReadOnly || isLoading}
               isLoading={isLoading}
-              onClick={onClickUpgrade}
-              className={styles.upgrade}
+              onClick={onClickDowngrade}
+              className={styles.downgrade}
             >
-              Upgrade
+              {showWarningToolTip ? `${t('Downgrade')} ⚠️` : t('Downgrade')}
             </ButtonNew>
-          </div>
-        </div>
-      )
-      : (
-        <div className={styles.downgrade_wrap}>
-          <ButtonNew
-            data-tip
-            data-for="downgradeTooltip"
-            color="primary"
-            loaderColor="white"
-            disabled={isReadOnly || isLoading}
-            isLoading={isLoading}
-            onClick={onClickDowngrade}
-            className={styles.downgrade}
-          >
-            {showWarningToolTip ? 'Downgrade ⚠️' : 'Downgrade'}
-          </ButtonNew>
-          {showWarningToolTip && (
-          <ReactTooltip
-            id="downgradeTooltip"
-            place="right"
-            effect="solid"
-            className={styles.downgrade_wrap}
-            multiline
-          >
-            <span
-              className={styles.downgrade_wrap_span}
+            {showWarningToolTip && (
+            <ReactTooltip
+              id="downgradeTooltip"
+              place="right"
+              effect="solid"
+              className={styles.downgrade_wrap}
+              multiline
             >
-              Downgrading your tokens could lead to the ongoing stream running out of funds
-              and you losing your deposit!
-            </span>
-          </ReactTooltip>
-          )}
-        </div>
-      )}
-  </div>
-);
+              <span
+                className={styles.downgrade_wrap_span}
+              >
+                {t('Downgrading your tokens could lead to the ongoing stream running out of funds and you losing your deposit!')}
+              </span>
+            </ReactTooltip>
+            )}
+          </div>
+        )}
+    </div>
+  );
+};
