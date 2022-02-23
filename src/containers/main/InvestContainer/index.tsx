@@ -103,7 +103,7 @@ export const InvestContainer: React.FC<IProps> = () => {
         <UserSettings
           className={styles.dot}
           ricBalance={balances && balances[RICAddress]}
-          account={address || 'Connect Wallet'}
+          account={address || t('Connect Wallet')}
         />
       </div>
       <div className={styles.container}>
