@@ -7,6 +7,7 @@ import { EtherscanLink } from 'components/banks/EtherScanLink';
 import { Button } from 'components/common/Button';
 import { BankType } from 'store/banks/types';
 import { VaultType } from 'types/vaultType';
+import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 type Props = {
@@ -37,6 +38,7 @@ export const DepositBorrow: FC<Props> = ({
   const needsUnlock =
     +vaultData.depositAmount > +bank.collateralToken.unlockedAmount &&
     !localApproved;
+  const { t } = useTranslation('main');
 
   return (
     <>
@@ -47,8 +49,7 @@ export const DepositBorrow: FC<Props> = ({
         <div className={styles.createVault_steps}>
           <div className={styles.createVault_step}>
             <p className={styles.text}>
-              {`How much ${vaultData.collateralToken} do you want to lock up as
-              collateral?`}
+              {`${t('How much')} ${vaultData.collateralToken} ${t('do you want to lock up as collateral?')}`}
             </p>
             <TextInput
               name="depositAmount"
@@ -61,7 +62,7 @@ export const DepositBorrow: FC<Props> = ({
             {needsUnlock ? (
               <>
                 <p className={styles.smalltxt}>
-                  Please give allowance for your collateral to continue.
+                  {t('Please give allowance for your collateral to continue.')}
                 </p>
                 <ApproveToken
                   onApproveClick={onApproveClick}
@@ -72,7 +73,7 @@ export const DepositBorrow: FC<Props> = ({
           </div>
           <div className={styles.createVault_step}>
             <p className={cx(styles.text, needsUnlock && styles.disabled)}>
-              {`How much ${vaultData.debtToken} do you want to borrow?`}
+              {`${'How much'} ${vaultData.debtToken} ${t('do you want to borrow?')}`}
             </p>
             <TextInput
               name="borrowAmount"
@@ -96,10 +97,10 @@ export const DepositBorrow: FC<Props> = ({
               className={styles.button}
               disabled={needsUnlock}
               onClick={onSubmit}
-              label="submit"
+              label={t('Submit')}
             />
             <p className={cx(styles.smalltxt, needsUnlock && styles.disabled)}>
-              Upon submitting, 2 transactions will be initiated.
+              {t('Upon submitting, 2 transactions will be initiated.')}
             </p>
           </div>
         </div>

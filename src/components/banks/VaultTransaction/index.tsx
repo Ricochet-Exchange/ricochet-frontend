@@ -72,7 +72,7 @@ export const VaultTransaction: FC<Props> = ({
         <>
           <div className={styles.VaultTransaction__preview}>
             <div className={styles.VaultDetail}>
-              <p>New collateralization ratio</p>
+              <p>{t('New collateralization ratio')}</p>
               <h3>
                 {vaultTxCalcValues.newCollateralizationRatio === Infinity
                   ? ''
@@ -82,7 +82,7 @@ export const VaultTransaction: FC<Props> = ({
               </h3>
             </div>
             <div className={styles.VaultDetail}>
-              <p>New liquidation price</p>
+              <p>{t('New liquidation price')}</p>
               <h3>
                 {vaultTxCalcValues.newLiquidationPrice.toFixed(4)}
                 {' '}
@@ -95,7 +95,7 @@ export const VaultTransaction: FC<Props> = ({
             <div className={styles.VaultTransaction__form}>
               {needsRepayUnlock() ? (
                 <>
-                  <p>Please give allowance for your repay to continue.</p>
+                  <p>{t('Please give allowance for your repay to continue.')}</p>
                   <ApproveToken
                     isLoadingApprove={isLoadingApprove}
                     onApproveClick={onApproveClick}
@@ -104,13 +104,13 @@ export const VaultTransaction: FC<Props> = ({
               ) : (
                 <>
                   <p>
-                    How much
+                    {t('How much')}
                     {' '}
                     {isCollateral
                       ? bank.collateralToken.symbol
                       : bank.debtToken.symbol}
                     {' '}
-                    {`do you wish to ${activeTransaction}?`}
+                    {`${t('do you wish to')} ${activeTransaction}?`}
                   </p>
 
                   <TextInput

@@ -138,7 +138,7 @@ export const PanelChange: FC<IProps> = ({
   // uncomment when need
   // const date = generateDate(balanceA, personalFlow);
 
-  console.log('checkkk', isLoading);
+  // console.log('checkkk', isLoading);
 
   const uuid = (new Date()).getTime().toString(36) + Math.random().toString(36).slice(2);
   return (
