@@ -75,7 +75,7 @@ export const PanelChange: FC<IProps> = ({
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [lastDistribution, setLastDistribution] = useState<Date>();
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   useEffect(() => {
     setIsLoading(mainLoading);

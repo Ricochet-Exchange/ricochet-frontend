@@ -28,7 +28,7 @@ function endDate(bal: number, outgoing: number): string {
 interface IProps { }
 
 export const InvestContainer: React.FC<IProps> = () => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
   const state = useShallowSelector(selectMain);
   const {
     address, balances, isLoading, coingeckoPrices,

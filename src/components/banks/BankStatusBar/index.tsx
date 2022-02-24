@@ -15,7 +15,7 @@ export const BankStatusBar: FC<Props> = ({
   vault, coll, collateralToken, debtToken,
 }) => {
   const granularity = 1000000;
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   return (
     <>

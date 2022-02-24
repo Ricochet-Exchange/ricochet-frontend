@@ -38,7 +38,7 @@ export const DepositBorrow: FC<Props> = ({
   const needsUnlock =
     +vaultData.depositAmount > +bank.collateralToken.unlockedAmount &&
     !localApproved;
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   return (
     <>

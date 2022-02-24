@@ -40,7 +40,7 @@ const TextInput: FC<TextInputProps> = ({
   isReadOnly,
   ...props
 }) => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
   return (
     <TextInputWrap error={hasError} className={containerClassName}>
       <IconRenderer error={hasError}>{left}</IconRenderer>

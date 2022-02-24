@@ -13,7 +13,7 @@ export const ApproveToken: FC<Props> = ({
   isLoadingApprove,
   onApproveClick,
 }) => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   return (
     <div className={styles.approveToken}>

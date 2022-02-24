@@ -29,7 +29,7 @@ export const CoinRateForm: FC<IProps> = ({
   isReadOnly,
   personalFlow,
 }) => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
   // Security Deposit is 4 hours worth of stream, so (4*60*60)/(30*24*60*60) = 1/180
   return (
     <div className={styles.input_container}>

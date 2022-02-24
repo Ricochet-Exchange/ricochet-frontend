@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 export const transformError = (e?: any) => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
   if (e?.data?.error) {
     return e.data.error;
   }

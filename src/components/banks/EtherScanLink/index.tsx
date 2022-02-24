@@ -26,7 +26,7 @@ export const EtherscanLink: FC<Props> = ({ path, hash, className }) => {
       }
     }
   };
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   return (
     <div className={cx(styles.etherscanLink, className)}>

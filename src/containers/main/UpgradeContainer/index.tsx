@@ -72,7 +72,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
   const [upgradeValue, setUpgradeValue] = useState('');
   const dispatch = useDispatch();
 
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   const callback = (e?: string) => {
     if (e) {

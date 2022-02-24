@@ -23,7 +23,7 @@ export const VaultsContainer = () => {
   const [hasVault, setHasVault] = useState(true);
   const [activeTransaction, setActiveTransaction] = useState('');
   const [transactionHash, setTransactionHash] = useState('');
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!banks[0]) dispatch(banksGetData());

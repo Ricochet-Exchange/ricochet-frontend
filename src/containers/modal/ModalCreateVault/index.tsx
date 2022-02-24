@@ -43,7 +43,7 @@ export const ModalCreateVault: FC<Props> = ({
   onApproveClick,
   onCloseModal,
 }) => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
   const renderStep = () => {
     switch (step) {
       case 1: {

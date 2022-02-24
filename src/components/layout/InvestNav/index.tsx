@@ -13,7 +13,7 @@ const TUTORIAL_LINK = 'https://docs.ricochet.exchange/tutorial/using-the-dapp';
 
 export const InvestNav = () => {
   const userStreams = useShallowSelector(selectUserStreams);
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
   return (
     <div className={styles.nav_container}>
 

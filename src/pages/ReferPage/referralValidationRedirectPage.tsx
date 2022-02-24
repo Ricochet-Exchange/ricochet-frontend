@@ -45,7 +45,7 @@ const ReferralValidationRedirectPage: FC<IProps> = () => {
   const contract = getContract(rexReferralAddress, referralABI, web3);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie] = useCookies(['referralId']);
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
   useEffect(() => {
     // check contract that this referralId is valid and redirect
     if (referralId && referralIdMax32Bytes && web3 && web3.currentProvider) {

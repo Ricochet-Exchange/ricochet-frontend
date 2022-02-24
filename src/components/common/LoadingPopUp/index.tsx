@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 export const LoadingPopUp = () => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   return (
     <div className={styles.loading_wrap}>

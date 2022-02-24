@@ -14,7 +14,7 @@ const WalletPage: FC<IProps> = () => {
     address,
     balances,
   } = useShallowSelector(selectMain);
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   return (
     <div className={styles.content_special}>

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 export const ModalMetamask:React.FC = () => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
   return (
     <div className={styles.wrap}>
       <p className={styles.title}>{t('Install Metamask')}</p>

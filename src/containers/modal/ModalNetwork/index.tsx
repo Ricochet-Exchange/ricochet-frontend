@@ -11,7 +11,7 @@ export const ModalNetwork:React.FC = () => {
   const handleClick = useCallback(() => {
     dispatch(mainSwitchNetwork());
   }, [dispatch]);
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   return (
     <div className={styles.wrap}>

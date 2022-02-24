@@ -27,7 +27,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
   onClickDowngrade = () => {},
   isReadOnly,
 }) => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   return (
     <div>

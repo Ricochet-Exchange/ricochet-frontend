@@ -30,7 +30,7 @@ export const VaultDetails: FC<Props> = ({
 }) => {
   const vaultCalcValues = getVaultCalcValues(bank);
   const link = getAddressLink(bank.bankAddress);
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   return (
     <div className={styles.VaultDetails}>

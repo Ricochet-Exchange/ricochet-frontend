@@ -19,7 +19,7 @@ export const BanksContainer = () => {
   const { banks } = useShallowSelector(selectBanks);
   const { address: accountAddress, isLoading } = useShallowSelector(selectMain);
   const [hasBanks, setHasBank] = useState(false);
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   const handleSignIn = useCallback(() => {
     dispatch(connectWeb3Modal());

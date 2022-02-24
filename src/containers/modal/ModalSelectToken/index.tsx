@@ -23,7 +23,7 @@ interface IProps {
 export const ModalSelectToken: FC<IProps> = ({
   onSelectCoin, value, onChange, onCloseModal, tokensList, filteredList, balances,
 }) => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   return (
     <>

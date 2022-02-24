@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const SignInButton: FC<Props> = ({ className, onClick }) => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   return (
     <Button className={cx(styles.button, className)} onClick={onClick} label="">

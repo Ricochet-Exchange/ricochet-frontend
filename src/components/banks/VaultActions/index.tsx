@@ -19,7 +19,7 @@ export const VaultActions: FC<Props> = ({
   onClick,
   transactionHash,
 }) => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
   return (
     // can use activeTransaction to set a class on active state
     <div className={cx(styles.VaultActions, className)}>

@@ -51,7 +51,7 @@ export const VaultTransaction: FC<Props> = ({
     return isRepay && needsApproval && !localApproved;
   };
 
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   const isCollateral =
     activeTransaction === 'withdraw' || activeTransaction === 'deposit';
