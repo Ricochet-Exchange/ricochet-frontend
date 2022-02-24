@@ -239,6 +239,18 @@
       "src": "typicons"
     },
     {
+      "uid": "2d6150442079cbda7df64522dc24f482",
+      "css": "down-dir",
+      "code": 59398,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "80cd1022bd9ea151d554bec1fa05f2de",
+      "css": "up-dir",
+      "code": 59399,
+      "src": "fontawesome"
+    },
+    {
       "uid": "5bd7de002e173fb31484c7b3c82f4612",
       "css": "plus",
       "code": 59461,

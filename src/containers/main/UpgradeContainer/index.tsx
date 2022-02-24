@@ -330,8 +330,8 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                       <div className={styles.currDisplay}>
                         <div className={styles.currDisplayImg}>
                           <img
-                            height="18px"
-                            width="18px"
+                            height="25px"
+                            width="25px"
                             src={iconsCoin[token.coin]}
                             alt="icon for token"
                           />
@@ -404,11 +404,11 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                       {balances && inFlow ?
                         (
                           <>
-                            - $
-                            {inFlow.toFixed(2)}
+                            + $
+                            {outFlow.toFixed(2)}
                             <FontIcon
-                              className={styles.redFont}
-                              name={FontIconName.ArrowUp}
+                              className={styles.greenFont}
+                              name={FontIconName.ArrowUpStrong}
                               size={15}
                             />
                           </>
@@ -425,11 +425,11 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                       {balances && inFlow ?
                         (
                           <>
-                            + $
+                            - $
                             {inFlow.toFixed(2)}
                             <FontIcon
-                              className={styles.greenFont}
-                              name={FontIconName.ArrowDown}
+                              className={styles.redFont}
+                              name={FontIconName.ArrowDownStrong}
                               size={15}
                             />
                           </>
