@@ -124,7 +124,6 @@ export const startFlow = async (
     token: inputTokenAddress,
   });
   let call = [];
-  const scaledAmount = Math.floor(amount / 1e12) * 1e12;
 
   // eslint-disable-next-line max-len
   const config = indexIDA.filter((data) => data.input === inputTokenAddress && data.output === outputTokenAddress)[0];
@@ -143,7 +142,7 @@ export const startFlow = async (
           address: exchangeAddress,
           token: inputTokenAddress,
         }), // address: would be rickosheaAppaddress, currently not deployed
-        flowRate: scaledAmount.toString(),
+        flowRate: amount.toString(),
       });
     } else {
       const userData = referralId ? web3.eth.abi.encodeParameter('string', referralId) : '0x';
@@ -177,7 +176,7 @@ export const startFlow = async (
                   .createFlow(
                     inputTokenAddress,
                     exchangeAddress,
-                    scaledAmount.toString(),
+                    amount.toString(),
                     '0x',
                   )
                   .encodeABI(), // callData
@@ -270,7 +269,7 @@ export const startFlow = async (
                   .createFlow(
                     inputTokenAddress,
                     exchangeAddress,
-                    scaledAmount.toString(),
+                    amount.toString(),
                     '0x',
                   )
                   .encodeABI(), // callData
@@ -327,7 +326,7 @@ export const startFlow = async (
                   .createFlow(
                     config.input,
                     exchangeAddress,
-                    scaledAmount.toString(),
+                    amount.toString(),
                     '0x',
                   )
                   .encodeABI(), // callData
@@ -366,7 +365,7 @@ export const startFlow = async (
                   .createFlow(
                     config.input,
                     exchangeAddress,
-                    scaledAmount.toString(),
+                    amount.toString(),
                     '0x',
                   )
                   .encodeABI(), // callData
