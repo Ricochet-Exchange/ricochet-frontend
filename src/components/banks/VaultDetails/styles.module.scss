@@ -1,4 +1,4 @@
-@import 'assets/styles/mixins';
+@import "assets/styles/mixins";
 
 .VaultDetails {
   background-color: var(--color-blue-light);
@@ -44,7 +44,7 @@
 
 .VaultDetail h3 {
   font-size: 1.25rem;
-  color: var(--color-blue);;
+  color: var(--color-blue);
   margin: 0 0 4px 0;
 }
 
@@ -75,15 +75,14 @@
 .BankDataTxt {
   text-align: right;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-end;
+  align-items: center;
   margin: 0 12px 0 0;
 }
 
 .BankName {
   font-weight: bold;
   color: black;
+  margin-right: 5px;
 }
 
 .BankDataTxt p {
@@ -100,7 +99,7 @@
 .liqprice h1 {
   font-size: 3rem;
   font-weight: normal;
-  color: var(--color-blue);;
+  color: var(--color-blue);
   margin-bottom: 0;
 }
 
@@ -147,46 +146,43 @@
   color: var(--color-black);
 }
 
-
-@media only screen and (max-width: 769px){
+@media only screen and (max-width: 769px) {
   .liqprice h1 {
     font-size: 2rem;
   }
 
-  
-.collateralPrice h1 {
-  font-size: 2rem;
-  margin-bottom: 0;
-}
-
-.VaultDetails__content {
-  @include flexbox(flex-start, space-between);
-}
-
-.VaultDetails__header {
-  @include flexbox(flex-start, space-between);
-  padding: 1em;
-  padding-top: 2em;
-  padding-bottom: 2em;
-  flex-direction: row;
-  border-bottom: 1px dashed $notwhitetxt;
-  @include tablet {
-    justify-content: space-between;
+  .collateralPrice h1 {
+    font-size: 2rem;
+    margin-bottom: 0;
   }
-}
 
+  .VaultDetails__content {
+    @include flexbox(flex-start, space-between);
+  }
 
-.VaultDetails__Column {
-  padding: 0;
-}
+  .VaultDetails__header {
+    @include flexbox(flex-start, space-between);
+    padding: 1em;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    flex-direction: row;
+    border-bottom: 1px dashed $notwhitetxt;
+    @include tablet {
+      justify-content: space-between;
+    }
+  }
 
-.VaultDetails__content {
-  @include flexbox(flex-start, space-between);
-  width: 100%;
-  padding: 0px;
-  padding: 1em;
-  padding-top: 2em;
-  padding-bottom: 2em;
-  flex-wrap: wrap;
-}
+  .VaultDetails__Column {
+    padding: 0;
+  }
+
+  .VaultDetails__content {
+    @include flexbox(flex-start, space-between);
+    width: 100%;
+    padding: 0px;
+    padding: 1em;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    flex-wrap: wrap;
+  }
 }

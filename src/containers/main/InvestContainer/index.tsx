@@ -123,6 +123,7 @@ export const InvestContainer: React.FC<IProps> = () => {
           <div className={styles.stream}>{t('Your Stream')}</div>
           <div className={styles.balances}>{t('Your Balances')}</div>
           <div className={styles.streaming}>{t('Total Value Streaming')}</div>
+          <div className={styles.ends}>{t('')}</div>
         </div>
         <div className={styles.content}>
           {filteredList.map((element) => (

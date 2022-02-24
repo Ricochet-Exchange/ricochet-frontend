@@ -120,6 +120,13 @@
 }
 
 @media only screen and (max-width: 769px) {
+  .badge {
+    padding: 1px 7px !important;
+    margin-left: 8px;
+    font-size: 9px;
+    border-radius: 19px;
+  }
+
   .nav_container {
     display: grid;
     grid-template-rows: repeat(2, 1fr);
@@ -152,6 +159,7 @@
     width: 100%;
     text-decoration: none;
     color: rgba(255, 255, 255, 0.75);
+    text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -162,6 +170,7 @@
 
   .nav_link_active {
     background-color: #678eb5;
+    border-radius: 10px;
     color: rgb(253, 253, 253);
     border-right: 0px solid black;
   }
