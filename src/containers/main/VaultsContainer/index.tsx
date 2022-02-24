@@ -13,6 +13,7 @@ import { banksGetData } from 'store/banks/actionCreators';
 import { InvestNav } from 'components/layout/InvestNav';
 import { connectWeb3Modal } from 'store/main/actionCreators';
 import { LoadingPopUp } from 'components/common/LoadingPopUp';
+import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 export const VaultsContainer = () => {
@@ -22,6 +23,7 @@ export const VaultsContainer = () => {
   const [hasVault, setHasVault] = useState(true);
   const [activeTransaction, setActiveTransaction] = useState('');
   const [transactionHash, setTransactionHash] = useState('');
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!banks[0]) dispatch(banksGetData());
@@ -86,7 +88,7 @@ export const VaultsContainer = () => {
           </>
         ) : (
           <div className={styles.container}>
-            <p>Sign in to see your vaults</p>
+            <p>{t('Sign in to see your vaults')}</p>
             <SignInButton
               onClick={handleSignIn}
             />

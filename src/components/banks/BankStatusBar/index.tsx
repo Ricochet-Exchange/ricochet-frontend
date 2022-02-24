@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TokenType } from 'store/banks/types';
 
 import styles from './styles.module.scss';
@@ -14,6 +15,7 @@ export const BankStatusBar: FC<Props> = ({
   vault, coll, collateralToken, debtToken,
 }) => {
   const granularity = 1000000;
+  const { t } = useTranslation();
 
   return (
     <>
@@ -24,7 +26,7 @@ export const BankStatusBar: FC<Props> = ({
               ? (
                 <div className={styles.vaultDetail}>
                   <p className={styles.title}>
-                    {`${collateralToken.symbol} Price (USD)`}
+                    {`${collateralToken.symbol} ${t('Price')} (USD)`}
                   </p>
                   <h3 className={styles.value}>
                     {`${+collateralToken.price / granularity} $`}
@@ -33,7 +35,7 @@ export const BankStatusBar: FC<Props> = ({
               ) : (
                 <div className={styles.vaultDetail}>
                   <p className={styles.title}>
-                    {`${debtToken.symbol} Price (USD)`}
+                    {`${debtToken.symbol} ${t('Price')} (USD)`}
                   </p>
                   <h3 className={styles.value}>
                     {`${+debtToken.price / granularity} $`}
@@ -45,7 +47,7 @@ export const BankStatusBar: FC<Props> = ({
           <>
             <div className={styles.bankDetail}>
               <p className={styles.title}>
-                {`${collateralToken.symbol} Price (USD)`}
+                {`${collateralToken.symbol} ${t('Price')} (USD)`}
               </p>
               <h3 className={styles.value}>
                 {`${+collateralToken.price / granularity} $`}
@@ -53,7 +55,7 @@ export const BankStatusBar: FC<Props> = ({
             </div>
             <div className={styles.bankDetail}>
               <p className={styles.title}>
-                {`${debtToken.symbol} Price (USD)`}
+                {`${debtToken.symbol} ${t('Price')} (USD)`}
               </p>
               <h3 className={styles.value}>
                 {`${+debtToken.price / granularity} $`}

@@ -9,7 +9,7 @@ interface IProps {
 }
 
 export const MobileMenu: FC<IProps> = ({ closeMenu }) => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
   return (
     <nav className={styles.styled_menu} style={closeMenu ? { transform: 'translateX(0)' } : { transform: 'translateX(100%)' }}>
       <div className={styles.mobile_links}>

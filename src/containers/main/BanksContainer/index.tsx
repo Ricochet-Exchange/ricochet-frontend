@@ -11,6 +11,7 @@ import { banksGetData } from 'store/banks/actionCreators';
 import { LoadingPopUp } from 'components/common/LoadingPopUp';
 import { connectWeb3Modal } from 'store/main/actionCreators';
 import { InvestNav } from 'components/layout/InvestNav';
+import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 export const BanksContainer = () => {
@@ -18,6 +19,7 @@ export const BanksContainer = () => {
   const { banks } = useShallowSelector(selectBanks);
   const { address: accountAddress, isLoading } = useShallowSelector(selectMain);
   const [hasBanks, setHasBank] = useState(false);
+  const { t } = useTranslation();
 
   const handleSignIn = useCallback(() => {
     dispatch(connectWeb3Modal());
@@ -58,29 +60,31 @@ export const BanksContainer = () => {
                   <table className={styles.dextable}>
                     <thead>
                       <tr>
-                        <td className={styles.section}>Name</td>
                         <td className={styles.section}>
-                          Available for
-                          <br />
-                          borrow
+                          {t('Name')}
                         </td>
                         <td className={styles.section}>
-                          Collateral Price
+                          {t('Available for')}
                           <br />
-                          in
-                          <span className={styles.blue}> USD</span>
+                          {t('borrow')}
                         </td>
                         <td className={styles.section}>
-                          Debt Price
+                          {t('Collateral Price')}
                           <br />
                           in
                           <span className={styles.blue}> USD</span>
                         </td>
-                        <td className={styles.section}>Interest Rate</td>
-                        <td className={styles.section}>Origination Fee</td>
-                        <td className={styles.section}>Collateralization Ratio</td>
-                        <td className={styles.section}>Liquidation Penalty</td>
-                        <td>Create Vault</td>
+                        <td className={styles.section}>
+                          {t('Debt Price')}
+                          <br />
+                          in
+                          <span className={styles.blue}> USD</span>
+                        </td>
+                        <td className={styles.section}>{t('Interest Rate')}</td>
+                        <td className={styles.section}>{t('Origination Fee')}</td>
+                        <td className={styles.section}>{t('Collateralization Ratio')}</td>
+                        <td className={styles.section}>{t('Liquidation Penalty')}</td>
+                        <td>{t('Create Vault')}</td>
                       </tr>
                     </thead>
                     <tbody>{renderBanks()}</tbody>
@@ -97,7 +101,7 @@ export const BanksContainer = () => {
           : 
           (
             <div className={styles.sign_container}>
-              <p>Sign in to see the bank</p>
+              <p>{t('Sign in to see the bank')}</p>
               <SignInButton
                 onClick={handleSignIn}
               />

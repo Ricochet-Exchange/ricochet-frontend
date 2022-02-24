@@ -16,7 +16,7 @@ export const UserSettings: FC<IProps> = ({
   account,
   className,
 }) => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   return (
     <div className={styles.user_settings}>

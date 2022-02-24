@@ -29,7 +29,7 @@ export const CoinRateForm: FC<IProps> = ({
   isReadOnly,
   personalFlow,
 }) => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
   // Security Deposit is 4 hours worth of stream, so (4*60*60)/(30*24*60*60) = 1/180
   return (
     <div className={styles.input_container}>
@@ -86,13 +86,12 @@ export const CoinRateForm: FC<IProps> = ({
             className={styles.depositTooltip}
           >
             <span className={styles.depositTooltip_span}>
-              Starting this stream will take a security deposit of
+              {t('Starting this stream will take a security deposit of')}
               <span style={{ fontWeight: 700 }}>
                 {` ${(parseFloat(value) / 180.0).toFixed(6)} ${coin} `}
               </span>
-              from your balance. The Deposit will be refunded in full when you
-              close the stream or lost if your balance hits zero with the stream
-              still open.
+              {t('from your balance.')}
+              {t('The Deposit will be refunded in full when you close the stream or lost if your balance hits zero with the stream still open.')}
             </span>
           </ReactTooltip>
         ) : null}
