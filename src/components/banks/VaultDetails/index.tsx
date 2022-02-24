@@ -11,12 +11,12 @@ import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import styles from './styles.module.scss';
 
 type Props = {
-  bank: BankType,
-  activeTransaction: string,
-  transactionHash: string,
-  onClick: (e: MouseEvent) => void,
-  setActiveTransaction: (transaction: string) => void,
-  setTransactionHash: (transactionHash: string) => void,
+  bank: BankType;
+  activeTransaction: string;
+  transactionHash: string;
+  onClick: (e: MouseEvent) => void;
+  setActiveTransaction: (transaction: string) => void;
+  setTransactionHash: (transactionHash: string) => void;
 };
 
 export const VaultDetails: FC<Props> = ({
@@ -60,7 +60,7 @@ export const VaultDetails: FC<Props> = ({
           <p>This vault is part of</p>
           <div className={styles.BankData}>
             <div className={styles.BankDataTxt}>
-              <p className={styles.BankName}>{bank.name}</p>
+              <div className={styles.BankName}>{bank.name}</div>
               <AddressLink addressLink={link} />
             </div>
             <FontIcon
@@ -124,8 +124,8 @@ export const VaultDetails: FC<Props> = ({
           <div className={styles.VaultDetail}>
             <p>Available to borrow</p>
             <h3>
-              {vaultCalcValues.borrowAvailable > +bank.reserveBalance ?
-                (+bank.reserveBalance / 1e18).toFixed()
+              {vaultCalcValues.borrowAvailable > +bank.reserveBalance
+                ? (+bank.reserveBalance / 1e18).toFixed()
                 : vaultCalcValues.borrowAvailable.toFixed(4)}
               {' '}
               {bank.debtToken.symbol}

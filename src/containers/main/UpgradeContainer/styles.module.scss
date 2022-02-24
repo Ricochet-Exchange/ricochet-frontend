@@ -83,12 +83,12 @@
   display: flex;
   align-items: center;
   flex-direction: row;
-  gap: 5px;
+  gap: 7px;
 }
 
 .currDisplayImg {
-  width: 18px;
-  height: 18px;
+  width: 25px;
+  height: 25px;
 }
 
 .currDisplayName {
@@ -101,6 +101,23 @@
   gap: 10px;
   float: right;
 
+}
+
+.wallet_loading {
+  text-align: center;
+  flex: 1;
+  width: 100%;
+
+  @include tablet {
+    @include flexbox(flex-start, center);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    position: relative;
+    flex-direction: column;
+    flex: 0 0 25%;
+    padding: 0 0 20px -10px;
+  }
 }
 
 .displaybutton span.upgradeButton {

@@ -47,13 +47,6 @@
   justify-content: flex-start;
 }
 
-.vault_empty {
-  width: 100%;
-  @include flexbox(center, center);
-  flex-direction: column;
-  text-align: center;
-}
-
 .view_button {
   @include flexbox(center, center);
   border: none;
@@ -115,5 +108,24 @@
     width: 100%;
     background-color: white;
     border-radius: 50px 0px 0px 0px;
+  }
+  
+.vault_empty {
+  height: 70vh;
+  width: 100%;
+  @include flexbox(center, center);
+  flex-direction: column;
+  text-align: center;
+}
+
+}
+
+@media only screen and (max-width: 769px){
+  .vault_empty {
+    height: 50vh;
+    width: 100%;
+    @include flexbox(center, center);
+    flex-direction: column;
+    text-align: center;
   }
 }

@@ -105,20 +105,6 @@
       ]
     },
     {
-      "uid": "5bd7de002e173fb31484c7b3c82f4612",
-      "css": "plus",
-      "code": 59461,
-      "src": "custom_icons",
-      "selected": true,
-      "svg": {
-        "path": "M500 0A62.5 62.5 0 0 0 437.5 62.5L437.5 937.5A62.5 62.5 0 0 0 500 1000 62.5 62.5 0 0 0 562.5 937.5L562.5 62.5A62.5 62.5 0 0 0 500 0ZM62.5 437.5A62.5 62.5 0 0 0 0 500 62.5 62.5 0 0 0 62.5 562.5L937.5 562.5A62.5 62.5 0 0 0 1000 500 62.5 62.5 0 0 0 937.5 437.5L62.5 437.5Z",
-        "width": 1000
-      },
-      "search": [
-        "plus"
-      ]
-    },
-    {
       "uid": "vyuzsm6wijlfwtjo4ifkoblfmsepk6g8",
       "css": "star-filled",
       "code": 59469,
@@ -217,12 +203,6 @@
       "src": "fontawesome"
     },
     {
-      "uid": "861ab06e455e2de3232ebef67d60d708",
-      "css": "minus",
-      "code": 59392,
-      "src": "fontawesome"
-    },
-    {
       "uid": "627abcdb627cb1789e009c08e2678ef9",
       "css": "twitter",
       "code": 61593,
@@ -233,6 +213,56 @@
       "css": "user-add-outline",
       "code": 59393,
       "src": "typicons"
+    },
+    {
+      "uid": "8f28d948aa6379b1a69d2a090e7531d4",
+      "css": "warning-empty",
+      "code": 59395,
+      "src": "typicons"
+    },
+    {
+      "uid": "a204f0fa972408eaae5a363c444991b2",
+      "css": "login",
+      "code": 59396,
+      "src": "entypo"
+    },
+    {
+      "uid": "1gf923f9wvaezxmfon515dglxa3drf0e",
+      "css": "plus",
+      "code": 59397,
+      "src": "typicons"
+    },
+    {
+      "uid": "qab5uvjyoc3uu4d2pvt8soshtgkuvpak",
+      "css": "minus",
+      "code": 59392,
+      "src": "typicons"
+    },
+    {
+      "uid": "2d6150442079cbda7df64522dc24f482",
+      "css": "down-dir",
+      "code": 59398,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "80cd1022bd9ea151d554bec1fa05f2de",
+      "css": "up-dir",
+      "code": 59399,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "5bd7de002e173fb31484c7b3c82f4612",
+      "css": "plus",
+      "code": 59461,
+      "src": "custom_icons",
+      "selected": false,
+      "svg": {
+        "path": "M500 0A62.5 62.5 0 0 0 437.5 62.5L437.5 937.5A62.5 62.5 0 0 0 500 1000 62.5 62.5 0 0 0 562.5 937.5L562.5 62.5A62.5 62.5 0 0 0 500 0ZM62.5 437.5A62.5 62.5 0 0 0 0 500 62.5 62.5 0 0 0 62.5 562.5L937.5 562.5A62.5 62.5 0 0 0 1000 500 62.5 62.5 0 0 0 937.5 437.5L62.5 437.5Z",
+        "width": 1000
+      },
+      "search": [
+        "plus"
+      ]
     }
   ]
 }
