@@ -17,6 +17,8 @@ export enum FontIconName {
   RicoUser = 'icon-userlogo',
   ArrowRightCircled = 'icon-right-circled',
   ArrowDown = 'icon-down-open',
+  ArrowUpStrong = 'icon-up-dir',
+  ArrowDownStrong = 'icon-down-dir',
   ArrowUp = 'icon-up-open',
   Search = 'icon-search',
   Dot = 'icon-dot-3',
