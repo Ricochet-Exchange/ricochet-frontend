@@ -217,7 +217,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
   }, 0);
 
   const getWalletBalance = (token: any) => (token.coin === Coin.RIC ? 'NA' : balances &&
-      parseFloat(balances[token.tokenAddress]).toFixed(2));
+    parseFloat(balances[token.tokenAddress]).toFixed(2));
 
   const getFlow = (outFlow: any, inFlow: any) => (outFlow.minus(inFlow) < new Big(0) ? (
     <>
@@ -531,7 +531,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                                 className={token.coin === Coin.RIC
                                   ? styles.disabledButton : styles.downgradeButton}
                               >
-                                <FontIcon name={FontIconName.Minus} size={15} />
+                                <FontIcon name={FontIconName.Minus} size={12} />
                               </span>
                               <span
                                 role="button"
