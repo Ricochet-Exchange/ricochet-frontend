@@ -18,7 +18,6 @@ export function* startFlowSaga({ payload }: ReturnType<typeof startFlowAction >)
       idaAddress,
       idaABI, web3,
     );
-    
     const { config } = payload;
     const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
     yield call(startFlow,
