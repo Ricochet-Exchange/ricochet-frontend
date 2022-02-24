@@ -251,7 +251,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
               &nbsp;
               {t('Outgoing')}
               <br />
-              {t('Per Month')}
+              {t('per month')}
               &nbsp;
               in
               <span className={styles.blue}> USD</span>

@@ -7,7 +7,7 @@ import { TextInput } from 'components/common/TextInput';
 import { PanelChange } from 'components/layout/PanelChange';
 import { UserSettings } from 'components/layout/UserSettings';
 import { InvestNav } from 'components/layout/InvestNav';
-import { useLang } from 'hooks/useLang';
+import { useTranslation } from 'react-i18next';
 import { flowConfig, FlowEnum, RoutesToFlowTypes } from 'constants/flowConfig';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain, selectUserStreams } from 'store/main/selectors';
@@ -28,7 +28,7 @@ function endDate(bal: number, outgoing: number): string {
 interface IProps { }
 
 export const InvestContainer: React.FC<IProps> = () => {
-  const { t } = useLang();
+  const { t } = useTranslation('main');
   const state = useShallowSelector(selectMain);
   const {
     address, balances, isLoading, coingeckoPrices,

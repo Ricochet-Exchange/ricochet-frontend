@@ -87,13 +87,12 @@ export const CoinRateForm: FC<IProps> = ({
               <span
                 className={styles.depositTooltip_span}
               >
-                Starting this stream will take a security deposit of
+                {t('Starting this stream will take a security deposit of')}
                 <span style={{ fontWeight: 700 }}>
                   {` ${(parseFloat(value) / 180.0).toFixed(6)} ${coin} `}
                 </span>
-                from your balance.
-                The Deposit will be refunded in full when you close the stream or lost if
-                your balance hits zero with the stream still open.
+                {t('from your balance.')}
+                {t('The Deposit will be refunded in full when you close the stream or lost if your balance hits zero with the stream still open.')}
 
               </span>
             </ReactTooltip>
