@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { mainSwitchNetwork } from 'store/main/actionCreators';
 import ButtonNew from 'components/common/ButtonNew';
 import { chainSettings } from 'constants/chainSettings';
+import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 export const ModalNetwork:React.FC = () => {
@@ -10,17 +11,16 @@ export const ModalNetwork:React.FC = () => {
   const handleClick = useCallback(() => {
     dispatch(mainSwitchNetwork());
   }, [dispatch]);
+  const { t } = useTranslation('main');
 
   return (
     <div className={styles.wrap}>
-      <p className={styles.title}>Switch to Polygon Network</p>
+      <p className={styles.title}>{t('Switch to Polygon Network')}</p>
       <p className={styles.desc}>
-        Metamask Users: Use the following settings, 
-        or the button below.
+        {t('Metamask Users: Use the following settings, or the button below.')}
       </p>
       <p className={styles.desc}>
-        Other wallets: Make sure 
-        your wallet supports Polygon.
+        {t('Other wallets: Make sure your wallet supports Polygon.')}
       </p>
       <ul className={styles.params}>
         <li>
@@ -45,7 +45,7 @@ export const ModalNetwork:React.FC = () => {
         onClick={handleClick}
         className={styles.button}
       >
-        switch to polygon
+        {t('switch to polygon')}
       </ButtonNew> 
 
     </div>
