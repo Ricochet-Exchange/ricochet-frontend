@@ -227,18 +227,6 @@
       "src": "entypo"
     },
     {
-      "uid": "1gf923f9wvaezxmfon515dglxa3drf0e",
-      "css": "plus",
-      "code": 59397,
-      "src": "typicons"
-    },
-    {
-      "uid": "qab5uvjyoc3uu4d2pvt8soshtgkuvpak",
-      "css": "minus",
-      "code": 59392,
-      "src": "typicons"
-    },
-    {
       "uid": "2d6150442079cbda7df64522dc24f482",
       "css": "down-dir",
       "code": 59398,
@@ -249,6 +237,18 @@
       "css": "up-dir",
       "code": 59399,
       "src": "fontawesome"
+    },
+    {
+      "uid": "1gf923f9wvaezxmfon515dglxa3drf0e",
+      "css": "plus",
+      "code": 59397,
+      "src": "typicons"
+    },
+    {
+      "uid": "qab5uvjyoc3uu4d2pvt8soshtgkuvpak",
+      "css": "minus",
+      "code": 59392,
+      "src": "typicons"
     },
     {
       "uid": "5bd7de002e173fb31484c7b3c82f4612",

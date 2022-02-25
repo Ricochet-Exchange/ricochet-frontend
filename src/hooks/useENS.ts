@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 const useENS = (
   address: string | null | undefined,
-): { ensName: string | null, ensAvatar: string | null } => {
+): { ensName: string | null; ensAvatar: string | null } => {
   const [ensName, setENSName] = useState<string | null>(null);
   const [ensAvatar, setENSAvatar] = useState<string | null>(null);
 

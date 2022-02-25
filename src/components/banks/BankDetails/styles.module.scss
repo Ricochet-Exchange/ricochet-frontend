@@ -43,6 +43,9 @@
     height: 20px;
     width: 20px;
     margin-right: 10px;
+    @include tablet {
+      margin-right: 2px;
+    }
   }
 }
 
