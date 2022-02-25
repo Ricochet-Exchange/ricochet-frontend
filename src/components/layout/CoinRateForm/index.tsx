@@ -53,7 +53,9 @@ export const CoinRateForm: FC<IProps> = ({
             color="primary"
             onClick={onClickStart}
             className={styles.start}
-            disabled={isReadOnly || isLoading || !value}
+            disabled={isReadOnly || isLoading || !value ||
+            (((Math.floor(((parseFloat(value) / 2592000) * 1e18)
+                / shareScaler) * shareScaler) / 1e18) * 2592000) === 0}
             isLoading={isLoading}
             data-tip
             data-for="depositTooltip"
