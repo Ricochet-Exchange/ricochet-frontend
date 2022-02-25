@@ -93,7 +93,7 @@ export const CoinRateForm: FC<IProps> = ({
               >
                 The amount per month will be rounded off to
                 <span style={{ fontWeight: 700 }}>
-                  {` ${((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler) * shareScaler) / 1e18) * 2592000} ${coin} `}
+                  {` ${(((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler) * shareScaler) / 1e18) * 2592000).toFixed(6)} ${coin} `}
                 </span>
                 so the contracts can evenly divide it
                 and it will take a security deposit of
