@@ -256,7 +256,7 @@ export const PanelChange: FC<IProps> = ({
                 <div className={styles.streaming}>
                   <span>
                     <span className={styles.number}>
-                      {`${totalFlow && getFormattedNumber(getFlowUSDValue(totalFlow))}`}
+                      {`$${totalFlow && getFormattedNumber(getFlowUSDValue(totalFlow))}`}
                     </span>
                     {t('per month')}
                     { ((subsidyRate?.total) || 0) > 0 ? (
