@@ -82,7 +82,6 @@ export const PanelChange: FC<IProps> = ({
   const [lastDistribution, setLastDistribution] = useState<Date>();
   const [shareScaler, setShareScaler] = useState(1e3);
   const { t } = useTranslation();
-  const shareScaler = 1e12;
 
   useEffect(() => {
     setIsLoading(mainLoading);
