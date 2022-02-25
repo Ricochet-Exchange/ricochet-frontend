@@ -76,6 +76,7 @@ export const PanelChange: FC<IProps> = ({
   const [isLoading, setIsLoading] = useState(true);
   const [lastDistribution, setLastDistribution] = useState<Date>();
   const { t } = useTranslation();
+  const shareScaler = 1e12;
 
   useEffect(() => {
     setIsLoading(mainLoading);
@@ -127,7 +128,12 @@ export const PanelChange: FC<IProps> = ({
       return;
     }
     setIsLoading(true);
-    onClickStart(value, callback);
+    if (flowType === FlowTypes.market) {
+      onClickStart((((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler)
+          * shareScaler) / 1e18) * 2592000).toString(), callback);
+    } else {
+      onClickStart(value, callback);
+    }
   }, [value, balanceA]);
 
   const handleStop = useCallback(() => {
@@ -137,8 +143,6 @@ export const PanelChange: FC<IProps> = ({
 
   // uncomment when need
   // const date = generateDate(balanceA, personalFlow);
-
-  // console.log('checkkk', isLoading);
 
   const uuid = (new Date()).getTime().toString(36) + Math.random().toString(36).slice(2);
   return (
@@ -291,6 +295,7 @@ export const PanelChange: FC<IProps> = ({
               coin={coinA}
               isLoading={isLoading}
               isReadOnly={isReadOnly}
+              shareScaler={shareScaler}
               personalFlow={getFormattedNumber(getFlowUSDValue(personalFlow))}
             />
           </div>
@@ -307,6 +312,7 @@ export const PanelChange: FC<IProps> = ({
               isLoading={isLoading}
               isReadOnly={isReadOnly}
               personalFlow={getFormattedNumber(getFlowUSDValue(personalFlow))}
+              shareScaler={shareScaler}
             />
           </div>
         )}

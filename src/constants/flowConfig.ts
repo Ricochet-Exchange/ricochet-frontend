@@ -2,7 +2,7 @@ import { Routes } from 'constants/routes';
 import { Coin } from './coins';
 import {
   RICAddress,
-  twoWayMarketAddress,
+  twoWayWETHMarketAddress,
   twoWayMarketWBTCAddress,
   USDCxAddress,
   usdcxRicExchangeAddress,
@@ -11,10 +11,10 @@ import {
 } from './polygon_config';
 
 export enum FlowEnum {
-  usdcWethFlowQuery = 'usdcWethFlowQuery',
-  wethUsdcFlowQuery = 'wethUsdcFlowQuery',
-  wbtcUsdcFlowQuery = 'wbtcUsdcFlowQuery',
-  usdcWbtcFlowQuery = 'usdcWbtcFlowQuery',
+  twoWayusdcWethFlowQuery = 'twoWayusdcWethFlowQuery',
+  twoWaywethUsdcFlowQuery = 'twoWaywethUsdcFlowQuery',
+  twoWaywbtcUsdcFlowQuery = 'twoWaywbtcUsdcFlowQuery',
+  twoWayusdcWbtcFlowQuery = 'twoWayusdcWbtcFlowQuery',
   usdcRicFlowQuery = 'usdcRicFlowQuery',
 }
 // eslint-disable-next-line max-len
@@ -71,21 +71,21 @@ export type InvestmentFlow = {
 
 const markets: InvestmentFlow[] = [
   {
-    superToken: twoWayMarketAddress,
+    superToken: twoWayWETHMarketAddress,
     tokenA: USDCxAddress,
     tokenB: WETHxAddress,
     coinA: Coin.USDC,
     coinB: Coin.WETH,
-    flowKey: FlowEnum.usdcWethFlowQuery,
+    flowKey: FlowEnum.twoWayusdcWethFlowQuery,
     type: FlowTypes.market,
   },
   {
-    superToken: twoWayMarketAddress,
+    superToken: twoWayWETHMarketAddress,
     tokenA: WETHxAddress,
     tokenB: USDCxAddress,
     coinA: Coin.WETH,
     coinB: Coin.USDC,
-    flowKey: FlowEnum.wethUsdcFlowQuery,
+    flowKey: FlowEnum.twoWaywethUsdcFlowQuery,
     type: FlowTypes.market,
   },
   {
@@ -94,7 +94,7 @@ const markets: InvestmentFlow[] = [
     tokenB: USDCxAddress,
     coinA: Coin.WBTC,
     coinB: Coin.USDC,
-    flowKey: FlowEnum.wbtcUsdcFlowQuery,
+    flowKey: FlowEnum.twoWaywbtcUsdcFlowQuery,
     type: FlowTypes.market,
   },
   {
@@ -103,7 +103,7 @@ const markets: InvestmentFlow[] = [
     tokenB: WBTCxAddress,
     coinA: Coin.USDC,
     coinB: Coin.WBTC,
-    flowKey: FlowEnum.usdcWbtcFlowQuery,
+    flowKey: FlowEnum.twoWayusdcWbtcFlowQuery,
     type: FlowTypes.market,
   },
 

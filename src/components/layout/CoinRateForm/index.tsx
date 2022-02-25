@@ -7,15 +7,16 @@ import { Coin } from '../../../constants/coins';
 import styles from './styles.module.scss';
 
 interface IProps {
-  value: string;
-  placeholder?: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onClickStart: () => void;
-  onClickStop: () => void;
+  value: string,
+  placeholder?: string,
+  onChange: (e:ChangeEvent<HTMLInputElement>) => void,
+  onClickStart: () => void,
+  onClickStop: () => void,
   coin: Coin;
   isLoading?: boolean;
-  isReadOnly?: boolean;
+  isReadOnly?:boolean;
   personalFlow: string;
+  shareScaler: number;
 }
 
 export const CoinRateForm: FC<IProps> = ({
@@ -28,6 +29,7 @@ export const CoinRateForm: FC<IProps> = ({
   isLoading,
   isReadOnly,
   personalFlow,
+  shareScaler,
 }) => {
   const { t } = useTranslation();
   // Security Deposit is 4 hours worth of stream, so (4*60*60)/(30*24*60*60) = 1/180
@@ -77,24 +79,35 @@ export const CoinRateForm: FC<IProps> = ({
         </div>
         <div style={{ flexBasis: '100%', height: '0' }}> </div>
 
-        {parseFloat(value) > 0 ? (
-          <ReactTooltip
-            id="depositTooltip"
-            place="right"
-            effect="solid"
-            multiline
-            className={styles.depositTooltip}
-          >
-            <span className={styles.depositTooltip_span}>
-              {t('Starting this stream will take a security deposit of')}
-              <span style={{ fontWeight: 700 }}>
-                {` ${(parseFloat(value) / 180.0).toFixed(6)} ${coin} `}
+        { parseFloat(value) > 0 ?
+          (
+            <ReactTooltip
+              id="depositTooltip"
+              place="right"
+              effect="solid"
+              multiline
+              className={styles.depositTooltip}
+            >
+              <span
+                className={styles.depositTooltip_span}
+              >
+                The amount per month will be rounded off to
+                <span style={{ fontWeight: 700 }}>
+                  {` ${((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler) * shareScaler) / 1e18) * 2592000} ${coin} `}
+                </span>
+                so the contracts can evenly divide it
+                and it will take a security deposit of
+                <span style={{ fontWeight: 700 }}>
+                  {` ${(parseFloat(value) / 180.0).toFixed(6)} ${coin} `}
+                </span>
+                from your balance.
+                The Deposit will be refunded in full when you close the stream or lost if
+                your balance hits zero with the stream still open.
+
               </span>
-              {t('from your balance.')}
-              {t('The Deposit will be refunded in full when you close the stream or lost if your balance hits zero with the stream still open.')}
-            </span>
-          </ReactTooltip>
-        ) : null}
+            </ReactTooltip>
+          )
+          : null }
         <div />
       </div>
     </div>
