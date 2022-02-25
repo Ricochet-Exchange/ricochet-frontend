@@ -25,6 +25,7 @@ import { FlowTypes } from '../../../constants/flowConfig';
 // import Price from '../../common/Price';
 import LpAPY from '../../common/LpAPY';
 import Price from '../../common/Price';
+import { getShareScaler } from '../../../utils/getShareScaler';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -34,6 +35,8 @@ interface IProps {
   onClickStop: (callback: (e?: string) => void) => void
   coinA: Coin,
   coinB: Coin,
+  tokenA: string,
+  tokenB: string,
   coingeckoPrice: number;
   balanceA?: string;
   balanceB?: string;
@@ -56,6 +59,8 @@ export const PanelChange: FC<IProps> = ({
   coinA,
   coingeckoPrice,
   coinB,
+  tokenA,
+  tokenB,
   balanceA,
   balanceB,
   totalFlow,
@@ -75,12 +80,25 @@ export const PanelChange: FC<IProps> = ({
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [lastDistribution, setLastDistribution] = useState<Date>();
+  const [shareScaler, setShareScaler] = useState(1e3);
   const { t } = useTranslation();
-  const shareScaler = 1e12;
 
   useEffect(() => {
     setIsLoading(mainLoading);
   }, [mainLoading]);
+
+  useEffect(() => {
+    let isMounted = true;
+    if (web3?.currentProvider === null || flowType !== FlowTypes.market) return;
+    getShareScaler(web3, exchangeKey, tokenA, tokenB).then((res) => {
+      if (isMounted) {
+        setShareScaler(res);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, [web3]);
 
   useEffect(() => {
     let isMounted = true;

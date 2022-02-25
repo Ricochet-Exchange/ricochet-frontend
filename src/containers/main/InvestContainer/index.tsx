@@ -135,6 +135,8 @@ export const InvestContainer: React.FC<IProps> = () => {
                 coinA={element.coinA}
                 coingeckoPrice={coingeckoPrices ? coingeckoPrices[element.tokenA] : 0}
                 coinB={element.coinB}
+                tokenA={element.tokenA}
+                tokenB={element.tokenB}
                 balanceA={balances && balances[element.tokenA]}
                 balanceB={balances && balances[element.tokenB]}
                 totalFlow={state[element.flowKey]?.flowsOwned}
