@@ -30,6 +30,10 @@ export const BankDetails: FC<Props> = ({
     disablePageScroll();
   }, [setVisibleModal]);
 
+  function getFormattedNumber(num: string) {
+    return parseFloat(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
   return (
     <>
       <tr className={styles.bankDetails}>
@@ -42,7 +46,7 @@ export const BankDetails: FC<Props> = ({
               src={iconsCoin[bank.debtToken.symbol as Coin]}
               alt={bank.debtToken.symbol}
             />
-            <h3>{(+bank.reserveBalance / 1e18).toFixed()}</h3>
+            <h3>{getFormattedNumber((+bank.reserveBalance / 1e18).toFixed())}</h3>
           </div>
         </td>
         <td>
