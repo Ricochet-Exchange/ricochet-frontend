@@ -4,6 +4,7 @@
     <strong>This is a ricochet app frontend, made in react, using redux and redux-saga</strong>
 </div>
 <br>
+
 <div align="center">
     <img src="https://img.shields.io/github/commit-activity/w/Ricochet-Exchange/ricochet-frontend" alt="GitHub commit activity">
     <a href="https://github.com/Ricochet-Exchange/ricochet-frontend/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22">
