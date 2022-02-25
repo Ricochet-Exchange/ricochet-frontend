@@ -41,3 +41,4 @@ export const ZeroAddress = "0x0000000000000000000000000000000000000000"
 export const rexReferralAddress = "0xA0eC9E1542485700110688b3e6FbebBDf23cd901"
 export const twoWayWETHMarketAddress = "0xa2Ca3BB9883149f639e1dbC15dA14523dfeC38Ac"
 export const twoWayMarketWBTCAddress = "0xC6d5c858523aB5573672d3c8Af8359d6525CC9eC";
+
