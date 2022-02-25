@@ -16,8 +16,8 @@ export const getShareScaler = async (
     web3,
   );
 
-  const { inputIndex } = indexIDA.filter((data) =>
+  const { outputIndex } = indexIDA.filter((data) =>
     data.input === tokenA && data.output === tokenB)[0];
-  const outputPool = await contract.methods.getOutputPool(inputIndex).call();
+  const outputPool = await contract.methods.getOutputPool(outputIndex).call();
   return outputPool.shareScaler * 1e3;
 };
