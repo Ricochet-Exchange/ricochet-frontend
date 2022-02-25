@@ -72,7 +72,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
   const [upgradeValue, setUpgradeValue] = useState('');
   const dispatch = useDispatch();
 
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   const callback = (e?: string) => {
     if (e) {
@@ -217,7 +217,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
   }, 0);
 
   const getWalletBalance = (token: any) => (token.coin === Coin.RIC ? 'NA' : balances &&
-      parseFloat(balances[token.tokenAddress]).toFixed(2));
+    parseFloat(balances[token.tokenAddress]).toFixed(2));
 
   const getFlow = (outFlow: any, inFlow: any) => (outFlow.minus(inFlow) < new Big(0) ? (
     <>
@@ -236,27 +236,26 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
       <table className={styles.dextable}>
         <thead>
           <tr>
-            <td className={styles.currencyStyle}> Currency</td>
+            <td className={styles.currencyStyle}>
+              {t('Currency')}
+            </td>
             <td>
-              Wallet
+              {t('Wallet')}
               <br />
-              Balance
+              {t('Balance')}
             </td>
             <td className={styles.section}>
-              Super
-              <br />
-              Token
-              <br />
-              Balance
+              {t('Super Token Balance')}
             </td>
             <td className={styles.section}>
-              SuperToken Balance
+              {t('Super Token Balance')}
               <br />
               in
               <span className={styles.blue}> USD</span>
               <br />
               <span>
-                Total balance:
+                {t('Total balance')}
+                :
                 {' '}
                 <b>
                   $
@@ -265,22 +264,28 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
               </span>
             </td>
             <td>
-              Incoming Outgoing
+              {t('Incoming')}
+              &nbsp;
+              {t('Outgoing')}
               <br />
-              Per Month in
+              {t('per month')}
+              &nbsp;
+              in
               <span className={styles.blue}> USD</span>
             </td>
             <td className={styles.section}>
-              Monthly net Flow
+              {t('Monthly net Flow')}
               <br />
               in
               <span className={styles.blue}> USD</span>
             </td>
 
             <td className={styles.upgrade_downgrade_head}>
-              Upgrade or
+              {t('Upgrade')}
+              &nbsp;
+              {t('or')}
               <br />
-              Downgrade
+              {t('Downgrade')}
             </td>
           </tr>
         </thead>
@@ -330,8 +335,8 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                       <div className={styles.currDisplay}>
                         <div className={styles.currDisplayImg}>
                           <img
-                            height="18px"
-                            width="18px"
+                            height="25px"
+                            width="25px"
                             src={iconsCoin[token.coin]}
                             alt="icon for token"
                           />
@@ -404,11 +409,11 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                       {balances && inFlow ?
                         (
                           <>
-                            - $
-                            {inFlow.toFixed(2)}
+                            + $
+                            {outFlow.toFixed(2)}
                             <FontIcon
-                              className={styles.redFont}
-                              name={FontIconName.ArrowUp}
+                              className={styles.greenFont}
+                              name={FontIconName.ArrowUpStrong}
                               size={15}
                             />
                           </>
@@ -425,11 +430,11 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                       {balances && inFlow ?
                         (
                           <>
-                            + $
+                            - $
                             {inFlow.toFixed(2)}
                             <FontIcon
-                              className={styles.greenFont}
-                              name={FontIconName.ArrowDown}
+                              className={styles.redFont}
+                              name={FontIconName.ArrowDownStrong}
                               size={15}
                             />
                           </>
@@ -531,7 +536,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                                 className={token.coin === Coin.RIC
                                   ? styles.disabledButton : styles.downgradeButton}
                               >
-                                <FontIcon name={FontIconName.Minus} size={15} />
+                                <FontIcon name={FontIconName.Minus} size={12} />
                               </span>
                               <span
                                 role="button"

@@ -14,6 +14,7 @@ import { getAddressLink } from 'utils/getAddressLink';
 import { selectMain } from 'store/main/selectors';
 import ReactTimeAgo from 'react-time-ago';
 import TimeAgo from 'javascript-time-ago';
+import { useTranslation } from 'react-i18next';
 import en from 'javascript-time-ago/locale/en.json';
 import styles from './styles.module.scss';
 import { Coin } from '../../../constants/coins';
@@ -80,7 +81,7 @@ export const PanelChange: FC<IProps> = ({
   const [isLoading, setIsLoading] = useState(true);
   const [lastDistribution, setLastDistribution] = useState<Date>();
   const [shareScaler, setShareScaler] = useState(1e3);
-  // const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   useEffect(() => {
     setIsLoading(mainLoading);
@@ -193,7 +194,7 @@ export const PanelChange: FC<IProps> = ({
                 <div className={styles.stream}>
                   <span>
                     <span className={styles.number}>
-                      {`$${personalFlow && getFormattedNumber(getFlowUSDValue(personalFlow))} per month`}
+                      {`$${personalFlow && getFormattedNumber(getFlowUSDValue(personalFlow))} ${t('per month')}`}
                     </span>
                     {((subsidyRate?.perso) || 0) > 0 ? (
                       <span>
@@ -206,7 +207,7 @@ export const PanelChange: FC<IProps> = ({
                           className={styles.depositTooltip}
                         >
                           <span className={styles.depositTooltip_span}>
-                            {`Earning ${((subsidyRate?.perso || 0)).toFixed(2)} RIC/mo. subsidy`}
+                            {`${t('Earning')} ${((subsidyRate?.perso || 0)).toFixed(2)} RIC/mo. ${t('subsidy')}`}
                           </span>
                         </ReactTooltip>
                       </span>
@@ -214,14 +215,14 @@ export const PanelChange: FC<IProps> = ({
                   </span>
                   <div>
                     <span className={styles.token_amounts}>
-                      <span>{`${personalFlow && getFormattedNumber(personalFlow)} ${coinA}x / month`}</span>
+                      <span>{`${personalFlow && getFormattedNumber(personalFlow)} ${coinA}x / ${t('Month')}`}</span>
                     </span>
                   </div>
                   <span>
                     {((personalFlow || 0) > 0 && (balanceA || 0) > 0) && (
-                      <div className={styles.stream_values}>
-                        {`Runs out on ${streamEnd}`}
-                      </div>
+                    <div className={styles.stream_values}>
+                      {`${t('Runs out on')} ${streamEnd}`}
+                    </div>
                     )}
                   </span>
                 </div>
@@ -255,10 +256,10 @@ export const PanelChange: FC<IProps> = ({
                 <div className={styles.streaming}>
                   <span>
                     <span className={styles.number}>
-                      {`$${totalFlow && getFormattedNumber(getFlowUSDValue(totalFlow))}`}
+                      {`${totalFlow && getFormattedNumber(getFlowUSDValue(totalFlow))}`}
                     </span>
-                    per month
-                    {((subsidyRate?.total) || 0) > 0 ? (
+                    {t('per month')}
+                    { ((subsidyRate?.total) || 0) > 0 ? (
                       <span>
                         <span data-tip data-for={`depositTooltipTotal-${uuid}`}>🔥</span>
                         <ReactTooltip
@@ -269,21 +270,21 @@ export const PanelChange: FC<IProps> = ({
                           className={styles.depositTooltip}
                         >
                           <span className={styles.depositTooltip_span}>
-                            {`Total subsidy: ${((subsidyRate?.total || 0) / 1e3).toFixed(0)}k RIC/mo. | Rewards End: ${subsidyRate?.endDate}`}
+                            {`${t('Total subsidy')}: ${((subsidyRate?.total || 0) / 1e3).toFixed(0)}k RIC/mo. | ${t('Rewards End')}: ${subsidyRate?.endDate}`}
                           </span>
                         </ReactTooltip>
                       </span>
                     ) : <span />}
                   </span>
                   <span className={styles.token_amounts}>
-                    <span>{`${totalFlow && getFormattedNumber(totalFlow)} ${coinA}x / month`}</span>
+                    <span>{`${totalFlow && getFormattedNumber(totalFlow)} ${coinA}x / ${t('Month')}`}</span>
                   </span>
                   <span>
                     <span className={styles.number}>{totalFlows}</span>
-                    total streams
+                    {t('total streams')}
                   </span>
                   <span className={styles.distributed_time}>
-                    Distributed
+                    {t('Distributed')}
                     {' '}
                     <b>
                       {lastDistribution && <ReactTimeAgo date={lastDistribution} />}

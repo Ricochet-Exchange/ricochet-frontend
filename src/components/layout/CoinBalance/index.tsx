@@ -16,7 +16,7 @@ interface IProps {
 export const CoinBalance: FC<IProps> = ({
   nameCoin, balance, className, onClickMax,
 }) => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
   
   return (
     <ButtonNew
