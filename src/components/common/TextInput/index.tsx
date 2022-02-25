@@ -44,7 +44,7 @@ const TextInput: FC<TextInputProps> = ({
   return (
     <TextInputWrap error={hasError} className={containerClassName}>
       <IconRenderer error={hasError}>{left}</IconRenderer>
-  
+
       <input
         type={type}
         {...props}
@@ -64,7 +64,7 @@ const TextInput: FC<TextInputProps> = ({
           </ButtonNew>
         </div>
       )}
-  
+
       <IconRenderer>{right}</IconRenderer>
     </TextInputWrap>
   );
