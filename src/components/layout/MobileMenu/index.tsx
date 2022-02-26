@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import Link from 'components/common/Link';
+import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'i18n';
 import { Routes } from '../../../constants/routes';
 import styles from './styles.module.scss';
@@ -7,6 +8,7 @@ import styles from './styles.module.scss';
 interface IProps {
   closeMenu?: () => void,
 }
+const RICOCHET_V1_LINK = 'https://v1.ricochet.exchange/';
 
 export const MobileMenu: FC<IProps> = ({ closeMenu }) => {
   const { t } = useTranslation();
@@ -54,6 +56,17 @@ export const MobileMenu: FC<IProps> = ({ closeMenu }) => {
               >
                 <div>{t('Banks')}</div>
               </Link>
+            </div>
+          </div>
+        </div>
+        <div className={styles.mobile_container}>
+          <div className={styles.mobile_styled_link}>
+            <div className={styles.anchor_container}>
+              <NavLink
+                to={{ pathname: RICOCHET_V1_LINK }}
+              >
+                <div>{t('Ricochet V1')}</div>
+              </NavLink>
             </div>
           </div>
         </div>
