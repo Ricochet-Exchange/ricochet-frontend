@@ -25,7 +25,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: yarn install
+    - run: |
+        export NODE_OPTIONS="--max_old_space_size=4096"
+        yarn install
     - run: yarn tsc
     - run: yarn build
     - run: npm test
