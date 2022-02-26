@@ -1,6 +1,4 @@
-import { rexReferralAddress, RICAddress } from 'constants/polygon_config';
-import { HeaderContainer } from 'containers/main/HeaderContainer';
-import { MainLayout } from 'containers/MainLayout';
+import { rexReferralAddress } from 'constants/polygon_config';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { useCookies } from 'react-cookie';
 import React, { FC, useEffect, useState } from 'react';
@@ -9,7 +7,8 @@ import { referralABI } from 'constants/abis';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { selectMain } from 'store/main/selectors';
 import { REFERRAL_URL_PREFIX } from 'constants/routes';
-import { Loader } from '../../components/common/Loader';
+import { Loader } from 'components/common/Loader';
+import { useTranslation } from 'react-i18next';
 import styles from './stylesReferralValidationRedirectPage.module.scss';
 
 interface IProps {}
@@ -32,8 +31,6 @@ const pathnameWithoutReferral = (pathname: string) => {
 
 const ReferralValidationRedirectPage: FC<IProps> = () => {
   const {
-    address,
-    balances,
     web3,
   } = useShallowSelector(selectMain);
 
@@ -48,6 +45,7 @@ const ReferralValidationRedirectPage: FC<IProps> = () => {
   const contract = getContract(rexReferralAddress, referralABI, web3);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie] = useCookies(['referralId']);
+  const { t } = useTranslation();
   useEffect(() => {
     // check contract that this referralId is valid and redirect
     if (referralId && referralIdMax32Bytes && web3 && web3.currentProvider) {
@@ -76,32 +74,24 @@ const ReferralValidationRedirectPage: FC<IProps> = () => {
   }, [referralId, web3]);
 
   return (
-    <MainLayout>
-      <div className={styles.header}>
-        <HeaderContainer balance={balances && balances[RICAddress]} address={address || 'Connecting'} />
-      </div>
-      <div className={styles.content}>
-        <div className={styles.inner_content}>
-          {referrerVilidationStatus === ReferrerValidationStatusTypes.Loading && (
-          <>
-            <Loader size={128} loaderColor="#363B55" />
-            <div>Validating this referral</div>
-          </>
-          )}
-          {referrerVilidationStatus === ReferrerValidationStatusTypes.Error && (
-          <>
-            <div>Error during validation of this referral id</div>
-          </>
-          )}
-          {referrerVilidationStatus === ReferrerValidationStatusTypes.NotExisting && (
-          <>
-            <div>This referral id does not exist</div>
-          </>
-          )}
-        </div>
-      </div>
-      
-    </MainLayout>
+    <div className={styles.inner_content}>
+      {referrerVilidationStatus === ReferrerValidationStatusTypes.Loading && (
+      <>
+        <Loader size={128} loaderColor="#363B55" />
+        <div>{t('Validating this referral')}</div>
+      </>
+      )}
+      {referrerVilidationStatus === ReferrerValidationStatusTypes.Error && (
+      <>
+        <div>{t('Error during validation of this referral id')}</div>
+      </>
+      )}
+      {referrerVilidationStatus === ReferrerValidationStatusTypes.NotExisting && (
+      <>
+        <div>{t('This referral id does not exist')}</div>
+      </>
+      )}
+    </div>
   );
 };
 

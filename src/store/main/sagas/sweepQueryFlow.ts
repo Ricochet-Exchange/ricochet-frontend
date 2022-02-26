@@ -102,10 +102,10 @@ export function* sweepQueryFlow() {
   // const maticDaiFlowQuery = buildFlowQuery(FlowEnum.maticDaiFlowQuery);
   // const usdcMaticFlowQuery = buildFlowQuery(FlowEnum.usdcMaticFlowQuery);
   // const maticUsdcFlowQuery = buildFlowQuery(FlowEnum.maticUsdcFlowQuery);
-  const usdcWethFlowQuery = buildFlowQuery(FlowEnum.usdcWethFlowQuery);
-  const usdcWbtcFlowQuery = buildFlowQuery(FlowEnum.usdcWbtcFlowQuery);
-  const wethUsdcFlowQuery = buildFlowQuery(FlowEnum.wethUsdcFlowQuery);
-  const wbtcUsdcFlowQuery = buildFlowQuery(FlowEnum.wbtcUsdcFlowQuery);
+  const twoWayusdcWethFlowQuery = buildFlowQuery(FlowEnum.twoWayusdcWethFlowQuery);
+  const twoWayusdcWbtcFlowQuery = buildFlowQuery(FlowEnum.twoWayusdcWbtcFlowQuery);
+  const twoWaywethUsdcFlowQuery = buildFlowQuery(FlowEnum.twoWaywethUsdcFlowQuery);
+  const twoWaywbtcUsdcFlowQuery = buildFlowQuery(FlowEnum.twoWaywbtcUsdcFlowQuery);
   // const usdcSlpEthFlowQuery = buildFlowQuery(FlowEnum.usdcSlpEthFlowQuery);
   // const usdcIdleFlowQuery = buildFlowQuery(FlowEnum.usdcIdleFlowQuery);
 
@@ -126,10 +126,14 @@ export function* sweepQueryFlow() {
   // maticDaiFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, maticDaiFlowQuery);
   // usdcMaticFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcMaticFlowQuery);
   // maticUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, maticUsdcFlowQuery);
-  usdcWethFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcWethFlowQuery);
-  usdcWbtcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcWbtcFlowQuery);
-  wethUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, wethUsdcFlowQuery);
-  wbtcUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, wbtcUsdcFlowQuery);
+  twoWayusdcWethFlowQuery.subsidyRate =
+      yield call(getSubsidyRateFromQuery, twoWayusdcWethFlowQuery);
+  twoWayusdcWbtcFlowQuery.subsidyRate =
+      yield call(getSubsidyRateFromQuery, twoWayusdcWbtcFlowQuery);
+  twoWaywethUsdcFlowQuery.subsidyRate =
+      yield call(getSubsidyRateFromQuery, twoWaywethUsdcFlowQuery);
+  twoWaywbtcUsdcFlowQuery.subsidyRate =
+      yield call(getSubsidyRateFromQuery, twoWaywbtcUsdcFlowQuery);
   // usdcSlpEthFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcSlpEthFlowQuery);
   // usdcIdleFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcIdleFlowQuery);
 
@@ -145,10 +149,10 @@ export function* sweepQueryFlow() {
     // maticDaiFlowQuery,
     // usdcMaticFlowQuery,
     // maticUsdcFlowQuery,
-    usdcWethFlowQuery,
-    usdcWbtcFlowQuery,
-    wethUsdcFlowQuery,
-    wbtcUsdcFlowQuery,
+    twoWayusdcWethFlowQuery,
+    twoWayusdcWbtcFlowQuery,
+    twoWaywethUsdcFlowQuery,
+    twoWaywbtcUsdcFlowQuery,
     // usdcSlpEthFlowQuery,
     // usdcIdleFlowQuery,
   }));

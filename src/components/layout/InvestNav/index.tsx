@@ -5,13 +5,16 @@ import { selectUserStreams } from 'store/main/selectors';
 import { Routes } from 'constants/routes';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import Link from 'components/common/Link';
+import { useTranslation } from 'react-i18next';
 import logo from '../../../assets/images/logo.svg';
 import styles from './styles.module.scss';
 
 const TUTORIAL_LINK = 'https://docs.ricochet.exchange/tutorial/using-the-dapp';
+const RICOCHET_V1_LINK = 'https://v1.ricochet.exchange/';
 
 export const InvestNav = () => {
   const userStreams = useShallowSelector(selectUserStreams);
+  const { t } = useTranslation();
   return (
     <div className={styles.nav_container}>
 
@@ -28,7 +31,7 @@ export const InvestNav = () => {
         >
           <FontIcon name={FontIconName.RicoUser} size={16} />
           <div className={styles.nav_text}>
-            Streams
+            {t('Streams')}
             <span className={styles.badge}>{userStreams.length}</span>
           </div>
         </NavLink>
@@ -40,7 +43,7 @@ export const InvestNav = () => {
         activeClassName={styles.nav_link_active}
       >
         <FontIcon name={FontIconName.Wallet} size={16} />
-        <div className={styles.nav_text}>Wallet</div>
+        <div className={styles.nav_text}>{t('Wallet')}</div>
       </Link>
 
       <NavLink
@@ -50,7 +53,7 @@ export const InvestNav = () => {
         to={Routes.Invest}
       >
         <FontIcon name={FontIconName.Swap} size={16} />
-        <div className={styles.nav_text}>Market</div>
+        <div className={styles.nav_text}>{t('Market')}</div>
       </NavLink>
 
       {/* <NavLink */}
@@ -68,7 +71,7 @@ export const InvestNav = () => {
         to={Routes.InvestLaunchpads}
       >
         <FontIcon name={FontIconName.Shuttle} size={16} />
-        <div className={styles.nav_text}>Launchpad</div>
+        <div className={styles.nav_text}>{t('Launchpad')}</div>
       </NavLink>
 
       <NavLink
@@ -77,7 +80,7 @@ export const InvestNav = () => {
         to={Routes.Banks}
       >
         <FontIcon name={FontIconName.Bank} size={16} />
-        <div className={styles.nav_text}>Bank</div>
+        <div className={styles.nav_text}>{t('Banks')}</div>
       </NavLink>
 
       <NavLink
@@ -86,7 +89,7 @@ export const InvestNav = () => {
         to={Routes.Vaults}
       >
         <FontIcon name={FontIconName.Lock} size={16} />
-        <div className={styles.nav_text}>Vault</div>
+        <div className={styles.nav_text}>{t('Vault')}</div>
       </NavLink>    
 
       <NavLink
@@ -95,7 +98,7 @@ export const InvestNav = () => {
         activeClassName={styles.nav_link_active}
       >
         <FontIcon name={FontIconName.Refer} size={16} />
-        <div className={styles.nav_text}>Refer</div>
+        <div className={styles.nav_text}>{t('Refer')}</div>
       </NavLink>
 
       <NavLink
@@ -103,7 +106,16 @@ export const InvestNav = () => {
         to={{ pathname: TUTORIAL_LINK }}
         target="_blank"
       >
-        <div className={styles.nav_text_tutorial}>Tutorial</div>
+        <div className={styles.nav_text_tutorial}>{t('Tutorial')}</div>
+        <FontIcon name={FontIconName.External} size={16} />
+      </NavLink>
+
+      <NavLink
+        to={{ pathname: RICOCHET_V1_LINK }}
+        className={styles.nav_link_desktop_only}
+        activeClassName={styles.nav_link_active}
+      >
+        <div className={styles.nav_text_tutorial}>{t('Ricochet V1')}</div>
         <FontIcon name={FontIconName.External} size={16} />
       </NavLink>
     </div>

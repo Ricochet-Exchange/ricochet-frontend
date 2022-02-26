@@ -17,6 +17,8 @@ export enum FontIconName {
   RicoUser = 'icon-userlogo',
   ArrowRightCircled = 'icon-right-circled',
   ArrowDown = 'icon-down-open',
+  ArrowUpStrong = 'icon-up-dir',
+  ArrowDownStrong = 'icon-down-dir',
   ArrowUp = 'icon-up-open',
   Search = 'icon-search',
   Dot = 'icon-dot-3',
@@ -37,6 +39,8 @@ export enum FontIconName {
   Chat = 'icon-chat',
   Refer = 'icon-user-add-outline',
   Wallet = 'icon-wallet',
+  Warning = 'icon-warning-empty',
+  Login = 'icon-login',
 }
 
 const FontIcon: FC<IProps> = ({ name, size = 24, className }) => (
