@@ -61,7 +61,7 @@
     "react-modal": "3.12.1",
     "react-popper": "^2.2.5",
     "react-redux": "^7.2.4",
-    "react-router-dom": "5.2.0",
+    "react-router-dom": "6.2.1",
     "react-scripts": "4.0.3",
     "react-time-ago": "^7.1.7",
     "react-tiny-popover": "^7.0.1",
