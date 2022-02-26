@@ -138,6 +138,11 @@
   font-size: 12px;
   line-height: 100%;
   color: var(--color-grey);
+  padding-bottom: 15px;
+
+  @include tablet {
+    padding-bottom: 10px;
+  }
 }
 
 .distributed_time {
@@ -248,10 +253,4 @@
     padding-bottom: 20px;
   }
   flex: 1;
-}
-
-@media screen and (max-width: 768px) {
-  .container {
-    width: 80%;
-  }
 }

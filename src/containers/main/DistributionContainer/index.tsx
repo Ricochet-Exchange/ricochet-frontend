@@ -25,8 +25,8 @@ export const DistributionContainer: React.FC<IProps> = () => {
   } = mainState;
   
   const distributionsState = useShallowSelector(selectDistributions);
-  const { isLoading: isLoadingDistributions, distributions } = distributionsState;
-
+  const { distributions } = distributionsState;
+  
   useEffect(() => {
     if (!isLoading) dispatch(distributionsGetData());
   }, [isLoading]);
@@ -64,9 +64,9 @@ export const DistributionContainer: React.FC<IProps> = () => {
           </div>
         </div>
         
-        {isLoading || isLoadingDistributions ? (
+        {isLoading ? (
           <LoadingWrapper
-            isLoading={isLoading || isLoadingDistributions}
+            isLoading={isLoading}
             classNameLoader={styles.loader}
           />
         ) : null}
