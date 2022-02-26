@@ -37,7 +37,7 @@
     "@makerdao/multicall": "^0.12.0",
     "@popperjs/core": "^2.10.2",
     "@sentry/react": "^6.17.6",
-    "@sentry/tracing": "^6.17.6",
+    "@sentry/tracing": "^6.18.0",
     "@superfluid-finance/js-sdk": "^0.4.3",
     "@toruslabs/torus-embed": "^1.20.4",
     "@truffle/contract": "^4.4.9",
