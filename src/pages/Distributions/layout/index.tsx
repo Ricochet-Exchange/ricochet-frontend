@@ -37,6 +37,60 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
     web3,
   } = useShallowSelector(selectMain);
   const { t } = useLang();
+  
+  const getSubscribeLinkComponent = (_distribution: Distribution) => (
+    <div
+      tabIndex={0}
+      role="button"
+      className={styles.subscribed}
+      onClick={() => _distribution && subscribe(web3,
+        _distribution.token,
+        _distribution.indexId,
+        _distribution.publisher,
+        _distribution.subscriber,
+        (args:any) => showToast(args, 'info'),
+        () => showSuccessToast('Successfully completed', 'success'),
+        (args:any) => showErrorToast(transformError(args), 'Error'))}
+      onKeyDown={() =>
+        _distribution && subscribe(web3,
+          _distribution.token,
+          _distribution.indexId,
+          _distribution.publisher,
+          _distribution.subscriber,
+          (args:any) => showToast(args, 'info'),
+          () => showSuccessToast('Successfully completed', 'success'),
+          (args:any) => showErrorToast(transformError(args), 'Error'))}
+    >
+      {t('Subscribe')}
+    </div>
+  );
+
+  const getUnsubscribeLinkComponent = (_distribution: Distribution) => (
+    <div
+      className={styles.unsubscribedSmallDevice}
+      tabIndex={0}
+      role="button"
+      onClick={() => _distribution && unsubscribe(web3,
+        _distribution?.token,
+        _distribution?.indexId,
+        _distribution?.publisher,
+        _distribution?.subscriber,
+        (args:any) => showToast(args, 'info'),
+        () => showSuccessToast('Successfully completed', 'success'),
+        (args:any) => showErrorToast(transformError(args), 'Error'))}
+      onKeyDown={() => _distribution && unsubscribe(web3,
+        _distribution?.token,
+        _distribution?.indexId,
+        _distribution?.publisher,
+        _distribution?.subscriber,
+        (args:any) => showToast(args, 'info'),
+        () => showSuccessToast('Successfully completed', 'success'),
+        (args:any) => showErrorToast(transformError(args), 'Error'))}
+    >
+      {t('Unsubscribe')}
+    </div>
+  );
+
   return (
     <>
       <section className={styles.panel}>
@@ -66,57 +120,9 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
                         </span>
                       </div>
                       {!distribution?.approved ? (
-                        <div
-                          tabIndex={0}
-                          role="button"
-                          className={styles.subscribed}
-                          onClick={() => distribution && subscribe(web3,
-                            distribution?.token,
-                            distribution?.indexId,
-                            distribution?.publisher,
-                            distribution?.subscriber,
-                            (args:any) => showToast(args, 'info'),
-                            () => showSuccessToast('Successfully completed', 'success'),
-                            (args:any) => showErrorToast(transformError(args), 'Error'))}
-                          onKeyDown={() =>
-                            distribution && subscribe(web3,
-                              distribution?.token,
-                              distribution?.indexId,
-                              distribution?.publisher,
-                              distribution?.subscriber,
-                              (args:any) => showToast(args, 'info'),
-                              () => showSuccessToast('Successfully completed', 'success'),
-                              (args:any) => showErrorToast(transformError(args), 'Error'))}
-                        >
-                          {t('Subscribe')}
-                        </div>
+                        distribution && getSubscribeLinkComponent(distribution)
                       ) : (
-                        <div
-                          className={styles.unsubscribed}
-                          tabIndex={0}
-                          role="button"
-                          onClick={() =>
-                            distribution && unsubscribe(web3,
-                              distribution?.token,
-                              distribution?.indexId,
-                              distribution?.publisher,
-                              distribution?.subscriber,
-                              (args:any) => showToast(args, 'info'),
-                              () => showSuccessToast('Successfully completed', 'success'),
-                              (args:any) => showErrorToast(transformError(args), 'Error'))}
-                          onKeyDown={() => distribution && unsubscribe(
-                            web3,
-                            distribution?.token,
-                            distribution?.indexId,
-                            distribution?.publisher,
-                            distribution?.subscriber,
-                            (args:any) => showToast(args, 'info'),
-                            () => showSuccessToast('Successfully completed', 'success'),
-                            (args:any) => showErrorToast(transformError(args), 'Error'),
-                          )}
-                        >
-                          {t('Unsubscribe')}
-                        </div>
+                        distribution && getUnsubscribeLinkComponent(distribution)
                       )}
                     </div>
                   )}
@@ -218,53 +224,9 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
                 <div className={styles.columnMobile}>
                   <span className={styles.contract}>
                     {!distribution?.approved ? (
-                      <div
-                        tabIndex={0}
-                        role="button"
-                        className={styles.subscribedSmallDevice}
-                        onClick={() => distribution && subscribe(web3,
-                          distribution?.token,
-                          distribution?.indexId,
-                          distribution?.publisher,
-                          distribution?.subscriber,
-                          (args:any) => showToast(args, 'info'),
-                          () => showSuccessToast('Successfully completed', 'success'),
-                          (args:any) => showErrorToast(transformError(args), 'Error'))}
-                        onKeyDown={() => distribution && subscribe(web3,
-                          distribution?.token,
-                          distribution?.indexId,
-                          distribution?.publisher,
-                          distribution?.subscriber,
-                          (args:any) => showToast(args, 'info'),
-                          () => showSuccessToast('Successfully completed', 'success'),
-                          (args:any) => showErrorToast(transformError(args), 'Error'))}
-                      >
-                        {t('Subscribe')}
-                      </div>
+                      distribution && getSubscribeLinkComponent(distribution)
                     ) : (
-                      <div
-                        className={styles.unsubscribedSmallDevice}
-                        tabIndex={0}
-                        role="button"
-                        onClick={() => distribution && unsubscribe(web3,
-                          distribution?.token,
-                          distribution?.indexId,
-                          distribution?.publisher,
-                          distribution?.subscriber,
-                          (args:any) => showToast(args, 'info'),
-                          () => showSuccessToast('Successfully completed', 'success'),
-                          (args:any) => showErrorToast(transformError(args), 'Error'))}
-                        onKeyDown={() => distribution && unsubscribe(web3,
-                          distribution?.token,
-                          distribution?.indexId,
-                          distribution?.publisher,
-                          distribution?.subscriber,
-                          (args:any) => showToast(args, 'info'),
-                          () => showSuccessToast('Successfully completed', 'success'),
-                          (args:any) => showErrorToast(transformError(args), 'Error'))}
-                      >
-                        {t('Unsubscribe')}
-                      </div>
+                      distribution && getUnsubscribeLinkComponent(distribution)
                     )}
                   </span>
                 </div>

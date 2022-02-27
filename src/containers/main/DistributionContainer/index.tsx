@@ -47,9 +47,8 @@ export const DistributionContainer: React.FC<IProps> = () => {
         </div>
         <div className={styles.content}>
           {isLoading && Array(5)
-            .fill(undefined)
-            .map(() => (
-              <div className={styles.panel} key="0">
+            .map((id) => (
+              <div className={styles.panel} key={`${id}`}>
                 <DistributionPanel
                   distribution={undefined}
                   isLoading={isDistributionLoading}
