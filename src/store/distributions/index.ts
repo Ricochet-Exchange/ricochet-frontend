@@ -4,7 +4,7 @@ import { MAIN_HANDLERS } from './handlers';
 
 export const distributionsInitialState: Readonly<DistributionState> = {
   distributions: [],
-  isLoading: false,
+  isLoading: true,
 };
 
 export default createReducer(distributionsInitialState, MAIN_HANDLERS);

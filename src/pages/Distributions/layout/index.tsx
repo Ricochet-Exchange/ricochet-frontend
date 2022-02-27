@@ -28,11 +28,12 @@ TimeAgo.addDefaultLocale(en);
 interface IProps {
   distribution:Distribution
   coingeckoPrice?: number
+  isLoading: boolean
 }
 
-export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0 }) => {
+export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0, isLoading }) => {
   const {
-    web3, isLoading,
+    web3,
   } = useShallowSelector(selectMain);
   const { t } = useLang();
 

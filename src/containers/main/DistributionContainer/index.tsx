@@ -24,8 +24,8 @@ export const DistributionContainer: React.FC<IProps> = () => {
   } = mainState;
   
   const distributionsState = useShallowSelector(selectDistributions);
-  const { distributions } = distributionsState;
-  
+  const { distributions, isLoading: isDistributionLoading } = distributionsState;
+
   useEffect(() => {
     if (!isLoading) dispatch(distributionsGetData());
   }, [isLoading]);
@@ -51,6 +51,7 @@ export const DistributionContainer: React.FC<IProps> = () => {
               <DistributionPanel
                 distribution={distribution}
                 coingeckoPrice={coingeckoPrices && coingeckoPrices[distribution.token]}
+                isLoading={isDistributionLoading}
               />
             </div>
           ))}
