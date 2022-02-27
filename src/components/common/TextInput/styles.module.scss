@@ -79,6 +79,10 @@
   width: 100%;
   border: none;
 
+  @media screen and (max-width: 480px) {
+    padding: 10px 5px;
+  }
+
   &:active {
     border: none;
   }

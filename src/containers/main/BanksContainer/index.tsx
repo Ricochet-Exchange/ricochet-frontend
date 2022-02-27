@@ -1,7 +1,4 @@
-import React, {
-  useEffect,
-  useCallback,
-} from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { BankDetails } from 'components/banks/BankDetails';
 import { LoadingWrapper } from 'components/common/LoadingWrapper';
 import { selectMain } from 'store/main/selectors';
@@ -10,28 +7,24 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { BankType } from 'store/banks/types';
 import { useDispatch } from 'react-redux';
 import { banksGetData } from 'store/banks/actionCreators';
-import { mainCheck } from 'store/main/actionCreators';
+import { connectWeb3Modal } from 'store/main/actionCreators';
 import { InvestNav } from 'components/layout/InvestNav';
-import { ModalType } from 'store/modal/types';
-import { modalShow } from 'store/modal/actionCreators';
 import styles from './styles.module.scss';
 
 export const BanksContainer = () => {
   const dispatch = useDispatch();
   const { banks, isLoading: isLoadingBank } = useShallowSelector(selectBanks);
-  const { address: accountAddress, isReadOnly, isLoading } = useShallowSelector(selectMain);
+  const { address: accountAddress, isLoading } = useShallowSelector(selectMain);
 
   const handleSignIn = useCallback(() => {
-    if (isReadOnly) {
-      dispatch(modalShow(ModalType.Metamask));
-    } else dispatch(mainCheck());
-  }, [dispatch, modalShow, isReadOnly]);
+    dispatch(connectWeb3Modal());
+  }, [dispatch]);
 
   useEffect(() => {
     if (!isLoading) dispatch(banksGetData());
   }, [isLoading]);
 
-  const renderBanks = () => (
+  const renderBanks = () =>
     banks.map((bank: BankType) => (
       <BankDetails
         key={bank.bankAddress}
@@ -39,8 +32,7 @@ export const BanksContainer = () => {
         accountAddress={accountAddress}
         handleSignIn={handleSignIn}
       />
-    ))
-  );
+    ));
 
   return (
     <div className={styles.outer_container}>
@@ -50,7 +42,36 @@ export const BanksContainer = () => {
           isLoading={isLoadingBank || isLoading}
           className={styles.fullframe}
         >
-          <div className={styles.contentTotal}>{renderBanks()}</div>
+          <table className={styles.dextable}>
+            <thead>
+              <tr>
+                <td className={styles.section}>Name</td>
+                <td className={styles.section}>
+                  Available for
+                  <br />
+                  borrow
+                </td>
+                <td className={styles.section}>
+                  Collateral Price
+                  <br />
+                  in
+                  <span className={styles.blue}> USD</span>
+                </td>
+                <td className={styles.section}>
+                  Debt Price
+                  <br />
+                  in
+                  <span className={styles.blue}> USD</span>
+                </td>
+                <td className={styles.section}>Interest Rate</td>
+                <td className={styles.section}>Origination Fee</td>
+                <td className={styles.section}>Collateralization Ratio</td>
+                <td className={styles.section}>Liquidation Penalty</td>
+                <td>Create Vault</td>
+              </tr>
+            </thead>
+            <tbody>{renderBanks()}</tbody>
+          </table>
         </LoadingWrapper>
       </div>
     </div>

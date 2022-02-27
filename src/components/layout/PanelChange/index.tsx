@@ -1,12 +1,18 @@
 import React, {
-  ChangeEvent,
-  FC, useCallback, useEffect, useState,
+  ChangeEvent, FC, useCallback, useEffect, useState, 
 } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { showErrorToast } from 'components/common/Toaster';
-// import { useTranslation } from 'i18n';
-// import { generateDate } from 'utils/generateDate';
 import ReactTooltip from 'react-tooltip';
+import { ExchangeKeys } from 'utils/getExchangeAddress';
+import { getLastDistributionOnPair } from 'utils/getLastDistributions';
+import { useShallowSelector } from 'hooks/useShallowSelector';
+import { AddressLink } from 'components/common/AddressLink';
+import { getAddressLink } from 'utils/getAddressLink';
+import { selectMain } from 'store/main/selectors';
+import ReactTimeAgo from 'react-time-ago';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
 import styles from './styles.module.scss';
 import { Coin } from '../../../constants/coins';
 import { CoinChange } from '../CoinChange';
@@ -16,6 +22,8 @@ import { FlowTypes } from '../../../constants/flowConfig';
 // import Price from '../../common/Price';
 import LpAPY from '../../common/LpAPY';
 import Price from '../../common/Price';
+
+TimeAgo.addDefaultLocale(en);
 
 interface IProps {
   placeholder?:string,
@@ -34,7 +42,8 @@ interface IProps {
   mainLoading?: boolean;
   flowType: FlowTypes,
   contractAddress: string,
-  isReadOnly?:boolean,
+  exchangeKey: ExchangeKeys,
+  isReadOnly?: boolean,
 }
 
 export const PanelChange: FC<IProps> = ({
@@ -55,15 +64,33 @@ export const PanelChange: FC<IProps> = ({
   flowType,
   isReadOnly,
   contractAddress,
+  exchangeKey,
 }) => {
+  const link = getAddressLink(contractAddress);
+  const { web3 } = useShallowSelector(selectMain);
   const [inputShow, setInputShow] = useState(false);
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [lastDistribution, setLastDistribution] = useState<Date>();
   // const { t } = useTranslation('main');
 
   useEffect(() => {
     setIsLoading(mainLoading);
   }, [mainLoading]);
+
+  useEffect(() => {
+    let isMounted = true;
+    if (web3?.currentProvider === null) return;
+    getLastDistributionOnPair(web3, exchangeKey).then((p) => {
+      if (isMounted) {
+        setLastDistribution(p);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [web3]);
 
   function getFormattedNumber(num: string) {
     return parseFloat(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -77,7 +104,12 @@ export const PanelChange: FC<IProps> = ({
     [inputShow, setInputShow]);
 
   const handleChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    // @ts-ignore
+    if (e.target.value < 0) {
+      e.preventDefault();
+    } else {
+      setValue(e.target.value);
+    }
   }, []);
 
   const callback = (e?: string) => {
@@ -111,10 +143,11 @@ export const PanelChange: FC<IProps> = ({
           <div className={styles.container}>
             <div className={styles.wrap}>
               <div className={styles.row}>
+                {flowType === 'launchpad' && <Price />}
                 <div className={styles.coin}>
                   <CoinChange nameCoinLeft={coinA} nameCoinRight={coinB} />
-                  {flowType === 'launchpad' && <Price />}
                   {flowType === 'sushiLP' && <LpAPY contractAddress={contractAddress} />}
+                  <AddressLink addressLink={link} />
                 </div>
                 {isLoading ? <span className={styles.streaming_mob}>Loading</span> : (
                   <div className={styles.streaming_mob}>
@@ -125,7 +158,6 @@ export const PanelChange: FC<IProps> = ({
                   </div>
                 )}
               </div>
-
               {isLoading && !personalFlow ? (
                 <span className={styles.stream}>
                   <span className={styles.number}>Loading your streams... </span>
@@ -181,7 +213,7 @@ export const PanelChange: FC<IProps> = ({
                   balance={balanceB}
                 />
               </div>
-              {isLoading ? (
+              {mainLoading ? (
                 <span className={styles.streaming}>
                   <span className={styles.number}> Loading total values...</span>
                 </span>
@@ -215,6 +247,13 @@ export const PanelChange: FC<IProps> = ({
                   <span>
                     <span className={styles.number}>{totalFlows}</span>
                     total streams
+                  </span>
+                  <span className={styles.distributed_time}>
+                    Distributed
+                    {' '}
+                    <b>
+                      {lastDistribution && <ReactTimeAgo date={lastDistribution} />}
+                    </b>
                   </span>
                 </div>
               )}
@@ -258,7 +297,6 @@ export const PanelChange: FC<IProps> = ({
             />
           </div>
         )}
-
       </section>
     </>
   );
