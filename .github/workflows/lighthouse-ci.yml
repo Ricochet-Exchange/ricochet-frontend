@@ -18,4 +18,14 @@ jobs:
           node-version: '14'
       - run: yarn install && npm install -g @lhci/cli@0.8.x
       - run: yarn build
-      - run: lhci autorun
+      - name: run lighthouse action
+        id: lighthouse-report
+        run: |
+          echo "::set-output name=MESSAGE::$(lhci autorun | grep https://storage)"
+          
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            - ${{ steps.lighthouse-report.outputs.MESSAGE }}
