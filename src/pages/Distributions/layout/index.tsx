@@ -7,6 +7,7 @@ import ReactTimeAgo from 'react-time-ago';
 import { format } from 'date-fns';
 import Decimal from 'decimal.js';
 import { BigNumber } from 'ethers';
+import Skeleton from 'react-loading-skeleton';
 import styles from './styles.module.scss';
 import { Distribution } from '../../../store/distributions/types';
 import { truncateAddr } from '../../../utils/helpers';
@@ -26,7 +27,7 @@ import { showErrorToast, showSuccessToast, showToast } from '../../../components
 TimeAgo.addDefaultLocale(en);
 
 interface IProps {
-  distribution:Distribution
+  distribution?:Distribution
   coingeckoPrice?: number
   isLoading: boolean
 }
@@ -36,8 +37,6 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
     web3,
   } = useShallowSelector(selectMain);
   const { t } = useLang();
-
-  console.log(isLoading);
   return (
     <>
       <section className={styles.panel}>
@@ -51,60 +50,76 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
                     {' '}
                     :
                   </div>
-                  <div>
-                    <div className={styles.column}>
-                      <span className={styles.contract}>
-                        {truncateAddr(distribution.publisher)}
-                      </span>
-                      <span className={styles.externalLink}>
-                        <AddressLink
-                          size={14}
-                          addressLink={getAddressLink(distribution.publisher)}
-                        />
-                      </span>
+                  {isLoading ? <Skeleton width={100} /> : (
+                    <div>
+                      <div className={styles.column}>
+                        <span className={styles.contract}>
+                          {distribution?.publisher && truncateAddr(distribution?.publisher)}
+                        </span>
+                        <span className={styles.externalLink}>
+                          <AddressLink
+                            size={14}
+                            addressLink={
+                            distribution?.publisher && getAddressLink(distribution?.publisher)
+}
+                          />
+                        </span>
+                      </div>
+                      {!distribution?.approved ? (
+                        <div
+                          tabIndex={0}
+                          role="button"
+                          className={styles.subscribed}
+                          onClick={() => distribution && subscribe(web3,
+                            distribution?.token,
+                            distribution?.indexId,
+                            distribution?.publisher,
+                            distribution?.subscriber,
+                            (args:any) => showToast(args, 'info'),
+                            () => showSuccessToast('Successfully completed', 'success'),
+                            (args:any) => showErrorToast(transformError(args), 'Error'))}
+                          onKeyDown={() =>
+                            distribution && subscribe(web3,
+                              distribution?.token,
+                              distribution?.indexId,
+                              distribution?.publisher,
+                              distribution?.subscriber,
+                              (args:any) => showToast(args, 'info'),
+                              () => showSuccessToast('Successfully completed', 'success'),
+                              (args:any) => showErrorToast(transformError(args), 'Error'))}
+                        >
+                          {t('Subscribe')}
+                        </div>
+                      ) : (
+                        <div
+                          className={styles.unsubscribed}
+                          tabIndex={0}
+                          role="button"
+                          onClick={() =>
+                            distribution && unsubscribe(web3,
+                              distribution?.token,
+                              distribution?.indexId,
+                              distribution?.publisher,
+                              distribution?.subscriber,
+                              (args:any) => showToast(args, 'info'),
+                              () => showSuccessToast('Successfully completed', 'success'),
+                              (args:any) => showErrorToast(transformError(args), 'Error'))}
+                          onKeyDown={() => distribution && unsubscribe(
+                            web3,
+                            distribution?.token,
+                            distribution?.indexId,
+                            distribution?.publisher,
+                            distribution?.subscriber,
+                            (args:any) => showToast(args, 'info'),
+                            () => showSuccessToast('Successfully completed', 'success'),
+                            (args:any) => showErrorToast(transformError(args), 'Error'),
+                          )}
+                        >
+                          {t('Unsubscribe')}
+                        </div>
+                      )}
                     </div>
-                    {!distribution.approved ? (
-                      <div
-                        tabIndex={0}
-                        role="button"
-                        className={styles.subscribed}
-                        onClick={() => subscribe(web3, distribution.token, distribution.indexId,
-                          distribution.publisher,
-                          distribution.subscriber,
-                          (args:any) => showToast(args, 'info'),
-                          () => showSuccessToast('Successfully completed', 'success'),
-                          (args:any) => showErrorToast(transformError(args), 'Error'))}
-                        onKeyDown={() => subscribe(web3, distribution.token, distribution.indexId,
-                          distribution.publisher,
-                          distribution.subscriber,
-                          (args:any) => showToast(args, 'info'),
-                          () => showSuccessToast('Successfully completed', 'success'),
-                          (args:any) => showErrorToast(transformError(args), 'Error'))}
-                      >
-                        Subscribe
-                      </div>
-                    ) : (
-                      <div
-                        className={styles.unsubscribed}
-                        tabIndex={0}
-                        role="button"
-                        onClick={() => unsubscribe(web3, distribution.token, distribution.indexId,
-                          distribution.publisher,
-                          distribution.subscriber,
-                          (args:any) => showToast(args, 'info'),
-                          () => showSuccessToast('Successfully completed', 'success'),
-                          (args:any) => showErrorToast(transformError(args), 'Error'))}
-                        onKeyDown={() => unsubscribe(web3, distribution.token, distribution.indexId,
-                          distribution.publisher,
-                          distribution.subscriber,
-                          (args:any) => showToast(args, 'info'),
-                          () => showSuccessToast('Successfully completed', 'success'),
-                          (args:any) => showErrorToast(transformError(args), 'Error'))}
-                      >
-                        Unsubscribe
-                      </div>
-                    )}
-                  </div>
+                  )}
                 </div>
                 <div className={styles.column}>
                   <div className={styles.header}>
@@ -112,10 +127,19 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
                     {' '}
                     :
                   </div>
-                  <img src={iconsCoin[distribution.symbol as Coin]} alt={distribution.symbol} />
-                  <span className={styles.contract}>
-                    {distribution.symbol}
-                  </span>
+                  {isLoading ? <Skeleton width={100} /> : (
+                    <>   
+                      <img
+                        src={
+                        iconsCoin[distribution?.symbol as Coin]
+}
+                        alt={distribution?.symbol}
+                      />
+                      <span className={styles.contract}>
+                        {distribution?.symbol}
+                      </span>
+                    </>
+                  )}
                 </div>
                 <div className={styles.column}>
                   <div className={styles.header}>
@@ -123,9 +147,11 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
                     {' '}
                     :
                   </div>
-                  <span className={styles.contract}>
-                    {format(new Date(distribution.createdAtTimestamp * 1000), 'dd MMM yyyy')}
-                  </span>
+                  {isLoading ? <Skeleton width={100} /> : (
+                    <span className={styles.contract}>
+                      {distribution && format(new Date(distribution?.createdAtTimestamp * 1000), 'dd MMM yyyy')}
+                    </span>
+                  )}
                 </div>
                 <div className={styles.column}>
                   <div className={styles.header}>
@@ -133,12 +159,14 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
                     {' '}
                     :
                   </div>
-                  <span className={styles.contract}>
-                    {`${calculatePoolPercentage(
-                      new Decimal(distribution.indexTotalUnits),
-                      new Decimal(distribution.units),
-                    ).toFixed(2)}%`}
-                  </span>
+                  {isLoading || !distribution ? <Skeleton width={100} /> : (
+                    <span className={styles.contract}>
+                      {`${calculatePoolPercentage(
+                        new Decimal(distribution?.indexTotalUnits),
+                        new Decimal(distribution?.units),
+                      ).toFixed(2)}%`}
+                    </span>
+                  )}
                 </div>
                 <div className={styles.column}>
                   <div className={styles.header}>
@@ -146,9 +174,11 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
                     {' '}
                     :
                   </div>
-                  <span className={styles.contract}>
-                    <ReactTimeAgo date={new Date(distribution.updatedAtTimestamp * 1000)} />
-                  </span>
+                  {isLoading || !distribution ? <Skeleton width={100} /> : (
+                    <span className={styles.contract}>
+                      <ReactTimeAgo date={new Date(distribution?.updatedAtTimestamp * 1000)} />
+                    </span>
+                  )}
                 </div>
                 <div className={styles.column}>
                   <div className={styles.header}>
@@ -156,76 +186,89 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
                     {' '}
                     :
                   </div>
-                  <div>
-                    <div className={styles.column}>
-                      <span className={styles.contract}>
-                        {new Decimal(calculateAmountReceived(
-                          BigNumber.from(distribution.indexValueCurrent),
-                          BigNumber.from(distribution.totalAmountReceivedUntilUpdatedAt),
-                          BigNumber.from(distribution.indexValueUntilUpdatedAt),
-                          BigNumber.from(distribution.units),
-                        )).toFixed(8)}
-                      </span>
-                      <span>
-                        {distribution.symbol}
-                      </span>
-                    </div>
-
+                  {isLoading || !distribution ? <Skeleton width={100} /> : (
                     <div>
-                      { `$${new Decimal((parseFloat(calculateAmountReceived(
-                        BigNumber.from(distribution.indexValueCurrent),
-                        BigNumber.from(distribution.totalAmountReceivedUntilUpdatedAt),
-                        BigNumber.from(distribution.indexValueUntilUpdatedAt),
-                        BigNumber.from(distribution.units),
-                      ) as string) * coingeckoPrice)).toFixed(8)}`}
+                      <div className={styles.column}>
+                        <span className={styles.contract}>
+                          {new Decimal(calculateAmountReceived(
+                            BigNumber.from(distribution?.indexValueCurrent),
+                            BigNumber.from(distribution?.totalAmountReceivedUntilUpdatedAt),
+                            BigNumber.from(distribution?.indexValueUntilUpdatedAt),
+                            BigNumber.from(distribution?.units),
+                          )).toFixed(8)}
+                        </span>
+                        <span>
+                          {distribution?.symbol}
+                        </span>
+                      </div>
+
+                      <div>
+                        { `$${new Decimal((parseFloat(calculateAmountReceived(
+                          BigNumber.from(distribution?.indexValueCurrent),
+                          BigNumber.from(distribution?.totalAmountReceivedUntilUpdatedAt),
+                          BigNumber.from(distribution?.indexValueUntilUpdatedAt),
+                          BigNumber.from(distribution?.units),
+                        ) as string) * coingeckoPrice)).toFixed(8)}`}
+                      </div>
                     </div>
-                  </div>
+                  )}
+
                 </div>
+                {!isLoading && (
                 <div className={styles.columnMobile}>
                   <span className={styles.contract}>
-                    {!distribution.approved ? (
+                    {!distribution?.approved ? (
                       <div
                         tabIndex={0}
                         role="button"
                         className={styles.subscribedSmallDevice}
-                        onClick={() => subscribe(web3, distribution.token, distribution.indexId,
-                          distribution.publisher,
-                          distribution.subscriber,
+                        onClick={() => distribution && subscribe(web3,
+                          distribution?.token,
+                          distribution?.indexId,
+                          distribution?.publisher,
+                          distribution?.subscriber,
                           (args:any) => showToast(args, 'info'),
                           () => showSuccessToast('Successfully completed', 'success'),
                           (args:any) => showErrorToast(transformError(args), 'Error'))}
-                        onKeyDown={() => subscribe(web3, distribution.token, distribution.indexId,
-                          distribution.publisher,
-                          distribution.subscriber,
+                        onKeyDown={() => distribution && subscribe(web3,
+                          distribution?.token,
+                          distribution?.indexId,
+                          distribution?.publisher,
+                          distribution?.subscriber,
                           (args:any) => showToast(args, 'info'),
                           () => showSuccessToast('Successfully completed', 'success'),
                           (args:any) => showErrorToast(transformError(args), 'Error'))}
                       >
-                        Subscribe
+                        {t('Subscribe')}
                       </div>
                     ) : (
                       <div
                         className={styles.unsubscribedSmallDevice}
                         tabIndex={0}
                         role="button"
-                        onClick={() => unsubscribe(web3, distribution.token, distribution.indexId,
-                          distribution.publisher,
-                          distribution.subscriber,
+                        onClick={() => distribution && unsubscribe(web3,
+                          distribution?.token,
+                          distribution?.indexId,
+                          distribution?.publisher,
+                          distribution?.subscriber,
                           (args:any) => showToast(args, 'info'),
                           () => showSuccessToast('Successfully completed', 'success'),
                           (args:any) => showErrorToast(transformError(args), 'Error'))}
-                        onKeyDown={() => unsubscribe(web3, distribution.token, distribution.indexId,
-                          distribution.publisher,
-                          distribution.subscriber,
+                        onKeyDown={() => distribution && unsubscribe(web3,
+                          distribution?.token,
+                          distribution?.indexId,
+                          distribution?.publisher,
+                          distribution?.subscriber,
                           (args:any) => showToast(args, 'info'),
                           () => showSuccessToast('Successfully completed', 'success'),
                           (args:any) => showErrorToast(transformError(args), 'Error'))}
                       >
-                        Unsubscribe
+                        {t('Unsubscribe')}
                       </div>
                     )}
                   </span>
                 </div>
+                )}
               </div>
             </div>
           </div>
