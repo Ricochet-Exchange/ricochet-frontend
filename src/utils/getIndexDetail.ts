@@ -4,7 +4,7 @@ import { Distribution } from '../store/distributions/types';
 export const mapFromSubgraphResponse =
     async (web3: Web3, response:any):
     Promise<Distribution[]> => {
-      const promises = response.data.data.indexSubscriptions.map(async (x: any) => {
+      const promises = (response?.data?.data?.indexSubscriptions || []).map(async (x: any) => {
         const updatedAtTimestamp =
             Number(x.subscriptionUnitsUpdatedEvents[0]?.timestamp || x.index.updatedAtTimestamp);
         const tokenId = web3.utils.toChecksumAddress(x.index.token.id);
