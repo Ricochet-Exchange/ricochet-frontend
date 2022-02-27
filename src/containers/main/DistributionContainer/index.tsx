@@ -10,7 +10,6 @@ import { selectMain } from '../../../store/main/selectors';
 import { distributionsGetData } from '../../../store/distributions/actionCreators';
 import { selectDistributions } from '../../../store/distributions/selectors';
 import { DistributionPanel } from '../../../pages/Distributions/layout';
-import { LoadingWrapper } from '../../../components/common/LoadingWrapper';
 
 interface IProps {
 }
@@ -63,14 +62,6 @@ export const DistributionContainer: React.FC<IProps> = () => {
             />
           </div>
         </div>
-        
-        {isLoading ? (
-          <LoadingWrapper
-            isLoading={isLoading}
-            classNameLoader={styles.loader}
-          />
-        ) : null}
-
         <div>
           <span className={styles.fee_disclaimer}>
             {t('Ricochet takes a 2% fee on swaps.')}

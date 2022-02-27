@@ -23,6 +23,7 @@ export function* getDistributionsDataSaga() {
       isLoading: false,
     }));
   } catch (e) {
+    console.error(e);
     transformError(e);
     yield put(distributionsSetState({ isLoading: false }));
   }

@@ -32,9 +32,11 @@ interface IProps {
 
 export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0 }) => {
   const {
-    web3,
+    web3, isLoading,
   } = useShallowSelector(selectMain);
   const { t } = useLang();
+
+  console.log(isLoading);
   return (
     <>
       <section className={styles.panel}>
