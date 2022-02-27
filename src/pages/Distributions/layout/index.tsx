@@ -38,11 +38,11 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
   } = useShallowSelector(selectMain);
   const { t } = useLang();
   
-  const getSubscribeLinkComponent = (_distribution: Distribution) => (
+  const getSubscribeLinkComponent = (_distribution: Distribution, isMobile:boolean) => (
     <div
       tabIndex={0}
       role="button"
-      className={styles.subscribed}
+      className={isMobile ? styles.subscribedSmallDevice : styles.subscribed}
       onClick={() => _distribution && subscribe(web3,
         _distribution.token,
         _distribution.indexId,
@@ -65,9 +65,9 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
     </div>
   );
 
-  const getUnsubscribeLinkComponent = (_distribution: Distribution) => (
+  const getUnsubscribeLinkComponent = (_distribution: Distribution, isMobile:boolean) => (
     <div
-      className={styles.unsubscribedSmallDevice}
+      className={isMobile ? styles.unsubscribedSmallDevice : styles.unsubscribed}
       tabIndex={0}
       role="button"
       onClick={() => _distribution && unsubscribe(web3,
@@ -120,9 +120,9 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
                         </span>
                       </div>
                       {!distribution?.approved ? (
-                        distribution && getSubscribeLinkComponent(distribution)
+                        distribution && getSubscribeLinkComponent(distribution, false)
                       ) : (
-                        distribution && getUnsubscribeLinkComponent(distribution)
+                        distribution && getUnsubscribeLinkComponent(distribution, false)
                       )}
                     </div>
                   )}
@@ -134,7 +134,7 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
                     :
                   </div>
                   {isLoading ? <Skeleton width={100} /> : (
-                    <>   
+                    <>
                       <img
                         src={
                         iconsCoin[distribution?.symbol as Coin]
@@ -224,9 +224,9 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
                 <div className={styles.columnMobile}>
                   <span className={styles.contract}>
                     {!distribution?.approved ? (
-                      distribution && getSubscribeLinkComponent(distribution)
+                      distribution && getSubscribeLinkComponent(distribution, true)
                     ) : (
-                      distribution && getUnsubscribeLinkComponent(distribution)
+                      distribution && getUnsubscribeLinkComponent(distribution, true)
                     )}
                   </span>
                 </div>
