@@ -24,10 +24,6 @@ export const VaultsContainer = () => {
   const [activeTransaction, setActiveTransaction] = useState('');
   const [transactionHash, setTransactionHash] = useState('');
   const { t } = useTranslation();
-
-  useEffect(() => {
-    if (!banks[0]) dispatch(banksGetData());
-  }, [banks]);
   
   const handleOnClick = useCallback((e: MouseEvent) => {
     e.preventDefault();
@@ -37,6 +33,10 @@ export const VaultsContainer = () => {
   const handleSignIn = useCallback(() => {
     dispatch(connectWeb3Modal());
   }, [dispatch]);
+  
+  useEffect(() => {
+    if (!banks[0]) dispatch(banksGetData());
+  }, [banks]);
 
   useEffect(() => {
     if (banks) {
@@ -74,6 +74,7 @@ export const VaultsContainer = () => {
             <LoadingWrapper
               isLoading={isLoading}
               className={styles.fullframe}
+              loadingType="spinner"
             >
               <div className={styles.contentTotal}>
                 {hasVault ? (

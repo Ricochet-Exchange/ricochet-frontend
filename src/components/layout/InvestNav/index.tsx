@@ -10,6 +10,7 @@ import logo from '../../../assets/images/logo.svg';
 import styles from './styles.module.scss';
 
 const TUTORIAL_LINK = 'https://docs.ricochet.exchange/tutorial/using-the-dapp';
+const RICOCHET_V1_LINK = 'https://v1.ricochet.exchange/';
 
 export const InvestNav = () => {
   const userStreams = useShallowSelector(selectUserStreams);
@@ -106,6 +107,15 @@ export const InvestNav = () => {
         target="_blank"
       >
         <div className={styles.nav_text_tutorial}>{t('Tutorial')}</div>
+        <FontIcon name={FontIconName.External} size={16} />
+      </NavLink>
+
+      <NavLink
+        to={{ pathname: RICOCHET_V1_LINK }}
+        className={styles.nav_link_desktop_only}
+        activeClassName={styles.nav_link_active}
+      >
+        <div className={styles.nav_text_tutorial}>{t('Ricochet V1')}</div>
         <FontIcon name={FontIconName.External} size={16} />
       </NavLink>
     </div>
