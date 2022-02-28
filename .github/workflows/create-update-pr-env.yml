@@ -61,7 +61,7 @@ jobs:
         run: |
           cat > .env << EOF
           PUBLIC_URL=${{ env.BRANCH_NAME }} 
-          REACT_APP_API_GRATH=https://api.thegraph.com/subgraphs/name/superfluid-finance/superfluid-matic
+          REACT_APP_SUPERFLUID_GRAPH_V1=https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-matic
           REACT_APP_CHAIN_ID=137
           EOF
           cat > .env.local << EOF
