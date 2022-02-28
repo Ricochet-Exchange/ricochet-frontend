@@ -68,6 +68,7 @@ export const VaultTransaction: FC<Props> = ({
         isLoading={isLoadingTransaction}
         className={styles.fullframe}
         classNameLoader={styles.loader}
+        loadingType="spinner"
       >
         <>
           <div className={styles.VaultTransaction__preview}>
