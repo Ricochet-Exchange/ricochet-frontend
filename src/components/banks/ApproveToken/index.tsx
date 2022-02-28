@@ -20,6 +20,7 @@ export const ApproveToken: FC<Props> = ({
       <LoadingWrapper
         isLoading={isLoadingApprove}
         classNameLoader={styles.loader}
+        loadingType="spinner"
       >
         <Button
           className={styles.button}

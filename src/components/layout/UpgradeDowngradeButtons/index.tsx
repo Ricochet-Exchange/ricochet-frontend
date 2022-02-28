@@ -31,7 +31,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
 
   return (
     <div>
-      {!isUpgrade
+      {isUpgrade
         ? (
           <div className={styles.buttons_upgrade}>
             <div className={styles.approve_wrap}>
@@ -44,7 +44,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
                 className={styles.approve}
               >
                 {t('Approve')}
-  
+
               </ButtonNew>
             </div>
             <div className={styles.upgrade_wrap}>
