@@ -39,5 +39,5 @@ export const IDLExAddress = "0xB63E38D21B31719e6dF314D3d2c351dF0D4a9162"
 export const IDLEAddress = "0xC25351811983818c9Fe6D8c580531819c8ADe90f"
 export const ZeroAddress = "0x0000000000000000000000000000000000000000"
 export const rexReferralAddress = "0xA0eC9E1542485700110688b3e6FbebBDf23cd901"
-export const twoWayWETHMarketAddress = "0xCACb084c1581C81F29180dbf8aF68Ff73FcCa447"
+export const twoWayWETHMarketAddress = "0x65D0186ac944714a56822B855E7F803eC709a105"
 export const twoWayMarketWBTCAddress = "0xd2f119B443242bb8a93A976B0467affB0EDEd864";
