@@ -101,7 +101,7 @@ export const BanksContainer = () => {
           : 
           (
             <div className={styles.sign_container}>
-              <p>{t('Sign in to see the bank')}</p>
+              <p className={styles.sign_in_text}>{t('Sign in to see the bank')}</p>
               <SignInButton
                 onClick={handleSignIn}
               />
