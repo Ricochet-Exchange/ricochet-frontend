@@ -12,7 +12,7 @@ export const getLastDistributionOnPair = async (
     streamExchangeABI,
     web3,
   );
-  const lastDate = await contract.methods.getLastDistribution().call();
+  const lastDate = await contract.methods.getLastDistributionAt().call();
   const date = new Date(lastDate * 1000);
   return date;
 };
