@@ -115,7 +115,7 @@ export const PanelChange: FC<IProps> = ({
   }, [web3]);
 
   function getFormattedNumber(num: string) {
-    return parseFloat(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parseFloat(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '');
   }
 
   function getFlowUSDValue(flow: string) {
