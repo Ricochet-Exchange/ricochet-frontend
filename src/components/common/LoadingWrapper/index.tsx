@@ -1,12 +1,14 @@
 import React from 'react';
 import cx from 'classnames';
 import { LoadingPopUp } from 'components/common/LoadingPopUp';
+import { Loader } from '../Loader';
 import styles from './styles.module.scss';
 
 type Props = {
   isLoading?: boolean;
   className?: string;
   classNameLoader?: string;
+  loadingType?: string;
 };
 
 export const LoadingWrapper: React.FC<Props> = ({
@@ -14,12 +16,16 @@ export const LoadingWrapper: React.FC<Props> = ({
   isLoading,
   className,
   classNameLoader,
+  loadingType,
 }) => (
+
   <div className={cx(styles.wrap, className)}>
     {children}
     {isLoading && (
     <div className={cx(styles.loader, classNameLoader)}>
-      <LoadingPopUp />
+      {
+        loadingType !== 'spinner' && loadingType !== '' ? <LoadingPopUp /> : <Loader />
+      }
     </div>
     )}
   </div>
