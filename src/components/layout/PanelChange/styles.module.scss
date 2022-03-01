@@ -1,25 +1,22 @@
-@import '../../../assets/styles/mixins';
+@import "../../../assets/styles/mixins";
 .panel {
   @include flexbox(flex-start, center);
-
   flex-direction: column;
   border-radius: 10px;
   background: var(--color-blue-light);
   color: var(--color-black-dark);
   width: 100%;
   font-size: 14px;
-  font-family: $default-font;
-
   @include tablet {
   }
 }
 
 .container {
-  padding: 2em
+  padding: 2em;
 }
 
 .wrap {
-  @include flexbox(center, space-between);
+  @include flexbox(center, space-around);
 
   width: 100%;
 
@@ -34,7 +31,6 @@
   @include flexbox(center, center);
 }
 
-
 .currency {
   @include flexbox(center, center);
 }
@@ -46,7 +42,6 @@
 }
 
 .date {
-  font-family: $default-font;
   width: 100%;
   text-align: center;
 
@@ -64,8 +59,8 @@
   width: 100%;
 
   @include tablet {
-    @include flexbox(flex-end, center);
-    
+    @include flexbox(flex-start, center);
+    padding: 0 0 5px 10px;
     flex: 0 0 35%;
   }
 }
@@ -107,7 +102,6 @@
 .arrow_down,
 .arrow_up {
   color: var(--color-blue);
-  margin-left: 24px;
   &:active {
     background: var(--color-blue-light);
   }
@@ -117,13 +111,13 @@
     flex: 0 0 100%;
     text-align: center;
   }
-
+    width: 30px;
 }
 
-.btn_arrow{
+.btn_arrow {
   width: 100%;
   cursor: pointer;
-  
+
   &:active {
     background: transparent;
   }
@@ -144,14 +138,27 @@
   font-size: 12px;
   line-height: 100%;
   color: var(--color-grey);
+  padding-bottom: 15px;
+
+  @include tablet {
+    padding-bottom: 10px;
+  }
+}
+
+.distributed_time {
+  font-style: normal;
+  font-size: 12px;
+  line-height: 100%;
+  color: var(--color-grey);
 }
 
 .coin {
   width: 100%;
   flex: 1;
   display: flex;
-  flex-direction:column;
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   @include tablet {
     flex: 1 0 65%;
     @include flexbox(flex-start, flex-start);
@@ -159,7 +166,7 @@
 }
 
 .stream {
-  text-align: left;
+  text-align: center;
   flex: 1;
   width: 100%;
 
@@ -167,15 +174,15 @@
     @include flexbox(flex-start, center);
     display: flex;
     flex-direction: row;
-    align-items: flex-end;
+    align-items: flex-start;
     position: relative;
     flex-direction: column;
     flex: 0 0 25%;
+    padding: 0 0 20px 10px;
   }
 }
 
 .stream_values {
-  font-family: $default-font;
   padding: 0 0 4px 0;
 }
 
@@ -184,28 +191,14 @@
 
   flex: 1;
   flex-wrap: wrap;
-  font-family: $default-font;
   width: 100%;
   flex-direction: column;
-  align-items: flex-end;
-
+  align-items: center;
   @include tablet {
-    display: none;
-  }
-}
-
-.streaming_mob {
-  display: none;
-
-  @include tablet {
-    @include flexbox(flex-end, center);
-    flex-direction: column;
-    position: relative;
-    flex: 0 0 25%;
-    flex-wrap: wrap;
-    font-family: $default-font;
-    right: 0%;
-    padding-left: 10px;
+    align-items: flex-start;
+    padding-left: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
   }
 }
 
@@ -220,8 +213,7 @@
 }
 
 .form {
-
-  @include tablet{
+  @include tablet {
     display: none;
   }
 }
@@ -229,7 +221,7 @@
 .form_mob {
   display: none;
 
-  @include tablet{
+  @include tablet {
     display: block;
     width: 100%;
     flex: 0 0 100%;
@@ -246,25 +238,19 @@
 .depositTooltip {
   background: var(--color-blue-dark) !important;
 }
-.__react_component_tooltip::before, .__react_component_tooltip::after {
+.__react_component_tooltip::before,
+.__react_component_tooltip::after {
   border-top: 5px solid #062e56 !important;
 }
 
 .row {
-  @include tablet{
+  @include tablet {
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: space-evenly;
     justify-content: space-evenly;
-    text-align: right;
+    padding-bottom: 20px;
   }
-}
-
-@media screen and (max-width: 768px) {
-  .container {
-    width: 80%;
-  }
-  
-
+  flex: 1;
 }

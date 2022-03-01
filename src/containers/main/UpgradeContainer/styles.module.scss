@@ -1,73 +1,71 @@
-@import '../../../assets/styles/mixins';
+@import "../../../assets/styles/mixins";
 
 @include tablet {
-  .dextable td:not(:first-child):not(:last-child):not(:nth-child(2)):not(:nth-child(3)) {
+  .dextable
+    td:not(:first-child):not(:last-child):not(:nth-child(2)):not(:nth-child(3)) {
     display: none;
     max-height: 0;
   }
 }
-  .streamshow {
-    display: inline-flex;
-    }
+.streamshow {
+  display: inline-flex;
+}
 
-  .dextable {
-    border-collapse: collapse;
-    overflow: hidden;
-    width: 100%;
-  }
-  
-  .blue {
-    color: var(--color-blue-dark);
-    font-weight: 500;
-  }
+.dextable {
+  border-collapse: collapse;
+  overflow: hidden;
+  width: 100%;
+}
 
-  .grey {
-    color: var(--color-grey);
-    font-size: 12px;
-    font-weight: 400;
-  }
+.blue {
+  color: var(--color-blue-dark);
+  font-weight: 500;
+}
 
-  .dextable thead tr {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 120%;
-    text-transform: uppercase;
-    color: var(--color-grey);
-    text-align: left;
-    letter-spacing: 0px;
-    border-bottom: 1px solid var(--color-blue);
-  }
-  
-  .dextable th, 
-  .dextable td {
-    word-break: break-word;
-    padding: 15px 15px 16px 12px;
-    line-height: 25px;
-    text-align: right;
+.grey {
+  color: var(--color-grey);
+  font-size: 12px;
+  font-weight: 400;
+}
 
+.currencyStyle {
+  text-align: left !important;
+}
 
-  }
-  
-  .dextable td.section {
-    text-align: right;
-    border-right: 1px solid var(--color-blue-light);
-  
-  }
-  
-  .dextable tbody tr {
-    border-bottom: 1px solid var(--color-blue-light);
-    font-size: 0.9em;
-    font-weight: 500;
-  
-  }
-  
-  .dextable tbody tr:last-of-type {
-    border-bottom: 2px solid var(--color-blue);
-  }
-  
+.dextable thead tr {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 120%;
+  text-transform: uppercase;
+  color: var(--color-grey);
+  text-align: left;
+  letter-spacing: 0px;
+  border-bottom: 1px solid var(--color-blue);
+}
 
+.dextable th,
+.dextable td {
+  word-break: break-word;
+  padding: 15px 15px 16px 12px;
+  line-height: 25px;
+  text-align: right;
+}
 
+.dextable td.section {
+  text-align: right;
+  border-right: 1px solid var(--color-blue-light);
+}
+
+.dextable tbody tr {
+  border-bottom: 1px solid var(--color-blue-light);
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.dextable tbody tr:last-of-type {
+  border-bottom: 2px solid var(--color-blue);
+}
 
 .redFont {
   color: var(--color-red);
@@ -75,18 +73,16 @@
 .greenFont {
   color: var(--color-primary);
 }
-.currDisplay {  
+.currDisplay {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   flex-direction: row;
-  gap: 5px;
-  
+  gap: 7px;
 }
 
 .currDisplayImg {
-  width: 24px;
-  height: 24px;
- 
+  width: 25px;
+  height: 25px;
 }
 
 .currDisplayName {
@@ -98,51 +94,52 @@
   justify-content: space-evenly;
   gap: 10px;
   float: right;
+}
 
+.wallet_loading {
+  text-align: center;
+  flex: 1;
+  width: 100%;
+
+  @include tablet {
+    @include flexbox(flex-start, center);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    position: relative;
+    flex-direction: column;
+    flex: 0 0 25%;
+    padding: 0 0 20px -10px;
+  }
 }
 
 .displaybutton span.upgradeButton {
-  height: 32px;
-  width: 40px;
+  padding: 3px 10px;
   text-align: center;
   display: inline-block;
   border-radius: 4px;
   background-color: rgba(16, 171, 50, 0.15);
   cursor: pointer;
-  padding: 3px;
   color: #10bb34;
-  font-size: 15px;
 }
 
 .displaybutton span.downgradeButton {
-  height: 32px;
-  width: 40px;
-  text-align: center;
-  font-size: 19px;
+  padding: 3px 10px;
   color: #e74d39;
-  display: inline-block;
   border-radius: 4px;
   cursor: pointer;
-  padding: 0px;
-  background-color: rgba(229,26,69,.15);
-
+  background-color: rgba(229, 26, 69, 0.15);
 }
 
 .displaybutton span.disabledButton {
-  height: 32px;
-  width: 40px;
-  text-align: center;
-  font-size: 19px;
-  color: #B7C2D6;
-  display: inline-block;
+  padding: 3px 10px;
+  color: #b7c2d6;
   border-radius: 4px;
-  padding: 0px;
   background-color: rgb(225, 232, 248);
   pointer-events: none;
 }
 
 .wrapper {
-  font-family: $default-font;
   height: 100%;
   width: 100%;
   padding: 10px 24px 10px 24px;
@@ -190,7 +187,6 @@
   line-height: 140%;
   text-align: center;
   color: var(--color-blue);
-  
 }
 
 .header_upgrade {
@@ -207,7 +203,7 @@
   @include tablet {
     display: block;
     width: 100%;
-    padding: 60px 0 0 0;
+    padding: 0px 0 0 0;
     position: relative;
   }
 }
@@ -217,50 +213,45 @@
   margin: 0 0 0 23px;
 }
 
-
-@media only screen and (max-width: 769px){
-
+@media only screen and (max-width: 769px) {
   .settings_mob {
     display: none;
-  
+
     @include tablet {
       display: block;
       width: 100%;
-      padding: 0px 0 0 0;
+      padding: 0px;
       position: relative;
     }
   }
 
-  .currDisplayName{
+  .currDisplayName {
     font-size: x-small;
   }
 
   .wrapper {
-    font-family: $default-font;
     height: 100%;
     width: 100%;
     padding: 0;
   }
-  
-  .dextable th, 
+
+  .dextable th,
   .dextable td {
-    word-break:keep-all;
+    word-break: keep-all;
 
     line-height: 25px;
-    text-align: right;
+    text-align: center;
     border-right: 1px solid rgba(161, 175, 202, 0.53);
-
   }
 }
 
-@media only screen and (max-width: 359px){
-
-  .displaybutton{
+@media only screen and (max-width: 359px) {
+  .displaybutton {
     height: 22px;
     width: 30px;
   }
 
-  .upgrade_downgrade_head{
+  .upgrade_downgrade_head {
     font-size: xx-small;
     text-align: left;
   }

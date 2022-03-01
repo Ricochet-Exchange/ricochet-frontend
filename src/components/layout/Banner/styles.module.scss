@@ -4,11 +4,12 @@
   top: 0;
   right: 0;
   left: 0;
-  z-index: 2;
-
+  z-index: 1000000;
+  position: absolute;
   background-color: var(--color-yellow);
   color: var(--color-black-dark);
-
+  margin: auto;
+  padding: 4px;
   -moz-box-flex: 1;
   flex-grow: 1;
   -moz-box-pack: center;
@@ -17,9 +18,15 @@
   align-items: center;
   text-align: center;
   display: block;
-
-
   font-size: 0.75rem;
   line-height: 1.66;
   letter-spacing: 0.03333em;
+
+  @include tablet {
+    padding: 8px 45px;
+  }
+
+  i {
+    margin-right: 5px;
+  }
 }

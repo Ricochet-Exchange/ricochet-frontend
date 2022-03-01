@@ -1,9 +1,6 @@
-import ButtonNew from 'components/common/ButtonNew';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { Coin, iconsCoin } from 'constants/coins';
-import React, {
-  FC,
-} from 'react';
+import React, { FC } from 'react';
 import styles from './styles.module.scss';
 
 interface IProps {
@@ -16,12 +13,12 @@ export const CoinChange: FC<IProps> = ({
 }) => (
   <div className={styles.currency}>
     <div className={styles.labels}>
-      <ButtonNew name={nameCoinLeft} className={styles.img_usd}>
+      <div className={styles.img_usd}>
         <img src={iconsCoin[nameCoinLeft]} alt={nameCoinLeft} />
-      </ButtonNew>
-      <ButtonNew className={styles.img_bitcoin}>
+      </div>
+      <div className={styles.img_bitcoin}>
         <img src={iconsCoin[nameCoinRight]} alt={nameCoinRight} />
-      </ButtonNew>
+      </div>
     </div>
     <div className={styles.currency_name_container}>
       <div className={styles.currency_name}>
@@ -31,7 +28,7 @@ export const CoinChange: FC<IProps> = ({
             name={FontIconName.ArrowRightCircled} 
             className={styles.arrow_circle}
             size={20}
-          /> 
+          />
         </div>
         <div className={styles.currency_second}>{nameCoinRight}</div>
       </div>

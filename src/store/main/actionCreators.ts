@@ -7,9 +7,12 @@ export const mainSetState = (payload: Partial<MainState>) => ({
   payload,
 });
 
-export const mainCheck = (init:boolean = false) => ({
+export const mainCheck = () => ({
   type: MainActionTypes.MAIN_CHECK,
-  init,
+});
+
+export const connectWeb3Modal = () => ({
+  type: MainActionTypes.CONNECT_WEB3_MODAL,
 });
 
 export const mainSwitchNetwork = () => ({

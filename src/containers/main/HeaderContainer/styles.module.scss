@@ -1,100 +1,55 @@
-@import '../../../assets/styles/mixins';
+@import "../../../assets/styles/mixins";
 
-
-
-
-@media only screen and (min-width: 769px){
-  .header_wrap{
-    height: 9vh; 
-    background-image: linear-gradient( #1c5087, #363b55);
+@media only screen and (min-width: 769px) {
+  .header_wrap {
+    height: 10vh;
+    padding: 3.5em;
+    display: flex;
+    align-items: center;
+    padding-right: 2em;
+    background-color: #363b55;
   }
-
-
 
   .settings_wrap {
-    margin: 0;
-    padding: 0;
-
-
-    @include tablet {
-      display: none;
-    }
-}
-
-
+    position: relative;
+    right: 0;
+  }
 
   .links {
- 
+    display: none;
   }
 
-  .dca_link {
-    
-  }
-
-  .dca_link,
-  .upgrade_link {
-    display: none
-  }
-
-  .active {
-    
-  }
-
-
-  .mob_menu {
-  
-  }
-
-  .mob_panel {
-    
-  }
-
-  .mob_head {
-  
-  }
-
-  .dot {
-   
+  .logo {
+    display: none;
   }
 }
-
 
 .header_wrap {
   @include flexbox(center, space-between);
   padding-left: 1em;
   width: 100%;
   position: relative;
-
+  background-color: #363b55;
   @include tablet {
     @include flexbox(center, center);
     display: flex;
     flex-direction: row;
     max-height: 100px;
   }
-
-  
 }
 
 .settings_wrap {
-    margin: 50px 0 50px 0;
-  
-    @include tablet {
-      display: none;
-    }
-}
-
-
-
-.links {
-  @include flexbox(center, center);
-  
-  margin: 56px 0 56px 0;
+  margin: 75px 0 50px 0;
 
   @include tablet {
     display: none;
   }
+}
 
-  
+.links {
+  @include tablet {
+    display: none;
+  }
 }
 
 .dca_link {
@@ -104,7 +59,6 @@
 .dca_link,
 .upgrade_link {
   color: var(--color-white-dark);
-  font-family: $default-font;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
@@ -112,10 +66,10 @@
   text-align: center;
   letter-spacing: -0.015em;
   text-decoration: none;
-  
+
   &:active,
   &:checked {
-    color: var(--color-white) ;
+    color: var(--color-white);
     font-weight: bold;
     text-decoration: underline;
   }
@@ -127,6 +81,18 @@
   text-decoration-line: underline;
 }
 
+.logo {
+  @media screen and (max-width: 768px) {
+    background: none;
+    border: none;
+    display: block;
+    width: 33px;
+    height: 32px;
+    position: relative;
+    cursor: pointer;
+    z-index: 5;
+  }
+}
 
 .mob_menu {
   display: none;
@@ -137,15 +103,13 @@
 
   .menu_button {
     background: transparent;
-    padding: 0 ;
+    padding: 0;
     border: none;
   }
-  
-
 }
 
 .mob_panel {
-  @include flexbox(center, space-between);
+  @include flexbox(center, flex-end);
 
   width: 100%;
   @include tablet {
@@ -162,12 +126,11 @@
     span {
       margin-bottom: 10px;
     }
-    padding: 30px 0 50px 0;
-    font-family: $default-font;
+    padding: 40px 0 50px 50px;
     display: block;
     font-style: normal;
     font-weight: bold;
-    font-size: 36px;
+    font-size: 29px;
     line-height: 110%;
     text-align: center;
     letter-spacing: -0.015em;
@@ -179,4 +142,29 @@
   color: var(--color-white-dark);
   margin: 0 0 0 23px;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 769px) {
+  .header_wrap {
+    @include flexbox(center, space-between);
+    margin-top: 2.5em;
+    padding-left: 1em;
+    width: 100%;
+    position: relative;
+    background-color: #363b55;
+    @include tablet {
+      @include flexbox(center, center);
+      display: flex;
+      margin-top: 3.5em;
+      flex-direction: row;
+      max-height: 100px;
+    }
+  }
+}
+
+.hamburger_container {
+  display: none;
+  @media screen and (max-width: 768px) {
+    display: flex;
+  }
 }

@@ -4,16 +4,14 @@ import { getContract } from 'utils/getContract';
 import { chainSettings } from 'constants/chainSettings';
 import { CoinOption } from 'types/coinOption';
 import {
-  RICAddress,
-  rexLPETHAddress,
-  SUSHIxAddress,
-  MATICxAddress,
+  MATICxAddress, rexLPETHAddress, RICAddress, SUSHIxAddress,
 } from 'constants/polygon_config';
 import Erc20Abi from 'constants/Erc20.json';
 import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
 import BankAbi from 'constants/Bank.json';
 import Web3 from 'web3';
 import axios from 'axios';
+import { indexIDA } from '../constants/flowConfig';
 
 const polygonApiUrl = 'https://gasstation-mainnet.matic.network/v2';
 const getSuggestedPriorityGasFee = async () => {
@@ -126,11 +124,14 @@ export const startFlow = async (
     token: inputTokenAddress,
   });
   let call = [];
+
+  // eslint-disable-next-line max-len
+  const config = indexIDA.filter((data) => data.input === inputTokenAddress && data.output === outputTokenAddress)[0];
   const isSubscribed = await idaContract.methods
     .getSubscription(
-      outputTokenAddress,
+      config.output,
       exchangeAddress, // publisher
-      0, // indexId
+      config.outputIndex, // indexId
       sfUser.address,
     )
     .call();
@@ -277,7 +278,7 @@ export const startFlow = async (
             ),
           ],
         ];
-      } else {
+      } else if (config.subsidy) {
         call = [
           [
             201, // approve the ticket fee
@@ -287,9 +288,9 @@ export const startFlow = async (
               [
                 superFluid.agreements.ida.contract.methods
                   .approveSubscription(
-                    outputTokenAddress,
+                    config.output,
                     exchangeAddress,
-                    0, // INDEX_ID
+                    config.outputIndex, // INDEX_ID
                     '0x',
                   )
                   .encodeABI(), // callData
@@ -298,16 +299,16 @@ export const startFlow = async (
             ),
           ],
           [
-            201, // approve the RIC subsidy
+            201, // approve the subsidy token
             superFluid.agreements.ida.address,
             web3.eth.abi.encodeParameters(
               ['bytes', 'bytes'],
               [
                 superFluid.agreements.ida.contract.methods
                   .approveSubscription(
-                    RICAddress,
+                    config.subsidy,
                     exchangeAddress,
-                    1, // INDEX_ID
+                    config.subsidyIndex, // INDEX_ID
                     '0x',
                   )
                   .encodeABI(), // callData
@@ -323,7 +324,46 @@ export const startFlow = async (
               [
                 superFluid.agreements.cfa.contract.methods
                   .createFlow(
-                    inputTokenAddress,
+                    config.input,
+                    exchangeAddress,
+                    amount.toString(),
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                userData, // userData
+              ],
+            ),
+          ],
+        ];
+      } else {
+        call = [
+          [
+            201, // approve the ticket fee
+            superFluid.agreements.ida.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.ida.contract.methods
+                  .approveSubscription(
+                    config.output,
+                    exchangeAddress,
+                    config.outputIndex, // INDEX_ID
+                    '0x',
+                  )
+                  .encodeABI(), // callData
+                userData, // userData
+              ],
+            ),
+          ],
+          [
+            201, // create constant flow (10/mo)
+            superFluid.agreements.cfa.address,
+            web3.eth.abi.encodeParameters(
+              ['bytes', 'bytes'],
+              [
+                superFluid.agreements.cfa.contract.methods
+                  .createFlow(
+                    config.input,
                     exchangeAddress,
                     amount.toString(),
                     '0x',
@@ -545,7 +585,7 @@ export const getBankData = async (
   const vault = await getVaultData(bankContract, address);
   const debtToken = await getDebtTokenData(bankContract, address, web3);
   const collateralToken = await getCollateralTokenData(bankContract, address, web3);
-  const name = bankAddress === '0x91093c77720e744F415D33551C2fC3FAf7333c8c' ? 
+  const name = bankAddress === '0x91093c77720e744F415D33551C2fC3FAf7333c8c' ?
     '✨ REX Bank' : await bankContract.methods.getName().call();
   const interestRate = await bankContract.methods.getInterestRate().call();
   const originationFee = await bankContract.methods.getOriginationFee().call();
@@ -584,7 +624,7 @@ export const makeDeposit = async (
   let transactionHash;
   const deposit = await bankContract.methods
     .vaultDeposit(amount)
-    .send({ 
+    .send({
       from: accountAddress,
       maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
     })
@@ -604,7 +644,7 @@ export const makeBorrow = async (
   let transactionHash;
   const borrow = await bankContract.methods
     .vaultBorrow(amount)
-    .send({ 
+    .send({
       from: accountAddress,
       maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
     })
@@ -627,7 +667,7 @@ export const approveToken = async (
     .pow(web3.utils.toBN(255));
   const approveRes = await tokenContract.methods
     .approve(bankAddress, mainWad)
-    .send({ 
+    .send({
       from: accountAddress,
       maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
     })
@@ -648,7 +688,7 @@ export const makeWithdraw = async (
   let transactionHash;
   const whithdraw = await bankContract.methods
     .vaultWithdraw(amount)
-    .send({ 
+    .send({
       from: accountAddress,
       maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
     })

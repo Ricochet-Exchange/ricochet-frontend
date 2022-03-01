@@ -1,8 +1,7 @@
-@import 'assets/styles/mixins';
+@import "assets/styles/mixins";
 
 .VaultDetails {
   background-color: var(--color-blue-light);
-
   margin-bottom: 35px;
   border-radius: 10px;
   width: 100%;
@@ -45,7 +44,7 @@
 
 .VaultDetail h3 {
   font-size: 1.25rem;
-  color: var(--color-blue);;
+  color: var(--color-blue);
   margin: 0 0 4px 0;
 }
 
@@ -76,15 +75,14 @@
 .BankDataTxt {
   text-align: right;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-end;
+  align-items: center;
   margin: 0 12px 0 0;
 }
 
 .BankName {
   font-weight: bold;
   color: black;
+  margin-right: 5px;
 }
 
 .BankDataTxt p {
@@ -99,22 +97,22 @@
 }
 
 .liqprice h1 {
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: normal;
-  color: var(--color-blue);;
+  color: var(--color-blue);
   margin-bottom: 0;
 }
 
 .liqprice h3 {
-  margin: 0 0 20px 8px;
+  margin: 0 0 10px 8px;
 }
 
 .collateralPrice h3 {
-  margin: 0 0 20px 8px;
+  margin: 0 0 10px 8px;
 }
 
 .collateralPrice h1 {
-  font-size: 4rem;
+  font-size: 3rem;
   margin-bottom: 0;
 }
 
@@ -127,7 +125,7 @@
 }
 
 .VaultDetails__content {
-  @include flexbox(flex-start, space-around);
+  @include flexbox(flex-start, space-between);
   width: 100%;
   padding: 28px 35px 20px 50px;
   flex-wrap: wrap;
@@ -146,4 +144,45 @@
 
 .bankIcon {
   color: var(--color-black);
+}
+
+@media only screen and (max-width: 769px) {
+  .liqprice h1 {
+    font-size: 2rem;
+  }
+
+  .collateralPrice h1 {
+    font-size: 2rem;
+    margin-bottom: 0;
+  }
+
+  .VaultDetails__content {
+    @include flexbox(flex-start, space-between);
+  }
+
+  .VaultDetails__header {
+    @include flexbox(flex-start, space-between);
+    padding: 1em;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    flex-direction: row;
+    border-bottom: 1px dashed $notwhitetxt;
+    @include tablet {
+      justify-content: space-between;
+    }
+  }
+
+  .VaultDetails__Column {
+    padding: 0;
+  }
+
+  .VaultDetails__content {
+    @include flexbox(flex-start, space-between);
+    width: 100%;
+    padding: 0px;
+    padding: 1em;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    flex-wrap: wrap;
+  }
 }

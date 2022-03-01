@@ -1,39 +1,37 @@
 import React, {
-  ChangeEvent, useCallback, useState, useEffect,
+  ChangeEvent, useCallback, useEffect, useState,
 } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
-import {
-  useRouteMatch,
-} from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { TextInput } from 'components/common/TextInput';
 import { PanelChange } from 'components/layout/PanelChange';
 import { UserSettings } from 'components/layout/UserSettings';
 import { InvestNav } from 'components/layout/InvestNav';
-import { useLang } from 'hooks/useLang';
+import { useTranslation } from 'react-i18next';
 import { flowConfig, FlowEnum, RoutesToFlowTypes } from 'constants/flowConfig';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain, selectUserStreams } from 'store/main/selectors';
 import { RICAddress } from 'constants/polygon_config';
 import { useDispatch } from 'react-redux';
 import { startFlowAction, stopFlowAction } from 'store/main/actionCreators';
-import { ShowDistribution } from 'components/common/lastDistribution';
+import { ExchangeKeys } from 'utils/getExchangeAddress';
 import styles from './styles.module.scss';
 
-function sumStrings(a:number, b:string):number { return (a + parseFloat(b)); }
-function endDate(bal:number, outgoing:number):string {
+function sumStrings(a: number, b: string): number { return (a + parseFloat(b)); }
+function endDate(bal: number, outgoing: number): string {
   const outgoingPerMs = outgoing / (30 * 24 * 60 * 60 * 1000);
   const endDateTimestamp = Date.now() + bal / outgoingPerMs;
   const endDateStr = (new Date(endDateTimestamp)).toLocaleDateString();
   return `${endDateStr}`;
 }
 
-interface IProps {}
+interface IProps { }
 
-export const InvestContainer :React.FC<IProps> = () => {
-  const { language, t } = useLang();
+export const InvestContainer: React.FC<IProps> = () => {
+  const { t } = useTranslation();
   const state = useShallowSelector(selectMain);
   const {
-    address, balances, isLoading, isReadOnly, coingeckoPrices,
+    address, balances, isLoading, coingeckoPrices,
   } = state;
   const userStreams = useShallowSelector(selectUserStreams);
   const dispatch = useDispatch();
@@ -59,18 +57,18 @@ export const InvestContainer :React.FC<IProps> = () => {
 
   const handleStart = useCallback((config: { [key: string]: string }) => (
     amount: string,
-    callback: (e?:string) => void,
+    callback: (e?: string) => void,
   ) => {
     dispatch(startFlowAction(amount, config, callback));
   }, [dispatch, balances]);
 
   const handleStop = useCallback((config: { [key: string]: string }) => (
-    callback: (e?:string) => void,
+    callback: (e?: string) => void,
   ) => {
     dispatch(stopFlowAction(config, callback));
   }, [dispatch, balances]);
 
-  function retrieveEndDate(flowKey:FlowEnum, currentState:any, currentBalances:any) {
+  function retrieveEndDate(flowKey: FlowEnum, currentState: any, currentBalances: any) {
     const flow = flowConfig.find((flow_) => flow_.flowKey === flowKey);
     const sameCoinAFlows = flowConfig.filter((flow_) => flow_.coinA === flow?.coinA);
     const outgoing = sameCoinAFlows.map((flow_) => currentState[flow_.flowKey]?.placeholder || '0');
@@ -78,8 +76,8 @@ export const InvestContainer :React.FC<IProps> = () => {
     const bal = parseFloat((currentBalances && currentBalances[flow?.tokenA || '']) || '0');
     return endDate(bal, outgoingSum);
   }
-  function computeStreamEnds(currentState:any, currentBalances:any) {
-    const streamEnds : { [id: string] : string; } = {};
+  function computeStreamEnds(currentState: any, currentBalances: any) {
+    const streamEnds: { [id: string]: string; } = {};
     Object.values(FlowEnum).forEach((flowEnum: FlowEnum) => {
       streamEnds[flowEnum] = retrieveEndDate(flowEnum, currentState, currentBalances);
     });
@@ -101,6 +99,13 @@ export const InvestContainer :React.FC<IProps> = () => {
   return (
     <div className={styles.outer_container}>
       <InvestNav />
+      <div className={styles.settings_mob}>
+        <UserSettings
+          className={styles.dot}
+          ricBalance={balances && balances[RICAddress]}
+          account={address || t('Connect Wallet')}
+        />
+      </div>
       <div className={styles.container}>
         <div className={styles.input_wrap}>
           <TextInput
@@ -111,7 +116,6 @@ export const InvestContainer :React.FC<IProps> = () => {
             containerClassName={styles.container_input}
             left={<FontIcon name={FontIconName.Search} className={styles.search} size={16} />}
           />
-          <ShowDistribution />
         </div>
 
         <div className={styles.headers}>
@@ -119,6 +123,7 @@ export const InvestContainer :React.FC<IProps> = () => {
           <div className={styles.stream}>{t('Your Stream')}</div>
           <div className={styles.balances}>{t('Your Balances')}</div>
           <div className={styles.streaming}>{t('Total Value Streaming')}</div>
+          <div className={styles.ends}>{t('')}</div>
         </div>
         <div className={styles.content}>
           {filteredList.map((element) => (
@@ -130,6 +135,8 @@ export const InvestContainer :React.FC<IProps> = () => {
                 coinA={element.coinA}
                 coingeckoPrice={coingeckoPrices ? coingeckoPrices[element.tokenA] : 0}
                 coinB={element.coinB}
+                tokenA={element.tokenA}
+                tokenB={element.tokenB}
                 balanceA={balances && balances[element.tokenA]}
                 balanceB={balances && balances[element.tokenB]}
                 totalFlow={state[element.flowKey]?.flowsOwned}
@@ -137,29 +144,30 @@ export const InvestContainer :React.FC<IProps> = () => {
                 streamEnd={streamEnds[element.flowKey]}
                 subsidyRate={
                   new Date().toLocaleDateString().split('/').reverse()
-                    .join('') 
-                  >= (state[element.flowKey]?.subsidyRate.endDate.split('/').reverse()
-                    .join('') || '0')
+                    .join('')
+                    >= (state[element.flowKey]?.subsidyRate.endDate.split('/').reverse()
+                      .join('') || '0')
                     ? undefined : state[element.flowKey]?.subsidyRate
                 }
                 personalFlow={state[element.flowKey]?.placeholder}
                 mainLoading={isLoading}
                 flowType={element.type}
                 isReadOnly={state.isReadOnly}
-                contractAddress={element.superToken} 
+                contractAddress={element.superToken}
+                exchangeKey={element.flowKey.replace('FlowQuery', '') as ExchangeKeys}
               />
             </div>
           ))}
-          <div className={styles.settings_mob}>
-            <UserSettings
-              language={language}
-              className={styles.dot}
-              ricBalance={balances && balances[RICAddress]}
-              account={address || 'Connect Wallet'}
-              isReadOnly={isReadOnly}
-            />
-          </div>
         </div>
+
+        {filteredList.length === 0 && (
+          <div className={styles.empty_state}>
+            <FontIcon name={FontIconName.Search} size={30} />
+            <span className={styles.empty_state_text}>
+              <div>{t('No results found')}</div>
+            </span>
+          </div>
+        )}
 
         <div>
           <span className={styles.fee_disclaimer}>

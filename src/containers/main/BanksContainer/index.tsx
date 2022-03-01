@@ -1,37 +1,41 @@
-import React, {
-  useEffect,
-  useCallback,
-} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { BankDetails } from 'components/banks/BankDetails';
 import { LoadingWrapper } from 'components/common/LoadingWrapper';
 import { selectMain } from 'store/main/selectors';
 import { selectBanks } from 'store/banks/selectors';
 import { useShallowSelector } from 'hooks/useShallowSelector';
+import { SignInButton } from 'components/banks/SignInButton';
 import { BankType } from 'store/banks/types';
 import { useDispatch } from 'react-redux';
 import { banksGetData } from 'store/banks/actionCreators';
-import { mainCheck } from 'store/main/actionCreators';
+import { LoadingPopUp } from 'components/common/LoadingPopUp';
+import { connectWeb3Modal } from 'store/main/actionCreators';
 import { InvestNav } from 'components/layout/InvestNav';
-import { ModalType } from 'store/modal/types';
-import { modalShow } from 'store/modal/actionCreators';
+import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 export const BanksContainer = () => {
   const dispatch = useDispatch();
-  const { banks, isLoading: isLoadingBank } = useShallowSelector(selectBanks);
-  const { address: accountAddress, isReadOnly, isLoading } = useShallowSelector(selectMain);
+  const { banks } = useShallowSelector(selectBanks);
+  const { address: accountAddress, isLoading } = useShallowSelector(selectMain);
+  const [hasBanks, setHasBank] = useState(false);
+  const { t } = useTranslation();
 
   const handleSignIn = useCallback(() => {
-    if (isReadOnly) {
-      dispatch(modalShow(ModalType.Metamask));
-    } else dispatch(mainCheck());
-  }, [dispatch, modalShow, isReadOnly]);
+    dispatch(connectWeb3Modal());
+  }, [dispatch]);
 
   useEffect(() => {
     if (!isLoading) dispatch(banksGetData());
   }, [isLoading]);
 
-  const renderBanks = () => (
+  useEffect(() => {
+    if (banks) {
+      setHasBank(banks.length !== 0);
+    }
+  }, [banks]);
+
+  const renderBanks = () =>
     banks.map((bank: BankType) => (
       <BankDetails
         key={bank.bankAddress}
@@ -39,19 +43,70 @@ export const BanksContainer = () => {
         accountAddress={accountAddress}
         handleSignIn={handleSignIn}
       />
-    ))
-  );
+    ));
 
   return (
     <div className={styles.outer_container}>
       <InvestNav />
       <div className={styles.container}>
-        <LoadingWrapper
-          isLoading={isLoadingBank || isLoading}
-          className={styles.fullframe}
-        >
-          <div className={styles.contentTotal}>{renderBanks()}</div>
-        </LoadingWrapper>
+        {accountAddress ? (
+          <>
+            <LoadingWrapper
+              isLoading={isLoading}
+              className={styles.fullframe}
+            >
+              <div className={styles.contentTotal}>
+                {hasBanks ? (
+                  <table className={styles.dextable}>
+                    <thead>
+                      <tr>
+                        <td className={styles.section}>
+                          {t('Name')}
+                        </td>
+                        <td className={styles.section}>
+                          {t('Available for')}
+                          <br />
+                          {t('borrow')}
+                        </td>
+                        <td className={styles.section}>
+                          {t('Collateral Price')}
+                          <br />
+                          in
+                          <span className={styles.blue}> USD</span>
+                        </td>
+                        <td className={styles.section}>
+                          {t('Debt Price')}
+                          <br />
+                          in
+                          <span className={styles.blue}> USD</span>
+                        </td>
+                        <td className={styles.section}>{t('Interest Rate')}</td>
+                        <td className={styles.section}>{t('Origination Fee')}</td>
+                        <td className={styles.section}>{t('Collateralization Ratio')}</td>
+                        <td className={styles.section}>{t('Liquidation Penalty')}</td>
+                        <td>{t('Create Vault')}</td>
+                      </tr>
+                    </thead>
+                    <tbody>{renderBanks()}</tbody>
+                  </table>
+                ) : (
+                  <div className={styles.bank_empty}>
+                    <LoadingPopUp />
+                  </div>
+                )}
+              </div>
+            </LoadingWrapper>
+          </>
+        )
+          : 
+          (
+            <div className={styles.sign_container}>
+              <p className={styles.sign_in_text}>{t('Sign in to see the bank')}</p>
+              <SignInButton
+                onClick={handleSignIn}
+              />
+            </div>
+          )}
       </div>
     </div>
   );

@@ -1,18 +1,18 @@
 import {
-  put, call, all, select, 
+  all, call, put, select, 
 } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
 import { mainGetData, mainSetState } from '../actionCreators';
 import {
-  checkIfApproveUsdc,
-  checkIfApproveWeth,
-  checkIfApproveWbtc,
-  checkIfApproveMkr,
   checkIfApproveDai,
-  checkIfApproveSushi,
-  checkIfApproveMatic,
   checkIfApproveIdle,
+  checkIfApproveMatic,
+  checkIfApproveMkr,
+  checkIfApproveSushi,
+  checkIfApproveUsdc,
+  checkIfApproveWbtc,
+  checkIfApproveWeth,
 } from './checkIfApprove';
 import { getBalances } from './getBalances';
 import { sweepQueryFlow } from './sweepQueryFlow';
@@ -21,7 +21,7 @@ import { getCoingeckoPrices } from '../../../utils/getCoingeckoPrices';
 
 export function* loadData() {
   try {
-    yield put(mainSetState({ isLoading: true }));
+    yield put(mainSetState({ isLoading: true, isReadOnly: false }));
     const main: ReturnType<typeof selectMain> = yield select(selectMain);
     const { web3 } = main;
     const address: Unwrap<typeof getAddress> = yield call(getAddress, web3);

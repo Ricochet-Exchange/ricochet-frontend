@@ -11,9 +11,8 @@
 
   & .img_usd,
   .img_bitcoin {
-    position: absolute;
-    height: 32px;
-    width: 32px;
+    // position: absolute;
+    // width: 32px;
     padding: 0;
     background: transparent;
     border: none;
@@ -21,7 +20,7 @@
 }
 
 .img_bitcoin {
-  left: 22px;
+  // left: 22px;
 
   &:active {
     background: var(--color-blue-light);
@@ -29,7 +28,7 @@
 }
 
 .img_usd {
-  left: 0px;
+  // left: 0px;
 
   &:active {
     background: var(--color-blue-light);
@@ -37,16 +36,22 @@
 }
 
 .currency_name_container {
-  width: 290px;
-  padding: 28px 0 28px 64px;
+  width: 186px;
+  padding: 1em;
+  padding-left: 2em;
+  @include tablet {
+    width: 150px;
+    padding-left: 1em;
+  }
 }
-
 .currency_name {
   @include flexbox(center, flex-start);
   flex-wrap: wrap;
+  width: auto;
 
   @include tablet {
     flex-wrap: nowrap;
+    width: 100%;
   }
 }
 

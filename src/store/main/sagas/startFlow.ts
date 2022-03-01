@@ -1,17 +1,12 @@
 import { startFlow } from 'api/ethereum';
 import { idaABI } from 'constants/abis';
-import {
-  idaAddress,
-} from 'constants/polygon_config';
+import { idaAddress } from 'constants/polygon_config';
 import { call, select } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getContract } from 'utils/getContract';
 import { transformError } from 'utils/transformError';
 import { sweepQueryFlow } from './sweepQueryFlow';
-import {
-
-  startFlowAction,
-} from '../actionCreators';
+import { startFlowAction } from '../actionCreators';
 import { selectMain } from '../selectors';
 
 export function* startFlowSaga({ payload }: ReturnType<typeof startFlowAction >) {

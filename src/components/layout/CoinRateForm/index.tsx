@@ -1,8 +1,5 @@
 import { TextInput } from 'components/common/TextInput';
-import React, {
-  ChangeEvent,
-  FC,
-} from 'react';
+import React, { ChangeEvent, FC } from 'react';
 import { useTranslation } from 'i18n';
 import ReactTooltip from 'react-tooltip';
 import ButtonNew from '../../common/ButtonNew';
@@ -18,14 +15,23 @@ interface IProps {
   coin: Coin;
   isLoading?: boolean;
   isReadOnly?:boolean;
-  personalFlow: string,
+  personalFlow: string;
+  shareScaler: number;
 }
 
 export const CoinRateForm: FC<IProps> = ({
-  value, onChange, onClickStart, onClickStop, placeholder, coin, isLoading, isReadOnly,
+  value,
+  onChange,
+  onClickStart,
+  onClickStop,
+  placeholder,
+  coin,
+  isLoading,
+  isReadOnly,
   personalFlow,
+  shareScaler,
 }) => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
   // Security Deposit is 4 hours worth of stream, so (4*60*60)/(30*24*60*60) = 1/180
   return (
     <div className={styles.input_container}>
@@ -47,7 +53,9 @@ export const CoinRateForm: FC<IProps> = ({
             color="primary"
             onClick={onClickStart}
             className={styles.start}
-            disabled={isReadOnly || isLoading}
+            disabled={isReadOnly || isLoading || !value ||
+            (((Math.floor(((parseFloat(value) / 2592000) * 1e18)
+                / shareScaler) * shareScaler) / 1e18) * 2592000) === 0}
             isLoading={isLoading}
             data-tip
             data-for="depositTooltip"
@@ -58,8 +66,7 @@ export const CoinRateForm: FC<IProps> = ({
           </ButtonNew>
         </div>
         <div className={styles.stop_wrap}>
-          {parseFloat(personalFlow) > 0 &&
-          (
+          {parseFloat(personalFlow) > 0 && (
             <ButtonNew
               loaderColor="#363B55"
               color="secondary"
@@ -71,7 +78,6 @@ export const CoinRateForm: FC<IProps> = ({
               {t('Stop')}
             </ButtonNew>
           )}
-
         </div>
         <div style={{ flexBasis: '100%', height: '0' }}> </div>
 
@@ -87,7 +93,12 @@ export const CoinRateForm: FC<IProps> = ({
               <span
                 className={styles.depositTooltip_span}
               >
-                Starting this stream will take a security deposit of
+                The amount per month will be rounded off to
+                <span style={{ fontWeight: 700 }}>
+                  {` ${(((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler) * shareScaler) / 1e18) * 2592000).toFixed(6)} ${coin} `}
+                </span>
+                so the contracts can evenly divide it
+                and it will take a security deposit of
                 <span style={{ fontWeight: 700 }}>
                   {` ${(parseFloat(value) / 180.0).toFixed(6)} ${coin} `}
                 </span>

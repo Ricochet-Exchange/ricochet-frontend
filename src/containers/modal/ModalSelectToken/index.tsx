@@ -23,7 +23,7 @@ interface IProps {
 export const ModalSelectToken: FC<IProps> = ({
   onSelectCoin, value, onChange, onCloseModal, tokensList, filteredList, balances,
 }) => {
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   return (
     <>
@@ -50,7 +50,7 @@ export const ModalSelectToken: FC<IProps> = ({
             />
           </div>
           <div className={styles.common_wrap}>
-            <div className={styles.common}>Common bases</div>
+            <div className={styles.common}>{t('Common bases')}</div>
           </div>    
           <div className={styles.icon_wrap}>
             {tokensList.map(({ coin }) => (

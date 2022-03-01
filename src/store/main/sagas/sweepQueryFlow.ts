@@ -1,5 +1,5 @@
 import {
-  call, all, put, select, 
+  all, call, put, select,
 } from 'redux-saga/effects';
 import { RICAddress } from 'constants/polygon_config';
 import { Unwrap } from 'types/unwrap';
@@ -10,7 +10,7 @@ import { getOwnedFlows } from 'utils/getOwnedFlows';
 import { Flow } from 'types/flow';
 
 import { flowConfig, FlowEnum } from 'constants/flowConfig';
-import { streamExchangeABI, erc20ABI } from 'constants/abis';
+import { erc20ABI } from 'constants/abis';
 import { getContract } from 'utils/getContract';
 
 import { mainSetState } from '../actionCreators';
@@ -42,9 +42,9 @@ export function* sweepQueryFlow() {
     const outgoing = parseFloat(placeholder);
     const totalFlow = parseFloat(flowsOwned);
     const exchangeContract = flow?.superToken || '0';
-    const contract = getContract(exchangeContract, streamExchangeABI, web3);
-    const subsidyRate = await contract.methods.getSubsidyRate().call();
-
+    // const contract = getContract(exchangeContract, streamExchangeABI, web3);
+    // NOTE: getSubsidyRate no longer exists, no longer 1 subsidy rate/contract
+    const subsidyRate = 0;
     const subsidyRateTotal = (subsidyRate * 30 * 24 * 60 * 60) / 1e18;
     const subsidyRatePerso = (subsidyRateTotal * outgoing) / totalFlow;
     const RIC = getContract(RICAddress, erc20ABI, web3);
@@ -92,22 +92,22 @@ export function* sweepQueryFlow() {
   }
 
   const usdcRicFlowQuery = buildFlowQuery(FlowEnum.usdcRicFlowQuery);
-  const daiEthFlowQuery = buildFlowQuery(FlowEnum.daiEthFlowQuery);
-  const ethDaiFlowQuery = buildFlowQuery(FlowEnum.ethDaiFlowQuery);
-  const daiMkrFlowQuery = buildFlowQuery(FlowEnum.daiMkrFlowQuery);
-  const mkrDaiFlowQuery = buildFlowQuery(FlowEnum.mkrDaiFlowQuery);
-  const usdcMkrFlowQuery = buildFlowQuery(FlowEnum.usdcMkrFlowQuery);
-  const mkrUsdcFlowQuery = buildFlowQuery(FlowEnum.mkrUsdcFlowQuery);
-  const daiMaticFlowQuery = buildFlowQuery(FlowEnum.daiMaticFlowQuery);
-  const maticDaiFlowQuery = buildFlowQuery(FlowEnum.maticDaiFlowQuery);
-  const usdcMaticFlowQuery = buildFlowQuery(FlowEnum.usdcMaticFlowQuery);
-  const maticUsdcFlowQuery = buildFlowQuery(FlowEnum.maticUsdcFlowQuery);
-  const usdcWethFlowQuery = buildFlowQuery(FlowEnum.usdcWethFlowQuery);
-  const usdcWbtcFlowQuery = buildFlowQuery(FlowEnum.usdcWbtcFlowQuery);
-  const wethUsdcFlowQuery = buildFlowQuery(FlowEnum.wethUsdcFlowQuery);
-  const wbtcUsdcFlowQuery = buildFlowQuery(FlowEnum.wbtcUsdcFlowQuery);
-  const usdcSlpEthFlowQuery = buildFlowQuery(FlowEnum.usdcSlpEthFlowQuery);
-  const usdcIdleFlowQuery = buildFlowQuery(FlowEnum.usdcIdleFlowQuery);
+  // const daiEthFlowQuery = buildFlowQuery(FlowEnum.daiEthFlowQuery);
+  // const ethDaiFlowQuery = buildFlowQuery(FlowEnum.ethDaiFlowQuery);
+  // const daiMkrFlowQuery = buildFlowQuery(FlowEnum.daiMkrFlowQuery);
+  // const mkrDaiFlowQuery = buildFlowQuery(FlowEnum.mkrDaiFlowQuery);
+  // const usdcMkrFlowQuery = buildFlowQuery(FlowEnum.usdcMkrFlowQuery);
+  // const mkrUsdcFlowQuery = buildFlowQuery(FlowEnum.mkrUsdcFlowQuery);
+  // const daiMaticFlowQuery = buildFlowQuery(FlowEnum.daiMaticFlowQuery);
+  // const maticDaiFlowQuery = buildFlowQuery(FlowEnum.maticDaiFlowQuery);
+  // const usdcMaticFlowQuery = buildFlowQuery(FlowEnum.usdcMaticFlowQuery);
+  // const maticUsdcFlowQuery = buildFlowQuery(FlowEnum.maticUsdcFlowQuery);
+  const twoWayusdcWethFlowQuery = buildFlowQuery(FlowEnum.twoWayusdcWethFlowQuery);
+  const twoWayusdcWbtcFlowQuery = buildFlowQuery(FlowEnum.twoWayusdcWbtcFlowQuery);
+  const twoWaywethUsdcFlowQuery = buildFlowQuery(FlowEnum.twoWaywethUsdcFlowQuery);
+  const twoWaywbtcUsdcFlowQuery = buildFlowQuery(FlowEnum.twoWaywbtcUsdcFlowQuery);
+  // const usdcSlpEthFlowQuery = buildFlowQuery(FlowEnum.usdcSlpEthFlowQuery);
+  // const usdcIdleFlowQuery = buildFlowQuery(FlowEnum.usdcIdleFlowQuery);
 
   function getSubsidyRateFromQuery(query:any) {
     return getSubsidyRate(
@@ -115,41 +115,45 @@ export function* sweepQueryFlow() {
     );
   }
   // WORKING
-  // usdcRicFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcRicFlowQuery);
-  daiEthFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, daiEthFlowQuery);
-  ethDaiFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, ethDaiFlowQuery);
-  daiMkrFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, daiMkrFlowQuery);
-  mkrDaiFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, mkrDaiFlowQuery);
-  usdcMkrFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcMkrFlowQuery);
-  mkrUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, mkrUsdcFlowQuery);
-  daiMaticFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, daiMaticFlowQuery);
-  maticDaiFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, maticDaiFlowQuery);
-  usdcMaticFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcMaticFlowQuery);
-  maticUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, maticUsdcFlowQuery);
-  usdcWethFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcWethFlowQuery);
-  usdcWbtcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcWbtcFlowQuery);
-  wethUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, wethUsdcFlowQuery);
-  wbtcUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, wbtcUsdcFlowQuery);
-  usdcSlpEthFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcSlpEthFlowQuery);
-  usdcIdleFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcIdleFlowQuery);
+  usdcRicFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcRicFlowQuery);
+  // daiEthFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, daiEthFlowQuery);
+  // ethDaiFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, ethDaiFlowQuery);
+  // daiMkrFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, daiMkrFlowQuery);
+  // mkrDaiFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, mkrDaiFlowQuery);
+  // usdcMkrFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcMkrFlowQuery);
+  // mkrUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, mkrUsdcFlowQuery);
+  // daiMaticFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, daiMaticFlowQuery);
+  // maticDaiFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, maticDaiFlowQuery);
+  // usdcMaticFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcMaticFlowQuery);
+  // maticUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, maticUsdcFlowQuery);
+  twoWayusdcWethFlowQuery.subsidyRate =
+      yield call(getSubsidyRateFromQuery, twoWayusdcWethFlowQuery);
+  twoWayusdcWbtcFlowQuery.subsidyRate =
+      yield call(getSubsidyRateFromQuery, twoWayusdcWbtcFlowQuery);
+  twoWaywethUsdcFlowQuery.subsidyRate =
+      yield call(getSubsidyRateFromQuery, twoWaywethUsdcFlowQuery);
+  twoWaywbtcUsdcFlowQuery.subsidyRate =
+      yield call(getSubsidyRateFromQuery, twoWaywbtcUsdcFlowQuery);
+  // usdcSlpEthFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcSlpEthFlowQuery);
+  // usdcIdleFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcIdleFlowQuery);
 
   yield put(mainSetState({
     usdcRicFlowQuery,
-    daiEthFlowQuery,
-    ethDaiFlowQuery,
-    daiMkrFlowQuery,
-    mkrDaiFlowQuery,
-    usdcMkrFlowQuery,
-    mkrUsdcFlowQuery,
-    daiMaticFlowQuery,
-    maticDaiFlowQuery,
-    usdcMaticFlowQuery,
-    maticUsdcFlowQuery,
-    usdcWethFlowQuery,
-    usdcWbtcFlowQuery,
-    wethUsdcFlowQuery,
-    wbtcUsdcFlowQuery,
-    usdcSlpEthFlowQuery,
-    usdcIdleFlowQuery,
+    // daiEthFlowQuery,
+    // ethDaiFlowQuery,
+    // daiMkrFlowQuery,
+    // mkrDaiFlowQuery,
+    // usdcMkrFlowQuery,
+    // mkrUsdcFlowQuery,
+    // daiMaticFlowQuery,
+    // maticDaiFlowQuery,
+    // usdcMaticFlowQuery,
+    // maticUsdcFlowQuery,
+    twoWayusdcWethFlowQuery,
+    twoWayusdcWbtcFlowQuery,
+    twoWaywethUsdcFlowQuery,
+    twoWaywbtcUsdcFlowQuery,
+    // usdcSlpEthFlowQuery,
+    // usdcIdleFlowQuery,
   }));
 }

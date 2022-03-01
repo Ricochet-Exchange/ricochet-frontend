@@ -6,23 +6,25 @@ import { EtherscanLink } from 'components/banks/EtherScanLink';
 import { ApproveToken } from 'components/banks/ApproveToken';
 import { LoadingWrapper } from 'components/common/LoadingWrapper';
 import { BankType } from 'store/banks/types';
+import { blockInvalidChar } from 'utils/blockInvalidChars';
+import { useTranslation } from 'i18n';
 import styles from './styles.module.scss';
 
 type Props = {
-  bank: BankType,
-  isLoadingTransaction: boolean,
-  isLoadingApprove: boolean,
-  activeTransaction: string,
-  value: string,
-  localApproved: boolean,
-  error: string,
-  transactionHash: string,
-  onApproveClick: () => void,
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void,
-  onMaxRepay: () => void,
-  onMaxAmount: () => void,
-  onCancel: () => void,
-  onMakeAction: () => void,
+  bank: BankType;
+  isLoadingTransaction: boolean;
+  isLoadingApprove: boolean;
+  activeTransaction: string;
+  value: string;
+  localApproved: boolean;
+  error: string;
+  transactionHash: string;
+  onApproveClick: () => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onMaxRepay: () => void;
+  onMaxAmount: () => void;
+  onCancel: () => void;
+  onMakeAction: () => void;
 };
 
 export const VaultTransaction: FC<Props> = ({
@@ -49,6 +51,8 @@ export const VaultTransaction: FC<Props> = ({
     return isRepay && needsApproval && !localApproved;
   };
 
+  const { t } = useTranslation();
+
   const isCollateral =
     activeTransaction === 'withdraw' || activeTransaction === 'deposit';
 
@@ -57,18 +61,19 @@ export const VaultTransaction: FC<Props> = ({
     activeTransaction,
     value,
   );
-  
+
   return (
     <div className={styles.VaultTransaction}>
       <LoadingWrapper
         isLoading={isLoadingTransaction}
         className={styles.fullframe}
         classNameLoader={styles.loader}
+        loadingType="spinner"
       >
         <>
           <div className={styles.VaultTransaction__preview}>
             <div className={styles.VaultDetail}>
-              <p>New collateralization ratio</p>
+              <p>{t('New collateralization ratio')}</p>
               <h3>
                 {vaultTxCalcValues.newCollateralizationRatio === Infinity
                   ? ''
@@ -78,7 +83,7 @@ export const VaultTransaction: FC<Props> = ({
               </h3>
             </div>
             <div className={styles.VaultDetail}>
-              <p>New liquidation price</p>
+              <p>{t('New liquidation price')}</p>
               <h3>
                 {vaultTxCalcValues.newLiquidationPrice.toFixed(4)}
                 {' '}
@@ -91,7 +96,7 @@ export const VaultTransaction: FC<Props> = ({
             <div className={styles.VaultTransaction__form}>
               {needsRepayUnlock() ? (
                 <>
-                  <p>Please give allowance for your repay to continue.</p>
+                  <p>{t('Please give allowance for your repay to continue.')}</p>
                   <ApproveToken
                     isLoadingApprove={isLoadingApprove}
                     onApproveClick={onApproveClick}
@@ -100,23 +105,25 @@ export const VaultTransaction: FC<Props> = ({
               ) : (
                 <>
                   <p>
-                    How much
+                    {t('How much')}
                     {' '}
                     {isCollateral
                       ? bank.collateralToken.symbol
                       : bank.debtToken.symbol}
                     {' '}
-                    {`do you wish to ${activeTransaction}?`}
+                    {`${t('do you wish to')} ${activeTransaction}?`}
                   </p>
 
                   <TextInput
                     type="number"
                     value={value}
+                    min={0}
                     onChange={onChange}
+                    onKeyDown={blockInvalidChar}
                     right={(
                       <div className={styles.right}>
-                        {isCollateral ?
-                          bank.collateralToken.symbol
+                        {isCollateral
+                          ? bank.collateralToken.symbol
                           : bank.debtToken.symbol}
                       </div>
                     )}
@@ -127,26 +134,25 @@ export const VaultTransaction: FC<Props> = ({
             <div className={styles.VaultTransaction__buttons}>
               {activeTransaction === 'repay' ? (
                 <Button
-                  label="repay max"
-                  presentation="link"
+                  label={t('Repay max')}
+                  disabled={activeTransaction === 'repay' && needsRepayUnlock()}
                   onClick={onMaxRepay}
                   className={styles.linkButton}
                 />
               ) : null}
               <Button
-                label="MAX"
+                label={t('Max')}
                 className={styles.linkButton}
-                presentation="link"
+                disabled={activeTransaction === 'repay' && needsRepayUnlock()}
                 onClick={onMaxAmount}
               />
               <Button
-                label="cancel"
-                presentation="link"
+                label={t('Cancel')}
                 onClick={onCancel}
                 className={styles.linkButton}
               />
               <Button
-                label={activeTransaction}
+                label={t(activeTransaction)}
                 className={styles.actionButton}
                 onClick={onMakeAction}
                 disabled={!value}
@@ -161,7 +167,9 @@ export const VaultTransaction: FC<Props> = ({
           ) : null}
         </>
       </LoadingWrapper>
-      {transactionHash ? <EtherscanLink path="tx" hash={transactionHash} /> : null}
+      {transactionHash ? (
+        <EtherscanLink path="tx" hash={transactionHash} />
+      ) : null}
     </div>
   );
 };

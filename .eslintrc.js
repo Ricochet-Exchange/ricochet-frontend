@@ -1,5 +1,5 @@
 module.exports = {
-   extends: ['airbnb-typescript'],
+  extends: ['airbnb-typescript'],
   parserOptions: {
     project: './tsconfig.json',
   },
@@ -18,7 +18,7 @@ module.exports = {
     'import/no-extraneous-dependencies': 0,
     'import/no-cycle': 0,
     'no-underscore-dangle': 0,
-    'jsx-a11y/label-has-associated-control': [ 2, {
+    'jsx-a11y/label-has-associated-control': [2, {
       "depth": 1,
     }],
     'consistent-return': 0,
@@ -29,5 +29,6 @@ module.exports = {
     'react/button-has-type': 0,
     'no-console': 0,
     'no-debugger': 0,
+    // "no-nested-ternary": "off"
   }
 };

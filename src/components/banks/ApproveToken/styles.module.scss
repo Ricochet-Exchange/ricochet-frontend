@@ -29,5 +29,5 @@
 }
 
 .approveToken {
-  @include flexbox(center, center);
+  @include flexbox(center, flex-start);
 }

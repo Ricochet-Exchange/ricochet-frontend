@@ -1,4 +1,5 @@
 import { applyMiddleware, compose, createStore } from 'redux';
+import * as Sentry from '@sentry/react';
 import createSagaMiddleware from 'redux-saga';
 import { persistStore } from 'redux-persist';
 import reducers from './reducers';
@@ -8,6 +9,9 @@ import { referralMiddleware } from './middleware/referral-middleware';
 
 const sagaMiddleware = createSagaMiddleware();
 
+const sentryReduxEnhancer = Sentry.createReduxEnhancer({
+  // Optionally pass options
+});
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: typeof compose;
@@ -22,6 +26,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
 
 const enhancer = composeEnhancers(
   applyMiddleware(sagaMiddleware, referralMiddleware),
+  sentryReduxEnhancer,
 );
 export const store = createStore(reducers, enhancer);
 export const persistor = persistStore(store);

@@ -3,6 +3,8 @@
 .balance_container {
   width: 100%;
   text-align: center;
+  margin-bottom: 15px;
+  
   @include tablet{
     width: 100%;
     display: flex;

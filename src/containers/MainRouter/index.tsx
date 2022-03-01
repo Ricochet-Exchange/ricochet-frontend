@@ -1,5 +1,8 @@
 import React, { FC } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import {
+  Route, Switch, Redirect, useLocation, 
+} from 'react-router-dom';
+import * as Sentry from '@sentry/react';
 import { Routes } from 'constants/routes';
 import { WalletPage } from 'pages/WalletPage';
 import { InvestPage } from 'pages/InvestPage';
@@ -9,19 +12,25 @@ import { ReferPage, ReferralValidationRedirectPage } from 'pages/ReferPage';
 
 interface IProps {}
 
-const MainRouter: FC<IProps> = () => (
-  <Switch>
-    <Route path={Routes.Wallet} component={WalletPage} exact />
-    <Route path={Routes.InvestStreams} component={InvestPage} exact />
-    <Route path={Routes.InvestLaunchpads} component={InvestPage} exact />
-    <Route path={Routes.InvestLiquidityMarkets} component={InvestPage} exact />
-    <Route path={Routes.Invest} component={InvestPage} exact />
-    <Route path={Routes.Banks} component={BanksPage} exact />
-    <Route path={Routes.Vaults} component={VaultsPage} exact />
-    <Route path={Routes.Refer} component={ReferPage} exact />
-    <Route path={Routes.Referral} component={ReferralValidationRedirectPage} exact />
-    <Redirect to={Routes.Invest} />
-  </Switch>
-);
+const SentryRoute = Sentry.withSentryRouting(Route);
+
+const MainRouter: FC<IProps> = () => {
+  const location = useLocation();
+  return (
+    <Switch>
+      <SentryRoute path={Routes.Wallet} component={WalletPage} exact />
+      <SentryRoute path={Routes.InvestStreams} component={InvestPage} exact />
+      <SentryRoute path={Routes.InvestLaunchpads} component={InvestPage} exact />
+      {/* <SentryRoute path={Routes.InvestLiquidityMarkets} component={InvestPage} exact /> */}
+      <SentryRoute path={Routes.Invest} component={InvestPage} exact />
+      <SentryRoute path={Routes.Banks} component={BanksPage} exact />
+      <SentryRoute path={Routes.Vaults} component={VaultsPage} exact />
+      <SentryRoute path={Routes.Refer} component={ReferPage} exact />
+      <SentryRoute path={Routes.Referral} component={ReferralValidationRedirectPage} exact />
+      <Redirect to={{ pathname: Routes.Invest, search: location.search }} />
+      {/* Please do not change, it will break Ledger integration query parameter lookup */}
+    </Switch>
+  );
+};
 
 export { MainRouter };

@@ -1,7 +1,7 @@
-@import "../fonts/fonts.scss";
 @import "./palette";
 @import "./variables";
 @import '../../assets/fonts/fontello/css/fontello.css';
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 *,
 *::before,
@@ -9,13 +9,11 @@
   box-sizing: border-box;
 }
 
-body {
+html, body {
   // background-image: url('../images/background.png');
   background: $default-background no-repeat fixed;
   background-size: cover;
   font-family: $default-font;
-  width: 100vw;
-  height: 100%;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
