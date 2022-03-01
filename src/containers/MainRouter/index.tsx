@@ -19,7 +19,7 @@ const MainRouter: FC<IProps> = () => {
   const history = useHistory();
   useEffect(() => {
     if (location.pathname === '/vaults') {
-      history.push('/');
+      history.push(Routes.Invest);
       window.location.reload();
     }
   }, []);
