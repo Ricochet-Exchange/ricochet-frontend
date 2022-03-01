@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import {
-  Route, Switch, Redirect, useLocation, 
+  Route, Switch, Redirect, useLocation, useHistory,
 } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
 import { Routes } from 'constants/routes';
@@ -16,6 +16,14 @@ const SentryRoute = Sentry.withSentryRouting(Route);
 
 const MainRouter: FC<IProps> = () => {
   const location = useLocation();
+  const history = useHistory();
+  useEffect(() => {
+    if (location.pathname === '/vaults') {
+      history.push('/');
+      window.location.reload();
+    }
+  }, []);
+
   return (
     <Switch>
       <SentryRoute path={Routes.Wallet} component={WalletPage} exact />
