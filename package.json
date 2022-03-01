@@ -96,7 +96,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "fontello-cli": "0.6.2",
     "husky": ">=6",
-    "lint-staged": "10.2.11",
+    "lint-staged": "12.3.4",
     "node-sass": "^6.0.0"
   },
   "lint-staged": {
