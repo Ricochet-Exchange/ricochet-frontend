@@ -114,6 +114,7 @@ export const InvestNav = () => {
         to={{ pathname: RICOCHET_V1_LINK }}
         className={styles.nav_link_desktop_only}
         activeClassName={styles.nav_link_active}
+        target="_blank"
       >
         <div className={styles.nav_text_tutorial}>{t('Ricochet V1')}</div>
         <FontIcon name={FontIconName.External} size={16} />
