@@ -103,9 +103,9 @@ export function* sweepQueryFlow() {
   // const usdcMaticFlowQuery = buildFlowQuery(FlowEnum.usdcMaticFlowQuery);
   // const maticUsdcFlowQuery = buildFlowQuery(FlowEnum.maticUsdcFlowQuery);
   const twoWayusdcWethFlowQuery = buildFlowQuery(FlowEnum.twoWayusdcWethFlowQuery);
-  const twoWayusdcWbtcFlowQuery = buildFlowQuery(FlowEnum.twoWayusdcWbtcFlowQuery);
+  // const twoWayusdcWbtcFlowQuery = buildFlowQuery(FlowEnum.twoWayusdcWbtcFlowQuery);
   const twoWaywethUsdcFlowQuery = buildFlowQuery(FlowEnum.twoWaywethUsdcFlowQuery);
-  const twoWaywbtcUsdcFlowQuery = buildFlowQuery(FlowEnum.twoWaywbtcUsdcFlowQuery);
+  // const twoWaywbtcUsdcFlowQuery = buildFlowQuery(FlowEnum.twoWaywbtcUsdcFlowQuery);
   // const usdcSlpEthFlowQuery = buildFlowQuery(FlowEnum.usdcSlpEthFlowQuery);
   // const usdcIdleFlowQuery = buildFlowQuery(FlowEnum.usdcIdleFlowQuery);
 
@@ -128,12 +128,12 @@ export function* sweepQueryFlow() {
   // maticUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, maticUsdcFlowQuery);
   twoWayusdcWethFlowQuery.subsidyRate =
       yield call(getSubsidyRateFromQuery, twoWayusdcWethFlowQuery);
-  twoWayusdcWbtcFlowQuery.subsidyRate =
-      yield call(getSubsidyRateFromQuery, twoWayusdcWbtcFlowQuery);
+  // twoWayusdcWbtcFlowQuery.subsidyRate =
+  //     yield call(getSubsidyRateFromQuery, twoWayusdcWbtcFlowQuery);
   twoWaywethUsdcFlowQuery.subsidyRate =
       yield call(getSubsidyRateFromQuery, twoWaywethUsdcFlowQuery);
-  twoWaywbtcUsdcFlowQuery.subsidyRate =
-      yield call(getSubsidyRateFromQuery, twoWaywbtcUsdcFlowQuery);
+  // twoWaywbtcUsdcFlowQuery.subsidyRate =
+  //     yield call(getSubsidyRateFromQuery, twoWaywbtcUsdcFlowQuery);
   // usdcSlpEthFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcSlpEthFlowQuery);
   // usdcIdleFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcIdleFlowQuery);
 
@@ -150,9 +150,9 @@ export function* sweepQueryFlow() {
     // usdcMaticFlowQuery,
     // maticUsdcFlowQuery,
     twoWayusdcWethFlowQuery,
-    twoWayusdcWbtcFlowQuery,
+    // twoWayusdcWbtcFlowQuery,
     twoWaywethUsdcFlowQuery,
-    twoWaywbtcUsdcFlowQuery,
+    // twoWaywbtcUsdcFlowQuery,
     // usdcSlpEthFlowQuery,
     // usdcIdleFlowQuery,
   }));
