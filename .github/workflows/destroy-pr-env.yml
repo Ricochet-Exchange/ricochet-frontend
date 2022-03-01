@@ -1,6 +1,7 @@
 on:
   pull_request_target:
     types: [closed]
+    branches-ignore: "dependabot/**" 
 
 name: destroy namespace
 jobs:
