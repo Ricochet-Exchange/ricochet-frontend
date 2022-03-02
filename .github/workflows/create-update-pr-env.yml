@@ -1,6 +1,7 @@
 on:
   pull_request_target:
     types: [reopened, opened, synchronize, edited]
+    branches-ignore: "dependabot/**" 
 
 name: build docker image and create PR env
 jobs:
