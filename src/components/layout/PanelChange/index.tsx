@@ -194,7 +194,7 @@ export const PanelChange: FC<IProps> = ({
                 <div className={styles.stream}>
                   <span>
                     <span className={styles.number}>
-                      {`$${personalFlow && getFormattedNumber(getFlowUSDValue(personalFlow))} ${t('per month')}`}
+                      {`$${personalFlow && (getFlowUSDValue(personalFlow))} ${t('per month')}`}
                     </span>
                     {((subsidyRate?.perso) || 0) > 0 ? (
                       <span>
@@ -215,7 +215,7 @@ export const PanelChange: FC<IProps> = ({
                   </span>
                   <div>
                     <span className={styles.token_amounts}>
-                      <span>{`${personalFlow && getFormattedNumber(personalFlow)} ${coinA}x / ${t('Month')}`}</span>
+                      <span>{`${personalFlow && (personalFlow)} ${coinA}x / ${t('Month')}`}</span>
                     </span>
                   </div>
                   <span>
@@ -256,7 +256,7 @@ export const PanelChange: FC<IProps> = ({
                 <div className={styles.streaming}>
                   <span>
                     <span className={styles.number}>
-                      {`$${totalFlow && getFormattedNumber(getFlowUSDValue(totalFlow))}`}
+                      {`$${totalFlow && (getFlowUSDValue(totalFlow))}`}
                     </span>
                     {t('per month')}
                     { ((subsidyRate?.total) || 0) > 0 ? (
@@ -277,7 +277,7 @@ export const PanelChange: FC<IProps> = ({
                     ) : <span />}
                   </span>
                   <span className={styles.token_amounts}>
-                    <span>{`${totalFlow && getFormattedNumber(totalFlow)} ${coinA}x / ${t('Month')}`}</span>
+                    <span>{`${totalFlow && (totalFlow)} ${coinA}x / ${t('Month')}`}</span>
                   </span>
                   <span>
                     <span className={styles.number}>{totalFlows}</span>
