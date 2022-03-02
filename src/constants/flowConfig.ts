@@ -3,18 +3,18 @@ import { Coin } from './coins';
 import {
   RICAddress,
   twoWayWETHMarketAddress,
-  // twoWayMarketWBTCAddress,
+  twoWayMarketWBTCAddress,
   USDCxAddress,
   usdcxRicExchangeAddress,
-  // WBTCxAddress,
+  WBTCxAddress,
   WETHxAddress,
 } from './polygon_config';
 
 export enum FlowEnum {
   twoWayusdcWethFlowQuery = 'twoWayusdcWethFlowQuery',
   twoWaywethUsdcFlowQuery = 'twoWaywethUsdcFlowQuery',
-  // twoWaywbtcUsdcFlowQuery = 'twoWaywbtcUsdcFlowQuery',
-  // twoWayusdcWbtcFlowQuery = 'twoWayusdcWbtcFlowQuery',
+  twoWaywbtcUsdcFlowQuery = 'twoWaywbtcUsdcFlowQuery',
+  twoWayusdcWbtcFlowQuery = 'twoWayusdcWbtcFlowQuery',
   usdcRicFlowQuery = 'usdcRicFlowQuery',
 }
 // eslint-disable-next-line max-len
@@ -25,32 +25,32 @@ export const indexIDA : { input: string, output:string, subsidy?: string, subsid
     subsidy: RICAddress,
     subsidyIndex: 3,
     inputIndex: 0,
-    outputIndex: 1, 
+    outputIndex: 1,
   },
   {
     input: WETHxAddress,
     output: USDCxAddress,
-    subsidy: RICAddress, 
+    subsidy: RICAddress,
     subsidyIndex: 2,
     inputIndex: 1,
-    outputIndex: 0, 
+    outputIndex: 0,
   },
-  // {
-  //   input: WBTCxAddress,
-  //   output: USDCxAddress,
-  //   subsidy: RICAddress,
-  //   subsidyIndex: 2,
-  //   inputIndex: 1,
-  //   outputIndex: 0,
-  // },
-  // {
-  //   input: USDCxAddress,
-  //   output: WBTCxAddress,
-  //   subsidy: RICAddress,
-  //   subsidyIndex: 3,
-  //   inputIndex: 0,
-  //   outputIndex: 1,
-  // },
+  {
+    input: USDCxAddress,
+    output: WBTCxAddress,
+    subsidy: RICAddress,
+    subsidyIndex: 3,
+    inputIndex: 0,
+    outputIndex: 1,
+  },
+  {
+    input: WBTCxAddress,
+    output: USDCxAddress,
+    subsidy: RICAddress,
+    subsidyIndex: 2,
+    inputIndex: 1,
+    outputIndex: 0,
+  },
 ];
 
 export enum FlowTypes {
@@ -88,25 +88,24 @@ const markets: InvestmentFlow[] = [
     flowKey: FlowEnum.twoWaywethUsdcFlowQuery,
     type: FlowTypes.market,
   },
-  // {
-  //   superToken: twoWayMarketWBTCAddress,
-  //   tokenA: WBTCxAddress,
-  //   tokenB: USDCxAddress,
-  //   coinA: Coin.WBTC,
-  //   coinB: Coin.USDC,
-  //   flowKey: FlowEnum.twoWaywbtcUsdcFlowQuery,
-  //   type: FlowTypes.market,
-  // },
-  // {
-  //   superToken: twoWayMarketWBTCAddress,
-  //   tokenA: USDCxAddress,
-  //   tokenB: WBTCxAddress,
-  //   coinA: Coin.USDC,
-  //   coinB: Coin.WBTC,
-  //   flowKey: FlowEnum.twoWayusdcWbtcFlowQuery,
-  //   type: FlowTypes.market,
-  // },
-
+  {
+    superToken: twoWayMarketWBTCAddress,
+    tokenA: USDCxAddress,
+    tokenB: WBTCxAddress,
+    coinA: Coin.USDC,
+    coinB: Coin.WBTC,
+    flowKey: FlowEnum.twoWayusdcWbtcFlowQuery,
+    type: FlowTypes.market,
+  },
+  {
+    superToken: twoWayMarketWBTCAddress,
+    tokenA: WBTCxAddress,
+    tokenB: USDCxAddress,
+    coinA: Coin.WBTC,
+    coinB: Coin.USDC,
+    flowKey: FlowEnum.twoWaywbtcUsdcFlowQuery,
+    type: FlowTypes.market,
+  },
 ];
 
 const liquidityMarkets: InvestmentFlow[] = [
