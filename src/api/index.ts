@@ -5,7 +5,7 @@ import { getQueryDistributions } from '../utils/getQueryDistributions';
 export const queryFlows = async (
   queryAddress: string,
 ) => {
-  const QUERY_URL = process.env.REACT_APP_API_GRATH || '';
+  const QUERY_URL = `${process.env.REACT_APP_API_GRATH}/superfluid-matic` || '';
   const query = getQueryGrath(queryAddress);
 
   return axios.post(QUERY_URL, { query });
@@ -14,7 +14,7 @@ export const queryFlows = async (
 export const queryDistributions = async (
   subscriber: string,
 ) => {
-  const QUERY_URL = process.env.REACT_APP_SUPERFLUID_GRAPH_V1 || '';
+  const QUERY_URL = `${process.env.REACT_APP_API_GRATH}/protocol-v1-matic` || '';
   const query = getQueryDistributions(subscriber);
   return axios.post(QUERY_URL, { query, variables: null });
 };
