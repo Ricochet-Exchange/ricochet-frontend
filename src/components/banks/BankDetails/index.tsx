@@ -48,8 +48,6 @@ export const BankDetails: FC<Props> = ({
     return item ? (num / item.value).toFixed(digits).replace(rx, '$1') + item.symbol : num.toFixed(digits);
   }
 
-  console.log('cbsjfbsd', formatter((+bank.collateralToken.price / 1000000), 2), formatter((+bank.reserveBalance / 1e18).toFixed(), 2));
-
   return (
     <>
       <tr className={styles.bankDetails}>
