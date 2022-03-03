@@ -388,9 +388,8 @@ export const switchNetwork = async () => {
     await ethereum.request({ method: 'eth_requestAccounts' });
     await ethereum.request({
       method: 'wallet_switchEthereumChain',
-      params: [{ chainId: chainSettings.chainId }],
+      params: [{ chainId: `0x${chainSettings.chainId.toString(16)}` }],
     });
-
     return true;
   } catch (error: any) {
     if (error.code === 4902) {
@@ -398,7 +397,7 @@ export const switchNetwork = async () => {
         await ethereum.request({
           method: 'wallet_addEthereumChain',
           params: [{
-            chainId: chainSettings.chainId,
+            chainId: `0x${chainSettings.chainId.toString(16)}`,
             chainName: chainSettings.chanName,
             nativeCurrency: chainSettings.nativeCurrency,
             rpcUrls: chainSettings.rpcUrls,
