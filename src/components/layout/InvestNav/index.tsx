@@ -73,6 +73,14 @@ export const InvestNav = () => {
         <FontIcon name={FontIconName.Shuttle} size={16} />
         <div className={styles.nav_text}>{t('Launchpad')}</div>
       </NavLink>
+      <NavLink
+        className={styles.nav_link}
+        activeClassName={styles.nav_link_active}
+        to={Routes.Distributions}
+      >
+        <FontIcon name={FontIconName.Distribution} size={16} />
+        <div className={styles.nav_text}>{t('Distributions')}</div>
+      </NavLink>
 
       <NavLink
         className={styles.nav_link}

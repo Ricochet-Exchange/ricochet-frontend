@@ -1,4 +1,4 @@
-@import "../../../assets/styles/mixins";
+@import '../../../assets/styles/mixins';
 
 .outer_container {
   display: flex;
@@ -14,15 +14,13 @@
   margin: 0;
 
   padding: 1em;
-  padding-left: 2.5em;
   padding-right: 3em;
 }
 
 .input_wrap {
   @include flexbox(center, center);
-  margin-bottom: 20px;
 
-  @include tablet {
+  @include tablet{
     width: 100%;
     padding: 15px 15px 30px 15px;
   }
@@ -33,7 +31,7 @@
   border-radius: 8px;
   background: var(--color-blue-light);
 
-  @include tablet {
+  @include tablet{
     width: 100%;
   }
 }
@@ -46,8 +44,8 @@
   &::placeholder {
     color: var(--color-blue);
 
-    &:focus {
-      color: transparent;
+    &:focus{
+      color:transparent
     }
   }
 }
@@ -57,8 +55,7 @@
 }
 
 .headers {
-  @include flexbox(center, space-around);
-
+  @include flexbox(center, space-between);
   // padding: 40px 50px 20px 30px;
   padding: 2em;
   font-style: normal;
@@ -69,23 +66,16 @@
   text-transform: uppercase;
   color: var(--color-grey);
 
-  @include tablet {
+  @include tablet{
     display: none;
   }
 }
 
-.market {
+.header {
+  text-align: left;
   flex: 1 1 0px;
 }
-.stream {
-  flex: 1 1 0px;
-}
-.balances {
-  flex: 1 1 0px;
-}
-.streaming {
-  flex: 1 1 0px;
-}
+
 .ends {
   width: 30px;
 }
@@ -94,7 +84,7 @@
   margin: 0 0 10px 0;
   @include tablet {
     // width: inherit;
-    margin: 0 15px 15px 15px;
+    margin: 0 15px 15px 15px
   }
 }
 
@@ -146,8 +136,9 @@
 
 @media screen and (max-width: 768px) {
   .container {
-    padding: 0 1rem 0 0;
+    padding: 0;
   }
+
 }
 
 .dropdownHolder {

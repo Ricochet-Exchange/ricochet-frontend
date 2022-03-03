@@ -49,6 +49,7 @@
     "classnames": "2.2.6",
     "connected-react-router": "6.9.2",
     "cross-env": "7.0.3",
+    "date-fns": "^2.28.0",
     "ethers": "^5.5.4",
     "i18next": "^21.3.2",
     "javascript-time-ago": "^2.3.11",

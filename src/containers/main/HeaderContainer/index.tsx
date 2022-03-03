@@ -38,6 +38,12 @@ export const HeaderContainer: FC<IProps> = ({ address, balance }) => {
             <div>{t('Invest')}</div>
           </>
         );
+      case Routes.Distributions:
+        return (
+          <>
+            <div>{t('Distributions')}</div>
+          </>
+        );
       case Routes.Banks:
         return (
           <>

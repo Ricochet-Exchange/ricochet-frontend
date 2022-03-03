@@ -3,6 +3,7 @@ import { Coin } from '../../constants/coins';
 
 export type MainState = {
   web3: Web3;
+  readWeb3: Web3;
   address: string;
   balances?: { [key:string]: string };
   coingeckoPrices?: { [key:string]: number };

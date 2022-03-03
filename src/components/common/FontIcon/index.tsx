@@ -39,6 +39,7 @@ export enum FontIconName {
   Chat = 'icon-chat',
   Refer = 'icon-user-add-outline',
   Wallet = 'icon-wallet',
+  Distribution = 'icon-spread',
   Warning = 'icon-warning-empty',
   Login = 'icon-login',
 }
