@@ -9,14 +9,15 @@ import styles from './styles.module.scss';
 interface IProps {
   value: string,
   placeholder?: string,
-  onChange: (e:ChangeEvent<HTMLInputElement>) => void,
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void,
   onClickStart: () => void,
   onClickStop: () => void,
   coin: Coin;
   isLoading?: boolean;
-  isReadOnly?:boolean;
+  isReadOnly?: boolean;
   personalFlow: string;
   shareScaler: number;
+  indexVal?: number;
 }
 
 export const CoinRateForm: FC<IProps> = ({
@@ -30,8 +31,11 @@ export const CoinRateForm: FC<IProps> = ({
   isReadOnly,
   personalFlow,
   shareScaler,
+  indexVal,
 }) => {
   const { t } = useTranslation();
+
+  console.log('keycheck', indexVal);
   // Security Deposit is 4 hours worth of stream, so (4*60*60)/(30*24*60*60) = 1/180
   return (
     <div className={styles.input_container}>
@@ -54,11 +58,11 @@ export const CoinRateForm: FC<IProps> = ({
             onClick={onClickStart}
             className={styles.start}
             disabled={isReadOnly || isLoading || !value ||
-            (((Math.floor(((parseFloat(value) / 2592000) * 1e18)
+              (((Math.floor(((parseFloat(value) / 2592000) * 1e18)
                 / shareScaler) * shareScaler) / 1e18) * 2592000) === 0}
             isLoading={isLoading}
             data-tip
-            data-for="depositTooltip"
+            data-for={`depositTooltip-${indexVal}`}
           >
             {t('Start')}
             /
@@ -81,15 +85,16 @@ export const CoinRateForm: FC<IProps> = ({
         </div>
         <div style={{ flexBasis: '100%', height: '0' }}> </div>
 
-        { parseFloat(value) > 0 ?
+        {parseFloat(value) > 0 ?
           (
             <ReactTooltip
-              id="depositTooltip"
+              id={`depositTooltip-${indexVal}`}
               place="right"
               effect="solid"
               multiline
               className={styles.depositTooltip}
             >
+              {value && coin && (
               <span
                 className={styles.depositTooltip_span}
               >
@@ -107,9 +112,10 @@ export const CoinRateForm: FC<IProps> = ({
                 your balance hits zero with the stream still open.
 
               </span>
+              )}
             </ReactTooltip>
           )
-          : null }
+          : null}
         <div />
       </div>
     </div>
