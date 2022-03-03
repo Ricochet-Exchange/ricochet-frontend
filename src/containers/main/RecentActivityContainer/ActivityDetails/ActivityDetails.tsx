@@ -4,7 +4,7 @@ import type { ActivityEvents } from 'types/activity';
 import { getActivityCopying } from 'utils/getActivityCopying';
 import { TransactionLink } from 'components/common/TransactionLink';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
-import { tokenCoinTransformer } from 'constants/tokenCoinMap';
+import { getTokenName } from 'utils/getTokenName';
 import styles from './styles.module.scss';
 
 type ActivityDetailsProps = {
@@ -32,7 +32,7 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({
   const day = date.split(' ').slice(1, 4).join(' ');
   const time = date.split(' ')[4];
 
-  const tokenName = tokenCoinTransformer.find(({ token: t }) => t === token)?.coin!;
+  const tokenName = getTokenName(token);
   const activityCopying = getActivityCopying(name);
 
   let mobileSuffix = '';

@@ -2,7 +2,7 @@ import type { TransferEvent } from '@superfluid-finance/sdk-core';
 import React, { FC } from 'react';
 import { iconsCoin } from 'constants/coins';
 import { TransactionLink } from 'components/common/TransactionLink';
-import { tokenCoinTransformer } from 'constants/tokenCoinMap';
+import { getTokenName } from 'utils/getTokenName';
 import styles from '../styles.module.scss';
 
 type TransferProps = {
@@ -16,7 +16,7 @@ export const Transfer: FC<TransferProps> = ({ event, account }) => {
     token, timestamp, from, to, transactionHash,
     value,
   } = event;
-  const tokenName = tokenCoinTransformer.find(({ token: t }) => t === token)?.coin!;
+  const tokenName = getTokenName(token);
   const mobileReceiverCopying = `${to.slice(0, 7)}...${to.slice(-4)}`;
   const mobileSenderCopying = `${from.slice(0, 7)}...${from.slice(-4)}`;
   const time = new Date(timestamp * 1000).toString().split(' ')[4];

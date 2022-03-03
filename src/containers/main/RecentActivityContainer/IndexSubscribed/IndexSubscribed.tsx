@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { iconsCoin } from 'constants/coins';
 import { getActivityCopying } from 'utils/getActivityCopying';
 import { TransactionLink } from 'components/common/TransactionLink';
-import { tokenCoinTransformer } from 'constants/tokenCoinMap';
+import { getTokenName } from 'utils/getTokenName';
 import styles from '../styles.module.scss';
 
 type IndexSubscribedProps = {
@@ -15,7 +15,7 @@ export const IndexSubscribed: FC<IndexSubscribedProps> = ({ event }) => {
     name, token, timestamp, subscriber, transactionHash,
   } = event;
 
-  const tokenName = tokenCoinTransformer.find(({ token: t }) => t === token)?.coin!;
+  const tokenName = getTokenName(token);
   const time = new Date(timestamp * 1000).toString().split(' ')[4];
 
   const activityCopying = `${getActivityCopying(name)} in`;

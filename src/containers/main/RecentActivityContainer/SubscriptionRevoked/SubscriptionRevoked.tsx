@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { iconsCoin } from 'constants/coins';
 import { getActivityCopying } from 'utils/getActivityCopying';
 import { TransactionLink } from 'components/common/TransactionLink';
-import { tokenCoinTransformer } from 'constants/tokenCoinMap';
+import { getTokenName } from 'utils/getTokenName';
 import styles from '../styles.module.scss';
 
 type SubscriptionRevokedProps = {
@@ -19,7 +19,7 @@ export const SubscriptionRevoked: FC<SubscriptionRevokedProps> = ({ event }) => 
 
   const activityCopying = `${getActivityCopying(name)} in`;
 
-  const tokenName = tokenCoinTransformer.find(({ token: t }) => t === token)?.coin!;
+  const tokenName = getTokenName(token);
   const subscriberCoying = `${subscriber.slice(0, 7)}...${subscriber.slice(-4)}`;
 
   /**
