@@ -82,8 +82,16 @@ export const BanksContainer = () => {
                         </td>
                         <td className={styles.section}>{t('Interest Rate')}</td>
                         <td className={styles.section}>{t('Origination Fee')}</td>
-                        <td className={styles.section}>{t('Collateralization Ratio')}</td>
-                        <td className={styles.section}>{t('Liquidation Penalty')}</td>
+                        <td className={styles.section}>
+                          {t('Collateralization')}
+                          <br />
+                          {t('Ratio')}
+                        </td>
+                        <td className={styles.section}>
+                          {t('Liquidation')}
+                          <br />
+                          {t('Penalty')}
+                        </td>
                         <td>{t('Create Vault')}</td>
                       </tr>
                     </thead>
@@ -98,7 +106,7 @@ export const BanksContainer = () => {
             </LoadingWrapper>
           </>
         )
-          : 
+          :
           (
             <div className={styles.sign_container}>
               <p className={styles.sign_in_text}>{t('Sign in to see the bank')}</p>

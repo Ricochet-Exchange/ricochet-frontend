@@ -3,6 +3,8 @@ import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import { SignInButton } from 'components/banks/SignInButton';
 import { Button } from 'components/common/Button';
 import { BankType } from 'store/banks/types';
+import { getAddressLink } from 'utils/getAddressLink';
+import { AddressLink } from 'components/common/AddressLink';
 import { ModalCreateVaultContainer } from 'containers/main/ModalCreateVaultContainer';
 import { Coin, iconsCoin } from 'constants/coins';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
@@ -24,6 +26,8 @@ export const BankDetails: FC<Props> = ({
     setVisibleModal(false);
     enablePageScroll();
   }, [setVisibleModal]);
+
+  const link = getAddressLink(bank.bankAddress);
 
   const handleVisionModal = useCallback(() => {
     setVisibleModal(true);
@@ -52,7 +56,10 @@ export const BankDetails: FC<Props> = ({
     <>
       <tr className={styles.bankDetails}>
         <td>
-          <h3>{bank.name}</h3>
+          <div className={styles.bankText}>
+            <h3 className={styles.bankName}>{bank.name}</h3>
+            <AddressLink addressLink={link} />
+          </div>
         </td>
         <td>
           <div className={styles.priceWithIcon}>
