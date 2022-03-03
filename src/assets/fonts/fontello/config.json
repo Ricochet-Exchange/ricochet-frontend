@@ -251,8 +251,26 @@
       "src": "typicons"
     },
     {
+      "uid": "776687efbdb973ebc67e049cc4c41b13",
+      "css": "resize-full-alt",
+      "code": 59402,
+      "src": "iconic"
+    },
+    {
+      "uid": "d745d7c05b94e609decabade2cae12cb",
+      "css": "quote-right",
+      "code": 61710,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "500cde26773d15aaac1bfaa2a33cc5a9",
+      "css": "spread",
+      "code": 62759,
+      "src": "mfglabs"
+    },
+    {
       "uid": "5bd7de002e173fb31484c7b3c82f4612",
-      "css": "plus",
+      "css": "plus-1",
       "code": 59461,
       "src": "custom_icons",
       "selected": false,

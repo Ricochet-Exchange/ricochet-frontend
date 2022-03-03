@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import {
-  Route, Switch, Redirect, useLocation, 
+  Redirect, Route, Switch, useLocation, 
 } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
 import { Routes } from 'constants/routes';
@@ -10,8 +10,10 @@ import { BanksPage } from 'pages/BanksPage';
 import { VaultsPage } from 'pages/VaultPage';
 import { RecentActivityPage } from 'pages/RecentActivityPage';
 import { ReferPage, ReferralValidationRedirectPage } from 'pages/ReferPage';
+import { DistributionPage } from 'pages/Distributions';
 
-interface IProps {}
+interface IProps {
+}
 
 const SentryRoute = Sentry.withSentryRouting(Route);
 
@@ -24,6 +26,7 @@ const MainRouter: FC<IProps> = () => {
       <SentryRoute path={Routes.InvestLaunchpads} component={InvestPage} exact />
       {/* <SentryRoute path={Routes.InvestLiquidityMarkets} component={InvestPage} exact /> */}
       <SentryRoute path={Routes.Invest} component={InvestPage} exact />
+      <SentryRoute path={Routes.Distributions} component={DistributionPage} exact />
       <SentryRoute path={Routes.Banks} component={BanksPage} exact />
       <SentryRoute path={Routes.Vaults} component={VaultsPage} exact />
       <SentryRoute path={Routes.Refer} component={ReferPage} exact />

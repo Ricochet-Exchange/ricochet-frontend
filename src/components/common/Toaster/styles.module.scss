@@ -10,15 +10,20 @@
   color: #ffffff;
   border-radius: 12px;
 
+  &.info {
+    background-color: var(--color-blue);
+  }
+
   &.success {
-    background-color: var(--color-brand);
+    background-color: var(--color-secondary);
   }
 
   &.error {
-    background-color: red;
+    background-color: var(--color-error);
   }
 
   .close {
+    margin-right: 8px;
     background: transparent;
     border: none;
     color: #ffffff;
