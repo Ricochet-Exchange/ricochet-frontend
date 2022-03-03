@@ -1,0 +1,119 @@
+import type { FlowUpdatedEvent } from '@superfluid-finance/sdk-core';
+import React, { FC } from 'react';
+import { iconsCoin } from 'constants/coins';
+import { getActivityCopying } from 'utils/getActivityCopying';
+import { TransactionLink } from 'components/common/TransactionLink';
+import { tokenCoinTransformer } from 'constants/tokenCoinMap';
+import styles from '../styles.module.scss';
+
+type FlowUpdatedProps = {
+  event: FlowUpdatedEvent;
+  /** wallet connected address */
+  account: string;
+  /**
+   * required when event is 'FlowUpdated'
+   * @see https://github.com/superfluid-finance/protocol-monorepo/blob/2fb0afd711479a3ca373de12d6643c0655f27b49/packages/sdk-core/src/types.ts#L7
+  */
+  flowActionType: number;
+};
+
+export const FlowUpdated: FC<FlowUpdatedProps> = ({
+  event,
+  account,
+  flowActionType,
+}) => {
+  const {
+    name, token, timestamp, sender, receiver, flowRate, transactionHash,
+  } = event;
+  // streaming prefix
+  let prefix = '';
+  // streaming suffix
+  let suffix = '';
+
+  const SECONDS_PER_MONTH = 30 / 24 / 60 / 60;
+
+  const tokenName = tokenCoinTransformer.find(({ token: t }) => t === token)?.coin!;
+  const mobileReceiverCopying = `${receiver.slice(0, 7)}...${receiver.slice(-4)}`;
+  const mobileSenderCopying = `${sender.slice(0, 7)}...${sender.slice(-4)}`;
+
+  let mobileSuffix = '';
+  const time = new Date(timestamp * 1000).toString().split(' ')[4];
+
+  const activityCopying = `${getActivityCopying(name)} in`;
+
+  const isUser = sender === account.toLowerCase();
+
+  if (isUser) {
+    if (flowActionType === 2) {
+      prefix = 'Canceled';
+      mobileSuffix = 'Canceled Stream';
+    } else {
+      prefix = 'Started Outgoing';
+      suffix = `of $${Math.trunc((+flowRate / 1e8) * SECONDS_PER_MONTH)} per month, $${(+flowRate / 1e18).toFixed(8)} per second`;
+      mobileSuffix = `Outgoing stream of $${Math.trunc((+flowRate / 1e8) * SECONDS_PER_MONTH)} per month`;
+    }
+  } else if (flowActionType === 2) {
+    prefix = 'Incoming';
+    suffix = 'was canceled';
+    mobileSuffix = 'Incoming Stream canceled';
+  } else {
+    prefix = 'Received Incoming';
+    suffix = `of $${Math.trunc((+flowRate / 1e8) * SECONDS_PER_MONTH)} per month, $${(+flowRate / 1e18).toFixed(8)} per second`;
+    mobileSuffix = `Incoming stream of $${Math.trunc((+flowRate / 1e8) * SECONDS_PER_MONTH)} per month`;
+  }
+
+  /**
+   * stop propagation of event to prevent rendering mobile activity details page.
+   * 
+   * @param e React.MouseEvent<HTMLDivElement>
+   */
+  const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  };
+
+  return (
+    <>
+      <div className={styles.larger_streaming_wrapper}>
+        <span>{time}</span>
+        <div className={styles.larger_streaming_content}>
+          <span>
+            {prefix}
+            {' '}
+            {activityCopying}
+          </span>
+          <img src={iconsCoin[tokenName]} alt={tokenName} />
+          <span className={styles.amount}>{tokenName}</span>
+          <span>
+            {isUser ? `to ${receiver.slice(0, 7)}...${receiver.slice(-4)}` : `from ${sender.slice(0, 7)}...${sender.slice(-4)}`}
+            {' '}
+            {suffix}
+          </span>
+        </div>
+        <div className={styles.transaction_link_wrapper} role="button" aria-hidden="true" onClick={stopPropagation}>
+          <TransactionLink transactionHash={transactionHash} />
+        </div>
+      </div>
+      <>
+        <div className={styles.streaming_wrapper}>
+          <div className={styles.streaming_content}>
+            <span>{time}</span>
+            <span>
+              {isUser ? mobileReceiverCopying : mobileSenderCopying}
+            </span>
+          </div>
+          <div>
+            <span>
+              {mobileSuffix}
+            </span>
+          </div>
+        </div>
+        <div className={styles.right_arrow}>
+          <span>
+            &gt;
+          </span>
+        </div>
+
+      </>
+    </>
+  );
+};

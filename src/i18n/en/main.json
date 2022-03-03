@@ -97,6 +97,7 @@
   "Please give allowance for your repay to continue.": "Please give allowance for your repay to continue.",
   "do you wish to": "do you wish to",
   "Sign in to see your vaults": "Sign in to see your vaults",
+  "Please connect wallet to see your recent activities.": "Please connect wallet to see your recent activities.",
   "Price": "Price",
   "Must be at least 2 characters": "Must be at least 2 characters",
   "Cannot be larger than 32 characters (Some characters count as 2)": "Cannot be larger than 32 characters (Some characters count as 2)",
@@ -122,5 +123,7 @@
   "Search name or paste address": "Search name or paste address",
   "Common bases": "Common bases",
   "Results not found": "Results not found",
-  "Operation failed. Refresh the page or try again later.": "Operation failed. Refresh the page or try again later."
+  "Operation failed. Refresh the page or try again later.": "Operation failed. Refresh the page or try again later.",
+  "Ricochet V1": "Ricochet V1",
+  "Activity": "Activity"
 }

@@ -1,0 +1,15 @@
+.transaction_link {
+  background-color: var(--color-blue);
+  padding: 4px;
+  border-radius: 4px;
+
+  &:hover,
+  &:link {
+    color: white;
+  }
+
+  &:active,
+  &:visited {
+    color: unset;
+  }
+}

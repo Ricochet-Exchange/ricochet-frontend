@@ -35,7 +35,7 @@ export const VaultsContainer = () => {
   }, [dispatch]);
   
   useEffect(() => {
-    if (!banks[0]) dispatch(banksGetData());
+    if (banks.length !== 0) dispatch(banksGetData());
   }, [banks]);
 
   useEffect(() => {
