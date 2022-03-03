@@ -1,5 +1,5 @@
 export const chainSettings = { 
-  chainId: process.env.REACT_APP_CHAIN_ID,
+  chainId: parseInt(process.env.REACT_APP_CHAIN_ID || '137', 10),
   chanName: process.env.REACT_APP_CHAIN_NAME,
   nativeCurrency: {
     name: process.env.REACT_APP_CHAIN_NAME, 
