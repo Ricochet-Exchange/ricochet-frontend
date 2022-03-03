@@ -39,7 +39,7 @@ export const InvestContainer: React.FC<IProps> = () => {
   const [filteredList, setFilteredList] = useState(flowConfig);
   const match = useRouteMatch();
   const flowType = RoutesToFlowTypes[match.path];
-
+  
   useEffect(() => {
     if (flowType) {
       setFilteredList(flowConfig.filter((each) => each.type === flowType));

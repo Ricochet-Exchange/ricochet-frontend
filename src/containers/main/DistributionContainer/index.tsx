@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React, {
+  ChangeEvent, useCallback, useEffect, useState, 
+} from 'react';
 import { useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import { InvestNav } from '../../../components/layout/InvestNav';
@@ -10,13 +12,15 @@ import { selectMain } from '../../../store/main/selectors';
 import { distributionsGetData } from '../../../store/distributions/actionCreators';
 import { selectDistributions } from '../../../store/distributions/selectors';
 import { DistributionPanel } from '../../../pages/Distributions/layout';
+import { TextInput } from '../../../components/common/TextInput';
+import { FontIcon, FontIconName } from '../../../components/common/FontIcon';
 
 interface IProps {
 }
 
 export const DistributionContainer: React.FC<IProps> = () => {
   const { t } = useLang();
-
+  const [search, setSearch] = useState('');
   const dispatch = useDispatch();
   const mainState = useShallowSelector(selectMain);
   const {
@@ -26,6 +30,12 @@ export const DistributionContainer: React.FC<IProps> = () => {
   const distributionsState = useShallowSelector(selectDistributions);
   const { distributions, isLoading: isDistributionLoading } = distributionsState;
 
+  const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setSearch(value);
+    console.log(value);
+  }, []);
+  
   useEffect(() => {
     if (!isLoading) dispatch(distributionsGetData());
   }, [isLoading]);
@@ -34,7 +44,16 @@ export const DistributionContainer: React.FC<IProps> = () => {
     <div className={styles.outer_container}>
       <InvestNav />
       <div className={styles.container}>
-        <div className={styles.input_wrap} />
+        <div className={styles.input_wrap}>
+          <TextInput
+            value={search}
+            placeholder={t('Search by Address')}
+            onChange={handleSearch}
+            className={styles.input}
+            containerClassName={styles.container_input}
+            left={<FontIcon name={FontIconName.Search} className={styles.search} size={16} />}
+          />
+        </div>
         <div className={styles.headers}>
           <div className={styles.header}>{t('PUBLISHER')}</div>
           <div className={styles.header}>{t('TOKEN')}</div>
@@ -55,7 +74,9 @@ export const DistributionContainer: React.FC<IProps> = () => {
                 />
               </div>
             ))}
-          {!isLoading && distributions.map((distribution) => (
+          {!isLoading && distributions.filter(
+            (distribution) => distribution.id.includes(search.toLowerCase()),
+          ).map((distribution) => (
             <div className={styles.panel} key={`${distribution.id}`}>
               <DistributionPanel
                 distribution={distribution}

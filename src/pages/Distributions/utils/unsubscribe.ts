@@ -12,7 +12,7 @@ const unsubscribe = async (
   onError:(args:string)=> void,
 ) => {
   onPending('Initiating transaction');
-  const superFluid = await getSuperFluid(web3);
+  const superFluid = await getSuperFluid(web3, []);
   superFluid.ida.revokeSubscription({
     superToken: token,
     publisher,
