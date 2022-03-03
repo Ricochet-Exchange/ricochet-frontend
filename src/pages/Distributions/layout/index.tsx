@@ -21,7 +21,6 @@ import unsubscribe from '../utils/unsubscribe';
 import { useShallowSelector } from '../../../hooks/useShallowSelector';
 import { selectMain } from '../../../store/main/selectors';
 import { useLang } from '../../../hooks/useLang';
-import { transformError } from '../../../utils/transformError';
 import { showErrorToast, showSuccessToast, showToast } from '../../../components/common/Toaster';
 
 TimeAgo.addDefaultLocale(en);
@@ -37,7 +36,20 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
     web3,
   } = useShallowSelector(selectMain);
   const { t } = useLang();
-  
+
+  const transformError = (e?: any) => {
+    if (e?.data?.error) {
+      return e.data.error;
+    }
+    if (e.code === 4001) {
+      return e?.message;
+    }
+    if (e.code === -32603) {
+      return e.data?.message;
+    }
+    return t('Operation failed. Refresh the page or try again later.');
+  };
+
   const getSubscribeLinkComponent = (_distribution: Distribution, isMobile:boolean) => (
     <div
       tabIndex={0}
@@ -48,18 +60,10 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
         _distribution.indexId,
         _distribution.publisher,
         _distribution.subscriber,
-        (args:any) => showToast(args, 'info'),
-        () => showSuccessToast('Successfully completed', 'success'),
-        (args:any) => showErrorToast(transformError(args), 'Error'))}
-      onKeyDown={() =>
-        _distribution && subscribe(web3,
-          _distribution.token,
-          _distribution.indexId,
-          _distribution.publisher,
-          _distribution.subscriber,
-          (args:any) => showToast(args, 'info'),
-          () => showSuccessToast('Successfully completed', 'success'),
-          (args:any) => showErrorToast(transformError(args), 'Error'))}
+        (args:string) => showToast(args, 'info'),
+        (args:string) => showSuccessToast(args, 'Success'),
+        (args:any) => showErrorToast(args.message, 'Error'))}
+      onKeyDown={() => 0}
     >
       {t('Subscribe')}
     </div>
@@ -75,17 +79,10 @@ export const DistributionPanel: FC<IProps> = ({ distribution, coingeckoPrice = 0
         _distribution?.indexId,
         _distribution?.publisher,
         _distribution?.subscriber,
-        (args:any) => showToast(args, 'info'),
-        () => showSuccessToast('Successfully completed', 'success'),
+        (args:string) => showToast(args, 'info'),
+        (args:string) => showSuccessToast(args, 'Success'),
         (args:any) => showErrorToast(transformError(args), 'Error'))}
-      onKeyDown={() => _distribution && unsubscribe(web3,
-        _distribution?.token,
-        _distribution?.indexId,
-        _distribution?.publisher,
-        _distribution?.subscriber,
-        (args:any) => showToast(args, 'info'),
-        () => showSuccessToast('Successfully completed', 'success'),
-        (args:any) => showErrorToast(transformError(args), 'Error'))}
+      onKeyDown={() => 0}
     >
       {t('Unsubscribe')}
     </div>

@@ -1,5 +1,6 @@
 import Web3 from 'web3';
 import { getSuperFluid } from '../../../utils/fluidSDKinstance';
+import { truncateAddr } from '../../../utils/helpers';
 
 const unsubscribe = async (
   web3: Web3,
@@ -9,16 +10,24 @@ const unsubscribe = async (
   subscriber:string,
   onPending:(args:string)=> void,
   onSuccess:(args:string)=> void,
-  onError:(args:string)=> void,
+  onError:(args:any)=> void,
 ) => {
-  onPending('Initiating transaction');
-  const superFluid = await getSuperFluid(web3, []);
-  superFluid.ida.revokeSubscription({
-    superToken: token,
-    publisher,
-    indexId,
-    subscriber,
-  }).then(onSuccess).catch(onError);
+  try {
+    onPending('Initiating transaction');
+    const superFluid = await getSuperFluid(web3, []);
+    await superFluid.ida.revokeSubscription({
+      superToken: token,
+      publisher,
+      indexId,
+      subscriber,
+      onTransaction: async (transactionHash:string) => {
+        onSuccess(`Successfully submitted, tx ${truncateAddr(transactionHash)}`);
+      },
+    });
+  } catch (e:any) {
+    console.log(e);
+    onError(e);
+  }
 };
 
 export default unsubscribe;

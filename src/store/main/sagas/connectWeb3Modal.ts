@@ -42,6 +42,7 @@ export function* connectWeb3Modal(): any {
     });
 
     const provider = yield call(web3Modal.connect);
+    const readWeb3 = new Web3(new Web3.providers.HttpProvider(process.env.REACT_APP_API_NODE_URL!));
     const web3 = new Web3(provider);
     const chainId = yield call(web3.eth.net.getId);
     if (chainId === Number(process.env.REACT_APP_CHAIN_ID)) {
@@ -51,7 +52,7 @@ export function* connectWeb3Modal(): any {
       // Run modal switch network
       yield put(modalShow(ModalType.Network));
     }
-    yield put(mainSetState({ web3 }));
+    yield put(mainSetState({ web3, readWeb3 }));
   } catch (e) {
     // Ignoring error, since user can reject connection
     console.warn(e);

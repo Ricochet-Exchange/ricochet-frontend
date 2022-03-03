@@ -39,7 +39,10 @@ export const DistributionContainer: React.FC<IProps> = () => {
   useEffect(() => {
     if (!isLoading) dispatch(distributionsGetData());
   }, [isLoading]);
-  
+
+  const filteredList = distributions.filter(
+    (distribution) => distribution.id.includes(search.toLowerCase()),
+  );
   return (
     <div className={styles.outer_container}>
       <InvestNav />
@@ -74,9 +77,7 @@ export const DistributionContainer: React.FC<IProps> = () => {
                 />
               </div>
             ))}
-          {!isLoading && distributions.filter(
-            (distribution) => distribution.id.includes(search.toLowerCase()),
-          ).map((distribution) => (
+          {!isLoading && filteredList.map((distribution) => (
             <div className={styles.panel} key={`${distribution.id}`}>
               <DistributionPanel
                 distribution={distribution}
@@ -85,6 +86,14 @@ export const DistributionContainer: React.FC<IProps> = () => {
               />
             </div>
           ))}
+          {!isLoading && filteredList.length === 0 && (
+          <div className={styles.empty_state}>
+            <FontIcon name={FontIconName.Search} size={30} />
+            <span className={styles.empty_state_text}>
+              <div>{t('No results found')}</div>
+            </span>
+          </div>
+          )}
           <div className={styles.settings_mob}>
             <UserSettings
               className={styles.dot}
