@@ -124,18 +124,24 @@ export const startFlow = async (
     token: inputTokenAddress,
   });
   let call = [];
+  const config = indexIDA.find(
+    (data) => data.input === inputTokenAddress && data.output === outputTokenAddress,
+  );
 
-  // eslint-disable-next-line max-len
-  const config = indexIDA.filter((data) => data.input === inputTokenAddress && data.output === outputTokenAddress)[0];
-  const isSubscribed = await idaContract.methods
-    .getSubscription(
-      config.output,
-      exchangeAddress, // publisher
-      config.outputIndex, // indexId
-      sfUser.address,
-    )
-    .call();
+  if (!config) {
+    throw new Error(`No config found for this pair: , ${inputTokenAddress}, ${outputTokenAddress}`);
+  }
+
   try {
+    const isSubscribed = await idaContract.methods
+      .getSubscription(
+        config.output,
+        exchangeAddress, // publisher
+        config.outputIndex, // indexId
+        sfUser.address,
+      )
+      .call();
+
     if (isSubscribed.approved) {
       await sfUser.flow({
         recipient: await superFluid.user({
@@ -378,6 +384,7 @@ export const startFlow = async (
       await superFluid.host.batchCall(call);
     }
   } catch (e: any) {
+    console.error(e);
     throw new Error(e);
   }
 };
