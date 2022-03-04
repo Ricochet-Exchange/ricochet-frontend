@@ -31,6 +31,7 @@ export function* startFlowSaga({ payload }: ReturnType<typeof startFlowAction >)
     payload.callback();
     yield call(sweepQueryFlow);
   } catch (e) {
+    console.error(e);
     const error = transformError(e);
     payload.callback(error);
   } 
