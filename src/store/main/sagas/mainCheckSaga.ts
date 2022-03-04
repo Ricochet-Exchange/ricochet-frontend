@@ -15,9 +15,10 @@ export function* mainCheckSaga() {
   try {
     const gnosisSafeProvider: Unwrap<typeof getSafeProvider > = yield call(getSafeProvider);
     const ledgerHQFrame = new LedgerHQFrameConnector();
+    const readWeb3 = new Web3(new Web3.providers.HttpProvider(process.env.REACT_APP_API_NODE_URL!));
     // Check we are inside gnosis safe
     if (gnosisSafeProvider) {
-      yield put(mainSetState({ web3: new Web3(<any>gnosisSafeProvider!) }));
+      yield put(mainSetState({ readWeb3, web3: new Web3(<any>gnosisSafeProvider!) }));
       const connectedSafe: Unwrap<typeof getConnectedSafe> = yield call(
         getConnectedSafe,
       );
@@ -35,7 +36,7 @@ export function* mainCheckSaga() {
           yield call(getLedgerProvider, ledgerHQFrame);
       const chainId: Unwrap<typeof getLedgerChainId> =
           yield call(getLedgerChainId, ledgerHQFrame);
-      yield put(mainSetState({ web3: new Web3(<any>ledgerProvider!) }));
+      yield put(mainSetState({ readWeb3, web3: new Web3(<any>ledgerProvider!) }));
       if (parseInt(chainId.toString(), 16) === Number(process.env.REACT_APP_CHAIN_ID)) {
         yield put(modalHide());
         yield put(mainGetData());
@@ -47,7 +48,8 @@ export function* mainCheckSaga() {
       yield put(connectWeb3Modal());
     } else {
       yield put(mainSetState({
-        web3: new Web3(new Web3.providers.HttpProvider(process.env.REACT_APP_API_NODE_URL!)),
+        web3: readWeb3,
+        readWeb3,
       }));
       yield put(mainGetReadOnlyData());
     }

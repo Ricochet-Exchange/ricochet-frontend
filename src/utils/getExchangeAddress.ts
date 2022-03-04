@@ -21,7 +21,8 @@ import {
   rickosheaAppAddress,
   SUSHIAddress,
   SUSHIxAddress,
-  twoWayMarketAddress,
+  twoWayWETHMarketAddress,
+  twoWayMarketWBTCAddress,
   USDCAddress,
   USDCxAddress,
   usdcxEthSlpxExchangeAddress,
@@ -53,10 +54,10 @@ export enum ExchangeKeys {
   'USDC_MATIC' = 'usdcMatic',
   'USDC_MKR' = 'usdcMkr',
   'USDC_RIC' = 'usdcRic',
-  'USDC_WBTC' = 'usdcWbtc',
-  'USDC_WETH' = 'usdcWeth',
-  'WBTC_USDC' = 'wbtcUsdc',
-  'WETH_USDC' = 'wethUsdc',
+  'USDC_WBTC' = 'twoWayusdcWbtc',
+  'USDC_WETH' = 'twoWayusdcWeth',
+  'WBTC_USDC' = 'twoWaywbtcUsdc',
+  'WETH_USDC' = 'twoWaywethUsdc',
   'MATICx' = 'maticx',
   'MKRx' = 'mkrx',
   'MKR' = 'mkr',
@@ -77,7 +78,6 @@ export enum ExchangeKeys {
   'IDLEx' = 'idlex',
   'IDLE' = 'idle',
   'Referral' = 'referral',
-  'TWOWAYMARKET' = 'twoWayMarket',
 }
 
 export const getExchangeAddressFromKey = (exchangeKey: ExchangeKeys) => {
@@ -119,7 +119,10 @@ export const getExchangeAddressFromKey = (exchangeKey: ExchangeKeys) => {
     idlex: IDLExAddress,
     idle: IDLEAddress,
     referral: rexReferralAddress,
-    twoWayMarket: twoWayMarketAddress,
+    twoWayusdcWeth: twoWayWETHMarketAddress,
+    twoWaywethUsdc: twoWayWETHMarketAddress,
+    twoWaywbtcUsdc: twoWayMarketWBTCAddress,
+    twoWayusdcWbtc: twoWayMarketWBTCAddress,
   };
 
   return addresses[exchangeKey];

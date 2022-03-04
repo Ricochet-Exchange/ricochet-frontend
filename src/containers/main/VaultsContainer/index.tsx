@@ -1,8 +1,6 @@
 import React, {
   MouseEvent, useCallback, useEffect, useState, 
 } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from 'components/common/Button';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectBanks } from 'store/banks/selectors';
 import { BankType } from 'store/banks/types';
@@ -13,22 +11,19 @@ import { VaultDetails } from 'components/banks/VaultDetails';
 import { useDispatch } from 'react-redux';
 import { banksGetData } from 'store/banks/actionCreators';
 import { InvestNav } from 'components/layout/InvestNav';
-import { Routes } from 'constants/routes';
 import { connectWeb3Modal } from 'store/main/actionCreators';
-import { FontIcon, FontIconName } from 'components/common/FontIcon';
+import { LoadingPopUp } from 'components/common/LoadingPopUp';
+import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 export const VaultsContainer = () => {
   const dispatch = useDispatch();
   const { banks } = useShallowSelector(selectBanks);
   const { address: accountAddress, isLoading } = useShallowSelector(selectMain);
-  const [hasVault, setHasVault] = useState(false);
+  const [hasVault, setHasVault] = useState(true);
   const [activeTransaction, setActiveTransaction] = useState('');
   const [transactionHash, setTransactionHash] = useState('');
-
-  useEffect(() => {
-    if (!banks[0]) dispatch(banksGetData());
-  }, [banks]);
+  const { t } = useTranslation();
   
   const handleOnClick = useCallback((e: MouseEvent) => {
     e.preventDefault();
@@ -38,6 +33,10 @@ export const VaultsContainer = () => {
   const handleSignIn = useCallback(() => {
     dispatch(connectWeb3Modal());
   }, [dispatch]);
+  
+  useEffect(() => {
+    if (!banks[0]) dispatch(banksGetData());
+  }, [banks]);
 
   useEffect(() => {
     if (banks) {
@@ -75,32 +74,14 @@ export const VaultsContainer = () => {
             <LoadingWrapper
               isLoading={isLoading}
               className={styles.fullframe}
+              loadingType="spinner"
             >
               <div className={styles.contentTotal}>
                 {hasVault ? (
                   <>{renderVaults()}</>
                 ) : (
                   <div className={styles.vault_empty}>
-                    <p>
-                      You didn&apos;t create a vault yet.
-                      <br />
-                      <strong>Choose a bank to create a vault with.</strong>
-                    </p>
-                    <Link
-                      className={styles.link}
-                      to={Routes.Banks}
-                    >
-                      <Button
-                        className={styles.view_button}
-                        label="view banks"
-                      >
-                        <FontIcon
-                          className={styles.bankIcon}
-                          name={FontIconName.Bank}
-                          size={26}
-                        />
-                      </Button>
-                    </Link>
+                    <LoadingPopUp />
                   </div>
                 )}
               </div>
@@ -108,7 +89,7 @@ export const VaultsContainer = () => {
           </>
         ) : (
           <div className={styles.container}>
-            <p>Sign in to see your vaults</p>
+            <p>{t('Sign in to see your vaults')}</p>
             <SignInButton
               onClick={handleSignIn}
             />

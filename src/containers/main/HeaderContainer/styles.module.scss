@@ -39,7 +39,7 @@
 }
 
 .settings_wrap {
-  margin: 68px 0 50px 0;
+  margin: 75px 0 50px 0;
 
   @include tablet {
     display: none;
@@ -90,7 +90,7 @@
     height: 32px;
     position: relative;
     cursor: pointer;
-    z-index: 2;
+    z-index: 5;
   }
 }
 
@@ -130,7 +130,7 @@
     display: block;
     font-style: normal;
     font-weight: bold;
-    font-size: 36px;
+    font-size: 29px;
     line-height: 110%;
     text-align: center;
     letter-spacing: -0.015em;

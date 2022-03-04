@@ -129,7 +129,7 @@ export const ReferContainer: React.FC<IProps> = () => {
       .catch((err: Error) => { 
         setStatus('inactive');
         setValidationErrors([
-          'Error registering this url: possible duplicate. Please try another url',
+          t('Error registering this url: possible duplicate. Please try another url'),
         ]);
         console.error(err);
       });
@@ -167,18 +167,13 @@ export const ReferContainer: React.FC<IProps> = () => {
             <p>
               <strong>V0 BETA</strong>
               {' '}
-              Ricochet Referral system is in BETA. Apply to refer your friends and receive a % 
-              of fees that Ricochet Exchange charges. 
-              Becoming an affiliate currently requires manual verification.
-              Any links you register can stop working suddenly and without any 
-              prior notice when we upgrade versions. 
-              We cannot guarantee that referrals will be applied correctly.
+              {t('Ricochet Referral system is in BETA. Apply to refer your friends and receive a % of fees that Ricochet Exchange charges. Becoming an affiliate currently requires manual verification. Any links you register can stop working suddenly and without any prior notice when we upgrade versions. We cannot guarantee that referrals will be applied correctly.')}
             </p>
           </div>
         </div>
         {(status === 'inactive' || status === 'registering') && (
         <div className={styles.input_wrap}>
-          <p>Customise your referral url</p>
+          <p>{t('Customise your referral url')}</p>
           <TextInput
             value={currentReferralId}
             placeholder={t('Your new referral id')}
@@ -212,7 +207,7 @@ export const ReferContainer: React.FC<IProps> = () => {
         {status === 'awaitingVerification' && (
         <div>
           <p>
-            {t('Awaiting verification. Come back later or ping us on our discord: ')}
+            {t('Awaiting verification. Come back later or ping us on our discord:')}
             <a className={styles.black} href="https://discord.gg/mss4t2ED3y" target="_blank" rel="noreferrer">https://discord.gg/mss4t2ED3y</a>
           </p>
         </div>

@@ -1,0 +1,127 @@
+
+@media only screen and (min-width: 769px){
+  .loading_wrap{
+    height: 70vh;
+    width: 30vw;
+    background-color: #EDF3FB;
+    padding: 1em;
+    border-top: 20px solid #6f767ed9;
+    border-bottom: 20px solid #6F767E;
+    border-radius: 25px;
+    color: rgb(42, 42, 42);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    animation: popup 0.2s linear;
+    text-align: center;
+  }
+
+  .header{
+    font-size:x-large;
+    width: 80%;
+    margin-bottom: 3em;
+  }
+
+  .header_second{
+    font-size: small;
+    color: rgba(42, 42, 42, 0.666);
+  }
+
+  .progress{
+      margin-bottom: 3em;
+      position: relative;
+      height: 10px;
+      width: 40%;
+      border: 10px solid #678EB5;
+      border-radius: 15px;
+  }
+  .progress .color{
+      margin-top: -5px;
+      background-color: #ffffff;
+      width: 0px;
+      height: 10px;
+      border-radius: 15px;
+      animation: progress 8s infinite linear;    
+  }
+
+}
+
+
+@media only screen and (max-width: 769px){
+  .loading_wrap{
+    height: 100%;
+    width: 90%;
+    background-color: #EDF3FB;
+    padding: 1em;
+    border-top: 20px solid #6F767E;
+    border-bottom: 20px solid #6F767E;
+    border-radius: 25px;
+    color: rgb(42, 42, 42);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    animation: popup 0.2s linear;
+    text-align: center;
+    margin-top: 1em;
+  }
+
+  .header{
+    font-size:x-large;
+    width: 80%;
+    margin-bottom: 2em;
+  }
+
+  .header_second{
+    font-size: small;
+    color: rgba(42, 42, 42, 0.666);
+  }
+
+  .progress{
+      margin-bottom: 2em;
+      position: relative;
+      height: 10px;
+      width: 40%;
+      border: 10px solid #678EB5;
+      border-radius: 15px;
+  }
+  .progress .color{
+      margin-top: -5px;
+      background-color: #ffffff;
+      width: 0px;
+      height: 10px;
+      border-radius: 15px;
+      animation: progress 8s infinite linear;    
+  }
+}
+
+@keyframes progress{
+  0%{
+    width: 0%;
+  }
+  15%{
+    width: 25%;
+  }
+  25%{
+      width: 50%;
+  }
+  50%{
+      width: 75%;
+  }
+  75%{
+      width: 85%;
+  }
+  100%{
+      width: 100%;
+  }
+};
+
+@keyframes popup{
+0%{
+  transform: scale(0);
+}
+100%{
+  transform: scale(1);
+}
+};

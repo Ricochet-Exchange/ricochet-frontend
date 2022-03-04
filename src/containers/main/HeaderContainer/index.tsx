@@ -16,7 +16,7 @@ interface IProps {
 
 export const HeaderContainer: FC<IProps> = ({ address, balance }) => {
   const location = useLocation();
-  const { t } = useTranslation('main');
+  const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
 
@@ -36,6 +36,12 @@ export const HeaderContainer: FC<IProps> = ({ address, balance }) => {
         return (
           <>
             <div>{t('Invest')}</div>
+          </>
+        );
+      case Routes.Distributions:
+        return (
+          <>
+            <div>{t('Distributions')}</div>
           </>
         );
       case Routes.Banks:

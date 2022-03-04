@@ -7,7 +7,7 @@ import { TextInput } from 'components/common/TextInput';
 import { PanelChange } from 'components/layout/PanelChange';
 import { UserSettings } from 'components/layout/UserSettings';
 import { InvestNav } from 'components/layout/InvestNav';
-import { useLang } from 'hooks/useLang';
+import { useTranslation } from 'react-i18next';
 import { flowConfig, FlowEnum, RoutesToFlowTypes } from 'constants/flowConfig';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain, selectUserStreams } from 'store/main/selectors';
@@ -28,7 +28,7 @@ function endDate(bal: number, outgoing: number): string {
 interface IProps { }
 
 export const InvestContainer: React.FC<IProps> = () => {
-  const { t } = useLang();
+  const { t } = useTranslation();
   const state = useShallowSelector(selectMain);
   const {
     address, balances, isLoading, coingeckoPrices,
@@ -39,7 +39,7 @@ export const InvestContainer: React.FC<IProps> = () => {
   const [filteredList, setFilteredList] = useState(flowConfig);
   const match = useRouteMatch();
   const flowType = RoutesToFlowTypes[match.path];
-
+  
   useEffect(() => {
     if (flowType) {
       setFilteredList(flowConfig.filter((each) => each.type === flowType));
@@ -103,7 +103,7 @@ export const InvestContainer: React.FC<IProps> = () => {
         <UserSettings
           className={styles.dot}
           ricBalance={balances && balances[RICAddress]}
-          account={address || 'Connect Wallet'}
+          account={address || t('Connect Wallet')}
         />
       </div>
       <div className={styles.container}>
@@ -123,9 +123,10 @@ export const InvestContainer: React.FC<IProps> = () => {
           <div className={styles.stream}>{t('Your Stream')}</div>
           <div className={styles.balances}>{t('Your Balances')}</div>
           <div className={styles.streaming}>{t('Total Value Streaming')}</div>
+          <div className={styles.ends}>{t('')}</div>
         </div>
         <div className={styles.content}>
-          {filteredList.map((element) => (
+          {filteredList.map((element, idx) => (
             <div className={styles.panel} key={`${element.coinA}-${element.coinB}`}>
               <PanelChange
                 placeholder={t('Input Rate')}
@@ -134,6 +135,8 @@ export const InvestContainer: React.FC<IProps> = () => {
                 coinA={element.coinA}
                 coingeckoPrice={coingeckoPrices ? coingeckoPrices[element.tokenA] : 0}
                 coinB={element.coinB}
+                tokenA={element.tokenA}
+                tokenB={element.tokenB}
                 balanceA={balances && balances[element.tokenA]}
                 balanceB={balances && balances[element.tokenB]}
                 totalFlow={state[element.flowKey]?.flowsOwned}
@@ -152,6 +155,7 @@ export const InvestContainer: React.FC<IProps> = () => {
                 isReadOnly={state.isReadOnly}
                 contractAddress={element.superToken}
                 exchangeKey={element.flowKey.replace('FlowQuery', '') as ExchangeKeys}
+                indexVal={idx}
               />
             </div>
           ))}

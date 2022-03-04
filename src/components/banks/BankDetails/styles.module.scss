@@ -43,6 +43,24 @@
     height: 20px;
     width: 20px;
     margin-right: 10px;
+    @include tablet {
+      margin-right: 2px;
+    }
+  }
+}
+
+.bankText {
+  display: flex;
+  justify-content: space-between;
+  @media only screen and (max-width: 769px) {
+    flex-direction: column;
+  }
+}
+
+.bankName {
+  margin: 7px;
+  @media only screen and (max-width: 769px) {
+    margin: 3px;
   }
 }
 

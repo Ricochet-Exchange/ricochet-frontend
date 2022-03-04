@@ -2,7 +2,7 @@ import { Routes } from 'constants/routes';
 import { Coin } from './coins';
 import {
   RICAddress,
-  twoWayMarketAddress,
+  twoWayWETHMarketAddress,
   twoWayMarketWBTCAddress,
   USDCxAddress,
   usdcxRicExchangeAddress,
@@ -11,45 +11,61 @@ import {
 } from './polygon_config';
 
 export enum FlowEnum {
-  usdcWethFlowQuery = 'usdcWethFlowQuery',
-  wethUsdcFlowQuery = 'wethUsdcFlowQuery',
-  wbtcUsdcFlowQuery = 'wbtcUsdcFlowQuery',
-  usdcWbtcFlowQuery = 'usdcWbtcFlowQuery',
+  twoWayusdcWethFlowQuery = 'twoWayusdcWethFlowQuery',
+  twoWaywethUsdcFlowQuery = 'twoWaywethUsdcFlowQuery',
+  twoWaywbtcUsdcFlowQuery = 'twoWaywbtcUsdcFlowQuery',
+  twoWayusdcWbtcFlowQuery = 'twoWayusdcWbtcFlowQuery',
   usdcRicFlowQuery = 'usdcRicFlowQuery',
 }
-// eslint-disable-next-line max-len
-export const indexIDA : { input: string, output:string, subsidy?: string, subsidyIndex?: number, inputIndex: number, outputIndex: number }[] = [
+
+type IndexIDAType = {
+  input: string;
+  output:string;
+  subsidy?: string;
+  subsidyIndex?: number;
+  inputIndex: number;
+  outputIndex: number;
+}[];
+
+export const indexIDA: IndexIDAType = [
   {
     input: USDCxAddress,
     output: WETHxAddress,
     subsidy: RICAddress,
     subsidyIndex: 3,
     inputIndex: 0,
-    outputIndex: 1, 
+    outputIndex: 1,
   },
   {
     input: WETHxAddress,
     output: USDCxAddress,
-    subsidy: RICAddress, 
+    subsidy: RICAddress,
     subsidyIndex: 2,
     inputIndex: 1,
-    outputIndex: 0, 
-  },
-  {
-    input: WBTCxAddress,
-    output: USDCxAddress,
-    subsidy: RICAddress, 
-    subsidyIndex: 2,
-    inputIndex: 1,
-    outputIndex: 0, 
+    outputIndex: 0,
   },
   {
     input: USDCxAddress,
     output: WBTCxAddress,
-    subsidy: RICAddress, 
+    subsidy: RICAddress,
     subsidyIndex: 3,
     inputIndex: 0,
-    outputIndex: 1, 
+    outputIndex: 1,
+  },
+  {
+    input: WBTCxAddress,
+    output: USDCxAddress,
+    subsidy: RICAddress,
+    subsidyIndex: 2,
+    inputIndex: 1,
+    outputIndex: 0,
+  },
+  {
+    input: USDCxAddress,
+    output: RICAddress,
+    subsidy: RICAddress,
+    inputIndex: 0, // just a placeholder, not used
+    outputIndex: 0,
   },
 ];
 
@@ -71,30 +87,21 @@ export type InvestmentFlow = {
 
 const markets: InvestmentFlow[] = [
   {
-    superToken: twoWayMarketAddress,
+    superToken: twoWayWETHMarketAddress,
     tokenA: USDCxAddress,
     tokenB: WETHxAddress,
     coinA: Coin.USDC,
     coinB: Coin.WETH,
-    flowKey: FlowEnum.usdcWethFlowQuery,
+    flowKey: FlowEnum.twoWayusdcWethFlowQuery,
     type: FlowTypes.market,
   },
   {
-    superToken: twoWayMarketAddress,
+    superToken: twoWayWETHMarketAddress,
     tokenA: WETHxAddress,
     tokenB: USDCxAddress,
     coinA: Coin.WETH,
     coinB: Coin.USDC,
-    flowKey: FlowEnum.wethUsdcFlowQuery,
-    type: FlowTypes.market,
-  },
-  {
-    superToken: twoWayMarketWBTCAddress,
-    tokenA: WBTCxAddress,
-    tokenB: USDCxAddress,
-    coinA: Coin.WBTC,
-    coinB: Coin.USDC,
-    flowKey: FlowEnum.wbtcUsdcFlowQuery,
+    flowKey: FlowEnum.twoWaywethUsdcFlowQuery,
     type: FlowTypes.market,
   },
   {
@@ -103,10 +110,18 @@ const markets: InvestmentFlow[] = [
     tokenB: WBTCxAddress,
     coinA: Coin.USDC,
     coinB: Coin.WBTC,
-    flowKey: FlowEnum.usdcWbtcFlowQuery,
+    flowKey: FlowEnum.twoWayusdcWbtcFlowQuery,
     type: FlowTypes.market,
   },
-
+  {
+    superToken: twoWayMarketWBTCAddress,
+    tokenA: WBTCxAddress,
+    tokenB: USDCxAddress,
+    coinA: Coin.WBTC,
+    coinB: Coin.USDC,
+    flowKey: FlowEnum.twoWaywbtcUsdcFlowQuery,
+    type: FlowTypes.market,
+  },
 ];
 
 const liquidityMarkets: InvestmentFlow[] = [

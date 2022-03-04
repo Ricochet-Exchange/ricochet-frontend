@@ -6,6 +6,7 @@ import { MainState } from './types';
 
 export const mainInitialState: Readonly<MainState> = {
   web3: new Web3(),
+  readWeb3: new Web3(),
   address: '',
   selectedDowngradeCoin: Coin.DAIx, 
   selectedUpgradeCoin: Coin.DAI,

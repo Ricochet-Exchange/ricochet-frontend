@@ -17,10 +17,14 @@
   transition-duration: 0.05s;
   transition-timing-function: ease-in-out;
   transition-delay: 0s;
+
+  i {
+    margin-right: 5px;
+  }
 }
 
 .button:hover:not(:disabled) {
   box-shadow: 0 13px 26px 0 rgba(0, 0, 0, 0.1);
-  -webkit-transform: scale(.98);
-    transform: scale(.98);
+  -webkit-transform: scale(0.98);
+  transform: scale(0.98);
 }

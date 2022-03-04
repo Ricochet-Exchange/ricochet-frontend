@@ -6,6 +6,7 @@ import { BankType } from 'store/banks/types';
 import { DepositBorrow } from 'components/banks/DepositBorrow';
 import { VaultType } from 'types/vaultType';
 import ReactModal from 'react-modal';
+import { useTranslation } from 'react-i18next';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import styles from './styles.module.scss';
 
@@ -42,13 +43,14 @@ export const ModalCreateVault: FC<Props> = ({
   onApproveClick,
   onCloseModal,
 }) => {
+  const { t } = useTranslation();
   const renderStep = () => {
     switch (step) {
       case 1: {
         return (
           <>
             <p className={styles.create_text}>
-              You&apos;re creating a vault for
+              {t('You are creating a vault for')}
               <br />
               <strong>
                 {`${bank.name} ${bank.collateralToken.symbol}-
@@ -82,7 +84,7 @@ export const ModalCreateVault: FC<Props> = ({
       case 3: {
         return (
           <>
-            <p>Setup succesful!</p>
+            <p>{t('Setup succesful!')}</p>
             <Icons.Vmark className={styles.vmark} />
             <Link
               to="/vaults?new=true"
@@ -115,7 +117,7 @@ export const ModalCreateVault: FC<Props> = ({
       <div className={styles.container}>
         <div className={styles.content}>
           <h2 className={styles.create_title}>
-            Creating a Vault
+            {t('Creating a Vault')}
           </h2>
           <div className={styles.close_wrap}>
             <button className={styles.close_btn} onClick={onCloseModal}>

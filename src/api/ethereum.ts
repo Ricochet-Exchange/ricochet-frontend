@@ -4,7 +4,7 @@ import { getContract } from 'utils/getContract';
 import { chainSettings } from 'constants/chainSettings';
 import { CoinOption } from 'types/coinOption';
 import {
-  MATICxAddress, rexLPETHAddress, RICAddress, SUSHIxAddress, 
+  MATICxAddress, rexLPETHAddress, RICAddress, SUSHIxAddress,
 } from 'constants/polygon_config';
 import Erc20Abi from 'constants/Erc20.json';
 import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
@@ -124,18 +124,24 @@ export const startFlow = async (
     token: inputTokenAddress,
   });
   let call = [];
+  const config = indexIDA.find(
+    (data) => data.input === inputTokenAddress && data.output === outputTokenAddress,
+  );
 
-  // eslint-disable-next-line max-len
-  const config = indexIDA.filter((data) => data.input === inputTokenAddress && data.output === outputTokenAddress)[0];
-  const isSubscribed = await idaContract.methods
-    .getSubscription(
-      config.output,
-      exchangeAddress, // publisher
-      config.outputIndex, // indexId
-      sfUser.address,
-    )
-    .call();
+  if (!config) {
+    throw new Error(`No config found for this pair: , ${inputTokenAddress}, ${outputTokenAddress}`);
+  }
+
   try {
+    const isSubscribed = await idaContract.methods
+      .getSubscription(
+        config.output,
+        exchangeAddress, // publisher
+        config.outputIndex, // indexId
+        sfUser.address,
+      )
+      .call();
+
     if (isSubscribed.approved) {
       await sfUser.flow({
         recipient: await superFluid.user({
@@ -378,6 +384,7 @@ export const startFlow = async (
       await superFluid.host.batchCall(call);
     }
   } catch (e: any) {
+    console.error(e);
     throw new Error(e);
   }
 };
@@ -388,9 +395,8 @@ export const switchNetwork = async () => {
     await ethereum.request({ method: 'eth_requestAccounts' });
     await ethereum.request({
       method: 'wallet_switchEthereumChain',
-      params: [{ chainId: chainSettings.chainId }],
+      params: [{ chainId: `0x${chainSettings.chainId.toString(16)}` }],
     });
-
     return true;
   } catch (error: any) {
     if (error.code === 4902) {
@@ -398,7 +404,7 @@ export const switchNetwork = async () => {
         await ethereum.request({
           method: 'wallet_addEthereumChain',
           params: [{
-            chainId: chainSettings.chainId,
+            chainId: `0x${chainSettings.chainId.toString(16)}`,
             chainName: chainSettings.chanName,
             nativeCurrency: chainSettings.nativeCurrency,
             rpcUrls: chainSettings.rpcUrls,
