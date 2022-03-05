@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { TransactionLink } from 'components/common/TransactionLink';
 import { getTokenName } from 'utils/getTokenName';
 import { TokenIcon } from 'components/common/TokenIcon';
+import { CopiableAddress } from 'components/common/CopiableAddress';
 import styles from '../styles.module.scss';
 
 type TransferProps = {
@@ -17,8 +18,6 @@ export const Transfer: FC<TransferProps> = ({ event, account }) => {
     value,
   } = event;
   const tokenName = getTokenName(token);
-  const mobileReceiverCopying = `${to.slice(0, 7)}...${to.slice(-4)}`;
-  const mobileSenderCopying = `${from.slice(0, 7)}...${from.slice(-4)}`;
   const time = new Date(timestamp * 1000).toString().split(' ')[4];
 
   const isUser = from === account.toLowerCase();
@@ -48,9 +47,8 @@ export const Transfer: FC<TransferProps> = ({ event, account }) => {
           </span>
           <span>
             {isUser ? 'to' : 'from'}
-            {' '}
-            {isUser ? mobileReceiverCopying : mobileSenderCopying}
           </span>
+          <CopiableAddress address={isUser ? to : from} />
         </div>
         <div className={styles.transaction_link_wrapper} role="button" aria-hidden="true" onClick={stopPropagation}>
           <TransactionLink transactionHash={transactionHash} />
@@ -60,9 +58,7 @@ export const Transfer: FC<TransferProps> = ({ event, account }) => {
         <div className={styles.streaming_wrapper}>
           <div className={styles.streaming_content}>
             <span>{time}</span>
-            <span>
-              {isUser ? mobileReceiverCopying : mobileSenderCopying}
-            </span>
+            <CopiableAddress address={isUser ? to : from} />
           </div>
           <div className={styles.recieved_wrapper}>
             <span>

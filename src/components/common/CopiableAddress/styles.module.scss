@@ -1,0 +1,23 @@
+.wrapper {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+  padding: 0 8px;
+  pointer-events: auto;
+
+  &:hover {
+    color: white;
+    background-color: var(--color-primary);
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  &:hover::after,
+  &:active::after {
+    content: attr(data-tip);
+    color: var(--color-primary);
+    background-color: transparent;
+    position: absolute;
+    bottom: 32px;
+  }
+}

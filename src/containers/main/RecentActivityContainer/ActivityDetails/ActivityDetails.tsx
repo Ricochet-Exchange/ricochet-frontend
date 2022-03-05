@@ -5,6 +5,7 @@ import { TransactionLink } from 'components/common/TransactionLink';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { getTokenName } from 'utils/getTokenName';
 import { TokenIcon } from 'components/common/TokenIcon';
+import { CopiableAddress } from 'components/common/CopiableAddress';
 import styles from './styles.module.scss';
 
 type ActivityDetailsProps = {
@@ -130,10 +131,8 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({
         )}
         {(name === 'FlowUpdated') && (
           <>
-            <div>
-              <span>
-                {event.sender === account ? `${event.receiver.slice(0, 7)}...${event.receiver.slice(-4)}` : `${event.sender.slice(0, 7)}...${event.sender.slice(-4)}`}
-              </span>
+            <div className={styles.address_wrapper}>
+              <CopiableAddress address={event.sender === account ? event.receiver : event.sender} />
             </div>
             <p>Merchant</p>
             {flowActionType === 2 ? null : (
@@ -151,10 +150,8 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({
         )}
         {name === 'Transfer' && (
         <>
-          <div>
-            <span>
-              {event.from === account ? `${event.to.slice(0, 7)}...${event.to.slice(-4)}` : `${event.from.slice(0, 7)}...${event.from.slice(-4)}`}
-            </span>
+          <div className={styles.address_wrapper}>
+            <CopiableAddress address={event.from === account ? event.to : event.from} />
           </div>
           <p>Merchant</p>
 

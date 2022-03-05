@@ -4,6 +4,7 @@ import { getActivityCopying } from 'utils/getActivityCopying';
 import { TransactionLink } from 'components/common/TransactionLink';
 import { getTokenName } from 'utils/getTokenName';
 import { TokenIcon } from 'components/common/TokenIcon';
+import { CopiableAddress } from 'components/common/CopiableAddress';
 import styles from '../styles.module.scss';
 
 type FlowUpdatedProps = {
@@ -33,8 +34,6 @@ export const FlowUpdated: FC<FlowUpdatedProps> = ({
   const SECONDS_PER_MONTH = 30 / 24 / 60 / 60;
 
   const tokenName = getTokenName(token);
-  const mobileReceiverCopying = `${receiver.slice(0, 7)}...${receiver.slice(-4)}`;
-  const mobileSenderCopying = `${sender.slice(0, 7)}...${sender.slice(-4)}`;
 
   let mobileSuffix = '';
   const time = new Date(timestamp * 1000).toString().split(' ')[4];
@@ -83,8 +82,8 @@ export const FlowUpdated: FC<FlowUpdatedProps> = ({
           </span>
           <TokenIcon tokenName={tokenName} />
           <span className={styles.amount}>{tokenName}</span>
+          <CopiableAddress address={isUser ? receiver : sender} />
           <span>
-            {isUser ? `to ${receiver.slice(0, 7)}...${receiver.slice(-4)}` : `from ${sender.slice(0, 7)}...${sender.slice(-4)}`}
             {' '}
             {suffix}
           </span>
@@ -97,9 +96,7 @@ export const FlowUpdated: FC<FlowUpdatedProps> = ({
         <div className={styles.streaming_wrapper}>
           <div className={styles.streaming_content}>
             <span>{time}</span>
-            <span>
-              {isUser ? mobileReceiverCopying : mobileSenderCopying}
-            </span>
+            <CopiableAddress address={isUser ? receiver : sender} />
           </div>
           <div>
             <span>

@@ -8,6 +8,11 @@
   }
 }
 
+.address_wrapper {
+  display: inline-block;
+  position: relative;
+}
+
 .wrapper {
   display: flex;
   cursor: pointer;
@@ -49,6 +54,7 @@
     display: flex;
     gap: 8px;
     align-items: center;
+    position: relative;
   }
 
   .larger_streaming_content {
@@ -68,6 +74,7 @@
   display: flex;
   gap: 8px;
   align-items: center;
+  position: relative;
 }
 
 .right_arrow {

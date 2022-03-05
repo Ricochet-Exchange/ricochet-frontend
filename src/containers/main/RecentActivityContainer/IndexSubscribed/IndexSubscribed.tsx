@@ -4,6 +4,7 @@ import { getActivityCopying } from 'utils/getActivityCopying';
 import { TransactionLink } from 'components/common/TransactionLink';
 import { getTokenName } from 'utils/getTokenName';
 import { TokenIcon } from 'components/common/TokenIcon';
+import { CopiableAddress } from 'components/common/CopiableAddress';
 import styles from '../styles.module.scss';
 
 type IndexSubscribedProps = {
@@ -19,8 +20,6 @@ export const IndexSubscribed: FC<IndexSubscribedProps> = ({ event }) => {
   const time = new Date(timestamp * 1000).toString().split(' ')[4];
 
   const activityCopying = `${getActivityCopying(name)} in`;
-
-  const subscriberCoying = `${subscriber.slice(0, 7)}...${subscriber.slice(-4)}`;
 
   /**
    * stop propagation of event to prevent rendering mobile activity details page.
@@ -42,7 +41,7 @@ export const IndexSubscribed: FC<IndexSubscribedProps> = ({ event }) => {
           <TokenIcon tokenName={tokenName} />
           <span className={styles.amount}>{tokenName}</span>
           <span>from</span>
-          <span>{subscriberCoying}</span>
+          <CopiableAddress address={subscriber} />
         </div>
         <div className={styles.transaction_link_wrapper} role="button" aria-hidden="true" onClick={stopPropagation}>
           <TransactionLink transactionHash={transactionHash} />
@@ -56,8 +55,11 @@ export const IndexSubscribed: FC<IndexSubscribedProps> = ({ event }) => {
         </div>
         <div>
           <span>
-            {`Subscribed to ${subscriberCoying}`}
+            Subscribed to&nbsp;
           </span>
+          <div className={styles.address_wrapper}>
+            <CopiableAddress address={subscriber} />
+          </div>
         </div>
       </div>
       <div className={styles.right_arrow}>
