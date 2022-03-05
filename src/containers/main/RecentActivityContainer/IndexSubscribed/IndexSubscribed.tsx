@@ -13,7 +13,7 @@ type IndexSubscribedProps = {
 
 export const IndexSubscribed: FC<IndexSubscribedProps> = ({ event }) => {
   const {
-    name, token, timestamp, subscriber, transactionHash,
+    name, token, timestamp, publisher, transactionHash,
   } = event;
 
   const tokenName = getTokenName(token);
@@ -41,7 +41,7 @@ export const IndexSubscribed: FC<IndexSubscribedProps> = ({ event }) => {
           <TokenIcon tokenName={tokenName} />
           <span className={styles.amount}>{tokenName}</span>
           <span>from</span>
-          <CopiableAddress address={subscriber} />
+          <CopiableAddress address={publisher} />
         </div>
         <div className={styles.transaction_link_wrapper} role="button" aria-hidden="true" onClick={stopPropagation}>
           <TransactionLink transactionHash={transactionHash} />
@@ -58,7 +58,7 @@ export const IndexSubscribed: FC<IndexSubscribedProps> = ({ event }) => {
             Subscribed to&nbsp;
           </span>
           <div className={styles.address_wrapper}>
-            <CopiableAddress address={subscriber} />
+            <CopiableAddress address={publisher} />
           </div>
         </div>
       </div>

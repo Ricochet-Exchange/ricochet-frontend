@@ -13,13 +13,19 @@ type IndexSubscribedProps = {
 
 export const IndexUnitsUpdated: FC<IndexSubscribedProps> = ({ event }) => {
   const {
-    name, token, timestamp, subscriber, transactionHash, oldUnits, units,
+    name, token, timestamp, publisher, transactionHash, oldUnits, units,
   } = event;
 
   const tokenName = getTokenName(token);
   const time = new Date(timestamp * 1000).toString().split(' ')[4];
 
-  const activityCopying = `${getActivityCopying(name)} in`;
+  let activityCopying = `${getActivityCopying(name)} in`;
+
+  if (units === '0') {
+    activityCopying = 'Stopped distribution in';
+  } else if (oldUnits === '0') {
+    activityCopying = 'Started distribution in';
+  }
 
   /**
    * stop propagation of event to prevent rendering mobile activity details page.
@@ -39,16 +45,18 @@ export const IndexUnitsUpdated: FC<IndexSubscribedProps> = ({ event }) => {
           <TokenIcon tokenName={tokenName} />
           <span className={styles.amount}>{tokenName}</span>
           <span>from</span>
-          <CopiableAddress address={subscriber} />
-          <span>
-            changed from 
-            {' '}
-            {oldUnits}
-            {' '}
-            to
-            {' '}
-            {units}
-          </span>
+          <CopiableAddress address={publisher} />
+          {(units !== '0' && oldUnits !== '0') && (
+            <span>
+              changed from 
+              {' '}
+              {oldUnits}
+              {' '}
+              to
+              {' '}
+              {units}
+            </span>
+          )}
         </div>
         <div className={styles.transaction_link_wrapper} role="button" aria-hidden="true" onClick={stopPropagation}>
           <TransactionLink transactionHash={transactionHash} />
@@ -65,7 +73,7 @@ export const IndexUnitsUpdated: FC<IndexSubscribedProps> = ({ event }) => {
             Updated subscription from&nbsp;
           </span>
           <div className={styles.address_wrapper}>
-            <CopiableAddress address={subscriber} />
+            <CopiableAddress address={publisher} />
           </div>
         </div>
       </div>
