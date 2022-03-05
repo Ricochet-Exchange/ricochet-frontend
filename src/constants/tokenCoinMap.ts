@@ -1,5 +1,6 @@
 import { Coin } from './coins';
 import {
+  MATICxAddress,
   USDCxAddress,
   WETHxAddress,
   WBTCxAddress,
@@ -23,6 +24,10 @@ type Transformer = {
 };
 
 export const tokenCoinTransformer: Transformer[] = [
+  {
+    token: MATICxAddress,
+    coin: Coin.MATICx,
+  },
   {
     token: USDCAddress,
     coin: Coin.USDC,

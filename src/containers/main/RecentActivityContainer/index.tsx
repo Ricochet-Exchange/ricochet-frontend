@@ -65,7 +65,7 @@ export const RecentActivityContainer: FC = () => {
                 event.name === 'IndexSubscribed' ||
                 event.name === 'IndexUnitsUpdated' ||
                 event.name === 'SubscriptionRevoked' ||
-                (event.name === 'Transfer' && event.from !== ZeroAddress),
+                (event.name === 'Transfer' && event.from !== ZeroAddress && event.to !== ZeroAddress),
             ) as ActivityEvents[]);
 
             setFlowUpdatedEvents(temp);
