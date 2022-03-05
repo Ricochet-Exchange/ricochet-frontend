@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { connectWeb3Modal } from 'store/main/actionCreators';
 import { EmptyPage } from 'components/common/EmptyPage';
 import { LoadingPopUp } from 'components/common/LoadingPopUp';
+import { ZeroAddress } from 'constants/polygon_config';
 import styles from './styles.module.scss';
 import { ActivityDetails } from './ActivityDetails';
 import { ActivityWrapper } from './ActivityWrapper';
@@ -60,7 +61,7 @@ export const RecentActivityContainer: FC = () => {
                 event.name === 'IndexSubscribed' ||
                 event.name === 'IndexUnitsUpdated' ||
                 event.name === 'SubscriptionRevoked' ||
-                event.name === 'Transfer',
+                (event.name === 'Transfer' && event.from !== ZeroAddress),
             ) as ActivityEvents[]);
 
             setFlowUpdatedEvents(temp);
