@@ -17,6 +17,8 @@ type Props = {
   transactionHash: string;
   onClick: (e: MouseEvent) => void;
   setActiveTransaction: (transaction: string) => void;
+  balanceRIC?: string;
+  balanceUSDCx?: string;
   setTransactionHash: (transactionHash: string) => void;
 };
 
@@ -27,6 +29,8 @@ export const VaultDetails: FC<Props> = ({
   onClick,
   setActiveTransaction,
   setTransactionHash,
+  balanceRIC,
+  balanceUSDCx,
 }) => {
   const vaultCalcValues = getVaultCalcValues(bank);
   const link = getAddressLink(bank.bankAddress);
@@ -156,6 +160,9 @@ export const VaultDetails: FC<Props> = ({
           setTransactionHash={setTransactionHash}
           bank={bank}
           maxAvailableWithdraw={vaultCalcValues.withdrawAvailable.toFixed(4)}
+          maxAvailableBorrow={vaultCalcValues.borrowAvailable.toFixed(4)}
+          maxAvailableDepositRIC={balanceRIC}
+          maxAvailableDepositUSDCx={balanceUSDCx}
         />
       ) : null}
     </div>
