@@ -41,7 +41,11 @@ export const RecentActivityContainer: FC = () => {
           });
   
           const { data: events } = await web3ModalSf.query.listEvents({ account });
-          const { data: streams } = await web3ModalSf.query.listStreams({ receiver: account });
+          const {
+            data: recievedStream,
+          } = await web3ModalSf.query.listStreams({ receiver: account });
+          const { data: sentStream } = await web3ModalSf.query.listStreams({ sender: account });
+          const streams = [...recievedStream, ...sentStream];
   
           const temp: IStreamFlowUpdatedEvent[] = [];
   
