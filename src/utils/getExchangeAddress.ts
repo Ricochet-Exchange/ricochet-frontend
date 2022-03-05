@@ -37,14 +37,14 @@ import {
   wbtcxUsdcxExchangeAddress,
   WETHAddress,
   WETHxAddress,
-  wethxUsdcxExchangeAddress,
+  wethxUsdcxExchangeAddress, twoWayMarketDAIWETHAddress, twoWayMarketRICUSDCAddress,
 } from 'constants/polygon_config';
 
 export enum ExchangeKeys {
-  'DAI_ETH' = 'daiEth',
+  'DAI_ETH' = 'twoWayDaiWeth',
   'DAI_MATIC' = 'daiMatic',
   'DAI_MKR' = 'daiMkr',
-  'ETH_DAI' = 'ethDai',
+  'ETH_DAI' = 'twoWayWethDai',
   'MATIC_DAI' = 'maticDai',
   'MATIC_USDC' = 'maticUsdc',
   'MKR_DAI' = 'mkrDai',
@@ -58,6 +58,8 @@ export enum ExchangeKeys {
   'USDC_WETH' = 'twoWayusdcWeth',
   'WBTC_USDC' = 'twoWaywbtcUsdc',
   'WETH_USDC' = 'twoWaywethUsdc',
+  'TWO_USDC_RIC' = 'twoWayUsdcRic',
+  'TWO_RIC_USDC' = 'twoWayRicUsdc',
   'MATICx' = 'maticx',
   'MKRx' = 'mkrx',
   'MKR' = 'mkr',
@@ -123,6 +125,10 @@ export const getExchangeAddressFromKey = (exchangeKey: ExchangeKeys) => {
     twoWaywethUsdc: twoWayWETHMarketAddress,
     twoWaywbtcUsdc: twoWayMarketWBTCAddress,
     twoWayusdcWbtc: twoWayMarketWBTCAddress,
+    twoWayDaiWeth: twoWayMarketDAIWETHAddress,
+    twoWayWethDai: twoWayMarketDAIWETHAddress,
+    twoWayRicUsdc: twoWayMarketRICUSDCAddress,
+    twoWayUsdcRic: twoWayMarketRICUSDCAddress,
   };
 
   return addresses[exchangeKey];
