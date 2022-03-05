@@ -1,9 +1,9 @@
 import type { SubscriptionRevokedEvent } from '@superfluid-finance/sdk-core';
 import React, { FC } from 'react';
-import { iconsCoin } from 'constants/coins';
 import { getActivityCopying } from 'utils/getActivityCopying';
 import { TransactionLink } from 'components/common/TransactionLink';
 import { getTokenName } from 'utils/getTokenName';
+import { TokenIcon } from 'components/common/TokenIcon';
 import styles from '../styles.module.scss';
 
 type SubscriptionRevokedProps = {
@@ -37,7 +37,7 @@ export const SubscriptionRevoked: FC<SubscriptionRevokedProps> = ({ event }) => 
         <div className={styles.larger_streaming_content}>
           <span>{time}</span>
           <span>{activityCopying}</span>
-          <img src={iconsCoin[tokenName]} alt={tokenName} />
+          <TokenIcon tokenName={tokenName} />
           <span className={styles.amount}>{tokenName}</span>
           <span>from</span>
           <span>{subscriberCoying}</span>
@@ -49,7 +49,7 @@ export const SubscriptionRevoked: FC<SubscriptionRevokedProps> = ({ event }) => 
       <div className={styles.streaming_wrapper}>
         <div className={styles.streaming_content}>
           <span>{time}</span>
-          <img src={iconsCoin[tokenName]} alt={tokenName} />
+          <TokenIcon tokenName={tokenName} />
           <span className={styles.amount}>{tokenName}</span>
         </div>
         <div>

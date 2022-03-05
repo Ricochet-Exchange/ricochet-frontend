@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
-import { iconsCoin } from 'constants/coins';
 import type { ActivityEvents } from 'types/activity';
 import { getActivityCopying } from 'utils/getActivityCopying';
 import { TransactionLink } from 'components/common/TransactionLink';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { getTokenName } from 'utils/getTokenName';
+import { TokenIcon } from 'components/common/TokenIcon';
 import styles from './styles.module.scss';
 
 type ActivityDetailsProps = {
@@ -100,11 +100,7 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({
         {(name === 'IndexSubscribed' || name === 'SubscriptionRevoked' || name === 'FlowUpdated') ? null : (
           <>
             <div className={styles.amount_wrapper}>
-              <img
-                src={iconsCoin[tokenName]}
-                alt={tokenName}
-                className={styles.token_icon}
-              />
+              <TokenIcon tokenName={tokenName} />
               {(name === 'TokenUpgraded' || name === 'TokenDowngraded') &&
                 (
                 <span className={styles.amount}>

@@ -1,8 +1,8 @@
 import type { TransferEvent } from '@superfluid-finance/sdk-core';
 import React, { FC } from 'react';
-import { iconsCoin } from 'constants/coins';
 import { TransactionLink } from 'components/common/TransactionLink';
 import { getTokenName } from 'utils/getTokenName';
+import { TokenIcon } from 'components/common/TokenIcon';
 import styles from '../styles.module.scss';
 
 type TransferProps = {
@@ -40,7 +40,7 @@ export const Transfer: FC<TransferProps> = ({ event, account }) => {
           <span>
             {isUser ? 'Sent' : 'Received'}
           </span>
-          <img src={iconsCoin[tokenName]} alt={tokenName} />
+          <TokenIcon tokenName={tokenName} />
           <span className={styles.amount}>
             {+value / 1e18}
             {' '}
@@ -68,7 +68,7 @@ export const Transfer: FC<TransferProps> = ({ event, account }) => {
             <span>
               {isUser ? 'Sent' : 'Received'}
             </span>
-            <img src={iconsCoin[tokenName]} alt={tokenName} />
+            <TokenIcon tokenName={tokenName} />
             <span className={styles.amount}>
               {+value / 1e18}
               {' '}
