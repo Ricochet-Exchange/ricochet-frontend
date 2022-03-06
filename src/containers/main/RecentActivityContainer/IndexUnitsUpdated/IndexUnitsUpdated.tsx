@@ -19,12 +19,12 @@ export const IndexUnitsUpdated: FC<IndexSubscribedProps> = ({ event }) => {
   const tokenName = getTokenName(token);
   const time = new Date(timestamp * 1000).toString().split(' ')[4];
 
-  let activityCopying = `${getActivityCopying(name)} in`;
+  let activityCopying = getActivityCopying(name);
 
   if (units === '0') {
-    activityCopying = 'Stopped distribution in';
+    activityCopying = 'Stopped distribution';
   } else if (oldUnits === '0') {
-    activityCopying = 'Started distribution in';
+    activityCopying = 'Started distribution';
   }
 
   /**
@@ -41,7 +41,11 @@ export const IndexUnitsUpdated: FC<IndexSubscribedProps> = ({ event }) => {
       <div className={styles.larger_streaming_wrapper}>
         <div className={styles.larger_streaming_content}>
           <span>{time}</span>
-          <span>{activityCopying}</span>
+          <span>
+            {activityCopying}
+            {' '}
+            in
+          </span>
           <TokenIcon tokenName={tokenName} />
           <span className={styles.amount}>{tokenName}</span>
           <span>from</span>
@@ -70,7 +74,8 @@ export const IndexUnitsUpdated: FC<IndexSubscribedProps> = ({ event }) => {
         </div>
         <div>
           <span>
-            Updated subscription from&nbsp;
+            {(oldUnits === '0' || units === '0') ? activityCopying : 'Updated subscription'}
+            &nbsp;from&nbsp;
           </span>
           <div className={styles.address_wrapper}>
             <CopiableAddress address={publisher} />

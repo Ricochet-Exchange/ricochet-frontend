@@ -8,6 +8,31 @@ import { TokenIcon } from 'components/common/TokenIcon';
 import { CopiableAddress } from 'components/common/CopiableAddress';
 import styles from './styles.module.scss';
 
+type DistributionProps = {
+  tokenName: string;
+  oldUnits: string;
+  units: string;
+};
+
+const Distribution: FC<DistributionProps> = ({ tokenName, oldUnits, units }) => {
+  if (oldUnits === '0' || units === '0') {
+    return null;
+  }
+
+  return (
+    <>
+      <div className={styles.amount_wrapper}>
+        <span className={styles.amount}>
+          {units}
+          {' '}
+          {tokenName}
+        </span>
+      </div>
+      <p>Units</p>
+    </>
+  );
+};
+
 type ActivityDetailsProps = {
   event: ActivityEvents;
   /** wallet connected address */
@@ -76,6 +101,16 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({
         finnalCopying = `Incoming ${activityCopying}`;
       }
       break;
+
+    case 'IndexUnitsUpdated':
+      if (event.units === '0') {
+        finnalCopying = 'Stopped distribution';
+      } else if (event.oldUnits === '0') {
+        finnalCopying = 'Started distribution';
+      } else {
+        finnalCopying = activityCopying;
+      }
+      break;
   
     default:
       finnalCopying = activityCopying;
@@ -98,7 +133,7 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({
           <span>{time}</span>
         </div>
         <p>Time</p>
-        {(name === 'IndexSubscribed' || name === 'SubscriptionRevoked' || name === 'FlowUpdated') ? null : (
+        {(name === 'TokenUpgraded' || name === 'TokenDowngraded' || name === 'Transfer') && (
           <>
             <div className={styles.amount_wrapper}>
               <TokenIcon tokenName={tokenName} />
@@ -110,13 +145,6 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({
                   {tokenName}
                 </span>
                 )}
-              {name === 'IndexUnitsUpdated' && (
-              <span className={styles.amount}>
-                {event.units}
-                {' '}
-                {tokenName}
-              </span>
-              )}
               {name === 'Transfer' && (
                 <span className={styles.amount}>
                   {+event.value / 1e18}
@@ -125,10 +153,10 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({
                 </span>
               )}
             </div>
-            <p>{(name === 'TokenUpgraded' || name === 'TokenDowngraded' || name === 'Transfer') ? 'Amount' : 'Unit'}</p>
-
+            <p>Amount</p>
           </>
         )}
+        {(name === 'IndexUnitsUpdated') && <Distribution tokenName={tokenName} units={event.units} oldUnits={event.oldUnits} />}
         {(name === 'FlowUpdated') && (
           <>
             <div className={styles.address_wrapper}>
