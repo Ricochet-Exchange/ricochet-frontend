@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import copy from 'assets/images/copy.svg';
+import ReactTooltip from 'react-tooltip';
 import styles from './styles.module.scss';
 
 type CopiableAddressProps = {
@@ -16,13 +17,30 @@ export const CopiableAddress: FC<CopiableAddressProps> = ({ address }) => {
   };
 
   return (
-    <div aria-hidden="true" data-tip={clipboardTitle} onClick={copyToClipboard} className={styles.wrapper}>
-      <span>
-        {address.slice(0, 7)}
-        ...
-        {address.slice(-4)}
-      </span>
-      <img src={copy} alt="copy icon" />
+    <div>
+      <div
+        aria-hidden="true"
+        data-for="copiable-address"
+        data-tip={clipboardTitle}
+        onClick={copyToClipboard}
+        className={styles.wrapper}
+      >
+        <span>
+          {address.slice(0, 7)}
+          ...
+          {address.slice(-4)}
+        </span>
+        <img src={copy} alt="copy icon" />
+      </div>
+      <ReactTooltip
+        id="copiable-address"
+        place="top"
+        effect="solid"
+        multiline
+        className={styles.address_tooltip_wrapper}
+      >
+        <span className={styles.copiable_address_tooltip}>{clipboardTitle}</span>
+      </ReactTooltip>
     </div>
   );
 };
