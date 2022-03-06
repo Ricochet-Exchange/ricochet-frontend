@@ -10,11 +10,13 @@ import { LoadingWrapper } from 'components/common/LoadingWrapper';
 import { VaultDetails } from 'components/banks/VaultDetails';
 import { useDispatch } from 'react-redux';
 import { banksGetData } from 'store/banks/actionCreators';
+import { Routes } from 'constants/routes';
 import { InvestNav } from 'components/layout/InvestNav';
 import { connectWeb3Modal } from 'store/main/actionCreators';
-import { LoadingPopUp } from 'components/common/LoadingPopUp';
+import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { useTranslation } from 'react-i18next';
 import { RICAddress, USDCxAddress } from 'constants/polygon_config';
+import { NavLink } from 'react-router-dom';
 import styles from './styles.module.scss';
 
 export const VaultsContainer = () => {
@@ -92,7 +94,13 @@ export const VaultsContainer = () => {
                   <>{renderVaults()}</>
                 ) : (
                   <div className={styles.vault_empty}>
-                    <LoadingPopUp />
+                    <NavLink
+                      className={styles.nav_link}
+                      to={Routes.Banks}
+                    >
+                      <FontIcon name={FontIconName.Lock} size={16} />
+                      <div className={styles.nav_text}>{t('Create a Vault in Bank')}</div>
+                    </NavLink>    
                   </div>
                 )}
               </div>
