@@ -14,7 +14,7 @@ export const getVaultCalcValues = (bank: BankType) => {
     +bank.collateralToken.price / +bank.collateralToken.granularityPrice;
   const liquidationPrice = (cR * aD * pD) / aC;
   const withdrawAvailable = aC - (cR * aD * pD) / pC;
-  const borrowAvailable = (aC * pC) / pD / cR - aD;
+  const borrowAvailable = ((aC * pC) / pD / cR - aD) + ((aC * pC) / pD / cR - aD)/100*5;
 
   return {
     liquidationPrice,
