@@ -80,7 +80,7 @@ export const VaultTransactionContainer: FC<Props> = ({
 
   const handleApproveToken = useCallback(() => {
     dispatch(banksApproveToken(
-      bank.collateralToken.address,
+      bank.debtToken.address,
       bank.bankAddress,
       bank.vault.debtAmount,
       callbackApprove,

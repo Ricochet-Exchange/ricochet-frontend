@@ -17,8 +17,17 @@ export enum FlowEnum {
   twoWayusdcWbtcFlowQuery = 'twoWayusdcWbtcFlowQuery',
   usdcRicFlowQuery = 'usdcRicFlowQuery',
 }
-// eslint-disable-next-line max-len
-export const indexIDA : { input: string, output:string, subsidy?: string, subsidyIndex?: number, inputIndex: number, outputIndex: number }[] = [
+
+type IndexIDAType = {
+  input: string;
+  output:string;
+  subsidy?: string;
+  subsidyIndex?: number;
+  inputIndex: number;
+  outputIndex: number;
+}[];
+
+export const indexIDA: IndexIDAType = [
   {
     input: USDCxAddress,
     output: WETHxAddress,
@@ -49,6 +58,13 @@ export const indexIDA : { input: string, output:string, subsidy?: string, subsid
     subsidy: RICAddress,
     subsidyIndex: 2,
     inputIndex: 1,
+    outputIndex: 0,
+  },
+  {
+    input: USDCxAddress,
+    output: RICAddress,
+    subsidy: RICAddress,
+    inputIndex: 0, // just a placeholder, not used
     outputIndex: 0,
   },
 ];

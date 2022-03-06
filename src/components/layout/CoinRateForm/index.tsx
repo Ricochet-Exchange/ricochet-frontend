@@ -35,7 +35,6 @@ export const CoinRateForm: FC<IProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  console.log('keycheck', indexVal);
   // Security Deposit is 4 hours worth of stream, so (4*60*60)/(30*24*60*60) = 1/180
   return (
     <div className={styles.input_container}>
