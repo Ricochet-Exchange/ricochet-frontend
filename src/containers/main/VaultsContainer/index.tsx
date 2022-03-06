@@ -29,6 +29,7 @@ export const VaultsContainer = () => {
   const [activeTransaction, setActiveTransaction] = useState('');
   const [transactionHash, setTransactionHash] = useState('');
   const { t } = useTranslation();
+  const [vaultID, setVaultID] = useState('');
   
   const handleOnClick = useCallback((e: MouseEvent) => {
     e.preventDefault();
@@ -65,6 +66,8 @@ export const VaultsContainer = () => {
             setActiveTransaction={setActiveTransaction}
             balanceRIC={balances && balances[RICAddress]}
             balanceUSDCx={balances && balances[USDCxAddress]}
+            onMouseDown={(e: any) => { setVaultID(e.target.value); }}
+            vaultID={vaultID}
           />
         );
       }
