@@ -4,6 +4,7 @@ import { TransactionLink } from 'components/common/TransactionLink';
 import { getTokenName } from 'utils/getTokenName';
 import { TokenIcon } from 'components/common/TokenIcon';
 import { CopiableAddress } from 'components/common/CopiableAddress';
+import { CoinPlaceholder } from 'components/common/CoinPlaceholder';
 import styles from '../styles.module.scss';
 
 type TransferProps = {
@@ -43,7 +44,7 @@ export const Transfer: FC<TransferProps> = ({ event, account }) => {
           <span className={styles.amount}>
             {+value / 1e18}
             {' '}
-            {tokenName}
+            {tokenName ?? <CoinPlaceholder token={token} />}
           </span>
           <span>
             {isUser ? 'to' : 'from'}
@@ -68,7 +69,7 @@ export const Transfer: FC<TransferProps> = ({ event, account }) => {
             <span className={styles.amount}>
               {+value / 1e18}
               {' '}
-              {tokenName}
+              {tokenName ?? <CoinPlaceholder token={token} />}
             </span>
           </div>
         </div>
@@ -77,7 +78,6 @@ export const Transfer: FC<TransferProps> = ({ event, account }) => {
             &gt;
           </span>
         </div>
-
       </>
     </>
   );

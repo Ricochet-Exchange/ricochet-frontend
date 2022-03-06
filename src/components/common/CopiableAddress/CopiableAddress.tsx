@@ -17,7 +17,7 @@ export const CopiableAddress: FC<CopiableAddressProps> = ({ address }) => {
   };
 
   return (
-    <div>
+    <div style={{ display: 'inline-block' }}>
       <div
         aria-hidden="true"
         data-for="copiable-address"

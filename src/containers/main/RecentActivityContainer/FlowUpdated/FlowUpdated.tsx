@@ -5,6 +5,7 @@ import { TransactionLink } from 'components/common/TransactionLink';
 import { getTokenName } from 'utils/getTokenName';
 import { TokenIcon } from 'components/common/TokenIcon';
 import { CopiableAddress } from 'components/common/CopiableAddress';
+import { CoinPlaceholder } from 'components/common/CoinPlaceholder';
 import styles from '../styles.module.scss';
 
 type FlowUpdatedProps = {
@@ -81,7 +82,7 @@ export const FlowUpdated: FC<FlowUpdatedProps> = ({
             {activityCopying}
           </span>
           <TokenIcon tokenName={tokenName} />
-          <span className={styles.amount}>{tokenName}</span>
+          <span className={styles.amount}>{tokenName ?? <CoinPlaceholder token={token} />}</span>
           <CopiableAddress address={isUser ? receiver : sender} />
           <span>
             {' '}

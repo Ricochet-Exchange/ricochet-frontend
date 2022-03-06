@@ -1,6 +1,6 @@
 .wrapper {
 	display: grid;
-	grid-template-columns: auto 136px;
+	grid-template-columns: auto 160px;
 	grid-template-rows: repeat(2, minmax(24px, min-content));
   align-items: center;
   background-color: var(--color-blue-light);

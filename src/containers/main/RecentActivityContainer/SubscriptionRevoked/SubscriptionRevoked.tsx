@@ -5,6 +5,7 @@ import { TransactionLink } from 'components/common/TransactionLink';
 import { getTokenName } from 'utils/getTokenName';
 import { TokenIcon } from 'components/common/TokenIcon';
 import { CopiableAddress } from 'components/common/CopiableAddress';
+import { CoinPlaceholder } from 'components/common/CoinPlaceholder';
 import styles from '../styles.module.scss';
 
 type SubscriptionRevokedProps = {
@@ -13,7 +14,7 @@ type SubscriptionRevokedProps = {
 
 export const SubscriptionRevoked: FC<SubscriptionRevokedProps> = ({ event }) => {
   const {
-    name, timestamp, token, transactionHash, subscriber,
+    name, timestamp, token, transactionHash, publisher,
   } = event;
 
   const time = new Date(timestamp * 1000).toString().split(' ')[4];
@@ -38,9 +39,9 @@ export const SubscriptionRevoked: FC<SubscriptionRevokedProps> = ({ event }) => 
           <span>{time}</span>
           <span>{activityCopying}</span>
           <TokenIcon tokenName={tokenName} />
-          <span className={styles.amount}>{tokenName}</span>
+          <span className={styles.amount}>{tokenName ?? <CoinPlaceholder token={token} />}</span>
           <span>from</span>
-          <CopiableAddress address={subscriber} />
+          <CopiableAddress address={publisher} />
         </div>
         <div className={styles.transaction_link_wrapper} role="button" aria-hidden="true" onClick={stopPropagation}>
           <TransactionLink transactionHash={transactionHash} />
@@ -50,13 +51,13 @@ export const SubscriptionRevoked: FC<SubscriptionRevokedProps> = ({ event }) => 
         <div className={styles.streaming_content}>
           <span>{time}</span>
           <TokenIcon tokenName={tokenName} />
-          <span className={styles.amount}>{tokenName}</span>
+          <span className={styles.amount}>{tokenName ?? <CoinPlaceholder token={token} />}</span>
         </div>
         <div>
           <span>
             Unsubscribed to&nbsp;
           </span>
-          <CopiableAddress address={subscriber} />
+          <CopiableAddress address={publisher} />
         </div>
       </div>
       <div className={styles.right_arrow}>

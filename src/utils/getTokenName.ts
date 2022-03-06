@@ -1,7 +1,7 @@
 import { Coin } from 'constants/coins';
 import { tokenCoinTransformer } from 'constants/tokenCoinMap';
 
-export const getTokenName = (token: string): Coin => {
+export const getTokenName = (token: string): Coin | undefined => {
   const isTokenExisted = tokenCoinTransformer.find(
     ({ token: t }) => t.toLowerCase() === token.toLowerCase(),
   );
@@ -10,6 +10,5 @@ export const getTokenName = (token: string): Coin => {
     return isTokenExisted.coin;
   }
 
-  console.warn(`Token ${token} is not supported`);
-  return 'UNKNOWN' as Coin;
+  console.log(`Token ${token} is not supported on Ricochet platform.`);
 };

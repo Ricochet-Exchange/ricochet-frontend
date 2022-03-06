@@ -6,15 +6,19 @@ import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { getTokenName } from 'utils/getTokenName';
 import { TokenIcon } from 'components/common/TokenIcon';
 import { CopiableAddress } from 'components/common/CopiableAddress';
+import { CoinPlaceholder } from 'components/common/CoinPlaceholder';
 import styles from './styles.module.scss';
 
 type DistributionProps = {
-  tokenName: string;
+  token: string;
+  tokenName?: string;
   oldUnits: string;
   units: string;
 };
 
-const Distribution: FC<DistributionProps> = ({ tokenName, oldUnits, units }) => {
+const Distribution: FC<DistributionProps> = ({
+  token, tokenName, oldUnits, units,
+}) => {
   if (oldUnits === '0' || units === '0') {
     return null;
   }
@@ -25,7 +29,7 @@ const Distribution: FC<DistributionProps> = ({ tokenName, oldUnits, units }) => 
         <span className={styles.amount}>
           {units}
           {' '}
-          {tokenName}
+          {tokenName ?? <CoinPlaceholder token={token} />}
         </span>
       </div>
       <p>Units</p>
@@ -142,21 +146,21 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({
                 <span className={styles.amount}>
                   {+event.amount / 1e18}
                   {' '}
-                  {tokenName}
+                  {tokenName ?? <CoinPlaceholder token={token} />}
                 </span>
                 )}
               {name === 'Transfer' && (
                 <span className={styles.amount}>
                   {+event.value / 1e18}
                   {' '}
-                  {tokenName}
+                  {tokenName ?? <CoinPlaceholder token={token} />}
                 </span>
               )}
             </div>
             <p>Amount</p>
           </>
         )}
-        {(name === 'IndexUnitsUpdated') && <Distribution tokenName={tokenName} units={event.units} oldUnits={event.oldUnits} />}
+        {(name === 'IndexUnitsUpdated') && <Distribution token={token} tokenName={tokenName} units={event.units} oldUnits={event.oldUnits} />}
         {(name === 'FlowUpdated') && (
           <>
             <div className={styles.address_wrapper}>
@@ -172,7 +176,7 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({
             <p>{streamToken}</p>
             <p>
               Stream in&nbsp;
-              {tokenName}
+              {tokenName ?? <CoinPlaceholder token={token} />}
             </p>
           </>
         )}

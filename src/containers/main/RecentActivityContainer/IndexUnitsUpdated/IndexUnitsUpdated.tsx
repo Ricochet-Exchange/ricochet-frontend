@@ -5,6 +5,7 @@ import { TransactionLink } from 'components/common/TransactionLink';
 import { getTokenName } from 'utils/getTokenName';
 import { TokenIcon } from 'components/common/TokenIcon';
 import { CopiableAddress } from 'components/common/CopiableAddress';
+import { CoinPlaceholder } from 'components/common/CoinPlaceholder';
 import styles from '../styles.module.scss';
 
 type IndexSubscribedProps = {
@@ -47,7 +48,7 @@ export const IndexUnitsUpdated: FC<IndexSubscribedProps> = ({ event }) => {
             in
           </span>
           <TokenIcon tokenName={tokenName} />
-          <span className={styles.amount}>{tokenName}</span>
+          <span className={styles.amount}>{tokenName ?? <CoinPlaceholder token={token} />}</span>
           <span>from</span>
           <CopiableAddress address={publisher} />
           {(units !== '0' && oldUnits !== '0') && (
@@ -70,7 +71,7 @@ export const IndexUnitsUpdated: FC<IndexSubscribedProps> = ({ event }) => {
         <div className={styles.streaming_content}>
           <span>{time}</span>
           <TokenIcon tokenName={tokenName} />
-          <span className={styles.amount}>{tokenName}</span>
+          <span className={styles.amount}>{tokenName ?? <CoinPlaceholder token={token} />}</span>
         </div>
         <div>
           <span>

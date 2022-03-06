@@ -4,6 +4,7 @@ import { getActivityCopying } from 'utils/getActivityCopying';
 import { TransactionLink } from 'components/common/TransactionLink';
 import { getTokenName } from 'utils/getTokenName';
 import { TokenIcon } from 'components/common/TokenIcon';
+import { CoinPlaceholder } from 'components/common/CoinPlaceholder';
 import styles from '../styles.module.scss';
 
 type TokenUpdatedProps = {
@@ -38,7 +39,9 @@ export const TokenUpdated: FC<TokenUpdatedProps> = ({ event }) => {
           <span>{activityCopying}</span>
           <TokenIcon tokenName={tokenName} />
           <span className={styles.amount}>
-            {`${+event.amount / 1e18} ${tokenName}`}
+            {+event.amount / 1e18}
+            {' '}
+            {tokenName ?? <CoinPlaceholder token={token} />}
           </span>
         </div>
         <div className={styles.transaction_link_wrapper} role="button" aria-hidden="true" onClick={stopPropagation}>
@@ -49,10 +52,16 @@ export const TokenUpdated: FC<TokenUpdatedProps> = ({ event }) => {
         <div className={styles.streaming_content}>
           <span>{time}</span>
           <TokenIcon tokenName={tokenName} />
-          <span>{tokenName}</span>
+          <span>{tokenName ?? <CoinPlaceholder token={token} />}</span>
         </div>
         <div>
-          <span>{`${activityCopying} ${+event.amount / 1e18} ${tokenName}`}</span>
+          <span>
+            {activityCopying}
+            {' '}
+            {+event.amount / 1e18}
+            {' '}
+            {tokenName ?? <CoinPlaceholder token={token} />}
+          </span>
         </div>
       </div>
       <div className={styles.right_arrow}>
