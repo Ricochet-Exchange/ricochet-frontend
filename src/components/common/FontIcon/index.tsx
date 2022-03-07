@@ -11,6 +11,7 @@ export enum FontIconName {
   Close = 'icon-close',
   ChevronDown = 'icon-arrow-bottom-1',
   Lock = 'icon-lock',
+  ArrowLeft = 'icon-left',
   ArrowRight = 'icon-arrow-right',
   User = 'icon-user',
   Star = 'icon-star-filled',
@@ -42,6 +43,7 @@ export enum FontIconName {
   Distribution = 'icon-spread',
   Warning = 'icon-warning-empty',
   Login = 'icon-login',
+  Activity = 'icon-clock',
 }
 
 const FontIcon: FC<IProps> = ({ name, size = 24, className }) => (

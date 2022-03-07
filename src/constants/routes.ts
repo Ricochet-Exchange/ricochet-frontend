@@ -13,4 +13,5 @@ export const Routes: any = {
   Vaults: `${home}/vaults`,
   Refer: `${home}/refer`,
   Referral: `${home}/(.*)?/${REFERRAL_URL_PREFIX}/:referralId`,
+  RecentActivity: `${home}/recent-activity`,
 };

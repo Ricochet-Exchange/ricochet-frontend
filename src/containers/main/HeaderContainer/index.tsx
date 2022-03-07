@@ -62,6 +62,12 @@ export const HeaderContainer: FC<IProps> = ({ address, balance }) => {
             <div>{t('Launchpad')}</div>
           </>
         );
+      case Routes.RecentActivity:
+        return (
+          <>
+            <div>{t('Activity')}</div>
+          </>
+        );
       case Routes.Refer:
         return (
           <>
