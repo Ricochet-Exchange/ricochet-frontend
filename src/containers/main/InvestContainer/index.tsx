@@ -39,7 +39,7 @@ export const InvestContainer: React.FC<IProps> = () => {
   const [filteredList, setFilteredList] = useState(flowConfig);
   const match = useRouteMatch();
   const flowType = RoutesToFlowTypes[match.path];
-
+  
   useEffect(() => {
     if (flowType) {
       setFilteredList(flowConfig.filter((each) => each.type === flowType));
@@ -126,7 +126,7 @@ export const InvestContainer: React.FC<IProps> = () => {
           <div className={styles.ends}>{t('')}</div>
         </div>
         <div className={styles.content}>
-          {filteredList.map((element) => (
+          {filteredList.map((element, idx) => (
             <div className={styles.panel} key={`${element.coinA}-${element.coinB}`}>
               <PanelChange
                 placeholder={t('Input Rate')}
@@ -155,6 +155,7 @@ export const InvestContainer: React.FC<IProps> = () => {
                 isReadOnly={state.isReadOnly}
                 contractAddress={element.superToken}
                 exchangeKey={element.flowKey.replace('FlowQuery', '') as ExchangeKeys}
+                indexVal={idx}
               />
             </div>
           ))}

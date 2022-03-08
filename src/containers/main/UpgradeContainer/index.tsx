@@ -30,6 +30,7 @@ interface IProps {
   address: string;
   balance?: string;
 }
+
 export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
   const state = useShallowSelector(selectMain);
   const {
@@ -93,6 +94,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
     IDLE: 'idle',
     RIC: 'richochet',
   };
+
   useEffect(() => {
     async function getGraphData() {
       setFlows((await queryFlows(address)).data.data.account);

@@ -1,7 +1,4 @@
-import { useTranslation } from 'react-i18next';
-
 export const transformError = (e?: any) => {
-  const { t } = useTranslation();
   if (e?.data?.error) {
     return e.data.error;
   }
@@ -11,5 +8,5 @@ export const transformError = (e?: any) => {
   if (e.code === -32603) {
     return e.data?.message;
   }
-  return t('Operation failed. Refresh the page or try again later.'); 
+  return 'Operation failed. Refresh the page or try again later.'; 
 };

@@ -50,6 +50,7 @@ interface IProps {
   contractAddress: string,
   exchangeKey: ExchangeKeys,
   isReadOnly?: boolean,
+  indexVal?: number;
 }
 
 export const PanelChange: FC<IProps> = ({
@@ -73,6 +74,7 @@ export const PanelChange: FC<IProps> = ({
   isReadOnly,
   contractAddress,
   exchangeKey,
+  indexVal,
 }) => {
   const link = getAddressLink(contractAddress);
   const { web3 } = useShallowSelector(selectMain);
@@ -148,7 +150,7 @@ export const PanelChange: FC<IProps> = ({
     setIsLoading(true);
     if (flowType === FlowTypes.market) {
       onClickStart((((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler)
-          * shareScaler) / 1e18) * 2592000).toString(), callback);
+        * shareScaler) / 1e18) * 2592000).toString(), callback);
     } else {
       onClickStart(value, callback);
     }
@@ -220,9 +222,9 @@ export const PanelChange: FC<IProps> = ({
                   </div>
                   <span>
                     {((personalFlow || 0) > 0 && (balanceA || 0) > 0) && (
-                    <div className={styles.stream_values}>
-                      {`${t('Runs out on')} ${streamEnd}`}
-                    </div>
+                      <div className={styles.stream_values}>
+                        {`${t('Runs out on')} ${streamEnd}`}
+                      </div>
                     )}
                   </span>
                 </div>
@@ -259,7 +261,7 @@ export const PanelChange: FC<IProps> = ({
                       {`$${totalFlow && (getFlowUSDValue(totalFlow))}`}
                     </span>
                     {t('per month')}
-                    { ((subsidyRate?.total) || 0) > 0 ? (
+                    {((subsidyRate?.total) || 0) > 0 ? (
                       <span>
                         <span data-tip data-for={`depositTooltipTotal-${uuid}`}>🔥</span>
                         <ReactTooltip
@@ -315,6 +317,7 @@ export const PanelChange: FC<IProps> = ({
               isReadOnly={isReadOnly}
               shareScaler={shareScaler}
               personalFlow={getFormattedNumber(getFlowUSDValue(personalFlow))}
+              indexVal={indexVal}
             />
           </div>
         )}
@@ -331,6 +334,7 @@ export const PanelChange: FC<IProps> = ({
               isReadOnly={isReadOnly}
               personalFlow={getFormattedNumber(getFlowUSDValue(personalFlow))}
               shareScaler={shareScaler}
+              indexVal={indexVal}
             />
           </div>
         )}

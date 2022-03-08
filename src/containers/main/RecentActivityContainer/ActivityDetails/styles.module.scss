@@ -1,0 +1,61 @@
+.wrapper {
+	display: grid;
+	grid-template-columns: auto 160px;
+	grid-template-rows: repeat(2, minmax(24px, min-content));
+  align-items: center;
+  background-color: var(--color-blue-light);
+  border-radius: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.wrapper div:nth-child(odd),
+.wrapper p:nth-child(odd) {
+	justify-self: start;
+  font-weight: bold;
+}
+
+.wrapper div:nth-child(even),
+.wrapper p:nth-child(even) {
+	justify-self: end;
+  text-transform: uppercase;
+}
+
+.time {
+  display: flex;
+  gap: 8px;
+}
+
+.address_wrapper {
+  position: relative;
+}
+
+.amount_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.amount {
+  color: var(--color-blue-dark);
+}
+
+.transaction_link_wrapper {
+  color: white;
+}
+
+.back_button {
+  background: initial;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 8px;
+
+  &:hover {
+    background-color: var(--color-blue-dark);
+    border-radius: 0.25rem;
+    color: white;
+    transition: color 200ms ease;
+  }
+}

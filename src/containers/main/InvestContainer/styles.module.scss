@@ -149,3 +149,9 @@
     padding: 0 1rem 0 0;
   }
 }
+
+.dropdownHolder {
+  @include flexbox(center, center);
+  justify-content: center;
+  column-gap: 40px;
+}

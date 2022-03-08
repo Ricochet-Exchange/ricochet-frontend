@@ -1,16 +1,16 @@
-import wbtc from '../assets/images/coins/bitcoin.svg';
-import btc from '../assets/images/coins/bitcoinRotate.svg';
-import eth from '../assets/images/coins/ethereum.svg';
-import shib from '../assets/images/coins/shibaInu.svg';
-import usdt from '../assets/images/coins/tetherUsdt.svg';
-import usdc from '../assets/images/coins/usdCoin.svg';
-import dai from '../assets/images/coins/dai.svg';
-import matic from '../assets/images/coins/matic.svg';
-import mkr from '../assets/images/coins/mkr.svg';
-import ric from '../assets/images/coins/ric.svg';
-import sushi from '../assets/images/coins/sushiswap.svg';
-import slp from '../assets/images/coins/slp.svg';
-import idle from '../assets/images/coins/idle.svg';
+import wbtc from 'assets/images/coins/bitcoin.svg';
+import btc from 'assets/images/coins/bitcoinRotate.svg';
+import eth from 'assets/images/coins/ethereum.svg';
+import shib from 'assets/images/coins/shibaInu.svg';
+import usdt from 'assets/images/coins/tetherUsdt.svg';
+import usdc from 'assets/images/coins/usdCoin.svg';
+import dai from 'assets/images/coins/dai.svg';
+import matic from 'assets/images/coins/matic.svg';
+import mkr from 'assets/images/coins/mkr.svg';
+import ric from 'assets/images/coins/ric.svg';
+import sushi from 'assets/images/coins/sushiswap.svg';
+import slp from 'assets/images/coins/slp.svg';
+import idle from 'assets/images/coins/idle.svg';
 
 export enum Coin {
   WBTC = 'WBTC',
@@ -30,6 +30,7 @@ export enum Coin {
   DAIx = 'DAIx',
   MKRx = 'MKRx',
   WETHx = 'WETHx',
+  ETHx = 'ETHx',
   WBTCx = 'WBTCx',
   rexLPEth = 'USDC/ETH',
   SUSHI = 'SUSHI',
@@ -80,6 +81,7 @@ export const iconsCoin: Partial<Record<Coin, string>> = {
   [Coin.USDCx]: usdc,
   [Coin.WBTCx]: wbtc,
   [Coin.WETHx]: eth,
+  [Coin.ETHx]: eth,
   [Coin.rexLPEth]: slp,
   [Coin.IDLE]: idle,
   [Coin.IDLEx]: idle,

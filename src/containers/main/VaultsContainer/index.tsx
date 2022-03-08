@@ -24,6 +24,7 @@ export const VaultsContainer = () => {
   const [activeTransaction, setActiveTransaction] = useState('');
   const [transactionHash, setTransactionHash] = useState('');
   const { t } = useTranslation();
+  const [vaultID, setVaultID] = useState('');
   
   const handleOnClick = useCallback((e: MouseEvent) => {
     e.preventDefault();
@@ -35,7 +36,7 @@ export const VaultsContainer = () => {
   }, [dispatch]);
   
   useEffect(() => {
-    if (!banks[0]) dispatch(banksGetData());
+    if (banks.length !== 0) dispatch(banksGetData());
   }, [banks]);
 
   useEffect(() => {
@@ -58,6 +59,8 @@ export const VaultsContainer = () => {
             onClick={handleOnClick}
             setTransactionHash={setTransactionHash}
             setActiveTransaction={setActiveTransaction}
+            onMouseDown={(e: any) => { setVaultID(e.target.value); }}
+            vaultID={vaultID}
           />
         );
       }
