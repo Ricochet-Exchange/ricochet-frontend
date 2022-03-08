@@ -25,6 +25,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   usdcSlpEthFlowQuery?: {
     flowKey: string,
@@ -33,6 +34,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   usdcWethFlowQuery?: {
     flowKey: string,
@@ -41,6 +43,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   daiMkrFlowQuery?: {
     flowKey: string,
@@ -49,6 +52,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   mkrDaiFlowQuery?: {
     flowKey: string,
@@ -57,6 +61,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   usdcMkrFlowQuery?: {
     flowKey: string,
@@ -65,6 +70,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   mkrUsdcFlowQuery?: {
     flowKey: string,
@@ -73,6 +79,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   daiMaticFlowQuery?: {
     flowKey: string,
@@ -81,6 +88,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   maticDaiFlowQuery?: {
     flowKey: string,
@@ -89,6 +97,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   usdcMaticFlowQuery?: {
     flowKey: string,
@@ -97,6 +106,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   maticUsdcFlowQuery?: {
     flowKey: string,
@@ -105,6 +115,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   daiEthFlowQuery?: {
     flowKey: string,
@@ -113,6 +124,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   ethDaiFlowQuery?: {
     flowKey: string,
@@ -121,6 +133,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   usdcWbtcFlowQuery?: {
     flowKey: string,
@@ -129,6 +142,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   wethUsdcFlowQuery?: {
     flowKey: string,
@@ -137,6 +151,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   wbtcUsdcFlowQuery?: {
     flowKey: string,
@@ -145,6 +160,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   usdcIdleFlowQuery?: {
     flowKey: string,
@@ -153,6 +169,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   twoWayusdcWethFlowQuery?: {
     flowKey: string,
@@ -161,6 +178,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   twoWaywethUsdcFlowQuery?: {
     flowKey: string,
@@ -169,6 +187,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   twoWaywbtcUsdcFlowQuery?: {
     flowKey: string,
@@ -177,6 +196,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   twoWayusdcWbtcFlowQuery?: {
     flowKey: string,
@@ -185,6 +205,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   isLoadingDowngrade: boolean,
   isLoadingUpgrade: boolean,

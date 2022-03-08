@@ -4,7 +4,8 @@ import {
 import { RICAddress } from 'constants/polygon_config';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
-import { queryFlows } from 'api';
+import { queryFlows, queryStreams } from 'api';
+
 import { getReceviedFlows } from 'utils/getReceviedFlows';
 import { getOwnedFlows } from 'utils/getOwnedFlows';
 import { Flow } from 'types/flow';
@@ -15,6 +16,7 @@ import { getContract } from 'utils/getContract';
 
 import { mainSetState } from '../actionCreators';
 import { selectMain } from '../selectors';
+import calculateStreamedSoFar from '../../../pages/InvestPage/utils/calculateStreamedSoFar';
 
 const exchangeContractsAddresses = flowConfig.map((f) => f.superToken);
 
@@ -25,6 +27,19 @@ export function* sweepQueryFlow() {
   const results: any[] = yield all(exchangeContractsAddresses.map(
     (addr) => call(queryFlows, addr),
   ));
+  const response: Unwrap<typeof queryStreams> = yield call(queryStreams, address);
+  const streamedSoFarMap: { [key:string]: number } = {};
+  (response?.data?.data?.streams || [])
+    .forEach((stream:any) => {
+      const streamedSoFar = streamedSoFarMap[`${stream.token.id}-${stream.receiver.id}`] || 0;
+      Object.assign(streamedSoFarMap, {
+        [`${stream.token.id}-${stream.receiver.id}`]: Number(streamedSoFar) + Number(calculateStreamedSoFar(
+          stream.streamedUntilUpdatedAt,
+          stream.updatedAtTimestamp,
+          stream.currentFlowRate,
+        )),
+      });
+    });
 
   const flows: { [key:string]: { flowsOwned: Flow[], flowsReceived: Flow[] } } = {};
   exchangeContractsAddresses.forEach((el, i) => {
@@ -72,6 +87,7 @@ export function* sweepQueryFlow() {
     const tokenAtokenBFlows = flows[exchangeAddress];
     const tokenAtokenBFlowsReceived = getReceviedFlows(tokenAtokenBFlows.flowsReceived,
       tokenAxAddress, address);
+    const streamedSoFar = streamedSoFarMap[`${tokenAxAddress.toLowerCase()}-${exchangeAddress.toLowerCase()}`];
     const tokenAtokenBPlaceholder = ((tokenAtokenBFlowsReceived / 10 ** 18) *
       (30 * 24 * 60 * 60)).toFixed(6);
     const flowsOwned = getOwnedFlows(tokenAtokenBFlows.flowsReceived, tokenAxAddress);
@@ -86,6 +102,7 @@ export function* sweepQueryFlow() {
       flowsOwned,
       totalFlows: tokenAtokenBFlows.flowsReceived.length,
       placeholder: tokenAtokenBPlaceholder,
+      streamedSoFar,
       subsidyRate, // await getSubsidyRate(FlowEnum.daiMkrFlowQuery,
       // usdcRicPlaceholder, flowsOwned),
     };
