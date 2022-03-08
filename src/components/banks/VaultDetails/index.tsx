@@ -97,7 +97,7 @@ export const VaultDetails: FC<Props> = ({
           <div className={styles.VaultDetail}>
             <p>{t('Available to withdraw')}</p>
             <h3>
-              {+(vaultCalcValues.withdrawAvailable.toFixed(4)) > 0 ? vaultCalcValues.withdrawAvailable.toFixed : '0'}
+              {+(vaultCalcValues.withdrawAvailable.toFixed(4)) > 0 ? vaultCalcValues.withdrawAvailable.toFixed(4) : '0'}
               {' '}
               {bank.collateralToken.symbol}
             </h3>
@@ -142,8 +142,6 @@ export const VaultDetails: FC<Props> = ({
                 && vaultCalcValues.borrowAvailable > 0
                     ? (+bank.reserveBalance / 1e18).toFixed()
                     : vaultCalcValues.borrowAvailable.toFixed(4)}
-                  ,
-                
                   {' '}
                   {bank.debtToken.symbol}
                 </h3>
