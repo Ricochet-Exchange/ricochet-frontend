@@ -250,6 +250,22 @@ export type MainState = {
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
   }
+  twoWayWbtcDaiFlowQuery?: {
+    flowKey: string,
+    flowsReceived: number,
+    flowsOwned: string,
+    totalFlows: number,
+    placeholder: string,
+    subsidyRate: { perso:number, total:number, endDate:string },
+  },
+  twoWayDaiWbtcFlowQuery?: {
+    flowKey: string,
+    flowsReceived: number,
+    flowsOwned: string,
+    totalFlows: number,
+    placeholder: string,
+    subsidyRate: { perso:number, total:number, endDate:string },
+  }
   isLoadingDowngrade: boolean,
   isLoadingUpgrade: boolean,
   isLoading: boolean,
