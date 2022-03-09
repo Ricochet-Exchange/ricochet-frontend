@@ -13,6 +13,7 @@ import {
   twoWayMarketRICUSDCAddress,
   MATICxAddress,
   twoWayMarketMATICUSDCAddress,
+  twoWayMarketMATICDAIAddress,
 } from './polygon_config';
 
 export enum FlowEnum {
@@ -26,6 +27,8 @@ export enum FlowEnum {
   twoWayUsdcRicFlowQuery = 'twoWayUsdcRicFlowQuery',
   twoWayMaticUsdcFlowQuery = 'twoWayMaticUsdcFlowQuery',
   twoWayUsdcMaticFlowQuery = 'twoWayUsdcMaticFlowQuery',
+  twoWayMaticDaiFlowQuery = 'twoWayMaticDaiFlowQuery',
+  twoWayDaiMaticFlowQuery = 'twoWayDaiMaticFlowQuery',
   usdcRicFlowQuery = 'usdcRicFlowQuery',
 }
 
@@ -124,6 +127,24 @@ export const indexIDA: IndexIDAType = [
   {
     exchangeAddress: twoWayMarketMATICUSDCAddress,
     input: USDCxAddress,
+    output: MATICxAddress,
+    subsidy: RICAddress,
+    subsidyIndex: 2,
+    inputIndex: 0,
+    outputIndex: 1,
+  },
+  {
+    exchangeAddress: twoWayMarketMATICDAIAddress,
+    input: MATICxAddress,
+    output: DAIxAddress,
+    subsidy: RICAddress,
+    subsidyIndex: 3,
+    inputIndex: 1,
+    outputIndex: 0,
+  },
+  {
+    exchangeAddress: twoWayMarketMATICDAIAddress,
+    input: DAIxAddress,
     output: MATICxAddress,
     subsidy: RICAddress,
     subsidyIndex: 2,
@@ -245,6 +266,24 @@ const markets: InvestmentFlow[] = [
     coinA: Coin.USDC,
     coinB: Coin.MATIC,
     flowKey: FlowEnum.twoWayUsdcMaticFlowQuery,
+    type: FlowTypes.market,
+  },
+  {
+    superToken: twoWayMarketMATICDAIAddress,
+    tokenA: MATICxAddress,
+    tokenB: DAIxAddress,
+    coinA: Coin.MATIC,
+    coinB: Coin.DAI,
+    flowKey: FlowEnum.twoWayMaticDaiFlowQuery,
+    type: FlowTypes.market,
+  },
+  {
+    superToken: twoWayMarketMATICDAIAddress,
+    tokenA: DAIxAddress,
+    tokenB: MATICxAddress,
+    coinA: Coin.DAI,
+    coinB: Coin.MATIC,
+    flowKey: FlowEnum.twoWayDaiMaticFlowQuery,
     type: FlowTypes.market,
   },
 ];
