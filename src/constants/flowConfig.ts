@@ -26,6 +26,7 @@ export enum FlowEnum {
 }
 
 type IndexIDAType = {
+  exchangeAddress: string;
   input: string;
   output:string;
   subsidy?: string;
@@ -36,6 +37,7 @@ type IndexIDAType = {
 
 export const indexIDA: IndexIDAType = [
   {
+    exchangeAddress: twoWayWETHMarketAddress,
     input: USDCxAddress,
     output: WETHxAddress,
     subsidy: RICAddress,
@@ -44,6 +46,7 @@ export const indexIDA: IndexIDAType = [
     outputIndex: 1,
   },
   {
+    exchangeAddress: twoWayWETHMarketAddress,
     input: WETHxAddress,
     output: USDCxAddress,
     subsidy: RICAddress,
@@ -52,6 +55,7 @@ export const indexIDA: IndexIDAType = [
     outputIndex: 0,
   },
   {
+    exchangeAddress: twoWayMarketWBTCAddress,
     input: USDCxAddress,
     output: WBTCxAddress,
     subsidy: RICAddress,
@@ -60,6 +64,7 @@ export const indexIDA: IndexIDAType = [
     outputIndex: 1,
   },
   {
+    exchangeAddress: twoWayMarketWBTCAddress,
     input: WBTCxAddress,
     output: USDCxAddress,
     subsidy: RICAddress,
@@ -68,6 +73,7 @@ export const indexIDA: IndexIDAType = [
     outputIndex: 0,
   },
   {
+    exchangeAddress: twoWayMarketDAIWETHAddress,
     input: DAIxAddress,
     output: WETHxAddress,
     subsidy: RICAddress,
@@ -76,6 +82,7 @@ export const indexIDA: IndexIDAType = [
     outputIndex: 1,
   },
   {
+    exchangeAddress: twoWayMarketDAIWETHAddress,
     input: WETHxAddress,
     output: DAIxAddress,
     subsidy: RICAddress,
@@ -84,6 +91,7 @@ export const indexIDA: IndexIDAType = [
     outputIndex: 0,
   },
   {
+    exchangeAddress: twoWayMarketRICUSDCAddress,
     input: RICAddress,
     output: USDCxAddress,
     subsidy: WETHxAddress,
@@ -92,6 +100,7 @@ export const indexIDA: IndexIDAType = [
     outputIndex: 0,
   },
   {
+    exchangeAddress: twoWayMarketRICUSDCAddress,
     input: USDCxAddress,
     output: RICAddress,
     subsidy: WETHxAddress,
@@ -100,6 +109,7 @@ export const indexIDA: IndexIDAType = [
     outputIndex: 1,
   },
   {
+    exchangeAddress: usdcxRicExchangeAddress,
     input: USDCxAddress,
     output: RICAddress,
     subsidy: RICAddress,
