@@ -5,7 +5,7 @@ export const truncateAddr = (addr: string) => (
 );
 
 export const getVaultCalcValues = (bank: BankType) => {
-  const cR = +bank.collateralizationRatio / 100;
+  const cR = (5 + +bank.collateralizationRatio) / 100;
   const aD = +bank.vault.debtAmount / 10 ** +bank.debtToken.decimals;
   const pD = +bank.debtToken.price / +bank.debtToken.granularityPrice;
   const aC =
@@ -14,8 +14,7 @@ export const getVaultCalcValues = (bank: BankType) => {
     +bank.collateralToken.price / +bank.collateralToken.granularityPrice;
   const liquidationPrice = (cR * aD * pD) / aC;
   const withdrawAvailable = aC - (cR * aD * pD) / pC;
-  const borrowAvailable = (aC * pC) / pD / cR - aD;
-
+  const borrowAvailable = ((aC * pC) / pD / cR - aD);
   return {
     liquidationPrice,
     withdrawAvailable,
