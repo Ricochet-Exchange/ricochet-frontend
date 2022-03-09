@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { getQueryGrath } from 'utils/getQueryGrath';
 import { getQueryDistributions } from '../utils/getQueryDistributions';
+import { getQueryStreams } from '../utils/getQueryStreams';
 
 export const queryFlows = async (
   queryAddress: string,
@@ -18,4 +19,13 @@ export const queryDistributions = async (
   const QUERY_URL = `${(process.env.REACT_APP_API_GRATH || '').replace('/superfluid-matic', '')}/protocol-v1-matic`;
   const query = getQueryDistributions(subscriber);
   return axios.post(QUERY_URL, { query, variables: null });
+};
+
+export const queryStreams = async (
+  address: string,
+) => {
+  const QUERY_URL = `${(process.env.REACT_APP_API_GRATH || '').replace('/superfluid-matic', '')}/protocol-v1-matic`;
+  const query = getQueryStreams(address);
+  
+  return axios.post(QUERY_URL, { query });
 };

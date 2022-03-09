@@ -22,7 +22,10 @@ type Props = {
   onApproveClick: () => void;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onMaxRepay: () => void;
-  onMaxAmount: () => void;
+  onMaxWithdraw: () => void;
+  onMaxDepositUSDCx: ()=> void;
+  onMaxDepositRIC: ()=> void;
+  onMaxBorrow: () => void;
   onCancel: () => void;
   onMakeAction: () => void;
 };
@@ -39,7 +42,10 @@ export const VaultTransaction: FC<Props> = ({
   onApproveClick,
   onChange,
   onMaxRepay,
-  onMaxAmount,
+  onMaxWithdraw,
+  onMaxBorrow,
+  onMaxDepositUSDCx,
+  onMaxDepositRIC,
   onCancel,
   onMakeAction,
 }) => {
@@ -61,6 +67,20 @@ export const VaultTransaction: FC<Props> = ({
     activeTransaction,
     value,
   );
+
+  const setTransaction = async () => {
+    if (activeTransaction === 'borrow') {
+      await onMaxBorrow();
+      console.log(onMaxBorrow);
+    } else if (activeTransaction === 'withdraw') {
+      await onMaxWithdraw();
+      console.log(onMaxWithdraw);
+    } else if (activeTransaction === 'deposit' && bank.collateralToken.symbol === 'USDCx') {
+      await onMaxDepositUSDCx();
+    } else if (activeTransaction === 'deposit' && bank.collateralToken.symbol === 'RIC') {
+      await onMaxDepositRIC();
+    }
+  };
 
   return (
     <div className={styles.VaultTransaction}>
@@ -140,12 +160,14 @@ export const VaultTransaction: FC<Props> = ({
                   className={styles.linkButton}
                 />
               ) : null}
-              <Button
-                label={t('Max')}
-                className={styles.linkButton}
-                disabled={activeTransaction === 'repay' && needsRepayUnlock()}
-                onClick={onMaxAmount}
-              />
+              {activeTransaction !== 'repay' ? (
+                <Button
+                  label={t('Max')}
+                  className={styles.linkButton}
+                  disabled={activeTransaction === 'repay' && needsRepayUnlock()}
+                  onClick={setTransaction}
+                />
+              ) : null}
               <Button
                 label={t('Cancel')}
                 onClick={onCancel}

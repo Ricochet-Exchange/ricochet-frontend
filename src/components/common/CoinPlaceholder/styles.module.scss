@@ -1,0 +1,15 @@
+.coinPlaceholder {
+  pointer-events: auto;
+  color: var(--color-blue);
+
+  &:hover {
+    text-decoration: underline;
+    color: var(--color-blue-dark);
+    cursor: pointer;
+  }
+
+  &:active,
+  &:visited {
+    color: var(--color-blue);
+  }
+}

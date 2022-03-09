@@ -101,6 +101,7 @@
   "Please give allowance for your repay to continue.": "Please give allowance for your repay to continue.",
   "do you wish to": "do you wish to",
   "Sign in to see your vaults": "Sign in to see your vaults",
+  "Please connect wallet to see your recent activities.": "Please connect wallet to see your recent activities.",
   "Price": "Price",
   "Must be at least 2 characters": "Must be at least 2 characters",
   "Cannot be larger than 32 characters (Some characters count as 2)": "Cannot be larger than 32 characters (Some characters count as 2)",
@@ -134,5 +135,7 @@
   "POOL %":"POOL %",
   "STARTED ON": "STARTED ON",
   "Distributions": "Distributions",
-  "DISTRIBUTION RECEIVED SO FAR": "DISTRIBUTION RECEIVED SO FAR"
+  "DISTRIBUTION RECEIVED SO FAR": "DISTRIBUTION RECEIVED SO FAR",
+  "Ricochet V1": "Ricochet V1",
+  "Activity": "Activity"
 }

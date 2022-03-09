@@ -17,7 +17,11 @@ type Props = {
   transactionHash: string;
   onClick: (e: MouseEvent) => void;
   setActiveTransaction: (transaction: string) => void;
+  balanceRIC?: string;
+  balanceUSDCx?: string;
   setTransactionHash: (transactionHash: string) => void;
+  onMouseDown: (e: MouseEvent) => void,
+  vaultID: string,
 };
 
 export const VaultDetails: FC<Props> = ({
@@ -27,6 +31,10 @@ export const VaultDetails: FC<Props> = ({
   onClick,
   setActiveTransaction,
   setTransactionHash,
+  balanceRIC,
+  balanceUSDCx,
+  onMouseDown,
+  vaultID,
 }) => {
   const vaultCalcValues = getVaultCalcValues(bank);
   const link = getAddressLink(bank.bankAddress);
@@ -89,7 +97,7 @@ export const VaultDetails: FC<Props> = ({
           <div className={styles.VaultDetail}>
             <p>{t('Available to withdraw')}</p>
             <h3>
-              {vaultCalcValues.withdrawAvailable.toFixed(4)}
+              {+(vaultCalcValues.withdrawAvailable.toFixed(4)) > 0 ? vaultCalcValues.withdrawAvailable.toFixed(4) : '0'}
               {' '}
               {bank.collateralToken.symbol}
             </h3>
@@ -104,6 +112,8 @@ export const VaultDetails: FC<Props> = ({
           />
         </div>
         <VaultActions
+          onMouseDown={onMouseDown}
+          vaultId={link}
           section="locked"
           activeTransaction={activeTransaction}
           onClick={onClick}
@@ -125,13 +135,25 @@ export const VaultDetails: FC<Props> = ({
         <div className={styles.VaultDetails__Column}>
           <div className={styles.VaultDetail}>
             <p>{t('Available to borrow')}</p>
-            <h3>
-              {vaultCalcValues.borrowAvailable > +bank.reserveBalance
-                ? (+bank.reserveBalance / 1e18).toFixed()
-                : vaultCalcValues.borrowAvailable.toFixed(4)}
-              {' '}
-              {bank.debtToken.symbol}
-            </h3>
+            {
+              +(vaultCalcValues.borrowAvailable) > 0 ? (
+                <h3>
+                  {vaultCalcValues.borrowAvailable > +bank.reserveBalance 
+                && vaultCalcValues.borrowAvailable > 0
+                    ? (+bank.reserveBalance / 1e18).toFixed()
+                    : vaultCalcValues.borrowAvailable.toFixed(4)}
+                  {' '}
+                  {bank.debtToken.symbol}
+                </h3>
+              )
+                : (
+                  <h3>
+                    0
+                    {' '}
+                    {bank.debtToken.symbol}
+                  </h3>
+                )
+}
           </div>
         </div>
         <div className={cx(styles.VaultDetails__Column, styles.flexer)}>
@@ -142,13 +164,15 @@ export const VaultDetails: FC<Props> = ({
           />
         </div>
         <VaultActions
+          onMouseDown={onMouseDown}
+          vaultId={link}
           section="borrow"
           activeTransaction={activeTransaction}
           onClick={onClick}
           transactionHash={transactionHash}
         />
       </div>
-      {activeTransaction ? (
+      {activeTransaction && (vaultID === link) ? (
         <VaultTransactionContainer
           activeTransaction={activeTransaction}
           setActiveTransaction={setActiveTransaction}
@@ -156,6 +180,9 @@ export const VaultDetails: FC<Props> = ({
           setTransactionHash={setTransactionHash}
           bank={bank}
           maxAvailableWithdraw={vaultCalcValues.withdrawAvailable.toFixed(4)}
+          maxAvailableBorrow={vaultCalcValues.borrowAvailable.toFixed(4)}
+          maxAvailableDepositRIC={balanceRIC}
+          maxAvailableDepositUSDCx={balanceUSDCx}
         />
       ) : null}
     </div>

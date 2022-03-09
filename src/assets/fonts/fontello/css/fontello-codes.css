@@ -10,6 +10,7 @@
 .icon-user:before { content: '\e808'; } /* '' */
 .icon-wallet:before { content: '\e809'; } /* '' */
 .icon-resize-full-alt:before { content: '\e80a'; } /* '' */
+.icon-clock:before { content: '\e810'; } /* '' */
 .icon-close:before { content: '\e823'; } /* '' */
 .icon-arrow-bottom-1:before { content: '\e826'; } /* '' */
 .icon-lock:before { content: '\e827'; } /* '' */
@@ -28,6 +29,7 @@
 .icon-twitter:before { content: '\f099'; } /* '' */
 .icon-github-circled:before { content: '\f09b'; } /* '' */
 .icon-quote-right:before { content: '\f10e'; } /* '' */
+.icon-left:before { content: '\f177'; } /* '' */
 .icon-space-shuttle:before { content: '\f197'; } /* '' */
 .icon-bank:before { content: '\f19c'; } /* '' */
 .icon-newspaper:before { content: '\f1ea'; } /* '' */

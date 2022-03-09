@@ -51,6 +51,7 @@ interface IProps {
   exchangeKey: ExchangeKeys,
   isReadOnly?: boolean,
   indexVal?: number;
+  streamedSoFar?:number;
 }
 
 export const PanelChange: FC<IProps> = ({
@@ -75,6 +76,7 @@ export const PanelChange: FC<IProps> = ({
   contractAddress,
   exchangeKey,
   indexVal,
+  streamedSoFar,
 }) => {
   const link = getAddressLink(contractAddress);
   const { web3 } = useShallowSelector(selectMain);
@@ -120,8 +122,8 @@ export const PanelChange: FC<IProps> = ({
     return parseFloat(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
-  function getFlowUSDValue(flow: string) {
-    return (parseFloat(flow as string) * coingeckoPrice).toFixed(0);
+  function getFlowUSDValue(flow: string, toFixed:number = 0) {
+    return (parseFloat(flow as string) * coingeckoPrice).toFixed(toFixed);
   }
 
   const toggleInputShow = useCallback(() => { setInputShow(!inputShow); },
@@ -220,6 +222,19 @@ export const PanelChange: FC<IProps> = ({
                       <span>{`${personalFlow && (personalFlow)} ${coinA}x / ${t('Month')}`}</span>
                     </span>
                   </div>
+                  <span className={styles.number} data-tip data-for={`streamed-so-far-${indexVal}`}>
+                    {streamedSoFar && `${streamedSoFar.toFixed(6)} ${coinA}x ${t('so far')}`}
+                  </span>
+                  <ReactTooltip
+                    id={`streamed-so-far-${indexVal}`}
+                    place="top"
+                    effect="solid"
+                    multiline
+                  >
+                    <span>
+                      {streamedSoFar && `$${(getFlowUSDValue(streamedSoFar.toString(), 6))} ${t('so far')}`}
+                    </span>
+                  </ReactTooltip>
                   <span>
                     {((personalFlow || 0) > 0 && (balanceA || 0) > 0) && (
                       <div className={styles.stream_values}>
