@@ -214,6 +214,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   twoWayWethDaiFlowQuery?: {
     flowKey: string,
@@ -222,6 +223,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   twoWayRicUsdcFlowQuery?: {
     flowKey: string,
@@ -230,6 +232,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   twoWayUsdcRicFlowQuery?: {
     flowKey: string,
@@ -238,6 +241,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   twoWayMaticUsdcFlowQuery?: {
     flowKey: string,
@@ -246,6 +250,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   twoWayUsdcMaticFlowQuery?: {
     flowKey: string,
@@ -254,6 +259,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   twoWayMaticDaiFlowQuery?: {
     flowKey: string,
@@ -262,6 +268,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   twoWayDaiMaticFlowQuery?: {
     flowKey: string,
@@ -270,6 +277,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   }
   twoWayWbtcDaiFlowQuery?: {
     flowKey: string,
@@ -278,6 +286,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   },
   twoWayDaiWbtcFlowQuery?: {
     flowKey: string,
@@ -286,6 +295,7 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+    streamedSoFar:number,
   }
   isLoadingDowngrade: boolean,
   isLoadingUpgrade: boolean,
