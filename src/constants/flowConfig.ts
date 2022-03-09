@@ -113,21 +113,13 @@ export const indexIDA: IndexIDAType = [
     outputIndex: 1,
   },
   {
-    exchangeAddress: usdcxRicExchangeAddress,
-    input: USDCxAddress,
-    output: RICAddress,
-    subsidy: RICAddress,
-    inputIndex: 0, // just a placeholder, not used
-    outputIndex: 0,
-  },
-  {
     exchangeAddress: twoWayMarketMATICUSDCAddress,
     input: MATICxAddress,
     output: USDCxAddress,
     subsidy: RICAddress,
     subsidyIndex: 3,
-    inputIndex: 0,
-    outputIndex: 1,
+    inputIndex: 1,
+    outputIndex: 0,
   },
   {
     exchangeAddress: twoWayMarketMATICUSDCAddress,
@@ -135,7 +127,15 @@ export const indexIDA: IndexIDAType = [
     output: MATICxAddress,
     subsidy: RICAddress,
     subsidyIndex: 2,
-    inputIndex: 1,
+    inputIndex: 0,
+    outputIndex: 1,
+  },
+  {
+    exchangeAddress: usdcxRicExchangeAddress,
+    input: USDCxAddress,
+    output: RICAddress,
+    subsidy: RICAddress,
+    inputIndex: 0, // just a placeholder, not used
     outputIndex: 0,
   },
 ];

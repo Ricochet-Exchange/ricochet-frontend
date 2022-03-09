@@ -150,8 +150,6 @@ export function* sweepQueryFlow() {
   // mkrUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, mkrUsdcFlowQuery);
   // daiMaticFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, daiMaticFlowQuery);
   // maticDaiFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, maticDaiFlowQuery);
-  // usdcMaticFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcMaticFlowQuery);
-  // maticUsdcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, maticUsdcFlowQuery);
 
   yield put(mainSetState({
     usdcRicFlowQuery,
@@ -173,8 +171,6 @@ export function* sweepQueryFlow() {
     // mkrUsdcFlowQuery,
     // daiMaticFlowQuery,
     // maticDaiFlowQuery,
-    // usdcMaticFlowQuery,
-    // maticUsdcFlowQuery,
     // usdcSlpEthFlowQuery,
     // usdcIdleFlowQuery,
   }));
