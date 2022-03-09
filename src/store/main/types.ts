@@ -217,6 +217,22 @@ export type MainState = {
     totalFlows: number,
     placeholder: string,
     subsidyRate: { perso:number, total:number, endDate:string },
+  },
+  twoWayMaticUsdcFlowQuery?: {
+    flowKey: string,
+    flowsReceived: number,
+    flowsOwned: string,
+    totalFlows: number,
+    placeholder: string,
+    subsidyRate: { perso:number, total:number, endDate:string },
+  },
+  twoWayUsdcMaticFlowQuery?: {
+    flowKey: string,
+    flowsReceived: number,
+    flowsOwned: string,
+    totalFlows: number,
+    placeholder: string,
+    subsidyRate: { perso:number, total:number, endDate:string },
   }
   isLoadingDowngrade: boolean,
   isLoadingUpgrade: boolean,
