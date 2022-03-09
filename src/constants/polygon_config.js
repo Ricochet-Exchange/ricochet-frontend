@@ -1,6 +1,6 @@
 export const chainId = 137;
 export const WMATICAddress = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"; // There is no address token for matic, not useful
-export const MATICxAddress = "0x3ad736904e9e65189c3000c7dd2c8ac8bb7cd4e3"; // This is maticx indeed, and not wmaticx
+export const MATICxAddress = "0x3aD736904E9e65189c3000c7DD2c8AC8bB7cD4e3"; // This is maticx indeed, and not wmaticx
 export const MKRAddress = "0x6f7C932e7684666C9fd1d44527765433e01fF61d";
 export const MKRxAddress = "0x2c530aF1f088B836FA0dCa23c7Ea50E669508C4C";
 export const DAIAddress = "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063";
@@ -14,7 +14,7 @@ export const WBTCAddress = "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6";
 export const hostAddress = "0x3E14dC1b13c488a8d5D310918780c983bD5982E7";
 export const idaAddress = "0xB0aABBA4B2783A72C52956CDEF62d438ecA2d7a1";
 export const rickosheaAppAddress = "0x387af38C133056a0744FB6e823CdB459AE3c5a1f";
-export const RICAddress = "0x263026e7e53dbfdce5ae55ade22493f828922965";
+export const RICAddress = "0x263026E7e53DBFDce5ae55Ade22493f828922965";
 export const wethxUsdcxExchangeAddress = "0x3941e2E89f7047E0AC7B9CcE18fBe90927a32100"
 export const wbtcxUsdcxExchangeAddress = "0x71f649EB05AA48cF8d92328D1C486B7d9fDbfF6b"
 export const usdcxWethxExchangeAddress = "0x8082Ab2f4E220dAd92689F3682F3e7a42b206B42"
