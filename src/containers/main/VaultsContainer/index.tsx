@@ -10,13 +10,20 @@ import { LoadingWrapper } from 'components/common/LoadingWrapper';
 import { VaultDetails } from 'components/banks/VaultDetails';
 import { useDispatch } from 'react-redux';
 import { banksGetData } from 'store/banks/actionCreators';
+import { Routes } from 'constants/routes';
 import { InvestNav } from 'components/layout/InvestNav';
 import { connectWeb3Modal } from 'store/main/actionCreators';
-import { LoadingPopUp } from 'components/common/LoadingPopUp';
+import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { useTranslation } from 'react-i18next';
+import { RICAddress, USDCxAddress } from 'constants/polygon_config';
+import { NavLink } from 'react-router-dom';
 import styles from './styles.module.scss';
 
 export const VaultsContainer = () => {
+  const state = useShallowSelector(selectMain);
+  const {
+    balances,
+  } = state;
   const dispatch = useDispatch();
   const { banks } = useShallowSelector(selectBanks);
   const { address: accountAddress, isLoading } = useShallowSelector(selectMain);
@@ -46,7 +53,7 @@ export const VaultsContainer = () => {
       );
     }
   }, [banks]);
-
+  
   const renderVaults = () => (
     banks.map((bank: BankType) => {
       if (bank.vault.hasVault) {
@@ -59,6 +66,8 @@ export const VaultsContainer = () => {
             onClick={handleOnClick}
             setTransactionHash={setTransactionHash}
             setActiveTransaction={setActiveTransaction}
+            balanceRIC={balances && balances[RICAddress]}
+            balanceUSDCx={balances && balances[USDCxAddress]}
             onMouseDown={(e: any) => { setVaultID(e.target.value); }}
             vaultID={vaultID}
           />
@@ -69,6 +78,7 @@ export const VaultsContainer = () => {
   );
 
   return (
+    
     <div className={styles.outer_container}>
       <InvestNav />
       <div className={styles.container}>
@@ -84,7 +94,13 @@ export const VaultsContainer = () => {
                   <>{renderVaults()}</>
                 ) : (
                   <div className={styles.vault_empty}>
-                    <LoadingPopUp />
+                    <NavLink
+                      className={styles.nav_link}
+                      to={Routes.Banks}
+                    >
+                      <FontIcon name={FontIconName.Lock} size={16} />
+                      <div className={styles.nav_text}>{t('Create a Vault in Bank')}</div>
+                    </NavLink>    
                   </div>
                 )}
               </div>
