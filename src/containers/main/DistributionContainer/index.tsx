@@ -33,7 +33,6 @@ export const DistributionContainer: React.FC<IProps> = () => {
   const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearch(value);
-    console.log(value);
   }, []);
   
   useEffect(() => {
@@ -77,15 +76,19 @@ export const DistributionContainer: React.FC<IProps> = () => {
                 />
               </div>
             ))}
-          {!isLoading && filteredList.map((distribution) => (
-            <div className={styles.panel} key={`${distribution.id}`}>
-              <DistributionPanel
-                distribution={distribution}
-                coingeckoPrice={coingeckoPrices && coingeckoPrices[distribution.token]}
-                isLoading={isDistributionLoading}
-              />
-            </div>
-          ))}
+          {!isLoading && filteredList.map((distribution) => {
+            console.log(coingeckoPrices, coingeckoPrices
+                && coingeckoPrices[distribution.token], distribution.token);
+            return (
+              <div className={styles.panel} key={`${distribution.id}`}>
+                <DistributionPanel
+                  distribution={distribution}
+                  coingeckoPrice={coingeckoPrices && coingeckoPrices[distribution.token]}
+                  isLoading={isDistributionLoading}
+                />
+              </div>
+            );
+          })}
           {!isLoading && filteredList.length === 0 && (
           <div className={styles.empty_state}>
             <FontIcon name={FontIconName.Search} size={30} />
