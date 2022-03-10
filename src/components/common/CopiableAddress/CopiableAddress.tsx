@@ -25,6 +25,7 @@ export const CopiableAddress: FC<CopiableAddressProps> = ({ address }) => {
     e.stopPropagation();
     await navigator.clipboard.writeText(address);
     setClipboardTitle('Copied !');
+    setTimeout(() => setClipboardTitle('Copy address'), 3000);
   };
 
   return (
