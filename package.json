@@ -32,7 +32,7 @@
     ]
   },
   "dependencies": {
-    "@gnosis.pm/safe-apps-provider": "^0.10.3",
+    "@gnosis.pm/safe-apps-provider": "^0.9.2",
     "@ledgerhq/iframe-provider": "^0.4.2",
     "@makerdao/multicall": "^0.12.0",
     "@popperjs/core": "^2.10.2",
