@@ -4,7 +4,7 @@ import { getContract } from 'utils/getContract';
 import { chainSettings } from 'constants/chainSettings';
 import { CoinOption } from 'types/coinOption';
 import {
-  MATICxAddress, rexLPETHAddress, RICAddress, SUSHIxAddress,
+  MATICxAddress, rexLPETHAddress, RICAddress, SUSHIxAddress, usdcxRicExchangeAddress,
 } from 'constants/polygon_config';
 import Erc20Abi from 'constants/Erc20.json';
 import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
@@ -125,13 +125,13 @@ export const startFlow = async (
   });
   let call = [];
   const config = indexIDA.find(
-    (data) => data.input === inputTokenAddress && data.output === outputTokenAddress,
+    (data) => data.input === inputTokenAddress && data.output === outputTokenAddress
+        && data.exchangeAddress === exchangeAddress,
   );
 
   if (!config) {
     throw new Error(`No config found for this pair: , ${inputTokenAddress}, ${outputTokenAddress}`);
   }
-
   try {
     const isSubscribed = await idaContract.methods
       .getSubscription(
@@ -141,7 +141,6 @@ export const startFlow = async (
         sfUser.address,
       )
       .call();
-
     if (isSubscribed.approved) {
       await sfUser.flow({
         recipient: await superFluid.user({
@@ -152,7 +151,7 @@ export const startFlow = async (
       });
     } else {
       const userData = referralId ? web3.eth.abi.encodeParameter('string', referralId) : '0x';
-      if (outputTokenAddress === RICAddress) {
+      if (exchangeAddress === usdcxRicExchangeAddress) {
         call = [
           [
             201, // approve the ticket fee
