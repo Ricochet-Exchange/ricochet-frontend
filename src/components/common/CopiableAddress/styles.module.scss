@@ -3,20 +3,4 @@
   gap: 0.25rem;
   align-items: center;
   pointer-events: auto;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.address_tooltip_wrapper {
-  background: var(--color-blue) !important;
-}
-
-.copiable_address_tooltip {
-  display: block;
-  text-align: justify;
-  opacity: 0.8;
-  font-size: 0.95em;
-  background: var(--color-blue);
 }
