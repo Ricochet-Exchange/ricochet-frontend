@@ -1,0 +1,17 @@
+@media screen and (min-width: 786px) {
+  .stream_panel_container{
+    height: 70vh;
+    width: 50vw;
+    background-color: white;
+    border-radius: 12px;
+    position: fixed;
+    z-index: 2;
+    top: 10vh;
+    left: 25%;
+    border: 2px solid black;
+  }
+}
+
+@media screen and (max-width: 786px) {
+  
+}
