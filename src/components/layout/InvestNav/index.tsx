@@ -56,6 +56,15 @@ export const InvestNav = () => {
         <div className={styles.nav_text}>{t('Market')}</div>
       </NavLink>
 
+      <NavLink
+        className={styles.nav_link}
+        activeClassName={styles.nav_link_active}
+        to={Routes.Trade}
+      >
+        <FontIcon name={FontIconName.Lock} size={16} />
+        <div className={styles.nav_text}>{t('Trade')}</div>
+      </NavLink>
+        
       {/* <NavLink */}
       {/*  className={styles.nav_link} */}
       {/*  activeClassName={styles.nav_link_active} */}

@@ -44,5 +44,6 @@ export const twoWayMarketWBTCAddress = "0x1e2B09375178d58F5f7D0fB12C595BD7A62716
 export const twoWayMarketDAIWETHAddress = "0xEAA1d76D0aB8d0cab426e7427c472C638cFc5EA1";
 export const twoWayMarketRICUSDCAddress = "0xFBF91D299db56624f46F544dc1DCD0d0da2e3327";
 export const twoWayMarketMATICUSDCAddress = "0x7688f3efA3A19948b07c26B5B72F67a42d102C83";
-export const twoWayMarketMATICDAIAddress = "0xbb131E3Cd2FadE7f387c2024F04F33Ed5e6c5101"
+export const twoWayMarketMATICDAIAddress = "0xbb131E3Cd2FadE7f387c2024F04F33Ed5e6c5101";
 export const twoWayMarketWBTCDAIAddress = "0x2cAD92C88fc424779AB53e17A948217A3Be83559"
+export const rexSuperSwapAddress = "0x0983c50085C81A7F41598Eb46a29001989102119";
