@@ -10,6 +10,8 @@ type Props = {
   activeTransaction: string,
   onClick: (e: MouseEvent) => void,
   transactionHash: string,
+  vaultId: string,
+  onMouseDown: (e: MouseEvent) => void,
 };
 
 export const VaultActions: FC<Props> = ({
@@ -17,7 +19,9 @@ export const VaultActions: FC<Props> = ({
   section,
   activeTransaction,
   onClick,
+  vaultId,
   transactionHash,
+  onMouseDown,
 }) => {
   const { t } = useTranslation();
   return (
@@ -31,6 +35,8 @@ export const VaultActions: FC<Props> = ({
             className={styles.button}
             disabled={Boolean(transactionHash || activeTransaction)}
             onClick={onClick}
+            value={vaultId}
+            onMouseDown={onMouseDown}
           />
           <Button
             label={t('Deposit')}
@@ -38,6 +44,8 @@ export const VaultActions: FC<Props> = ({
             className={styles.button}
             disabled={Boolean(transactionHash || activeTransaction)}
             onClick={onClick}
+            value={vaultId}
+            onMouseDown={onMouseDown}
           />
         </>
       ) : (
@@ -48,6 +56,8 @@ export const VaultActions: FC<Props> = ({
             className={styles.button}
             disabled={Boolean(transactionHash || activeTransaction)}
             onClick={onClick}
+            value={vaultId}
+            onMouseDown={onMouseDown}
           />
           <Button
             label={t('Repay')}
@@ -55,6 +65,8 @@ export const VaultActions: FC<Props> = ({
             className={styles.button}
             disabled={Boolean(transactionHash || activeTransaction)}
             onClick={onClick}
+            value={vaultId}
+            onMouseDown={onMouseDown}
           />
         </>
       )}

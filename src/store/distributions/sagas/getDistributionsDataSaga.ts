@@ -31,7 +31,6 @@ export function* getDistributionsDataSaga() : any {
       isLoading: false,
     }));
   } catch (e) {
-    console.log(e);
     yield put(distributionsGetData());
   }
 }

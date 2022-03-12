@@ -1,0 +1,103 @@
+.container {
+  padding: 8px;
+}
+
+@media only screen and (min-width: 768px) {
+  .container {
+    width: 88vw;
+  }
+}
+
+.address_wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.wrapper {
+  display: flex;
+  cursor: pointer;
+  padding: 16px 8px;
+  background-color: var(--color-blue-light);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.larger_streaming_wrapper {
+  display: none;
+}
+
+.recieved_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.amount {
+  color: var(--color-blue-dark);
+}
+
+.transaction_link_wrapper {
+  color: white;
+}
+
+@media only screen and (min-width: 768px) {
+  .wrapper {
+    pointer-events: none;
+    display: block;
+  }
+
+  .streaming_wrapper {
+    display: none;
+  }
+
+  .larger_streaming_wrapper {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    position: relative;
+  }
+
+  .larger_streaming_content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .transaction_link_wrapper {
+    right: 0;
+    margin-left: auto;
+    pointer-events: auto;
+  }
+}
+
+.streaming_content {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  position: relative;
+}
+
+.right_arrow {
+  margin-left: auto;
+  margin-right: 8px;
+}
+
+@media only screen and (min-width: 768px) {
+  .right_arrow {
+    display: none;
+  }
+}
+
+.connect_wallet_wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.loading_wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

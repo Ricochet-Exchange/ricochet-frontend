@@ -47,6 +47,17 @@
   justify-content: flex-start;
 }
 
+.nav_link{
+  background-color: #363b55;
+  border-radius: 12px;
+  color: white;
+  padding: 1em;
+  cursor: pointer;
+  &:hover{
+    background-color: #678eb5;
+  }
+}
+
 .view_button {
   @include flexbox(center, center);
   border: none;

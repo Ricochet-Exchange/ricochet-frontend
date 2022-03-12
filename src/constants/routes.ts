@@ -10,7 +10,9 @@ export const Routes: any = {
   InvestLaunchpads: `${home}/invest/rex-launchpad`,
   Wallet: `${home}/wallet`,
   Banks: `${home}/banks`,
+  Trade: `${home}/trade`,
   Vaults: `${home}/vaults`,
   Refer: `${home}/refer`,
   Referral: `${home}/(.*)?/${REFERRAL_URL_PREFIX}/:referralId`,
+  RecentActivity: `${home}/recent-activity`,
 };

@@ -33,7 +33,6 @@ export const DistributionContainer: React.FC<IProps> = () => {
   const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearch(value);
-    console.log(value);
   }, []);
   
   useEffect(() => {

@@ -1,7 +1,10 @@
 import {
   DAIxAddress,
+  IDLEAddress,
   MATICxAddress,
   MKRxAddress,
+  RICAddress,
+  SUSHIAddress,
   USDCxAddress,
   WBTCxAddress,
   WETHxAddress,
@@ -14,6 +17,9 @@ const coingeckoIds = new Map<string, string>([
   [WBTCxAddress, 'wrapped-bitcoin'],
   [MATICxAddress, 'matic-network'],
   [MKRxAddress, 'maker'],
+  [RICAddress, 'richochet'],
+  [IDLEAddress, 'idle'],
+  [SUSHIAddress, 'sushi'],
 ]);
 
 async function getPrices() {

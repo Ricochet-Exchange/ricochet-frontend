@@ -26,7 +26,6 @@ function endDate(bal: number, outgoing: number): string {
 }
 
 interface IProps { }
-
 export const InvestContainer: React.FC<IProps> = () => {
   const { t } = useTranslation();
   const state = useShallowSelector(selectMain);
@@ -127,7 +126,7 @@ export const InvestContainer: React.FC<IProps> = () => {
         </div>
         <div className={styles.content}>
           {filteredList.map((element, idx) => (
-            <div className={styles.panel} key={`${element.coinA}-${element.coinB}`}>
+            <div className={styles.panel} key={`${element.coinA}-${element.coinB}-${element.flowKey}`}>
               <PanelChange
                 placeholder={t('Input Rate')}
                 onClickStart={handleStart(element)}
@@ -156,6 +155,7 @@ export const InvestContainer: React.FC<IProps> = () => {
                 contractAddress={element.superToken}
                 exchangeKey={element.flowKey.replace('FlowQuery', '') as ExchangeKeys}
                 indexVal={idx}
+                streamedSoFar={state[element.flowKey]?.streamedSoFar}
               />
             </div>
           ))}
