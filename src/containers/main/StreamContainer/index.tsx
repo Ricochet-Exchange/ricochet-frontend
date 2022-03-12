@@ -10,6 +10,9 @@ import {
   IDLExAddress,
   RICAddress,
 } from 'constants/polygon_config';
+
+import { Framework } from '@superfluid-finance/sdk-core';
+import { ethers } from 'ethers';
 import styles from './styles.module.scss';
 
 interface IProps {
@@ -22,7 +25,31 @@ export const StreamContainer: React.FC<IProps> = () => {
   const [flowRate, setFlowRate] = useState('1000000000000');
   const [PanelOpen, TogglePanel] = useState(false);
 
-  console.log(superToken, flowRate, recipient);
+  async function createNewFlow() {
+    if (window.ethereum) {
+      // @ts-expect-error
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const chainId = Number(await window.ethereum.request({ method: 'eth_chainId' }));
+  
+      const sf = await Framework.create({
+        chainId: Number(chainId),
+        provider,
+      });
+
+      const signer = provider.getSigner();
+
+      try {
+        const createFlowOperation = sf.cfaV1.createFlow({
+          flowRate,
+          receiver: recipient,
+          superToken,
+        });
+        await createFlowOperation.exec(signer);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }
 
   return (
     <div className={styles.stream_panel_container}>
@@ -63,7 +90,7 @@ export const StreamContainer: React.FC<IProps> = () => {
             </div>
    
             <div>
-              <button>
+              <button onClick={() => { createNewFlow(); }}>
                 Create Flow
               </button>
             </div>
