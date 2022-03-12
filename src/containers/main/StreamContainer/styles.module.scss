@@ -1,7 +1,7 @@
 @media screen and (min-width: 786px) {
   .stream_panel_container{
     height: 70vh;
-    width: 50vw;
+    width: 40vw;
     background-color: white;
     border-radius: 12px;
     position: fixed;
@@ -9,6 +9,31 @@
     top: 10vh;
     left: 25%;
     border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .stream_form_container{
+    width: 100%;
+    padding: 2em;
+  }
+
+  .title{
+    font-size: xx-large;
+    margin-left: 10%;
+  }
+
+  .input_field{
+    margin-left: 10%;
+    height: 6vh;
+    width: 80%;
+    margin-bottom: 1em;
+  }
+
+  .input_container{
+    width: 100%;
   }
 }
 

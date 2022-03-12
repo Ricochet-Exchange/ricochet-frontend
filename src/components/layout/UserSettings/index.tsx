@@ -21,9 +21,9 @@ export const UserSettings: FC<IProps> = ({
 
   return (
     <div className={styles.user_settings}>
-      <WalletButton ricBalance={ricBalance} account={account} />
-
       <StreamContainer />
+      
+      <WalletButton ricBalance={ricBalance} account={account} />
       
       <div className={styles.dot_wrap}>
         <div className={styles.button}>

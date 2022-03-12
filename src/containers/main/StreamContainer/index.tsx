@@ -52,7 +52,7 @@ export const StreamContainer: React.FC<IProps> = () => {
   }
 
   return (
-    <div className={styles.stream_panel_container}>
+    <div className="">
       <div className={styles.stream_button_container}>
         <button className={styles.stream_button} onClick={() => { TogglePanel(!PanelOpen); }}>
           Send
@@ -60,23 +60,23 @@ export const StreamContainer: React.FC<IProps> = () => {
         <button className={styles.stream_button}>Receive</button>
       </div>
 
-      <div>
-        {PanelOpen ? (
+      {PanelOpen ? (
+        <div className={styles.stream_panel_container}>
           <div className={styles.stream_form_container}>
             <div>
-              <h2>Send Money</h2>
+              <h2 className={styles.title}>Send Money</h2>
             </div>
-   
-            <div>
-              <input type="text" placeholder="Receiver Address" onChange={async (e) => { await setRecipient(e.target.value); }} />
+      
+            <div className={styles.input_container}>
+              <input className={styles.input_field} type="text" placeholder="Receiver Address" onChange={async (e) => { await setRecipient(e.target.value); }} />
             </div>
-   
+      
             <div>
-              <input type="number" placeholder="Payment Amount" onChange={async (e) => { await setFlowRate(e.target.value); }} />
+              <input className={styles.input_field} type="number" placeholder="Payment Amount" onChange={async (e) => { await setFlowRate(e.target.value); }} />
             </div>
-
+      
             <div>
-              <select name="SuperTokens" onChange={async (e) => { await setSuperToken(e.target.value); }}>
+              <select name="SuperTokens" onChange={async (e) => { await setSuperToken(e.target.value); }} className={styles.input_field}>
                 <option value={`${RICAddress}`} selected>RIC</option>
                 <option value={`${DAIxAddress}`}>DAIx</option>
                 <option value={`${USDCxAddress}`}>USDCx</option>
@@ -88,19 +88,20 @@ export const StreamContainer: React.FC<IProps> = () => {
                 <option value={`${MKRxAddress}`}>MKRx</option>
               </select>
             </div>
-   
+      
             <div>
-              <button onClick={() => { createNewFlow(); }}>
+              <button onClick={() => { createNewFlow(); }} className={styles.input_field}>
                 Create Flow
               </button>
             </div>
-
+      
             <div className="description" />
           </div>
-        )
-          :
-          ''}
-      </div>
+        </div>
+      
+      )
+        :
+        ''}
     </div>
   );
 };
