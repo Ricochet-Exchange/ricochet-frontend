@@ -5,16 +5,18 @@ export const truncateAddr = (addr: string) => (
 );
 
 export const getVaultCalcValues = (bank: BankType) => {
-  const cR = (5 + +bank.collateralizationRatio) / 100;
-  const aD = +bank.vault.debtAmount / 10 ** +bank.debtToken.decimals;
-  const pD = +bank.debtToken.price / +bank.debtToken.granularityPrice;
-  const aC =
+  const collateralizationRatio = (5 + +bank.collateralizationRatio) / 100;
+  const debtAmount = +bank.vault.debtAmount / 10 ** +bank.debtToken.decimals;
+  const debtPrice = +bank.debtToken.price / +bank.debtToken.granularityPrice;
+  const collateralAmount =
     +bank.vault.collateralAmount / 10 ** +bank.collateralToken.decimals;
-  const pC =
+  const priceCollateral =
     +bank.collateralToken.price / +bank.collateralToken.granularityPrice;
-  const liquidationPrice = (cR * aD * pD) / aC;
-  const withdrawAvailable = aC - (cR * aD * pD) / pC;
-  const borrowAvailable = ((aC * pC) / pD / cR - aD);
+  const liquidationPrice = (collateralizationRatio * debtAmount * debtPrice) / collateralAmount;
+  const withdrawAvailable = collateralAmount - (collateralizationRatio * debtAmount * debtPrice)
+   / priceCollateral;
+  const borrowAvailable = ((collateralAmount * priceCollateral) / debtPrice 
+  / collateralizationRatio - debtAmount);
   return {
     liquidationPrice,
     withdrawAvailable,
@@ -22,46 +24,53 @@ export const getVaultCalcValues = (bank: BankType) => {
   };
 };
 
-const getAcModifier = (aC: number, activeTransaction: string, value: string) => {
+const getAcModifier = (collateralAmount: number, activeTransaction: string, value: string) => {
   if (
     activeTransaction === 'borrow' ||
     activeTransaction === 'repay' ||
     !+value
   ) {
-    return aC;
+    return collateralAmount;
   }
   if (activeTransaction === 'withdraw') {
-    return aC - +value;
+    return collateralAmount - +value;
   }
-  return aC + +value;
+  return collateralAmount + +value;
 };
 
-const getAdModifier = (aD: number, activeTransaction: string, value: string) => {
+const getAdModifier = (debtAmount: number, activeTransaction: string, value: string) => {
   if (
     activeTransaction === 'withdraw' ||
     activeTransaction === 'deposit' ||
     !+value
   ) {
-    return aD;
+    return debtAmount;
   } 
   if (activeTransaction === 'borrow') {
-    return aD + +value;
+    return debtAmount + +value;
   }
-  return aD - +value;
+  return debtAmount - +value;
 };
 
-export const getVaultTxCalcValues = (bank: BankType, activeTransaction: string, value: string) => {
-  const cR = +bank.collateralizationRatio / 100;
-  let aD = +bank.vault.debtAmount / 10 ** +bank.debtToken.decimals;
-  aD = getAdModifier(aD, activeTransaction, value);
-  const pD = +bank.debtToken.price / +bank.debtToken.granularityPrice;
-  let aC = +bank.vault.collateralAmount / 10 ** +bank.collateralToken.decimals;
-  aC = getAcModifier(aC, activeTransaction, value);
-  const pC =
-    +bank.collateralToken.price / +bank.collateralToken.granularityPrice;
+export const getVaultTxCalcValues = (
+  bank: BankType,
+  activeTransaction: string, 
+  value: string,
+) => {
+  const collateralizationRatio = +bank.collateralizationRatio / 100;
 
-  const newLiquidationPrice = (cR * aD * pD) / aC;
-  const newCollateralizationRatio = ((aC * pC) / aD) * pD;
+  let debtAmount = +bank.vault.debtAmount / 10 ** +bank.debtToken.decimals;
+  debtAmount = getAdModifier(debtAmount, activeTransaction, value);
+
+  const debtPrice = +bank.debtToken.price / +bank.debtToken.granularityPrice;
+
+  let collateralAmount = +bank.vault.collateralAmount / 10 ** +bank.collateralToken.decimals;
+  collateralAmount = getAcModifier(collateralAmount, activeTransaction, value);
+
+  const priceCollateral = +bank.collateralToken.price / +bank.collateralToken.granularityPrice;
+
+  const newLiquidationPrice = (collateralizationRatio * debtAmount * debtPrice) / collateralAmount;
+  const newCollateralizationRatio = ((collateralAmount * priceCollateral) / debtAmount) * debtPrice;
 
   return {
     newLiquidationPrice,

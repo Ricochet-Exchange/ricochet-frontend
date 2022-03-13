@@ -71,10 +71,8 @@ export const VaultTransaction: FC<Props> = ({
   const setTransaction = async () => {
     if (activeTransaction === 'borrow') {
       await onMaxBorrow();
-      console.log(onMaxBorrow);
     } else if (activeTransaction === 'withdraw') {
       await onMaxWithdraw();
-      console.log(onMaxWithdraw);
     } else if (activeTransaction === 'deposit' && bank.collateralToken.symbol === 'USDCx') {
       await onMaxDepositUSDCx();
     } else if (activeTransaction === 'deposit' && bank.collateralToken.symbol === 'RIC') {

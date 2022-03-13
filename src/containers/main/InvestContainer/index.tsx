@@ -126,7 +126,7 @@ export const InvestContainer: React.FC<IProps> = () => {
         </div>
         <div className={styles.content}>
           {filteredList.map((element, idx) => (
-            <div className={styles.panel} key={`${element.coinA}-${element.coinB}`}>
+            <div className={styles.panel} key={`${element.coinA}-${element.coinB}-${element.flowKey}`}>
               <PanelChange
                 placeholder={t('Input Rate')}
                 onClickStart={handleStart(element)}
