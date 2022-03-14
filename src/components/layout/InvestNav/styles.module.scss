@@ -12,7 +12,7 @@
 @media only screen and (min-width: 769px) {
   .nav_container {
     position: fixed;
-    top: 0vh;
+    top: 20vh;
     left: 0;
     @include flexbox(flex-start, flex-start);
     flex-direction: column;
