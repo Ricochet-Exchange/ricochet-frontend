@@ -6,6 +6,7 @@ import { Routes } from 'constants/routes';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import Link from 'components/common/Link';
 import { useTranslation } from 'react-i18next';
+import logo from 'assets/images/logo.svg';
 import styles from './styles.module.scss';
 
 const TUTORIAL_LINK = 'https://docs.ricochet.exchange/tutorial/using-the-dapp';
@@ -16,6 +17,10 @@ export const InvestNav = () => {
   const { t } = useTranslation();
   return (
     <div className={styles.nav_container}>
+
+      <div className={styles.logo}>
+        <Link to={Routes.Invest}><img src={logo} alt="Ricochet" className={styles.logo_img} /></Link>
+      </div>
 
       {userStreams.length > 0 && (
         <NavLink

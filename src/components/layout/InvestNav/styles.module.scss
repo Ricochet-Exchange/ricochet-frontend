@@ -12,7 +12,7 @@
 @media only screen and (min-width: 769px) {
   .nav_container {
     position: fixed;
-    top: 20vh;
+    top: 0vh;
     left: 0;
     @include flexbox(flex-start, flex-start);
     flex-direction: column;
@@ -39,12 +39,12 @@
 
   .logo {
     padding-top: 3em;
-    padding-left: 1em;
+    padding-left: 5px;
     padding-bottom: 4em;
   }
 
   .logo_img {
-    height: 6vh;
+    max-width: 90%;
   }
 
   .link {
