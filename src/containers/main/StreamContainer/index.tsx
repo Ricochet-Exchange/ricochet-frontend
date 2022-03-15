@@ -10,7 +10,8 @@ import {
   IDLExAddress,
   RICAddress,
 } from 'constants/polygon_config';
-
+import { blockInvalidChar } from 'utils/blockInvalidChars';
+import { calculateFlowRate } from 'utils/calculateFlowRate';
 import { Framework } from '@superfluid-finance/sdk-core';
 import { ethers } from 'ethers';
 import styles from './styles.module.scss';
@@ -24,6 +25,7 @@ export const StreamContainer: React.FC<IProps> = () => {
   const [superToken, setSuperToken] = useState(`${RICAddress}`);
   const [flowRate, setFlowRate] = useState('1000000000000');
   const [PanelOpen, TogglePanel] = useState(false);
+  const [transactionReview, ToggleTransaction] = useState(false);
 
   async function createNewFlow() {
     if (window.ethereum) {
@@ -45,6 +47,8 @@ export const StreamContainer: React.FC<IProps> = () => {
           superToken,
         });
         await createFlowOperation.exec(signer);
+
+        ToggleTransaction(true);
       } catch (e) {
         console.log(e);
       }
@@ -67,33 +71,68 @@ export const StreamContainer: React.FC<IProps> = () => {
               <h2 className={styles.title}>Send Money</h2>
             </div>
       
-            <div className={styles.input_container}>
-              <input className={styles.input_field} type="text" placeholder="Receiver Address" onChange={async (e) => { await setRecipient(e.target.value); }} />
-            </div>
-      
-            <div>
-              <input className={styles.input_field} type="number" placeholder="Payment Amount" onChange={async (e) => { await setFlowRate(e.target.value); }} />
-            </div>
-      
-            <div>
-              <select name="SuperTokens" onChange={async (e) => { await setSuperToken(e.target.value); }} className={styles.input_field}>
-                <option value={`${RICAddress}`} selected>RIC</option>
-                <option value={`${DAIxAddress}`}>DAIx</option>
-                <option value={`${USDCxAddress}`}>USDCx</option>
-                <option value={`${WBTCxAddress}`}>WBTC</option>
-                <option value={`${WETHxAddress}`}>WETHx</option>
-                <option value={`${MATICxAddress}`}>MATICx</option>
-                <option value={`${SUSHIxAddress}`}>SUSHIx</option>
-                <option value={`${IDLExAddress}`}>IDLEx</option>
-                <option value={`${MKRxAddress}`}>MKRx</option>
-              </select>
-            </div>
-      
-            <div>
-              <button onClick={() => { createNewFlow(); }} className={styles.input_field}>
-                Create Flow
-              </button>
-            </div>
+            {
+              transactionReview ? (
+                <div>
+                  Your Transaction has been created
+                </div>
+              )
+                : (
+                  <div className={styles.stream_form}>
+                    <div className={styles.input_container}>
+                      <label htmlFor="recipient" className={styles.input_label}>Wallet Address here</label>
+                      <input className={styles.input_field} type="text" id="recipient" placeholder="Receiver Address" onChange={async (e) => { await setRecipient(e.target.value); }} />
+                    </div>
+          
+                    <div>
+                      <label className={styles.input_label} htmlFor="payment">Payment amount per month</label>
+                      <input
+                        id="payment"
+                        className={styles.input_field} 
+                        type="number" 
+                        placeholder="Payment Amount Per month in" 
+                        onKeyDown={blockInvalidChar}
+                        min={0}
+                        onChange={async (e) => { 
+                          const newFlow = await calculateFlowRate(+(e.target.value));
+                          if (newFlow) {
+                            await setFlowRate(newFlow.toString()); 
+                          }
+                        }}
+                      />
+                  
+                    </div>
+          
+                    <div>
+                      <label className={styles.input_label} htmlFor="supertoken">Supertoken</label>
+                      <select
+                        name="SuperTokens" 
+                        id="supertoken"
+                        defaultValue={`${RICAddress}`} 
+                        onChange={async (e) => { await setSuperToken(e.target.value); }} 
+                        className={styles.input_field}
+                      >
+                        <option value={`${RICAddress}`} selected>RIC</option>
+                        <option value={`${DAIxAddress}`}>DAIx</option>
+                        <option value={`${USDCxAddress}`}>USDCx</option>
+                        <option value={`${WBTCxAddress}`}>WBTC</option>
+                        <option value={`${WETHxAddress}`}>WETHx</option>
+                        <option value={`${MATICxAddress}`}>MATICx</option>
+                        <option value={`${SUSHIxAddress}`}>SUSHIx</option>
+                        <option value={`${IDLExAddress}`}>IDLEx</option>
+                        <option value={`${MKRxAddress}`}>MKRx</option>
+                      </select>
+                    </div>
+          
+                    <button 
+                      className={styles.input_field_submit} 
+                      onClick={() => { createNewFlow(); }}
+                    >
+                      Create Stream
+                    </button>
+                  </div>
+                )
+}
       
             <div className="description" />
           </div>
