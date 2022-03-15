@@ -11,14 +11,14 @@ import {
   RICAddress,
 } from 'constants/polygon_config';
 import { blockInvalidChar } from 'utils/blockInvalidChars';
+import { NavLink } from 'react-router-dom';
 import { calculateFlowRate } from 'utils/calculateFlowRate';
 import { Framework } from '@superfluid-finance/sdk-core';
+import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { ethers } from 'ethers';
 import styles from './styles.module.scss';
 
-interface IProps {
-
-}
+interface IProps {}
 
 export const StreamContainer: React.FC<IProps> = () => {
   const [recipient, setRecipient] = useState('0x1d9f081BdA444671A1212cE5Be88eD06bdf6b9e9');
@@ -58,24 +58,35 @@ export const StreamContainer: React.FC<IProps> = () => {
   return (
     <div className="">
       <div className={styles.stream_button_container}>
+
         <button className={styles.stream_button} onClick={() => { TogglePanel(!PanelOpen); }}>
           Send
-        </button>
-        <button className={styles.stream_button}>Receive</button>
+        </button>  
+ 
       </div>
 
       {PanelOpen ? (
         <div className={styles.stream_panel_container}>
           <div className={styles.stream_form_container}>
             <div>
-              <h2 className={styles.title}>Send Money</h2>
+              {transactionReview ? 
+                <h2 className={styles.title}>Stream Open</h2>
+                : 
+                <h2 className={styles.title}>Send Money</h2>}
             </div>
+
+            <button className={styles.exit_btn} onClick={() => { TogglePanel(false); }}>
+              <FontIcon name={FontIconName.Close} className={styles.close} size={24} />
+            </button>
       
             {
               transactionReview ? (
-                <div>
-                  Your Transaction has been created
-                </div>
+                <>
+                  <h3 className={styles.result}>
+                    Your stream has been created, you can see your stream in the Activity Page.
+                  </h3>
+                  <NavLink to="/recent-activity" />
+                </>
               )
                 : (
                   <div className={styles.stream_form}>
@@ -132,12 +143,10 @@ export const StreamContainer: React.FC<IProps> = () => {
                     </button>
                   </div>
                 )
-}
-      
+              }
             <div className="description" />
           </div>
         </div>
-      
       )
         :
         ''}
