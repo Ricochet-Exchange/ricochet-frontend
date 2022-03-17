@@ -7,11 +7,6 @@ import styles from './styles.module.scss';
 export default function FailCard() {
   return (
     <div className={styles.fail_wrapper}>
-
-      <h2 className={styles.warning}>
-        Stream Failed
-      </h2>
-      
       <h3 className={styles.result}>
         Your stream could not be created, 
         you can check if you have an open stream in the Activity Page.

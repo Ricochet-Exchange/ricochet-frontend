@@ -70,6 +70,17 @@ export const StreamContainer: React.FC<IProps> = () => {
     if (!transactionSuccess && !transactionFailed) {
       return (
         <div className={styles.stream_form_container}>
+          <button 
+            onClick={() => {
+              TogglePanel(false); 
+              ToggleFail(false);
+              ToggleTransaction(false);
+            }} 
+            className={styles.close_btn}
+          >
+            <FontIcon name={FontIconName.Close} className={styles.close} size={24} />
+          </button>
+
           <h2 className={styles.title}>Send Money</h2>
           <StreamForm 
             loading={isLoading} 
@@ -84,6 +95,16 @@ export const StreamContainer: React.FC<IProps> = () => {
     if (transactionSuccess) {
       return (
         <div className={styles.stream_form_container}>
+          <button
+            onClick={() => {
+              TogglePanel(false); 
+              ToggleFail(false);
+              ToggleTransaction(false);
+            }} 
+            className={styles.close_btn}
+          >
+            <FontIcon name={FontIconName.Close} className={styles.close} size={24} />
+          </button>
           <>
             <h3 className={styles.success}>Success</h3>
             <h3 className={styles.result}>
@@ -107,7 +128,24 @@ export const StreamContainer: React.FC<IProps> = () => {
     }
     if (transactionFailed) {
       return (
-        <FailCard />
+        <>
+          <button 
+            onClick={() => {
+              TogglePanel(false); 
+              ToggleFail(false);
+              ToggleTransaction(false);
+            }} 
+            className={styles.close_btn}
+          >
+            <FontIcon name={FontIconName.Close} className={styles.close} size={24} />
+          </button>
+          <h2 className={styles.warning}>
+            Stream Failed
+          </h2>
+          
+          <FailCard />
+        </>
+       
       );
     }
   };

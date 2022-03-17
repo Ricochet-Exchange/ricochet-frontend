@@ -100,7 +100,13 @@
     margin-left: 15%;
     color: rgb(69, 68, 68);
   }
-
+  .warning{
+    color: #CC193E;
+    height: 10vh;
+    border: 2px solid red;
+    width: 10vw;
+    font-size: large;
+  }
 }
 
 @media screen and (max-width: 786px) {
@@ -134,14 +140,6 @@
 
   .close{
     color: #678EB5;
-   }
- 
-   .exit_btn{
-     position: absolute;
-     top: 2em;
-     background-color: #f5f7fa;
-     border: none;
-     right: 2em;
    }
 
    .stream_form_container{
@@ -211,5 +209,13 @@
     padding-right: 1em;
     color: white;
     flex-direction: row;
+  }
+
+  .warning{
+    color: #CC193E;
+    height: 10vh;
+    border: 2px solid red;
+    width: 10vw;
+    font-size: large;
   }
 }

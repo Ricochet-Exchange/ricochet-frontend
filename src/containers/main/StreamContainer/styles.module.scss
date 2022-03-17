@@ -87,6 +87,14 @@
     font-size: xx-large;
     text-align: center;
   }
+
+  .close_btn{
+    position: absolute;
+    top: 2em;
+    background-color: #f5f7fa;
+    border: none;
+    right: 2em;
+  }
 }
 
 @media screen and (max-width: 786px) {
@@ -159,6 +167,11 @@
     text-align: center;
   }
 
+  .close_btn{
+    background-color: none;
+    border: none;
+  }
+
   .result{
     text-align: center;
     width: 80%;
@@ -185,5 +198,13 @@
     color: #55B88D;
     font-size: xx-large;
     text-align: center;
+  }
+
+  .close_btn{
+    position: absolute;
+    top: 2em;
+    background-color: #f5f7fa;
+    border: none;
+    right: 2em;
   }
 }

@@ -31,13 +31,6 @@
     flex-direction: row;
   }
 
-  .warning{
-    color: #CC193E;
-    height: 10vh;
-    border: 2px solid red;
-    width: 10vw;
-    font-size: large;
-  }
 }
 
 @media screen and (min-width: 786px) {
@@ -69,12 +62,5 @@
     padding-right: 1em;
     color: white;
     flex-direction: row;
-  }
-  .warning{
-    color: #CC193E;
-    height: 10vh;
-    border: 2px solid red;
-    width: 10vw;
-    font-size: large;
   }
 }
