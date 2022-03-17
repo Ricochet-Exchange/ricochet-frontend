@@ -35,7 +35,6 @@ export const FlowUpdated: FC<FlowUpdatedProps> = ({
   const SECONDS_PER_MONTH = 30 / 24 / 60 / 60;
 
   const tokenName = getTokenName(token);
-
   let mobileSuffix = '';
   const time = new Date(timestamp * 1000).toString().split(' ')[4];
 
@@ -110,7 +109,6 @@ export const FlowUpdated: FC<FlowUpdatedProps> = ({
             &gt;
           </span>
         </div>
-
       </>
     </>
   );

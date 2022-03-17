@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Routes } from 'constants/routes';
 import { StreamForm } from 'components/streaming/StreamForm';
 import { useShallowSelector } from 'hooks/useShallowSelector';
@@ -53,6 +53,10 @@ export const StreamContainer: React.FC<IProps> = () => {
     }
     setIsLoading(false);
   }
+  
+  const handleStartStream = useCallback(() => {
+    createNewFlow();
+  }, [recipient, flowRate, superToken]);
 
   const updateFlowRate = (flow: string):void => {
     setFlowRate(flow);
@@ -87,7 +91,7 @@ export const StreamContainer: React.FC<IProps> = () => {
             updateRecipient={updateRecipient} 
             updateFlowRate={updateFlowRate} 
             updateSuperToken={updateSuperToken} 
-            createFlow={createNewFlow}
+            createFlow={handleStartStream}
           />
         </div>
       );
