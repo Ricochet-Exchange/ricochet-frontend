@@ -1,33 +1,29 @@
 import React, { useState } from 'react';
-import {
-  DAIxAddress,
-  USDCxAddress,
-  WETHxAddress,
-  MKRxAddress,
-  WBTCxAddress,
-  MATICxAddress,
-  SUSHIxAddress,
-  IDLExAddress,
-  RICAddress,
-} from 'constants/polygon_config';
-import { blockInvalidChar } from 'utils/blockInvalidChars';
+import { Routes } from 'constants/routes';
+import { StreamForm } from 'components/streaming/StreamForm';
+import { useShallowSelector } from 'hooks/useShallowSelector';
+import { selectMain } from 'store/main/selectors';
 import { NavLink } from 'react-router-dom';
-import { calculateFlowRate } from 'utils/calculateFlowRate';
 import { Framework } from '@superfluid-finance/sdk-core';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { ethers } from 'ethers';
+import FailCard from 'components/streaming/FailCard';
 import styles from './styles.module.scss';
 
 interface IProps {}
 
 export const StreamContainer: React.FC<IProps> = () => {
-  const [recipient, setRecipient] = useState('0x1d9f081BdA444671A1212cE5Be88eD06bdf6b9e9');
-  const [superToken, setSuperToken] = useState(`${RICAddress}`);
-  const [flowRate, setFlowRate] = useState('1000000000000');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { address: account } = useShallowSelector(selectMain);
+  const [recipient, setRecipient] = useState('');
+  const [superToken, setSuperToken] = useState('');
+  const [flowRate, setFlowRate] = useState('');
   const [PanelOpen, TogglePanel] = useState(false);
-  const [transactionReview, ToggleTransaction] = useState(false);
+  const [transactionSuccess, ToggleTransaction] = useState(false);
+  const [transactionFailed, ToggleFail] = useState(false);
 
   async function createNewFlow() {
+    setIsLoading(true);
     if (window.ethereum) {
       // @ts-expect-error
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -51,105 +47,90 @@ export const StreamContainer: React.FC<IProps> = () => {
         ToggleTransaction(true);
       } catch (e) {
         console.log(e);
+        ToggleTransaction(false);
+        ToggleFail(true);
       }
     }
+    setIsLoading(false);
   }
 
-  return (
-    <div className="">
-      <div className={styles.stream_button_container}>
+  const updateFlowRate = (flow: string):void => {
+    setFlowRate(flow);
+  };
 
-        <button className={styles.stream_button} onClick={() => { TogglePanel(!PanelOpen); }}>
+  const updateRecipient = (address: string):void => {
+    setRecipient(address);
+  };
+
+  const updateSuperToken = (token: string):void => {
+    setSuperToken(token);
+  };
+
+  const renderStream = () => {
+    if (!transactionSuccess && !transactionFailed) {
+      return (
+        <div className={styles.stream_form_container}>
+          <h2 className={styles.title}>Send Money</h2>
+          <StreamForm 
+            loading={isLoading} 
+            updateRecipient={updateRecipient} 
+            updateFlowRate={updateFlowRate} 
+            updateSuperToken={updateSuperToken} 
+            createFlow={createNewFlow}
+          />
+        </div>
+      );
+    }
+    if (transactionSuccess) {
+      return (
+        <div className={styles.stream_form_container}>
+          <>
+            <h3 className={styles.success}>Success</h3>
+            <h3 className={styles.result}>
+              Your stream has been created, you can view or edit 
+              your stream in the Activity Page.
+            </h3>
+            <NavLink
+              className={styles.nav_link}
+              exact
+              to={Routes.RecentActivity}
+              onClick={
+              () => { ToggleTransaction(false); }
+            }
+            >
+              <FontIcon name={FontIconName.Activity} size={16} />
+              <div className={styles.nav_text}>Activity</div>
+            </NavLink>
+          </>
+        </div>
+      );
+    }
+    if (transactionFailed) {
+      return (
+        <FailCard />
+      );
+    }
+  };
+ 
+  return (
+    <>
+      <div className={styles.stream_button_container}>
+        <button 
+          className={styles.stream_button} 
+          onClick={() => { TogglePanel(!PanelOpen); }}
+          disabled={!account}
+        >
           Send
         </button>  
- 
       </div>
 
       {PanelOpen ? (
         <div className={styles.stream_panel_container}>
-          <div className={styles.stream_form_container}>
-            <div>
-              {transactionReview ? 
-                <h2 className={styles.title}>Stream Open</h2>
-                : 
-                <h2 className={styles.title}>Send Money</h2>}
-            </div>
-
-            <button className={styles.exit_btn} onClick={() => { TogglePanel(false); }}>
-              <FontIcon name={FontIconName.Close} className={styles.close} size={24} />
-            </button>
-      
-            {
-              transactionReview ? (
-                <>
-                  <h3 className={styles.result}>
-                    Your stream has been created, you can see your stream in the Activity Page.
-                  </h3>
-                  <NavLink to="/recent-activity" />
-                </>
-              )
-                : (
-                  <div className={styles.stream_form}>
-                    <div className={styles.input_container}>
-                      <label htmlFor="recipient" className={styles.input_label}>Wallet Address here</label>
-                      <input className={styles.input_field} type="text" id="recipient" placeholder="Receiver Address" onChange={async (e) => { await setRecipient(e.target.value); }} />
-                    </div>
-          
-                    <div>
-                      <label className={styles.input_label} htmlFor="payment">Payment amount per month</label>
-                      <input
-                        id="payment"
-                        className={styles.input_field} 
-                        type="number" 
-                        placeholder="Payment Amount Per month in" 
-                        onKeyDown={blockInvalidChar}
-                        min={0}
-                        onChange={async (e) => { 
-                          const newFlow = await calculateFlowRate(+(e.target.value));
-                          if (newFlow) {
-                            await setFlowRate(newFlow.toString()); 
-                          }
-                        }}
-                      />
-                  
-                    </div>
-          
-                    <div>
-                      <label className={styles.input_label} htmlFor="supertoken">Supertoken</label>
-                      <select
-                        name="SuperTokens" 
-                        id="supertoken"
-                        defaultValue={`${RICAddress}`} 
-                        onChange={async (e) => { await setSuperToken(e.target.value); }} 
-                        className={styles.input_field}
-                      >
-                        <option value={`${RICAddress}`} selected>RIC</option>
-                        <option value={`${DAIxAddress}`}>DAIx</option>
-                        <option value={`${USDCxAddress}`}>USDCx</option>
-                        <option value={`${WBTCxAddress}`}>WBTC</option>
-                        <option value={`${WETHxAddress}`}>WETHx</option>
-                        <option value={`${MATICxAddress}`}>MATICx</option>
-                        <option value={`${SUSHIxAddress}`}>SUSHIx</option>
-                        <option value={`${IDLExAddress}`}>IDLEx</option>
-                        <option value={`${MKRxAddress}`}>MKRx</option>
-                      </select>
-                    </div>
-          
-                    <button 
-                      className={styles.input_field_submit} 
-                      onClick={() => { createNewFlow(); }}
-                    >
-                      Create Stream
-                    </button>
-                  </div>
-                )
-              }
-            <div className="description" />
-          </div>
+          {renderStream()}
         </div>
       )
         :
         ''}
-    </div>
+    </>
   );
 };
