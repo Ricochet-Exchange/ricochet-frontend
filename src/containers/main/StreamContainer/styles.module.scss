@@ -95,13 +95,19 @@
     border: none;
     right: 2em;
   }
+
+  .warning{
+    color: #CC193E;
+    font-size: large;
+    margin-top: 6em;
+  }
 }
 
 @media screen and (max-width: 786px) {
   .stream_button{
     margin-right: 1em;
     height: 5vh;
-    width: 20vw;
+    width: 30vw;
     border-radius: 10px;
     border: none;
     background-color: #678EB5;
@@ -126,22 +132,6 @@
     box-shadow: 2px 2px 2px rgba(69, 69, 69, 0.626);
   }
 
-  .stream_button{
-    margin-right: 1em;
-    height: 5vh;
-    width: 8vw;
-    border-radius: 10px;
-    border: none;
-    background-color: #678EB5;
-    color: white;
-    cursor: pointer;
-    transition: 0.5s;
-    font-weight: bold;
-    &:hover{
-      box-shadow: inset 0 100px 0 0 #abd2f3;
-      color: rgb(62, 62, 62);
-    }
-  }
 
   .close{
     color: #678EB5;
@@ -183,6 +173,7 @@
   .nav_link{
     height: 7vh;
     width: 50%;
+    margin-left: 25%;
     margin-top: 1em;
     background-color: #2775CA;
     display: flex;
@@ -192,6 +183,7 @@
     padding-right: 1em;
     color: white;
     flex-direction: row;
+    
   }
 
   .success{
@@ -206,5 +198,11 @@
     background-color: #f5f7fa;
     border: none;
     right: 2em;
+  }
+
+  .warning{
+    color: #CC193E;
+    font-size: large;
+    margin-top: 6em;
   }
 }
