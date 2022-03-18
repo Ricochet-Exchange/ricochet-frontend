@@ -29,7 +29,9 @@ export const TradeContainer = () => {
   const contract = getContract(rexSuperSwapAddress, tradeABI, web3);
   const MATICx = '0x3aD736904E9e65189c3000c7DD2c8AC8bB7cD4e3';
   const USDCx = '0xCAa7349CEA390F89641fe306D93591f87595dc1F';
-  const provider = new ethers.providers.Web3Provider((web3.currentProvider as any));
+  // const provider = new ethers.providers.Web3Provider((web3.currentProvider as any));
+  const jsonRpcEndoint = "https://eth-rinkeby.alchemyapi.io/v2/EympKbVd25P3Rzq3LF1Pa3-OteT_0lVn";
+  const provider = new ethers.providers.JsonRpcProvider(jsonRpcEndoint, 137);
   const router = new AlphaRouter({ chainId: 137, provider: (provider as any) });
   
   const MATIC = new Token(
