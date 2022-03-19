@@ -204,6 +204,10 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
     setDownGradeValue(balances[downgradeAddress]);
   };
 
+  const handleEmpty = (coinType: Coin) => {
+    console.log("handleEmpty");
+  };
+
   const totalBalance = upgradeTokensList.reduce((total, token) => {
     const balancess = balances && geckoPriceList &&
       (
@@ -484,6 +488,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                               onClickApprove={handleApprove}
                               onClickUpgrade={handleUpgrade}
                               onClickMax={handleMaxUpgrade}
+                              onSelectToken={handleEmpty}
                               value={upgradeValue}
                               isUpgrade
                               showWarningToolTip={false}
@@ -504,6 +509,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                               onChange={handleDowngradeValue}
                               onClickDowngrade={handleDowngrade}
                               onClickMax={handleMaxDowngrade}
+                              onSelectToken={handleEmpty}
                               placeholder={t('Input Amount')}
                               value={downgradeValue}
                               isUpgrade={false}

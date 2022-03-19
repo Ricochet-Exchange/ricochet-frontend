@@ -16,11 +16,12 @@ import {
 import { upgradeTokensList } from 'constants/upgradeConfig';
 import { mainSetState } from '../actionCreators';
 import { selectBalances, selectMain } from '../selectors';
+import { rexSuperSwapAddress } from 'constants/polygon_config';
 
 export function* checkIfApprove(
   tokenAddress: string,
   superTokenAddress: string,
-  param: 'hasWethApprove' | 'hasUsdcApprove' | 'hasWbtcApprove' | 'hasDaiApprove' | 'hasMkrApprove' | 'hasMaticApprove' | 'hasSushiApprove' | 'hasIdleApprove',
+  param: 'hasWethApprove' | 'hasUsdcApprove' | 'hasWbtcApprove' | 'hasDaiApprove' | 'hasMkrApprove' | 'hasMaticApprove' | 'hasSushiApprove' | 'hasIdleApprove' | 'hasWethxApprove' | 'hasUsdcxApprove' | 'hasWbtcxApprove' | 'hasDaixApprove' | 'hasMkrxApprove' | 'hasMaticxApprove' | 'hasSushixApprove' | 'hasIdlexApprove',
 ) {
   const main: ReturnType<typeof selectMain> = yield select(selectMain);
   const { web3 } = main;
@@ -71,4 +72,38 @@ export function* checkIfApproveSushi() {
 
 export function* checkIfApproveIdle() {
   yield call(checkIfApprove, IDLEAddress, IDLExAddress, 'hasIdleApprove');
+}
+
+export function* checkIfApproveWethx() {
+  yield call(checkIfApprove, WETHxAddress, rexSuperSwapAddress, 'hasWethxApprove');
+}
+
+export function* checkIfApproveMkrx() {
+  yield call(checkIfApprove, MKRxAddress, rexSuperSwapAddress, 'hasMkrxApprove');
+}
+
+export function* checkIfApproveUsdcx() {
+  yield call(checkIfApprove, USDCxAddress, rexSuperSwapAddress, 'hasUsdcxApprove');
+}
+
+export function* checkIfApproveDaix() {
+  yield call(checkIfApprove, DAIxAddress, rexSuperSwapAddress, 'hasDaixApprove');
+}
+
+export function* checkIfApproveWbtcx() {
+  yield call(checkIfApprove, WBTCxAddress, rexSuperSwapAddress, 'hasWbtcxApprove');
+}
+
+export function* checkIfApproveMaticx() {
+  // It would be needed to approve wmatic, but not native matic
+  // yield call(checkIfApprove, WMATICAddress, WMATICxAddress, 'hasWMaticApprove');
+  yield put(mainSetState({ hasMaticApprove: true }));
+}
+
+export function* checkIfApproveSushix() {
+  yield call(checkIfApprove, SUSHIxAddress, SUSHIxAddress, 'hasSushixApprove');
+}
+
+export function* checkIfApproveIdlex() {
+  yield call(checkIfApprove, IDLExAddress, IDLExAddress, 'hasIdlexApprove');
 }

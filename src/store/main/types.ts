@@ -15,6 +15,14 @@ export type MainState = {
   hasMaticApprove?: boolean;
   hasSushiApprove?: boolean;
   hasIdleApprove?: boolean;
+  hasUsdcxApprove?: boolean;
+  hasDaixApprove?: boolean;
+  hasMkrxApprove?: boolean;
+  hasWethxApprove?: boolean;
+  hasWbtcxApprove?: boolean;
+  hasMaticxApprove?: boolean;
+  hasSushixApprove?: boolean;
+  hasIdlexApprove?: boolean;
   apy?: number,
   rewardsApy?: number,
   feesApy?: number,

@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 
 import { UserSettings } from 'components/layout/UserSettings';
 import styles from './styles.module.scss';
+import { SwapContainer } from '../SwapContainer';
 
 export const TradeContainer = () => {
   const state = useShallowSelector(selectMain);
@@ -101,21 +102,10 @@ export const TradeContainer = () => {
           account={address || t('Connect Wallet')}
         />
       </div>
-      <h1>HELLO</h1>
-      <div className={styles.container}>
-        <div className={styles.panel}>
-          <div className={styles.content}>
-            <div className={styles.input_wrap}>
-              <Button label="Hello" onClick={() => handleSwap()}>
-                Hello
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="Uniswap">
-        {/* <SwapWidget provider={provider} jsonRpcEndpoint={jsonRpcEndpoint} /> */}
-      </div>
+      <SwapContainer 
+        address={address}
+        balance={balances && balances[RICAddress]} 
+      />
     </div>
   );
 };
