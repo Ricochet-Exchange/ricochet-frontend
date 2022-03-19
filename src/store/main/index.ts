@@ -9,6 +9,7 @@ export const mainInitialState: Readonly<MainState> = {
   readWeb3: new Web3(),
   address: '',
   selectedDowngradeCoin: Coin.DAIx, 
+  selectedSwapCoin: Coin.DAIx,
   selectedUpgradeCoin: Coin.DAI,
   coinType: Coin.DAI,
   isLoadingDowngrade: false,

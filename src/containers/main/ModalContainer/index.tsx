@@ -11,7 +11,7 @@ import React, {
   useEffect,
 } from 'react';
 import { useDispatch } from 'react-redux';
-import { selectDowngradeCoin, selectUpgradeCoin } from 'store/main/actionCreators';
+import { selectDowngradeCoin, selectUpgradeCoin, selectSwapCoin } from 'store/main/actionCreators';
 import { selectMain } from 'store/main/selectors';
 
 export interface UpgradeTokenConfig {

@@ -72,6 +72,18 @@ export const upgradeAction = (
   },
 });
 
+export const swapAction = (
+  amount: string,
+  superTokenAddress: string,
+  callback: (e?:string) => void,
+  multi: number,
+) => ({
+  type: MainActionTypes.SWAP,
+  payload: {
+    value: amount, superTokenAddress, callback, multi, 
+  },
+});
+
 export const selectUpgradeCoin = (selectedUpgradeCoin: Coin) => ({
   type: MainActionTypes.SELECT_UPGRADE_COIN,
   payload: { selectedUpgradeCoin },
@@ -80,6 +92,11 @@ export const selectUpgradeCoin = (selectedUpgradeCoin: Coin) => ({
 export const selectDowngradeCoin = (selectedDowngradeCoin: Coin) => ({
   type: MainActionTypes.SELECT_DOWNGRADE_COIN,
   payload: { selectedDowngradeCoin },
+});
+
+export const selectSwapCoin = (selectedSwapCoin: Coin) => ({
+  type: MainActionTypes.SELECT_SWAP_COIN,
+  payload: { selectedSwapCoin },
 });
 
 export const showTokenList = (coinType: Coin) => ({

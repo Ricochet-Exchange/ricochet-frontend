@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  approveAction, downgradeAction, showTokenList, upgradeAction,
+  approveAction, downgradeAction, showTokenList, swapAction, upgradeAction,
 } from 'store/main/actionCreators';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
@@ -28,13 +28,13 @@ export const SwapContainer:FC<IProps> = ({ address, balance }) => {
   const state = useShallowSelector(selectMain);
   const {
     balances, isLoading, isLoadingDowngrade,
-    isLoadingUpgrade, selectedDowngradeCoin, selectedUpgradeCoin, isReadOnly,
+    isLoadingUpgrade, selectedDowngradeCoin, selectedUpgradeCoin, selectedSwapCoin, isReadOnly,
   } = state;
   const [showWarningToolTip, setShowWarningToolTip] = useState(false);
   const [downgradeCoin, setDowngradeCoin] = useState(selectedDowngradeCoin);
   const [downgradeAddress, setDowngradeAddress] = useState('');
   const [downgradeValue, setDownGradeValue] = useState('');
-  const [upgradeCoin, setUpgradeCoin] = useState(selectedUpgradeCoin);
+  const [upgradeCoin, setUpgradeCoin] = useState(selectedSwapCoin);
   const [swapConfig, setSwapConfig] = useState<{
     coin: Coin,
     superTokenAddress: string,
@@ -81,24 +81,24 @@ export const SwapContainer:FC<IProps> = ({ address, balance }) => {
   }, [dispatch, downgradeAddress, downgradeValue, balances]);
 
   useEffect(() => {
-    const coin = swapTokensList.find((el) => el.coin === selectedUpgradeCoin);
+    const coin = swapTokensList.find((el) => el.coin === selectedSwapCoin);
     if (coin) {
       setSwapConfig(coin);
       setUpgradeCoin(coin.coin);
     }
-  }, [selectedUpgradeCoin]);
+  }, [selectedSwapCoin]);
 
   const handleUpgradeValue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setUpgradeValue(e.target.value);
   }, []);
 
-  const handleUpgrade = useCallback(() => {
+  const handleSwap = useCallback(() => {
     if (Number(upgradeValue) < 0 ||
     (balances && swapConfig && Number(balances[swapConfig.superTokenAddress]) === 0)) {
       return;
     }
     if (swapConfig) {
-      dispatch(upgradeAction(
+      dispatch(swapAction(
         upgradeValue,
         swapConfig?.superTokenAddress,
         callback,
@@ -148,7 +148,7 @@ export const SwapContainer:FC<IProps> = ({ address, balance }) => {
             nameCoin={upgradeCoin}
             onChange={handleUpgradeValue}
             onClickApprove={handleApprove}
-            onClickUpgrade={handleUpgrade}
+            onClickUpgrade={handleSwap}
             onClickMax={handleMaxUpgrade}
             value={upgradeValue}
             isUpgrade

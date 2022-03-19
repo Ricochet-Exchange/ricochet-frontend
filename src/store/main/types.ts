@@ -310,6 +310,7 @@ export type MainState = {
   isLoading: boolean,
   selectedDowngradeCoin: Coin,
   selectedUpgradeCoin: Coin,
+  selectedSwapCoin: Coin,
   coinType: Coin,
   isReadOnly: boolean,
   referralId?: string,
