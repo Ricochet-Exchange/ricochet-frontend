@@ -11,8 +11,7 @@ import { useDispatch } from 'react-redux';
 import { connectWeb3Modal } from 'store/main/actionCreators';
 import { EmptyPage } from 'components/common/EmptyPage';
 import { LoadingPopUp } from 'components/common/LoadingPopUp';
-import { ActivityWrapper } from 'containers/main/RecentActivityContainer/ActivityWrapper';
-import { ActivityDetails } from 'containers/main/RecentActivityContainer/ActivityDetails';
+import { StreamActivityWrapper } from '../StreamActivityWrapper';
 import styles from './styles.module.scss';
 
 export default function RecentStreamActivity() {
@@ -21,9 +20,7 @@ export default function RecentStreamActivity() {
   const { web3, address: account } = useShallowSelector(selectMain);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [flowUpdatedEvents, setFlowUpdatedEvents] = useState<IStreamFlowUpdatedEvent[]>([]);
-  const [showDetails, setShowDetails] = useState<boolean>(false);
-  const [eventId, setEventId] = useState<string>('');
-
+ 
   useEffect(() => {
     let mounted = true;
     if (web3.currentProvider && account) {
@@ -34,13 +31,12 @@ export default function RecentStreamActivity() {
             chainId: Number(process.env.REACT_APP_CHAIN_ID),
             provider: web3,
           });
-
+      
           const { data: events } = await web3ModalSf.query.listEvents({ account });
    
           const { data: sentStream } = await web3ModalSf.query.listStreams({ sender: account });
           const streams = [...sentStream];
           const temp: IStreamFlowUpdatedEvent[] = [];
-          console.log(streams);
           streams.forEach((stream) => {
             stream.flowUpdatedEvents.forEach((event) => {
               temp.push(event);
@@ -65,13 +61,6 @@ export default function RecentStreamActivity() {
       mounted = false;
     };
   }, [web3, account]);
-
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>, id: string) => {
-    setShowDetails(true);
-    setEventId(id);
-  };
-
-  const handleBack = () => setShowDetails(false);
 
   const connectWallet = useCallback(() => {
     dispatch(connectWeb3Modal());
@@ -99,20 +88,9 @@ export default function RecentStreamActivity() {
       return <EmptyPage />;
     }
 
-    if (showDetails) {
-      return (
-        <ActivityDetails
-          event={activities.find((event) => event.id === eventId)!}
-          account={account.toLowerCase()}
-          handleBack={handleBack}
-          flowActionType={flowUpdatedEvents.find((event) => event.id === eventId)?.type}
-        />
-      );
-    }
-
     return (
-      <>
-        <h1>Activity History</h1>
+      <div className={styles.container}>
+        <h1 style={{ marginLeft: '1em' }}>Activity History</h1>
         {activities.map((activity: any, index: number) => {
           const { timestamp, id } = activity;
           const date = new Date(timestamp * 1000).toString();
@@ -138,11 +116,8 @@ export default function RecentStreamActivity() {
                 className={styles.container}
                 role="button"
                 aria-hidden="true"
-                onClick={
-                    (evt: React.MouseEvent<HTMLDivElement>) => handleClick(evt, activity.id)
-                  }
               >
-                <ActivityWrapper
+                <StreamActivityWrapper
                   event={activity}
                   account={account}
                   flowActionType={
@@ -153,7 +128,7 @@ export default function RecentStreamActivity() {
             </section>
           );
         })}
-      </>
+      </div>
     );
   };
 

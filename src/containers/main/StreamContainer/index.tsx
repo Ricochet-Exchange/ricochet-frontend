@@ -1,10 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import { Routes } from 'constants/routes';
 import { StreamForm } from 'components/streaming/StreamForm';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import RecentStreamActivity from 'components/streaming/RecentStreamActivity';
 import { selectMain } from 'store/main/selectors';
-import { NavLink } from 'react-router-dom';
 import { Framework } from '@superfluid-finance/sdk-core';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { ethers } from 'ethers';
@@ -20,8 +18,9 @@ export const StreamContainer: React.FC<IProps> = () => {
   const [superToken, setSuperToken] = useState('');
   const [flowRate, setFlowRate] = useState('');
   const [PanelOpen, TogglePanel] = useState(false);
-  const [transactionSuccess, ToggleTransaction] = useState(true);
+  const [transactionSuccess, ToggleTransaction] = useState(false);
   const [transactionFailed, ToggleFail] = useState(false);
+  const [recentActivity, ToggleRecent] = useState(false);
 
   async function createNewFlow() {
     setIsLoading(true);
@@ -72,9 +71,19 @@ export const StreamContainer: React.FC<IProps> = () => {
   };
 
   const renderStream = () => {
-    if (!transactionSuccess && !transactionFailed) {
+    if (!transactionSuccess && !transactionFailed && !recentActivity) {
       return (
         <div className={styles.stream_form_container}>
+          <button 
+            onClick={() => { 
+              ToggleFail(false);
+              ToggleTransaction(false);
+              ToggleRecent(true);
+            }} 
+            className={styles.recent_btn}
+          >
+            Recent Activity
+          </button>
           <button 
             onClick={() => {
               TogglePanel(false); 
@@ -97,19 +106,9 @@ export const StreamContainer: React.FC<IProps> = () => {
         </div>
       );
     }
-    if (transactionSuccess) {
+    if (transactionSuccess && !recentActivity) {
       return (
-        <div className={styles.stream_form_container}>
-          <button
-            onClick={() => {
-              TogglePanel(false); 
-              ToggleFail(false);
-              ToggleTransaction(false);
-            }} 
-            className={styles.close_btn}
-          >
-            <FontIcon name={FontIconName.Close} className={styles.close} size={24} />
-          </button>
+        <div className={styles.stream_form_container}>   
           <>
             <h3 className={styles.success}>Success</h3>
             <h3 className={styles.result}>
@@ -118,22 +117,11 @@ export const StreamContainer: React.FC<IProps> = () => {
             </h3>
 
             <RecentStreamActivity />
-            <NavLink
-              className={styles.nav_link}
-              exact
-              to={Routes.RecentActivity}
-              onClick={
-              () => { ToggleTransaction(false); }
-            }
-            >
-              <FontIcon name={FontIconName.Activity} size={16} />
-              <div className={styles.nav_text}>Activity</div>
-            </NavLink>
           </>
         </div>
       );
     }
-    if (transactionFailed) {
+    if (transactionFailed && !recentActivity) {
       return (
         <>
           <button 
@@ -153,6 +141,25 @@ export const StreamContainer: React.FC<IProps> = () => {
           <FailCard />
         </>
        
+      );
+    }
+    if (recentActivity) {
+      return (
+        <div className={styles.stream_form_container}>   
+          <>
+            <button 
+              onClick={() => {
+                TogglePanel(false); 
+                ToggleFail(false);
+                ToggleTransaction(false);
+              }} 
+              className={styles.close_btn}
+            >
+              <FontIcon name={FontIconName.Close} className={styles.close} size={24} />
+            </button>
+            <RecentStreamActivity />
+          </>
+        </div>
       );
     }
   };

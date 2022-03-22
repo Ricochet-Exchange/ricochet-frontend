@@ -1,6 +1,8 @@
 import { Framework } from '@superfluid-finance/sdk-core';
+import { ethers } from 'ethers';
 
-async function updateExistingFlow(flowRate: string, recipient: string, token: string) {
+async function updateExistingFlow(recipient: string, flowRate: string, token: string) {
+  console.log(typeof flowRate);
   if (window.ethereum) {
     // @ts-expect-error
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -10,9 +12,7 @@ async function updateExistingFlow(flowRate: string, recipient: string, token: st
       chainId: Number(chainId),
       provider,
     });
-  
     const signer = provider.getSigner();
-  
     try {
       const updateFlowOperation = sf.cfaV1.updateFlow({
         flowRate,
@@ -22,8 +22,9 @@ async function updateExistingFlow(flowRate: string, recipient: string, token: st
       });
 
       console.log('Updating your stream...');
-
+ 
       const result = await updateFlowOperation.exec(signer);
+  
       console.log(result);
     } catch (error) {
       console.log(

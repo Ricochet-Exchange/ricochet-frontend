@@ -91,9 +91,24 @@
   .close_btn{
     position: absolute;
     top: 2em;
-    background-color: #f5f7fa;
     border: none;
     right: 2em;
+    background-color: #CC193E;
+    z-index: 102;
+  }
+
+  .recent_btn{
+    height: 5vh;
+    padding-left: 1em;
+    padding-right: 1em;
+    position: absolute;
+    top: 2em;
+
+    background-color: #2775CA;
+    color: white;
+    font-weight: 600;
+    border-radius: 12px;
+    left: 2em;
   }
 
   .warning{
@@ -114,7 +129,19 @@
     color: white;
     font-weight: bold;
   }
+  .recent_btn{
+    height: 5vh;
+    padding-left: 1em;
+    padding-right: 1em;
+    position: absolute;
+    top: 2em;
 
+    background-color: #2775CA;
+    color: white;
+    font-weight: 600;
+    border-radius: 12px;
+    left: 2em;
+  }
   .stream_panel_container{
     z-index: 100;
     height: 70vh;
@@ -157,11 +184,6 @@
     text-align: center;
   }
 
-  .close_btn{
-    background-color: none;
-    border: none;
-  }
-
   .result{
     text-align: center;
     width: 80%;
@@ -194,15 +216,19 @@
 
   .close_btn{
     position: absolute;
-    top: 2em;
+    top: 0.5em;
     background-color: #f5f7fa;
+    padding: 0.5em;
     border: none;
-    right: 2em;
+    right: 0.5em;
+    background-color: #CC193E;
+    z-index: 102;
   }
 
   .warning{
     color: #CC193E;
     font-size: large;
     margin-top: 6em;
+ 
   }
 }
