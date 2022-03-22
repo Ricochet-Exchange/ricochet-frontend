@@ -16,9 +16,9 @@ export function* loadReadOnlyData() {
       isLoading: false,
     }));
   } catch (e) {
-    if (process.env.REACT_APP_API_NODE_URL) yield put(mainGetReadOnlyData());
+    if (process.env.NEXT_PUBLIC_API_NODE_URL) yield put(mainGetReadOnlyData());
     else if (e instanceof Error) {
-      throw new Error(`Missing mandatory environment variable REACT_APP_API_NODE_URL. Error: ${e?.message}`);
+      throw new Error(`Missing mandatory environment variable NEXT_PUBLIC_API_NODE_URL. Error: ${e?.message}`);
     }
   }
 }

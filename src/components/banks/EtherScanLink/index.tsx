@@ -11,7 +11,7 @@ type Props = {
 
 export const EtherscanLink: FC<Props> = ({ path, hash, className }) => {
   const uri = () => {
-    switch (Number(process.env.REACT_APP_CHAIN_ID)) {
+    switch (Number(process.env.NEXT_PUBLIC_CHAIN_ID)) {
       case 1: {
         return `https://etherscan.io/${path}/`;
       }

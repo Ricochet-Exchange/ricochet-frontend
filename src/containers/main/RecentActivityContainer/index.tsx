@@ -36,7 +36,7 @@ export const RecentActivityContainer: FC = () => {
         setIsLoading(true);
         try {
           const web3ModalSf = await Framework.create({
-            chainId: Number(process.env.REACT_APP_CHAIN_ID),
+            chainId: Number(process.env.NEXT_PUBLIC_CHAIN_ID),
             provider: web3,
           });
   

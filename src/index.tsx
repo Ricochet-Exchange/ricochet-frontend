@@ -14,13 +14,13 @@ import { store, persistor } from './store';
 import 'assets/styles/main.scss';
 
 Sentry.init({
-  dsn: process.env.REACT_APP_SENTRY_DSN,
+  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   integrations: [new BrowserTracing({
     routingInstrumentation: Sentry.reactRouterV5Instrumentation(history),
   })],
-  tracesSampleRate: process.env.REACT_APP_SENTRY_ENVIRONMENT === 'development' ? 1.0 : 0.8,
+  tracesSampleRate: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT === 'development' ? 1.0 : 0.8,
   normalizeDepth: 10,
-  environment: process.env.REACT_APP_SENTRY_ENVIRONMENT,
+  environment: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT,
 });
 
 const root = document.getElementById('root');

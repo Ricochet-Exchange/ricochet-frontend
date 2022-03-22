@@ -67,8 +67,8 @@ docker run -p 3000:3000 testricochet/ricochet-frontend:latest
 See `.env` file for configuration:
 
 ```dotenv
-REACT_APP_API_GRATH=https://api.thegraph.com/subgraphs/name/superfluid-finance/superfluid-matic
-REACT_APP_CHAIN_ID=137
+NEXT_PUBLIC_API_GRATH=https://api.thegraph.com/subgraphs/name/superfluid-finance/superfluid-matic
+NEXT_PUBLIC_CHAIN_ID=137
 ```
 
 ### Test before merge to main

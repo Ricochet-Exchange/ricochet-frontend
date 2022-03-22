@@ -15,7 +15,7 @@ export function* mainCheckSaga() {
   try {
     const gnosisSafeProvider: Unwrap<typeof getSafeProvider > = yield call(getSafeProvider);
     const ledgerHQFrame = new LedgerHQFrameConnector();
-    const readWeb3 = new Web3(new Web3.providers.HttpProvider(process.env.REACT_APP_API_NODE_URL!));
+    const readWeb3 = new Web3(new Web3.providers.HttpProvider(process.env.NEXT_PUBLIC_API_NODE_URL!));
     // Check we are inside gnosis safe
     if (gnosisSafeProvider) {
       yield put(mainSetState({ readWeb3, web3: new Web3(<any>gnosisSafeProvider!) }));
@@ -24,7 +24,7 @@ export function* mainCheckSaga() {
       );
       const chainId = connectedSafe?.chainId;
       // Check we are on polygon chain
-      if (chainId === Number(process.env.REACT_APP_CHAIN_ID)) {
+      if (chainId === Number(process.env.NEXT_PUBLIC_CHAIN_ID)) {
         yield put(modalHide());
         yield put(mainGetData());
       } else {
@@ -37,7 +37,7 @@ export function* mainCheckSaga() {
       const chainId: Unwrap<typeof getLedgerChainId> =
           yield call(getLedgerChainId, ledgerHQFrame);
       yield put(mainSetState({ readWeb3, web3: new Web3(<any>ledgerProvider!) }));
-      if (parseInt(chainId.toString(), 16) === Number(process.env.REACT_APP_CHAIN_ID)) {
+      if (parseInt(chainId.toString(), 16) === Number(process.env.NEXT_PUBLIC_CHAIN_ID)) {
         yield put(modalHide());
         yield put(mainGetData());
       } else {
