@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Routes } from 'constants/routes';
 import { StreamForm } from 'components/streaming/StreamForm';
 import { useShallowSelector } from 'hooks/useShallowSelector';
+import RecentStreamActivity from 'components/streaming/RecentStreamActivity';
 import { selectMain } from 'store/main/selectors';
 import { NavLink } from 'react-router-dom';
 import { Framework } from '@superfluid-finance/sdk-core';
@@ -19,7 +20,7 @@ export const StreamContainer: React.FC<IProps> = () => {
   const [superToken, setSuperToken] = useState('');
   const [flowRate, setFlowRate] = useState('');
   const [PanelOpen, TogglePanel] = useState(false);
-  const [transactionSuccess, ToggleTransaction] = useState(false);
+  const [transactionSuccess, ToggleTransaction] = useState(true);
   const [transactionFailed, ToggleFail] = useState(false);
 
   async function createNewFlow() {
@@ -115,6 +116,8 @@ export const StreamContainer: React.FC<IProps> = () => {
               Your stream has been created, you can view or edit 
               your stream in the Activity Page.
             </h3>
+
+            <RecentStreamActivity />
             <NavLink
               className={styles.nav_link}
               exact
