@@ -20,4 +20,5 @@ build
 KUBECONFIG
 
 .next
+tsconfig.tsbuildinfo
 
