@@ -3,11 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint . --ext .ts,.tsx --fix",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint --no-cache",
     "tsc": "tsc --noEmit",
     "fontello": "bash ./fontello.sh",
     "fontello:open": "fontello-cli --config src/assets/fonts/fontello/config.json open",
@@ -58,6 +57,7 @@
     "graphql": "^16.3.0",
     "i18next": "^21.3.2",
     "javascript-time-ago": "^2.3.11",
+    "next": "^12.1.0",
     "ramda": "^0.27.1",
     "react": "^17.0.2",
     "react-cookie": "^4.1.1",
@@ -96,6 +96,7 @@
     "@types/scroll-lock": "^2.1.0",
     "@typescript-eslint/eslint-plugin": "4.15.0",
     "eslint-config-airbnb-typescript": "12.3.1",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "2.25.4",
     "eslint-plugin-jsx-a11y": "6.5.1",
     "eslint-plugin-react": "7.20.3",
@@ -103,7 +104,8 @@
     "fontello-cli": "0.6.2",
     "husky": ">=6",
     "lint-staged": "12.3.4",
-    "node-sass": "^6.0.0"
+    "node-sass": "^6.0.0",
+    "prettier": "2.6.0"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
