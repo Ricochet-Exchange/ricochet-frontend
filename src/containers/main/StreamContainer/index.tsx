@@ -78,7 +78,7 @@ export const StreamContainer: React.FC<IProps> = () => {
             onClick={() => { 
               ToggleFail(false);
               ToggleTransaction(false);
-              ToggleRecent(true);
+              ToggleRecent(!recentActivity);
             }} 
             className={styles.recent_btn}
           >
@@ -145,13 +145,25 @@ export const StreamContainer: React.FC<IProps> = () => {
     }
     if (recentActivity) {
       return (
-        <div className={styles.stream_form_container}>   
+        <div className={styles.stream_form_container}> 
+          
           <>
+            <button 
+              onClick={() => { 
+                ToggleFail(false);
+                ToggleTransaction(false);
+                ToggleRecent(!recentActivity);
+              }} 
+              className={styles.recent_btn}
+            >
+              Make Transaction
+            </button>
             <button 
               onClick={() => {
                 TogglePanel(false); 
                 ToggleFail(false);
                 ToggleTransaction(false);
+                ToggleRecent(false);
               }} 
               className={styles.close_btn}
             >
