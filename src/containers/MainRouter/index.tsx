@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import {
   Redirect, Route, Switch, useLocation, 
 } from 'react-router-dom';
-import * as Sentry from '@sentry/react';
 import { Routes } from 'constants/routes';
 import { WalletPage } from 'pages/WalletPage';
 import { InvestPage } from 'pages/InvestPage';

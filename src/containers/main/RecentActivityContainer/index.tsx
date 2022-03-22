@@ -2,7 +2,6 @@ import React, {
   FC, useCallback, useEffect, useState, 
 } from 'react';
 import { Framework, IStreamFlowUpdatedEvent } from '@superfluid-finance/sdk-core';
-import * as Sentry from '@sentry/react';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { InvestNav } from 'components/layout/InvestNav';
@@ -72,7 +71,6 @@ export const RecentActivityContainer: FC = () => {
           }
         } catch (e) {
           console.error('Recent Activity Error: ', e);
-          Sentry.captureException(e);
         }
         setIsLoading(false);
       })();

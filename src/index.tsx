@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as Sentry from '@sentry/react';
-import { BrowserTracing } from '@sentry/tracing';
 import { Provider } from 'react-redux';
 import { CookiesProvider } from 'react-cookie';
 import { ConnectedRouter } from 'connected-react-router';
@@ -12,16 +10,6 @@ import history from 'utils/history';
 import reportWebVitals from './reportWebVitals';
 import { store, persistor } from './store';
 import 'assets/styles/main.scss';
-
-Sentry.init({
-  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-  integrations: [new BrowserTracing({
-    routingInstrumentation: Sentry.reactRouterV5Instrumentation(history),
-  })],
-  tracesSampleRate: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT === 'development' ? 1.0 : 0.8,
-  normalizeDepth: 10,
-  environment: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT,
-});
 
 const root = document.getElementById('root');
 
