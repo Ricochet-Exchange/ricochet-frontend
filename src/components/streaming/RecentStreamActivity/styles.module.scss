@@ -14,19 +14,21 @@
     align-items: center;
     justify-content: center;
     box-shadow: 2px 2px 2px rgba(69, 69, 69, 0.626);
-    border: 2px solid black; 
+
     overflow-y: scroll;
   }
 
   .container{
     min-height: 50vh;
     width: 30vw;
+    padding-top: 4em;
   }
 
   .parent_wrapper{
-    border: 2px solid black;
+    border: 2px solid rgba(0, 0, 0, 0.734);
     padding: 1em;
-    width: 30vw;
+    width: 28vw;
+    margin-left: 1vw;
   }
 }
 
@@ -51,6 +53,7 @@
   }
 
   .container{
+    padding-top: 4em;
     min-height: 50vh;
     width: 90vw;
   }

@@ -26,11 +26,13 @@ async function updateExistingFlow(recipient: string, flowRate: string, token: st
       const result = await updateFlowOperation.exec(signer);
   
       console.log(result);
+      return 'Stream updated successfully';
     } catch (error) {
       console.log(
         "Hmmm, your transaction threw an error. Make sure that this stream does not already exist, and that you've entered a valid Ethereum address!",
       );
       console.error(error);
+      return 'Stream could not be updated successfully, check if this stream exists.';
     }
   }
 }

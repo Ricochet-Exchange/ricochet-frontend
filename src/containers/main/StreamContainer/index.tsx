@@ -156,7 +156,7 @@ export const StreamContainer: React.FC<IProps> = () => {
               }} 
               className={styles.recent_btn}
             >
-              Make Transaction
+              Back
             </button>
             <button 
               onClick={() => {

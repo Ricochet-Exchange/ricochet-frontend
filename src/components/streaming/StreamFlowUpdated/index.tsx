@@ -10,6 +10,7 @@ import { getTokenName } from 'utils/getTokenName';
 import { TokenIcon } from 'components/common/TokenIcon';
 import { CopiableAddress } from 'components/common/CopiableAddress';
 import { CoinPlaceholder } from 'components/common/CoinPlaceholder';
+import { toast, ToastContainer } from 'react-toastify';
 import styles from './styles.module.scss';
 
 type StreamFlowUpdatedProps = {
@@ -117,9 +118,17 @@ export const StreamFlowUpdated: FC<StreamFlowUpdatedProps> = ({
               >
                 Update Flow
               </button>
+
+              <div className={styles.toast}>
+                <ToastContainer 
+                  position="bottom-right"
+                  autoClose={5000}
+                />
+              </div>
+      
               <button 
                 className={styles.change_flow_cancel} 
-                onClick={() => { deleteFlow(sender, receiver, token); }}
+                onClick={() => { toast(deleteFlow(sender, receiver, token)); }}
               >
                 Delete Flow
               </button>
@@ -155,7 +164,7 @@ export const StreamFlowUpdated: FC<StreamFlowUpdatedProps> = ({
               <button 
                 className={styles.amount_change}
                 disabled={updatedFlowRate === ''}
-                onClick={() => { updateExistingFlow(receiver, updatedFlowRate, token); }}
+                onClick={() => { toast(updateExistingFlow(receiver, updatedFlowRate, token)); }}
               >
                 Confirm
               </button>

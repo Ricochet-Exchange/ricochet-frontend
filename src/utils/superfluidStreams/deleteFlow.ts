@@ -1,5 +1,4 @@
 import { Framework } from '@superfluid-finance/sdk-core';
-import { toast } from 'react-toastify';
 import { ethers } from 'ethers';
 
 async function deleteFlow(sender: string, recipient: string, token: string) {
@@ -23,9 +22,10 @@ async function deleteFlow(sender: string, recipient: string, token: string) {
       });
 
       await deleteFlowOperation.exec(signer);
-      console.log('success');
+      return 'Stream was deleted successfully';
     } catch (error) {
-      toast('This Transaction failed! Check if this stream exists');
+      console.log(error);
+      return 'There was an issue deleting the stream, check if this stream hasnt been closed,';
     }
   }
 }

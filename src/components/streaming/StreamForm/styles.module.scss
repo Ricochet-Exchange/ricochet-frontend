@@ -36,13 +36,15 @@
     letter-spacing: 0.2px;
     height: 8vh;
     width: 80%;
+    font-size: larger;
     margin-bottom: 1em;
-    padding: 1em;
+    padding: 0.3em;
   }
 
   .input_field_submit{
     color: white;
     margin-top: 2em;
+    font-size: x-large;
     height: 6vh;
     width: 50%;
     margin-left: 25%;
@@ -60,8 +62,9 @@
   }
   .input_label{
     margin-left: 10%;
+    font-size: larger;
     color: rgb(76, 76, 76);
-    margin-top: 0.5em;
+    margin-top: 1em;
   }
 
   .stream_button{
@@ -133,8 +136,8 @@
     border: 2px solid rgba(0, 0, 0, 0.245);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: left;
+    justify-content: left;
     box-shadow: 2px 2px 2px rgba(69, 69, 69, 0.626);
   }
 
@@ -151,27 +154,28 @@
     font-size: xx-large;
     color: #678EB5;
     font-weight: bold;
-    text-align: center;
+
+    text-align: left;
   }
 
   .input_field{
     background-color: white;
     border-radius: 12px;
     border: 3px solid #678EB5;
-    margin-left: 10%;
     letter-spacing: 0.2px;
-    height: 6vh;
-    width: 80%;
+    height: 8vh;
+    width: 100%;
+    font-size: medium;
     margin-bottom: 1em;
-    padding: 1em;
+    padding: 0.3em;
   }
 
   .input_field_submit{
     color: white;
     margin-top: 2em;
-    height: 6vh;
-    width: 50%;
-    margin-left: 25%;
+    height: 8vh;
+    width: 80%;
+    margin-left: 10%;
     background-color: #678EB5;
     border-radius: 12px;
     transition: 0.5s;
@@ -185,15 +189,15 @@
     width: 100%;
   }
   .input_label{
-    margin-left: 10%;
     color: rgb(76, 76, 76);
-    margin-top: 0.5em;
+    margin-top: 1em;
+    font-size: large;
   }
 
   .result{
-    text-align: center;
-    width: 80%;
-    margin-left: 10%;
+    text-align: left;
+    width: 100%;
+
     color: rgb(69, 68, 68);
   }
 
