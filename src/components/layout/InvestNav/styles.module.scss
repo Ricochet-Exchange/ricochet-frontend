@@ -11,9 +11,11 @@
 
 @media only screen and (min-width: 769px) {
   .nav_container {
+    margin-top: 150px;
     position: fixed;
     top: 0vh;
     left: 0;
+    width: 10vw;
     @include flexbox(flex-start, flex-start);
     flex-direction: column;
     text-align: left;
@@ -38,13 +40,11 @@
   }
 
   .logo {
-    padding-top: 3em;
-    padding-left: 5px;
-    padding-bottom: 4em;
   }
-
+  
   .logo_img {
-    max-width: 90%;
+    max-width: 100%;
+    display: none;
   }
 
   .link {

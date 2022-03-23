@@ -20,7 +20,10 @@
   }
 
   .logo {
-    display: none;
+    display: flex;
+    position: absolute;
+    padding-top: 20px;
+    left: 2%;
   }
 }
 
