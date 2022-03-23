@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   pull_request_target:
     types: [reopened, opened, synchronize, edited]
-  
+
 env:
   NODE_OPTIONS: --max-old-space-size=8192
 
@@ -12,8 +12,13 @@ jobs:
   lighthouseci:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{github.event.pull_request.head.ref}}
+          repository: ${{github.event.pull_request.head.repo.full_name}}
+      - name: Setup NodeJS 14
+        uses: actions/setup-node@v2
         with:
           node-version: '14'
       - run: yarn install && npm install -g @lhci/cli@0.8.x
@@ -22,7 +27,7 @@ jobs:
         id: lighthouse-report
         run: |
           echo "::set-output name=MESSAGE::$(lhci autorun | grep https://storage)"
-          
+
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1
         with:
