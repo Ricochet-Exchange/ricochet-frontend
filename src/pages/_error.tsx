@@ -2,6 +2,7 @@ import NextErrorComponent from "next/error";
 
 import * as Sentry from "@sentry/nextjs";
 
+// @ts-ignore
 const Error = ({ statusCode, hasGetInitialPropsRun, err }) => {
   if (!hasGetInitialPropsRun && err) {
     // getInitialProps is not called in case of
@@ -14,7 +15,9 @@ const Error = ({ statusCode, hasGetInitialPropsRun, err }) => {
   return <NextErrorComponent statusCode={statusCode} />;
 };
 
+// @ts-ignore
 Error.getInitialProps = async ({ res, err, asPath }) => {
+  // @ts-ignore
   const errorInitialProps = await NextErrorComponent.getInitialProps({
     res,
     err,
@@ -22,6 +25,7 @@ Error.getInitialProps = async ({ res, err, asPath }) => {
 
   // Workaround for https://github.com/vercel/next.js/issues/8592, mark when
   // getInitialProps has run
+  // @ts-ignore
   errorInitialProps.hasGetInitialPropsRun = true;
 
   // Running on the server, the response object (`res`) is available.
@@ -51,6 +55,7 @@ Error.getInitialProps = async ({ res, err, asPath }) => {
   // information about what the error might be. This is unexpected and may
   // indicate a bug introduced in Next.js, so record it in Sentry
   Sentry.captureException(
+    // @ts-ignore
     new Error(`_error.js getInitialProps missing data at path: ${asPath}`)
   );
   await Sentry.flush(2000);
