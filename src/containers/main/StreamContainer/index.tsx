@@ -35,7 +35,7 @@ export const StreamContainer: React.FC<IProps> = () => {
       });
 
       const signer = provider.getSigner();
-
+      
       try {
         const createFlowOperation = sf.cfaV1.createFlow({
           flowRate,
