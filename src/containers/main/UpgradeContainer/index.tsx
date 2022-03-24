@@ -23,7 +23,7 @@ import { queryFlows } from '../../../api';
 import { Flow } from '../../../types/flow';
 
 function getFormattedNumber(num: string) {
-  return parseFloat(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '');
+  return parseFloat(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
 interface IProps {
