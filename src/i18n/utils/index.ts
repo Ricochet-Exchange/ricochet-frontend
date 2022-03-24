@@ -1,6 +1,6 @@
 import i18n, { LanguageDetectorAsyncModule } from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import keys from 'ramda/es/keys';
+import keys from 'lodash.keys';
 
 export enum LocaleKey {
   en = 'en',
