@@ -3,6 +3,7 @@ import copy from 'assets/images/copy.svg';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import styles from './styles.module.scss';
+import Image from 'next/image';
 
 const AddressTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -62,7 +63,7 @@ export const CopiableAddress: FC<CopiableAddressProps> = ({ address }) => {
             ...
             {address.slice(-4)}
           </span>
-          <img src={copy} alt="copy icon" />
+          <Image src={copy} alt="copy icon" />
         </div>
       </AddressTooltip>
     </div>
