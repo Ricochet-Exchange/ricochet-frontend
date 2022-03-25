@@ -3,8 +3,8 @@
   color: rgb(48, 30, 30);
   background-color: #7b8581;
   border: 2px solid #bfc2c5;
-  border-radius: 0px;
-  padding: 5px 5px;
+  border-radius: 0;
+  padding: 5px;
   display: inline-block;
   font-family: "Lucida Console", Monaco, monospace;
   font-size: 14px;
@@ -17,8 +17,8 @@
   width: max-content;
 }
 
-button:disabled,
-button[disabled]{
+.button:disabled,
+.button[disabled]{
   background-color:rgb(255,255,255);
   cursor: auto;
 }
@@ -38,6 +38,7 @@ button[disabled]{
 .diagonal:hover:not(:disabled) {
   box-shadow: inset 400px 50px 0 0 #abd2f3;
 }
+
 .button.link,.button.link:hover {
   color: #5f8eb9;
   font-weight: bold;

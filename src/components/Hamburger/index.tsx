@@ -9,8 +9,14 @@ type Props = {
 };
 
 export const Hamburger: React.FC<Props> = ({ open, setOpen }) => (
-
-  <div id={styles.hamburger_icon} className={`${open ? styles.active : ''}`} onClick={() => { setOpen(!open); }} key="menu">
+  <div
+    id={styles.hamburger_icon}
+    className={`${open ? styles.active : ''}`}
+    onClick={() => {
+      setOpen(!open);
+    }}
+    key="menu"
+  >
     <span className={`${styles.line} ${styles.line_1} `} />
     <span className={`${styles.line} ${styles.line_2} `} />
     <span className={`${styles.line} ${styles.line_3} `} />

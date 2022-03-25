@@ -67,14 +67,3 @@ $color: #ecf0f1;
     }
   }
 }
-
-h1 {
-  text-transform:uppercase;
-}
-a {
-  text-decoration:none;
-  color:#95a5a6;
-  &:hover, &:focus {
-    color:$color;
-  }
-}
