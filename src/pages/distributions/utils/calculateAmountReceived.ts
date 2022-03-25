@@ -4,14 +4,14 @@ const calculateAmountReceived = (
   publisherIndexValue: BigNumber,
   subscriberTotalAmountReceivedUntilUpdatedAt: BigNumber,
   subscriberIndexValueUntilUpdatedAt: BigNumber,
-  subscriberUnits: BigNumber,
+  subscriberUnits: BigNumber
 ) => {
   const publisherSubscriberDifference = publisherIndexValue
     .sub(subscriberIndexValueUntilUpdatedAt)
     .mul(subscriberUnits);
-  
+
   const totalAmountReceived = subscriberTotalAmountReceivedUntilUpdatedAt.add(
-    publisherSubscriberDifference,
+    publisherSubscriberDifference
   );
   return ethers.utils.formatEther(totalAmountReceived);
 };

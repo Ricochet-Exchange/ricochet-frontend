@@ -2,7 +2,7 @@ import Decimal from 'decimal.js';
 
 const calculatePoolPercentage = (
   indexTotalUnits: Decimal,
-  indexSubscriptionUnits: Decimal,
+  indexSubscriptionUnits: Decimal
 ): Decimal => {
   if (indexTotalUnits.isZero() || indexSubscriptionUnits.isZero()) {
     return new Decimal(0);
