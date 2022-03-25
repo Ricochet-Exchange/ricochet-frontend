@@ -4,8 +4,10 @@ import styles from './styles.module.scss';
 
 interface IProps {}
 
-export const BanksPage: FC<IProps> = () => (
+const BanksPage: FC<IProps> = () => (
   <div className={styles.content}>
     <BanksContainer />
   </div>
 );
+
+export default BanksPage;

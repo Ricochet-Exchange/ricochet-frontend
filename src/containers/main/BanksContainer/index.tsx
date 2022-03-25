@@ -47,22 +47,17 @@ export const BanksContainer = () => {
 
   return (
     <div className={styles.outer_container}>
-      <InvestNav />
+      {/* <InvestNav /> */}
       <div className={styles.container}>
         {accountAddress ? (
           <>
-            <LoadingWrapper
-              isLoading={isLoading}
-              className={styles.fullframe}
-            >
+            <LoadingWrapper isLoading={isLoading} className={styles.fullframe}>
               <div className={styles.contentTotal}>
                 {hasBanks ? (
                   <table className={styles.dextable}>
                     <thead>
                       <tr>
-                        <td className={styles.section}>
-                          {t('Name')}
-                        </td>
+                        <td className={styles.section}>{t('Name')}</td>
                         <td className={styles.section}>
                           {t('Available for')}
                           <br />
@@ -81,7 +76,9 @@ export const BanksContainer = () => {
                           <span className={styles.blue}> USD</span>
                         </td>
                         <td className={styles.section}>{t('Interest Rate')}</td>
-                        <td className={styles.section}>{t('Origination Fee')}</td>
+                        <td className={styles.section}>
+                          {t('Origination Fee')}
+                        </td>
                         <td className={styles.section}>
                           {t('Collateralization')}
                           <br />
@@ -105,16 +102,14 @@ export const BanksContainer = () => {
               </div>
             </LoadingWrapper>
           </>
-        )
-          :
-          (
-            <div className={styles.sign_container}>
-              <p className={styles.sign_in_text}>{t('Sign in to see the bank')}</p>
-              <SignInButton
-                onClick={handleSignIn}
-              />
-            </div>
-          )}
+        ) : (
+          <div className={styles.sign_container}>
+            <p className={styles.sign_in_text}>
+              {t('Sign in to see the bank')}
+            </p>
+            <SignInButton onClick={handleSignIn} />
+          </div>
+        )}
       </div>
     </div>
   );

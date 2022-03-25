@@ -1,4 +1,4 @@
-@import 'assets/styles/_mixins';
+@import 'styles/_mixins';
 
 .createVault_steps {
   width: 300px;
@@ -55,7 +55,8 @@
     transform: scale(.98);
 }
 
-.button:disabled, button[disabled] {
+.button:disabled,
+.button[disabled] {
   background-color: var(--color-blue);
 }
 
