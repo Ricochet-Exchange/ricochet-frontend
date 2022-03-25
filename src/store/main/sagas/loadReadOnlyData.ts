@@ -16,6 +16,7 @@ export function* loadReadOnlyData() {
       isLoading: false,
     }));
   } catch (e) {
+    console.error(e);
     if (process.env.REACT_APP_API_NODE_URL) yield put(mainGetReadOnlyData());
     else if (e instanceof Error) {
       throw new Error(`Missing mandatory environment variable REACT_APP_API_NODE_URL. Error: ${e?.message}`);
