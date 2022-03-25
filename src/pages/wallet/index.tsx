@@ -10,22 +10,22 @@ import styles from './styles.module.scss';
 interface IProps {}
 
 const WalletPage: FC<IProps> = () => {
-  const {
-    address,
-    balances,
-  } = useShallowSelector(selectMain);
+  const { address, balances } = useShallowSelector(selectMain);
   const { t } = useTranslation();
 
   return (
     <div className={styles.content_special}>
-      <div className={styles.left_wallet_nav}>
+      {/* <div className={styles.left_wallet_nav}>
         <InvestNav />
-      </div>
+      </div> */}
       <div className={styles.wallet}>
-        <UpgradeContainer balance={balances && balances[RICAddress]} address={address || t('Connect Wallet')} />
+        <UpgradeContainer
+          balance={balances && balances[RICAddress]}
+          address={address || t('Connect Wallet')}
+        />
       </div>
     </div>
   );
 };
 
-export { WalletPage };
+export default WalletPage;
