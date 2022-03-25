@@ -17,7 +17,7 @@ export interface TextInputProps extends HTMLProps<HTMLInputElement> {
 }
 
 const IconRenderer: FC<{ error?: boolean }> = ({ children, error }) =>
-  (children ? (
+  children ? (
     <div
       className={classNames(styles.icon, {
         [styles.text]: typeof children === 'string',
@@ -26,7 +26,7 @@ const IconRenderer: FC<{ error?: boolean }> = ({ children, error }) =>
     >
       {children}
     </div>
-  ) : null);
+  ) : null;
 
 const TextInput: FC<TextInputProps> = ({
   type = 'text',
