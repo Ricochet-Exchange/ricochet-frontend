@@ -1,5 +1,6 @@
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { Coin, iconsCoin } from 'constants/coins';
+import Image from 'next/image';
 import React, { FC } from 'react';
 import styles from './styles.module.scss';
 
@@ -14,10 +15,10 @@ export const CoinChange: FC<IProps> = ({
   <div className={styles.currency}>
     <div className={styles.labels}>
       <div className={styles.img_usd}>
-        <img src={iconsCoin[nameCoinLeft]} alt={nameCoinLeft} />
+        <Image src={iconsCoin[nameCoinLeft]!} alt={nameCoinLeft} />
       </div>
       <div className={styles.img_bitcoin}>
-        <img src={iconsCoin[nameCoinRight]} alt={nameCoinRight} />
+        <Image src={iconsCoin[nameCoinRight]!} alt={nameCoinRight} />
       </div>
     </div>
     <div className={styles.currency_name_container}>

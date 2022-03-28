@@ -1,9 +1,6 @@
-@import '../../assets/styles/mixins';
-
-
+@import 'styles/mixins';
 
 @media only screen and (max-width: 769px){
-
   .content {  
     margin-left: 0;
     position: relative;
@@ -19,7 +16,6 @@
 }
 
 @media only screen and (min-width: 769px){
-
   .content {
     margin-left: 10vw;
     position: relative;

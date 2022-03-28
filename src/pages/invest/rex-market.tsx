@@ -1,13 +1,14 @@
 import React, { FC } from 'react';
 import { InvestContainer } from 'containers/main/InvestContainer';
 import styles from './styles.module.scss';
+import { FlowTypes } from 'constants/flowConfig';
 
 interface IProps {}
 
-const InvestPage: FC<IProps> = () => (
+const RexMarket: FC<IProps> = () => (
   <div className={styles.content}>
-    <InvestContainer />
+    <InvestContainer path={FlowTypes.market} />
   </div>
 );
 
-export { InvestPage };
+export default RexMarket;

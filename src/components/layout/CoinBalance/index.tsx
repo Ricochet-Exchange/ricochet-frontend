@@ -5,6 +5,7 @@ import ButtonNew from 'components/common/ButtonNew';
 import { useTranslation } from 'i18n';
 import { Coin, iconsCoin } from '../../../constants/coins';
 import styles from './styles.module.scss';
+import Image from 'next/image';
 
 interface IProps {
   nameCoin: Coin,
@@ -24,8 +25,8 @@ export const CoinBalance: FC<IProps> = ({
     >
       <div className={styles.container_balance}>
         <div>
-          <img
-            src={iconsCoin[nameCoin]}
+          <Image
+            src={iconsCoin[nameCoin]!}
             alt={nameCoin}
             width="40px"
             aria-hidden="true"

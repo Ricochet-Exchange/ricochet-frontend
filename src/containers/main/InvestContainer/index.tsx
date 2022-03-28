@@ -2,13 +2,12 @@ import React, {
   ChangeEvent, useCallback, useEffect, useState,
 } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
-import { useRouteMatch } from 'react-router-dom';
 import { TextInput } from 'components/common/TextInput';
 import { PanelChange } from 'components/layout/PanelChange';
 import { UserSettings } from 'components/layout/UserSettings';
 import { InvestNav } from 'components/layout/InvestNav';
 import { useTranslation } from 'react-i18next';
-import { flowConfig, FlowEnum, RoutesToFlowTypes } from 'constants/flowConfig';
+import { flowConfig, FlowEnum, FlowTypes, RoutesToFlowTypes } from 'constants/flowConfig';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain, selectUserStreams } from 'store/main/selectors';
 import { RICAddress } from 'constants/polygon_config';
@@ -25,8 +24,9 @@ function endDate(bal: number, outgoing: number): string {
   return `${endDateStr}`;
 }
 
-interface IProps { }
-export const InvestContainer: React.FC<IProps> = () => {
+interface IProps { path: FlowTypes }
+
+export const InvestContainer: React.FC<IProps> = ({ path }) => {
   const { t } = useTranslation();
   const state = useShallowSelector(selectMain);
   const {
@@ -36,8 +36,7 @@ export const InvestContainer: React.FC<IProps> = () => {
   const dispatch = useDispatch();
   const [search, setSearch] = useState('');
   const [filteredList, setFilteredList] = useState(flowConfig);
-  const match = useRouteMatch();
-  const flowType = RoutesToFlowTypes[match.path];
+  const flowType = path;
   
   useEffect(() => {
     if (flowType) {
@@ -97,7 +96,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 
   return (
     <div className={styles.outer_container}>
-      <InvestNav />
+      {/* <InvestNav /> */}
       <div className={styles.settings_mob}>
         <UserSettings
           className={styles.dot}
