@@ -3,6 +3,10 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { truncateAddr } from 'utils/helpers';
 import { Framework } from '@superfluid-finance/sdk-core';
 import { selectMain } from 'store/main/selectors';
+import deleteFlow from 'utils/superfluidStreams/deleteFlow';
+import { calculateFlowRate } from 'utils/calculateFlowRate';
+import { blockInvalidChar } from 'utils/blockInvalidChars';
+import updateExistingFlow from 'utils/superfluidStreams/updateExistingFlow';
 import { TokenIcon } from 'components/common/TokenIcon';
 import * as Sentry from '@sentry/react';
 import styles from './styles.module.scss';
@@ -13,6 +17,8 @@ export const StreamManager: React.FC<IProps> = () => {
   const { web3, address: account } = useShallowSelector(selectMain);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [streamList, setStreams] = useState([]);
+  const [updateOperation, toggleUpdate] = useState(false);
+  const [updatedFlowRate, updateFlowRate] = useState('');
   
   useEffect(() => {
     let mounted = true;
@@ -67,6 +73,8 @@ export const StreamManager: React.FC<IProps> = () => {
         }, i) => {
           // @ts-expect-error
           const TokenName = token.name;
+          // @ts-expect-error
+          const TokenID = token.id;
           console.log(createdAtTimestamp, sender, i, token);
           return (
             <div className={styles.streamRow}>
@@ -79,17 +87,67 @@ export const StreamManager: React.FC<IProps> = () => {
                 </h3>
               </div>
       
-              <div className="">
+              <div className={styles.info}>
                 <TokenIcon tokenName={TokenName} />
-     
+                
                 <h3 className={styles.currentFlow}>
                   {currentFlowRate} 
                   {' '}
                   <strong>Per second</strong>
                   {' '}
                 </h3>
+
+                <div className={styles.update_buttons}>
+                  <button 
+                    className={styles.change_flow_update} 
+                    onClick={() => { toggleUpdate(true); }}
+                  >
+                    Update Flow
+                  </button>
+                  <button 
+                    className={styles.change_flow_cancel} 
+                    onClick={() => { deleteFlow(sender, receiver, TokenID); }}
+                  >
+                    Delete Flow
+                  </button>
+                </div>
               </div>
-                
+
+              {
+                updateOperation ? (
+                  <div className={styles.updatePrompt}>
+                    <div className={styles.amount_container}>
+                      <h3 className={styles.amount_label}>What is the new payment amount?</h3>
+                      <input
+                        id="payment"
+                        className={styles.input_field} 
+                        type="number" 
+                        placeholder="Payment Amount Per month in" 
+                        onKeyDown={blockInvalidChar}
+                        min={0}
+                        onChange={async (e) => { 
+                          const newFlow = await calculateFlowRate(+(e.target.value));
+                          if (newFlow) {
+                            await updateFlowRate(newFlow.toString());
+                            console.log(newFlow.toString);
+                          }
+                        }}
+                      />
+                      <span>Per month</span>
+                    </div>
+
+                    <button 
+                      className={styles.amount_change}
+                      disabled={updatedFlowRate === ''}
+                      onClick={() => { updateExistingFlow(receiver, updatedFlowRate, TokenID); }}
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                )
+                  :
+                  ''
+              }
             </div>
           );
         })

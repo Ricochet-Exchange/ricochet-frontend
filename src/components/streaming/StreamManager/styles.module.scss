@@ -9,10 +9,18 @@
   }
 
   .streamRow{
+    border-bottom: 2px solid #2776ca51;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
+    padding: 1em;
+    transition: 0.5s;
+    &:hover{
+      background-color: #ccd1d7;
+
+    }
   }
 
   .receiver{
@@ -31,4 +39,10 @@
   strong{
     color: rgba(160, 160, 160, 0.701)
   }
+
+  .updatePrompt{
+    position: fixed;
+    right: 1vw;
+  }
 }
+
