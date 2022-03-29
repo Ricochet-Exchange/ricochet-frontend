@@ -1,5 +1,5 @@
-@import 'assets/styles/variables';
-@import 'assets/styles/mixins';
+@import 'styles/variables';
+@import 'styles/mixins';
 
 .button {
     background-color: var(--color-blue);
@@ -28,7 +28,8 @@
     transform: scale(.98);
 }  
 
-.button:disabled, button[disabled]{
+.button:disabled,
+.button[disabled]{
     opacity: 0.25;
 }
 

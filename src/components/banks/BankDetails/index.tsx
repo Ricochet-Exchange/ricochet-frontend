@@ -9,6 +9,7 @@ import { ModalCreateVaultContainer } from 'containers/main/ModalCreateVaultConta
 import { Coin, iconsCoin } from 'constants/coins';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import styles from './styles.module.scss';
+import Image from 'next/image';
 
 type Props = {
   bank: BankType;
@@ -63,8 +64,8 @@ export const BankDetails: FC<Props> = ({
         </td>
         <td>
           <div className={styles.priceWithIcon}>
-            <img
-              src={iconsCoin[bank.debtToken.symbol as Coin]}
+            <Image
+              src={iconsCoin[bank.debtToken.symbol as Coin]!}
               alt={bank.debtToken.symbol}
             />
             <h3>{formatter((+bank.reserveBalance / 1e18).toFixed(), 2)}</h3>
@@ -72,8 +73,8 @@ export const BankDetails: FC<Props> = ({
         </td>
         <td>
           <div className={styles.priceWithIcon}>
-            <img
-              src={iconsCoin[bank.collateralToken.symbol as Coin]}
+            <Image
+              src={iconsCoin[bank.collateralToken.symbol as Coin]!}
               alt={bank.collateralToken.symbol}
             />
             <h3>{`${formatter((+bank.collateralToken.price / 1000000), 2)} $`}</h3>
@@ -81,8 +82,8 @@ export const BankDetails: FC<Props> = ({
         </td>
         <td>
           <div className={styles.priceWithIcon}>
-            <img
-              src={iconsCoin[bank.debtToken.symbol as Coin]}
+            <Image
+              src={iconsCoin[bank.debtToken.symbol as Coin]!}
               alt={bank.debtToken.symbol}
             />
             <h3>{`${formatter((+bank.debtToken.price / 1000000), 2)} $`}</h3>

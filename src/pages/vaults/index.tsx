@@ -4,8 +4,10 @@ import styles from './styles.module.scss';
 
 interface IProps {}
 
-export const VaultsPage: FC<IProps> = () => (
+const VaultsPage: FC<IProps> = () => (
   <div className={styles.content}>
     <VaultsContainer />
   </div>
 );
+
+export default VaultsPage;

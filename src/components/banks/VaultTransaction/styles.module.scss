@@ -1,4 +1,4 @@
-@import 'assets/styles/_mixins.scss';
+@import 'styles/_mixins.scss';
 
 .VaultTransaction {
   width: 100%;
@@ -127,7 +127,8 @@
     transform: scale(.98);
 }  
 
-.actionButton:disabled, button[disabled]{
+.actionButton:disabled,
+.button[disabled]{
   opacity: 0.25;
 }
 
