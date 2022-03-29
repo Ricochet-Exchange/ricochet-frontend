@@ -3,6 +3,7 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { truncateAddr } from 'utils/helpers';
 import { Framework } from '@superfluid-finance/sdk-core';
 import { selectMain } from 'store/main/selectors';
+import { TokenIcon } from 'components/common/TokenIcon';
 import * as Sentry from '@sentry/react';
 import styles from './styles.module.scss';
 
@@ -62,18 +63,25 @@ export const StreamManager: React.FC<IProps> = () => {
           sender,
           receiver,
           currentFlowRate,
+          token,
         }, i) => {
-          console.log(createdAtTimestamp, sender, i);
+          // @ts-expect-error
+          const TokenName = token.name;
+          console.log(createdAtTimestamp, sender, i, token);
           return (
             <div className={styles.streamRow}>
               
               <div className="">
                 <img src="" alt="" className="" />
-                <h3 className={styles.receiver}>{truncateAddr(receiver)}</h3>
+                <h3 className={styles.receiver}>
+                  <strong>To: </strong>
+                  {truncateAddr(receiver)}
+                </h3>
               </div>
       
               <div className="">
-                <img src="" alt="" className="" />
+                <TokenIcon tokenName={TokenName} />
+     
                 <h3 className={styles.currentFlow}>
                   {currentFlowRate} 
                   {' '}
