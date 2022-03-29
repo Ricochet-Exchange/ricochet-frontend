@@ -1,0 +1,34 @@
+@media screen and (min-width: 786px) {
+  .container{
+    margin-top: 1em;
+    height: 100%;
+    width: 50vw;
+    background-color: #EDF3FB;
+    border-radius: 12px;
+    padding: 2em;
+  }
+
+  .streamRow{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .receiver{
+    color: rgb(82, 82, 82);
+  }
+
+  .currentFlow{
+    font-size: small;
+    color: rgb(86, 86, 86);
+  }
+
+  .outGoing{
+    color: #2775CA;
+  }
+
+  strong{
+    color: rgba(160, 160, 160, 0.701)
+  }
+}

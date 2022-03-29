@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useShallowSelector } from 'hooks/useShallowSelector';
+import { truncateAddr } from 'utils/helpers';
 import { Framework } from '@superfluid-finance/sdk-core';
 import { selectMain } from 'store/main/selectors';
 import * as Sentry from '@sentry/react';
@@ -11,7 +12,7 @@ export const StreamManager: React.FC<IProps> = () => {
   const { web3, address: account } = useShallowSelector(selectMain);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [streamList, setStreams] = useState([]);
-
+  
   useEffect(() => {
     let mounted = true;
     if (web3.currentProvider && account) {
@@ -51,16 +52,40 @@ export const StreamManager: React.FC<IProps> = () => {
 
   return (
     <div className={styles.container}>
+      <div className="">
+        <h2 className={styles.outGoing}>{`${streamList.length} Outgoing Streams.`}</h2>
+      </div>
+        
       {
-        streamList.map((stream, i) => {
-          console.log(stream);
+        streamList.map(({
+          createdAtTimestamp,
+          sender,
+          receiver,
+          currentFlowRate,
+        }, i) => {
+          console.log(createdAtTimestamp, sender, i);
           return (
-            <div key="stream_key">
-              {i}
+            <div className={styles.streamRow}>
+              
+              <div className="">
+                <img src="" alt="" className="" />
+                <h3 className={styles.receiver}>{truncateAddr(receiver)}</h3>
+              </div>
+      
+              <div className="">
+                <img src="" alt="" className="" />
+                <h3 className={styles.currentFlow}>
+                  {currentFlowRate} 
+                  {' '}
+                  <strong>Per second</strong>
+                  {' '}
+                </h3>
+              </div>
+                
             </div>
           );
         })
-      }
+        }
     </div>
   );
 };
