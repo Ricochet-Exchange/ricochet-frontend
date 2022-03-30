@@ -1,5 +1,4 @@
 import React, { FC, useCallback, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { Routes } from 'constants/routes';
 import { UserSettings } from 'components/layout/UserSettings';
 import Link from 'components/common/Link';
@@ -8,6 +7,8 @@ import { Hamburger } from 'components/Hamburger';
 import { useTranslation } from 'i18n';
 import styles from './styles.module.scss';
 import logo from '../../../assets/images/logo.svg';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 interface IProps {
   address: string;
@@ -15,7 +16,7 @@ interface IProps {
 }
 
 export const HeaderContainer: FC<IProps> = ({ address, balance }) => {
-  const location = useLocation();
+  const { pathname } = useRouter();
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
@@ -25,7 +26,7 @@ export const HeaderContainer: FC<IProps> = ({ address, balance }) => {
   }, [open, setOpen]);
 
   const HeaderText = () => {
-    switch (location.pathname) {
+    switch (pathname) {
       case Routes.Wallet:
         return (
           <>
@@ -75,10 +76,7 @@ export const HeaderContainer: FC<IProps> = ({ address, balance }) => {
           </>
         );
       default:
-        return (
-          <>
-          </>
-        );
+        return <></>;
     }
   };
 
@@ -86,23 +84,23 @@ export const HeaderContainer: FC<IProps> = ({ address, balance }) => {
     <div className={styles.header_wrap}>
       <div className={styles.mob_panel}>
         <div className={styles.logo}>
-          <Link to={Routes.Invest}><img src={logo} alt="Ricochet" /></Link>
+          <Link to={Routes.Invest}>
+            <a>
+            <Image src={logo} alt="Ricochet" />
+            </a>
+          </Link>
         </div>
 
         <div className={styles.links}>
-          <Link
-            to={Routes.Invest}
-            className={styles.dca_link}
-            activeClassName={styles.active}
-          >
-            <div>{t('Invest')}</div>
+          <Link to={Routes.Invest} activeClassName={styles.active}>
+            <a className={styles.dca_link}>
+              <div>{t('Invest')}</div>
+            </a>
           </Link>
-          <Link
-            to={Routes.Wallet}
-            className={styles.upgrade_link}
-            activeClassName={styles.active}
-          >
-            <div>{t('Wallet')}</div>
+          <Link to={Routes.Wallet} activeClassName={styles.active}>
+            <a className={styles.upgrade_link}>
+              <div>{t('Wallet')}</div>
+            </a>
           </Link>
         </div>
 

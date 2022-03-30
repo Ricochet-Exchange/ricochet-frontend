@@ -7,6 +7,7 @@ import { connectWeb3Modal } from 'store/main/actionCreators';
 import useENS from 'hooks/useENS';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
+import Image from 'next/image';
 
 interface IProps {
   account: string;
@@ -69,7 +70,7 @@ export const WalletButton: FC<IProps> = ({
         <div className={styles.icon_wrap}>
           {!preConnect &&
             (ensAvatar ? (
-              <img
+              <Image
                 className={styles.avatar}
                 src={ensAvatar}
                 alt="user avatar"

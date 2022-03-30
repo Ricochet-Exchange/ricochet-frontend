@@ -7,7 +7,7 @@ import { PanelChange } from 'components/layout/PanelChange';
 import { UserSettings } from 'components/layout/UserSettings';
 import { InvestNav } from 'components/layout/InvestNav';
 import { useTranslation } from 'react-i18next';
-import { flowConfig, FlowEnum, FlowTypes, RoutesToFlowTypes } from 'constants/flowConfig';
+import { flowConfig, FlowEnum, FlowTypes } from 'constants/flowConfig';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain, selectUserStreams } from 'store/main/selectors';
 import { RICAddress } from 'constants/polygon_config';
@@ -96,7 +96,7 @@ export const InvestContainer: React.FC<IProps> = ({ path }) => {
 
   return (
     <div className={styles.outer_container}>
-      {/* <InvestNav /> */}
+      <InvestNav />
       <div className={styles.settings_mob}>
         <UserSettings
           className={styles.dot}

@@ -15,9 +15,9 @@ const WalletPage: FC<IProps> = () => {
 
   return (
     <div className={styles.content_special}>
-      {/* <div className={styles.left_wallet_nav}>
+      <div className={styles.left_wallet_nav}>
         <InvestNav />
-      </div> */}
+      </div>
       <div className={styles.wallet}>
         <UpgradeContainer
           balance={balances && balances[RICAddress]}

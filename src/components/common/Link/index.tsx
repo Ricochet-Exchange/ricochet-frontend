@@ -1,29 +1,17 @@
 import React, { useCallback } from 'react';
 import cx from 'classnames';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from '../NavLink';
 import styles from './styles.module.scss';
 
 type Props = {
+  children: React.ReactElement;
   to: string;
-  className?: string;
-  activeClassName?: string
+  activeClassName?: string;
 };
 
-const Link:React.FC<Props> = ({ 
-  to, 
-  className,
-  activeClassName, 
-  children,
-}) => {
-  const onMouseDown = useCallback((e) => e.stopPropagation(), []);
-
+const Link: React.FC<Props> = ({ to, activeClassName, children }) => {
   return (
-    <NavLink
-      to={to} 
-      className={cx(styles.link, className)} 
-      activeClassName={activeClassName}
-      onMouseDown={onMouseDown}
-    >
+    <NavLink href={to} activeClassName={activeClassName}>
       {children}
     </NavLink>
   );

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FC } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'components/common/Link';
 import { Button } from 'components/common/Button';
 import Icons from 'assets/icons/Icons';
 import { BankType } from 'store/banks/types';
@@ -11,20 +11,20 @@ import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import styles from './styles.module.scss';
 
 type Props = {
-  bank: BankType,
-  vaultData: VaultType,
-  step: number,
-  error: string,
-  transactionHash: string,
-  isLoadingSubmit: boolean,
-  isLoadingApprove: boolean,
-  localApproved: boolean,
-  visibleModal: boolean,
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void,
-  onSubmit: () => void,
-  onStartClick: () => void,
-  onApproveClick: () => void,
-  onCloseModal: () => void,
+  bank: BankType;
+  vaultData: VaultType;
+  step: number;
+  error: string;
+  transactionHash: string;
+  isLoadingSubmit: boolean;
+  isLoadingApprove: boolean;
+  localApproved: boolean;
+  visibleModal: boolean;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: () => void;
+  onStartClick: () => void;
+  onApproveClick: () => void;
+  onCloseModal: () => void;
 };
 
 export const ModalCreateVault: FC<Props> = ({
@@ -86,17 +86,16 @@ export const ModalCreateVault: FC<Props> = ({
           <>
             <p>{t('Setup succesful!')}</p>
             <Icons.Vmark className={styles.vmark} />
-            <Link
-              to="/vaults?new=true"
-              className={styles.link}
-            >
-              <Button
-                label="view vault"
-                className={styles.view_button}
-                onClick={onCloseModal}
-              >
-                <Icons.Vault fill="#678eb5" />
-              </Button>
+            <Link to="/vaults?new=true">
+              <a className={styles.link}>
+                <Button
+                  label="view vault"
+                  className={styles.view_button}
+                  onClick={onCloseModal}
+                >
+                  <Icons.Vault fill="#678eb5" />
+                </Button>
+              </a>
             </Link>
           </>
         );
@@ -116,18 +115,24 @@ export const ModalCreateVault: FC<Props> = ({
     >
       <div className={styles.container}>
         <div className={styles.content}>
-          <h2 className={styles.create_title}>
-            {t('Creating a Vault')}
-          </h2>
+          <h2 className={styles.create_title}>{t('Creating a Vault')}</h2>
           <div className={styles.close_wrap}>
             <button className={styles.close_btn} onClick={onCloseModal}>
-              <FontIcon name={FontIconName.Close} className={styles.close} size={24} />
+              <FontIcon
+                name={FontIconName.Close}
+                className={styles.close}
+                size={24}
+              />
             </button>
           </div>
-          {renderStep()}          
+          {renderStep()}
         </div>
       </div>
-      <div className={styles.backdrop} onClick={onCloseModal} role="presentation" />
+      <div
+        className={styles.backdrop}
+        onClick={onCloseModal}
+        role="presentation"
+      />
     </ReactModal>
   );
 };

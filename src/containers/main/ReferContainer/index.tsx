@@ -7,7 +7,7 @@ import { InvestNav } from 'components/layout/InvestNav';
 import { rexReferralAddress } from 'constants/polygon_config';
 import { getContract } from 'utils/getContract';
 import { referralABI } from 'constants/abis';
-import ButtonNew from '../../../components/common/ButtonNew';
+import ButtonNew from 'components/common/ButtonNew';
 import styles from './styles.module.scss';
 
 interface IProps { }

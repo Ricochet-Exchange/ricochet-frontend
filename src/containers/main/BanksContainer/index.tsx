@@ -47,7 +47,7 @@ export const BanksContainer = () => {
 
   return (
     <div className={styles.outer_container}>
-      {/* <InvestNav /> */}
+      <InvestNav />
       <div className={styles.container}>
         {accountAddress ? (
           <>
