@@ -16,7 +16,7 @@ import { getContract } from 'utils/getContract';
 
 import { mainSetState } from '../actionCreators';
 import { selectMain } from '../selectors';
-import calculateStreamedSoFar from '../../../pages/InvestPage/utils/calculateStreamedSoFar';
+import calculateStreamedSoFar from 'utils/calculateStreamedSoFar';
 
 const exchangeContractsAddresses = flowConfig.map((f) => f.superToken);
 

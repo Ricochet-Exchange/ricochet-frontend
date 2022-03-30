@@ -9,7 +9,7 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { distributionsGetData } from 'store/distributions/actionCreators';
 import { selectDistributions } from 'store/distributions/selectors';
-import { DistributionPanel } from 'pages/distributions/layout';
+import { DistributionPanel } from 'components/layout/DistributionPanel';
 import { TextInput } from 'components/common/TextInput';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 
@@ -40,7 +40,7 @@ export const DistributionContainer: React.FC<IProps> = () => {
   );
   return (
     <div className={styles.outer_container}>
-      {/* <InvestNav /> */}
+      <InvestNav />
       <div className={styles.container}>
         <div className={styles.input_wrap}>
           <TextInput
