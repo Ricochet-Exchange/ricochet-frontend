@@ -53,7 +53,7 @@ export function* sweepQueryFlow(): any {
       
     (received?.data?.data?.streams || [])
       .forEach((stream:any) => {
-        const receivedSoFar = receivedSoFarMap[`${stream.token.id}-${stream.receiver.id}`] || 0;
+        const receivedSoFar = receivedSoFarMap[`${stream.token.id}-${stream.sender.id}`] || 0;
         Object.assign(receivedSoFarMap, {
           [`${stream.token.id}-${stream.sender.id}`]: Number(receivedSoFar) + Number(calculateStreamedSoFar(
             stream.streamedUntilUpdatedAt,
