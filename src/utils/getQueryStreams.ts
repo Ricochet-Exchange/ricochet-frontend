@@ -1,6 +1,6 @@
 export const getQueryStreams = (sender: string) => `{
     streams(
-      where: { sender: "${sender.toLowerCase()}" }
+      where: { sender: "${sender?.toLowerCase()}" }
     ) {
        id
         createdAtTimestamp
