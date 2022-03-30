@@ -175,9 +175,9 @@ dev() {
     export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     cd "$dir/site"
-    nvm install 14
-    nvm use 14
-    yarn && yarn start
+    nvm install 16
+    nvm use 16
+    yarn && yarn dev
 }
 
 # run tests (by calling yarn script directly)
