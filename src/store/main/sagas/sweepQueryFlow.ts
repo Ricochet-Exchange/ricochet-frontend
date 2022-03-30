@@ -4,7 +4,7 @@ import {
 import { RICAddress } from 'constants/polygon_config';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
-import { queryFlows, queryStreams } from 'api';
+import { queryFlows, queryStreams, queryReceived } from 'api';
 
 import { getReceviedFlows } from 'utils/getReceviedFlows';
 import { getOwnedFlows } from 'utils/getOwnedFlows';
@@ -20,7 +20,7 @@ import { selectMain } from '../selectors';
 
 const exchangeContractsAddresses = flowConfig.map((f) => f.superToken);
 
-export function* sweepQueryFlow() {
+export function* sweepQueryFlow(): any {
   const main: ReturnType<typeof selectMain> = yield select(selectMain);
   const { web3 } = main;
   const address: Unwrap<typeof getAddress> = yield call(getAddress, web3);
@@ -28,16 +28,34 @@ export function* sweepQueryFlow() {
     (addr) => call(queryFlows, addr),
   ));
 
-  const streamedSoFarMap: { [key:string]: number } = {};
+  const streamedSoFarMap: Record<string, number> = {};
+  const receivedSoFarMap: Record<string, number> = {};
 
   if (address) {
-    const response: Unwrap<typeof queryStreams> = yield call(queryStreams, address);
+    const [streamed, received] = yield all([
+      call(queryStreams, address),
+      call(queryReceived, address),
+    ]);
 
-    (response?.data?.data?.streams || [])
+    console.log(streamed, received);
+
+    (streamed?.data?.data?.streams || [])
       .forEach((stream:any) => {
         const streamedSoFar = streamedSoFarMap[`${stream.token.id}-${stream.receiver.id}`] || 0;
         Object.assign(streamedSoFarMap, {
           [`${stream.token.id}-${stream.receiver.id}`]: Number(streamedSoFar) + Number(calculateStreamedSoFar(
+            stream.streamedUntilUpdatedAt,
+            stream.updatedAtTimestamp,
+            stream.currentFlowRate,
+          )),
+        });
+      });
+      
+    (received?.data?.data?.streams || [])
+      .forEach((stream:any) => {
+        const receivedSoFar = receivedSoFarMap[`${stream.token.id}-${stream.receiver.id}`] || 0;
+        Object.assign(receivedSoFarMap, {
+          [`${stream.token.id}-${stream.sender.id}`]: Number(receivedSoFar) + Number(calculateStreamedSoFar(
             stream.streamedUntilUpdatedAt,
             stream.updatedAtTimestamp,
             stream.currentFlowRate,
@@ -94,9 +112,14 @@ export function* sweepQueryFlow() {
       tokenAxAddress, address);
     
     let streamedSoFar;
+    let receivedSoFar;
 
     if (Object.keys(streamedSoFarMap).length) {
       streamedSoFar = streamedSoFarMap[`${tokenAxAddress.toLowerCase()}-${exchangeAddress.toLowerCase()}`];
+    }
+
+    if (Object.keys(receivedSoFarMap).length) {
+      receivedSoFar = receivedSoFarMap[`${tokenAxAddress.toLowerCase()}-${exchangeAddress.toLowerCase()}`];
     }
 
     const tokenAtokenBPlaceholder = ((tokenAtokenBFlowsReceived / 10 ** 18) *
@@ -114,6 +137,7 @@ export function* sweepQueryFlow() {
       totalFlows: tokenAtokenBFlows.flowsReceived.length,
       placeholder: tokenAtokenBPlaceholder,
       streamedSoFar,
+      receivedSoFar,
       subsidyRate, // await getSubsidyRate(FlowEnum.daiMkrFlowQuery,
       // usdcRicPlaceholder, flowsOwned),
     };
