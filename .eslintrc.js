@@ -1,9 +1,7 @@
 module.exports = {
-  extends: [
-    'airbnb-typescript',
-    'next',
-    'prettier',
-  ],
+  extends: ['airbnb-typescript', 'plugin:@next/next/recommended', 'prettier'],
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint', 'jsx-a11y', 'react'],
   parserOptions: {
     project: './tsconfig.json',
   },
@@ -22,9 +20,13 @@ module.exports = {
     'import/no-extraneous-dependencies': 0,
     'import/no-cycle': 0,
     'no-underscore-dangle': 0,
-    'jsx-a11y/label-has-associated-control': [2, {
-      "depth": 1,
-    }],
+    'jsx-a11y/label-has-associated-control': [
+      2,
+      {
+        depth: 1,
+      },
+    ],
+    'react/jsx-filename-extension': [1, { extensions: ['.tsx'] }],
     'consistent-return': 0,
     'no-trailing-spaces': 0,
     'operator-linebreak': 0,
@@ -34,5 +36,5 @@ module.exports = {
     'no-console': 0,
     'no-debugger': 0,
     // "no-nested-ternary": "off"
-  }
+  },
 };
