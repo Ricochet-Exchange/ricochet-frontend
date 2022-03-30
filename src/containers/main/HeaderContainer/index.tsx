@@ -86,7 +86,7 @@ export const HeaderContainer: FC<IProps> = ({ address, balance }) => {
         <div className={styles.logo}>
           <Link to={Routes.Invest}>
             <a>
-            <Image src={logo} alt="Ricochet" />
+              <Image src={logo} alt="Ricochet" />
             </a>
           </Link>
         </div>

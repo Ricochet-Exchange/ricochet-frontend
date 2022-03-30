@@ -13,7 +13,7 @@ type Props = {
 } & React.HTMLProps<HTMLSpanElement>;
 
 // load abi, create contract instance, get price, normalize price, quicc maths, return
-const getPrice = async (web3:Web3): Promise<string> => {
+const getPrice = async (web3: Web3): Promise<string> => {
   const contract = getContract(usdcxRicExchangeAddress, launchpadABI, web3);
   const price = await contract.methods.getSharePrice().call();
   const normalizedPrice = typeof price === 'string' ? price : price.toString();
@@ -24,9 +24,7 @@ const getPrice = async (web3:Web3): Promise<string> => {
 // ie: <Price className='price' />
 export default function Price(props: Props) {
   const [price, setPrice] = React.useState('');
-  const {
-    web3,
-  } = useShallowSelector(selectMain);
+  const { web3 } = useShallowSelector(selectMain);
   React.useEffect(() => {
     let isMounted = true;
     if (web3?.currentProvider === null) return;
@@ -46,7 +44,10 @@ export default function Price(props: Props) {
 
   return (
     <div className={styles.balance_container}>
-      <span {...props} className={styles.balance}>{`🚀 ${trimPad(price, 2)} USDC/RIC`}</span>
+      <span {...props} className={styles.balance}>{`🚀 ${trimPad(
+        price,
+        2
+      )} USDC/RIC`}</span>
     </div>
   );
 }

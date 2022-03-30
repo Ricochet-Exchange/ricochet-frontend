@@ -15,7 +15,7 @@ type FlowUpdatedProps = {
   /**
    * required when event is 'FlowUpdated'
    * @see https://github.com/superfluid-finance/protocol-monorepo/blob/2fb0afd711479a3ca373de12d6643c0655f27b49/packages/sdk-core/src/types.ts#L7
-  */
+   */
   flowActionType: number;
 };
 
@@ -25,7 +25,13 @@ export const FlowUpdated: FC<FlowUpdatedProps> = ({
   flowActionType,
 }) => {
   const {
-    name, token, timestamp, sender, receiver, flowRate, transactionHash,
+    name,
+    token,
+    timestamp,
+    sender,
+    receiver,
+    flowRate,
+    transactionHash,
   } = event;
   // streaming prefix
   let prefix = '';
@@ -49,8 +55,12 @@ export const FlowUpdated: FC<FlowUpdatedProps> = ({
       mobileSuffix = 'Canceled Stream';
     } else {
       prefix = 'Started Outgoing';
-      suffix = `of $${Math.trunc((+flowRate / 1e8) * SECONDS_PER_MONTH)} per month, $${(+flowRate / 1e18).toFixed(8)} per second`;
-      mobileSuffix = `Outgoing stream of $${Math.trunc((+flowRate / 1e8) * SECONDS_PER_MONTH)} per month`;
+      suffix = `of $${Math.trunc(
+        (+flowRate / 1e8) * SECONDS_PER_MONTH
+      )} per month, $${(+flowRate / 1e18).toFixed(8)} per second`;
+      mobileSuffix = `Outgoing stream of $${Math.trunc(
+        (+flowRate / 1e8) * SECONDS_PER_MONTH
+      )} per month`;
     }
   } else if (flowActionType === 2) {
     prefix = 'Incoming';
@@ -58,13 +68,17 @@ export const FlowUpdated: FC<FlowUpdatedProps> = ({
     mobileSuffix = 'Incoming Stream canceled';
   } else {
     prefix = 'Received Incoming';
-    suffix = `of $${Math.trunc((+flowRate / 1e8) * SECONDS_PER_MONTH)} per month, $${(+flowRate / 1e18).toFixed(8)} per second`;
-    mobileSuffix = `Incoming stream of $${Math.trunc((+flowRate / 1e8) * SECONDS_PER_MONTH)} per month`;
+    suffix = `of $${Math.trunc(
+      (+flowRate / 1e8) * SECONDS_PER_MONTH
+    )} per month, $${(+flowRate / 1e18).toFixed(8)} per second`;
+    mobileSuffix = `Incoming stream of $${Math.trunc(
+      (+flowRate / 1e8) * SECONDS_PER_MONTH
+    )} per month`;
   }
 
   /**
    * stop propagation of event to prevent rendering mobile activity details page.
-   * 
+   *
    * @param e React.MouseEvent<HTMLDivElement>
    */
   const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -77,19 +91,21 @@ export const FlowUpdated: FC<FlowUpdatedProps> = ({
         <span>{time}</span>
         <div className={styles.larger_streaming_content}>
           <span>
-            {prefix}
-            {' '}
-            {activityCopying}
+            {prefix} {activityCopying}
           </span>
           <TokenIcon tokenName={tokenName} />
-          <span className={styles.amount}>{tokenName ?? <CoinPlaceholder token={token} />}</span>
-          <CopiableAddress address={isUser ? receiver : sender} />
-          <span>
-            {' '}
-            {suffix}
+          <span className={styles.amount}>
+            {tokenName ?? <CoinPlaceholder token={token} />}
           </span>
+          <CopiableAddress address={isUser ? receiver : sender} />
+          <span> {suffix}</span>
         </div>
-        <div className={styles.transaction_link_wrapper} role="button" aria-hidden="true" onClick={stopPropagation}>
+        <div
+          className={styles.transaction_link_wrapper}
+          role="button"
+          aria-hidden="true"
+          onClick={stopPropagation}
+        >
           <TransactionLink transactionHash={transactionHash} />
         </div>
       </div>
@@ -100,17 +116,12 @@ export const FlowUpdated: FC<FlowUpdatedProps> = ({
             <CopiableAddress address={isUser ? receiver : sender} />
           </div>
           <div>
-            <span>
-              {mobileSuffix}
-            </span>
+            <span>{mobileSuffix}</span>
           </div>
         </div>
         <div className={styles.right_arrow}>
-          <span>
-            &gt;
-          </span>
+          <span>&gt;</span>
         </div>
-
       </>
     </>
   );

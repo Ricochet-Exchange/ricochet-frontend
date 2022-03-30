@@ -39,7 +39,8 @@ const ReferralValidationRedirectPage: FC<IProps> = () => {
   const { pathname } = useRouter();
   const router = useRouter();
   const { referralId } = router.query;
-  const referralIdMax32Bytes = new buffer.Blob([referralId as string]).size <= 32;
+  const referralIdMax32Bytes =
+    new buffer.Blob([referralId as string]).size <= 32;
   const contract = getContract(rexReferralAddress, referralABI, web3);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie] = useCookies(['referralId']);

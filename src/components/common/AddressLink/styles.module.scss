@@ -1,4 +1,4 @@
-@import "styles/mixins";
+@import 'styles/mixins';
 
 .address_link_btn {
   height: 3vh;
@@ -17,13 +17,13 @@
   &:hover {
     color: rgb(45, 45, 45);
   }
-    @include tablet {
-        padding-top: 0em;
-        margin-top: 2em;
-        justify-content: space-between;
-        border: none;
-        height: 25px;
-    }
+  @include tablet {
+    padding-top: 0em;
+    margin-top: 2em;
+    justify-content: space-between;
+    border: none;
+    height: 25px;
+  }
 }
 
 @media only screen and (max-width: 769px) {

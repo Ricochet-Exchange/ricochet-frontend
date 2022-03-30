@@ -1,12 +1,10 @@
-import React, {
-  FC,
-} from 'react';
+import React, { FC } from 'react';
 import { LocaleKey, localeNames } from 'i18n/utils';
 // import { values } from 'ramda';
 import styles from './styles.module.scss';
 
 interface IProps {
-  onChange: (value: LocaleKey) => void 
+  onChange: (value: LocaleKey) => void;
 }
 
 export const SelectLanguage: FC<IProps> = ({ onChange }) => (

@@ -1,4 +1,4 @@
-@import "styles/mixins";
+@import 'styles/mixins';
 
 .popper {
   &.hidden {
@@ -12,9 +12,8 @@
 }
 
 @media screen and (max-width: 768px) {
-  .popper{
+  .popper {
     padding: 0;
     border: 1px solid black;
   }
-    
 }

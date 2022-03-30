@@ -6,7 +6,7 @@ import { chainSettings } from 'constants/chainSettings';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
-export const ModalNetwork:React.FC = () => {
+export const ModalNetwork: React.FC = () => {
   const dispatch = useDispatch();
   const handleClick = useCallback(() => {
     dispatch(mainSwitchNetwork());
@@ -34,20 +34,15 @@ export const ModalNetwork:React.FC = () => {
         <li>
           <span className={styles.label}>RPC URL - </span>
           {chainSettings.rpcUrls}
-
         </li>
         <li>
           <span className={styles.label}>Block Explorer URL - </span>
           https://polygonscan.com
         </li>
       </ul>
-      <ButtonNew
-        onClick={handleClick}
-        className={styles.button}
-      >
+      <ButtonNew onClick={handleClick} className={styles.button}>
         {t('switch to polygon')}
-      </ButtonNew> 
-
+      </ButtonNew>
     </div>
   );
 };

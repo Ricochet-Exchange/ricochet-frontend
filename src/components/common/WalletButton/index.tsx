@@ -57,14 +57,14 @@ export const WalletButton: FC<IProps> = ({
           {/* eslint-disable-next-line no-nested-ternary */}
           {connecting
             ? 'Connecting'
-            // eslint-disable-next-line no-nested-ternary
-            : mobile
-              ? preConnect
-                ? ensName || account
-                : 'Connected'
-              : preConnect
-                ? account
-                : ensName || account.substring(0, 6)}
+            : // eslint-disable-next-line no-nested-ternary
+            mobile
+            ? preConnect
+              ? ensName || account
+              : 'Connected'
+            : preConnect
+            ? account
+            : ensName || account.substring(0, 6)}
         </div>
 
         <div className={styles.icon_wrap}>

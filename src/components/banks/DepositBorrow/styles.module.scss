@@ -6,7 +6,6 @@
   // transition: all 5s ease;
 }
 
-
 .createVault_step {
   margin: 20px 0 30px 0;
 }
@@ -25,7 +24,7 @@
   margin: 1.5rem;
 }
 
-.text{
+.text {
   font-size: 1rem;
   line-height: 1.45;
   color: #000;
@@ -39,7 +38,7 @@
   font-size: 16px;
   border-radius: 8px;
   color: #fff;
-  border:none;
+  border: none;
   font-weight: 700;
   background-color: var(--color-blue);
   font-family: inherit;
@@ -51,8 +50,8 @@
 
 .button:hover:not(:disabled) {
   box-shadow: none;
-  -webkit-transform: scale(.98);
-    transform: scale(.98);
+  -webkit-transform: scale(0.98);
+  transform: scale(0.98);
 }
 
 .button:disabled,
@@ -60,13 +59,13 @@
   background-color: var(--color-blue);
 }
 
-.loader{
+.loader {
   @include not_blur();
   background-color: #f5f7fa;
 }
 
 .errorWrap {
-  .error{
+  .error {
     margin-top: 16px;
   }
 }
@@ -74,7 +73,7 @@
 .smalltxt {
   font-size: 0.75rem !important;
   line-height: 1rem !important;
-  color: #7C7D7E !important;
+  color: #7c7d7e !important;
   margin: 0.5rem 0 1rem 0;
 }
 

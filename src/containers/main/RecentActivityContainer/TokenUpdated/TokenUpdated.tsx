@@ -1,4 +1,7 @@
-import type { TokenDowngradedEvent, TokenUpgradedEvent } from '@superfluid-finance/sdk-core';
+import type {
+  TokenDowngradedEvent,
+  TokenUpgradedEvent,
+} from '@superfluid-finance/sdk-core';
 import React, { FC } from 'react';
 import { getActivityCopying } from 'utils/getActivityCopying';
 import { TransactionLink } from 'components/common/TransactionLink';
@@ -12,9 +15,7 @@ type TokenUpdatedProps = {
 };
 
 export const TokenUpdated: FC<TokenUpdatedProps> = ({ event }) => {
-  const {
-    name, timestamp, token, transactionHash,
-  } = event;
+  const { name, timestamp, token, transactionHash } = event;
 
   const time = new Date(timestamp * 1000).toString().split(' ')[4];
   const activityCopying = getActivityCopying(name);
@@ -22,7 +23,7 @@ export const TokenUpdated: FC<TokenUpdatedProps> = ({ event }) => {
 
   /**
    * stop propagation of event to prevent rendering mobile activity details page.
-   * 
+   *
    * @param e React.MouseEvent<HTMLDivElement>
    */
   const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -39,12 +40,16 @@ export const TokenUpdated: FC<TokenUpdatedProps> = ({ event }) => {
           <span>{activityCopying}</span>
           <TokenIcon tokenName={tokenName} />
           <span className={styles.amount}>
-            {+event.amount / 1e18}
-            {' '}
+            {+event.amount / 1e18}{' '}
             {tokenName ?? <CoinPlaceholder token={token} />}
           </span>
         </div>
-        <div className={styles.transaction_link_wrapper} role="button" aria-hidden="true" onClick={stopPropagation}>
+        <div
+          className={styles.transaction_link_wrapper}
+          role="button"
+          aria-hidden="true"
+          onClick={stopPropagation}
+        >
           <TransactionLink transactionHash={transactionHash} />
         </div>
       </div>
@@ -56,18 +61,13 @@ export const TokenUpdated: FC<TokenUpdatedProps> = ({ event }) => {
         </div>
         <div>
           <span>
-            {activityCopying}
-            {' '}
-            {+event.amount / 1e18}
-            {' '}
+            {activityCopying} {+event.amount / 1e18}{' '}
             {tokenName ?? <CoinPlaceholder token={token} />}
           </span>
         </div>
       </div>
       <div className={styles.right_arrow}>
-        <span>
-          &gt;
-        </span>
+        <span>&gt;</span>
       </div>
     </>
   );

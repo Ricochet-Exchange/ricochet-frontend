@@ -1,10 +1,9 @@
 @import 'styles/_mixins';
 
-.loader{
+.loader {
   @include not_blur();
   background-color: #f5f7fa;
 }
-
 
 .button {
   background-color: transparent;
@@ -22,10 +21,10 @@
   transition-delay: 0s;
 }
 
-.button:hover:not(:disabled){
+.button:hover:not(:disabled) {
   box-shadow: none;
-  -webkit-transform: scale(.98);
-    transform: scale(.98);
+  -webkit-transform: scale(0.98);
+  transform: scale(0.98);
 }
 
 .approveToken {

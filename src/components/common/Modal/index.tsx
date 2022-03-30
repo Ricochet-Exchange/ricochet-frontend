@@ -11,8 +11,8 @@ import styles from './styles.module.scss';
 
 ReactModal.setAppElement('#root');
 
-export type ModalComponentProps = { 
-  onCloseModal: () => void,
+export type ModalComponentProps = {
+  onCloseModal: () => void;
 };
 
 const modalRenderers: Record<ModalType, FC<ModalComponentProps>> = {
@@ -22,13 +22,11 @@ const modalRenderers: Record<ModalType, FC<ModalComponentProps>> = {
 };
 
 interface IProps {
-  classNameOverlay?: string,
+  classNameOverlay?: string;
 }
 
 export const Modal: FC<IProps> = ({ classNameOverlay }) => {
-  const {
-    current, active, onCloseModal,
-  } = useModal();
+  const { current, active, onCloseModal } = useModal();
 
   useEffect(() => {
     if (!active) {

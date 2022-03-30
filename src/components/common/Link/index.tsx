@@ -1,7 +1,5 @@
-import React, { useCallback } from 'react';
-import cx from 'classnames';
+import React from 'react';
 import { NavLink } from '../NavLink';
-import styles from './styles.module.scss';
 
 type Props = {
   children: React.ReactElement;

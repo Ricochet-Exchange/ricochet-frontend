@@ -15,12 +15,14 @@ type ActivityWrapperProps = {
   /**
    * required when event is 'FlowUpdated'
    * @see https://github.com/superfluid-finance/protocol-monorepo/blob/2fb0afd711479a3ca373de12d6643c0655f27b49/packages/sdk-core/src/types.ts#L7
-  */
-  flowActionType?: number
+   */
+  flowActionType?: number;
 };
 
 export const ActivityWrapper: FC<ActivityWrapperProps> = ({
-  event, account, flowActionType = -1,
+  event,
+  account,
+  flowActionType = -1,
 }) => {
   switch (event.name) {
     case 'Transfer':
@@ -31,7 +33,13 @@ export const ActivityWrapper: FC<ActivityWrapperProps> = ({
       return <TokenUpdated event={event} />;
 
     case 'FlowUpdated':
-      return <FlowUpdated event={event} account={account} flowActionType={flowActionType} />;
+      return (
+        <FlowUpdated
+          event={event}
+          account={account}
+          flowActionType={flowActionType}
+        />
+      );
 
     case 'IndexUnitsUpdated':
       return <IndexUnitsUpdated event={event} />;

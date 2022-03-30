@@ -18,15 +18,16 @@ export const LoadingWrapper: React.FC<Props> = ({
   classNameLoader,
   loadingType,
 }) => (
-
   <div className={cx(styles.wrap, className)}>
     {children}
     {isLoading && (
-    <div className={cx(styles.loader, classNameLoader)}>
-      {
-        loadingType !== 'spinner' && loadingType !== '' ? <LoadingPopUp /> : <Loader />
-      }
-    </div>
+      <div className={cx(styles.loader, classNameLoader)}>
+        {loadingType !== 'spinner' && loadingType !== '' ? (
+          <LoadingPopUp />
+        ) : (
+          <Loader />
+        )}
+      </div>
     )}
   </div>
 );

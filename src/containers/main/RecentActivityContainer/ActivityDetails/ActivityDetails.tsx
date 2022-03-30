@@ -17,7 +17,10 @@ type DistributionProps = {
 };
 
 const Distribution: FC<DistributionProps> = ({
-  token, tokenName, oldUnits, units,
+  token,
+  tokenName,
+  oldUnits,
+  units,
 }) => {
   if (oldUnits === '0' || units === '0') {
     return null;
@@ -27,9 +30,7 @@ const Distribution: FC<DistributionProps> = ({
     <>
       <div className={styles.amount_wrapper}>
         <span className={styles.amount}>
-          {units}
-          {' '}
-          {tokenName ?? <CoinPlaceholder token={token} />}
+          {units} {tokenName ?? <CoinPlaceholder token={token} />}
         </span>
       </div>
       <p>Units</p>
@@ -45,7 +46,7 @@ type ActivityDetailsProps = {
   /**
    * required when event is 'FlowUpdated'
    * @see https://github.com/superfluid-finance/protocol-monorepo/blob/2fb0afd711479a3ca373de12d6643c0655f27b49/packages/sdk-core/src/types.ts#L7
-  */
+   */
   flowActionType?: number;
 };
 
@@ -55,9 +56,7 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({
   handleBack,
   flowActionType = -1,
 }) => {
-  const {
-    name, timestamp, transactionHash, token,
-  } = event;
+  const { name, timestamp, transactionHash, token } = event;
   const date = new Date(timestamp * 1000).toString();
   const day = date.split(' ').slice(1, 4).join(' ');
   const time = date.split(' ')[4];
@@ -77,7 +76,9 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({
         mobileSuffix = 'Canceled Stream';
         streamToken = `${(+event.flowRate / 1e18).toFixed(8)} per second`;
       } else {
-        streamUSD = `$${Math.trunc((+event.flowRate / 1e8) * SECONDS_PER_MONTH)} per month`;
+        streamUSD = `$${Math.trunc(
+          (+event.flowRate / 1e8) * SECONDS_PER_MONTH
+        )} per month`;
         streamToken = `${(+event.flowRate / 1e18).toFixed(8)} per second`;
         mobileSuffix = 'Outgoing stream';
       }
@@ -85,7 +86,9 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({
       mobileSuffix = 'Incoming Stream canceled';
       streamToken = `${(+event.flowRate / 1e18).toFixed(8)} per second`;
     } else {
-      streamUSD = `$${Math.trunc((+event.flowRate / 1e8) * SECONDS_PER_MONTH)} per month`;
+      streamUSD = `$${Math.trunc(
+        (+event.flowRate / 1e8) * SECONDS_PER_MONTH
+      )} per month`;
       streamToken = `${(+event.flowRate / 1e18).toFixed(8)} per second`;
       mobileSuffix = 'Incoming stream';
     }
@@ -115,7 +118,7 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({
         finnalCopying = activityCopying;
       }
       break;
-  
+
     default:
       finnalCopying = activityCopying;
       break;
@@ -137,22 +140,21 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({
           <span>{time}</span>
         </div>
         <p>Time</p>
-        {(name === 'TokenUpgraded' || name === 'TokenDowngraded' || name === 'Transfer') && (
+        {(name === 'TokenUpgraded' ||
+          name === 'TokenDowngraded' ||
+          name === 'Transfer') && (
           <>
             <div className={styles.amount_wrapper}>
               <TokenIcon tokenName={tokenName} />
-              {(name === 'TokenUpgraded' || name === 'TokenDowngraded') &&
-                (
+              {(name === 'TokenUpgraded' || name === 'TokenDowngraded') && (
                 <span className={styles.amount}>
-                  {+event.amount / 1e18}
-                  {' '}
+                  {+event.amount / 1e18}{' '}
                   {tokenName ?? <CoinPlaceholder token={token} />}
                 </span>
-                )}
+              )}
               {name === 'Transfer' && (
                 <span className={styles.amount}>
-                  {+event.value / 1e18}
-                  {' '}
+                  {+event.value / 1e18}{' '}
                   {tokenName ?? <CoinPlaceholder token={token} />}
                 </span>
               )}
@@ -160,11 +162,22 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({
             <p>Amount</p>
           </>
         )}
-        {(name === 'IndexUnitsUpdated') && <Distribution token={token} tokenName={tokenName} units={event.units} oldUnits={event.oldUnits} />}
-        {(name === 'FlowUpdated') && (
+        {name === 'IndexUnitsUpdated' && (
+          <Distribution
+            token={token}
+            tokenName={tokenName}
+            units={event.units}
+            oldUnits={event.oldUnits}
+          />
+        )}
+        {name === 'FlowUpdated' && (
           <>
             <div className={styles.address_wrapper}>
-              <CopiableAddress address={event.sender === account ? event.receiver : event.sender} />
+              <CopiableAddress
+                address={
+                  event.sender === account ? event.receiver : event.sender
+                }
+              />
             </div>
             <p>Merchant</p>
             {flowActionType === 2 ? null : (
@@ -181,13 +194,14 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({
           </>
         )}
         {name === 'Transfer' && (
-        <>
-          <div className={styles.address_wrapper}>
-            <CopiableAddress address={event.from === account ? event.to : event.from} />
-          </div>
-          <p>Merchant</p>
-
-        </>
+          <>
+            <div className={styles.address_wrapper}>
+              <CopiableAddress
+                address={event.from === account ? event.to : event.from}
+              />
+            </div>
+            <p>Merchant</p>
+          </>
         )}
         <div className={styles.transaction_link_wrapper}>
           <TransactionLink transactionHash={transactionHash} />

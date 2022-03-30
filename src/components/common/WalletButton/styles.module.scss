@@ -1,4 +1,4 @@
-@import "styles/_mixins.scss";
+@import 'styles/_mixins.scss';
 
 .balance_panel {
   @include flexbox(center, center);

@@ -10,7 +10,7 @@ export const CoinPlaceholder: FC<CoinPlaceholderProps> = ({ token }) => {
   const link = getAddressLink(token);
 
   return (
-    <a 
+    <a
       className={styles.coinPlaceholder}
       href={link}
       target="_blank"

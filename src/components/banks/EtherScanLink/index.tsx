@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 type Props = {
-  path: string,
-  hash: string | null,
-  className?: string,
+  path: string;
+  hash: string | null;
+  className?: string;
 };
 
 export const EtherscanLink: FC<Props> = ({ path, hash, className }) => {

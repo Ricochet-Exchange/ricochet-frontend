@@ -1,4 +1,4 @@
-@import "styles/mixins";
+@import 'styles/mixins';
 .panel {
   @include flexbox(flex-start, center);
   flex-direction: column;
@@ -111,7 +111,7 @@
     flex: 0 0 100%;
     text-align: center;
   }
-    width: 30px;
+  width: 30px;
 }
 
 .btn_arrow {

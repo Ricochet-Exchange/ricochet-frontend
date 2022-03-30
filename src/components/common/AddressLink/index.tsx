@@ -4,14 +4,16 @@ import styles from './styles.module.scss';
 
 type Props = {
   addressLink?: string;
-  size?:number
+  size?: number;
 };
 
-export const AddressLink: React.FC<Props> = ({
-  addressLink,
-  size = 16,
-}) => (
-  <a href={addressLink} target="_blank" rel="noreferrer" className={styles.wrap}>
+export const AddressLink: React.FC<Props> = ({ addressLink, size = 16 }) => (
+  <a
+    href={addressLink}
+    target="_blank"
+    rel="noreferrer"
+    className={styles.wrap}
+  >
     <FontIcon name={FontIconName.External} size={size} />
   </a>
 );

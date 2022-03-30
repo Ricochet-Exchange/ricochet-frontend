@@ -9,7 +9,7 @@ export const Banner: FC = () => {
     <div className={styles.banner}>
       <FontIcon name={FontIconName.Warning} size={12} />
       {t(
-        'Ricochet Exchange smart contracts are unaudited, use at your own risk.',
+        'Ricochet Exchange smart contracts are unaudited, use at your own risk.'
       )}
     </div>
   );

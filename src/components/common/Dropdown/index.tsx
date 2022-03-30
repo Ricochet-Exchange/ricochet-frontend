@@ -18,9 +18,14 @@ interface IProps {
 }
 
 const Dropdown: FC<IProps> = ({
-  label, placement, offset = 0, children,
-  deps, delay,
-  buttonClassName, popupClassName,
+  label,
+  placement,
+  offset = 0,
+  children,
+  deps,
+  delay,
+  buttonClassName,
+  popupClassName,
 }) => {
   const { onFocus, focused, onBlur } = useFocusEvent();
   const modifiers = usePopperModifiers(0, offset);
@@ -29,7 +34,13 @@ const Dropdown: FC<IProps> = ({
     <Manager>
       <Reference>
         {({ ref }) => (
-          <button ref={ref} onFocus={onFocus} onBlur={onBlur} type="button" className={cx(styles.buttons, buttonClassName)}>
+          <button
+            ref={ref}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            type="button"
+            className={cx(styles.buttons, buttonClassName)}
+          >
             {label}
           </button>
         )}
@@ -41,7 +52,9 @@ const Dropdown: FC<IProps> = ({
             <div
               ref={ref}
               style={style}
-              className={cx(styles.popper, popupClassName, { [styles.hidden]: !focused })}
+              className={cx(styles.popper, popupClassName, {
+                [styles.hidden]: !focused,
+              })}
             >
               {children}
             </div>

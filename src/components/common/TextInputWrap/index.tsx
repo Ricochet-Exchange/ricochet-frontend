@@ -9,13 +9,14 @@ interface IProps
 }
 
 const TextInputWrap: FC<IProps> = ({
-  children, ref, className, error, ...props 
+  children,
+  ref,
+  className,
+  error,
+  ...props
 }) => (
   <div
-    className={classNames(
-      styles.wrap,
-      className, { [styles.error]: error },
-    )}
+    className={classNames(styles.wrap, className, { [styles.error]: error })}
     ref={ref}
     {...props}
   >

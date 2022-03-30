@@ -27,13 +27,13 @@ export const UserSettings: FC<IProps> = ({
             placement="bottom-end"
             popupClassName={styles.settings_dropdown}
             buttonClassName={styles.settings_button}
-            label={(
+            label={
               <FontIcon
                 className={className}
                 name={FontIconName.Dot}
                 size={16}
               />
-            )}
+            }
           >
             <div className={styles.settings_wrap}>
               <ul className={styles.list}>
@@ -45,10 +45,7 @@ export const UserSettings: FC<IProps> = ({
                     rel="noreferrer"
                   >
                     <div>{t('Docs')}</div>
-                    <FontIcon
-                      name={FontIconName.Book} 
-                      size={16}
-                    />
+                    <FontIcon name={FontIconName.Book} size={16} />
                   </a>
                 </li>
                 <li className={styles.paper}>
@@ -59,10 +56,7 @@ export const UserSettings: FC<IProps> = ({
                     rel="noreferrer"
                   >
                     <div>{t('White Paper')}</div>
-                    <FontIcon
-                      name={FontIconName.Paper} 
-                      size={16}
-                    />
+                    <FontIcon name={FontIconName.Paper} size={16} />
                   </a>
                 </li>
                 <li className={styles.discord}>
@@ -73,10 +67,7 @@ export const UserSettings: FC<IProps> = ({
                     rel="noreferrer"
                   >
                     <div>{t('Discord')}</div>
-                    <FontIcon
-                      name={FontIconName.Chat}
-                      size={16}
-                    />
+                    <FontIcon name={FontIconName.Chat} size={16} />
                   </a>
                 </li>
                 <li className={styles.github}>
@@ -87,10 +78,7 @@ export const UserSettings: FC<IProps> = ({
                     rel="noreferrer"
                   >
                     <div>{t('GitHub')}</div>
-                    <FontIcon
-                      name={FontIconName.GitHub}
-                      size={16}
-                    />
+                    <FontIcon name={FontIconName.GitHub} size={16} />
                   </a>
                 </li>
                 <li className={styles.discord}>
@@ -101,10 +89,7 @@ export const UserSettings: FC<IProps> = ({
                     rel="noreferrer"
                   >
                     <div>{t('Twitter')}</div>
-                    <FontIcon
-                      name={FontIconName.Twitter}
-                      size={16}
-                    />
+                    <FontIcon name={FontIconName.Twitter} size={16} />
                   </a>
                 </li>
                 <li className={styles.terms}>
@@ -115,10 +100,7 @@ export const UserSettings: FC<IProps> = ({
                     rel="noreferrer"
                   >
                     <div>{t('Terms')}</div>
-                    <FontIcon
-                      name={FontIconName.Lock}
-                      size={16}
-                    />
+                    <FontIcon name={FontIconName.Lock} size={16} />
                   </a>
                 </li>
               </ul>

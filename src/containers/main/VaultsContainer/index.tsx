@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectBanks } from 'store/banks/selectors';
 import { BankType } from 'store/banks/types';

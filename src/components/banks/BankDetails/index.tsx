@@ -47,10 +47,15 @@ export const BankDetails: FC<Props> = ({
     ];
     const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
     // eslint-disable-next-line
-    let item = lookup.slice().reverse().find(function (item) {
-      return num >= item.value;
-    });
-    return item ? (num / item.value).toFixed(digits).replace(rx, '$1') + item.symbol : num.toFixed(digits);
+    let item = lookup
+      .slice()
+      .reverse()
+      .find(function (item) {
+        return num >= item.value;
+      });
+    return item
+      ? (num / item.value).toFixed(digits).replace(rx, '$1') + item.symbol
+      : num.toFixed(digits);
   }
 
   return (
@@ -77,7 +82,10 @@ export const BankDetails: FC<Props> = ({
               src={iconsCoin[bank.collateralToken.symbol as Coin]!}
               alt={bank.collateralToken.symbol}
             />
-            <h3>{`${formatter((+bank.collateralToken.price / 1000000), 2)} $`}</h3>
+            <h3>{`${formatter(
+              +bank.collateralToken.price / 1000000,
+              2
+            )} $`}</h3>
           </div>
         </td>
         <td>
@@ -86,7 +94,7 @@ export const BankDetails: FC<Props> = ({
               src={iconsCoin[bank.debtToken.symbol as Coin]!}
               alt={bank.debtToken.symbol}
             />
-            <h3>{`${formatter((+bank.debtToken.price / 1000000), 2)} $`}</h3>
+            <h3>{`${formatter(+bank.debtToken.price / 1000000, 2)} $`}</h3>
           </div>
         </td>
         <td>

@@ -1,21 +1,20 @@
 import { ModalCreateVault } from 'containers/modal/ModalCreateVault';
 import { useShallowSelector } from 'hooks/useShallowSelector';
-import React, {
-  FC,
-  ChangeEvent,
-  useCallback,
-  useState,
-} from 'react';
+import React, { FC, ChangeEvent, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { banksApproveToken, banksMakeBorrow, banksMakeDeposit } from 'store/banks/actionCreators';
+import {
+  banksApproveToken,
+  banksMakeBorrow,
+  banksMakeDeposit,
+} from 'store/banks/actionCreators';
 import { selectBanks } from 'store/banks/selectors';
 import { BankType } from 'store/banks/types';
 import { VaultType } from 'types/vaultType';
 
 type Props = {
-  bank: BankType,
-  visibleModal: boolean,
-  onCloseModal: () => void,
+  bank: BankType;
+  visibleModal: boolean;
+  onCloseModal: () => void;
 };
 
 export const ModalCreateVaultContainer: FC<Props> = ({
@@ -37,9 +36,7 @@ export const ModalCreateVaultContainer: FC<Props> = ({
   const [localApproved, setLocalApproved] = useState(false);
   const handleSetVault = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const update = { [e.target.name]: e.target.value };
-    setVaultData((prevState: VaultType) => (
-      { ...prevState, ...update }
-    ));
+    setVaultData((prevState: VaultType) => ({ ...prevState, ...update }));
   }, []);
 
   const handleOnStartClick = useCallback(() => {
@@ -62,21 +59,35 @@ export const ModalCreateVaultContainer: FC<Props> = ({
   const handlerOnSubmit = useCallback(() => {
     // TODO: some validation to ensure balance of collateral token?
     if (+vaultData.depositAmount > 0) {
-      dispatch(banksMakeDeposit(vaultData.depositAmount, bank.bankAddress, callbackSubmit));
+      dispatch(
+        banksMakeDeposit(
+          vaultData.depositAmount,
+          bank.bankAddress,
+          callbackSubmit
+        )
+      );
     }
 
     if (+vaultData.borrowAmount > 0) {
-      dispatch(banksMakeBorrow(vaultData.borrowAmount, bank.bankAddress, callbackSubmit));
+      dispatch(
+        banksMakeBorrow(
+          vaultData.borrowAmount,
+          bank.bankAddress,
+          callbackSubmit
+        )
+      );
     }
   }, [dispatch, vaultData, bank]);
 
   const handleApproveToken = useCallback(() => {
-    dispatch(banksApproveToken(
-      bank.collateralToken.address,
-      bank.bankAddress,
-      vaultData.depositAmount,
-      callbackApprove,
-    ));
+    dispatch(
+      banksApproveToken(
+        bank.collateralToken.address,
+        bank.bankAddress,
+        vaultData.depositAmount,
+        callbackApprove
+      )
+    );
   }, [dispatch, bank]);
 
   const handleOnCloseModal = useCallback(() => {

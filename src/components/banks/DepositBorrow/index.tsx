@@ -11,16 +11,16 @@ import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 type Props = {
-  bank: BankType,
-  vaultData: VaultType,
-  transactionHash: string,
-  isLoadingSubmit: boolean,
-  isLoadingApprove: boolean,
-  error: string,
-  localApproved: boolean,
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void,
-  onSubmit: () => void,
-  onApproveClick: () => void,
+  bank: BankType;
+  vaultData: VaultType;
+  transactionHash: string;
+  isLoadingSubmit: boolean;
+  isLoadingApprove: boolean;
+  error: string;
+  localApproved: boolean;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: () => void;
+  onApproveClick: () => void;
 };
 
 export const DepositBorrow: FC<Props> = ({
@@ -49,13 +49,17 @@ export const DepositBorrow: FC<Props> = ({
         <div className={styles.createVault_steps}>
           <div className={styles.createVault_step}>
             <p className={styles.text}>
-              {`${t('How much')} ${vaultData.collateralToken} ${t('do you want to lock up as collateral?')}`}
+              {`${t('How much')} ${vaultData.collateralToken} ${t(
+                'do you want to lock up as collateral?'
+              )}`}
             </p>
             <TextInput
               name="depositAmount"
               value={vaultData.depositAmount}
               onChange={onChange}
-              right={<div className={styles.right}>{vaultData.collateralToken}</div>}
+              right={
+                <div className={styles.right}>{vaultData.collateralToken}</div>
+              }
               type="number"
             />
 
@@ -73,7 +77,9 @@ export const DepositBorrow: FC<Props> = ({
           </div>
           <div className={styles.createVault_step}>
             <p className={cx(styles.text, needsUnlock && styles.disabled)}>
-              {`${'How much'} ${vaultData.debtToken} ${t('do you want to borrow?')}`}
+              {`${'How much'} ${vaultData.debtToken} ${t(
+                'do you want to borrow?'
+              )}`}
             </p>
             <TextInput
               name="borrowAmount"
@@ -86,9 +92,7 @@ export const DepositBorrow: FC<Props> = ({
 
             {error ? (
               <div className={styles.errorWrap}>
-                <p className={cx(styles.text, styles.error)}>
-                  {error}
-                </p>
+                <p className={cx(styles.text, styles.error)}>{error}</p>
               </div>
             ) : null}
           </div>
@@ -105,7 +109,9 @@ export const DepositBorrow: FC<Props> = ({
           </div>
         </div>
       </LoadingWrapper>
-      {transactionHash ? <EtherscanLink path="tx" hash={transactionHash} /> : null}
+      {transactionHash ? (
+        <EtherscanLink path="tx" hash={transactionHash} />
+      ) : null}
     </>
   );
 };

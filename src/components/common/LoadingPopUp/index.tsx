@@ -13,15 +13,15 @@ export const LoadingPopUp = () => {
         name={FontIconName.Bank}
         size={26}
       />
-  
+
       <h2 className={styles.header}>
         {t('Please hold on while we load your information.')}
       </h2>
-  
+
       <div className={styles.progress}>
         <div className={styles.color} />
       </div>
-  
+
       <h4 className={styles.header_second}>
         {t('This will only take a few moments')}
       </h4>

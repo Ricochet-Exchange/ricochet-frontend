@@ -14,7 +14,13 @@ type IndexSubscribedProps = {
 
 export const IndexUnitsUpdated: FC<IndexSubscribedProps> = ({ event }) => {
   const {
-    name, token, timestamp, publisher, transactionHash, oldUnits, units,
+    name,
+    token,
+    timestamp,
+    publisher,
+    transactionHash,
+    oldUnits,
+    units,
   } = event;
 
   const tokenName = getTokenName(token);
@@ -30,7 +36,7 @@ export const IndexUnitsUpdated: FC<IndexSubscribedProps> = ({ event }) => {
 
   /**
    * stop propagation of event to prevent rendering mobile activity details page.
-   * 
+   *
    * @param e React.MouseEvent<HTMLDivElement>
    */
   const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -42,28 +48,25 @@ export const IndexUnitsUpdated: FC<IndexSubscribedProps> = ({ event }) => {
       <div className={styles.larger_streaming_wrapper}>
         <div className={styles.larger_streaming_content}>
           <span>{time}</span>
-          <span>
-            {activityCopying}
-            {' '}
-            in
-          </span>
+          <span>{activityCopying} in</span>
           <TokenIcon tokenName={tokenName} />
-          <span className={styles.amount}>{tokenName ?? <CoinPlaceholder token={token} />}</span>
+          <span className={styles.amount}>
+            {tokenName ?? <CoinPlaceholder token={token} />}
+          </span>
           <span>from</span>
           <CopiableAddress address={publisher} />
-          {(units !== '0' && oldUnits !== '0') && (
+          {units !== '0' && oldUnits !== '0' && (
             <span>
-              changed from 
-              {' '}
-              {oldUnits}
-              {' '}
-              to
-              {' '}
-              {units}
+              changed from {oldUnits} to {units}
             </span>
           )}
         </div>
-        <div className={styles.transaction_link_wrapper} role="button" aria-hidden="true" onClick={stopPropagation}>
+        <div
+          className={styles.transaction_link_wrapper}
+          role="button"
+          aria-hidden="true"
+          onClick={stopPropagation}
+        >
           <TransactionLink transactionHash={transactionHash} />
         </div>
       </div>
@@ -71,11 +74,15 @@ export const IndexUnitsUpdated: FC<IndexSubscribedProps> = ({ event }) => {
         <div className={styles.streaming_content}>
           <span>{time}</span>
           <TokenIcon tokenName={tokenName} />
-          <span className={styles.amount}>{tokenName ?? <CoinPlaceholder token={token} />}</span>
+          <span className={styles.amount}>
+            {tokenName ?? <CoinPlaceholder token={token} />}
+          </span>
         </div>
         <div>
           <span>
-            {(oldUnits === '0' || units === '0') ? activityCopying : 'Updated subscription'}
+            {oldUnits === '0' || units === '0'
+              ? activityCopying
+              : 'Updated subscription'}
             &nbsp;from&nbsp;
           </span>
           <div className={styles.address_wrapper}>
@@ -84,9 +91,7 @@ export const IndexUnitsUpdated: FC<IndexSubscribedProps> = ({ event }) => {
         </div>
       </div>
       <div className={styles.right_arrow}>
-        <span>
-          &gt;
-        </span>
+        <span>&gt;</span>
       </div>
     </>
   );

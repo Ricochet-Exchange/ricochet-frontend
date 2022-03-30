@@ -1,5 +1,8 @@
 import React, {
-  ButtonHTMLAttributes, DetailedHTMLProps, FC, PropsWithChildren, 
+  ButtonHTMLAttributes,
+  DetailedHTMLProps,
+  FC,
+  PropsWithChildren,
 } from 'react';
 import cx from 'classnames';
 import styles from './styles.module.scss';
@@ -8,16 +11,16 @@ import { Loader } from '../Loader';
 export type ButtonColor = 'primary' | 'secondary';
 
 export type ButtonProps = DetailedHTMLProps<
-ButtonHTMLAttributes<HTMLButtonElement>,
-HTMLButtonElement
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
 > & {
-  color?: ButtonColor,
-  size?: number,
-  fullWidth?: boolean,
-  onClick?: React.MouseEventHandler<any>,
-  iconClassName?: string,
-  isLoading?: boolean,
-  loaderColor?: string
+  color?: ButtonColor;
+  size?: number;
+  fullWidth?: boolean;
+  onClick?: React.MouseEventHandler<any>;
+  iconClassName?: string;
+  isLoading?: boolean;
+  loaderColor?: string;
 };
 
 export const ButtonNew: FC<PropsWithChildren<ButtonProps>> = ({
@@ -36,24 +39,15 @@ export const ButtonNew: FC<PropsWithChildren<ButtonProps>> = ({
 }) => (
   <button
     type={type}
-    className={cx(
-      styles.button,
-      styles[color],
-      className,
-      {
-        [styles.full_width]: fullWidth,
-      },
-    )}
+    className={cx(styles.button, styles[color], className, {
+      [styles.full_width]: fullWidth,
+    })}
     style={{ height: size }}
     onClick={onClick}
     disabled={disabled || isLoading}
     {...rest}
   >
-    {isLoading ? <Loader loaderColor={loaderColor} /> : (
-      <>
-        {children}
-      </>
-    )}
+    {isLoading ? <Loader loaderColor={loaderColor} /> : <>{children}</>}
   </button>
 );
 

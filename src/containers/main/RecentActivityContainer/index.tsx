@@ -1,7 +1,8 @@
-import React, {
-  FC, useCallback, useEffect, useState, 
-} from 'react';
-import { Framework, IStreamFlowUpdatedEvent } from '@superfluid-finance/sdk-core';
+import React, { FC, useCallback, useEffect, useState } from 'react';
+import {
+  Framework,
+  IStreamFlowUpdatedEvent,
+} from '@superfluid-finance/sdk-core';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { InvestNav } from 'components/layout/InvestNav';
@@ -22,7 +23,9 @@ export const RecentActivityContainer: FC = () => {
   const { web3, address: account } = useShallowSelector(selectMain);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [activities, setActivities] = useState<ActivityEvents[]>([]);
-  const [flowUpdatedEvents, setFlowUpdatedEvents] = useState<IStreamFlowUpdatedEvent[]>([]);
+  const [flowUpdatedEvents, setFlowUpdatedEvents] = useState<
+    IStreamFlowUpdatedEvent[]
+  >([]);
   const [showDetails, setShowDetails] = useState<boolean>(false);
   const [eventId, setEventId] = useState<string>('');
 
@@ -38,34 +41,42 @@ export const RecentActivityContainer: FC = () => {
             chainId: Number(process.env.NEXT_PUBLIC_CHAIN_ID),
             provider: web3,
           });
-  
-          const { data: events } = await web3ModalSf.query.listEvents({ account });
-          const {
-            data: recievedStream,
-          } = await web3ModalSf.query.listStreams({ receiver: account });
-          const { data: sentStream } = await web3ModalSf.query.listStreams({ sender: account });
+
+          const { data: events } = await web3ModalSf.query.listEvents({
+            account,
+          });
+          const { data: recievedStream } = await web3ModalSf.query.listStreams({
+            receiver: account,
+          });
+          const { data: sentStream } = await web3ModalSf.query.listStreams({
+            sender: account,
+          });
           const streams = [...recievedStream, ...sentStream];
-  
+
           const temp: IStreamFlowUpdatedEvent[] = [];
-  
+
           streams.forEach((stream) => {
             stream.flowUpdatedEvents.forEach((event) => {
               temp.push(event);
             });
           });
-  
+
           // prevent memory leak
           if (mounted) {
-            setActivities(events.filter(
-              (event) => 
-                event.name === 'FlowUpdated' ||
-                event.name === 'TokenUpgraded' ||
-                event.name === 'TokenDowngraded' ||
-                event.name === 'IndexSubscribed' ||
-                event.name === 'IndexUnitsUpdated' ||
-                event.name === 'SubscriptionRevoked' ||
-                (event.name === 'Transfer' && event.from !== ZeroAddress && event.to !== ZeroAddress),
-            ) as ActivityEvents[]);
+            setActivities(
+              events.filter(
+                (event) =>
+                  event.name === 'FlowUpdated' ||
+                  event.name === 'TokenUpgraded' ||
+                  event.name === 'TokenDowngraded' ||
+                  event.name === 'IndexSubscribed' ||
+                  event.name === 'IndexUnitsUpdated' ||
+                  event.name === 'SubscriptionRevoked' ||
+                  (event.name === 'Transfer' &&
+                    event.from !== ZeroAddress &&
+                    event.to !== ZeroAddress)
+              ) as ActivityEvents[]
+            );
 
             setFlowUpdatedEvents(temp);
           }
@@ -120,7 +131,9 @@ export const RecentActivityContainer: FC = () => {
           event={activities.find((event) => event.id === eventId)!}
           account={account.toLowerCase()}
           handleBack={handleBack}
-          flowActionType={flowUpdatedEvents.find((event) => event.id === eventId)?.type}
+          flowActionType={
+            flowUpdatedEvents.find((event) => event.id === eventId)?.type
+          }
         />
       );
     }
@@ -133,29 +146,29 @@ export const RecentActivityContainer: FC = () => {
           const date = new Date(timestamp * 1000).toString();
           const day = date.split(' ').slice(1, 4).join(' ');
 
-          const prevDay = index - 1 >= 0 ? 
-            new Date(activities[index - 1].timestamp * 1000)
-              .toString().split(' ')
-              .slice(1, 4)
-              .join(' ') :
-            '';
+          const prevDay =
+            index - 1 >= 0
+              ? new Date(activities[index - 1].timestamp * 1000)
+                  .toString()
+                  .split(' ')
+                  .slice(1, 4)
+                  .join(' ')
+              : '';
 
           const isNotSameDay = prevDay !== day;
-        
+
           return (
             <section className={styles.parent_wrapper} key={id}>
               {(isNotSameDay || index === 0) && (
-              <div className={styles.header}>
-                {day}
-              </div>
+                <div className={styles.header}>{day}</div>
               )}
               <div
                 className={styles.wrapper}
                 role="button"
                 aria-hidden="true"
-                onClick={
-                    (evt: React.MouseEvent<HTMLDivElement>) => handleClick(evt, activity.id)
-                  }
+                onClick={(evt: React.MouseEvent<HTMLDivElement>) =>
+                  handleClick(evt, activity.id)
+                }
               >
                 <ActivityWrapper
                   event={activity}

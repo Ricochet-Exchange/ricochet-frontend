@@ -1,7 +1,4 @@
-import React, {
-  ChangeEvent,
-  FC,
-} from 'react';
+import React, { ChangeEvent, FC } from 'react';
 import { TextInput } from 'components/common/TextInput';
 import { Coin } from '../../../constants/coins';
 import { CoinBalance } from '../CoinBalance';
@@ -9,20 +6,20 @@ import { UpgradeDowngradeButtons } from '../UpgradeDowngradeButtons';
 import styles from './styles.module.scss';
 
 interface IProps {
-  balance? : string,
-  value: string,
-  placeholder?: string,
-  isUpgrade: boolean,
-  nameCoin: Coin,
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void,
-  onClickApprove?: () => void,
-  onClickUpgrade?: () => void,
-  onClickDowngrade?: () => void,
-  onClickMax?: () => void,
+  balance?: string;
+  value: string;
+  placeholder?: string;
+  isUpgrade: boolean;
+  nameCoin: Coin;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onClickApprove?: () => void;
+  onClickUpgrade?: () => void;
+  onClickDowngrade?: () => void;
+  onClickMax?: () => void;
   isLoading?: boolean;
-  isReadOnly?:boolean,
-  disabledApprove?:boolean;
-  showWarningToolTip?:boolean;
+  isReadOnly?: boolean;
+  disabledApprove?: boolean;
+  showWarningToolTip?: boolean;
 }
 export const UpgradePanel: FC<IProps> = ({
   balance = '',
@@ -45,9 +42,9 @@ export const UpgradePanel: FC<IProps> = ({
       <div className={styles.container}>
         <div className={styles.wrap}>
           <CoinBalance
-            className={styles.label} 
-            nameCoin={nameCoin} 
-            balance={Number(balance)} 
+            className={styles.label}
+            nameCoin={nameCoin}
+            balance={Number(balance)}
             onClickMax={onClickMax}
           />
         </div>
@@ -55,8 +52,8 @@ export const UpgradePanel: FC<IProps> = ({
           <TextInput
             value={value}
             className={styles.input}
-            onChange={onChange} 
-            containerClassName={styles.container_input} 
+            onChange={onChange}
+            containerClassName={styles.container_input}
             placeholder={placeholder}
             type="number"
             onClickMax={onClickMax}
@@ -65,7 +62,7 @@ export const UpgradePanel: FC<IProps> = ({
           />
         </div>
         <div className={styles.buttons}>
-          <UpgradeDowngradeButtons 
+          <UpgradeDowngradeButtons
             onClickApprove={onClickApprove}
             onClickUpgrade={onClickUpgrade}
             onClickDowngrade={onClickDowngrade}
@@ -74,13 +71,12 @@ export const UpgradePanel: FC<IProps> = ({
             showWarningToolTip={showWarningToolTip}
             disabledApprove={disabledApprove}
             isReadOnly={isReadOnly}
-
           />
         </div>
       </div>
     </section>
     <div className={styles.buttons_mob}>
-      <UpgradeDowngradeButtons 
+      <UpgradeDowngradeButtons
         onClickApprove={onClickApprove}
         onClickUpgrade={onClickUpgrade}
         onClickDowngrade={onClickDowngrade}

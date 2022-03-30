@@ -1,17 +1,17 @@
-import React, { FC, MouseEvent } from 'react';
+import React, { FC } from 'react';
 import cx from 'classnames';
 import { Button } from 'components/common/Button';
 import { useTranslation } from 'i18n';
 import styles from './styles.module.scss';
 
 type Props = {
-  className?: string,
-  section: string,
-  activeTransaction: string,
-  onClick: (e: MouseEvent) => void,
-  transactionHash: string,
-  vaultId: string,
-  onMouseDown: (e: MouseEvent) => void,
+  className?: string;
+  section: string;
+  activeTransaction: string;
+  onClick: (e: React.MouseEvent) => void;
+  transactionHash: string;
+  vaultId: string;
+  onMouseDown: (e: React.MouseEvent) => void;
 };
 
 export const VaultActions: FC<Props> = ({

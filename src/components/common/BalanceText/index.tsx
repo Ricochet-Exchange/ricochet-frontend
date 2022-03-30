@@ -6,7 +6,5 @@ type Props = {
 };
 
 export const BalanceText: React.FC<Props> = ({ text }) => (
-  <div className={styles.balance}>
-    {text}
-  </div>
+  <div className={styles.balance}>{text}</div>
 );

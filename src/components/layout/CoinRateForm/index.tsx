@@ -7,11 +7,11 @@ import { Coin } from '../../../constants/coins';
 import styles from './styles.module.scss';
 
 interface IProps {
-  value: string,
-  placeholder?: string,
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void,
-  onClickStart: () => void,
-  onClickStop: () => void,
+  value: string;
+  placeholder?: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onClickStart: () => void;
+  onClickStop: () => void;
   coin: Coin;
   isLoading?: boolean;
   isReadOnly?: boolean;
@@ -56,16 +56,23 @@ export const CoinRateForm: FC<IProps> = ({
             color="primary"
             onClick={onClickStart}
             className={styles.start}
-            disabled={isReadOnly || isLoading || !value ||
-              (((Math.floor(((parseFloat(value) / 2592000) * 1e18)
-                / shareScaler) * shareScaler) / 1e18) * 2592000) === 0}
+            disabled={
+              isReadOnly ||
+              isLoading ||
+              !value ||
+              ((Math.floor(
+                ((parseFloat(value) / 2592000) * 1e18) / shareScaler
+              ) *
+                shareScaler) /
+                1e18) *
+                2592000 ===
+                0
+            }
             isLoading={isLoading}
             data-tip
             data-for={`depositTooltip-${indexVal}`}
           >
-            {t('Start')}
-            /
-            {t('Edit')}
+            {t('Start')}/{t('Edit')}
           </ButtonNew>
         </div>
         <div className={styles.stop_wrap}>
@@ -84,37 +91,39 @@ export const CoinRateForm: FC<IProps> = ({
         </div>
         <div style={{ flexBasis: '100%', height: '0' }}> </div>
 
-        {parseFloat(value) > 0 ?
-          (
-            <ReactTooltip
-              id={`depositTooltip-${indexVal}`}
-              place="right"
-              effect="solid"
-              multiline
-              className={styles.depositTooltip}
-            >
-              {value && coin && (
-              <span
-                className={styles.depositTooltip_span}
-              >
+        {parseFloat(value) > 0 ? (
+          <ReactTooltip
+            id={`depositTooltip-${indexVal}`}
+            place="right"
+            effect="solid"
+            multiline
+            className={styles.depositTooltip}
+          >
+            {value && coin && (
+              <span className={styles.depositTooltip_span}>
                 The amount per month will be rounded off to
                 <span style={{ fontWeight: 700 }}>
-                  {` ${(((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler) * shareScaler) / 1e18) * 2592000).toFixed(6)} ${coin} `}
+                  {` ${(
+                    ((Math.floor(
+                      ((parseFloat(value) / 2592000) * 1e18) / shareScaler
+                    ) *
+                      shareScaler) /
+                      1e18) *
+                    2592000
+                  ).toFixed(6)} ${coin} `}
                 </span>
-                so the contracts can evenly divide it
-                and it will take a security deposit of
+                so the contracts can evenly divide it and it will take a
+                security deposit of
                 <span style={{ fontWeight: 700 }}>
                   {` ${(parseFloat(value) / 180.0).toFixed(6)} ${coin} `}
                 </span>
-                from your balance.
-                The Deposit will be refunded in full when you close the stream or lost if
-                your balance hits zero with the stream still open.
-
+                from your balance. The Deposit will be refunded in full when you
+                close the stream or lost if your balance hits zero with the
+                stream still open.
               </span>
-              )}
-            </ReactTooltip>
-          )
-          : null}
+            )}
+          </ReactTooltip>
+        ) : null}
         <div />
       </div>
     </div>

@@ -12,10 +12,10 @@ type SubscriptionRevokedProps = {
   event: SubscriptionRevokedEvent;
 };
 
-export const SubscriptionRevoked: FC<SubscriptionRevokedProps> = ({ event }) => {
-  const {
-    name, timestamp, token, transactionHash, publisher,
-  } = event;
+export const SubscriptionRevoked: FC<SubscriptionRevokedProps> = ({
+  event,
+}) => {
+  const { name, timestamp, token, transactionHash, publisher } = event;
 
   const time = new Date(timestamp * 1000).toString().split(' ')[4];
 
@@ -25,7 +25,7 @@ export const SubscriptionRevoked: FC<SubscriptionRevokedProps> = ({ event }) => 
 
   /**
    * stop propagation of event to prevent rendering mobile activity details page.
-   * 
+   *
    * @param e React.MouseEvent<HTMLDivElement>
    */
   const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -39,11 +39,18 @@ export const SubscriptionRevoked: FC<SubscriptionRevokedProps> = ({ event }) => 
           <span>{time}</span>
           <span>{activityCopying}</span>
           <TokenIcon tokenName={tokenName} />
-          <span className={styles.amount}>{tokenName ?? <CoinPlaceholder token={token} />}</span>
+          <span className={styles.amount}>
+            {tokenName ?? <CoinPlaceholder token={token} />}
+          </span>
           <span>from</span>
           <CopiableAddress address={publisher} />
         </div>
-        <div className={styles.transaction_link_wrapper} role="button" aria-hidden="true" onClick={stopPropagation}>
+        <div
+          className={styles.transaction_link_wrapper}
+          role="button"
+          aria-hidden="true"
+          onClick={stopPropagation}
+        >
           <TransactionLink transactionHash={transactionHash} />
         </div>
       </div>
@@ -51,19 +58,17 @@ export const SubscriptionRevoked: FC<SubscriptionRevokedProps> = ({ event }) => 
         <div className={styles.streaming_content}>
           <span>{time}</span>
           <TokenIcon tokenName={tokenName} />
-          <span className={styles.amount}>{tokenName ?? <CoinPlaceholder token={token} />}</span>
+          <span className={styles.amount}>
+            {tokenName ?? <CoinPlaceholder token={token} />}
+          </span>
         </div>
         <div>
-          <span>
-            Unsubscribed to&nbsp;
-          </span>
+          <span>Unsubscribed to&nbsp;</span>
           <CopiableAddress address={publisher} />
         </div>
       </div>
       <div className={styles.right_arrow}>
-        <span>
-          &gt;
-        </span>
+        <span>&gt;</span>
       </div>
     </>
   );

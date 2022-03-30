@@ -7,9 +7,12 @@ type Props = {
 };
 
 export const PopperUpdater: React.FC<Props> = ({
-  deps, update, children, delay = 0,
+  deps,
+  update,
+  children,
+  delay = 0,
 }) => {
-  const dependencies = useMemo(() => (deps || []), [deps]);
+  const dependencies = useMemo(() => deps || [], [deps]);
 
   useEffect(() => {
     if (!delay) {

@@ -1,5 +1,7 @@
 import React, {
-  ButtonHTMLAttributes, DetailedHTMLProps, MouseEvent, PropsWithChildren, 
+  ButtonHTMLAttributes,
+  DetailedHTMLProps,
+  PropsWithChildren,
 } from 'react';
 import cx from 'classnames';
 import styles from './styles.module.scss';
@@ -14,21 +16,21 @@ export enum ButtonSlideAnimation {
 type ButtonPresentation = 'button' | 'link';
 
 type Props = DetailedHTMLProps<
-ButtonHTMLAttributes<HTMLButtonElement>,
-HTMLButtonElement
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
 > & {
-  presentation?: ButtonPresentation,
+  presentation?: ButtonPresentation;
   label: string | JSX.Element;
-  onClick?: (e: MouseEvent) => void ;
-  slide?: ButtonSlideAnimation
+  onClick?: (e: React.MouseEvent) => void;
+  slide?: ButtonSlideAnimation;
   className?: string;
 };
 
-export const Button:React.FC<PropsWithChildren<Props>> = ({
-  label, 
+export const Button: React.FC<PropsWithChildren<Props>> = ({
+  label,
   presentation = 'button',
-  onClick, 
-  slide = ButtonSlideAnimation.right, 
+  onClick,
+  slide = ButtonSlideAnimation.right,
   className,
   children,
   ...rest
@@ -36,10 +38,10 @@ export const Button:React.FC<PropsWithChildren<Props>> = ({
   <button
     {...rest}
     className={cx(
-      styles.button, 
+      styles.button,
       styles[slide],
       styles[presentation],
-      className,
+      className
     )}
     onClick={onClick}
   >

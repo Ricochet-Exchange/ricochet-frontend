@@ -6,13 +6,13 @@
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0,0,0,.125);
-  border-radius: .25rem;
-  background:#dfdfdf;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  background: #dfdfdf;
   width: calc(50% - 24px);
 
   @include for_breakpoint_width(1023px) {
-    width: 100%;  
+    width: 100%;
   }
 }
 
@@ -21,7 +21,7 @@
 }
 
 .main {
-  background:#cbd8e7;
+  background: #cbd8e7;
 }
 
 .title {
@@ -37,7 +37,7 @@
   margin: 1rem 0;
   color: inherit;
   border: 0;
-  opacity: .25;
+  opacity: 0.25;
   display: block;
-  background:rgb(33, 37, 41);
+  background: rgb(33, 37, 41);
 }

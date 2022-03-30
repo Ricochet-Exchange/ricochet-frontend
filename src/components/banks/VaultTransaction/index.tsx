@@ -23,8 +23,8 @@ type Props = {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onMaxRepay: () => void;
   onMaxWithdraw: () => void;
-  onMaxDepositUSDCx: ()=> void;
-  onMaxDepositRIC: ()=> void;
+  onMaxDepositUSDCx: () => void;
+  onMaxDepositRIC: () => void;
   onMaxBorrow: () => void;
   onCancel: () => void;
   onMakeAction: () => void;
@@ -65,7 +65,7 @@ export const VaultTransaction: FC<Props> = ({
   const vaultTxCalcValues = getVaultTxCalcValues(
     bank,
     activeTransaction,
-    value,
+    value
   );
 
   const setTransaction = async () => {
@@ -73,9 +73,15 @@ export const VaultTransaction: FC<Props> = ({
       await onMaxBorrow();
     } else if (activeTransaction === 'withdraw') {
       await onMaxWithdraw();
-    } else if (activeTransaction === 'deposit' && bank.collateralToken.symbol === 'USDCx') {
+    } else if (
+      activeTransaction === 'deposit' &&
+      bank.collateralToken.symbol === 'USDCx'
+    ) {
       await onMaxDepositUSDCx();
-    } else if (activeTransaction === 'deposit' && bank.collateralToken.symbol === 'RIC') {
+    } else if (
+      activeTransaction === 'deposit' &&
+      bank.collateralToken.symbol === 'RIC'
+    ) {
       await onMaxDepositRIC();
     }
   };
@@ -95,16 +101,14 @@ export const VaultTransaction: FC<Props> = ({
               <h3>
                 {vaultTxCalcValues.newCollateralizationRatio === Infinity
                   ? ''
-                  : vaultTxCalcValues.newCollateralizationRatio.toFixed(2)}
-                {' '}
+                  : vaultTxCalcValues.newCollateralizationRatio.toFixed(2)}{' '}
                 %
               </h3>
             </div>
             <div className={styles.VaultDetail}>
               <p>{t('New liquidation price')}</p>
               <h3>
-                {vaultTxCalcValues.newLiquidationPrice.toFixed(4)}
-                {' '}
+                {vaultTxCalcValues.newLiquidationPrice.toFixed(4)}{' '}
                 {bank.collateralToken.symbol}
                 /USD
               </h3>
@@ -114,7 +118,9 @@ export const VaultTransaction: FC<Props> = ({
             <div className={styles.VaultTransaction__form}>
               {needsRepayUnlock() ? (
                 <>
-                  <p>{t('Please give allowance for your repay to continue.')}</p>
+                  <p>
+                    {t('Please give allowance for your repay to continue.')}
+                  </p>
                   <ApproveToken
                     isLoadingApprove={isLoadingApprove}
                     onApproveClick={onApproveClick}
@@ -123,12 +129,10 @@ export const VaultTransaction: FC<Props> = ({
               ) : (
                 <>
                   <p>
-                    {t('How much')}
-                    {' '}
+                    {t('How much')}{' '}
                     {isCollateral
                       ? bank.collateralToken.symbol
-                      : bank.debtToken.symbol}
-                    {' '}
+                      : bank.debtToken.symbol}{' '}
                     {`${t('do you wish to')} ${activeTransaction}?`}
                   </p>
 
@@ -138,13 +142,13 @@ export const VaultTransaction: FC<Props> = ({
                     min={0}
                     onChange={onChange}
                     onKeyDown={blockInvalidChar}
-                    right={(
+                    right={
                       <div className={styles.right}>
                         {isCollateral
                           ? bank.collateralToken.symbol
                           : bank.debtToken.symbol}
                       </div>
-                    )}
+                    }
                   />
                 </>
               )}

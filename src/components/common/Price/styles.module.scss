@@ -4,8 +4,8 @@
   width: 100%;
   text-align: center;
   margin-bottom: 15px;
-  
-  @include tablet{
+
+  @include tablet {
     width: 100%;
     display: flex;
     right: 0%;
@@ -18,14 +18,14 @@
 
 .balance {
   background-color: #5f8eb9;
-  padding: .35em .65em;
-  font-size: .75em;
+  padding: 0.35em 0.65em;
+  font-size: 0.75em;
   font-weight: 700;
   line-height: 1;
   color: #fff;
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   width: max-content;
 }

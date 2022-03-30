@@ -14,10 +14,7 @@ type TransferProps = {
 };
 
 export const Transfer: FC<TransferProps> = ({ event, account }) => {
-  const {
-    token, timestamp, from, to, transactionHash,
-    value,
-  } = event;
+  const { token, timestamp, from, to, transactionHash, value } = event;
   const tokenName = getTokenName(token);
   const time = new Date(timestamp * 1000).toString().split(' ')[4];
 
@@ -25,7 +22,7 @@ export const Transfer: FC<TransferProps> = ({ event, account }) => {
 
   /**
    * stop propagation of event to prevent rendering mobile activity details page.
-   * 
+   *
    * @param e React.MouseEvent<HTMLDivElement>
    */
   const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -37,21 +34,20 @@ export const Transfer: FC<TransferProps> = ({ event, account }) => {
       <div className={styles.larger_streaming_wrapper}>
         <span>{time}</span>
         <div className={styles.larger_streaming_content}>
-          <span>
-            {isUser ? 'Sent' : 'Received'}
-          </span>
+          <span>{isUser ? 'Sent' : 'Received'}</span>
           <TokenIcon tokenName={tokenName} />
           <span className={styles.amount}>
-            {+value / 1e18}
-            {' '}
-            {tokenName ?? <CoinPlaceholder token={token} />}
+            {+value / 1e18} {tokenName ?? <CoinPlaceholder token={token} />}
           </span>
-          <span>
-            {isUser ? 'to' : 'from'}
-          </span>
+          <span>{isUser ? 'to' : 'from'}</span>
           <CopiableAddress address={isUser ? to : from} />
         </div>
-        <div className={styles.transaction_link_wrapper} role="button" aria-hidden="true" onClick={stopPropagation}>
+        <div
+          className={styles.transaction_link_wrapper}
+          role="button"
+          aria-hidden="true"
+          onClick={stopPropagation}
+        >
           <TransactionLink transactionHash={transactionHash} />
         </div>
       </div>
@@ -62,21 +58,15 @@ export const Transfer: FC<TransferProps> = ({ event, account }) => {
             <CopiableAddress address={isUser ? to : from} />
           </div>
           <div className={styles.recieved_wrapper}>
-            <span>
-              {isUser ? 'Sent' : 'Received'}
-            </span>
+            <span>{isUser ? 'Sent' : 'Received'}</span>
             <TokenIcon tokenName={tokenName} />
             <span className={styles.amount}>
-              {+value / 1e18}
-              {' '}
-              {tokenName ?? <CoinPlaceholder token={token} />}
+              {+value / 1e18} {tokenName ?? <CoinPlaceholder token={token} />}
             </span>
           </div>
         </div>
         <div className={styles.right_arrow}>
-          <span>
-            &gt;
-          </span>
+          <span>&gt;</span>
         </div>
       </>
     </>
