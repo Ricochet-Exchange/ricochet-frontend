@@ -13,38 +13,39 @@ import {
 
 export function* mainCheckSaga() {
   try {
-    const gnosisSafeProvider: Unwrap<typeof getSafeProvider > = yield call(getSafeProvider);
-    const ledgerHQFrame = new LedgerHQFrameConnector();
+    // const gnosisSafeProvider: Unwrap<typeof getSafeProvider > = yield call(getSafeProvider);
+    // const ledgerHQFrame = new LedgerHQFrameConnector();
     const readWeb3 = new Web3(new Web3.providers.HttpProvider(process.env.NEXT_PUBLIC_API_NODE_URL!));
     // Check we are inside gnosis safe
-    if (gnosisSafeProvider) {
-      yield put(mainSetState({ readWeb3, web3: new Web3(<any>gnosisSafeProvider!) }));
-      const connectedSafe: Unwrap<typeof getConnectedSafe> = yield call(
-        getConnectedSafe,
-      );
-      const chainId = connectedSafe?.chainId;
-      // Check we are on polygon chain
-      if (chainId === Number(process.env.NEXT_PUBLIC_CHAIN_ID)) {
-        yield put(modalHide());
-        yield put(mainGetData());
-      } else {
-        // Run modal switch network
-        yield put(modalShow(ModalType.Network));
-      }
-    } else if (ledgerHQFrame.isLedgerApp()) {
-      const ledgerProvider: Unwrap<typeof getLedgerProvider> =
-          yield call(getLedgerProvider, ledgerHQFrame);
-      const chainId: Unwrap<typeof getLedgerChainId> =
-          yield call(getLedgerChainId, ledgerHQFrame);
-      yield put(mainSetState({ readWeb3, web3: new Web3(<any>ledgerProvider!) }));
-      if (parseInt(chainId.toString(), 16) === Number(process.env.NEXT_PUBLIC_CHAIN_ID)) {
-        yield put(modalHide());
-        yield put(mainGetData());
-      } else {
-        // Run modal switch network
-        yield put(modalShow(ModalType.Network));
-      }
-    } else if (localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) {
+    // if (gnosisSafeProvider) {
+    //   yield put(mainSetState({ readWeb3, web3: new Web3(<any>gnosisSafeProvider!) }));
+    //   const connectedSafe: Unwrap<typeof getConnectedSafe> = yield call(
+    //     getConnectedSafe,
+    //   );
+    //   const chainId = connectedSafe?.chainId;
+    //   // Check we are on polygon chain
+    //   if (chainId === Number(process.env.NEXT_PUBLIC_CHAIN_ID)) {
+    //     yield put(modalHide());
+    //     yield put(mainGetData());
+    //   } else {
+    //     // Run modal switch network
+    //     yield put(modalShow(ModalType.Network));
+    //   }
+    // } else if (ledgerHQFrame.isLedgerApp()) {
+    //   const ledgerProvider: Unwrap<typeof getLedgerProvider> =
+    //       yield call(getLedgerProvider, ledgerHQFrame);
+    //   const chainId: Unwrap<typeof getLedgerChainId> =
+    //       yield call(getLedgerChainId, ledgerHQFrame);
+    //   yield put(mainSetState({ readWeb3, web3: new Web3(<any>ledgerProvider!) }));
+    //   if (parseInt(chainId.toString(), 16) === Number(process.env.NEXT_PUBLIC_CHAIN_ID)) {
+    //     yield put(modalHide());
+    //     yield put(mainGetData());
+    //   } else {
+    //     // Run modal switch network
+    //     yield put(modalShow(ModalType.Network));
+    //   }
+    // } else 
+    if (localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) {
       yield put(connectWeb3Modal());
     } else {
       yield put(mainSetState({

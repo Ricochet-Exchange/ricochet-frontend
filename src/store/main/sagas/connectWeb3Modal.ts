@@ -26,14 +26,14 @@ export function* connectWeb3Modal(): any {
           chainId: 137,
         },
       },
-      torus: {
-        package: Torus,
-        options: {
-          networkParams: {
-            chainId: 137,
-          },
-        },
-      },
+      // torus: {
+      //   package: Torus,
+      //   options: {
+      //     networkParams: {
+      //       chainId: 137,
+      //     },
+      //   },
+      // },
     };
     const web3Modal = new Web3Modal({
       network: 'matic',
