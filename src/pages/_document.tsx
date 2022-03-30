@@ -1,7 +1,7 @@
-import { Meta } from "components/common/Meta";
-import { Html, Head, Main, NextScript } from "next/document";
+import { Meta } from 'components/common/Meta';
+import { Html, Head, Main, NextScript } from 'next/document';
 
-export default function Document() {
+export default function CustomDocument() {
   return (
     <Html lang="en">
       <Head>

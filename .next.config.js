@@ -3,12 +3,22 @@
 // https://nextjs.org/docs/api-reference/next.config.js/introduction
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
-const { withSentryConfig } = require("@sentry/nextjs");
+const { withSentryConfig } = require('@sentry/nextjs');
 
 /** @type {import('next').NextConfig} */
 const moduleExports = {
   // your existing module.exports
   reactStrictMode: true,
+  // redirect home to market page
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/invest/rex-market',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 const sentryWebpackPluginOptions = {

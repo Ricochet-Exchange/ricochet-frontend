@@ -1,9 +1,9 @@
-import NextErrorComponent from "next/error";
+import NextErrorComponent from 'next/error';
 
-import * as Sentry from "@sentry/nextjs";
+import * as Sentry from '@sentry/nextjs';
 
 // @ts-ignore
-const Error = ({ statusCode, hasGetInitialPropsRun, err }) => {
+const CustomError = ({ statusCode, hasGetInitialPropsRun, err }) => {
   if (!hasGetInitialPropsRun && err) {
     // getInitialProps is not called in case of
     // https://github.com/vercel/next.js/issues/8592. As a workaround, we pass
@@ -63,4 +63,4 @@ Error.getInitialProps = async ({ res, err, asPath }) => {
   return errorInitialProps;
 };
 
-export default Error;
+export default CustomError;
