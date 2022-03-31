@@ -16,24 +16,24 @@ type Props = {
   transactionHash: string,
   isLoadingSubmit: boolean,
   isLoadingApprove: boolean,
-  error: string,
   localApproved: boolean,
   onChange: (e: ChangeEvent<HTMLInputElement>) => void,
   onSubmit: () => void,
+  error: string,
   onApproveClick: () => void,
 };
 
-export const DepositBorrow: FC<Props> = ({
+export const Deposit: FC<Props> = ({
   bank,
   vaultData,
   transactionHash,
   isLoadingSubmit,
   isLoadingApprove,
-  error,
   localApproved,
   onChange,
   onSubmit,
   onApproveClick,
+  error,
 }) => {
   const needsUnlock =
     +vaultData.depositAmount > +bank.collateralToken.unlockedAmount &&
@@ -43,6 +43,7 @@ export const DepositBorrow: FC<Props> = ({
   return (
     <>
       <LoadingWrapper
+        loadingType="spinner"
         isLoading={isLoadingSubmit}
         classNameLoader={styles.loader}
       >
@@ -71,27 +72,6 @@ export const DepositBorrow: FC<Props> = ({
               </>
             ) : null}
           </div>
-          <div className={styles.createVault_step}>
-            <p className={cx(styles.text, needsUnlock && styles.disabled)}>
-              {`${'How much'} ${vaultData.debtToken} ${t('do you want to borrow?')}`}
-            </p>
-            <TextInput
-              name="borrowAmount"
-              disabled={needsUnlock}
-              value={vaultData.borrowAmount}
-              onChange={onChange}
-              right={<div className={styles.right}>{vaultData.debtToken}</div>}
-              type="number"
-            />
-
-            {error ? (
-              <div className={styles.errorWrap}>
-                <p className={cx(styles.text, styles.error)}>
-                  {error}
-                </p>
-              </div>
-            ) : null}
-          </div>
           <div className={styles.createVault_submitter}>
             <Button
               className={styles.button}
@@ -100,12 +80,12 @@ export const DepositBorrow: FC<Props> = ({
               label={t('Submit')}
             />
             <p className={cx(styles.smalltxt, needsUnlock && styles.disabled)}>
-              {t('Upon submitting, 2 transactions will be initiated.')}
+              {t('Upon submitting, 1 transactions will be initiated.')}
             </p>
           </div>
         </div>
       </LoadingWrapper>
-      {transactionHash ? <EtherscanLink path="tx" hash={transactionHash} /> : null}
+      {transactionHash ? <EtherscanLink path="tx" hash={transactionHash} /> : console.log(error)}
     </>
   );
 };

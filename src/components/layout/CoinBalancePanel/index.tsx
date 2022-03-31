@@ -12,7 +12,7 @@ interface IProps {
 }
 
 export const CoinBalancePanel: FC<IProps> = ({
-  name, balance, className,
+  name, balance = '0', className,
 }) => (
   <div className={cx(styles.currency_balance, className)}>
     <div className={styles.currency_value}>{balance && (+balance).toFixed(6)}</div> 

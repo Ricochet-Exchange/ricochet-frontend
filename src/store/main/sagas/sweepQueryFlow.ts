@@ -14,9 +14,9 @@ import { flowConfig, FlowEnum } from 'constants/flowConfig';
 import { erc20ABI } from 'constants/abis';
 import { getContract } from 'utils/getContract';
 
+import calculateStreamedSoFar from 'pages/InvestPage/utils/calculateStreamedSoFar';
 import { mainSetState } from '../actionCreators';
 import { selectMain } from '../selectors';
-import calculateStreamedSoFar from '../../../pages/InvestPage/utils/calculateStreamedSoFar';
 
 const exchangeContractsAddresses = flowConfig.map((f) => f.superToken);
 
@@ -27,19 +27,24 @@ export function* sweepQueryFlow() {
   const results: any[] = yield all(exchangeContractsAddresses.map(
     (addr) => call(queryFlows, addr),
   ));
-  const response: Unwrap<typeof queryStreams> = yield call(queryStreams, address);
+
   const streamedSoFarMap: { [key:string]: number } = {};
-  (response?.data?.data?.streams || [])
-    .forEach((stream:any) => {
-      const streamedSoFar = streamedSoFarMap[`${stream.token.id}-${stream.receiver.id}`] || 0;
-      Object.assign(streamedSoFarMap, {
-        [`${stream.token.id}-${stream.receiver.id}`]: Number(streamedSoFar) + Number(calculateStreamedSoFar(
-          stream.streamedUntilUpdatedAt,
-          stream.updatedAtTimestamp,
-          stream.currentFlowRate,
-        )),
+
+  if (address) {
+    const response: Unwrap<typeof queryStreams> = yield call(queryStreams, address);
+
+    (response?.data?.data?.streams || [])
+      .forEach((stream:any) => {
+        const streamedSoFar = streamedSoFarMap[`${stream.token.id}-${stream.receiver.id}`] || 0;
+        Object.assign(streamedSoFarMap, {
+          [`${stream.token.id}-${stream.receiver.id}`]: Number(streamedSoFar) + Number(calculateStreamedSoFar(
+            stream.streamedUntilUpdatedAt,
+            stream.updatedAtTimestamp,
+            stream.currentFlowRate,
+          )),
+        });
       });
-    });
+  }
 
   const flows: { [key:string]: { flowsOwned: Flow[], flowsReceived: Flow[] } } = {};
   exchangeContractsAddresses.forEach((el, i) => {
@@ -87,7 +92,13 @@ export function* sweepQueryFlow() {
     const tokenAtokenBFlows = flows[exchangeAddress];
     const tokenAtokenBFlowsReceived = getReceviedFlows(tokenAtokenBFlows.flowsReceived,
       tokenAxAddress, address);
-    const streamedSoFar = streamedSoFarMap[`${tokenAxAddress.toLowerCase()}-${exchangeAddress.toLowerCase()}`];
+    
+    let streamedSoFar;
+
+    if (Object.keys(streamedSoFarMap).length) {
+      streamedSoFar = streamedSoFarMap[`${tokenAxAddress.toLowerCase()}-${exchangeAddress.toLowerCase()}`];
+    }
+
     const tokenAtokenBPlaceholder = ((tokenAtokenBFlowsReceived / 10 ** 18) *
       (30 * 24 * 60 * 60)).toFixed(6);
     const flowsOwned = getOwnedFlows(tokenAtokenBFlows.flowsReceived, tokenAxAddress);
