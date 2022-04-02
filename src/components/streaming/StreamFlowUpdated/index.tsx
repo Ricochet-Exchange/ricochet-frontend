@@ -23,6 +23,7 @@ type StreamFlowUpdatedProps = {
   */
   flowActionType: number;
 };
+
 export const StreamFlowUpdated: FC<StreamFlowUpdatedProps> = ({
   event,
   account,
