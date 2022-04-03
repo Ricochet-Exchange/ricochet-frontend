@@ -8,6 +8,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint . --ext .ts,.tsx --fix",
+    "prettier": "prettier --write **/*.ts **/*.tsx **/*.scss",
     "tsc": "tsc --noEmit",
     "fontello": "bash ./fontello.sh",
     "fontello:open": "fontello-cli --config src/assets/fonts/fontello/config.json open",
@@ -103,9 +104,13 @@
     "fontello-cli": "0.6.2",
     "husky": ">=6",
     "lint-staged": "12.3.4",
-    "node-sass": "^6.0.0"
+    "node-sass": "^6.0.0",
+    "prettier": "2.6.2"
   },
   "lint-staged": {
+    "*.{ts,tsx,scss}": [
+      "prettier --write --ignore-unknown"
+    ],
     "*.{ts,tsx}": [
       "yarn lint",
       "bash -c tsc"

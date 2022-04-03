@@ -1,5 +1,5 @@
-@import "assets/styles/mixins";
-@import "assets/styles/variables";
+@import 'assets/styles/mixins';
+@import 'assets/styles/variables';
 
 @include tablet {
   .dextable
@@ -93,8 +93,7 @@
   height: 100%;
   padding: 40px 40px 40px 40px;
 
-
-  @include tablet{
+  @include tablet {
     padding: 0 0px 30px 0px;
   }
 }
@@ -114,20 +113,20 @@
   max-width: 1400px;
 }
 
-.bank_empty{
+.bank_empty {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.sign_container{
+.sign_container {
   display: flex;
   flex-direction: column;
   padding: 2em;
 }
 
-.sign_in_text{
+.sign_in_text {
   text-align: center;
 }
 

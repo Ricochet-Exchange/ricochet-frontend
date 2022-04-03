@@ -1,5 +1,5 @@
-@import "./palette";
-@import "./variables";
+@import './palette';
+@import './variables';
 @import '../../assets/fonts/fontello/css/fontello.css';
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
@@ -9,7 +9,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   // background-image: url('../images/background.png');
   background: $default-background no-repeat fixed;
   background-size: cover;
@@ -19,10 +20,8 @@ html, body {
   overflow-x: hidden;
 }
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
-

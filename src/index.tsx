@@ -15,10 +15,13 @@ import 'assets/styles/main.scss';
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
-  integrations: [new BrowserTracing({
-    routingInstrumentation: Sentry.reactRouterV5Instrumentation(history),
-  })],
-  tracesSampleRate: process.env.REACT_APP_SENTRY_ENVIRONMENT === 'development' ? 1.0 : 0.8,
+  integrations: [
+    new BrowserTracing({
+      routingInstrumentation: Sentry.reactRouterV5Instrumentation(history),
+    }),
+  ],
+  tracesSampleRate:
+    process.env.REACT_APP_SENTRY_ENVIRONMENT === 'development' ? 1.0 : 0.8,
   normalizeDepth: 10,
   environment: process.env.REACT_APP_SENTRY_ENVIRONMENT,
 });
