@@ -114,10 +114,12 @@
     "stylelint-config-standard-scss": "^3.0.0"
   },
   "lint-staged": {
-    "*.{ts,tsx,scss}": [
-      "prettier --write --ignore-unknown"
+    "*.scss": [
+      "prettier --write --ignore-unknown",
+      "yarn stylelint:fix"
     ],
     "*.{ts,tsx}": [
+      "prettier --write --ignore-unknown",
       "yarn lint",
       "bash -c tsc"
     ]
