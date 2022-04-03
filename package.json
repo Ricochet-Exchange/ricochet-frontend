@@ -106,9 +106,9 @@
     "fontello-cli": "0.6.2",
     "husky": ">=6",
     "lint-staged": "12.3.4",
-    "node-sass": "^6.0.0",
     "postcss": "8",
     "prettier": "2.6.2",
+    "sass": "^1.49.11",
     "stylelint": "^14.6.1",
     "stylelint-config-prettier-scss": "^0.0.1",
     "stylelint-config-standard-scss": "^3.0.0"
