@@ -6,7 +6,7 @@
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  border: 1px solid rgb(0 0 0 / 12.5%);
   border-radius: 0.25rem;
   background: #dfdfdf;
   width: calc(50% - 24px);
@@ -17,7 +17,7 @@
 }
 
 .content {
-  padding: 1rem 1rem;
+  padding: 1rem;
 }
 
 .main {
@@ -25,7 +25,7 @@
 }
 
 .title {
-  color: rgb(33, 37, 41);
+  color: rgb(33 37 41);
   font-size: 20px;
   font-weight: 700;
   line-height: 24px;
@@ -39,5 +39,5 @@
   border: 0;
   opacity: 0.25;
   display: block;
-  background: rgb(33, 37, 41);
+  background: rgb(33 37 41);
 }

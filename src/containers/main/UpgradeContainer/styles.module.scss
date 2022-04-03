@@ -7,6 +7,7 @@
     max-height: 0;
   }
 }
+
 .streamshow {
   display: inline-flex;
 }
@@ -40,7 +41,7 @@
   text-transform: uppercase;
   color: var(--color-grey);
   text-align: left;
-  letter-spacing: 0px;
+  letter-spacing: 0;
   border-bottom: 1px solid var(--color-blue);
 }
 
@@ -70,9 +71,11 @@
 .redFont {
   color: var(--color-red);
 }
+
 .greenFont {
   color: var(--color-primary);
 }
+
 .currDisplay {
   display: flex;
   align-items: center;
@@ -103,6 +106,7 @@
 
   @include tablet {
     @include flexbox(flex-start, center);
+
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -118,7 +122,7 @@
   text-align: center;
   display: inline-block;
   border-radius: 4px;
-  background-color: rgba(16, 171, 50, 0.15);
+  background-color: rgb(16 171 50 / 15%);
   cursor: pointer;
   color: #10bb34;
 }
@@ -128,24 +132,24 @@
   color: #e74d39;
   border-radius: 4px;
   cursor: pointer;
-  background-color: rgba(229, 26, 69, 0.15);
+  background-color: rgb(229 26 69 / 15%);
 }
 
 .displaybutton span.disabledButton {
   padding: 3px 10px;
   color: #b7c2d6;
   border-radius: 4px;
-  background-color: rgb(225, 232, 248);
+  background-color: rgb(225 232 248);
   pointer-events: none;
 }
 
 .wrapper {
   height: 100%;
   width: 100%;
-  padding: 10px 24px 10px 24px;
+  padding: 10px 24px;
 
   @include tablet {
-    padding: 40px 20px 20px 20px;
+    padding: 40px 20px 20px;
     height: 100%;
   }
 }
@@ -159,13 +163,13 @@
 }
 
 .upgrade {
-  margin: 0 0 70px 0;
+  margin: 0 0 70px;
   width: 100%;
   max-width: 670px;
 
   @include tablet {
     width: 100%;
-    margin: 0 0 20px 0;
+    margin: 0 0 20px;
   }
 }
 
@@ -175,7 +179,7 @@
 
   @include tablet {
     width: 100%;
-    margin: 0 0 20px 0;
+    margin: 0 0 20px;
   }
 }
 
@@ -190,11 +194,11 @@
 }
 
 .header_upgrade {
-  margin: 0 0 30px 0;
+  margin: 0 0 30px;
 }
 
 .header_downgrade {
-  margin: 50px 0 30px 0;
+  margin: 50px 0 30px;
 }
 
 .settings_mob {
@@ -203,7 +207,7 @@
   @include tablet {
     display: block;
     width: 100%;
-    padding: 0px 0 0 0;
+    padding: 0;
     position: relative;
   }
 }
@@ -220,7 +224,7 @@
     @include tablet {
       display: block;
       width: 100%;
-      padding: 0px;
+      padding: 0;
       position: relative;
     }
   }
@@ -238,10 +242,9 @@
   .dextable th,
   .dextable td {
     word-break: keep-all;
-
     line-height: 25px;
     text-align: center;
-    border-right: 1px solid rgba(161, 175, 202, 0.53);
+    border-right: 1px solid rgb(161 175 202 / 53%);
   }
 }
 

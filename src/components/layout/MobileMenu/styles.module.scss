@@ -13,6 +13,7 @@
   transition: transform 0.3s ease-in-out;
   width: 100%;
   z-index: 3;
+
   a {
     color: #efebec;
     text-decoration: none;
@@ -22,6 +23,7 @@
     @media (max-width: 576px) {
       font-size: 14px;
     }
+
     &:active {
       color: #efebec;
     }
@@ -33,7 +35,7 @@
 }
 
 .mobile_container {
-  padding: 5px 15px 5px 15px;
+  padding: 5px 15px;
   position: relative;
   background-color: #678eb5;
   height: 60px;
@@ -41,9 +43,10 @@
   border: 1px solid transparent;
   border-radius: 15px;
   -webkit-tap-highlight-color: transparent;
+
   > a {
-    color: #ffffff;
-    opacity: 80%;
+    color: #fff;
+    opacity: 0.8;
     font-size: 13px;
     line-height: 26px;
     white-space: nowrap;
@@ -65,9 +68,10 @@
   padding: 8px 0;
   position: relative;
   text-align: center;
+
   > a {
-    color: #ffffff;
-    opacity: 80%;
+    color: #fff;
+    opacity: 0.8;
     font-size: 13px;
     line-height: 26px;
     white-space: nowrap;

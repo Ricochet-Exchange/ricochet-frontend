@@ -13,6 +13,7 @@
 
 .name_wrap {
   @include flexbox(center, center);
+
   justify-content: space-between;
 }
 
@@ -27,6 +28,7 @@
 .arrow_down,
 .arrow_up {
   color: var(--color-blue);
+
   &:active {
     background: var(--color-blue-light);
   }

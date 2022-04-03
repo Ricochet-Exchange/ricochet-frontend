@@ -17,6 +17,7 @@
 
 .icon {
   @include flexbox(center, center);
+
   padding: 0 12px;
   height: 24px;
   color: $color-input-text;

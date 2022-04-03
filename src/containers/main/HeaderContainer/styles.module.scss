@@ -26,12 +26,14 @@
 
 .header_wrap {
   @include flexbox(center, space-between);
+
   padding-left: 1em;
   width: 100%;
   position: relative;
   background-color: #363b55;
   @include tablet {
     @include flexbox(center, center);
+
     display: flex;
     flex-direction: row;
     max-height: 100px;
@@ -39,7 +41,7 @@
 }
 
 .settings_wrap {
-  margin: 75px 0 50px 0;
+  margin: 75px 0 50px;
 
   @include tablet {
     display: none;
@@ -114,6 +116,7 @@
   width: 100%;
   @include tablet {
     @include flexbox(center, space-between);
+
     width: 100%;
   }
 }
@@ -123,9 +126,11 @@
 
   @include tablet {
     @include flexbox(center, center);
+
     span {
       margin-bottom: 10px;
     }
+
     padding: 40px 0 50px 50px;
     display: block;
     font-style: normal;
@@ -147,6 +152,7 @@
 @media only screen and (max-width: 769px) {
   .header_wrap {
     @include flexbox(center, space-between);
+
     margin-top: 2.5em;
     padding-left: 1em;
     width: 100%;
@@ -154,6 +160,7 @@
     background-color: #363b55;
     @include tablet {
       @include flexbox(center, center);
+
       display: flex;
       margin-top: 3.5em;
       flex-direction: row;

@@ -53,6 +53,7 @@
     display: none;
   }
 }
+
 .header {
   display: none;
   @include tablet {
@@ -80,6 +81,7 @@
 
 .wrap {
   @include flexbox(center, space-between);
+
   width: 100%;
 
   @include tablet {
@@ -123,18 +125,19 @@
 
   @include tablet {
     @include flexbox(flex-start, center);
+
     padding: 0 0 5px 10px;
     flex: 0 0 35%;
   }
 }
 
 .first_balance_container {
-  padding: 0 0 9px 0;
+  padding: 0 0 9px;
   display: flex;
 }
 
 .second_balance_container {
-  padding: 0 0 9px 0;
+  padding: 0 0 9px;
   display: flex;
 }
 
@@ -142,7 +145,7 @@
   min-width: 20%;
   color: black;
   text-align: right;
-  padding: 3px 6px 0px 0px;
+  padding: 3px 6px 0 0;
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
@@ -230,6 +233,7 @@
 
   @include tablet {
     @include flexbox(flex-start, center);
+
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -242,7 +246,7 @@
 
 .stream_values {
   font-family: $default-font;
-  padding: 0 0 4px 0;
+  padding: 0 0 4px;
 }
 
 .streaming {
@@ -267,6 +271,7 @@
 
   @include tablet {
     @include flexbox(flex-start, center);
+
     flex-direction: column;
     position: relative;
     flex: 0 0 25%;
@@ -388,10 +393,11 @@
     gap: 12px;
   }
 }
+
 .externalLink {
   > a {
     @include tablet {
-      margin-top: 0px;
+      margin-top: 0;
     }
   }
 }

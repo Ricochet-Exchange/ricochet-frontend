@@ -2,6 +2,7 @@
 
 .balance_panel {
   @include flexbox(center, center);
+
   width: fit-content;
   max-width: 210px;
   height: 33px !important;
@@ -10,7 +11,7 @@
   border-radius: 10px;
   color: var(--color-white);
   font-style: normal;
-  padding: 8px 1.5px 8px 1.5px;
+  padding: 8px 1.5px;
   cursor: pointer;
 
   @include tablet {
@@ -26,6 +27,7 @@
 
 .icon {
   @include flexbox(center, center);
+
   margin-left: 8px;
   color: var(--color-white);
   width: 12px;
@@ -49,6 +51,7 @@
 
 .balance {
   @include flexbox(center, center);
+
   vertical-align: middle;
   font-weight: bold;
   font-size: 14px;
@@ -62,14 +65,14 @@
 .balance:empty {
   display: none;
 }
+
 .address {
   @include flexbox(center, center);
+
   font-weight: normal;
   font-size: 12px;
   letter-spacing: -0.01em;
-
   vertical-align: middle;
-
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;

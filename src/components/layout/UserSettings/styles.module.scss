@@ -39,9 +39,8 @@
   font-size: 12px;
   line-height: 17px;
   letter-spacing: -0.01em;
-  padding: 8px 0 8px 0;
+  padding: 8px 0;
   margin: 0 7px 0 0;
-
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -76,11 +75,13 @@
 .github,
 .terms {
   @include flexbox(flex-start, center);
+
   height: 100%;
   width: 100%;
   transition: 0.7s;
   padding: 0 1em;
   cursor: pointer;
+
   &:hover {
     background-color: lightgray;
   }
@@ -116,9 +117,9 @@
   background: var(--color-white);
   border-radius: 20px;
   min-width: 15vw;
-  border: 1px solid rgba(0, 0, 0, 0.632);
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.374);
-  filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.15));
+  border: 1px solid rgb(0 0 0 / 63.2%);
+  box-shadow: 1px 1px 1px 1px rgb(0 0 0 / 37.4%);
+  filter: drop-shadow(0 8px 20px rgb(0 0 0 / 15%));
 }
 
 .settings_button {
@@ -128,6 +129,7 @@
 
 .connect_wallet {
   @include flexbox(center, center);
+
   font-size: 14px;
   line-height: 17px;
   letter-spacing: -0.01em;

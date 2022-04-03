@@ -44,8 +44,10 @@
     padding-left: 1em;
   }
 }
+
 .currency_name {
   @include flexbox(center, flex-start);
+
   flex-wrap: wrap;
   width: auto;
 
@@ -68,11 +70,12 @@
 }
 
 .arrow_circle_container {
-  padding: 0 8px 0 8px;
+  padding: 0 8px;
 }
 
 .arrow_circle {
   @include flexbox(center, center);
+
   color: var(--color-blue);
   width: 24px;
   height: 24px;

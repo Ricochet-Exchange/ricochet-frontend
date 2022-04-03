@@ -13,9 +13,11 @@
   font-weight: 700;
   width: 160px;
   margin-right: 25px;
+
   &:last-child {
     margin-right: 0;
   }
+
   transition-property: all;
   transition-duration: 0.05s;
   transition-timing-function: ease-in-out;
@@ -24,7 +26,7 @@
 
 .button:hover:not(:disabled) {
   box-shadow: none;
-  -webkit-transform: scale(0.98);
+  transform: scale(0.98);
   transform: scale(0.98);
 }
 
@@ -35,6 +37,7 @@ button[disabled] {
 
 .VaultActions {
   @include flexbox(flex-start, flex-start);
+
   flex-direction: row;
   align-self: center;
 }

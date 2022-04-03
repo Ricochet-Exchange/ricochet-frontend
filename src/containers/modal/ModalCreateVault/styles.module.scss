@@ -31,7 +31,7 @@
   right: 0;
   z-index: 10;
   padding: 15px 10px;
-  color: rgba(0, 0, 0, 0.45);
+  color: rgb(0 0 0 / 45%);
   font-weight: 700;
   line-height: 1;
   text-decoration: none;
@@ -68,12 +68,13 @@
 
 .start_button:hover:not(:disabled) {
   box-shadow: none;
-  -webkit-transform: scale(0.98);
+  transform: scale(0.98);
   transform: scale(0.98);
 }
 
 .view_button {
   @include flexbox(center, center);
+
   border: none;
   font-size: 1.25rem;
   font-weight: 700;
@@ -84,7 +85,7 @@
   padding: 1.05rem 4.75rem;
   background-color: #f5f7fa;
   color: var(--color-blue);
-  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.16);
+  box-shadow: 0 4px 6px 0 rgb(0 0 0 / 16%);
   transition-property: all;
   transition-duration: 0.05s;
   transition-timing-function: ease-in-out;
@@ -93,8 +94,8 @@
 }
 
 .view_button:hover:not(:disabled) {
-  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.16);
-  -webkit-transform: scale(0.98);
+  box-shadow: 0 4px 6px 0 rgb(0 0 0 / 16%);
+  transform: scale(0.98);
   transform: scale(0.98);
 }
 
@@ -104,6 +105,7 @@
 
 .modal {
   @include flexbox(center, center);
+
   flex-direction: column;
   position: relative;
   top: 100px;
@@ -113,7 +115,7 @@
 
 .modal_overlay {
   @include flexbox(flex-start, center);
-  @include not_blur();
+  @include not_blur;
 
   position: fixed;
   top: 0;
@@ -126,6 +128,7 @@
 
 .container {
   @include flexbox(center, center);
+
   background-color: #f5f7fa;
   flex-direction: column;
   text-align: center;
@@ -156,7 +159,6 @@
   font-weight: normal;
   font-size: 14px;
   line-height: 140%;
-
   border-radius: 20px;
   padding: 20px;
   animation: appear 0.5s forwards;

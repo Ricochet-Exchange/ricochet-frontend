@@ -3,7 +3,7 @@
 .outer_container {
   display: flex;
   overflow: auto;
-  @include tablet() {
+  @include tablet {
     display: block;
   }
 }
@@ -12,7 +12,6 @@
   width: 100%;
   height: 100%;
   margin: 0;
-
   padding: 1em;
   padding-left: 2.5em;
   padding-right: 3em;
@@ -20,11 +19,12 @@
 
 .input_wrap {
   @include flexbox(center, center);
+
   margin-bottom: 20px;
 
   @include tablet {
     width: 100%;
-    padding: 15px 15px 30px 15px;
+    padding: 15px 15px 30px;
   }
 }
 
@@ -77,24 +77,28 @@
 .market {
   flex: 1 1 0px;
 }
+
 .stream {
   flex: 1 1 0px;
 }
+
 .balances {
   flex: 1 1 0px;
 }
+
 .streaming {
   flex: 1 1 0px;
 }
+
 .ends {
   width: 30px;
 }
 
 .panel {
-  margin: 0 0 10px 0;
+  margin: 0 0 10px;
   @include tablet {
     // width: inherit;
-    margin: 0 15px 15px 15px;
+    margin: 0 15px 15px;
   }
 }
 
@@ -109,7 +113,7 @@
   @include tablet {
     display: block;
     width: 100%;
-    padding: 0px 0 0 0;
+    padding: 0;
     position: relative;
   }
 }
@@ -152,6 +156,7 @@
 
 .dropdownHolder {
   @include flexbox(center, center);
+
   justify-content: center;
   column-gap: 40px;
 }

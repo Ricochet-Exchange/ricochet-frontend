@@ -8,7 +8,7 @@
 
 .modal_overlay {
   @include flexbox(center, center);
-  @include blur();
+  @include blur;
 
   position: fixed;
   top: 0;

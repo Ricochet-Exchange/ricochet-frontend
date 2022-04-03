@@ -3,12 +3,12 @@
 .VaultTransaction {
   width: 100%;
   @include lightshadow;
+
   padding: 3em;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
   background-color: #f5f7fa;
   border-radius: 0 0 10px 10px;
   @include tablet {
@@ -72,7 +72,7 @@
 }
 
 .VaultTransaction__buttons {
-  margin: 20px 0 0 0;
+  margin: 20px 0 0;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
@@ -83,7 +83,8 @@
 }
 
 .loader {
-  @include not_blur();
+  @include not_blur;
+
   background-color: #f5f7fa;
 }
 
@@ -110,7 +111,7 @@
   padding: 6.4px 20px;
   font-size: 16px;
   margin: 0.5em;
-  margin-left: 0em;
+  margin-left: 0;
   border-radius: 8px;
   font-weight: 700;
   width: 180px;
@@ -122,7 +123,7 @@
 
 .actionButton:hover:not(:disabled) {
   box-shadow: none;
-  -webkit-transform: scale(0.98);
+  transform: scale(0.98);
   transform: scale(0.98);
 }
 
@@ -139,6 +140,7 @@ button[disabled] {
   .VaultTransaction {
     width: 100%;
     @include lightshadow;
+
     padding: 1em;
   }
 
@@ -158,12 +160,12 @@ button[disabled] {
   .VaultTransaction__form__Total {
     max-width: 100vw;
     width: 100%;
-    padding: 0em;
+    padding: 0;
     margin: 0;
   }
 
   .VaultTransaction__buttons {
-    margin: 0px 0 0 0;
+    margin: 0;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);

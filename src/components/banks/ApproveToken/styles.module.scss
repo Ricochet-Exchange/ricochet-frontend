@@ -1,7 +1,8 @@
 @import 'assets/styles/_mixins';
 
 .loader {
-  @include not_blur();
+  @include not_blur;
+
   background-color: #f5f7fa;
 }
 
@@ -23,7 +24,7 @@
 
 .button:hover:not(:disabled) {
   box-shadow: none;
-  -webkit-transform: scale(0.98);
+  transform: scale(0.98);
   transform: scale(0.98);
 }
 
