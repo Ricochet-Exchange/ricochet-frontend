@@ -62,8 +62,6 @@ export enum ExchangeKeys {
   'USDC_WETH' = 'twoWayusdcWeth',
   'WBTC_USDC' = 'twoWaywbtcUsdc',
   'WETH_USDC' = 'twoWaywethUsdc',
-  'TWO_USDC_RIC' = 'twoWayUsdcRic',
-  'TWO_RIC_USDC' = 'twoWayRicUsdc',
   'TWO_WAY_MATIC_USDC' = 'twoWayMaticUsdc',
   'TWO_WAY_USDC_MATIC' = 'twoWayUsdcMatic',
   'TWO_WAY_MATIC_DAI' = 'twoWayMaticDai',
