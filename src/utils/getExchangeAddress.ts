@@ -39,7 +39,6 @@ import {
   WETHxAddress,
   wethxUsdcxExchangeAddress,
   twoWayMarketDAIWETHAddress,
-  twoWayMarketRICUSDCAddress,
   twoWayMarketMATICUSDCAddress,
   twoWayMarketMATICDAIAddress, twoWayMarketWBTCDAIAddress,
 
@@ -138,8 +137,6 @@ export const getExchangeAddressFromKey = (exchangeKey: ExchangeKeys) => {
     twoWayusdcWbtc: twoWayMarketWBTCAddress,
     twoWayDaiWeth: twoWayMarketDAIWETHAddress,
     twoWayWethDai: twoWayMarketDAIWETHAddress,
-    twoWayRicUsdc: twoWayMarketRICUSDCAddress,
-    twoWayUsdcRic: twoWayMarketRICUSDCAddress,
     twoWayMaticUsdc: twoWayMarketMATICUSDCAddress,
     twoWayUsdcMatic: twoWayMarketMATICUSDCAddress,
     twoWayMaticDai: twoWayMarketMATICDAIAddress,
