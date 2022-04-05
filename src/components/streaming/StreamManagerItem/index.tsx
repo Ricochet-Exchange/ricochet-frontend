@@ -13,7 +13,6 @@ interface IProps {
   sender: string,
   TokenID: string,
   timestamp: number,
-  transactionHash: number,
 }
 
 export const StreamManagerItem: FC<IProps> = ({

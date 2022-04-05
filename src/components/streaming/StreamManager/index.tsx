@@ -63,7 +63,6 @@ export const StreamManager: React.FC<IProps> = () => {
           sender,
           receiver,
           currentFlowRate,
-          createdAtBlockNumber,
           token,
         }, i) => {
           // @ts-expect-error
@@ -80,7 +79,6 @@ export const StreamManager: React.FC<IProps> = () => {
                 TokenName={TokenName} 
                 TokenID={TokenID}
                 timestamp={createdAtTimestamp}
-                transactionHash={createdAtBlockNumber}
               />
             </div>
           );
