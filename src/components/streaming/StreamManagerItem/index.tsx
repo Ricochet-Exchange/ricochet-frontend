@@ -1,8 +1,5 @@
-import React, { useState, FC } from 'react';
+import React, { FC } from 'react';
 import deleteFlow from 'utils/superfluidStreams/deleteFlow';
-import { calculateFlowRate } from 'utils/calculateFlowRate';
-import { blockInvalidChar } from 'utils/blockInvalidChars';
-import updateExistingFlow from 'utils/superfluidStreams/updateExistingFlow';
 import { truncateAddr } from 'utils/helpers';
 import { TokenIcon } from 'components/common/TokenIcon';
 import { CoinPlaceholder } from 'components/common/CoinPlaceholder';
@@ -30,9 +27,6 @@ export const StreamManagerItem: FC<IProps> = ({
   const SECONDS_PER_MONTH = 30 / 24 / 60 / 60;
 
   const time = new Date(timestamp * 1000).toString().split(' ')[4];
-
-  const [updateOperation, toggleUpdate] = useState(false);
-  const [updatedFlowRate, updateFlowRate] = useState('');
 
   console.log(TokenID, TokenName, time);
 
@@ -66,12 +60,6 @@ export const StreamManagerItem: FC<IProps> = ({
 
         <div className={styles.update_buttons}>
           <button 
-            className={styles.change_flow_update} 
-            onClick={async () => { await toggleUpdate(true); }}
-          >
-            Update Flow
-          </button>
-          <button 
             className={styles.change_flow_cancel} 
             onClick={() => { deleteFlow(sender, receiver, TokenID); }}
           >
@@ -79,42 +67,6 @@ export const StreamManagerItem: FC<IProps> = ({
           </button>
         </div>
       </div>
-
-      {
-        updateOperation ? (
-          <div className={styles.updatePrompt}>
-            <div className={styles.amount_container}>
-              <h3 className={styles.amount_label}>What is the new payment amount?</h3>
-              <input
-                id="payment"
-                className={styles.input_field} 
-                type="number" 
-                placeholder="Payment Amount Per month in" 
-                onKeyDown={blockInvalidChar}
-                min={0}
-                onChange={async (e) => { 
-                  const newFlow = await calculateFlowRate(+(e.target.value));
-                  if (newFlow) {
-                    await updateFlowRate(newFlow.toString());
-                    console.log(newFlow.toString);
-                  }
-                }}
-              />
-              <span>Per month</span>
-            </div>
-
-            <button 
-              className={styles.amount_change}
-              disabled={updatedFlowRate === ''}
-              onClick={() => { updateExistingFlow(receiver, updatedFlowRate, TokenID); }}
-            >
-              Confirm
-            </button>
-          </div>
-        )
-          :
-          ''
-      }
     </div>
   );
 };
