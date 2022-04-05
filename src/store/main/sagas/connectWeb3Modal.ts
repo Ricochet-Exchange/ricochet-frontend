@@ -57,7 +57,6 @@ export function* connectWeb3Modal(): any {
     provider?.on('accountsChanged', () => store.dispatch(mainGetData()));
     yield put(mainSetState({ web3, readWeb3 }));
   } catch (e) {
-    console.log(e);
     // Ignoring error, since user can reject connection
     console.warn(e);
   }
