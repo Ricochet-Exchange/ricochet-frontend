@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from 'components/common/Button';
 import Icons from 'assets/icons/Icons';
 import { BankType } from 'store/banks/types';
-import { DepositBorrow } from 'components/banks/DepositBorrow';
+import { Deposit } from 'components/banks/Deposit';
 import { VaultType } from 'types/vaultType';
 import ReactModal from 'react-modal';
 import { useTranslation } from 'react-i18next';
@@ -67,7 +67,7 @@ export const ModalCreateVault: FC<Props> = ({
       }
       case 2: {
         return (
-          <DepositBorrow
+          <Deposit
             bank={bank}
             vaultData={vaultData}
             transactionHash={transactionHash}
