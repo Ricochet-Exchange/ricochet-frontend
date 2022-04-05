@@ -33,4 +33,33 @@ strong{
 .updatePrompt{
   position: fixed;
   right: 1vw;
+  height: 10vh;
+  width: 10vw;
+}
+
+.change_flow_update{
+  height: 5vh;
+  width: 7vw;
+  margin-right: 1em;
+  background-color: #2775CA;
+  color: white;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  &:hover{
+    background-color: #3c86d6;
+  }
+}
+
+.change_flow_cancel{
+  height: 5vh;
+  width: 7vw;
+  background-color: #CC193E;
+  color: white;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  &:hover{
+    background-color: #d33857;
+  }
 }

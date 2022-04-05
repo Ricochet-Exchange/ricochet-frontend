@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { Framework } from '@superfluid-finance/sdk-core';
 import { selectMain } from 'store/main/selectors';
-
 import * as Sentry from '@sentry/react';
 import { StreamManagerItem } from '../StreamManagerItem';
 import styles from './styles.module.scss';
@@ -33,6 +32,7 @@ export const StreamManager: React.FC<IProps> = () => {
             const filteredStreams = [];
             streams.forEach((stream) => {
               if (+(stream.currentFlowRate) > 0) {
+                console.log(stream);
                 filteredStreams.push(stream);
               }
             });
@@ -63,6 +63,7 @@ export const StreamManager: React.FC<IProps> = () => {
           sender,
           receiver,
           currentFlowRate,
+          createdAtBlockNumber,
           token,
         }, i) => {
           // @ts-expect-error
@@ -78,6 +79,8 @@ export const StreamManager: React.FC<IProps> = () => {
                 currentFlowRate={currentFlowRate} 
                 TokenName={TokenName} 
                 TokenID={TokenID}
+                timestamp={createdAtTimestamp}
+                transactionHash={createdAtBlockNumber}
               />
             </div>
           );
