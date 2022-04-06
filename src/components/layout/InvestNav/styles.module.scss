@@ -75,7 +75,27 @@
 
   .nav_link {
     cursor: pointer;
-    @extend .link;
+    padding-left: 1em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    padding-right: 2em;
+    width: 100%;
+    text-decoration: none;
+    color: rgb(255 255 255 / 85.5%);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: smaller;
+    width: 100%;
+    transition: 0.5s;
+    @include tablet {
+      margin-bottom: 0.5rem;
+    }
+
+    &:hover {
+      padding-left: 0.5vw;
+      background-color: #678eb5;
+    }
 
     display: flex;
     align-items: center;
@@ -116,7 +136,27 @@
 
   .nav_link_desktop_only {
     cursor: pointer;
-    @extend .link;
+    padding-left: 1em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    padding-right: 2em;
+    width: 100%;
+    text-decoration: none;
+    color: rgb(255 255 255 / 85.5%);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: smaller;
+    width: 100%;
+    transition: 0.5s;
+    @include tablet {
+      margin-bottom: 0.5rem;
+    }
+
+    &:hover {
+      padding-left: 0.5vw;
+      background-color: #678eb5;
+    }
 
     display: flex;
     align-items: center;
