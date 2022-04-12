@@ -28,7 +28,6 @@ export const StreamManagerItem: FC<IProps> = ({
 }) => {
   const SECONDS_PER_MONTH = 30 / 24 / 60 / 60;
   const date = new Date(timestamp * 1000).toString();
-
   const [updatedFlowRate, updateFlowRate] = useState('');
   const [updateOperation, update] = useState(false);
 
