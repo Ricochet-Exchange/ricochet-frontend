@@ -65,11 +65,13 @@ export const StreamManager: React.FC<IProps> = () => {
           currentFlowRate,
           token,
         }, i) => {
+          console.log(i);
           // @ts-expect-error
           const TokenName = token.name;
           // @ts-expect-error
           const TokenID = token.id;
-          console.log(createdAtTimestamp, sender, i, token);
+          // @ts-expect-error
+          const tokenSymbol = token.symbol;
           return (
             <div>
               <StreamManagerItem 
@@ -79,6 +81,7 @@ export const StreamManager: React.FC<IProps> = () => {
                 TokenName={TokenName} 
                 TokenID={TokenID}
                 timestamp={createdAtTimestamp}
+                TokenSymbol={tokenSymbol}
               />
             </div>
           );

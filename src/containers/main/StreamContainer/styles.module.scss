@@ -1,9 +1,11 @@
 @media screen and (min-width: 786px) {
   .stream_panel_container{
-    height: 90vh;
+    height: 70vh;
     width: 30vw;
     background-color: #f5f7fa;
     border-radius: 12px;
+    min-width: 300px;
+    min-height: 600px;
     position: fixed;
     z-index: 2;
     top: 15vh;
