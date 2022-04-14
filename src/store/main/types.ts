@@ -248,16 +248,6 @@ export type MainState = {
     streamedSoFar?: number,
     receivedSoFar?: number,
   },
-  twoWayRicUsdcFlowQuery?: {
-    flowKey: string,
-    flowsReceived: number,
-    flowsOwned: string,
-    totalFlows: number,
-    placeholder: string,
-    subsidyRate: { perso:number, total:number, endDate:string },
-    streamedSoFar?: number,
-    receivedSoFar?: number,
-  },
   twoWayUsdcRicFlowQuery?: {
     flowKey: string,
     flowsReceived: number,
