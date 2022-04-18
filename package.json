@@ -41,7 +41,7 @@
     "@popperjs/core": "^2.10.2",
     "@sentry/react": "^6.18.0",
     "@sentry/tracing": "^6.18.0",
-    "@superfluid-finance/js-sdk": "^0.4.3",
+    "@superfluid-finance/js-sdk": "^0.5.12",
     "@superfluid-finance/sdk-core": "^0.3.0",
     "@toruslabs/torus-embed": "^1.20.4",
     "@truffle/contract": "^4.4.10",
