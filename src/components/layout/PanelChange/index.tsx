@@ -52,6 +52,7 @@ interface IProps {
   isReadOnly?: boolean,
   indexVal?: number;
   streamedSoFar?:number;
+  receivedSoFar?:number;
 }
 
 export const PanelChange: FC<IProps> = ({
@@ -77,6 +78,7 @@ export const PanelChange: FC<IProps> = ({
   exchangeKey,
   indexVal,
   streamedSoFar,
+  receivedSoFar,
 }) => {
   const link = getAddressLink(contractAddress);
   const { web3 } = useShallowSelector(selectMain);
@@ -225,7 +227,7 @@ export const PanelChange: FC<IProps> = ({
                   {streamedSoFar && (
                     <>
                       <span className={styles.number} data-tip data-for={`streamed-so-far-${indexVal}`}>
-                        {`${streamedSoFar.toFixed(6)} ${coinA}x ${t('so far')}`}
+                        {`${t('Streamed')} ${streamedSoFar.toFixed(6)} ${coinA}x ${t('so far')}`}
                       </span>
                       <ReactTooltip
                         id={`streamed-so-far-${indexVal}`}
@@ -234,7 +236,24 @@ export const PanelChange: FC<IProps> = ({
                         multiline
                       >
                         <span>
-                          {`$${(getFlowUSDValue(streamedSoFar.toString(), 6))} ${t('so far')}`}
+                          {`${t('Streamed')} $${(getFlowUSDValue(streamedSoFar.toString(), 6))} ${t('so far')}`}
+                        </span>
+                      </ReactTooltip>
+                    </>
+                  )}
+                  {receivedSoFar && (
+                    <>
+                      <span className={styles.number} data-tip data-for={`streamed-so-far-${indexVal}`}>
+                        {`${t('Received')} ${receivedSoFar.toFixed(6)} ${coinA}x ${t('so far')}`}
+                      </span>
+                      <ReactTooltip
+                        id={`streamed-so-far-${indexVal}`}
+                        place="top"
+                        effect="solid"
+                        multiline
+                      >
+                        <span>
+                          {`${t('Received')} $${(getFlowUSDValue(receivedSoFar.toString(), 6))} ${t('so far')}`}
                         </span>
                       </ReactTooltip>
                     </>
