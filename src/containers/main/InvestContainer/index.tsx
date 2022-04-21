@@ -156,6 +156,7 @@ export const InvestContainer: React.FC<IProps> = () => {
                 exchangeKey={element.flowKey.replace('FlowQuery', '') as ExchangeKeys}
                 indexVal={idx}
                 streamedSoFar={state[element.flowKey]?.streamedSoFar}
+                receivedSoFar={state[element.flowKey]?.receivedSoFar}
               />
             </div>
           ))}

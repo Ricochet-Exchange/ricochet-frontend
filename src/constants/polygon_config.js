@@ -42,7 +42,6 @@ export const rexReferralAddress = "0xA0eC9E1542485700110688b3e6FbebBDf23cd901"
 export const twoWayWETHMarketAddress = "0xF415CD95999c94ad9dFCB29B71908329D635E5Fe"
 export const twoWayMarketWBTCAddress = "0xef2C9e8777648d7Dea03b319c64EA53f38EC1398";
 export const twoWayMarketDAIWETHAddress = "0x5970Acd9e2Cb09089FE61f4D0fEc1ae0E959bbDe";
-export const twoWayMarketRICUSDCAddress = "0x0D0E1381d6F6f71E6F0D8f4970BF5bD53c23d7e5";
 export const twoWayMarketMATICUSDCAddress = "0x87588653F2F840Bf0589d5715679Db77d8fC021d";
 export const twoWayMarketMATICDAIAddress = "0xcaB28480ab5c1E133e9B7FC67E030B8DCC2A1d24"
 export const twoWayMarketWBTCDAIAddress = "0xE0073786618b886aA1aa44Df103850a227ADe9ae"
