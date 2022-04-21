@@ -99,15 +99,24 @@ export const PanelChange: FC<IProps> = ({
   }, [mainLoading]);
 
   useEffect(() => {
+    let mounted = true;
+
     if (address && contract) {
-      contract.methods
-        .customerToAffiliate(address.toLowerCase())
-        .call().then((affiliate: string) => {
-          if (affiliate !== '0') {
-            setIsAffiliate(false);
+      contract.methods.addressToAffiliate(address.toLowerCase()).call()
+        .then((affiliateId: string) => contract.methods.affiliates(affiliateId).call())
+        .then((res: any) => {
+          if (web3.utils.toBN(res.addr).isZero()) {
+            return;
+          }
+          if (mounted && res.enabled) {
+            setIsAffiliate(true);
           }
         });
     }
+
+    return () => {
+      mounted = false;
+    };
   }, [address, contract]);
 
   useEffect(() => {
