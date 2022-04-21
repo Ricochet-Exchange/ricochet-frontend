@@ -171,7 +171,12 @@ export const InvestContainer: React.FC<IProps> = () => {
           </div>
         )}
      
-        <StreamManager />
+        {
+          match.path === '/invest/streams' ?
+            <StreamManager />
+            :
+            ''
+        }
         
         <div>
           <span className={styles.fee_disclaimer}>

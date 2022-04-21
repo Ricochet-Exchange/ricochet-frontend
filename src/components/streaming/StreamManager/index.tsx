@@ -32,7 +32,6 @@ export const StreamManager: React.FC<IProps> = () => {
             const filteredStreams = [];
             streams.forEach((stream) => {
               if (+(stream.currentFlowRate) > 0) {
-                console.log(stream);
                 filteredStreams.push(stream);
               }
             });
