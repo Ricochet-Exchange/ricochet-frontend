@@ -38,6 +38,7 @@ export const InvestContainer: React.FC<IProps> = () => {
   const [search, setSearch] = useState('');
   const [filteredList, setFilteredList] = useState(flowConfig);
   const match = useRouteMatch();
+  const routeEnd = match.path.slice(-7);
   const flowType = RoutesToFlowTypes[match.path];
   
   useEffect(() => {
@@ -173,7 +174,7 @@ export const InvestContainer: React.FC<IProps> = () => {
         )}
      
         {
-          match.path === '/invest/streams' || '/streaming/invest/streams' ?
+          routeEnd === 'streams' ?
             <StreamManager />
             :
             ''
