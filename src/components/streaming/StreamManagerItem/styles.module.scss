@@ -54,20 +54,27 @@ strong{
 .change_flow_cancel{
   height: 5vh;
   width: 7vw;
-  background-color: #CC193E;
+  background-color:#363b55;
   color: white;
   border-radius: 12px;
   border: none;
   cursor: pointer;
   &:hover{
-    background-color: #d33857;
+    background-color: #363b55;
   }
 }
 
-.currentFlow{
-  font-size: medium;
-  width: 60%;
+.currentFlowRate{
+  font-size:Large;
+  margin-top: 2em;
+  bottom: 0;
+  width: 30%;
   color: #678EB5;
+}
+
+.currentFlowTime{
+  font-size: small;
+  color: #7D8581;
 }
 
 .updatePrompt{
@@ -88,7 +95,7 @@ strong{
 .update_buttons{
   margin-top: 1em;
   height: 8vh;
-  width: 80%;
+  width: 20vw;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -100,6 +107,11 @@ strong{
   width: 9vw;
   border-radius: 12px;
   margin-right: 1em;
+}
+
+.amount_container{
+  display: flex;
+  flex-direction: row;
 }
 
 .input_field{
@@ -139,13 +151,13 @@ strong{
   .change_flow_cancel{
     height: 5vh;
     width: 30vw;
-    background-color: #CC193E;
+    background-color: #363b55;
     color: white;
     border-radius: 12px;
     border: none;
     cursor: pointer;
     &:hover{
-      background-color: #d33857;
+      background-color: #363b55;
     }
   }
 

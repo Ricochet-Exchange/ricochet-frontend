@@ -33,11 +33,11 @@ export const StreamManagerItem: FC<IProps> = ({
 
   return (
     <div className={styles.streamRow}>
-      <div className="stream">
+        
+      <div>
         <h3 className={styles.receiver}>
           <strong>To: </strong>
           {truncateAddr(receiver)}
-          <br />
       
         </h3>
             
@@ -45,8 +45,8 @@ export const StreamManagerItem: FC<IProps> = ({
           <>
             {/* @ts-expect-error */}
             <TokenIcon tokenName={TokenSymbol} />
-            <br />
-            <h3 className={styles.currentFlow}>
+      
+            <h3 className={styles.currentFlowTime}>
               {`started on ${date}`}
             </h3>
           </>
@@ -55,30 +55,30 @@ export const StreamManagerItem: FC<IProps> = ({
           : 
           ''}
       </div>
-        
-      <div className={styles.info}>
             
-        <h3 className={styles.currentFlow}>
-          {`of $${Math.trunc((+currentFlowRate / 1e8) * SECONDS_PER_MONTH)} per month, $${(+currentFlowRate / 1e18).toFixed(8)} per second`}
-        </h3>
+      <h3 className={styles.currentFlowRate}>
+        {`$${Math.trunc((+currentFlowRate / 1e8) * SECONDS_PER_MONTH)} per month`}
+        <br />
+        {`$${(+currentFlowRate / 1e18).toFixed(8)} per second`}
+      </h3>
 
+      <div className={styles.update_buttons}>
         <div className={styles.update_buttons}>
-          <div className={styles.update_buttons}>
-            <button 
-              className={styles.change_flow_cancel} 
-              onClick={() => { deleteFlow(sender, receiver, TokenID); }}
-            >
-              Delete Flow
-            </button>
-            <button 
-              onClick={() => { update(!updateOperation); }}
-              className={styles.toggleBtn}
-            >
-              Update
-            </button>
-          </div>
+          <button 
+            className={styles.change_flow_cancel} 
+            onClick={() => { deleteFlow(sender, receiver, TokenID); }}
+          >
+            Delete Flow
+          </button>
+          <button 
+            onClick={() => { update(!updateOperation); }}
+            className={styles.toggleBtn}
+          >
+            Update
+          </button>
+        </div>
 
-          {
+        {
               updateOperation ? (
                 <div className={styles.updatePrompt}>
                   {truncateAddr(receiver)}
@@ -122,9 +122,7 @@ export const StreamManagerItem: FC<IProps> = ({
                 :
                 ''
             }
-        </div>
       </div>
-      
     </div>
   );
 };

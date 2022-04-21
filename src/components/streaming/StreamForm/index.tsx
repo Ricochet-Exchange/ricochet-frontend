@@ -153,7 +153,7 @@ export const StreamForm: React.FC<IProps> = ({
           }
         </select>
       </div>
-
+    
       <button 
         className={styles.input_field_submit} 
         disabled={!addressProvided || !flowProvided || !tokenProvided}

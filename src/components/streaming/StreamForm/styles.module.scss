@@ -1,7 +1,7 @@
 @media screen and (min-width: 786px) {
   .stream_panel_container{
     height: 90vh;
-    width: 40vw;
+    width: 25vw;
     background-color: #f5f7fa;
     border-radius: 12px;
     position: fixed;
@@ -18,7 +18,7 @@
 
   .stream_form_container{
     width: 100%;
-    padding: 2em;
+    padding: 1em;
   }
 
   .title{
@@ -34,7 +34,7 @@
     border: 3px solid #678EB5;
     margin-left: 10%;
     letter-spacing: 0.2px;
-    height: 8vh;
+    height: 6vh;
     width: 80%;
     font-size: larger;
     margin-bottom: 1em;
@@ -48,7 +48,7 @@
     height: 6vh;
     width: 50%;
     margin-left: 25%;
-    background-color: #678EB5;
+    background-color: #363b55;
     border-radius: 12px;
     transition: 0.5s;
     cursor: pointer;
@@ -85,7 +85,7 @@
   }
 
   .close{
-   color: #678EB5;
+   color: #363b55;
   }
 
   .exit_btn{
@@ -104,9 +104,9 @@
     color: rgb(69, 68, 68);
   }
   .warning{
-    color: #CC193E;
+    color: #363b55;
     height: 10vh;
-    border: 2px solid red;
+    border: 2px solid #363b55;
     width: 10vw;
     font-size: large;
   }
