@@ -173,7 +173,7 @@ export const InvestContainer: React.FC<IProps> = () => {
         )}
      
         {
-          match.path === '/invest/streams' || 'streaming/invest/streams' ?
+          match.path === '/invest/streams' || '/streaming/invest/streams' ?
             <StreamManager />
             :
             ''
