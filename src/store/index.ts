@@ -4,7 +4,6 @@ import createSagaMiddleware from 'redux-saga';
 import { persistStore } from 'redux-persist';
 import reducers from './reducers';
 import sagas from './sagas';
-import { mainCheck, mainGetData } from './main/actionCreators';
 import { referralMiddleware } from './middleware/referral-middleware';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -32,13 +31,3 @@ export const store = createStore(reducers, enhancer);
 export const persistor = persistStore(store);
 
 sagaMiddleware.run(sagas);
-
-(window as any).ethereum?.on(
-  'chainChanged',
-  () => store.dispatch(mainCheck()),
-);
-
-(window as any).ethereum?.on(
-  'accountsChanged',
-  () => store.dispatch(mainGetData()),
-);

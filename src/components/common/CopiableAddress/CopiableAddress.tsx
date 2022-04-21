@@ -1,7 +1,18 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import copy from 'assets/images/copy.svg';
-import ReactTooltip from 'react-tooltip';
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import { styled } from '@mui/material/styles';
 import styles from './styles.module.scss';
+
+const AddressTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(() => ({
+  pointerEvents: 'auto',
+
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: 'var(--color-blue)',
+  },
+}));
 
 type CopiableAddressProps = {
   address: string;
@@ -9,6 +20,22 @@ type CopiableAddressProps = {
 
 export const CopiableAddress: FC<CopiableAddressProps> = ({ address }) => {
   const [clipboardTitle, setClipboardTitle] = useState('Copy address');
+
+  useEffect(() => {
+    let isMounted = true;
+
+    if (clipboardTitle !== 'Copy address') {
+      setTimeout(() => {
+        if (isMounted) {
+          setClipboardTitle('Copy address');
+        }
+      }, 3000);
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [clipboardTitle]);
 
   const copyToClipboard = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -18,29 +45,26 @@ export const CopiableAddress: FC<CopiableAddressProps> = ({ address }) => {
 
   return (
     <div style={{ display: 'inline-block' }}>
-      <div
-        aria-hidden="true"
-        data-for="copiable-address"
-        data-tip={clipboardTitle}
-        onClick={copyToClipboard}
-        className={styles.wrapper}
+      <AddressTooltip
+        title={clipboardTitle}
+        disableFocusListener
+        placement="top"
+        arrow
+        enterTouchDelay={0}
       >
-        <span>
-          {address.slice(0, 7)}
-          ...
-          {address.slice(-4)}
-        </span>
-        <img src={copy} alt="copy icon" />
-      </div>
-      <ReactTooltip
-        id="copiable-address"
-        place="top"
-        effect="solid"
-        multiline
-        className={styles.address_tooltip_wrapper}
-      >
-        <span className={styles.copiable_address_tooltip}>{clipboardTitle}</span>
-      </ReactTooltip>
+        <div
+          aria-hidden="true"
+          onClick={copyToClipboard}
+          className={styles.wrapper}
+        >
+          <span>
+            {address.slice(0, 7)}
+            ...
+            {address.slice(-4)}
+          </span>
+          <img src={copy} alt="copy icon" />
+        </div>
+      </AddressTooltip>
     </div>
   );
 };

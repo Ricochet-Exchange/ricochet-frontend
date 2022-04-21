@@ -127,7 +127,7 @@ export const InvestContainer: React.FC<IProps> = () => {
         </div>
         <div className={styles.content}>
           {filteredList.map((element, idx) => (
-            <div className={styles.panel} key={`${element.coinA}-${element.coinB}`}>
+            <div className={styles.panel} key={`${element.coinA}-${element.coinB}-${element.flowKey}`}>
               <PanelChange
                 placeholder={t('Input Rate')}
                 onClickStart={handleStart(element)}
@@ -157,6 +157,7 @@ export const InvestContainer: React.FC<IProps> = () => {
                 exchangeKey={element.flowKey.replace('FlowQuery', '') as ExchangeKeys}
                 indexVal={idx}
                 streamedSoFar={state[element.flowKey]?.streamedSoFar}
+                receivedSoFar={state[element.flowKey]?.receivedSoFar}
               />
             </div>
           ))}

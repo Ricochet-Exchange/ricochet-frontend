@@ -1,6 +1,6 @@
-export const getQueryStreams = (sender: string) => `{
+export const getQueryReceived = (receiver: string) => `{
     streams(
-      where: { sender: "${sender?.toLowerCase()}" }
+      where: { receiver: "${receiver.toLowerCase()}" }
     ) {
        id
         createdAtTimestamp
@@ -13,7 +13,7 @@ export const getQueryStreams = (sender: string) => `{
             id
             symbol
          }
-        receiver {
+        sender {
             id
         }
     }

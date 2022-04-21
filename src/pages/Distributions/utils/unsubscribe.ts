@@ -25,7 +25,6 @@ const unsubscribe = async (
       },
     });
   } catch (e:any) {
-    console.log(e);
     onError(e);
   }
 };
