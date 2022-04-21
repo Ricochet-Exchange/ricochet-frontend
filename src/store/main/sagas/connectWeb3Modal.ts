@@ -4,9 +4,10 @@ import WalletLink from 'walletlink';
 import Web3Modal from 'web3modal';
 import Web3 from 'web3';
 import Torus from '@toruslabs/torus-embed';
-import { mainGetData, mainSetState } from '../actionCreators';
+import { mainCheck, mainGetData, mainSetState } from '../actionCreators';
 import { modalHide, modalShow } from '../../modal/actionCreators';
 import { ModalType } from '../../modal/types';
+import { store } from '../../index';
 
 export function* connectWeb3Modal(): any {
   try {
@@ -52,6 +53,8 @@ export function* connectWeb3Modal(): any {
       // Run modal switch network
       yield put(modalShow(ModalType.Network));
     }
+    provider?.on('chainChanged', () => store.dispatch(mainCheck()));
+    provider?.on('accountsChanged', () => store.dispatch(mainGetData()));
     yield put(mainSetState({ web3, readWeb3 }));
   } catch (e) {
     // Ignoring error, since user can reject connection

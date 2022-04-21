@@ -10,6 +10,7 @@ import { getLedgerChainId, getLedgerProvider } from 'utils/getLedgerInfo';
 import {
   connectWeb3Modal, mainCheck, mainGetData, mainGetReadOnlyData, mainSetState, 
 } from '../actionCreators';
+import { store } from '../../index';
 
 export function* mainCheckSaga() {
   try {
@@ -31,6 +32,8 @@ export function* mainCheckSaga() {
         // Run modal switch network
         yield put(modalShow(ModalType.Network));
       }
+      gnosisSafeProvider?.on('chainChanged', () => store.dispatch(mainCheck()));
+      gnosisSafeProvider?.on('accountsChanged', () => store.dispatch(mainGetData()));
     } else if (ledgerHQFrame.isLedgerApp()) {
       const ledgerProvider: Unwrap<typeof getLedgerProvider> =
           yield call(getLedgerProvider, ledgerHQFrame);
@@ -44,6 +47,8 @@ export function* mainCheckSaga() {
         // Run modal switch network
         yield put(modalShow(ModalType.Network));
       }
+      ledgerProvider?.on('chainChanged', () => store.dispatch(mainCheck()));
+      ledgerProvider?.on('accountsChanged', () => store.dispatch(mainGetData()));
     } else if (localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) {
       yield put(connectWeb3Modal());
     } else {
