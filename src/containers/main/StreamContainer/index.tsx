@@ -7,7 +7,7 @@ import { Framework } from '@superfluid-finance/sdk-core';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { ethers } from 'ethers';
 import FailCard from 'components/streaming/FailCard';
-import { toast, ToastContainer } from 'react-toastify';
+import { showErrorToast, showSuccessToast } from '../../../components/common/Toaster';
 import styles from './styles.module.scss';
 
 interface IProps {}
@@ -44,31 +44,13 @@ export const StreamContainer: React.FC<IProps> = () => {
           superToken,
         });
         await createFlowOperation.exec(signer);
-
-        ToggleTransaction(true);
-
-        toast('Stream successfully created!', {
-          position: 'top-right',
-          autoClose: 7000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        showSuccessToast('Stream opened successfully');
+        ToggleTransaction(true);     
       } catch (e) {
         console.log(e);
+        showErrorToast('Could not open stream, check if you have an open stream already.');
         ToggleTransaction(false);
         ToggleFail(true);
-        toast('Stream could not be created, check if the stream exists and try again!', {
-          position: 'top-right',
-          autoClose: 7000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
       }
     }
     setIsLoading(false);
@@ -147,20 +129,6 @@ export const StreamContainer: React.FC<IProps> = () => {
             </button>
             <RecentStreamActivity />
           </>
-
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
-          {/* Same as */}
-          <ToastContainer />
         </div>
       );
     }

@@ -1,5 +1,6 @@
 import { Framework } from '@superfluid-finance/sdk-core';
 import { ethers } from 'ethers';
+import { showErrorToast, showSuccessToast } from '../../components/common/Toaster';
 
 async function updateExistingFlow(recipient: string, flowRate: string, token: string) {
   console.log(typeof flowRate);
@@ -20,19 +21,10 @@ async function updateExistingFlow(recipient: string, flowRate: string, token: st
         superToken: token,
         // userData?: string
       });
-
-      console.log('Updating your stream...');
- 
-      const result = await updateFlowOperation.exec(signer);
-  
-      console.log(result);
-      return 'Stream updated successfully';
+      await updateFlowOperation.exec(signer);
+      showSuccessToast('Stream updated successfully');
     } catch (error) {
-      console.log(
-        "Hmmm, your transaction threw an error. Make sure that this stream does not already exist, and that you've entered a valid Ethereum address!",
-      );
-      console.error(error);
-      return 'Stream could not be updated successfully, check if this stream exists.';
+      showErrorToast('Could not update stream, check your stream and try again later.');
     }
   }
 }

@@ -108,8 +108,7 @@ export const StreamForm: React.FC<IProps> = ({
 
       <div>
         <label className={styles.input_label} htmlFor="payment">
-          Payment
-          <em>monthly</em>
+          Payment monthly
         </label>
         <input
           id="payment"

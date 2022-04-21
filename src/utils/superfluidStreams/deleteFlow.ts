@@ -1,5 +1,6 @@
 import { Framework } from '@superfluid-finance/sdk-core';
 import { ethers } from 'ethers';
+import { showErrorToast, showSuccessToast } from '../../components/common/Toaster';
 
 async function deleteFlow(sender: string, recipient: string, token: string) {
   if (window.ethereum) {
@@ -22,10 +23,9 @@ async function deleteFlow(sender: string, recipient: string, token: string) {
       });
 
       await deleteFlowOperation.exec(signer);
-      return 'Stream was deleted successfully';
+      showSuccessToast('Stream deleted successfully');
     } catch (error) {
-      console.log(error);
-      return 'There was an issue deleting the stream, check if this stream hasnt been closed,';
+      showErrorToast('There was an issue deleting your stream, try again later.');
     }
   }
 }

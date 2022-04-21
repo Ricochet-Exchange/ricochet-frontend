@@ -1,9 +1,7 @@
 import React from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { NavLink } from 'react-router-dom';
-import { selectUserStreams } from 'store/main/selectors';
 import { Routes } from 'constants/routes';
-import { useShallowSelector } from 'hooks/useShallowSelector';
 import Link from 'components/common/Link';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -12,25 +10,22 @@ const TUTORIAL_LINK = 'https://docs.ricochet.exchange/tutorial/using-the-dapp';
 const RICOCHET_V1_LINK = 'https://v1.ricochet.exchange/';
 
 export const InvestNav = () => {
-  const userStreams = useShallowSelector(selectUserStreams);
   const { t } = useTranslation();
   return (
 
     <div className={styles.nav_container}>
-      {userStreams.length >= 0 && (
-        <NavLink
-          className={styles.nav_link}
-          exact
-          activeClassName={styles.nav_link_active}
-          to={Routes.InvestStreams}
-        >
-          <FontIcon name={FontIconName.RicoUser} size={16} />
-          <div className={styles.nav_text}>
-            {t('Streams')}
-            <span className={styles.badge}>{userStreams.length}</span>
-          </div>
-        </NavLink>
-      )}
+   
+      <NavLink
+        className={styles.nav_link}
+        exact
+        activeClassName={styles.nav_link_active}
+        to={Routes.InvestStreams}
+      >
+        <FontIcon name={FontIconName.RicoUser} size={16} />
+        <div className={styles.nav_text}>
+          {t('Streams')}
+        </div>
+      </NavLink>
 
       <Link
         to={Routes.Wallet}
