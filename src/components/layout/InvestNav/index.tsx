@@ -22,7 +22,7 @@ export const InvestNav = () => {
         <Link to={Routes.Invest}><img src={logo} alt="Ricochet" className={styles.logo_img} /></Link>
       </div>
 
-      {userStreams.length > 0 && (
+      {userStreams.length >= 0 && (
         <NavLink
           className={styles.nav_link}
           exact
