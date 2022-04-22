@@ -81,6 +81,8 @@ export const StreamManagerItem: FC<IProps> = ({
   const [updatedFlowRate, updateFlowRate] = useState('');
   const [updateOperation, update] = useState(false);
   const [visiblity, setVisibility] = useState(true);
+  const streamTotalFlow = ((+currentFlowRate / 1e8) * SECONDS_PER_MONTH);
+  const streamValue = streamTotalFlow - (streamTotalFlow * 0.3);
 
   useEffect(() => {
     rexMarketContracts.forEach((market) => {
@@ -116,7 +118,7 @@ export const StreamManagerItem: FC<IProps> = ({
       </div>
             
       <h3 className={styles.currentFlowRate}>
-        {`$${Math.trunc((+currentFlowRate / 1e8) * SECONDS_PER_MONTH)} per month`}
+        {`$${streamValue} per month`}
         <br />
         {`$${(+currentFlowRate / 1e18).toFixed(8)} per second`}
       </h3>
