@@ -1,0 +1,216 @@
+.streamRow{
+  border-bottom: 2px solid #2776ca51;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 1em;
+  transition: 0.5s;
+  &:hover{
+    background-color: #ccd1d7;
+
+  }
+}
+
+.receiver{
+  color: rgb(82, 82, 82);
+}
+
+.currentFlow{
+  font-size: small;
+  color: rgb(86, 86, 86);
+}
+
+.outGoing{
+  color: #2775CA;
+}
+
+strong{
+  color: rgba(160, 160, 160, 0.701)
+}
+
+.updatePrompt{
+  position: fixed;
+  right: 1vw;
+  height: 10vh;
+  width: 10vw;
+}
+
+.change_flow_update{
+  height: 5vh;
+  width: 7vw;
+  margin-right: 1em;
+  background-color: #2775CA;
+  color: white;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  &:hover{
+    background-color: #3c86d6;
+  }
+}
+
+.change_flow_cancel{
+  height: 5vh;
+  width: 7vw;
+  background-color:#363b55;
+  color: white;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  &:hover{
+    background-color: #363b55;
+  }
+}
+
+.invisible{
+  display: none;
+}
+
+.currentFlowRate{
+  font-size:Large;
+  margin-top: 2em;
+  bottom: 0;
+  width: 30%;
+  color: #678EB5;
+}
+
+.currentFlowTime{
+  font-size: small;
+  color: #7D8581;
+}
+
+.updatePrompt{
+  position: fixed;
+  bottom: 0;
+  left: 10vw; 
+  height: 30vh;
+  width: 30vw;
+  margin-left: 10;
+  background-color: white;
+  padding-top: 1em;
+  padding-left: 3em;
+  box-shadow: 4px 4px 4px rgb(89, 89, 89);
+  border-radius: 12px;
+  border: 1px solid lightgray;
+}
+
+.update_buttons{
+  margin-top: 1em;
+  height: 8vh;
+  width: 20vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.amount_change{
+  margin-top: 1em;
+  height: 5vh;
+  width: 9vw;
+  border-radius: 12px;
+  margin-right: 1em;
+}
+
+.amount_container{
+  display: flex;
+  flex-direction: row;
+}
+
+.input_field{
+  height: 6vh;
+  margin-right: 1em;
+  width: 18vw;
+}
+
+.toggleBtn{
+  height: 5vh;
+  border-radius: 12px;
+  margin-left: 1em;
+  background-color: #2775CA;
+  padding: 0.5em;
+  width: 7vw;
+  color: white;
+}
+
+@media screen and (max-width: 786px) {
+
+  .streamRow{
+    border-bottom: 2px solid #2776ca51;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 1em;
+    transition: 0.5s;
+    &:hover{
+      background-color: #ccd1d7;
+  
+    }
+  }
+  
+
+  .change_flow_cancel{
+    height: 5vh;
+    width: 30vw;
+    background-color: #363b55;
+    color: white;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    &:hover{
+      background-color: #363b55;
+    }
+  }
+
+  
+.updatePrompt{
+  position: fixed;
+  bottom: 0;
+  left: 5vw;
+  height: 40vh;
+  width: 90vw;
+  background-color: white;
+  padding-top: 1em;
+  padding-left: 3em;
+  box-shadow: 4px 4px 4px rgb(89, 89, 89);
+  border-radius: 12px;
+  border: 1px solid lightgray;
+}
+
+.update_buttons{
+  margin-top: 1em;
+  height: 8vh;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.amount_change{
+  margin-top: 1em;
+  height: 5vh;
+  width: 30vw;
+  border-radius: 12px;
+  margin-right: 1em;
+}
+
+.input_field{
+  height: 6vh;
+  margin-right: 1em;
+  width: 60vw;
+}
+
+.toggleBtn{
+  height: 5vh;
+  border-radius: 12px;
+  margin-left: 1em;
+  background-color: #2775CA;
+  padding: 0.5em;
+  width: 40vw;
+  color: white;
+}
+
+}

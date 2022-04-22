@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
+import { StreamContainer } from 'containers/main/StreamContainer';
 import { Dropdown } from 'components/common/Dropdown';
 import { useTranslation } from 'i18n';
 import { WalletButton } from 'components/common/WalletButton';
@@ -20,7 +21,10 @@ export const UserSettings: FC<IProps> = ({
 
   return (
     <div className={styles.user_settings}>
+      <StreamContainer />
+      
       <WalletButton ricBalance={ricBalance} account={account} />
+      
       <div className={styles.dot_wrap}>
         <div className={styles.button}>
           <Dropdown

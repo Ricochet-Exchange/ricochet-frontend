@@ -15,6 +15,7 @@ import { RICAddress } from 'constants/polygon_config';
 import { useDispatch } from 'react-redux';
 import { startFlowAction, stopFlowAction } from 'store/main/actionCreators';
 import { ExchangeKeys } from 'utils/getExchangeAddress';
+import StreamManager from 'components/streaming/StreamManager';
 import styles from './styles.module.scss';
 
 function sumStrings(a: number, b: string): number { return (a + parseFloat(b)); }
@@ -37,6 +38,7 @@ export const InvestContainer: React.FC<IProps> = () => {
   const [search, setSearch] = useState('');
   const [filteredList, setFilteredList] = useState(flowConfig);
   const match = useRouteMatch();
+  const routeEnd = match.path.slice(-7);
   const flowType = RoutesToFlowTypes[match.path];
   
   useEffect(() => {
@@ -170,7 +172,14 @@ export const InvestContainer: React.FC<IProps> = () => {
             </span>
           </div>
         )}
-
+     
+        {
+          routeEnd === 'streams' ?
+            <StreamManager />
+            :
+            ''
+        }
+        
         <div>
           <span className={styles.fee_disclaimer}>
             {t('Ricochet takes a 2% fee on swaps.')}
