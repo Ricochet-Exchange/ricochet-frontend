@@ -26,11 +26,11 @@ export const StreamManager: React.FC<IProps> = () => {
       
           const { data: sentStream } = await web3ModalSf.query.listStreams({ sender: account });
           const streams = [...sentStream];
-          
+      
           if (mounted) {
             // @ts-expect-error
             const filteredStreams = [];
-            streams.forEach((stream) => {
+            streams.forEach(async (stream) => {
               if (+(stream.currentFlowRate) > 0) {
                 filteredStreams.push(stream);
               }
@@ -53,7 +53,7 @@ export const StreamManager: React.FC<IProps> = () => {
   return (
     <div className={styles.container}>
       <div className="">
-        <h2 className={styles.outGoing}>{`${streamList.length} Outgoing Streams.`}</h2>
+        <h2 className={styles.outGoing}>Outgoing Streams.</h2>
       </div>
         
       {
@@ -63,7 +63,7 @@ export const StreamManager: React.FC<IProps> = () => {
           receiver,
           currentFlowRate,
           token,
-        }, i) => {
+        }, i) => {      
           console.log(i);
           // @ts-expect-error
           const TokenName = token.name;

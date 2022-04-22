@@ -1,10 +1,35 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import deleteFlow from 'utils/superfluidStreams/deleteFlow';
 import updateExistingFlow from 'utils/superfluidStreams/updateExistingFlow';
 import { truncateAddr } from 'utils/helpers';
 import { TokenIcon } from 'components/common/TokenIcon';
 import { blockInvalidChar } from 'utils/blockInvalidChars';
 import { calculateFlowRate } from 'utils/calculateFlowRate';
+import { 
+  twoWayMarketDAIWETHAddress, 
+  twoWayMarketMATICDAIAddress,
+  twoWayMarketWBTCAddress,
+  twoWayWETHMarketAddress,
+  twoWayMarketMATICUSDCAddress,
+  twoWayMarketWBTCDAIAddress,
+  wethxUsdcxExchangeAddress,
+  wbtcxUsdcxExchangeAddress,
+  usdcxEthSlpxExchangeAddress,
+  usdcxIdleExchangeAddress,
+  usdcxRicExchangeAddress,
+  maticxDaixExchangeAddress,
+  usdcxMaticxExchangeAddress,
+  maticxUsdcxExchangeAddress,
+  daixEthxExchangeAddress,
+  daixMaticxExchangeAddress,
+  daixMkrxExchangeAddress,
+  mkrxDaixExchangeAddress,
+  mkrxUsdcxExchangeAddress,
+  usdcxMkrxExchangeAddress,
+  usdcxWbtcxExchangeAddress,
+  usdcxWethxExchangeAddress,
+} from 'constants/polygon_config';
+
 import styles from './styles.module.scss';
 
 interface IProps {
@@ -26,13 +51,47 @@ export const StreamManagerItem: FC<IProps> = ({
   TokenID, 
   timestamp,
 }) => {
+  const rexMarketContracts = [
+    twoWayMarketDAIWETHAddress, 
+    twoWayMarketMATICDAIAddress,
+    twoWayMarketWBTCAddress,
+    twoWayWETHMarketAddress,
+    twoWayMarketMATICUSDCAddress,
+    twoWayMarketWBTCDAIAddress,
+    wethxUsdcxExchangeAddress,
+    wbtcxUsdcxExchangeAddress,
+    usdcxEthSlpxExchangeAddress,
+    usdcxIdleExchangeAddress,
+    usdcxRicExchangeAddress,
+    maticxDaixExchangeAddress,
+    usdcxMaticxExchangeAddress,
+    maticxUsdcxExchangeAddress,
+    daixEthxExchangeAddress,
+    daixMaticxExchangeAddress,
+    daixMkrxExchangeAddress,
+    mkrxDaixExchangeAddress,
+    mkrxUsdcxExchangeAddress,
+    usdcxMkrxExchangeAddress,
+    usdcxWbtcxExchangeAddress,
+    usdcxWethxExchangeAddress,
+  ];
+  
   const SECONDS_PER_MONTH = 30 / 24 / 60 / 60;
   const date = new Date(timestamp * 1000).toString();
   const [updatedFlowRate, updateFlowRate] = useState('');
   const [updateOperation, update] = useState(false);
+  const [visiblity, setVisibility] = useState(true);
+
+  useEffect(() => {
+    rexMarketContracts.forEach((market) => {
+      if (market.toLowerCase() === receiver) {
+        setVisibility(false);
+      }
+    });
+  }, []);
 
   return (
-    <div className={styles.streamRow}>
+    <div className={visiblity ? styles.streamRow : styles.invisible}>
         
       <div>
         <h3 className={styles.receiver}>
