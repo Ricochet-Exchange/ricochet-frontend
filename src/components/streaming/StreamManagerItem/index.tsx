@@ -118,7 +118,7 @@ export const StreamManagerItem: FC<IProps> = ({
       </div>
             
       <h3 className={styles.currentFlowRate}>
-        {`$${streamValue} per month`}
+        {`$${streamValue.toFixed(2)} per month`}
         <br />
         {`$${(+currentFlowRate / 1e18).toFixed(8)} per second`}
       </h3>
