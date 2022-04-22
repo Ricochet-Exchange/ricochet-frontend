@@ -81,6 +81,7 @@ export const StreamManagerItem: FC<IProps> = ({
   const [updatedFlowRate, updateFlowRate] = useState('');
   const [updateOperation, update] = useState(false);
   const [visiblity, setVisibility] = useState(true);
+
   const streamTotalFlow = ((+currentFlowRate / 1e8) * SECONDS_PER_MONTH);
   const streamValue = streamTotalFlow - (streamTotalFlow * 0.3);
 
