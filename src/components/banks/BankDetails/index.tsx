@@ -67,7 +67,7 @@ export const BankDetails: FC<Props> = ({
               src={iconsCoin[bank.debtToken.symbol as Coin]}
               alt={bank.debtToken.symbol}
             />
-            <h3>{formatter((+bank.reserveBalance / 1e18).toFixed(), 2)}</h3>
+            <h3>{formatter((+bank.reserveBalance / 1e18), 2)}</h3>
           </div>
         </td>
         <td>
