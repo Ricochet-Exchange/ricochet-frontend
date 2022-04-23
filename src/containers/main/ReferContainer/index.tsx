@@ -139,7 +139,7 @@ export const ReferContainer: React.FC<IProps> = () => {
             </p>
           </div>
         </div>
-        {(status === AFFILIATE_STATUS.ENABLED || status === AFFILIATE_STATUS.REGISTERING) && (
+        {(status === AFFILIATE_STATUS.INACTIVE || status === AFFILIATE_STATUS.REGISTERING) && (
         <div className={styles.input_wrap}>
           <p>{t('Customise your referral url')}</p>
           <TextInput
