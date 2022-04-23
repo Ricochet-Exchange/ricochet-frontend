@@ -16,16 +16,19 @@ import ReactTimeAgo from 'react-time-ago';
 import TimeAgo from 'javascript-time-ago';
 import { useTranslation } from 'react-i18next';
 import en from 'javascript-time-ago/locale/en.json';
-import styles from './styles.module.scss';
-import { Coin } from '../../../constants/coins';
+import { getContract } from 'utils/getContract';
+import { rexReferralAddress } from 'constants/polygon_config';
+import { referralABI } from 'constants/abis';
+import { Coin } from 'constants/coins';
+import { FlowTypes } from 'constants/flowConfig';
+import { getShareScaler } from 'utils/getShareScaler';
 import { CoinChange } from '../CoinChange';
 import { CoinBalancePanel } from '../CoinBalancePanel';
 import { CoinRateForm } from '../CoinRateForm';
-import { FlowTypes } from '../../../constants/flowConfig';
 // import Price from '../../common/Price';
 import LpAPY from '../../common/LpAPY';
 import Price from '../../common/Price';
-import { getShareScaler } from '../../../utils/getShareScaler';
+import styles from './styles.module.scss';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -52,6 +55,7 @@ interface IProps {
   isReadOnly?: boolean,
   indexVal?: number;
   streamedSoFar?:number;
+  receivedSoFar?:number;
 }
 
 export const PanelChange: FC<IProps> = ({
@@ -77,19 +81,43 @@ export const PanelChange: FC<IProps> = ({
   exchangeKey,
   indexVal,
   streamedSoFar,
+  receivedSoFar,
 }) => {
   const link = getAddressLink(contractAddress);
-  const { web3 } = useShallowSelector(selectMain);
+  const { web3, address } = useShallowSelector(selectMain);
   const [inputShow, setInputShow] = useState(false);
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [lastDistribution, setLastDistribution] = useState<Date>();
   const [shareScaler, setShareScaler] = useState(1e3);
+  const [isAffiliate, setIsAffiliate] = useState(false);
+  const contract = getContract(rexReferralAddress, referralABI, web3);
   const { t } = useTranslation();
 
   useEffect(() => {
     setIsLoading(mainLoading);
   }, [mainLoading]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    if (address && contract) {
+      contract.methods.addressToAffiliate(address.toLowerCase()).call()
+        .then((affiliateId: string) => contract.methods.affiliates(affiliateId).call())
+        .then((res: any) => {
+          if (web3.utils.toBN(res.addr).isZero()) {
+            return;
+          }
+          if (mounted && res.enabled) {
+            setIsAffiliate(true);
+          }
+        });
+    }
+
+    return () => {
+      mounted = false;
+    };
+  }, [address, contract]);
 
   useEffect(() => {
     let isMounted = true;
@@ -146,6 +174,10 @@ export const PanelChange: FC<IProps> = ({
   };
 
   const handleStart = useCallback(() => {
+    if (isAffiliate) {
+      showErrorToast('Affiliates can not stream', 'Error');
+      return;
+    }
     if (Number(balanceA) <= 0 || Number(value) < 0) {
       return;
     }
@@ -225,7 +257,7 @@ export const PanelChange: FC<IProps> = ({
                   {streamedSoFar && (
                     <>
                       <span className={styles.number} data-tip data-for={`streamed-so-far-${indexVal}`}>
-                        {`${streamedSoFar.toFixed(6)} ${coinA}x ${t('so far')}`}
+                        {`${t('Streamed')} ${streamedSoFar.toFixed(6)} ${coinA}x ${t('so far')}`}
                       </span>
                       <ReactTooltip
                         id={`streamed-so-far-${indexVal}`}
@@ -234,7 +266,24 @@ export const PanelChange: FC<IProps> = ({
                         multiline
                       >
                         <span>
-                          {`$${(getFlowUSDValue(streamedSoFar.toString(), 6))} ${t('so far')}`}
+                          {`${t('Streamed')} $${(getFlowUSDValue(streamedSoFar.toString(), 6))} ${t('so far')}`}
+                        </span>
+                      </ReactTooltip>
+                    </>
+                  )}
+                  {receivedSoFar && (
+                    <>
+                      <span className={styles.number} data-tip data-for={`streamed-so-far-${indexVal}`}>
+                        {`${t('Received')} ${receivedSoFar.toFixed(6)} ${coinA}x ${t('so far')}`}
+                      </span>
+                      <ReactTooltip
+                        id={`streamed-so-far-${indexVal}`}
+                        place="top"
+                        effect="solid"
+                        multiline
+                      >
+                        <span>
+                          {`${t('Received')} $${(getFlowUSDValue(receivedSoFar.toString(), 6))} ${t('so far')}`}
                         </span>
                       </ReactTooltip>
                     </>

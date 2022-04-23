@@ -2,12 +2,7 @@
 
 @media only screen and (min-width: 769px) {
   .header_wrap {
-    height: 10vh;
-    padding: 3.5em;
-    display: flex;
-    align-items: center;
-    padding-right: 2em;
-    background-color: #363b55;
+    height: 12vh;
   }
 
   .settings_wrap {
@@ -16,10 +11,6 @@
   }
 
   .links {
-    display: none;
-  }
-
-  .logo {
     display: none;
   }
 }
@@ -82,17 +73,21 @@
 }
 
 .logo {
+  height: 6vh;
+  position: absolute;
+  z-index: 100000;
+
   @media screen and (max-width: 768px) {
     background: none;
     border: none;
     display: block;
-    width: 33px;
-    height: 32px;
+    width: 80px;
     position: relative;
     cursor: pointer;
     z-index: 5;
   }
 }
+
 
 .mob_menu {
   display: none;
@@ -109,7 +104,7 @@
 }
 
 .mob_panel {
-  @include flexbox(center, flex-end);
+  @include flexbox(center, space-between);
 
   width: 100%;
   @include tablet {
@@ -126,11 +121,11 @@
     span {
       margin-bottom: 10px;
     }
-    padding: 40px 0 50px 50px;
+    padding: 40px 0 35px 10px;
     display: block;
     font-style: normal;
     font-weight: bold;
-    font-size: 29px;
+    font-size: 24px;
     line-height: 110%;
     text-align: center;
     letter-spacing: -0.015em;

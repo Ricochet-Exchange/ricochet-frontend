@@ -54,6 +54,7 @@ export const TokenUpdated: FC<TokenUpdatedProps> = ({ event }) => {
           <TokenIcon tokenName={tokenName} />
           <span>{tokenName ?? <CoinPlaceholder token={token} />}</span>
         </div>
+
         <div>
           <span>
             {activityCopying}

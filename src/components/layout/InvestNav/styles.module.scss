@@ -10,6 +10,7 @@
 }
 
 @media only screen and (min-width: 769px) {
+
   .nav_container {
     position: fixed;
     top: 20vh;
@@ -45,6 +46,7 @@
 
   .logo_img {
     height: 6vh;
+    z-index: 100;
   }
 
   .link {
