@@ -70,7 +70,6 @@ See `.env` file for configuration:
 REACT_APP_API_GRATH=https://api.thegraph.com/subgraphs/name/superfluid-finance/superfluid-matic
 REACT_APP_CHAIN_ID=137
 ```
-
 ### Test before merge to main
 
 - `fork the project` - fork the ricochet-frontend repo.
