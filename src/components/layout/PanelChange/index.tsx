@@ -22,6 +22,7 @@ import { referralABI } from 'constants/abis';
 import { Coin } from 'constants/coins';
 import { FlowTypes } from 'constants/flowConfig';
 import { getShareScaler } from 'utils/getShareScaler';
+import { AFFILIATE_STATUS, getAffiliateStatus } from 'utils/getAffiliateStatus';
 import { CoinChange } from '../CoinChange';
 import { CoinBalancePanel } from '../CoinBalancePanel';
 import { CoinRateForm } from '../CoinRateForm';
@@ -99,23 +100,20 @@ export const PanelChange: FC<IProps> = ({
   }, [mainLoading]);
 
   useEffect(() => {
-    let mounted = true;
+    let isMounted = true;
 
     if (address && contract) {
-      contract.methods.addressToAffiliate(address.toLowerCase()).call()
-        .then((affiliateId: string) => contract.methods.affiliates(affiliateId).call())
-        .then((res: any) => {
-          if (web3.utils.toBN(res.addr).isZero()) {
-            return;
-          }
-          if (mounted && res.enabled) {
-            setIsAffiliate(true);
-          }
-        });
+      (async () => {
+        const affiliateStatus = await getAffiliateStatus(contract, address, web3);
+
+        if (isMounted && affiliateStatus === AFFILIATE_STATUS.ENABLED) {
+          setIsAffiliate(true);
+        }
+      })();
     }
 
     return () => {
-      mounted = false;
+      isMounted = false;
     };
   }, [address, contract]);
 
