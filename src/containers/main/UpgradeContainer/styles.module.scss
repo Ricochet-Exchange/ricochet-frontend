@@ -44,12 +44,57 @@
   border-bottom: 1px solid var(--color-blue);
 }
 
-.dextable th,
+.tableHeaders {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 120%;
+  text-transform: uppercase;
+  color: var(--color-grey);
+  text-align: left;
+  letter-spacing: 0px;
+  border-bottom: 1px solid var(--color-blue);
+}
+
 .dextable td {
-  word-break: break-word;
   padding: 15px 15px 16px 12px;
   line-height: 25px;
   text-align: right;
+  border-right: 1px solid var(--color-blue-light);
+}
+
+.sortButtonsRow {
+  line-height: -10px;
+}
+
+.sortButtonRowTd {
+  height: 10px;
+  padding: 0px;
+  border-bottom: 1px solid var(--color-blue);
+}
+
+.sortButton {
+  height: calc(100% + 31px);
+  width: calc(100% + 27px);
+  line-height: -30px;
+  background-color: #e7e7e7;
+  opacity: 0.5;
+  transition-duration: 0.4s;
+  color: var(--color-grey);
+  border: 0px;
+  margin: -12px -15px -16px -12px;
+}
+
+.sortButton:hover {
+  cursor: pointer;
+  background-color: #e7e7e7e4;
+}
+
+.tableHeaders td {
+  padding: 15px 15px 16px 12px;
+  line-height: 25px;
+  text-align: right;
+  border-right: 1px solid var(--color-blue-light);
 }
 
 .dextable td.section {
@@ -78,6 +123,7 @@
   align-items: center;
   flex-direction: row;
   gap: 7px;
+  border-right: 1px solid var(--color-blue-light);
 }
 
 .currDisplayImg {
