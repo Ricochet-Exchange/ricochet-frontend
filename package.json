@@ -11,7 +11,8 @@
     "tsc": "tsc --noEmit",
     "fontello": "bash ./fontello.sh",
     "fontello:open": "fontello-cli --config src/assets/fonts/fontello/config.json open",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prettier:check": "prettier --config .prettierrc --check \"src/**/*.{ts,css,html}\""
   },
   "engines": {
     "node": "14"
@@ -112,5 +113,10 @@
       "eslint --cache --fix",
       "prettier --write"
     ]
-  }
+  },
+  "husky": {
+    "hooks": {
+        "pre-commit": "lint-staged"       
+   }
+}
 }
