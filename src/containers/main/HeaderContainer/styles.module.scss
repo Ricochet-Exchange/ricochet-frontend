@@ -74,7 +74,7 @@
 
 .logo {
   height: 6vh;
-  position: absolute;
+  position: fixed;
   z-index: 100000;
 
   @media screen and (max-width: 768px) {

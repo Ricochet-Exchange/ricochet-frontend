@@ -32,7 +32,7 @@
     ]
   },
   "dependencies": {
-    "@emotion/react": "^11.8.2",
+    "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@gnosis.pm/safe-apps-provider": "^0.9.2",
     "@ledgerhq/iframe-provider": "^0.4.2",
@@ -46,7 +46,7 @@
     "@toruslabs/torus-embed": "^1.20.4",
     "@truffle/contract": "^4.4.10",
     "@types/big.js": "^6.1.2",
-    "@walletconnect/web3-provider": "^1.7.3",
+    "@walletconnect/web3-provider": "^1.7.8",
     "@web3-react/abstract-connector": "^6.0.7",
     "@web3-react/types": "^6.0.7",
     "axios": "0.26.0",
