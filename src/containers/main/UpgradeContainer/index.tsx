@@ -13,6 +13,7 @@ import { approveAction, downgradeAction, upgradeAction } from 'store/main/action
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { upgradeTokensList } from 'constants/upgradeConfig';
+import { sortByColumn } from 'utils/sortByColumn';
 import { useTranslation } from 'i18n';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import axios from 'axios';
@@ -49,6 +50,9 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
   const [downgradeValue, setDownGradeValue] = useState('');
   const [geckoPriceList, setGeckoPriceList] = useState<{}>();
   const [selectedIndex, setSelectedIndex] = useState<Number>();
+  const [sortedUpgradeTokensList, setSortedUpgradeTokensList] = useState(upgradeTokensList);
+  const [sortColumn, setSortColumn] = useState('currency');
+  const [sortDirection, setSortDirection] = useState('asc');
 
   const [flows, setFlows] = useState<{
     flowsOwned: Flow[];
@@ -233,11 +237,26 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
     </>
   ));
 
+  const handleSortClick = (column: string) => {
+    setSortColumn(column);
+    const sortedList = sortByColumn(
+      sortedUpgradeTokensList,
+      balances,
+      geckoPriceList,
+      geckoMapping,
+      flows,
+      column,
+      sortDirection,
+    );
+    setSortedUpgradeTokensList(sortedList.localSortedUpgradeTokensList);
+    setSortDirection(sortedList.localSortDirection);
+  };
+
   return (
     <div className={styles.wrapper}>
       <table className={styles.dextable}>
         <thead>
-          <tr>
+          <tr className={styles.tableHeaders}>
             <td className={styles.currencyStyle}>
               {t('Currency')}
             </td>
@@ -281,7 +300,6 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
               in
               <span className={styles.blue}> USD</span>
             </td>
-
             <td className={styles.upgrade_downgrade_head}>
               {t('Upgrade')}
               &nbsp;
@@ -290,10 +308,77 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
               {t('Downgrade')}
             </td>
           </tr>
+          <tr className={styles.sortButtonsRow}>
+            <td className={styles.sortButtonRowTd}>
+              <button className={styles.sortButton} onClick={() => handleSortClick('currency')}>
+                {sortColumn === 'currency' && (
+                  sortDirection === 'asc' ? (
+                    <FontIcon name={FontIconName.ArrowUp} className={styles.arrow_up} />
+                  ) : (
+                    <FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} />
+                  )
+                )}
+              </button>
+            </td>
+            <td className={styles.sortButtonRowTd}>
+              <button className={styles.sortButton} onClick={() => handleSortClick('balance')}>
+                {sortColumn === 'balance' && (
+                  sortDirection === 'asc' ? (
+                    <FontIcon name={FontIconName.ArrowUp} className={styles.arrow_up} />
+                  ) : (
+                    <FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} />
+                  )
+                )}
+              </button>
+            </td>
+            <td className={styles.sortButtonRowTd}>
+              <button className={styles.sortButton} onClick={() => handleSortClick('superTokenBalance')}>
+                {sortColumn === 'superTokenBalance' && (
+                  sortDirection === 'asc' ? (
+                    <FontIcon name={FontIconName.ArrowUp} className={styles.arrow_up} />
+                  ) : (
+                    <FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} />
+                  )
+                )}
+              </button>
+            </td>
+            <td className={styles.sortButtonRowTd}>
+              <button className={styles.sortButton} onClick={() => handleSortClick('superTokenBalanceInUSD')}>
+                {sortColumn === 'superTokenBalanceInUSD' && (
+                  sortDirection === 'asc' ? (
+                    <FontIcon name={FontIconName.ArrowUp} className={styles.arrow_up} />
+                  ) : (
+                    <FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} />
+                  )
+                )}
+              </button>
+            </td>
+            <td className={styles.sortButtonRowTd}>
+              <button className={styles.sortButton}>
+                <FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} size={0} />
+              </button>
+            </td>
+            <td className={styles.sortButtonRowTd}>
+              <button className={styles.sortButton} onClick={() => handleSortClick('monthlyNetFlow')}>
+                {sortColumn === 'monthlyNetFlow' && (
+                  sortDirection === 'asc' ? (
+                    <FontIcon name={FontIconName.ArrowUp} className={styles.arrow_up} />
+                  ) : (
+                    <FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} />
+                  )
+                )}
+              </button>
+            </td>
+            <td className={styles.sortButtonRowTd}>
+              <button className={styles.sortButton}>
+                <FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} size={0} />
+              </button>
+            </td>
+          </tr>
         </thead>
         <tbody>
           {geckoPriceList !== undefined &&
-            upgradeTokensList.map((token, index) => {
+            sortedUpgradeTokensList.map((token, index) => {
               const usdPriceString = (geckoPriceList as any)[
                 (geckoMapping as any)[token.coin]
               ].usd;
