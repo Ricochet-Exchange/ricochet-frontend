@@ -53,6 +53,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
   const [sortedUpgradeTokensList, setSortedUpgradeTokensList] = useState(upgradeTokensList);
   const [sortColumn, setSortColumn] = useState('currency');
   const [sortDirection, setSortDirection] = useState('asc');
+  const [hideLowBalance, setHideLowBalance] = useState(false);
 
   const [flows, setFlows] = useState<{
     flowsOwned: Flow[];
@@ -252,6 +253,10 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
     setSortDirection(sortedList.localSortDirection);
   };
 
+  const handleHideLowBalance = () => {
+    setHideLowBalance(!hideLowBalance);
+  };
+
   return (
     <div className={styles.wrapper}>
       <table className={styles.dextable}>
@@ -370,8 +375,16 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
               </button>
             </td>
             <td className={styles.sortButtonRowTd}>
-              <button className={styles.sortButton}>
-                <FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} size={0} />
+              <button className={styles.sortButton} onClick={() => handleHideLowBalance()}>
+                <div className={styles.hideLowBalanceCheckbox}>
+                  <label htmlFor="hideLowBalanceCheckbox">Hide Low Balance Tokens</label>
+                  <input
+                    type="checkbox"
+                    className={styles.checkmark}
+                    checked={hideLowBalance}
+                  />
+                  <span className="checkmark" />
+                </div>
               </button>
             </td>
           </tr>
@@ -416,7 +429,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
                 .times(usdPrice);
 
               return (
-                <tr key={token.coin}>
+                <tr key={token.coin} hidden={hideLowBalance && getWalletBalance(token) === '0.00' && balances && parseFloat(balances[token.superTokenAddress]).toFixed(2) === '0.00'}>
                   <td>
                     {token && token.coin ? (
                       <div className={styles.currDisplay}>
