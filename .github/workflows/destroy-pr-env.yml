@@ -1,11 +1,11 @@
 on:
   pull_request_target:
     types: [closed, labeled]
-      branches:
-        - '!main'   # excludes refs/heads/main
-        - '!depbot'   # excludes refs/heads/depbot
-        - '!qa'       # excludes refs/heads/qa
-        - 'v2'        # only v2 is allowed
+    branches:
+      - '!main'   # excludes refs/heads/main
+      - '!depbot'   # excludes refs/heads/depbot
+      - '!qa'       # excludes refs/heads/qa
+      - 'v2'        # only v2 is allowed
 
 name: destroy namespace
 jobs:
