@@ -1,10 +1,16 @@
 on:
   pull_request_target:
-    types: [closed]
+    types: [closed, labeled]
+      branches:
+        - '!main'   # excludes refs/heads/main
+        - '!depbot'   # excludes refs/heads/depbot
+        - '!qa'       # excludes refs/heads/qa
+        - 'v2'        # only v2 is allowed
 
 name: destroy namespace
 jobs:
   destroy_pr_env:
+    if: ${{ github.event.label.name == 'ready_to_review' }}
     runs-on: ubuntu-latest
     env:
       AWS_REGION: eu-west-1

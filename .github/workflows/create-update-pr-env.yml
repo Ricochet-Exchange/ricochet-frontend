@@ -1,10 +1,16 @@
 on:
   pull_request_target:
-    types: [reopened, opened, synchronize, edited]
+    types: [reopened, opened, synchronize, edited, labeled]
+      branches:    
+        - '!main'   # excludes refs/heads/main
+        - '!depbot'   # excludes refs/heads/depbot
+        - '!qa'       # excludes refs/heads/qa
+        - 'v2'        # only v2 is 
 
 name: build docker image and create PR env
 jobs:
   create_or_update_pr_env:
+    if: ${{ github.event.label.name == 'ready_to_review' }}
     runs-on: ubuntu-latest
     env:
       AWS_REGION: eu-west-1
