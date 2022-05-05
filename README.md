@@ -1,6 +1,6 @@
 <div align="center">
     <img src="public/icons/icon.svg" height="70" alt="Ricochet Logo">
-    <h1>Ricochet frontend</h1>
+    <h1>Ricochet frontend!</h1>
     <strong>This is a ricochet app frontend, made in react, using redux and redux-saga</strong>
 </div>
 <br>
