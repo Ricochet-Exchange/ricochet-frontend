@@ -19,13 +19,24 @@
   @include flexbox(center, space-between);
   padding-left: 1em;
   width: 100%;
-  position: relative;
   background-color: #363b55;
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+  height: 90px;
+  margin-bottom: 100px;
   @include tablet {
     @include flexbox(center, center);
     display: flex;
     flex-direction: row;
     max-height: 100px;
+  }
+}
+.header_spacer{
+  height: 90px;
+  width: 100%;
+  @include tablet {
+    height: 0;
   }
 }
 
@@ -73,15 +84,15 @@
 }
 
 .logo {
-  height: 6vh;
   position: fixed;
   z-index: 100000;
-
+  max-width: 8vw;
+  width: 100%;
   @media screen and (max-width: 768px) {
     background: none;
     border: none;
     display: block;
-    width: 80px;
+    max-width: 80px;
     position: relative;
     cursor: pointer;
     z-index: 5;
@@ -130,6 +141,7 @@
     text-align: center;
     letter-spacing: -0.015em;
     color: var(--color-white);
+    z-index: 4;
   }
 }
 
@@ -145,7 +157,8 @@
     margin-top: 2.5em;
     padding-left: 1em;
     width: 100%;
-    position: relative;
+    top: 0;
+    left: 0;
     background-color: #363b55;
     @include tablet {
       @include flexbox(center, center);
