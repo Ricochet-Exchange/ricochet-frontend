@@ -21,9 +21,9 @@ spec:
         image: amazonaws.com/ricochet
         resources:
             limits:
-              memory: 1024Mi
+              memory: 2048Mi
             requests:
-              memory: 1024Mi
+              memory: 2048Mi
               cpu: 300m
         imagePullPolicy: Always
         env:
