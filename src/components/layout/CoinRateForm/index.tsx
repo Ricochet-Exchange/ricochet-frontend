@@ -56,11 +56,9 @@ export const CoinRateForm: FC<IProps> = ({
             color="primary"
             onClick={onClickStart}
             className={styles.start}
-
             /* disabled={isReadOnly || isLoading || !value ||
               (((Math.floor(((parseFloat(value) / 2592000) * 1e18)
             / shareScaler) * shareScaler) / 1e18) * 2592000) === 0} */
-
             disabled
             isLoading={isLoading}
             data-tip
@@ -97,7 +95,6 @@ export const CoinRateForm: FC<IProps> = ({
               className={styles.depositTooltip}
             >
               {value && coin && (
-
               /* <span
                 className={styles.depositTooltip_span}
               >
@@ -116,7 +113,6 @@ export const CoinRateForm: FC<IProps> = ({
                 your balance hits zero with the stream still open.
 
               </span> */
-              
               <span className={styles.depositTooltip_span}>
                 Streams are currently disabled due to scheduled contract updates.
                 Streaming will resume beginning on the 18th of May 2022.
