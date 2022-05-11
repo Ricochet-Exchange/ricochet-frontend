@@ -377,7 +377,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
             <td className={styles.sortButtonRowTd}>
               <button className={styles.sortButton} onClick={() => handleHideLowBalance()}>
                 <div className={styles.hideLowBalanceCheckbox}>
-                  <label htmlFor="hideLowBalanceCheckbox">Hide Low Balance Tokens</label>
+                  <label htmlFor="hideLowBalanceCheckbox">Hide low</label>
                   <input
                     type="checkbox"
                     className={styles.checkmark}
