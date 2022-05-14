@@ -14,4 +14,5 @@ export const Routes: any = {
   Refer: `${home}/refer`,
   Referral: `${home}/(.*)?/${REFERRAL_URL_PREFIX}/:referralId`,
   RecentActivity: `${home}/recent-activity`,
+  Swap: `${home}/swap`,
 };

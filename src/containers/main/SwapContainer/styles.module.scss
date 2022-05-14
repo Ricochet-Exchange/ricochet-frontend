@@ -1,0 +1,43 @@
+@import "../../../assets/styles/mixins";
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  color: rgb(4, 24, 54);
+  padding-top: 130px;
+  padding: 130px 10px 10px 10px;
+
+  @include tablet {
+    padding: 40px 20px 20px 20px;
+    height: 100%;
+  }
+}
+
+.modal {
+  @include flexbox(center, center);
+  display: flex;
+  align-items: center;
+  justify-content: initial;
+  flex-direction: column;
+  position: relative;
+  top: 100px;
+  font-size: 15px;
+  line-height: 1.5715;
+  box-shadow: 0 3px 6px 8px rgb(0, 0, 0 / 39%), 0 0px 1px 0 rgb(0, 0, 0 / 38%), 0 4px 7px 8px rgb(0, 0 , 0 / 5%);
+  background: white;
+  width: 450px;
+  border-radius: 28px;
+}
+
+.modal_overlay {
+  @include flexbox(flex-start, center);
+  // @include not_blur();
+
+  position: fixed;
+  top: 12%;
+  left: 40%;
+  // right: 0;
+  bottom: 0;
+  overflow: auto;
+  z-index: 10;
+}
