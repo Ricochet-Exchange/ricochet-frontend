@@ -34,7 +34,7 @@ export const CoinRateForm: FC<IProps> = ({
   indexVal,
 }) => {
   const { t } = useTranslation();
-  console.log(shareScaler);
+
   // Security Deposit is 4 hours worth of stream, so (4*60*60)/(30*24*60*60) = 1/180
   return (
     <div className={styles.input_container}>
@@ -56,10 +56,9 @@ export const CoinRateForm: FC<IProps> = ({
             color="primary"
             onClick={onClickStart}
             className={styles.start}
-            /* disabled={isReadOnly || isLoading || !value ||
+            disabled={isReadOnly || isLoading || !value ||
               (((Math.floor(((parseFloat(value) / 2592000) * 1e18)
-            / shareScaler) * shareScaler) / 1e18) * 2592000) === 0} */
-            disabled
+                / shareScaler) * shareScaler) / 1e18) * 2592000) === 0}
             isLoading={isLoading}
             data-tip
             data-for={`depositTooltip-${indexVal}`}
@@ -95,13 +94,12 @@ export const CoinRateForm: FC<IProps> = ({
               className={styles.depositTooltip}
             >
               {value && coin && (
-              /* <span
+              <span
                 className={styles.depositTooltip_span}
               >
                 The amount per month will be rounded off to
                 <span style={{ fontWeight: 700 }}>
-                {` ${(((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler) 
-                * shareScaler) / 1e18) * 2592000).toFixed(6)} ${coin} `}
+                  {` ${(((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler) * shareScaler) / 1e18) * 2592000).toFixed(6)} ${coin} `}
                 </span>
                 so the contracts can evenly divide it
                 and it will take a security deposit of
@@ -112,10 +110,6 @@ export const CoinRateForm: FC<IProps> = ({
                 The Deposit will be refunded in full when you close the stream or lost if
                 your balance hits zero with the stream still open.
 
-              </span> */
-              <span className={styles.depositTooltip_span}>
-                Streams are currently disabled due to scheduled contract updates.
-                Streaming will resume beginning on the 18th of May 2022.
               </span>
               )}
             </ReactTooltip>
