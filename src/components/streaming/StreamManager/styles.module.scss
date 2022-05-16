@@ -1,3 +1,5 @@
+@import "../../../assets/styles/mixins";
+
 @media screen and (min-width: 786px) {
   .container{
     margin-top: 1em;
@@ -20,5 +22,12 @@
     margin-left: 1em;
 
   }
+}
 
+.card {
+  margin: 0 0 10px 0;
+  @include tablet {
+    // width: inherit;
+    margin: 0 15px 15px 15px;
+  }
 }

@@ -111,6 +111,14 @@ export const InvestNav = () => {
 
       <NavLink
         className={styles.nav_link}
+        to={Routes.Payments}
+        target="_blank"
+      >
+        <div className={styles.nav_text}>{t('Payments')}</div>
+      </NavLink>
+
+      <NavLink
+        className={styles.nav_link}
         to={{ pathname: TUTORIAL_LINK }}
         target="_blank"
       >

@@ -10,9 +10,11 @@ import FailCard from 'components/streaming/FailCard';
 import { showErrorToast, showSuccessToast } from '../../../components/common/Toaster';
 import styles from './styles.module.scss';
 
-interface IProps {}
+interface IProps {
+  paymentPage?:boolean;
+}
 
-export const StreamContainer: React.FC<IProps> = () => {
+export const StreamContainer: React.FC<IProps> = ({ paymentPage=false}) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { address: account } = useShallowSelector(selectMain);
   const [recipient, setRecipient] = useState('');
@@ -190,23 +192,9 @@ export const StreamContainer: React.FC<IProps> = () => {
  
   return (
     <>
-      <div className={styles.stream_button_container}>
-        <button 
-          className={styles.stream_button} 
-          onClick={() => { TogglePanel(!PanelOpen); }}
-          disabled={!account}
-        >
-          Send
-        </button>  
-      </div>
-
-      {PanelOpen ? (
         <div className={styles.stream_panel_container}>
           {renderStream()}
         </div>
-      )
-        :
-        ''}
     </>
   );
 };
