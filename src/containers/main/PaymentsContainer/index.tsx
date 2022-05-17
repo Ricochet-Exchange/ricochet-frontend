@@ -1,35 +1,19 @@
-import React, {
-  ChangeEvent, useCallback, useEffect, useState,
-} from 'react';
-import { FontIcon, FontIconName } from 'components/common/FontIcon';
-import { useRouteMatch } from 'react-router-dom';
-import { TextInput } from 'components/common/TextInput';
-import { PanelChange } from 'components/layout/PanelChange';
+import React from 'react';
 import { UserSettings } from 'components/layout/UserSettings';
 import { InvestNav } from 'components/layout/InvestNav';
 import { useTranslation } from 'react-i18next';
-import { flowConfig, FlowEnum, RoutesToFlowTypes } from 'constants/flowConfig';
 import { useShallowSelector } from 'hooks/useShallowSelector';
-import { selectMain, selectUserStreams } from 'store/main/selectors';
+import { selectMain } from 'store/main/selectors';
 import { RICAddress } from 'constants/polygon_config';
-import { useDispatch } from 'react-redux';
-import { startFlowAction, stopFlowAction } from 'store/main/actionCreators';
-import { ExchangeKeys } from 'utils/getExchangeAddress';
 import StreamManager from 'components/streaming/StreamManager';
 import styles from './styles.module.scss';
 import { StreamContainer } from '../StreamContainer';
-
 
 interface IProps { }
 export const PaymentsContainer: React.FC<IProps> = () => {
   const { t } = useTranslation();
   const state = useShallowSelector(selectMain);
-  const {
-    address, balances, isLoading, coingeckoPrices,
-  } = state;
-
-
-
+  const { address, balances } = state;
 
   return (
     <div className={styles.outer_container}>
@@ -41,8 +25,8 @@ export const PaymentsContainer: React.FC<IProps> = () => {
           account={address || t('Connect Wallet')}
         />
       </div>
-      <div className={styles.payment_page} >
-        <StreamContainer paymentPage />
+      <div className={styles.payment_page}>
+        <StreamContainer />
         <StreamManager />
       </div>
     </div>

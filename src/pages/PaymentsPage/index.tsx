@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import styles from './styles.module.scss';
 import { PaymentsContainer } from 'containers/main/PaymentsContainer';
+import styles from './styles.module.scss';
 
 interface PayProps {}
 
