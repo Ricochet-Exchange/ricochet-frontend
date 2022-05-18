@@ -112,9 +112,9 @@ export const InvestNav = () => {
       <NavLink
         className={styles.nav_link}
         to={Routes.Payments}
-        target="_blank"
       >
         <div className={styles.nav_text}>{t('Payments')}</div>
+        <FontIcon name={FontIconName.External} size={16} />
       </NavLink>
 
       <NavLink
