@@ -1,22 +1,24 @@
 @media screen and (min-width: 786px) {
   .stream_panel_container{
-    height: 70vh;
-    width: 25vw;
-    min-width:300px;
+    height: 80vh;
+    margin-right: 1.5rem;
+    margin-top: 1rem;
+    // width: 25vw;
+    width: 60vw;
+    // min-width:300px;
     background-color: #f5f7fa;
     border-radius: 12px;
     min-width: 300px;
     min-height: 600px;
-    position: fixed;
-    z-index: 2;
-    top: 15vh;
-    right: 10%;
+    position: relative;
+    // z-index: 2;
+    // top: 15vh;
+    // right: 10%;
     border: 2px solid rgba(0, 0, 0, 0.245);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: 2px 2px 2px rgba(69, 69, 69, 0.626);
   }
 
   .stream_form_container{
@@ -101,7 +103,7 @@
     cursor: pointer;
     transition: 0.9s;
     background-color: #363b55;
-    z-index: 102;
+    // z-index: 102;
     &:hover{
       background-color: #363b55;
     }
@@ -113,7 +115,8 @@
     padding-right: 1em;
     position: absolute;
     top: 1em;
-    z-index: 102;
+    border: none;
+    // z-index: 102;
     background-color: #363b55;
     color: white;
     font-weight: 600;
@@ -149,11 +152,13 @@
   }
   .recent_btn{
     height: 5vh;
+    border: none;
     padding-left: 1em;
     padding-right: 1em;
     position: absolute;
     top: 1em;
-    z-index: 102;
+    border: none;
+    // z-index: 102;
     background-color: #2775CA;
     color: white;
     font-weight: 600;
@@ -162,20 +167,19 @@
     box-shadow: 2px 2px lightgray;
   }
   .stream_panel_container{
-    z-index: 100;
-    height: 90vh;
-    width: 90vw;
+    // z-index: 100;
+    height: 600px;
+    width: 75vw;
     background-color: #f5f7fa;
     border-radius: 12px;
-    position: fixed;
-    top: 10vh;
-    left: 5vw;
+    position: relative;
+    // top: 20vh;
+    // left: 5vw;
     border: 2px solid rgba(0, 0, 0, 0.245);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: 2px 2px 2px rgba(69, 69, 69, 0.626);
   }
 
 
@@ -241,7 +245,7 @@
     border: none;
     right: 0.5em;
     background-color: #CC193E;
-    z-index: 102;
+    // z-index: 102;
   }
 
   .warning{

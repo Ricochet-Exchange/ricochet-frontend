@@ -72,7 +72,7 @@ export const StreamManager: React.FC<IProps> = () => {
           // @ts-expect-error
           const tokenSymbol = token.symbol;
           return (
-            <div>
+            <div className={styles.card}>
               <StreamManagerItem 
                 sender={sender} 
                 receiver={receiver} 

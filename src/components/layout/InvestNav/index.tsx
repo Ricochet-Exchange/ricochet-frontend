@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { Routes } from 'constants/routes';
 import Link from 'components/common/Link';
 import { useTranslation } from 'react-i18next';
+import currency from 'assets/images/coins/currency.svg';
 import styles from './styles.module.scss';
 
 const TUTORIAL_LINK = 'https://docs.ricochet.exchange/tutorial/using-the-dapp';
@@ -107,6 +108,14 @@ export const InvestNav = () => {
       >
         <FontIcon name={FontIconName.Activity} size={16} />
         <div className={styles.nav_text}>{t('Activity')}</div>
+      </NavLink>
+
+      <NavLink
+        className={styles.nav_link}
+        to={Routes.Payments}
+      >
+        <img src={currency} alt="currency" width="16" height="16" style={{ filter: 'invert(1)' }} />
+        <div className={styles.nav_text}>{t('Payments')}</div>
       </NavLink>
 
       <NavLink
