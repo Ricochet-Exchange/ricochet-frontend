@@ -1,0 +1,92 @@
+# This is a basic workflow to help you get started with Actions
+
+name: QA CI
+
+# Controls when the workflow will run
+on:
+  pull_request_target:
+    types: [reopened, opened, synchronize, edited, closed]
+    branches:
+      - qa
+
+env:
+  NODE_OPTIONS: --max-old-space-size=8192
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  qa_checks:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{github.event.pull_request.head.ref}}
+          repository: ${{github.event.pull_request.head.repo.full_name}}
+
+      - name: Setup NodeJS 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Upgrade to latest npm version
+        run: npm install -g npm@^8.5.3
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run ESLint
+        run: yarn eslint . --ext .ts,.tsx
+
+      - name: Create package.lock (used by security audit)
+        run: npm i --package-lock-only
+
+      - name: Security Audit
+        id: audit-report
+        run: |
+          echo "MESSAGE<<EOF" >> $GITHUB_ENV
+          echo "$(npm audit | grep Severity -C 1 | sed 's/\-\-//g' )" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            `npm audit` security report:
+
+            ${{ env.MESSAGE }}
+
+  on_pull_request_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    name: Deploy to IPFS
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: 'qa'
+      - name: Setup NodeJS 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: build
+        run: yarn install && yarn build
+      - name: Deploy using fleek
+        id: deploy
+        uses: fleekhq/action-deploy@v1
+        with:
+          apiKey: ${{ secrets.FLEEK_API_KEY }}
+      - name: Get Fleek site name
+        id: site-name
+        run: |
+          echo "::set-output name=MESSAGE::https://$(cat .fleek.json | grep name | cut -d ':' -f2 | tr -d '\"' | tr -d '[:space:]').on.fleek.co"
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            - Site deployed at ${{ steps.site-name.outputs.MESSAGE }}
