@@ -26,9 +26,9 @@
 
 .payment_page {
   display: flex;
-  width: 100%;
+  width: 95%;
   height: 100%;
-  margin: 40px;
+  margin: 2%;
   @media screen and (max-width: 786px) {
     flex-direction: column;
   }

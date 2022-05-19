@@ -80,16 +80,7 @@ export const StreamContainer = () => {
           >
             Recent Activity
           </button>
-          <button 
-            onClick={() => {
-              ToggleFail(false);
-              ToggleTransaction(false);
-            }} 
-            className={styles.close_btn}
-          >
-            <FontIcon name={FontIconName.Close} className={styles.close} size={24} />
-          </button>
-
+         
           <h2 className={styles.title}>Send Money</h2>
           <StreamForm 
             loading={isLoading} 

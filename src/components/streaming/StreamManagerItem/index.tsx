@@ -98,33 +98,29 @@ export const StreamManagerItem: FC<IProps> = ({
 
       <div>
         <h3 className={styles.receiver}>
+          {/* @ts-expect-error */}
+          <TokenIcon tokenName={TokenSymbol} />
+          <h4>{TokenName}</h4>
           <strong>To: </strong>
           {truncateAddr(receiver)}
-
         </h3>
-
-        {TokenName ? (
-          <>
-            {/* @ts-expect-error */}
-            <TokenIcon tokenName={TokenSymbol} />
-
-            <h3 className={styles.currentFlowTime}>
-              {`started on ${date}`}
-            </h3>
-          </>
-        )
-
-          :
-          ''}
       </div>
 
-      <h3 className={styles.currentFlowRate}>
-        {`$${streamValue.toFixed(2)} per month`}
-        <br />
-        {`$${(+currentFlowRate / 1e18).toFixed(8)} per second`}
-      </h3>
-
-      <div className={styles.update_buttons}>
+      <div>
+        <h3 className={styles.currentFlowTime}>
+          {`started on ${date}`}
+        </h3>
+      </div>  
+          
+      <div>
+        <b>Streamed</b>
+        <h5>
+           
+          {streamValue}
+        </h5>
+      </div>
+          
+      <div>
         <div className={styles.update_buttons}>
           <button
             className={styles.change_flow_cancel}
