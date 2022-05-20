@@ -1,0 +1,31 @@
+name: test
+
+on:
+  push:
+    branches: [main, v2]
+
+  pull_request_target:
+    types: [reopened, opened, synchronize, edited]
+    branches: [v2]
+
+env:
+  NODE_OPTIONS: --max-old-space-size=8192
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14
+    - run: |
+        yarn install
+    - name: Run tests
+      run: yarn test --watchAll=false

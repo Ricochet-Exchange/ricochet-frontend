@@ -1,8 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { StreamForm } from 'components/streaming/StreamForm';
-import { useShallowSelector } from 'hooks/useShallowSelector';
 import RecentStreamActivity from 'components/streaming/RecentStreamActivity';
-import { selectMain } from 'store/main/selectors';
 import { Framework } from '@superfluid-finance/sdk-core';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { ethers } from 'ethers';
@@ -10,15 +8,11 @@ import FailCard from 'components/streaming/FailCard';
 import { showErrorToast, showSuccessToast } from '../../../components/common/Toaster';
 import styles from './styles.module.scss';
 
-interface IProps {}
-
-export const StreamContainer: React.FC<IProps> = () => {
+export const StreamContainer = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { address: account } = useShallowSelector(selectMain);
   const [recipient, setRecipient] = useState('');
   const [superToken, setSuperToken] = useState('');
   const [flowRate, setFlowRate] = useState('');
-  const [PanelOpen, TogglePanel] = useState(false);
   const [transactionSuccess, ToggleTransaction] = useState(false);
   const [transactionFailed, ToggleFail] = useState(false);
   const [recentActivity, ToggleRecent] = useState(false);
@@ -88,7 +82,6 @@ export const StreamContainer: React.FC<IProps> = () => {
           </button>
           <button 
             onClick={() => {
-              TogglePanel(false); 
               ToggleFail(false);
               ToggleTransaction(false);
             }} 
@@ -137,7 +130,6 @@ export const StreamContainer: React.FC<IProps> = () => {
         <>
           <button 
             onClick={() => {
-              TogglePanel(false); 
               ToggleFail(false);
               ToggleTransaction(false);
             }} 
@@ -171,7 +163,6 @@ export const StreamContainer: React.FC<IProps> = () => {
             </button>
             <button 
               onClick={() => {
-                TogglePanel(false); 
                 ToggleFail(false);
                 ToggleTransaction(false);
                 ToggleRecent(false);
@@ -190,23 +181,9 @@ export const StreamContainer: React.FC<IProps> = () => {
  
   return (
     <>
-      <div className={styles.stream_button_container}>
-        <button 
-          className={styles.stream_button} 
-          onClick={() => { TogglePanel(!PanelOpen); }}
-          disabled={!account}
-        >
-          Send
-        </button>  
+      <div className={styles.stream_panel_container}>
+        {renderStream()}
       </div>
-
-      {PanelOpen ? (
-        <div className={styles.stream_panel_container}>
-          {renderStream()}
-        </div>
-      )
-        :
-        ''}
     </>
   );
 };

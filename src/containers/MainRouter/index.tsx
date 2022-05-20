@@ -8,6 +8,7 @@ import { WalletPage } from 'pages/WalletPage';
 import { InvestPage } from 'pages/InvestPage';
 import { BanksPage } from 'pages/BanksPage';
 import { VaultsPage } from 'pages/VaultPage';
+import { PaymentsPage } from 'pages/PaymentsPage';
 import { RecentActivityPage } from 'pages/RecentActivityPage';
 import { ReferPage, ReferralValidationRedirectPage } from 'pages/ReferPage';
 import { DistributionPage } from 'pages/Distributions';
@@ -32,6 +33,7 @@ const MainRouter: FC<IProps> = () => {
       <SentryRoute path={Routes.Refer} component={ReferPage} exact />
       <SentryRoute path={Routes.RecentActivity} component={RecentActivityPage} exact />
       <SentryRoute path={Routes.Referral} component={ReferralValidationRedirectPage} exact />
+      <SentryRoute path={Routes.Payments} component={PaymentsPage} exact />
       <Redirect to={{ pathname: Routes.Invest, search: location.search }} />
       {/* Please do not change, it will break Ledger integration query parameter lookup */}
     </Switch>

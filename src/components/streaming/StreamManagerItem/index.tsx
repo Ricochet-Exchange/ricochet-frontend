@@ -5,13 +5,13 @@ import { truncateAddr } from 'utils/helpers';
 import { TokenIcon } from 'components/common/TokenIcon';
 import { blockInvalidChar } from 'utils/blockInvalidChars';
 import { calculateFlowRate } from 'utils/calculateFlowRate';
-import { 
-  twoWayMarketDAIWETHAddress, 
-  twoWayMarketMATICDAIAddress,
+import {
+  twoWayMarketDAIWETHAddress,
+  // twoWayMarketMATICDAIAddress,
   twoWayMarketWBTCAddress,
   twoWayWETHMarketAddress,
-  twoWayMarketMATICUSDCAddress,
-  twoWayMarketWBTCDAIAddress,
+  // twoWayMarketMATICUSDCAddress,
+  // twoWayMarketWBTCDAIAddress,
   wethxUsdcxExchangeAddress,
   wbtcxUsdcxExchangeAddress,
   usdcxEthSlpxExchangeAddress,
@@ -34,7 +34,7 @@ import styles from './styles.module.scss';
 
 interface IProps {
   receiver: string,
-  TokenName: string | undefined, 
+  TokenName: string | undefined,
   currentFlowRate: string,
   sender: string,
   TokenID: string,
@@ -48,16 +48,16 @@ export const StreamManagerItem: FC<IProps> = ({
   currentFlowRate,
   TokenSymbol,
   sender,
-  TokenID, 
+  TokenID,
   timestamp,
 }) => {
   const rexMarketContracts = [
-    twoWayMarketDAIWETHAddress, 
-    twoWayMarketMATICDAIAddress,
+    twoWayMarketDAIWETHAddress,
+    // twoWayMarketMATICDAIAddress,
     twoWayMarketWBTCAddress,
     twoWayWETHMarketAddress,
-    twoWayMarketMATICUSDCAddress,
-    twoWayMarketWBTCDAIAddress,
+    // twoWayMarketMATICUSDCAddress,
+    // twoWayMarketWBTCDAIAddress,
     wethxUsdcxExchangeAddress,
     wbtcxUsdcxExchangeAddress,
     usdcxEthSlpxExchangeAddress,
@@ -75,7 +75,7 @@ export const StreamManagerItem: FC<IProps> = ({
     usdcxWbtcxExchangeAddress,
     usdcxWethxExchangeAddress,
   ];
-  
+
   const SECONDS_PER_MONTH = 30 / 24 / 60 / 60;
   const date = new Date(timestamp * 1000).toString();
   const [updatedFlowRate, updateFlowRate] = useState('');
@@ -95,29 +95,29 @@ export const StreamManagerItem: FC<IProps> = ({
 
   return (
     <div className={visiblity ? styles.streamRow : styles.invisible}>
-        
+
       <div>
         <h3 className={styles.receiver}>
           <strong>To: </strong>
           {truncateAddr(receiver)}
-      
+
         </h3>
-            
+
         {TokenName ? (
           <>
             {/* @ts-expect-error */}
             <TokenIcon tokenName={TokenSymbol} />
-      
+
             <h3 className={styles.currentFlowTime}>
               {`started on ${date}`}
             </h3>
           </>
         )
-    
-          : 
+
+          :
           ''}
       </div>
-            
+
       <h3 className={styles.currentFlowRate}>
         {`$${streamValue.toFixed(2)} per month`}
         <br />
@@ -126,13 +126,13 @@ export const StreamManagerItem: FC<IProps> = ({
 
       <div className={styles.update_buttons}>
         <div className={styles.update_buttons}>
-          <button 
-            className={styles.change_flow_cancel} 
+          <button
+            className={styles.change_flow_cancel}
             onClick={() => { deleteFlow(sender, receiver, TokenID); }}
           >
             Delete Flow
           </button>
-          <button 
+          <button
             onClick={() => { update(!updateOperation); }}
             className={styles.toggleBtn}
           >
@@ -148,12 +148,12 @@ export const StreamManagerItem: FC<IProps> = ({
                     <h3 className={styles.amount_label}>What is the new payment amount?</h3>
                     <input
                       id="payment"
-                      className={styles.input_field} 
-                      type="number" 
-                      placeholder="Payment Amount Per month in" 
+                      className={styles.input_field}
+                      type="number"
+                      placeholder="Payment Amount Per month in"
                       onKeyDown={blockInvalidChar}
                       min={0}
-                      onChange={async (e) => { 
+                      onChange={async (e) => {
                         const newFlow = await calculateFlowRate(+(e.target.value));
                         if (newFlow) {
                           await updateFlowRate(newFlow.toString());
@@ -165,7 +165,7 @@ export const StreamManagerItem: FC<IProps> = ({
                     <span>Per month</span>
                   </div>
 
-                  <button 
+                  <button
                     className={styles.amount_change}
                     disabled={updatedFlowRate === ''}
                     onClick={() => { updateExistingFlow(receiver, updatedFlowRate, TokenID); }}
@@ -173,7 +173,7 @@ export const StreamManagerItem: FC<IProps> = ({
                     Confirm
                   </button>
 
-                  <button 
+                  <button
                     className={styles.change_flow_cancel}
                     onClick={() => { update(false); }}
                   >
