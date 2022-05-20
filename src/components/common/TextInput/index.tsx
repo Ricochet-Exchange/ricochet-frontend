@@ -41,6 +41,7 @@ const TextInput: FC<TextInputProps> = ({
   ...props
 }) => {
   const { t } = useTranslation();
+  const blockInvalidChar = (e: any) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
   return (
     <TextInputWrap error={hasError} className={containerClassName}>
       <IconRenderer error={hasError}>{left}</IconRenderer>
@@ -48,6 +49,7 @@ const TextInput: FC<TextInputProps> = ({
       <input
         type={type}
         {...props}
+        onKeyDown={blockInvalidChar}
         className={classNames(styles.input, className)}
         size={1}
       />

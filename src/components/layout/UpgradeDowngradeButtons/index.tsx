@@ -15,6 +15,7 @@ interface IProps {
   disabledApprove?: boolean;
   showWarningToolTip?:boolean;
   isReadOnly?:boolean,
+  val: string,
 }
 
 export const UpgradeDowngradeButtons: FC<IProps> = ({
@@ -26,6 +27,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
   onClickUpgrade = () => {},
   onClickDowngrade = () => {},
   isReadOnly,
+  val,
 }) => {
   const { t } = useTranslation();
 
@@ -38,7 +40,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
               <ButtonNew
                 color="secondary"
                 loaderColor="#363B55"
-                disabled={isReadOnly || disabledApprove}
+                disabled={isReadOnly || disabledApprove || !val.length}
                 isLoading={isLoading}
                 onClick={onClickApprove}
                 className={styles.approve}
@@ -53,7 +55,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
                 data-for="downgradeToolTip"
                 color="primary"
                 loaderColor="white"
-                disabled={isReadOnly || isLoading || !disabledApprove}
+                disabled={isReadOnly || isLoading || !disabledApprove || !val.length}
                 isLoading={isLoading}
                 onClick={onClickUpgrade}
                 className={styles.upgrade}
