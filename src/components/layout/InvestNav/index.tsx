@@ -43,7 +43,7 @@ export const InvestNav = () => {
         activeClassName={styles.nav_link_active}
       >
         <FontIcon name={FontIconName.Wallet} size={16} />
-        <div className={styles.nav_text}>{t('Wallet')}</div>
+        <div className={styles.nav_text}>{t('Walle 2t')}</div>
       </Link>
 
       <NavLink
