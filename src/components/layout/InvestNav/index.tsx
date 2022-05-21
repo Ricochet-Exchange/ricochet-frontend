@@ -53,7 +53,7 @@ export const InvestNav = () => {
         to={Routes.Invest}
       >
         <FontIcon name={FontIconName.Swap} size={16} />
-        <div className={styles.nav_text}>{t('Market')}</div>
+        <div className={styles.nav_text}>{t('WELL')}</div>
       </NavLink>
 
       {/* <NavLink */}
