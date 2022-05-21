@@ -4,6 +4,48 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    width: 100%;
+    height: 60vh;
+
+    .title{
+      color:#2775ca;
+    }
+
+    .input_container{
+      width: 90%;
+      padding: 1em;
+      display: flex;
+      flex-direction: column;
+
+      label{
+        color: rgb(62, 62, 62);
+      }
+
+      input{
+        background-color: #ffffff;
+        margin-top: 0.4em;
+        height: 50px;
+        padding-left: 0.5em;
+        border-radius: 6px;
+        border: none;
+      }
+
+      select{
+        background-color: #ffffff;
+        margin-top: 0.4em;
+        height: 50px;
+        padding-left: 0.5em;
+        border-radius: 6px;
+        border: none;
+      }
+    } 
+
+    .input_field_submit{
+      height: 50px;
+      width: 10vw;
+      border-radius: 12px;
+      border: none;
+    }
   }
 }
 

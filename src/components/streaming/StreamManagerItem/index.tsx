@@ -5,11 +5,13 @@ import { truncateAddr } from 'utils/helpers';
 import { TokenIcon } from 'components/common/TokenIcon';
 import { blockInvalidChar } from 'utils/blockInvalidChars';
 import { calculateFlowRate } from 'utils/calculateFlowRate';
+import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import {
   twoWayMarketDAIWETHAddress,
   // twoWayMarketMATICDAIAddress,
   twoWayMarketWBTCAddress,
   twoWayWETHMarketAddress,
+  twoWayMarketRICUSDCAddress,
   // twoWayMarketMATICUSDCAddress,
   // twoWayMarketWBTCDAIAddress,
   wethxUsdcxExchangeAddress,
@@ -58,6 +60,7 @@ export const StreamManagerItem: FC<IProps> = ({
     twoWayWETHMarketAddress,
     // twoWayMarketMATICUSDCAddress,
     // twoWayMarketWBTCDAIAddress,
+    twoWayMarketRICUSDCAddress,
     wethxUsdcxExchangeAddress,
     wbtcxUsdcxExchangeAddress,
     usdcxEthSlpxExchangeAddress,
@@ -80,10 +83,12 @@ export const StreamManagerItem: FC<IProps> = ({
   const date = new Date(timestamp * 1000).toString();
   const [updatedFlowRate, updateFlowRate] = useState('');
   const [updateOperation, update] = useState(false);
+  const [inputShow, setInputShow] = useState(false);
   const [visiblity, setVisibility] = useState(true);
-
   const streamTotalFlow = ((+currentFlowRate / 1e8) * SECONDS_PER_MONTH);
   const streamValue = streamTotalFlow - (streamTotalFlow * 0.3);
+
+  console.log(setInputShow);
 
   useEffect(() => {
     rexMarketContracts.forEach((market) => {
@@ -119,22 +124,37 @@ export const StreamManagerItem: FC<IProps> = ({
           {streamValue}
         </h5>
       </div>
+
+      {inputShow
+        ? (
+          <FontIcon name={FontIconName.ArrowUp} className={styles.arrow_up} />
+        )
+        : (
+          <FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} />
+        )}
           
+      {
+        inputShow ? (
+          <div className={styles.update_buttons}>
+            <button
+              className={styles.change_flow_cancel}
+              onClick={() => { deleteFlow(sender, receiver, TokenID); }}
+            >
+              Delete Flow
+            </button>
+            <button
+              onClick={() => { update(!updateOperation); }}
+              className={styles.toggleBtn}
+            >
+              Update
+            </button>
+          </div>
+        )
+          :
+          ''
+      }    
+
       <div>
-        <div className={styles.update_buttons}>
-          <button
-            className={styles.change_flow_cancel}
-            onClick={() => { deleteFlow(sender, receiver, TokenID); }}
-          >
-            Delete Flow
-          </button>
-          <button
-            onClick={() => { update(!updateOperation); }}
-            className={styles.toggleBtn}
-          >
-            Update
-          </button>
-        </div>
 
         {
               updateOperation ? (

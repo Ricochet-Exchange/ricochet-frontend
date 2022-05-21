@@ -80,8 +80,7 @@ export const StreamContainer = () => {
           >
             Recent Activity
           </button>
-         
-          <h2 className={styles.title}>Send Money</h2>
+
           <StreamForm 
             loading={isLoading} 
             updateRecipient={updateRecipient} 

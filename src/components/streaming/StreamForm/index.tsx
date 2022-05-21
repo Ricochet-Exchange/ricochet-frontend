@@ -90,8 +90,10 @@ export const StreamForm: React.FC<IProps> = ({
 
   return (
     <div className={styles.stream_form}>
+               
+      <h2 className={styles.title}>Stream Payment</h2>
       <div className={styles.input_container}>
-        <label htmlFor="recipient" className={styles.input_label}>Wallet Address here</label>
+        <label htmlFor="recipient">Wallet Address here</label>
         <input
           className={styles.input_field}
           type="text"
@@ -106,8 +108,8 @@ export const StreamForm: React.FC<IProps> = ({
         />
       </div>
 
-      <div>
-        <label className={styles.input_label} htmlFor="payment">
+      <div className={styles.input_container}>
+        <label htmlFor="payment">
           Payment monthly
         </label>
         <input
@@ -127,8 +129,8 @@ export const StreamForm: React.FC<IProps> = ({
         />
       </div>
 
-      <div>
-        <label className={styles.input_label} htmlFor="supertoken">Supertoken</label>
+      <div className={styles.input_container}>
+        <label htmlFor="supertoken">Supertoken</label>
         <select
           name="SuperTokens" 
           id="supertoken"

@@ -1,5 +1,7 @@
 .streamRow{
-  border-bottom: 2px solid rgba(80, 158, 236, 0.446);
+  background-color: #EDF3FB;
+  padding: 1em;
+  border-radius: 20px;
   padding-bottom: 1em;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -13,4 +15,9 @@
     flex-direction: column;
     text-align: center;
   }
+  
+}
+
+.invisible{
+  display: none;
 }
