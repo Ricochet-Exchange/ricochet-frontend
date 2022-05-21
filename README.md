@@ -60,7 +60,7 @@ docker run -p 3000:3000 testricochet/ricochet-frontend:latest
 - `containers` - containers use components, adding business logic for them.
 - `store` - all data and global business logic placed here. Separate folder for each reducer.
 - `utils` - common functions for project.
-- `hooks` - common business logic, that can be reused between containers.
+- `hooks`  - common business logic, that can be reused between containers.
 
 ### Configuring project
 
