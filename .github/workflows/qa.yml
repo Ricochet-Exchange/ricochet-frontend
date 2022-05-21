@@ -51,16 +51,13 @@ jobs:
           echo "MESSAGE<<EOF" >> $GITHUB_ENV
           echo "$(npm audit | grep Severity -C 1 | sed 's/\-\-//g' )" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
-
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             `npm audit` security report:
-
             ${{ env.MESSAGE }}
-
   on_pull_request_merged:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
@@ -89,4 +86,4 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            - Site deployed at ${{ steps.site-name.outputs.MESSAGE }}
+            - Site deployed at ${{ steps.site-name.outputs.MESSAGE }} 
