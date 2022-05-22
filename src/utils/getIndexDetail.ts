@@ -16,7 +16,7 @@ export const mapFromSubgraphResponse =
           indexId,
           subscriber,
         })
-          .catch(console.error);
+          .catch(console.warn);
         const updatedAtTimestamp =
             Number(x.subscriptionUnitsUpdatedEvents[0]?.timestamp || x.index.updatedAtTimestamp);
         return {
