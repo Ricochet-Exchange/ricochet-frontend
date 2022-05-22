@@ -7,7 +7,7 @@ import { Coin } from '../../../constants/coins';
 import { CoinBalance } from '../CoinBalance';
 import { UpgradeDowngradeButtons } from '../UpgradeDowngradeButtons';
 import styles from './styles.module.scss';
-
+/* eslint-disable */ 
 interface IProps {
   balance? : string,
   value: string,
@@ -52,43 +52,44 @@ export const UpgradePanel: FC<IProps> = ({
           />
         </div>
         <div className={styles.input_wrap}>
-          <TextInput
-            value={value}
-            className={styles.input}
-            onChange={onChange} 
-            containerClassName={styles.container_input} 
-            placeholder={placeholder}
-            type="number"
-            onClickMax={onClickMax}
-            isLoading={isLoading}
-            isReadOnly={isReadOnly}
-          />
-        </div>
+        <TextInput
+          value={value}
+          className={styles.input}
+          onChange={onChange} 
+          containerClassName={styles.container_input} 
+          placeholder={placeholder}
+          type="number"
+          onClickMax={onClickMax}
+          isLoading={isLoading}
+          isReadOnly={isReadOnly}
+        />
+      </div>
         <div className={styles.buttons}>
-          <UpgradeDowngradeButtons 
-            onClickApprove={onClickApprove}
-            onClickUpgrade={onClickUpgrade}
-            onClickDowngrade={onClickDowngrade}
-            isUpgrade={isUpgrade}
-            isLoading={isLoading}
-            showWarningToolTip={showWarningToolTip}
-            disabledApprove={disabledApprove}
-            isReadOnly={isReadOnly}
-
-          />
-        </div>
+        <UpgradeDowngradeButtons 
+          onClickApprove={onClickApprove}
+          onClickUpgrade={onClickUpgrade}
+          onClickDowngrade={onClickDowngrade}
+          isUpgrade={isUpgrade}
+          isLoading={isLoading}
+          showWarningToolTip={showWarningToolTip}
+          disabledApprove={disabledApprove}
+          isReadOnly={isReadOnly}
+          val={value}
+        />
+      </div>
       </div>
     </section>
     <div className={styles.buttons_mob}>
       <UpgradeDowngradeButtons 
-        onClickApprove={onClickApprove}
-        onClickUpgrade={onClickUpgrade}
-        onClickDowngrade={onClickDowngrade}
-        isUpgrade={isUpgrade}
-        showWarningToolTip={showWarningToolTip}
-        isLoading={isLoading}
-        isReadOnly={isReadOnly}
-      />
+          onClickApprove={onClickApprove}
+          onClickUpgrade={onClickUpgrade}
+          onClickDowngrade={onClickDowngrade}
+          isUpgrade={isUpgrade}
+          showWarningToolTip={showWarningToolTip}
+          isLoading={isLoading}
+          isReadOnly={isReadOnly}
+          val={value}
+        />
     </div>
   </section>
 );

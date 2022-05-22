@@ -44,12 +44,47 @@
   border-bottom: 1px solid var(--color-blue);
 }
 
-.dextable th,
-.dextable td {
-  word-break: break-word;
+.tableHeaders {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 120%;
+  text-transform: uppercase;
+  color: var(--color-grey);
+  text-align: left;
+  letter-spacing: 0px;
+  border-bottom: 1px solid var(--color-blue);
+}
+
+.sortButtonsRow {
+  height: 35px;
+}
+
+.sortButtonRowTd {
+  height: 100%;
+  border-bottom: 1px solid var(--color-blue);
+}
+
+.sortButton {
+  height: 35px;
+  width: 100%;
+  background-color: #e7e7e7;
+  opacity: 0.5;
+  transition-duration: 0.4s;
+  color: black;
+  border: 0px;
+}
+
+.sortButton:hover {
+  cursor: pointer;
+  background-color:#c4c4c4;
+}
+
+.tableHeaders td {
   padding: 15px 15px 16px 12px;
   line-height: 25px;
   text-align: right;
+  border-right: 1px solid var(--color-blue-light);
 }
 
 .dextable td.section {
@@ -65,6 +100,13 @@
 
 .dextable tbody tr:last-of-type {
   border-bottom: 2px solid var(--color-blue);
+}
+
+.dextable tbody td {
+  padding: 15px 15px 16px 12px;
+  line-height: 25px;
+  text-align: right;
+  border-right: 1px solid var(--color-blue-light);
 }
 
 .redFont {
@@ -197,6 +239,68 @@
   margin: 50px 0 30px 0;
 }
 
+.hideLowBalanceCheckbox {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: black;
+}
+
+label {
+  cursor: pointer;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  margin: 2px;
+  margin-left: 5px;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  cursor: pointer;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
 .settings_mob {
   display: none;
 
@@ -238,7 +342,6 @@
   .dextable th,
   .dextable td {
     word-break: keep-all;
-
     line-height: 25px;
     text-align: center;
     border-right: 1px solid rgba(161, 175, 202, 0.53);

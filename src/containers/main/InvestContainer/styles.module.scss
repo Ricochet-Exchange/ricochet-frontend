@@ -5,6 +5,7 @@
   overflow: auto;
   @include tablet() {
     display: block;
+    margin-top: 145px;
   }
 }
 
@@ -12,7 +13,6 @@
   width: 100%;
   height: 100%;
   margin: 0;
-
   padding: 1em;
   padding-left: 2.5em;
   padding-right: 3em;
@@ -25,6 +25,7 @@
   @include tablet {
     width: 100%;
     padding: 15px 15px 30px 15px;
+    margin-bottom: 0;
   }
 }
 
@@ -100,7 +101,12 @@
 
 .content {
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 200px);
+  overflow-y: scroll;
+  padding-right: 20px;
+  @include tablet() {
+    padding-right: 10px;
+  }
 }
 
 .settings_mob {
@@ -146,7 +152,7 @@
 
 @media screen and (max-width: 768px) {
   .container {
-    padding: 0 1rem 0 0;
+    padding: 0;
   }
 }
 

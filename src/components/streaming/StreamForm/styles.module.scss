@@ -1,0 +1,222 @@
+@media screen and (min-width: 786px) {
+  .stream_panel_container{
+    height: 80vh;
+    margin-right: 1.5rem;
+    margin-top: 1rem;
+    // width: 25vw;
+    width: 60vw;
+    // min-width:300px;
+    background-color: #f5f7fa;
+    border-radius: 12px;
+    min-width: 300px;
+    min-height: 600px;
+    position: relative;
+    // z-index: 2;
+    // top: 15vh;
+    // right: 10%;
+    border: 2px solid rgba(0, 0, 0, 0.245);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .stream_form_container{
+    width: 100%;
+    padding: 1em;
+  }
+
+  .title{
+    font-size: xx-large;
+    color: #678EB5;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .input_field{
+    background-color: white;
+    border-radius: 12px;
+    border: 3px solid #678EB5;
+    margin-left: 10%;
+    letter-spacing: 0.2px;
+    height: 6vh;
+    width: 80%;
+    font-size: larger;
+    margin-bottom: 1em;
+    padding: 0.3em;
+  }
+
+  .input_field_submit{
+    color: white;
+    margin-top: 2em;
+    font-size: x-large;
+    height: 6vh;
+    width: 50%;
+    margin-left: 25%;
+    background-color: #363b55;
+    border-radius: 12px;
+    transition: 0.5s;
+    cursor: pointer;
+    &:hover{
+      transform: scale(0.9);
+    }
+  }
+
+  .input_container{
+    width: 100%;
+  }
+  .input_label{
+    margin-left: 10%;
+    font-size: larger;
+    color: rgb(76, 76, 76);
+    margin-top: 1em;
+  }
+
+  .stream_button{
+    margin-right: 1em;
+    height: 5vh;
+    width: 8vw;
+    border-radius: 10px;
+    border: none;
+    background-color: #678EB5;
+    color: white;
+    cursor: pointer;
+    transition: 0.5s;
+    font-weight: bold;
+    &:hover{
+      box-shadow: inset 0 100px 0 0 #abd2f3;
+      color: rgb(62, 62, 62);
+    }
+  }
+
+  .close{
+   color: #363b55;
+  }
+
+  .exit_btn{
+    position: absolute;
+    top: 2em;
+    background-color: #f5f7fa;
+    border: none;
+    right: 2em;
+    cursor: pointer;
+  }
+
+  .result{
+    text-align: center;
+    width: 70%;
+    margin-left: 15%;
+    color: rgb(69, 68, 68);
+  }
+  .warning{
+    color: #363b55;
+    height: 10vh;
+    border: 2px solid #363b55;
+    width: 10vw;
+    font-size: large;
+  }
+}
+
+@media screen and (max-width: 786px) {
+  .stream_button{
+    margin-right: 1em;
+    height: 5vh;
+    width: 20vw;
+    border-radius: 10px;
+    border: none;
+    background-color: #678EB5;
+    color: white;
+    font-weight: bold;
+  }
+
+  .stream_panel_container{
+    // z-index: 100;
+    height: 600px;
+    width: 75vw;
+    background-color: #f5f7fa;
+    border-radius: 12px;
+    position: relative;
+    // top: 20vh;
+    // left: 5vw;
+    border: 2px solid rgba(0, 0, 0, 0.245);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close{
+    color: #678EB5;
+   }
+
+   .stream_form_container{
+    width: 100%;
+    padding: 2em;
+  }
+
+  .title{
+    font-size: xx-large;
+    color: #678EB5;
+    font-weight: bold;
+
+    text-align: left;
+  }
+
+  .input_field{
+    background-color: white;
+    border-radius: 12px;
+    border: 3px solid #678EB5;
+    letter-spacing: 0.2px;
+    height: 8vh;
+    width: 100%;
+    font-size: medium;
+    margin-bottom: 1em;
+    padding: 0.3em;
+  }
+
+  .input_field_submit{
+    color: white;
+    margin-top: 2em;
+    height: 8vh;
+    width: 80%;
+    margin-left: 10%;
+    background-color: #678EB5;
+    border-radius: 12px;
+    transition: 0.5s;
+    cursor: pointer;
+    &:hover{
+      transform: scale(0.9);
+    }
+  }
+
+  .input_container{
+    width: 100%;
+  }
+  .input_label{
+    color: rgb(76, 76, 76);
+    margin-top: 1em;
+    font-size: large;
+  }
+
+  .result{
+    text-align: left;
+    width: 100%;
+
+    color: rgb(69, 68, 68);
+  }
+
+  .nav_link{
+    height: 7vh;
+    width: 50%;
+    margin-top: 1em;
+    background-color: #2775CA;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 1em;
+    padding-right: 1em;
+    color: white;
+    flex-direction: row;
+  }
+
+}

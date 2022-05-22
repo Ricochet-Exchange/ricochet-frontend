@@ -2,12 +2,7 @@
 
 @media only screen and (min-width: 769px) {
   .header_wrap {
-    height: 10vh;
-    padding: 3.5em;
-    display: flex;
-    align-items: center;
-    padding-right: 2em;
-    background-color: #363b55;
+    height: 12vh;
   }
 
   .settings_wrap {
@@ -18,23 +13,30 @@
   .links {
     display: none;
   }
-
-  .logo {
-    display: none;
-  }
 }
 
 .header_wrap {
   @include flexbox(center, space-between);
   padding-left: 1em;
   width: 100%;
-  position: relative;
   background-color: #363b55;
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+  height: 90px;
+  margin-bottom: 100px;
   @include tablet {
     @include flexbox(center, center);
     display: flex;
     flex-direction: row;
     max-height: 100px;
+  }
+}
+.header_spacer{
+  height: 90px;
+  width: 100%;
+  @include tablet {
+    height: 0;
   }
 }
 
@@ -82,17 +84,21 @@
 }
 
 .logo {
+  position: fixed;
+  z-index: 100000;
+  max-width: 8vw;
+  width: 100%;
   @media screen and (max-width: 768px) {
     background: none;
     border: none;
     display: block;
-    width: 33px;
-    height: 32px;
+    max-width: 80px;
     position: relative;
     cursor: pointer;
     z-index: 5;
   }
 }
+
 
 .mob_menu {
   display: none;
@@ -109,7 +115,7 @@
 }
 
 .mob_panel {
-  @include flexbox(center, flex-end);
+  @include flexbox(center, space-between);
 
   width: 100%;
   @include tablet {
@@ -126,15 +132,16 @@
     span {
       margin-bottom: 10px;
     }
-    padding: 40px 0 50px 50px;
+    padding: 40px 0 35px 10px;
     display: block;
     font-style: normal;
     font-weight: bold;
-    font-size: 29px;
+    font-size: 24px;
     line-height: 110%;
     text-align: center;
     letter-spacing: -0.015em;
     color: var(--color-white);
+    z-index: 4;
   }
 }
 
@@ -150,7 +157,8 @@
     margin-top: 2.5em;
     padding-left: 1em;
     width: 100%;
-    position: relative;
+    top: 0;
+    left: 0;
     background-color: #363b55;
     @include tablet {
       @include flexbox(center, center);

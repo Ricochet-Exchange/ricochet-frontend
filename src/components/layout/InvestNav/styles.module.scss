@@ -10,6 +10,7 @@
 }
 
 @media only screen and (min-width: 769px) {
+
   .nav_container {
     position: fixed;
     top: 20vh;
@@ -21,6 +22,8 @@
     background-color: #363b55;
     width: 10vw;
     min-height: 100vh;
+    height: 100vh;
+    overflow-y: scroll;
     @include tablet() {
       @include flexbox(flex-start, flex-start);
       flex-direction: row;
@@ -45,6 +48,7 @@
 
   .logo_img {
     height: 6vh;
+    z-index: 100;
   }
 
   .link {

@@ -7,7 +7,8 @@ import { InvestNav } from 'components/layout/InvestNav';
 import { rexReferralAddress } from 'constants/polygon_config';
 import { getContract } from 'utils/getContract';
 import { referralABI } from 'constants/abis';
-import ButtonNew from '../../../components/common/ButtonNew';
+import { AFFILIATE_STATUS, filterValidationErrors, getAffiliateStatus } from 'utils/getAffiliateStatus';
+import ButtonNew from 'components/common/ButtonNew';
 import styles from './styles.module.scss';
 
 interface IProps { }
@@ -16,34 +17,13 @@ const AFFILIATE_URL_PREFIX = 'app.ricochet.exchange/ref/';
 
 export const ReferContainer: React.FC<IProps> = () => {
   const { t } = useLang();
-  const { address } = useShallowSelector(selectMain);
-  const {
-    web3,
-  } = useShallowSelector(selectMain);
+  const { address, web3 } = useShallowSelector(selectMain);
   const contract = getContract(rexReferralAddress, referralABI, web3);
-
-  const validations = (input: string) => {
-    const criteria: [boolean, string][] = [
-      [new Blob([input]).size <= 32, t('Cannot be larger than 32 characters (Some characters count as 2)')],
-      [input.length > 1, t('Must be at least 2 characters')],
-    ];
-    return criteria;
-  };
-
-  const filterValidationErrors = (validationResults: [boolean, string][]): string[] => 
-    validationResults.reduce<string[]>((acc: string[], each) => {
-      if (each[0] === false) {
-        return [...acc, each[1]];
-      }
-      return acc;
-    }, []);
-
-  type Status = 'inactive' | 'registering' | 'awaitingVerification' | 'enabled' | undefined;
 
   const [currentReferralId, setCurrentReferralId] = useState<string | undefined>();
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const [referredBy, setReferredBy] = useState<string | undefined>();
-  const [status, setStatus] = useState<Status>();
+  const [status, setStatus] = useState<AFFILIATE_STATUS | undefined>();
 
   useEffect(() => {
     setCurrentReferralId(address.toLowerCase().slice(0, 10));
@@ -62,59 +42,47 @@ export const ReferContainer: React.FC<IProps> = () => {
   }, [address, contract]);
 
   useEffect(() => {
-    if (address && contract) {
-      contract.methods.addressToAffiliate(address.toLowerCase()).call()
-        .then((affiliateId: string) => contract.methods.affiliates(affiliateId).call())
-        .then((res: any) => {
-          if (web3.utils.toBN(res.addr).isZero()) {
-            setStatus('inactive');
-            return;
-          } 
-          
-          if (res.enabled === false) {
-            setStatus('awaitingVerification');
-            return;
-          }
+    let isMounted = true;
 
-          if (filterValidationErrors(validations(res.id)).length === 0) {
-            setCurrentReferralId(res.id);
-            setStatus('enabled');
-          }
-        });
-    }
-  }, [address]);
+    (async () => {
+      if (address && contract) {
+        const affiliateStatus = await getAffiliateStatus(contract, address, web3);
+        if (isMounted) {
+          setStatus(affiliateStatus);
+        }
+      }
+    })();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [address, contract]);
 
   useEffect(() => {
-    if (status === 'registering' && address && contract) {
-      const interval = setInterval(() => {
-        contract.methods.addressToAffiliate(address.toLowerCase()).call()
-          .then((affiliateId: string) => contract.methods.affiliates(affiliateId).call())
-          .then((res: any) => {
-            if (web3.utils.toBN(res.addr).isZero()) {
-              return;
-            }
+    let isMounted = true;
 
-            if (res.enabled === false) {
-              setStatus('awaitingVerification');
-              return;
-            }
+    if (status === AFFILIATE_STATUS.REGISTERING && address && contract) {
+      const interval = setInterval(async () => {
+        const affiliateStatus =
+          await getAffiliateStatus(contract, address, web3, setCurrentReferralId);
 
-            if (filterValidationErrors(validations(res.id)).length === 0) {
-              setCurrentReferralId(res.id);
-              setStatus('enabled');
-            }
-          });
+        if (isMounted) {
+          setStatus(affiliateStatus);
+        }
       }, 5000);
       return () => clearInterval(interval);
     }
-  }, [status]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [status, address, contract]);
 
   const handleReferralId = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setCurrentReferralId(value);
-    const validationResults = validations(value);
     setValidationErrors(
-      filterValidationErrors(validationResults),
+      filterValidationErrors(value),
     );
   };
 
@@ -122,14 +90,14 @@ export const ReferContainer: React.FC<IProps> = () => {
     contract.methods
       .applyForAffiliate(currentReferralId, currentReferralId)
       .call()
-      .then(() => setStatus('registering'))
+      .then(() => setStatus(AFFILIATE_STATUS.REGISTERING))
       .then(() => contract.methods
         .applyForAffiliate(currentReferralId, currentReferralId)
         .send({ from: address }))
       .catch((err: Error) => { 
-        setStatus('inactive');
+        setStatus(AFFILIATE_STATUS.INACTIVE);
         setValidationErrors([
-          t('Error registering this url: possible duplicate. Please try another url'),
+          'Error registering this url: possible duplicate. Please try another url',
         ]);
         console.error(err);
       });
@@ -171,7 +139,7 @@ export const ReferContainer: React.FC<IProps> = () => {
             </p>
           </div>
         </div>
-        {(status === 'inactive' || status === 'registering') && (
+        {(status === AFFILIATE_STATUS.INACTIVE || status === AFFILIATE_STATUS.REGISTERING) && (
         <div className={styles.input_wrap}>
           <p>{t('Customise your referral url')}</p>
           <TextInput
@@ -187,7 +155,9 @@ export const ReferContainer: React.FC<IProps> = () => {
             )}
           />
           <div className={styles.validation_errors}>
-            {validationErrors.map((each) => <p key={each}>{each}</p>)}
+            {validationErrors.map(
+              (each) => <p key={each}>{t(each)}</p>,
+            )}
           </div>
           <div className={styles.register_wrap}>
             <ButtonNew
@@ -204,7 +174,7 @@ export const ReferContainer: React.FC<IProps> = () => {
         </div>
         )}
 
-        {status === 'awaitingVerification' && (
+        {status === AFFILIATE_STATUS.AWAITING_VERIFICATION && (
         <div>
           <p>
             {t('Awaiting verification. Come back later or ping us on our discord:')}
@@ -213,7 +183,7 @@ export const ReferContainer: React.FC<IProps> = () => {
         </div>
         )}
 
-        {status === 'enabled' && (
+        {status === AFFILIATE_STATUS.ENABLED && (
         <div className={styles.input_wrap}>
           <TextInput
             readOnly
