@@ -18,8 +18,8 @@
 }
 
 button:disabled,
-button[disabled]{
-  background-color:rgb(255,255,255);
+button[disabled] {
+  background-color: rgb(255, 255, 255);
   cursor: auto;
 }
 
@@ -38,10 +38,11 @@ button[disabled]{
 .diagonal:hover:not(:disabled) {
   box-shadow: inset 400px 50px 0 0 #abd2f3;
 }
-.button.link,.button.link:hover {
+
+.button.link, .button.link:hover {
   color: #5f8eb9;
   font-weight: bold;
-  background:none;
+  background: none;
   border: none;
   box-shadow: none;
 }

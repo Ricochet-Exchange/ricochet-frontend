@@ -11,48 +11,46 @@ import styles from './styles.module.scss';
 
 ReactModal.setAppElement('#root');
 
-export type ModalComponentProps = { 
-  onCloseModal: () => void,
+export type ModalComponentProps = {
+	onCloseModal: () => void;
 };
 
 const modalRenderers: Record<ModalType, FC<ModalComponentProps>> = {
-  [ModalType.Metamask]: ModalMetamask,
-  [ModalType.Network]: ModalNetwork,
-  [ModalType.SelectToken]: ModalContainer,
+	[ModalType.Metamask]: ModalMetamask,
+	[ModalType.Network]: ModalNetwork,
+	[ModalType.SelectToken]: ModalContainer,
 };
 
 interface IProps {
-  classNameOverlay?: string,
+	classNameOverlay?: string;
 }
 
 export const Modal: FC<IProps> = ({ classNameOverlay }) => {
-  const {
-    current, active, onCloseModal,
-  } = useModal();
+	const { current, active, onCloseModal } = useModal();
 
-  useEffect(() => {
-    if (!active) {
-      return;
-    }
+	useEffect(() => {
+		if (!active) {
+			return;
+		}
 
-    disablePageScroll();
-    return () => enablePageScroll();
-  }, [active, current]);
+		disablePageScroll();
+		return () => enablePageScroll();
+	}, [active, current]);
 
-  if (!active || !current) {
-    return null;
-  }
+	if (!active || !current) {
+		return null;
+	}
 
-  return (
-    <ReactModal
-      isOpen={active}
-      className={cx(styles.modal, {
-        [styles.modal_token]: !!ModalType.SelectToken,
-      })}
-      overlayClassName={cx(styles.modal_overlay, classNameOverlay)}
-      preventScroll
-    >
-      {React.createElement(modalRenderers[current], { onCloseModal })}
-    </ReactModal>
-  );
+	return (
+		<ReactModal
+			isOpen={active}
+			className={cx(styles.modal, {
+				[styles.modal_token]: !!ModalType.SelectToken,
+			})}
+			overlayClassName={cx(styles.modal_overlay, classNameOverlay)}
+			preventScroll
+		>
+			{React.createElement(modalRenderers[current], { onCloseModal })}
+		</ReactModal>
+	);
 };

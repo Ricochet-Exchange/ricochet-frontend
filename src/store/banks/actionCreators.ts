@@ -2,59 +2,66 @@ import { BanksActionTypes } from './actionTypes';
 import { BanksState } from './types';
 
 export const banksSetState = (payload: Partial<BanksState>) => ({
-  type: BanksActionTypes.SET_STATE,
-  payload,
+	type: BanksActionTypes.SET_STATE,
+	payload,
 });
 
 export const banksGetData = () => ({
-  type: BanksActionTypes.LOAD_BANKS_DATA,
+	type: BanksActionTypes.LOAD_BANKS_DATA,
 });
 
 export const banksMakeDeposit = (
-  depositAmount: string,
-  bankAddress: string,
-  callback: (transactionHash: string, error?: string) => void,
+	depositAmount: string,
+	bankAddress: string,
+	callback: (transactionHash: string, error?: string) => void,
 ) => ({
-  type: BanksActionTypes.MAKE_DEPOSIT,
-  payload: {
-    depositAmount, bankAddress, callback, 
-  },
+	type: BanksActionTypes.MAKE_DEPOSIT,
+	payload: {
+		depositAmount,
+		bankAddress,
+		callback,
+	},
 });
 
 export const banksMakeBorrow = (
-  borrowAmount: string,
-  bankAddress: string,
-  callback: (transactionHash: string, error?: string) => void,
+	borrowAmount: string,
+	bankAddress: string,
+	callback: (transactionHash: string, error?: string) => void,
 ) => ({
-  type: BanksActionTypes.MAKE_BORROW,
-  payload: {
-    borrowAmount, bankAddress, callback, 
-  },
+	type: BanksActionTypes.MAKE_BORROW,
+	payload: {
+		borrowAmount,
+		bankAddress,
+		callback,
+	},
 });
 
 export const banksApproveToken = (
-  tokenAddress: string,
-  bankAddress: string,
-  amount: string,
-  callback: (error?: string) => void,
+	tokenAddress: string,
+	bankAddress: string,
+	amount: string,
+	callback: (error?: string) => void,
 ) => ({
-  type: BanksActionTypes.APPROVE_TOKEN,
-  payload: {
-    tokenAddress,
-    bankAddress,
-    amount,
-    callback,
-  },
+	type: BanksActionTypes.APPROVE_TOKEN,
+	payload: {
+		tokenAddress,
+		bankAddress,
+		amount,
+		callback,
+	},
 });
 
 export const banksMakeTransaction = (
-  transactionType: string,
-  amount: string,
-  bankAddress: string,
-  callback: (transactionHash: string, error?: string) => void,
+	transactionType: string,
+	amount: string,
+	bankAddress: string,
+	callback: (transactionHash: string, error?: string) => void,
 ) => ({
-  type: BanksActionTypes.MAKE_TRANSACTION,
-  payload: {
-    transactionType, amount, bankAddress, callback, 
-  },
+	type: BanksActionTypes.MAKE_TRANSACTION,
+	payload: {
+		transactionType,
+		amount,
+		bankAddress,
+		callback,
+	},
 });

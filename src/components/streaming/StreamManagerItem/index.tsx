@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import deleteFlow from 'utils/superfluidStreams/deleteFlow';
 import updateExistingFlow from 'utils/superfluidStreams/updateExistingFlow';
 import { truncateAddr } from 'utils/helpers';
@@ -6,28 +6,25 @@ import { TokenIcon } from 'components/common/TokenIcon';
 import { blockInvalidChar } from 'utils/blockInvalidChars';
 import { calculateFlowRate } from 'utils/calculateFlowRate';
 import {
-	twoWayMarketDAIWETHAddress,
-	// twoWayMarketMATICDAIAddress,
-	twoWayMarketWBTCAddress,
-	twoWayWETHMarketAddress,
-	// twoWayMarketMATICUSDCAddress,
-	// twoWayMarketWBTCDAIAddress,
-	wethxUsdcxExchangeAddress,
-	wbtcxUsdcxExchangeAddress,
-	usdcxEthSlpxExchangeAddress,
-	usdcxIdleExchangeAddress,
-	usdcxRicExchangeAddress,
-	maticxDaixExchangeAddress,
-	usdcxMaticxExchangeAddress,
-	maticxUsdcxExchangeAddress,
 	daixEthxExchangeAddress,
 	daixMaticxExchangeAddress,
 	daixMkrxExchangeAddress,
+	maticxDaixExchangeAddress,
+	maticxUsdcxExchangeAddress,
 	mkrxDaixExchangeAddress,
 	mkrxUsdcxExchangeAddress,
+	twoWayMarketDAIWETHAddress,
+	twoWayMarketWBTCAddress,
+	twoWayWETHMarketAddress,
+	usdcxEthSlpxExchangeAddress,
+	usdcxIdleExchangeAddress,
+	usdcxMaticxExchangeAddress,
 	usdcxMkrxExchangeAddress,
+	usdcxRicExchangeAddress,
 	usdcxWbtcxExchangeAddress,
 	usdcxWethxExchangeAddress,
+	wbtcxUsdcxExchangeAddress,
+	wethxUsdcxExchangeAddress,
 } from 'constants/polygon_config';
 
 import styles from './styles.module.scss';

@@ -20,7 +20,7 @@
 .input_wrap {
   @include flexbox(center, center);
 
-  @include tablet{
+  @include tablet {
     width: 100%;
     padding: 15px 15px 30px 15px;
   }
@@ -31,7 +31,7 @@
   border-radius: 8px;
   background: var(--color-blue-light);
 
-  @include tablet{
+  @include tablet {
     width: 100%;
   }
 }
@@ -44,8 +44,8 @@
   &::placeholder {
     color: var(--color-blue);
 
-    &:focus{
-      color:transparent
+    &:focus {
+      color: transparent
     }
   }
 }
@@ -66,7 +66,7 @@
   text-transform: uppercase;
   color: var(--color-grey);
 
-  @include tablet{
+  @include tablet {
     display: none;
   }
 }

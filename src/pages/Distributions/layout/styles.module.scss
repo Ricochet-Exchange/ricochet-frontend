@@ -16,19 +16,19 @@
 }
 
 .subscribed {
-  cursor:pointer;
+  cursor: pointer;
   color: var(--color-primary);
 }
 
 .subscribed:hover {
-  text-decoration:underline;
+  text-decoration: underline;
 }
 
 
 .subscribedSmallDevice {
   display: none;
   @include tablet {
-    cursor:pointer;
+    cursor: pointer;
     color: var(--color-error);
     display: block;
   }
@@ -36,12 +36,12 @@
 
 .subscribedSmallDevice:hover {
   @include tablet {
-    text-decoration:underline;
+    text-decoration: underline;
   }
 }
 
 .unsubscribed {
-  cursor:pointer;
+  cursor: pointer;
   color: var(--color-error);
   @include tablet {
     display: none;
@@ -49,15 +49,16 @@
 }
 
 .unsubscribed:hover {
-  text-decoration:underline;
+  text-decoration: underline;
   @include tablet {
     display: none;
   }
 }
-.header{
+
+.header {
   display: none;
   @include tablet {
-    cursor:pointer;
+    cursor: pointer;
     color: var(--color-blue-dark);
     font-weight: 500;
     display: block;
@@ -67,7 +68,7 @@
 .unsubscribedSmallDevice {
   display: none;
   @include tablet {
-    cursor:pointer;
+    cursor: pointer;
     color: var(--color-error);
     display: block;
   }
@@ -75,11 +76,9 @@
 
 .unsubscribedSmallDevice:hover {
   @include tablet {
-    text-decoration:underline;
+    text-decoration: underline;
   }
 }
-
-
 
 
 .wrap {
@@ -386,14 +385,15 @@
 
 }
 
-.mobile{
+.mobile {
   @include tablet {
     display: inline-flex;
     flex-wrap: wrap;
     gap: 12px;
   }
 }
-.externalLink{
+
+.externalLink {
   > a {
     @include tablet {
       margin-top: 0px;

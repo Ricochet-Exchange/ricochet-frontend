@@ -1,4 +1,4 @@
-.streamRow{
+.streamRow {
   border-bottom: 2px solid #2776ca51;
   display: flex;
   flex-direction: row;
@@ -7,37 +7,38 @@
   cursor: pointer;
   padding: 1em;
   transition: 0.5s;
-  &:hover{
+
+  &:hover {
     background-color: #ccd1d7;
 
   }
 }
 
-.receiver{
+.receiver {
   color: rgb(82, 82, 82);
 }
 
-.currentFlow{
+.currentFlow {
   font-size: small;
   color: rgb(86, 86, 86);
 }
 
-.outGoing{
+.outGoing {
   color: #2775CA;
 }
 
-strong{
+strong {
   color: rgba(160, 160, 160, 0.701)
 }
 
-.updatePrompt{
+.updatePrompt {
   position: fixed;
   right: 1vw;
   height: 10vh;
   width: 10vw;
 }
 
-.change_flow_update{
+.change_flow_update {
   height: 5vh;
   width: 7vw;
   margin-right: 1em;
@@ -46,45 +47,47 @@ strong{
   border-radius: 12px;
   border: none;
   cursor: pointer;
-  &:hover{
+
+  &:hover {
     background-color: #3c86d6;
   }
 }
 
-.change_flow_cancel{
+.change_flow_cancel {
   height: 5vh;
   width: 7vw;
-  background-color:#363b55;
+  background-color: #363b55;
   color: white;
   border-radius: 12px;
   border: none;
   cursor: pointer;
-  &:hover{
+
+  &:hover {
     background-color: #363b55;
   }
 }
 
-.invisible{
+.invisible {
   display: none;
 }
 
-.currentFlowRate{
-  font-size:Large;
+.currentFlowRate {
+  font-size: Large;
   margin-top: 2em;
   bottom: 0;
   width: 30%;
   color: #678EB5;
 }
 
-.currentFlowTime{
+.currentFlowTime {
   font-size: small;
   color: #7D8581;
 }
 
-.updatePrompt{
+.updatePrompt {
   position: fixed;
   bottom: 0;
-  left: 10vw; 
+  left: 10vw;
   height: 30vh;
   width: 30vw;
   margin-left: 10;
@@ -96,7 +99,7 @@ strong{
   border: 1px solid lightgray;
 }
 
-.update_buttons{
+.update_buttons {
   margin-top: 1em;
   height: 8vh;
   width: 20vw;
@@ -105,7 +108,7 @@ strong{
   justify-content: space-between;
 }
 
-.amount_change{
+.amount_change {
   margin-top: 1em;
   height: 5vh;
   width: 9vw;
@@ -114,18 +117,18 @@ strong{
   margin-right: 1em;
 }
 
-.amount_container{
+.amount_container {
   display: flex;
   flex-direction: row;
 }
 
-.input_field{
+.input_field {
   height: 6vh;
   margin-right: 1em;
   width: 18vw;
 }
 
-.toggleBtn{
+.toggleBtn {
   height: 5vh;
   border-radius: 12px;
   margin-left: 1em;
@@ -138,7 +141,7 @@ strong{
 
 @media screen and (max-width: 786px) {
 
-  .streamRow{
+  .streamRow {
     border-bottom: 2px solid #2776ca51;
     display: flex;
     flex-direction: column;
@@ -147,14 +150,15 @@ strong{
     cursor: pointer;
     padding: 1em;
     transition: 0.5s;
-    &:hover{
+
+    &:hover {
       background-color: #ccd1d7;
-  
+
     }
   }
-  
 
-  .change_flow_cancel{
+
+  .change_flow_cancel {
     height: 5vh;
     width: 30vw;
     background-color: #363b55;
@@ -162,59 +166,60 @@ strong{
     border-radius: 12px;
     border: none;
     cursor: pointer;
-    &:hover{
+
+    &:hover {
       background-color: #363b55;
     }
   }
 
-  
-.updatePrompt{
-  position: fixed;
-  bottom: 0;
-  left: 5vw;
-  height: 40vh;
-  width: 90vw;
-  background-color: white;
-  padding-top: 1em;
-  padding-left: 3em;
-  box-shadow: 4px 4px 4px rgb(89, 89, 89);
-  border-radius: 12px;
-  border: 1px solid lightgray;
-}
 
-.update_buttons{
-  margin-top: 1em;
-  height: 8vh;
-  width: 80%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+  .updatePrompt {
+    position: fixed;
+    bottom: 0;
+    left: 5vw;
+    height: 40vh;
+    width: 90vw;
+    background-color: white;
+    padding-top: 1em;
+    padding-left: 3em;
+    box-shadow: 4px 4px 4px rgb(89, 89, 89);
+    border-radius: 12px;
+    border: 1px solid lightgray;
+  }
 
-.amount_change{
-  margin-top: 1em;
-  height: 5vh;
-  width: 30vw;
-  border: none;
-  border-radius: 12px;
-  margin-right: 1em;
-}
+  .update_buttons {
+    margin-top: 1em;
+    height: 8vh;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-.input_field{
-  height: 6vh;
-  margin-right: 1em;
-  width: 60vw;
-}
+  .amount_change {
+    margin-top: 1em;
+    height: 5vh;
+    width: 30vw;
+    border: none;
+    border-radius: 12px;
+    margin-right: 1em;
+  }
 
-.toggleBtn{
-  height: 5vh;
-  border-radius: 12px;
-  margin-left: 1em;
-  border: none;
-  background-color: #2775CA;
-  padding: 0.5em;
-  width: 40vw;
-  color: white;
-}
+  .input_field {
+    height: 6vh;
+    margin-right: 1em;
+    width: 60vw;
+  }
+
+  .toggleBtn {
+    height: 5vh;
+    border-radius: 12px;
+    margin-left: 1em;
+    border: none;
+    background-color: #2775CA;
+    padding: 0.5em;
+    width: 40vw;
+    color: white;
+  }
 
 }

@@ -85,7 +85,7 @@ export const CoinRateForm: FC<IProps> = ({
 						</ButtonNew>
 					)}
 				</div>
-				<div style={{ flexBasis: '100%', height: '0' }}> </div>
+				<div style={{ flexBasis: '100%', height: '0' }}></div>
 
 				{parseFloat(value) > 0 ? (
 					<ReactTooltip

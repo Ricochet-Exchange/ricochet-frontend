@@ -1,20 +1,16 @@
 import { Routes } from 'constants/routes';
 import { Coin } from './coins';
 import {
+	DAIxAddress,
 	RICAddress,
-	twoWayWETHMarketAddress,
+	twoWayMarketDAIWETHAddress,
+	twoWayMarketRICUSDCAddress,
 	twoWayMarketWBTCAddress,
+	twoWayWETHMarketAddress,
 	USDCxAddress,
 	usdcxRicExchangeAddress,
 	WBTCxAddress,
 	WETHxAddress,
-	twoWayMarketDAIWETHAddress,
-	DAIxAddress,
-	twoWayMarketRICUSDCAddress,
-	// MATICxAddress,
-	// twoWayMarketMATICUSDCAddress,
-	// twoWayMarketMATICDAIAddress,
-	// twoWayMarketWBTCDAIAddress,
 } from './polygon_config';
 
 export enum FlowEnum {

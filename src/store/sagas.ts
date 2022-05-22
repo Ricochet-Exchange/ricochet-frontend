@@ -4,7 +4,7 @@ import banksSaga from 'store/banks/sagas';
 import distributionsSaga from 'store/distributions/sagas';
 
 export default function* rootSaga() {
-  yield fork(mainSaga);
-  yield fork(banksSaga);
-  yield fork(distributionsSaga);
+	yield fork(mainSaga);
+	yield fork(banksSaga);
+	yield fork(distributionsSaga);
 }

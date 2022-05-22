@@ -1,15 +1,15 @@
 {
-  "name":"Ricochet Exchange",
-  "short_name":"Ricochet Exchange",
-  "start_url":"/",
-  "display":"standalone",
-  "iconPath":"icons/icon.svg",
-  "description":"Ricochet Exchange is focused on producing novel tools that allow people to invest their crypto assets in real-time using Superfluid's finance framework. Learn more about each of our projects below.",
-  "providedBy":{
-    "name":"Ricochet",
-    "url":"https://www.ricochet.exchange/"
+  "name": "Ricochet Exchange",
+  "short_name": "Ricochet Exchange",
+  "start_url": "/",
+  "display": "standalone",
+  "iconPath": "icons/icon.svg",
+  "description": "Ricochet Exchange is focused on producing novel tools that allow people to invest their crypto assets in real-time using Superfluid's finance framework. Learn more about each of our projects below.",
+  "providedBy": {
+    "name": "Ricochet",
+    "url": "https://www.ricochet.exchange/"
   },
-  "icons":[],
+  "icons": [],
   "id": "ricochet",
   "url": "https://dapp-browser.apps.ledger.com/?params=%7B%22dappUrl%22%3A%22https%3A%2F%2Fapp.ricochet.exchange%3Fembed%3Dtrue%22%2C%22nanoApp%22%3A%22Ricochet%22%2C%22dappName%22%3A%22Ricochet%22%2C%22networks%22%3A%5B%7B%22currency%22%3A%20%22polygon%22%2C%22chainID%22%3A%20137%2C%22nodeURL%22%3A%20%22https%3A%2F%2Fpolygon-mainnet.g.alchemy.com%2Fv2%2FoPIxZM7kXsPVVY1Sk0kOQwkoIOpSu8PE%22%7D%5D%7D",
   "params": {

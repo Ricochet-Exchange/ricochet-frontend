@@ -19,6 +19,7 @@ import styles from './styles.module.scss';
 function sumStrings(a: number, b: string): number {
 	return a + parseFloat(b);
 }
+
 function endDate(bal: number, outgoing: number): string {
 	const outgoingPerMs = outgoing / (30 * 24 * 60 * 60 * 1000);
 	const endDateTimestamp = Date.now() + bal / outgoingPerMs;
@@ -27,6 +28,7 @@ function endDate(bal: number, outgoing: number): string {
 }
 
 interface IProps {}
+
 export const InvestContainer: React.FC<IProps> = () => {
 	const { t } = useTranslation();
 	const state = useShallowSelector(selectMain);
@@ -74,6 +76,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 		const bal = parseFloat((currentBalances && currentBalances[flow?.tokenA || '']) || '0');
 		return endDate(bal, outgoingSum);
 	}
+
 	function computeStreamEnds(currentState: any, currentBalances: any) {
 		const streamEnds: { [id: string]: string } = {};
 		Object.values(FlowEnum).forEach((flowEnum: FlowEnum) => {

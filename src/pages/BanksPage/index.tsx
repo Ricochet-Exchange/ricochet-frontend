@@ -5,7 +5,7 @@ import styles from './styles.module.scss';
 interface IProps {}
 
 export const BanksPage: FC<IProps> = () => (
-  <div className={styles.content}>
-    <BanksContainer />
-  </div>
+	<div className={styles.content}>
+		<BanksContainer />
+	</div>
 );

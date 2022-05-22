@@ -25,10 +25,11 @@
   line-height: 140%;
   color: var(--color-grey);
 }
-        
+
 .arrow_down,
 .arrow_up {
   color: var(--color-blue);
+
   &:active {
     background: var(--color-blue-light);
   }

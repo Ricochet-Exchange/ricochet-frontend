@@ -1,7 +1,7 @@
 .wrapper {
-	display: grid;
-	grid-template-columns: auto 160px;
-	grid-template-rows: repeat(2, minmax(24px, min-content));
+  display: grid;
+  grid-template-columns: auto 160px;
+  grid-template-rows: repeat(2, minmax(24px, min-content));
   align-items: center;
   background-color: var(--color-blue-light);
   border-radius: 8px;
@@ -11,13 +11,13 @@
 
 .wrapper div:nth-child(odd),
 .wrapper p:nth-child(odd) {
-	justify-self: start;
+  justify-self: start;
   font-weight: bold;
 }
 
 .wrapper div:nth-child(even),
 .wrapper p:nth-child(even) {
-	justify-self: end;
+  justify-self: end;
   text-transform: uppercase;
 }
 

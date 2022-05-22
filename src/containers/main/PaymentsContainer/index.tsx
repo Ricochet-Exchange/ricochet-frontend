@@ -10,6 +10,7 @@ import styles from './styles.module.scss';
 import { StreamContainer } from '../StreamContainer';
 
 interface IProps {}
+
 export const PaymentsContainer: React.FC<IProps> = () => {
 	const { t } = useTranslation();
 	const state = useShallowSelector(selectMain);

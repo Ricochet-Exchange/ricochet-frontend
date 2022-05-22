@@ -1,27 +1,27 @@
 import {
-  FlowUpdatedEvent,
-  TokenUpgradedEvent,
-  IndexUnitsUpdatedEvent,
-  TokenDowngradedEvent,
-  IndexSubscribedEvent,
-  SubscriptionRevokedEvent,
-  TransferEvent,
+	FlowUpdatedEvent,
+	IndexSubscribedEvent,
+	IndexUnitsUpdatedEvent,
+	SubscriptionRevokedEvent,
+	TokenDowngradedEvent,
+	TokenUpgradedEvent,
+	TransferEvent,
 } from '@superfluid-finance/sdk-core';
 
 export type ActivityNames =
-  'TokenUpgraded' |
-  'TokenDowngraded' |
-  'SubscriptionRevoked' |
-  'IndexSubscribed' |
-  'IndexUnitsUpdated' |
-  'FlowUpdated' |
-  'Transfer';
+	| 'TokenUpgraded'
+	| 'TokenDowngraded'
+	| 'SubscriptionRevoked'
+	| 'IndexSubscribed'
+	| 'IndexUnitsUpdated'
+	| 'FlowUpdated'
+	| 'Transfer';
 
-export type ActivityEvents = 
-  TransferEvent |
-  FlowUpdatedEvent |
-  TokenUpgradedEvent |
-  TokenDowngradedEvent |
-  IndexSubscribedEvent |
-  SubscriptionRevokedEvent |
-  IndexUnitsUpdatedEvent;
+export type ActivityEvents =
+	| TransferEvent
+	| FlowUpdatedEvent
+	| TokenUpgradedEvent
+	| TokenDowngradedEvent
+	| IndexSubscribedEvent
+	| SubscriptionRevokedEvent
+	| IndexUnitsUpdatedEvent;

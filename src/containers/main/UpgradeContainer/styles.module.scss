@@ -2,11 +2,12 @@
 
 @include tablet {
   .dextable
-    td:not(:first-child):not(:last-child):not(:nth-child(2)):not(:nth-child(3)) {
+  td:not(:first-child):not(:last-child):not(:nth-child(2)):not(:nth-child(3)) {
     display: none;
     max-height: 0;
   }
 }
+
 .streamshow {
   display: inline-flex;
 }
@@ -77,7 +78,7 @@
 
 .sortButton:hover {
   cursor: pointer;
-  background-color:#c4c4c4;
+  background-color: #c4c4c4;
 }
 
 .tableHeaders td {
@@ -112,9 +113,11 @@
 .redFont {
   color: var(--color-red);
 }
+
 .greenFont {
   color: var(--color-primary);
 }
+
 .currDisplay {
   display: flex;
   align-items: center;

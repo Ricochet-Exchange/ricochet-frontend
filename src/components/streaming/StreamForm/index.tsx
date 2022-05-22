@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import {
 	DAIxAddress,
-	USDCxAddress,
-	WETHxAddress,
-	MKRxAddress,
-	WBTCxAddress,
-	MATICxAddress,
-	SUSHIxAddress,
 	IDLExAddress,
+	MATICxAddress,
+	MKRxAddress,
 	RICAddress,
+	SUSHIxAddress,
+	USDCxAddress,
+	WBTCxAddress,
+	WETHxAddress,
 } from 'constants/polygon_config';
 import { Loader } from 'components/common/Loader';
 import { useShallowSelector } from 'hooks/useShallowSelector';

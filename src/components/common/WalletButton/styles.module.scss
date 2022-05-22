@@ -62,6 +62,7 @@
 .balance:empty {
   display: none;
 }
+
 .address {
   @include flexbox(center, center);
   font-weight: normal;

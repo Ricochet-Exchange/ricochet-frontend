@@ -1,7 +1,7 @@
 @import "../../../assets/styles/mixins";
 
 @media screen and (min-width: 786px) {
-  .container{
+  .container {
     margin-top: 1em;
     height: 100%;
     width: 100%;
@@ -10,14 +10,14 @@
     padding: 2em;
   }
 
-  .outGoing{
+  .outGoing {
     color: #2775CA;
     font-size: 18px;
   }
 }
 
 @media screen and (max-width: 786px) {
-  .outGoing{
+  .outGoing {
     color: #2775CA;
     margin-left: 1em;
 

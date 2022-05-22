@@ -2,7 +2,7 @@ import { all, call, put, select } from 'redux-saga/effects';
 import { RICAddress } from 'constants/polygon_config';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';
-import { queryFlows, queryStreams, queryReceived } from 'api';
+import { queryFlows, queryReceived, queryStreams } from 'api';
 
 import { getReceviedFlows } from 'utils/getReceviedFlows';
 import { getOwnedFlows } from 'utils/getOwnedFlows';
@@ -174,6 +174,7 @@ export function* sweepQueryFlow(): any {
 	function getSubsidyRateFromQuery(query: any) {
 		return getSubsidyRate(query.flowKey, query.placeholder, query.flowsOwned);
 	}
+
 	// WORKING
 	usdcRicFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcRicFlowQuery);
 	twoWayusdcWethFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, twoWayusdcWethFlowQuery);

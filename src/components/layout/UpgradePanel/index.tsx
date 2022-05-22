@@ -4,6 +4,7 @@ import { Coin } from '../../../constants/coins';
 import { CoinBalance } from '../CoinBalance';
 import { UpgradeDowngradeButtons } from '../UpgradeDowngradeButtons';
 import styles from './styles.module.scss';
+
 /* eslint-disable */
 interface IProps {
 	balance?: string;
@@ -21,6 +22,7 @@ interface IProps {
 	disabledApprove?: boolean;
 	showWarningToolTip?: boolean;
 }
+
 export const UpgradePanel: FC<IProps> = ({
 	balance = '',
 	nameCoin,

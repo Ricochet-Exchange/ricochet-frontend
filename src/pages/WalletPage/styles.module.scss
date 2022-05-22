@@ -11,7 +11,7 @@
     border-radius: 0;
   }
 
-  .wallet{
+  .wallet {
     border-radius: 50px 0px 0px 0px;
     background-color: white;
     min-height: 100vh;
@@ -19,20 +19,19 @@
 }
 
 
+@media only screen and (max-width: 769px) {
 
-@media only screen and (max-width: 769px){
- 
   .content_special {
     border-radius: 0px 0px 0px 0px;
     grid-template-columns: 1fr;
-    
-    .wallet{
+
+    .wallet {
       border-radius: 0px 0px 0px 0px;
       background-color: white;
     }
   }
-  
-  .left-wallet_nav{
+
+  .left-wallet_nav {
     display: none;
   }
 }

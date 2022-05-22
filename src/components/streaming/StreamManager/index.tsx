@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { Framework } from '@superfluid-finance/sdk-core';
 import { selectMain } from 'store/main/selectors';

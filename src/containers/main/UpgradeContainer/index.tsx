@@ -104,6 +104,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 		async function getGraphData() {
 			setFlows((await queryFlows(address)).data.data.account);
 		}
+
 		if (address !== undefined) getGraphData();
 	}, [address]);
 

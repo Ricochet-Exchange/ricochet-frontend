@@ -1,7 +1,6 @@
 @import '../../../assets/styles/mixins';
 
 
-
 .list,
 .lang_list {
   @include flexbox(center, center);

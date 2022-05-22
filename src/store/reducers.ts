@@ -9,17 +9,17 @@ import history from 'utils/history';
 import distributions from './distributions';
 
 const PERSIST_CONFIGS: Record<string, PersistConfig<any>> = {
-  main: {
-    storage,
-    key: 'main',
-    whitelist: ['main'],
-  },
-}; 
+	main: {
+		storage,
+		key: 'main',
+		whitelist: ['main'],
+	},
+};
 
 export default combineReducers({
-  main: persistReducer(PERSIST_CONFIGS.main, main),
-  modal,
-  banks,
-  distributions,
-  router: connectRouter(history),
+	main: persistReducer(PERSIST_CONFIGS.main, main),
+	modal,
+	banks,
+	distributions,
+	router: connectRouter(history),
 });

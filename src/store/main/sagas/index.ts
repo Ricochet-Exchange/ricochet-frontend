@@ -13,20 +13,20 @@ import { loadReadOnlyData } from './loadReadOnlyData';
 import { connectWeb3Modal } from './connectWeb3Modal';
 
 export default function* mainSaga() {
-  yield takeLeading(MainActionTypes.MAIN_CHECK, mainCheckSaga);
-  yield takeLeading(MainActionTypes.MAIN_SWITCH_NETWORK, switchNetworkSaga);
-  yield takeLeading(MainActionTypes.MAIN_SWITCH_NETWORK, switchNetworkSaga);
-  yield takeEvery(MainActionTypes.LOAD_DATA, loadData);
+	yield takeLeading(MainActionTypes.MAIN_CHECK, mainCheckSaga);
+	yield takeLeading(MainActionTypes.MAIN_SWITCH_NETWORK, switchNetworkSaga);
+	yield takeLeading(MainActionTypes.MAIN_SWITCH_NETWORK, switchNetworkSaga);
+	yield takeEvery(MainActionTypes.LOAD_DATA, loadData);
 
-  yield takeLeading(MainActionTypes.START_FLOW, startFlowSaga);
-  yield takeLeading(MainActionTypes.STOP_FLOW, stopFlowSaga);
-  yield takeLeading(MainActionTypes.DOWNGRADE, downgradeMainSaga);
-  yield takeLeading(MainActionTypes.APPROVE, approveMainSaga);
-  yield takeLeading(MainActionTypes.UPGRADE, upgradeMainSaga);
+	yield takeLeading(MainActionTypes.START_FLOW, startFlowSaga);
+	yield takeLeading(MainActionTypes.STOP_FLOW, stopFlowSaga);
+	yield takeLeading(MainActionTypes.DOWNGRADE, downgradeMainSaga);
+	yield takeLeading(MainActionTypes.APPROVE, approveMainSaga);
+	yield takeLeading(MainActionTypes.UPGRADE, upgradeMainSaga);
 
-  yield takeLeading(MainActionTypes.SELECT_DOWNGRADE_COIN, selectDowngradeCoinSaga);
-  yield takeLeading(MainActionTypes.SELECT_UPGRADE_COIN, selectUpgradeCoinSaga);
-  yield takeLeading(MainActionTypes.SHOW_TYPE_TOKEN_LIST, showTokenListSaga);
-  yield takeEvery(MainActionTypes.LOAD_READ_ONLY_DATA, loadReadOnlyData);
-  yield takeEvery(MainActionTypes.CONNECT_WEB3_MODAL, connectWeb3Modal);
+	yield takeLeading(MainActionTypes.SELECT_DOWNGRADE_COIN, selectDowngradeCoinSaga);
+	yield takeLeading(MainActionTypes.SELECT_UPGRADE_COIN, selectUpgradeCoinSaga);
+	yield takeLeading(MainActionTypes.SHOW_TYPE_TOKEN_LIST, showTokenListSaga);
+	yield takeEvery(MainActionTypes.LOAD_READ_ONLY_DATA, loadReadOnlyData);
+	yield takeEvery(MainActionTypes.CONNECT_WEB3_MODAL, connectWeb3Modal);
 }

@@ -21,8 +21,10 @@ import {
 	rickosheaAppAddress,
 	SUSHIAddress,
 	SUSHIxAddress,
-	twoWayWETHMarketAddress,
+	twoWayMarketDAIWETHAddress,
+	twoWayMarketRICUSDCAddress,
 	twoWayMarketWBTCAddress,
+	twoWayWETHMarketAddress,
 	USDCAddress,
 	USDCxAddress,
 	usdcxEthSlpxExchangeAddress,
@@ -38,11 +40,6 @@ import {
 	WETHAddress,
 	WETHxAddress,
 	wethxUsdcxExchangeAddress,
-	twoWayMarketDAIWETHAddress,
-	// twoWayMarketMATICUSDCAddress,
-	// twoWayMarketMATICDAIAddress,
-	// twoWayMarketWBTCDAIAddress,
-	twoWayMarketRICUSDCAddress,
 } from 'constants/polygon_config';
 
 export enum ExchangeKeys {

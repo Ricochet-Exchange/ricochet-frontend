@@ -12,7 +12,7 @@
 }
 
 .modal_back {
-  @include blur(rgba(223, 223,223, 0.7), 5px);
+  @include blur(rgba(223, 223, 223, 0.7), 5px);
 
   position: fixed;
   z-index: 1;
@@ -110,8 +110,8 @@
   &::placeholder {
     color: var(--color-blue);
 
-    &:focus{
-      color:transparent
+    &:focus {
+      color: transparent
     }
   }
 }
@@ -130,7 +130,7 @@
   flex-wrap: wrap;
   gap: 15px 20px;
 
-  @include for_mobile{
+  @include for_mobile {
     & > span {
       padding: 15px 15px 0 0;
     }
@@ -146,9 +146,9 @@
       background: transparent;
       opacity: 0.7;
     }
-  
+
   }
-  
+
 
 }
 
@@ -169,7 +169,7 @@
   color: var(--color-black-dark);
 }
 
-.icon_size{
+.icon_size {
   width: 32px;
   height: 32px;
 }
@@ -203,7 +203,7 @@
 
   .coin_wrap {
     @include flexbox(center, space-between);
-  
+
     padding: 0;
     background: transparent;
     transition: 0.3s all;
@@ -251,7 +251,7 @@
 
 .close_btn {
   cursor: pointer;
-  
+
   &:active {
     background: transparent;
   }

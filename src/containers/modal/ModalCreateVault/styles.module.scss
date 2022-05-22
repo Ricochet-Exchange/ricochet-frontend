@@ -14,7 +14,7 @@
 .create {
   @include flexbox(center, center);
 }
-  
+
 .create_title {
   font-style: normal;
   font-weight: bold;
@@ -32,7 +32,7 @@
   right: 0;
   z-index: 10;
   padding: 15px 10px;
-  color: rgba(0,0,0,.45);
+  color: rgba(0, 0, 0, .45);
   font-weight: 700;
   line-height: 1;
   text-decoration: none;
@@ -57,7 +57,7 @@
   font-size: 16px;
   border-radius: 8px;
   color: #fff;
-  border:none;
+  border: none;
   font-weight: 700;
   background-color: var(--color-blue);
   font-family: inherit;
@@ -85,7 +85,7 @@
   padding: 1.05rem 4.75rem;
   background-color: #f5f7fa;
   color: var(--color-blue);
-  box-shadow: 0 4px 6px 0 rgba(0,0,0,.16);
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, .16);
   transition-property: all;
   transition-duration: 0.05s;
   transition-timing-function: ease-in-out;
@@ -94,9 +94,9 @@
 }
 
 .view_button:hover:not(:disabled) {
-  box-shadow: 0 4px 6px 0 rgba(0,0,0,.16);
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, .16);
   -webkit-transform: scale(.98);
-    transform: scale(.98);
+  transform: scale(.98);
 }
 
 .vmark {
@@ -171,7 +171,7 @@
 
 .close_btn {
   cursor: pointer;
-  
+
   &:active {
     background: transparent;
   }
