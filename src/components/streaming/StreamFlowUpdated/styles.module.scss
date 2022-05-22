@@ -1,0 +1,268 @@
+@media screen and (max-width: 786px) {
+  .larger_streaming_wrapper{
+    width: 100%;
+    padding: 1em;
+  }
+
+  .larger_streaming_content{
+    display: flex;
+    
+    flex-direction: column;
+  }
+
+  .time_stamp{
+    color: black;
+    padding: 0.5em;
+  }
+
+  .amount{
+    color: #07bc0c;
+    height: 8vh;
+    display: flex;
+    align-items: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    justify-content: space-between;
+    font-size: larger;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .token{
+    display: flex;
+    align-items: left;
+    color: #121212;
+  }
+
+  .token_name{
+    margin-left: 1em;
+  }
+
+  .transaction_link_wrapper{
+    margin-top: 1em;
+  }
+
+  .updatePrompt{
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    margin-top: 1em;
+    display: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    padding-left: 1em;
+    box-shadow: 4px 4px 4px black;
+  }
+
+  .update_buttons{
+    margin-top: 1em;
+    height: 8vh;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .change_flow_cancel{
+    height: 70%;
+    width: 45%;
+    background-color: #363b55;
+    color: white;
+    font-weight: 600;
+    border-radius: 12px;
+    border: none;
+    transition: 0.5s;
+    cursor: pointer;
+    &:hover{
+      transform: scale(0.9);
+    }
+  }
+
+  .change_flow_update{
+    height: 70%;
+    width: 45%;
+
+    background-color: #2775CA;
+    color: white;
+    font-weight: 600;
+    border-radius: 12px;
+    border: none;
+    transition: 0.5s;
+    cursor: pointer;
+    &:hover{
+      transform: scale(0.9);
+    }
+  }
+
+  .amount_container{
+    margin-top: 1em;
+    display: flex;
+    align-items:flex-start;
+    flex-direction: column;
+  }
+
+  .input_field{
+    width: 90%;
+    height: 5vh;
+    padding: 1em;
+  }
+
+  .amount_change{
+    height: 5vh;
+    width: 45%;
+    margin-top: 1em;
+    background-color: #2775CA;
+    color: white;
+    font-weight: 600;
+    border-radius: 12px;
+    border: none;
+    transition: 0.5s;
+    cursor: pointer;
+    &:hover{
+      transform: scale(0.9);
+    }
+  }
+
+  .amount_label{
+    margin-bottom: 1em;
+    font-size: larger;
+  }
+
+}
+
+@media screen and (min-width: 786px) {
+  .larger_streaming_wrapper{
+    width: 60%;
+    padding: 1em;
+  }
+
+  .larger_streaming_content{
+    display: flex;
+    
+    flex-direction: column;
+  }
+
+  .time_stamp{
+    color: black;
+    padding: 0.5em;
+  }
+
+  .amount{
+    color: #07bc0c;
+    height: 8vh;
+    display: flex;
+    align-items: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    justify-content: space-between;
+    font-size: larger;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .token{
+    display: flex;
+    align-items: left;
+    color: #121212;
+  }
+
+  .token_name{
+    margin-left: 1em;
+  }
+
+  .transaction_link_wrapper{
+    margin-top: 1em;
+  }
+
+  .updatePrompt{
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    margin-top: 1em;
+    display: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    padding-left: 1em;
+    box-shadow: 4px 4px 4px black;
+  }
+
+  .update_buttons{
+    margin-top: 1em;
+    height: 8vh;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .change_flow_cancel{
+    height: 70%;
+    width: 45%;
+    background-color: #363b55;
+    color: white;
+    font-weight: 600;
+    border-radius: 12px;
+    border: none;
+    transition: 0.5s;
+    cursor: pointer;
+    &:hover{
+      transform: scale(0.9);
+    }
+  }
+
+  .change_flow_update{
+    height: 70%;
+    width: 45%;
+
+    background-color: #2775CA;
+    color: white;
+    font-weight: 600;
+    border-radius: 12px;
+    border: none;
+    transition: 0.5s;
+    cursor: pointer;
+    &:hover{
+      transform: scale(0.9);
+    }
+  }
+
+  .amount_container{
+    margin-top: 1em;
+    display: flex;
+    align-items:flex-start;
+    flex-direction: column;
+  }
+
+  .input_field{
+    width: 90%;
+    height: 5vh;
+    padding: 1em;
+  }
+
+  .amount_change{
+    height: 5vh;
+    width: 45%;
+    margin-top: 1em;
+    background-color: #2775CA;
+    color: white;
+    font-weight: 600;
+    border-radius: 12px;
+    border: none;
+    transition: 0.5s;
+    cursor: pointer;
+    &:hover{
+      transform: scale(0.9);
+    }
+  }
+
+  .amount_label{
+    margin-bottom: 1em;
+    font-size: larger;
+  }
+}
