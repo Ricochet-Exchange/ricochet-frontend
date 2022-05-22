@@ -20,7 +20,7 @@ jobs:
       - name: Setup NodeJS 14
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16.15.0'
       - run: yarn install && npm install -g @lhci/cli@0.8.x
       - run: yarn build
       - name: run lighthouse action
