@@ -89,7 +89,6 @@ const executeBatchOperations = async (
 	framework: Framework,
 	signer: Signer,
 ): Promise<TransactionReceipt> => {
-	console.log('Executing batch call');
 	const txnResponse = await framework.batchCall(operations).exec(signer);
 	return txnResponse.wait();
 };
