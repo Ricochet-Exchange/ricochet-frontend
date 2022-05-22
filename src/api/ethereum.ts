@@ -24,23 +24,17 @@ import { ethers } from 'ethers';
 import { indexIDA } from '../constants/flowConfig';
 import { gas } from './gasEstimator';
 
-const polygonApiUrl = 'https://gasstation-mainnet.matic.network/v2';
-const getSuggestedPriorityGasFee = async () => {
-	const fee = await axios.get(polygonApiUrl).then((r) => r.data.standard.maxPriorityFee);
-	return Math.round(fee * 10 ** 9); // this converts to GWEI
-};
-
 export const downgrade = async (contract: any, amount: string, address: string) =>
 	contract.methods.downgrade(amount).send({
 		from: address,
-		maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
+		...(await gas()),
 	});
 
 export const downgradeMatic = async (contract: any, amount: string, address: string) =>
 	contract.methods.downgradeToETH(amount).send({
 		from: address,
 		// value: amount,
-		maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
+		...(await gas()),
 	});
 
 export const allowance = (contract: any, address: string, superTokenAddress: string) =>
@@ -49,20 +43,20 @@ export const allowance = (contract: any, address: string, superTokenAddress: str
 export const approve = async (contract: any, address: string, tokenAddress: string, amount: string) =>
 	contract.methods.approve(tokenAddress, amount).send({
 		from: address,
-		maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
+		...(await gas()),
 	});
 
 export const upgrade = async (contract: any, amount: string, address: string) =>
 	contract.methods.upgrade(amount).send({
 		from: address,
-		maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
+		...(await gas()),
 	});
 
 export const upgradeMatic = async (contract: any, amount: string, address: string) => {
 	contract.methods.upgradeByETH().send({
 		from: address,
 		value: amount,
-		maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
+		...(await gas()),
 	});
 };
 
@@ -485,7 +479,7 @@ export const makeDeposit = async (bankContract: any, accountAddress: string, dep
 		.vaultDeposit(amount)
 		.send({
 			from: accountAddress,
-			maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
+			...(await gas()),
 		})
 		.once('transactionHash', (txHash: string) => {
 			transactionHash = txHash;
@@ -501,7 +495,7 @@ export const makeBorrow = async (bankContract: any, accountAddress: string, borr
 		.vaultBorrow(amount)
 		.send({
 			from: accountAddress,
-			maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
+			...(await gas()),
 		})
 		.once('transactionHash', (txHash: string) => {
 			transactionHash = txHash;
@@ -522,7 +516,7 @@ export const approveToken = async (
 		.approve(bankAddress, mainWad)
 		.send({
 			from: accountAddress,
-			maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
+			...(await gas()),
 		})
 		.once('transactionHash', (txHash: string) => {
 			console.log(txHash);
@@ -539,7 +533,7 @@ export const makeWithdraw = async (bankContract: any, accountAddress: string, wi
 		.vaultWithdraw(amount)
 		.send({
 			from: accountAddress,
-			maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
+			...(await gas()),
 		})
 		.once('transactionHash', (txHash: string) => {
 			transactionHash = txHash;
@@ -555,7 +549,7 @@ export const makeRepay = async (bankContract: any, accountAddress: string, repay
 		.vaultRepay(amount)
 		.send({
 			from: accountAddress,
-			maxPriorityFeePerGas: await getSuggestedPriorityGasFee(),
+			...(await gas()),
 		})
 		.once('transactionHash', (txHash: string) => {
 			transactionHash = txHash;
