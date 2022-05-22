@@ -83,44 +83,47 @@ export const HeaderContainer: FC<IProps> = ({ address, balance }) => {
   };
 
   return (
-    <div className={styles.header_wrap}>
-      <div className={styles.mob_panel}>
-        <div className={styles.logo}>
-          <Link to={Routes.Invest}><img src={logo} alt="Ricochet" /></Link>
-        </div>
+    <div>
+      <div className={styles.header_wrap}>
+        <div className={styles.mob_panel}>
+          <div>
+            <Link to={Routes.Invest}><img className={styles.logo} src={logo} alt="Ricochet" /></Link>
+          </div>
 
-        <div className={styles.links}>
-          <Link
-            to={Routes.Invest}
-            className={styles.dca_link}
-            activeClassName={styles.active}
-          >
-            <div>{t('Invest')}</div>
-          </Link>
-          <Link
-            to={Routes.Wallet}
-            className={styles.upgrade_link}
-            activeClassName={styles.active}
-          >
-            <div>{t('Wallet')}</div>
-          </Link>
-        </div>
+          <div className={styles.links}>
+            <Link
+              to={Routes.Invest}
+              className={styles.dca_link}
+              activeClassName={styles.active}
+            >
+              <div>{t('Invest')}</div>
+            </Link>
+            <Link
+              to={Routes.Wallet}
+              className={styles.upgrade_link}
+              activeClassName={styles.active}
+            >
+              <div>{t('Wallet')}</div>
+            </Link>
+          </div>
 
-        <div className={styles.settings_wrap}>
-          <UserSettings
-            className={styles.dot}
-            ricBalance={balance}
-            account={address}
-          />
-        </div>
-        <div className={styles.mob_head}>
-          <HeaderText />
-        </div>
-        <div className={styles.hamburger_container}>
-          <Hamburger open={open} setOpen={setOpen} />
-          {open && <MobileMenu closeMenu={toggleHamburger} />}
+          <div className={styles.settings_wrap}>
+            <UserSettings
+              className={styles.dot}
+              ricBalance={balance}
+              account={address}
+            />
+          </div>
+          <div className={styles.mob_head}>
+            <HeaderText />
+          </div>
+          <div className={styles.hamburger_container}>
+            <Hamburger open={open} setOpen={setOpen} />
+            {open && <MobileMenu closeMenu={toggleHamburger} />}
+          </div>
         </div>
       </div>
+      <div className={styles.header_spacer} />
     </div>
   );
 };

@@ -5,23 +5,24 @@ import { mainCheck } from 'store/main/actionCreators';
 import { Banner } from 'components/layout/Banner';
 import { Modal } from 'components/common/Modal';
 import { MainLayout } from 'containers/MainLayout';
+import { HashRouter } from 'react-router-dom';
 
 const App: React.FC = () => {
-  const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(mainCheck());
-  }, [dispatch]);
+	useEffect(() => {
+		dispatch(mainCheck());
+	}, [dispatch]);
 
-  return (
-    <>
-      <Banner />
-      <Modal />
-      <MainLayout>
-        <MainRouter />
-      </MainLayout>
-    </>
-  );
+	return (
+		<HashRouter>
+			<Banner />
+			<Modal />
+			<MainLayout>
+				<MainRouter />
+			</MainLayout>
+		</HashRouter>
+	);
 };
 
 export default App;

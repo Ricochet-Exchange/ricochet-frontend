@@ -19,8 +19,9 @@ export const UserSettings: FC<IProps> = ({
   const { t } = useTranslation();
 
   return (
-    <div className={styles.user_settings}>
+    <div className={styles.user_settings}>      
       <WalletButton ricBalance={ricBalance} account={account} />
+      
       <div className={styles.dot_wrap}>
         <div className={styles.button}>
           <Dropdown
