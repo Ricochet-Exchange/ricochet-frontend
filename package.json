@@ -14,7 +14,7 @@
     "prepare": "husky install"
   },
   "engines": {
-    "node": "14"
+    "node": "16.15.0"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -41,8 +41,7 @@
     "@popperjs/core": "^2.10.2",
     "@sentry/react": "^6.18.0",
     "@sentry/tracing": "^6.18.0",
-    "@superfluid-finance/js-sdk": "^0.4.3",
-    "@superfluid-finance/sdk-core": "^0.3.0",
+    "@superfluid-finance/sdk-core": "^0.4.2",
     "@toruslabs/torus-embed": "^1.20.4",
     "@truffle/contract": "^4.4.10",
     "@types/big.js": "^6.1.2",

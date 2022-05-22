@@ -1,17 +1,28 @@
-import { getSuperFluid } from 'utils/fluidSDKinstance';
+import { getSFFramework } from 'utils/fluidSDKinstance';
 import { getAddress } from 'utils/getAddress';
 import { getContract } from 'utils/getContract';
 import { chainSettings } from 'constants/chainSettings';
 import { CoinOption } from 'types/coinOption';
+import { TransactionReceipt } from '@ethersproject/providers';
+
 import {
-  MATICxAddress, rexLPETHAddress, RICAddress, SUSHIxAddress, usdcxRicExchangeAddress,
+  MATICxAddress,
+  rexLPETHAddress,
+  RICAddress,
+  SUSHIxAddress,
+  usdcxRicExchangeAddress,
 } from 'constants/polygon_config';
 import Erc20Abi from 'constants/Erc20.json';
 import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
 import BankAbi from 'constants/Bank.json';
 import Web3 from 'web3';
 import axios from 'axios';
+import { Signer } from '@ethersproject/abstract-signer';
+import Operation from '@superfluid-finance/sdk-core/dist/main/Operation';
+import { Framework } from '@superfluid-finance/sdk-core';
+import { ethers } from 'ethers';
 import { indexIDA } from '../constants/flowConfig';
+import { gas } from './gasEstimator';
 
 const polygonApiUrl = 'https://gasstation-mainnet.matic.network/v2';
 const getSuggestedPriorityGasFee = async () => {
@@ -88,302 +99,219 @@ export const upgradeMatic = async (
 };
 
 export const stopFlow = async (exchangeAddress: string, inputTokenAddress: string, web3: Web3) => {
-  const address = await getAddress(web3);
-  const superFluid = await getSuperFluid(web3);
-  const sfUser = superFluid.user({
-    address,
-    token: inputTokenAddress,
-  });
   try {
-    const recipient = await superFluid.user({
-      address: exchangeAddress,
-      token: inputTokenAddress,
-    });
-    await sfUser.flow({
-      recipient,
-      flowRate: '0',
-    });
+    const address = await getAddress(web3);
+    const provider = new ethers.providers.Web3Provider((web3.currentProvider as any));
+    const framework = await getSFFramework(web3);
+    const signer = await framework.createSigner({ provider });
+    const {
+      maxFeePerGas,
+      maxPriorityFeePerGas,
+    } = await gas();
+    await framework.cfaV1.deleteFlow({
+      superToken: inputTokenAddress,
+      sender: address,
+      receiver: exchangeAddress,
+      overrides: {
+
+        maxFeePerGas,
+        maxPriorityFeePerGas,
+      },
+    }).exec(signer);
   } catch (e: any) {
     throw new Error(e);
   }
 };
 
+const executeBatchOperations = async (
+  operations: Operation[],
+  framework: Framework,
+  signer: Signer,
+): Promise<TransactionReceipt> => {
+  console.log('Executing batch call');
+  const txnResponse = await framework.batchCall(operations).exec(signer);
+  return txnResponse.wait();
+};
+
 export const startFlow = async (
   idaContract: any,
-  exchangeAddress:string,
+  exchangeAddress: string,
   inputTokenAddress: string,
-  outputTokenAddress:string,
+  outputTokenAddress: string,
   amount: number,
   web3: Web3,
   referralId?: string,
 ) => {
-  const address = await getAddress(web3);
-  const superFluid = await getSuperFluid(web3);
-  const sfUser = superFluid.user({
-    address,
-    token: inputTokenAddress,
-  });
-  let call = [];
-  const config = indexIDA.find(
-    (data) => data.input === inputTokenAddress && data.output === outputTokenAddress
-        && data.exchangeAddress === exchangeAddress,
-  );
-
-  if (!config) {
-    throw new Error(`No config found for this pair: , ${inputTokenAddress}, ${outputTokenAddress}`);
-  }
   try {
-    const isSubscribed = await idaContract.methods
-      .getSubscription(
-        config.output,
-        exchangeAddress, // publisher
-        config.outputIndex, // indexId
-        sfUser.address,
-      )
-      .call();
-    if (isSubscribed.approved) {
-      await sfUser.flow({
-        recipient: await superFluid.user({
-          address: exchangeAddress,
-          token: inputTokenAddress,
-        }), // address: would be rickosheaAppaddress, currently not deployed
+    const address = await getAddress(web3);
+    const framework = await getSFFramework(web3);
+    const config = indexIDA.find(
+      (data) => data.input === inputTokenAddress && data.output === outputTokenAddress
+            && data.exchangeAddress === exchangeAddress,
+    );
+    if (!config) {
+      throw new Error(`No config found for this pair: , ${inputTokenAddress}, ${outputTokenAddress}`);
+    }
+    const provider = new ethers.providers.Web3Provider((web3.currentProvider as any));
+    const signer = await framework.createSigner({ web3Provider: (provider as any) });
+    const web3Subscription = await framework.idaV1.getSubscription({
+      superToken: config.output,
+      publisher: exchangeAddress,
+      indexId: config.outputIndex.toString(),
+      subscriber: address,
+      providerOrSigner: provider,
+    });
+    const {
+      maxFeePerGas,
+      maxPriorityFeePerGas,
+    } = await gas();
+    if (web3Subscription.approved) {
+      await framework.cfaV1.createFlow({
+        superToken: inputTokenAddress,
+        sender: address,
+        receiver: exchangeAddress,
         flowRate: amount.toString(),
-      });
+        overrides: {
+          maxFeePerGas,
+          maxPriorityFeePerGas,
+        },
+      }).exec(signer);
     } else {
       const userData = referralId ? web3.eth.abi.encodeParameter('string', referralId) : '0x';
       if (exchangeAddress === usdcxRicExchangeAddress) {
-        call = [
-          [
-            201, // approve the ticket fee
-            superFluid.agreements.ida.address,
-            web3.eth.abi.encodeParameters(
-              ['bytes', 'bytes'],
-              [
-                superFluid.agreements.ida.contract.methods
-                  .approveSubscription(
-                    outputTokenAddress,
-                    exchangeAddress,
-                    0, // INDEX_ID
-                    '0x',
-                  )
-                  .encodeABI(), // callData
-                userData, // userData
-              ],
-            ),
-          ],
-          [
-            201, // create constant flow (10/mo)
-            superFluid.agreements.cfa.address,
-            web3.eth.abi.encodeParameters(
-              ['bytes', 'bytes'],
-              [
-                superFluid.agreements.cfa.contract.methods
-                  .createFlow(
-                    inputTokenAddress,
-                    exchangeAddress,
-                    amount.toString(),
-                    '0x',
-                  )
-                  .encodeABI(), // callData
-                userData, // userData
-              ],
-            ),
-          ],
-        ];
+        const operations = [await framework.idaV1.approveSubscription({
+          superToken: outputTokenAddress,
+          indexId: '0',
+          publisher: exchangeAddress,
+          userData,
+          overrides: {
+            maxFeePerGas,
+            maxPriorityFeePerGas,
+          },
+        }), await framework.cfaV1.createFlow({
+          superToken: outputTokenAddress,
+          sender: address,
+          receiver: exchangeAddress,
+          flowRate: amount.toString(),
+          userData,
+          overrides: {
+            maxFeePerGas,
+            maxPriorityFeePerGas,
+          },
+        })];
+        await executeBatchOperations(operations, framework, signer);
       } else if (outputTokenAddress === rexLPETHAddress) {
-        call = [
-          [
-            201, // approve the ticket fee
-            superFluid.agreements.ida.address,
-            web3.eth.abi.encodeParameters(
-              ['bytes', 'bytes'],
-              [
-                superFluid.agreements.ida.contract.methods
-                  .approveSubscription(
-                    outputTokenAddress,
-                    exchangeAddress,
-                    0, // INDEX_ID
-                    '0x',
-                  )
-                  .encodeABI(), // callData
-                userData, // userData
-              ],
-            ),
-          ],
-          [
-            201, // approve the RIC subsidy
-            superFluid.agreements.ida.address,
-            web3.eth.abi.encodeParameters(
-              ['bytes', 'bytes'],
-              [
-                superFluid.agreements.ida.contract.methods
-                  .approveSubscription(
-                    RICAddress,
-                    exchangeAddress,
-                    1, // INDEX_ID
-                    '0x',
-                  )
-                  .encodeABI(), // callData
-                userData, // userData
-              ],
-            ),
-          ],
-          [
-            201, // approve the SUSHIx rewards subsidy
-            superFluid.agreements.ida.address,
-            web3.eth.abi.encodeParameters(
-              ['bytes', 'bytes'],
-              [
-                superFluid.agreements.ida.contract.methods
-                  .approveSubscription(
-                    SUSHIxAddress,
-                    exchangeAddress,
-                    2, // INDEX_ID
-                    '0x',
-                  )
-                  .encodeABI(), // callData
-                userData, // userData
-              ],
-            ),
-          ],
-          [
-            201, // approve the MATICx rewards
-            superFluid.agreements.ida.address,
-            web3.eth.abi.encodeParameters(
-              ['bytes', 'bytes'],
-              [
-                superFluid.agreements.ida.contract.methods
-                  .approveSubscription(
-                    MATICxAddress,
-                    exchangeAddress,
-                    3, // INDEX_ID
-                    '0x',
-                  )
-                  .encodeABI(), // callData
-                userData, // userData
-              ],
-            ),
-          ],
-          [
-            201, // create constant flow (10/mo)
-            superFluid.agreements.cfa.address,
-            web3.eth.abi.encodeParameters(
-              ['bytes', 'bytes'],
-              [
-                superFluid.agreements.cfa.contract.methods
-                  .createFlow(
-                    inputTokenAddress,
-                    exchangeAddress,
-                    amount.toString(),
-                    '0x',
-                  )
-                  .encodeABI(), // callData
-                userData, // userData
-              ],
-            ),
-          ],
-        ];
+        const operations = [await framework.idaV1.approveSubscription({
+          superToken: outputTokenAddress,
+          indexId: '0',
+          publisher: exchangeAddress,
+          userData,
+          overrides: {
+            maxFeePerGas,
+            maxPriorityFeePerGas,
+          },
+        }),
+        await framework.idaV1.approveSubscription({
+          superToken: RICAddress,
+          indexId: '1',
+          publisher: exchangeAddress,
+          userData,
+          overrides: {
+            maxFeePerGas,
+            maxPriorityFeePerGas,
+          },
+        }),
+        await framework.idaV1.approveSubscription({
+          superToken: SUSHIxAddress,
+          indexId: '2',
+          publisher: exchangeAddress,
+          userData,
+          overrides: {
+            maxFeePerGas,
+            maxPriorityFeePerGas,
+          },
+        }),
+        await framework.idaV1.approveSubscription({
+          superToken: MATICxAddress,
+          indexId: '3',
+          publisher: exchangeAddress,
+          userData,
+          overrides: {
+            maxFeePerGas,
+            maxPriorityFeePerGas,
+          },
+        }),
+        await framework.cfaV1.createFlow({
+          superToken: inputTokenAddress,
+          sender: address,
+          receiver: exchangeAddress,
+          flowRate: amount.toString(),
+          userData,
+          overrides: {
+            maxFeePerGas,
+            maxPriorityFeePerGas,
+          },
+        })];
+        await executeBatchOperations(operations, framework, signer);
       } else if (config.subsidy) {
-        call = [
-          [
-            201, // approve the ticket fee
-            superFluid.agreements.ida.address,
-            web3.eth.abi.encodeParameters(
-              ['bytes', 'bytes'],
-              [
-                superFluid.agreements.ida.contract.methods
-                  .approveSubscription(
-                    config.output,
-                    exchangeAddress,
-                    config.outputIndex, // INDEX_ID
-                    '0x',
-                  )
-                  .encodeABI(), // callData
-                userData, // userData
-              ],
-            ),
-          ],
-          [
-            201, // approve the subsidy token
-            superFluid.agreements.ida.address,
-            web3.eth.abi.encodeParameters(
-              ['bytes', 'bytes'],
-              [
-                superFluid.agreements.ida.contract.methods
-                  .approveSubscription(
-                    config.subsidy,
-                    exchangeAddress,
-                    config.subsidyIndex, // INDEX_ID
-                    '0x',
-                  )
-                  .encodeABI(), // callData
-                userData, // userData
-              ],
-            ),
-          ],
-          [
-            201, // create constant flow (10/mo)
-            superFluid.agreements.cfa.address,
-            web3.eth.abi.encodeParameters(
-              ['bytes', 'bytes'],
-              [
-                superFluid.agreements.cfa.contract.methods
-                  .createFlow(
-                    config.input,
-                    exchangeAddress,
-                    amount.toString(),
-                    '0x',
-                  )
-                  .encodeABI(), // callData
-                userData, // userData
-              ],
-            ),
-          ],
-        ];
+        const operations = [await framework.idaV1.approveSubscription({
+          superToken: config.output,
+          indexId: config.outputIndex.toString(),
+          publisher: exchangeAddress,
+          userData,
+          overrides: {
+            maxFeePerGas,
+            maxPriorityFeePerGas,
+          },
+        }),
+        await framework.idaV1.approveSubscription({
+          superToken: config.subsidy,
+          indexId: config.subsidyIndex?.toString() || '0',
+          publisher: exchangeAddress,
+          userData,
+          overrides: {
+            maxFeePerGas,
+            maxPriorityFeePerGas,
+          },
+        }),
+        await framework.cfaV1.createFlow({
+          superToken: config.input,
+          sender: address,
+          receiver: exchangeAddress,
+          flowRate: amount.toString(),
+          userData,
+          overrides: {
+            maxFeePerGas,
+            maxPriorityFeePerGas,
+          },
+        })];
+        await executeBatchOperations(operations, framework, signer);
       } else {
-        call = [
-          [
-            201, // approve the ticket fee
-            superFluid.agreements.ida.address,
-            web3.eth.abi.encodeParameters(
-              ['bytes', 'bytes'],
-              [
-                superFluid.agreements.ida.contract.methods
-                  .approveSubscription(
-                    config.output,
-                    exchangeAddress,
-                    config.outputIndex, // INDEX_ID
-                    '0x',
-                  )
-                  .encodeABI(), // callData
-                userData, // userData
-              ],
-            ),
-          ],
-          [
-            201, // create constant flow (10/mo)
-            superFluid.agreements.cfa.address,
-            web3.eth.abi.encodeParameters(
-              ['bytes', 'bytes'],
-              [
-                superFluid.agreements.cfa.contract.methods
-                  .createFlow(
-                    config.input,
-                    exchangeAddress,
-                    amount.toString(),
-                    '0x',
-                  )
-                  .encodeABI(), // callData
-                userData, // userData
-              ],
-            ),
-          ],
-        ];
+        const operations = [await framework.idaV1.approveSubscription({
+          superToken: config.output,
+          indexId: config.outputIndex.toString(),
+          publisher: exchangeAddress,
+          userData,
+          overrides: {
+            maxFeePerGas,
+            maxPriorityFeePerGas,
+          },
+        }),
+        await framework.cfaV1.createFlow({
+          superToken: config.input,
+          sender: address,
+          receiver: exchangeAddress,
+          flowRate: amount.toString(),
+          userData,
+          overrides: {
+            maxFeePerGas,
+            maxPriorityFeePerGas,
+          },
+        })];
+        await executeBatchOperations(operations, framework, signer);
       }
-      await superFluid.host.batchCall(call);
     }
   } catch (e: any) {
-    console.error(e);
     throw new Error(e);
   }
 };

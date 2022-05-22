@@ -9,14 +9,14 @@ export const mapFromSubgraphResponse =
         const publisher = Web3.utils.toChecksumAddress(x.index.publisher.id);
         const subscriber = Web3.utils.toChecksumAddress(x.subscriber.id);
         const indexId = Number(x.index.indexId);
-        const subscriptionDegtail = await framework.ida
-          .getSubscription({
-            superToken: tokenId,
-            publisher,
-            indexId,
-            subscriber,
-          })
-          .catch(console.warn);
+        const subscriptionDegtail = await framework.idaV1.getSubscription({
+          providerOrSigner: framework.settings.provider,
+          superToken: tokenId,
+          publisher,
+          indexId,
+          subscriber,
+        })
+          .catch(console.error);
         const updatedAtTimestamp =
             Number(x.subscriptionUnitsUpdatedEvents[0]?.timestamp || x.index.updatedAtTimestamp);
         return {

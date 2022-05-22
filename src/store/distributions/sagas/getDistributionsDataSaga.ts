@@ -4,7 +4,7 @@ import { selectMain } from 'store/main/selectors';
 import { distributionsGetData, distributionsSetState } from '../actionCreators';
 import { queryDistributions } from '../../../api';
 import { mapFromSubgraphResponse } from '../../../utils/getIndexDetail';
-import { getSuperFluid } from '../../../utils/fluidSDKinstance';
+import { getSFFramework } from '../../../utils/fluidSDKinstance';
 import { selectDistributions } from '../selectors';
 
 export function* getDistributionsDataSaga() : any {
@@ -18,9 +18,10 @@ export function* getDistributionsDataSaga() : any {
     let { framework }: ReturnType<typeof selectDistributions> = yield select(selectDistributions);
 
     if (!framework) {
-      const superFluid: Unwrap<typeof getSuperFluid> =
-        yield call(getSuperFluid, readWeb3, []);
+      const superFluid: Unwrap<typeof getSFFramework> =
+            yield call(getSFFramework, readWeb3);
       yield put(distributionsSetState({ framework: superFluid }));
+
       framework = superFluid;
     }
     const distributions: Unwrap<typeof mapFromSubgraphResponse> =
