@@ -126,7 +126,7 @@ export const startFlow = async (
 		const { maxFeePerGas, maxPriorityFeePerGas } = await gas();
 		if (web3Subscription.approved) {
 			await framework.cfaV1
-				.createFlow({
+				.updateFlow({
 					superToken: inputTokenAddress,
 					sender: address,
 					receiver: exchangeAddress,
