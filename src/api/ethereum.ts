@@ -16,7 +16,6 @@ import Erc20Abi from 'constants/Erc20.json';
 import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
 import BankAbi from 'constants/Bank.json';
 import Web3 from 'web3';
-import axios from 'axios';
 import { Signer } from '@ethersproject/abstract-signer';
 import Operation from '@superfluid-finance/sdk-core/dist/main/Operation';
 import { Framework } from '@superfluid-finance/sdk-core';
