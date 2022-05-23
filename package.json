@@ -109,7 +109,7 @@
     "prettier": "^2.6.2"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
+    "*.{ts,tsx}": [
       "eslint --cache --fix --resolve-plugins-relative-to",
       "prettier --write"
     ]
