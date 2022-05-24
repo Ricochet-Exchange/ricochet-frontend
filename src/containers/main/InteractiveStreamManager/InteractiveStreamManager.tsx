@@ -13,14 +13,23 @@ import type { Node, Edge, DefaultEdgeOptions, OnNodesChange, OnEdgesChange } fro
 import { Coin } from 'constants/coins';
 import { CoinNode } from './CoinNode';
 
-const sourceCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC].map((coin) => {
-	return { name: coin, type: 'input' };
+const sourceCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC].map((coin, idx) => {
+	return {
+		name: coin,
+		type: 'input',
+		position: { x: -250, y: idx * 50 },
+		sourcePosition: Position.Right,
+		targetPosition: undefined,
+	};
 });
 
-const targetCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC].map((coin) => {
+const targetCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC].map((coin, idx) => {
 	return {
 		name: coin,
 		type: 'output',
+		position: { x: 250, y: idx * 50 },
+		sourcePosition: undefined,
+		targetPosition: Position.Left,
 	};
 });
 
@@ -35,13 +44,13 @@ const marketMap = {
 const initialNodes: Node<any>[] = [...sourceCoins, ...targetCoins].map((coin, idx) => {
 	return {
 		id: idx.toString(),
-		position: { x: coin.type === 'input' ? 250 : 300, y: 50 * idx },
+		position: coin.position,
 		data: {
 			label: <CoinNode coin={coin.name} balance={1000} />,
 		},
 		type: coin.type,
-		sourcePosition: coin.type === 'input' ? Position.Right : undefined,
-		targetPosition: coin.type === 'output' ? Position.Left : undefined,
+		sourcePosition: coin.sourcePosition,
+		targetPosition: coin.targetPosition,
 	};
 });
 const initialEdges: Edge<any>[] = [];
