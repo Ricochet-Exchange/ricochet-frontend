@@ -9,7 +9,7 @@ import ReactFlow, {
 	MiniMap,
 	Position,
 } from 'react-flow-renderer';
-import type { Node, Edge, DefaultEdgeOptions, OnNodesChange, OnEdgesChange } from 'react-flow-renderer';
+import type { Node, Edge, DefaultEdgeOptions, OnNodesChange, OnEdgesChange, OnConnect } from 'react-flow-renderer';
 import { Coin } from 'constants/coins';
 import { CoinNode } from './CoinNode';
 
@@ -85,7 +85,29 @@ export const InteractiveStreamManager = () => {
 		[setEdges],
 	);
 
-	const onConnect = useCallback((connection) => setEdges((eds) => addEdge(connection, eds)), [setEdges]);
+	const onConnect: OnConnect = useCallback(
+		(connection) => {
+			// console.log(connection);
+			// console.log(initialNodes)
+			const source = initialNodes.find((node) => node.id === connection.source);
+			const target = initialNodes.find((node) => node.id === connection.target);
+
+			if (!source || !target) {
+				return;
+			}
+
+			// console.log(source.data.label.props.coin)
+
+			// console.log((marketMap as Record<any, Coin[]>)[source.data.label.props.coin], connection.source, connection)
+
+			if (
+				(marketMap as Record<any, Coin[]>)[source.data.label.props.coin].includes(target.data.label.props.coin)
+			) {
+				setEdges((eds) => addEdge(connection, eds));
+			}
+		},
+		[setEdges],
+	);
 
 	const defaultEdgeOptions: DefaultEdgeOptions = {
 		animated: true,
