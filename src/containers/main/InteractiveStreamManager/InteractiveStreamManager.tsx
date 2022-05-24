@@ -105,7 +105,7 @@ export const InteractiveStreamManager = () => {
 				defaultEdgeOptions={defaultEdgeOptions}
 				fitView
 			>
-				<MiniMap nodeColor={nodeColor} />
+				<MiniMap nodeColor={nodeColor} maskColor="grey" />
 				<Controls />
 				<Background />
 			</ReactFlow>
