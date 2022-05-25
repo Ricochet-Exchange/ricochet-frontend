@@ -1,4 +1,4 @@
-import React, { SetStateAction } from 'react';
+import React, { SetStateAction, useEffect } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -6,6 +6,7 @@ import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -19,45 +20,107 @@ const style = {
 	p: 4,
 };
 
-type StreamModalProps = {
+export type StreamModalProps = {
 	open: boolean;
-	handleOpen: (value: SetStateAction<any>) => void;
-	handleClose: (value: SetStateAction<any>) => void;
+	handleOpen: any;
+	handleClose: any;
+	handleStart: any;
+	activeEdge: any;
+	setEdges: any;
+	resetNodes: any;
+	hasStream: boolean;
+	handleStop: any;
 };
 
-export default function StreamModal({ open, handleOpen, handleClose }: StreamModalProps) {
+export default function StreamModal({
+	open,
+	handleOpen,
+	handleClose,
+	handleStart,
+	activeEdge,
+	setEdges,
+	resetNodes,
+	hasStream,
+	handleStop,
+}: StreamModalProps) {
+	useEffect(() => {
+		console.log('activeEdge', activeEdge);
+	}, [activeEdge]);
 	return (
 		<div>
-			<Button onClick={handleOpen}>Open modal</Button>
 			<Modal
-				aria-labelledby="transition-modal-title"
-				aria-describedby="transition-modal-description"
+				aria-labelledby="streaming-modal"
+				aria-describedby="start-edit-or-stop-stream"
 				open={open}
-				onClose={handleClose}
+				onClose={() => {
+					handleClose();
+					setEdges((prev: any) => {
+						console.log('prev', prev);
+						const current = prev.filter((edge: any) => edge.id !== activeEdge[0].id);
+						console.log('current', current);
+						return current;
+					});
+					resetNodes();
+				}}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500,
 				}}
+				sx={{ textAlign: 'center' }}
 			>
 				<Fade in={open}>
 					<Box sx={style}>
 						<Typography id="transition-modal-title" variant="h6" component="h2">
-							Starting streaming
+							{hasStream ? 'Current Streaming' : 'Start Streaming'}
 						</Typography>
-						<Typography>500</Typography>
-						<Typography>USDC</Typography>
+						{hasStream ? (
+							<Typography fontSize={48}>500</Typography>
+						) : (
+							<Box
+								component="form"
+								sx={{
+									'& > :not(style)': { m: 1, width: '25ch' },
+								}}
+								noValidate
+								autoComplete="off"
+							>
+								<TextField id="outlined-basic" label="Outlined" variant="outlined" />
+							</Box>
+						)}
+						<Typography color="#2775ca" fontWeight="bold" fontSize={24}>
+							USDC
+						</Typography>
 						<Typography>per month into</Typography>
-						<Typography>BTC</Typography>
-						<Typography id="transition-modal-description" sx={{ mt: 2 }}>
-							Please make sure all the information here is correct!
+						<Typography color="#2775ca" fontWeight="bold" fontSize={24}>
+							BTC
 						</Typography>
-						<Stack spacing={2} direction="row">
+						{hasStream ? null : (
+							<Typography id="transition-modal-description" sx={{ mt: 2, color: 'red' }}>
+								Please make sure all the information here is correct!
+							</Typography>
+						)}
+						<Stack spacing={16} direction="row" sx={{ justifyContent: 'center' }}>
 							{/* if no streams before */}
-							<Button variant="text">Start</Button>
-							{/* else */}
-							<Button variant="contained">Update</Button>
-							<Button variant="outlined">Stop</Button>
+							{hasStream ? (
+								<>
+									<Button variant="contained">Update</Button>
+									<Button variant="outlined" onClick={handleStop}>
+										Stop
+									</Button>
+								</>
+							) : (
+								<Button
+									variant="contained"
+									onClick={() => {
+										handleStart();
+										resetNodes();
+										handleClose();
+									}}
+								>
+									Start
+								</Button>
+							)}
 						</Stack>
 					</Box>
 				</Fade>
