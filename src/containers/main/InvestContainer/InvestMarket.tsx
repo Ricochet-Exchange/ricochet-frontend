@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useCallback, useState } from 'react';
+import React, { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { TextInput } from 'components/common/TextInput';
 import { PanelChange } from 'components/layout/PanelChange';
@@ -6,29 +6,43 @@ import StreamManager from 'components/streaming/StreamManager';
 import { useTranslation } from 'react-i18next';
 import { ExchangeKeys } from 'utils/getExchangeAddress';
 import styles from './styles.module.scss';
-import { flowConfig, FlowEnum, InvestmentFlow } from 'constants/flowConfig';
+import { flowConfig, FlowEnum, RoutesToFlowTypes } from 'constants/flowConfig';
 import { useShallowSelector } from 'hooks/useShallowSelector';
-import { selectMain } from 'store/main/selectors';
+import { selectMain, selectUserStreams } from 'store/main/selectors';
+import { useRouteMatch } from 'react-router-dom';
 
 type InvestMarketProps = {
-	filteredList: InvestmentFlow[];
-	setFilteredList: any;
 	handleStart: any;
 	handleStop: any;
-	routeEnd: string;
 };
 
-export const InvestMarket: FC<InvestMarketProps> = ({
-	filteredList,
-	setFilteredList,
-	handleStart,
-	handleStop,
-	routeEnd,
-}) => {
+export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop }) => {
 	const { t } = useTranslation();
 	const state = useShallowSelector(selectMain);
+	const userStreams = useShallowSelector(selectUserStreams);
 	const { balances, isLoading, coingeckoPrices } = state;
+	const [filteredList, setFilteredList] = useState(flowConfig);
 	const [search, setSearch] = useState('');
+	const match = useRouteMatch();
+	const routeEnd = match.path.slice(-7);
+	const flowType = RoutesToFlowTypes[match.path];
+
+	useEffect(() => {
+		if (flowType) {
+			setFilteredList(flowConfig.filter((each) => each.type === flowType));
+		} else {
+			const sortedUserStreams = userStreams.sort((a, b) => {
+				const flowA = parseFloat(state[a.flowKey]?.placeholder || '0');
+				const flowB = parseFloat(state[b.flowKey]?.placeholder || '0');
+				return flowB - flowA;
+			});
+			setFilteredList(sortedUserStreams);
+		}
+	}, [flowType, state, userStreams]);
+
+	useEffect(() => {
+		console.log(filteredList);
+	}, [filteredList]);
 
 	const handleSearch = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {
