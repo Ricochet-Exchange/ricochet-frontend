@@ -268,7 +268,9 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 				handleOpen();
 				setEdges((eds) => {
 					const edge = addEdge({ ...connection, animated: false }, eds);
-					const newActiveEdge = edge.find((e) => e.animated === false)!;
+					const newActiveEdge = edge.find(
+						(e) => connection.source?.includes(e.source) && connection.target?.includes(e.target),
+					)!;
 					setActiveEdge([newActiveEdge]);
 					return edge;
 				});
