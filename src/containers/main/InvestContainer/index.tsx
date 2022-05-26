@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import { MiniChart } from 'react-ts-tradingview-widgets';
 import { UserSettings } from 'components/layout/UserSettings';
 import { InvestNav } from 'components/layout/InvestNav';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +19,7 @@ import { InvestMarket } from './InvestMarket';
 export enum TABS {
 	'MARKET',
 	'INTERACTIVE',
+	'PRICE_CHART',
 }
 
 interface IProps {}
@@ -72,6 +74,11 @@ export const InvestContainer: React.FC<IProps> = () => {
 									id={`${TABS.INTERACTIVE}`}
 									aria-controls={`tabpanel-${TABS.INTERACTIVE}`}
 								/>
+								<Tab
+									label="Price Chart"
+									id={`${TABS.PRICE_CHART}`}
+									aria-controls={`tabpanel-${TABS.PRICE_CHART}`}
+								/>
 							</Tabs>
 						</Box>
 						<TabPanel index={TABS.MARKET} tab={currentTab}>
@@ -79,6 +86,9 @@ export const InvestContainer: React.FC<IProps> = () => {
 						</TabPanel>
 						<TabPanel index={TABS.INTERACTIVE} tab={currentTab}>
 							<InteractiveStreamManager handleStart={handleStart} handleStop={handleStop} />
+						</TabPanel>
+						<TabPanel index={TABS.PRICE_CHART} tab={currentTab}>
+							<MiniChart colorTheme="dark" symbol="SUSHISWAPPOLYGON:RICUSDC" />
 						</TabPanel>
 					</Box>
 				</div>
