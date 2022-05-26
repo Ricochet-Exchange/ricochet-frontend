@@ -132,7 +132,6 @@ export default function StreamModal({
 
 	const onChange = (evt: ChangeEvent<HTMLInputElement>) => {
 		const val = Number(evt.target.value);
-		console.log('val: ', val);
 		if (isNaN(val) || val < 0) {
 			evt.preventDefault();
 		} else {
@@ -245,11 +244,6 @@ export default function StreamModal({
 						<Typography color="#2775ca" fontWeight="bold" fontSize={24}>
 							{activeEdge.length && activeEdge[0].target.split('-')[0]}
 						</Typography>
-						{hasStream ? null : (
-							<Typography id="transition-modal-description" sx={{ mt: 2, color: 'red' }}>
-								Please make sure all the information here is correct!
-							</Typography>
-						)}
 						<Stack spacing={16} direction="row" sx={{ justifyContent: 'center' }}>
 							{hasStream ? (
 								<StreamActionTooltip title={tooltip} placement="top" arrow>

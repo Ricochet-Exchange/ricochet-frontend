@@ -217,7 +217,7 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 							opacity: 1,
 						},
 						animated: true,
-						label: `${state[stream.flowKey]?.placeholder} /month`,
+						label: `${state[stream.flowKey]?.placeholder} ${stream.coinA}/month`,
 					};
 				}
 				return edge;
@@ -338,7 +338,7 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 			edges.map((edge) => {
 				if (edge.id === activeEdge[0].id) {
 					edge.animated = true;
-					edge.label = `${amount} /month`;
+					edge.label = `${amount} ${edge.source.split('-')[0]} /month`;
 					edge.style = {
 						...edge.style,
 						opacity: 1,
