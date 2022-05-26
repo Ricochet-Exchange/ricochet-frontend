@@ -16,6 +16,8 @@ import { AFFILIATE_STATUS, getAffiliateStatus } from 'utils/getAffiliateStatus';
 import { getContract } from 'utils/getContract';
 import { rexReferralAddress } from 'constants/polygon_config';
 import { referralABI } from 'constants/abis';
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import { styled } from '@mui/material/styles';
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -28,6 +30,16 @@ const style = {
 	boxShadow: 24,
 	p: 4,
 };
+
+const StreamActionTooltip = styled(({ className, ...props }: TooltipProps) => (
+	<Tooltip {...props} classes={{ popper: className }} />
+))(() => ({
+	pointerEvents: 'auto',
+
+	[`& .${tooltipClasses.tooltip}`]: {
+		backgroundColor: 'var(--color-blue)',
+	},
+}));
 
 export type StreamModalProps = {
 	ele: any;
@@ -165,6 +177,25 @@ export default function StreamModal({
 		isLoading ||
 		!amount ||
 		((Math.floor(((parseFloat(amount) / 2592000) * 1e18) / shareScaler) * shareScaler) / 1e18) * 2592000 === 0;
+
+	const tooltip = (
+		<span style={{ fontSize: 16 }}>
+			The amount per month will be rounded off to{' '}
+			<span style={{ fontWeight: 700 }}>
+				{(
+					((Math.floor(((parseFloat(amount) / 2592000) * 1e18) / shareScaler) * shareScaler) / 1e18) *
+					2592000
+				).toFixed(6)}{' '}
+				{activeEdge.length && activeEdge[0].source.split('-')[0]}
+			</span>{' '}
+			so the contracts can evenly divide it and it will take a security deposit of{' '}
+			<span style={{ fontWeight: 700 }}>
+				{(parseFloat(amount) / 180.0).toFixed(6)} {activeEdge.length && activeEdge[0].source.split('-')[0]}
+			</span>{' '}
+			from your balance. The Deposit will be refunded in full when you close the stream or lost if your balance
+			hits zero with the stream still open.
+		</span>
+	);
 	return (
 		<div>
 			<Modal
@@ -221,13 +252,17 @@ export default function StreamModal({
 						)}
 						<Stack spacing={16} direction="row" sx={{ justifyContent: 'center' }}>
 							{hasStream ? (
-								<Button variant="contained" disabled={disabled} onClick={startStream}>
-									Update
-								</Button>
+								<StreamActionTooltip title={tooltip} placement="top" arrow>
+									<Button variant="contained" disabled={disabled} onClick={startStream}>
+										Update
+									</Button>
+								</StreamActionTooltip>
 							) : (
-								<Button variant="contained" disabled={disabled} onClick={startStream}>
-									Start
-								</Button>
+								<StreamActionTooltip title={tooltip} placement="top" arrow>
+									<Button variant="contained" disabled={disabled} onClick={startStream}>
+										Start
+									</Button>
+								</StreamActionTooltip>
 							)}
 						</Stack>
 					</Box>
