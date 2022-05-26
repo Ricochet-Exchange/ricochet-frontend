@@ -40,10 +40,6 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 		}
 	}, [flowType, state, userStreams]);
 
-	useEffect(() => {
-		console.log(filteredList);
-	}, [filteredList]);
-
 	const handleSearch = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {
 			const { value } = e.target;

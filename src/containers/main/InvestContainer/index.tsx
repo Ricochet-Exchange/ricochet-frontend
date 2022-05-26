@@ -78,7 +78,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 							<InvestMarket handleStart={handleStart} handleStop={handleStop} />
 						</TabPanel>
 						<TabPanel index={TABS.INTERACTIVE} tab={currentTab}>
-							<InteractiveStreamManager />
+							<InteractiveStreamManager handleStart={handleStart} handleStop={handleStop} />
 						</TabPanel>
 					</Box>
 				</div>

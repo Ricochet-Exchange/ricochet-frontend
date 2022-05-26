@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -7,12 +7,38 @@ import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
 
 import type { StreamModalProps } from './StreamModal';
+import { showErrorToast } from 'components/common/Toaster';
 
-type HoverCardProps = Pick<StreamModalProps, 'handleOpen' | 'handleStop'> & {
+type HoverCardProps = Pick<StreamModalProps, 'handleOpen' | 'onClickStop'> & {
+	coinA: any;
+	coinB: any;
+	stream: any;
+	flowRate: any;
 	setShowStreamCard: React.Dispatch<React.SetStateAction<boolean>>;
+	onStop: any;
 };
 
-export default function HoverCard({ handleOpen, handleStop, setShowStreamCard }: HoverCardProps) {
+export default function HoverCard({
+	handleOpen,
+	onClickStop,
+	setShowStreamCard,
+	coinA,
+	coinB,
+	stream,
+	flowRate,
+	onStop,
+}: HoverCardProps) {
+	const stopStream = useCallback(() => {
+		const callback = (e?: string) => {
+			if (e) {
+				showErrorToast(e, 'Error');
+			} else {
+				onStop();
+				setShowStreamCard(false);
+			}
+		};
+		onClickStop(callback);
+	}, [onClickStop, onStop, setShowStreamCard]);
 	return (
 		<Card
 			sx={{
@@ -28,17 +54,20 @@ export default function HoverCard({ handleOpen, handleStop, setShowStreamCard }:
 			<CardContent>
 				<Typography>Streaming</Typography>
 				<Typography>
-					<span>1000 USDC</span> per month
+					<span>
+						{flowRate} {coinA}
+					</span>{' '}
+					per month
 				</Typography>
 				<br />
 				<br />
 				<Typography>Already spent</Typography>
-				<Typography>
-					200 USDC
-					<br />
-					To purchase
+				<Typography sx={{ color: '#2775ca' }}>
+					{stream} {coinA}
 				</Typography>
-				<Typography variant="body2">0.08 RIC</Typography>
+				<br />
+				<Typography>To purchase</Typography>
+				<Typography sx={{ color: '#2775ca' }}>{coinB}</Typography>
 				<br />
 			</CardContent>
 			<CardActions>
@@ -52,14 +81,7 @@ export default function HoverCard({ handleOpen, handleStop, setShowStreamCard }:
 					>
 						Edit
 					</Button>
-					<Button
-						variant="contained"
-						onClick={() => {
-							handleStop();
-							setShowStreamCard(false);
-							console.log('Stream stopped!');
-						}}
-					>
+					<Button variant="contained" onClick={stopStream}>
 						Stop
 					</Button>
 				</Stack>

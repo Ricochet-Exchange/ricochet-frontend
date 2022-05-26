@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import ReactFlow, {
 	addEdge,
 	applyEdgeChanges,
@@ -14,6 +14,12 @@ import { Coin } from 'constants/coins';
 import { CoinNode } from './CoinNode';
 import StreamModal from './StreamModal';
 import HoverCard from './HoverCard';
+import { flowConfig, InvestmentFlow, RoutesToFlowTypes } from 'constants/flowConfig';
+import { useRouteMatch } from 'react-router-dom';
+import { useShallowSelector } from 'hooks/useShallowSelector';
+import { selectMain, selectUserStreams } from 'store/main/selectors';
+import { DAIxAddress, RICAddress, USDCxAddress, WBTCxAddress, WETHxAddress } from 'constants/polygon_config';
+import './reactFlow.styles.module.scss';
 
 const sourceCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC].map((coin, idx) => {
 	return {
@@ -43,20 +49,13 @@ const marketMap = {
 	[Coin.RIC]: [Coin.USDCx],
 };
 
-const initialNodes: Node<any>[] = [...sourceCoins, ...targetCoins].map((coin, idx) => {
-	return {
-		id: idx.toString(),
-		position: coin.position,
-		data: {
-			label: <CoinNode coin={coin.name} balance={1000} />,
-		},
-		type: coin.type,
-		sourcePosition: coin.sourcePosition,
-		targetPosition: coin.targetPosition,
-		style: { border: coin.type === 'input' ? '1px solid palevioletred' : '1px solid lightseagreen' },
-	};
-});
-const initialEdges: Edge<any>[] = [];
+const addressesMap = {
+	[Coin.USDCx]: USDCxAddress,
+	[Coin.DAIx]: DAIxAddress,
+	[Coin.WBTCx]: WBTCxAddress,
+	[Coin.WETHx]: WETHxAddress,
+	[Coin.RIC]: RICAddress,
+};
 
 const nodeColor = (node: Node<any>) => {
 	switch (node.type) {
@@ -71,11 +70,162 @@ const nodeColor = (node: Node<any>) => {
 	}
 };
 
-export const InteractiveStreamManager = () => {
+type InteractiveStreamManagerProps = {
+	handleStart: any;
+	handleStop: any;
+};
+
+export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ handleStart, handleStop }) => {
+	const state = useShallowSelector(selectMain);
+	const { balances, web3, isReadOnly, address } = state;
+	const userStreams = useShallowSelector(selectUserStreams);
+	const [filteredList, setFilteredList] = useState(flowConfig);
+	const match = useRouteMatch();
+	const flowType = RoutesToFlowTypes[match.path];
+
+	useEffect(() => {
+		if (flowType) {
+			setFilteredList(flowConfig.filter((each) => each.type === flowType));
+		}
+	}, [flowType, state, userStreams]);
+
+	const initialNodes: Node<any>[] = [...sourceCoins, ...targetCoins].map((coin, idx) => {
+		return {
+			id: `${coin.name}-${idx}`,
+			position: coin.position,
+			data: {
+				label: (
+					<CoinNode coin={coin.name} balance={balances ? balances[(addressesMap as any)[coin.name]] : '-'} />
+				),
+			},
+			type: coin.type,
+			sourcePosition: coin.sourcePosition,
+			targetPosition: coin.targetPosition,
+			style: { background: coin.type === 'input' ? 'palevioletred' : 'lightseagreen' },
+		};
+	});
+
+	const initialEdges: Edge<any>[] = [
+		{
+			animated: false,
+			source: 'USDCx-0',
+			target: 'RIC-9',
+			id: 'reactflow__edge-USDCx-0-RIC-9',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'USDCx-0',
+			target: 'WETHx-8',
+			id: 'reactflow__edge-USDCx-0-WETHx-8',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'USDCx-0',
+			sourceHandle: null,
+			target: 'WBTCx-7',
+			targetHandle: null,
+			id: 'reactflow__edge-USDCx-0-WBTCx-7',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'DAIx-1',
+			target: 'WETHx-8',
+			id: 'reactflow__edge-DAIx-1-WETHx-8',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'WBTCx-2',
+			target: 'USDCx-5',
+			id: 'reactflow__edge-WBTCx-2-USDCx-5',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'WETHx-3',
+			target: 'USDCx-5',
+			id: 'reactflow__edge-WETHx-3-USDCx-5',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'WETHx-3',
+			target: 'DAIx-6',
+			id: 'reactflow__edge-WETHx-3-DAIx-6',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'RIC-4',
+			target: 'USDCx-5',
+			id: 'reactflow__edge-RIC-4-USDCx-5',
+			style: {
+				opacity: 0,
+			},
+		},
+	];
+
 	const [nodes, setNodes] = useState<Node<any>[]>(initialNodes);
 	const [edges, setEdges] = useState<Edge<any>[]>(initialEdges);
 	const [activeEdge, setActiveEdge] = useState<Edge<any>[]>([]);
 	const [startNode, setStartNode] = useState<Node<any> | null>(null);
+
+	const [amount, setAmount] = React.useState('0');
+
+	const [ele, setEle] = useState<InvestmentFlow | null>(null);
+
+	useEffect(() => {
+		if (activeEdge.length) {
+			const config = filteredList.find(
+				(ele) =>
+					activeEdge[0].source.split('-')[0].includes(ele.coinA) &&
+					activeEdge[0].target.split('-')[0].includes(ele.coinB),
+			);
+			if (config) {
+				setEle(config);
+			}
+		}
+	}, [activeEdge, filteredList, userStreams]);
+
+	useEffect(() => {
+		setEdges((prev) => {
+			const current = prev.map((edge) => {
+				const stream = userStreams.find(
+					(stream) => edge.source.includes(stream.coinA) && edge.target.includes(stream.coinB),
+				);
+				if (stream) {
+					return {
+						...edge,
+						style: {
+							opacity: 1,
+						},
+						animated: true,
+						label: `${state[stream.flowKey]?.placeholder} /month`,
+					};
+				}
+				return edge;
+			});
+
+			return current;
+		});
+	}, [ele, state, userStreams]);
 
 	const [showStreamCard, setShowStreamCard] = useState<boolean>(false);
 
@@ -94,8 +244,6 @@ export const InteractiveStreamManager = () => {
 
 	const onConnect: OnConnect = useCallback(
 		(connection) => {
-			console.log(connection);
-			// console.log(initialNodes)
 			const source = initialNodes.find((node) => node.id === connection.source);
 			const target = initialNodes.find((node) => node.id === connection.target);
 
@@ -103,28 +251,30 @@ export const InteractiveStreamManager = () => {
 				return;
 			}
 
-			// console.log(source.data.label.props.coin)
-
-			// console.log((marketMap as Record<any, Coin[]>)[source.data.label.props.coin], connection.source, connection)
+			if (
+				userStreams.find(
+					(stream) =>
+						source.data.label.props.coin.includes(stream.coinA) &&
+						target.data.label.props.coin.includes(stream.coinB),
+				)
+			) {
+				console.log('stream already exists');
+				return;
+			}
 
 			if (
 				(marketMap as Record<any, Coin[]>)[source.data.label.props.coin].includes(target.data.label.props.coin)
 			) {
 				handleOpen();
-				// if not connected
 				setEdges((eds) => {
 					const edge = addEdge({ ...connection, animated: false }, eds);
-					console.log('onConnect: ', edge);
-					// if (!streamHasStarted) {
 					const newActiveEdge = edge.find((e) => e.animated === false)!;
 					setActiveEdge([newActiveEdge]);
-					// }
-					// setActiveEdge(edge)
 					return edge;
 				});
 			}
 		},
-		[setEdges],
+		[initialNodes, userStreams],
 	);
 
 	const defaultEdgeOptions: DefaultEdgeOptions = {
@@ -137,7 +287,14 @@ export const InteractiveStreamManager = () => {
 	const updateEdge = (edge: Edge<any>) => {};
 
 	const deleteEdge = (edge: Edge<any>) => {
-		setEdges((eds) => eds.filter((e) => e.id !== edge.id));
+		if (edge)
+			setEdges((eds) => {
+				const ed = eds.find((e) => e.id === edge.id);
+				if (ed) {
+					ed.animated = false;
+				}
+				return eds.filter((ed) => ed.animated);
+			});
 	};
 
 	const filterNodes = (node: Node<any>, reset = false) => {
@@ -163,7 +320,33 @@ export const InteractiveStreamManager = () => {
 		filterNodes(startNode, true);
 	};
 
-	const hasStream = false;
+	const stream =
+		activeEdge.length > 0
+			? userStreams.find(
+					(stream) =>
+						activeEdge[0].source.includes(stream.coinA) && activeEdge[0].target.includes(stream.coinB),
+			  )
+			: undefined;
+
+	const hasStream = stream !== undefined;
+
+	const onStart = () => {
+		// update edge
+		if (!hasStream) {
+			edges.map((edge) => {
+				if (edge.id === activeEdge[0].id) {
+					edge.animated = true;
+					edge.label = `${amount} /month`;
+					edge.style = {
+						...edge.style,
+						opacity: 1,
+					};
+				}
+				return edge;
+			});
+			setEdges([...edges]);
+		}
+	};
 
 	return (
 		<div style={{ width: '100%', height: '100%', position: 'relative' }}>
@@ -173,20 +356,18 @@ export const InteractiveStreamManager = () => {
 				onNodesChange={onNodesChange}
 				onEdgesChange={onEdgesChange}
 				onConnect={onConnect}
-				onNodeClick={(node) => console.log(node)}
-				onEdgeClick={(edge) => {
-					console.log(edge);
-					setShowStreamCard(true);
+				onEdgeClick={(evt, edge) => {
+					if (edge.animated === true) {
+						setActiveEdge([edge]);
+						setShowStreamCard(true);
+					}
 				}}
-				onPaneClick={(evt) => setShowStreamCard(false)}
+				onPaneClick={(evt) => {
+					setShowStreamCard(false);
+				}}
 				onConnectStart={(evt, params) => {
-					// change opacity of incompatible nodes
-					console.log('change opacity of incompatible nodes');
-
 					if (params.handleType === 'target') {
 						return;
-					} else {
-						console.log('handleId: ', params.handleId);
 					}
 					const node = nodes.find((n) => n.id === params.nodeId);
 					if (!node) {
@@ -197,7 +378,6 @@ export const InteractiveStreamManager = () => {
 					filterNodes(node);
 				}}
 				onConnectStop={(evt) => {
-					console.log('reset opacity of incompatible nodes');
 					resetNodes();
 				}}
 				defaultEdgeOptions={defaultEdgeOptions}
@@ -207,31 +387,40 @@ export const InteractiveStreamManager = () => {
 				<Controls />
 				<Background />
 			</ReactFlow>
-			<StreamModal
-				open={open}
-				handleOpen={handleOpen}
-				handleClose={handleClose}
-				handleStart={useCallback(() => {
-					edges.map((edge) => {
-						if (edge.id === activeEdge[0].id) {
-							edge.animated = true;
-							edge.label = '10 k';
-						}
-						return edge;
-					});
-					setEdges([...edges]);
-				}, [activeEdge, edges])}
-				handleStop={() => deleteEdge(activeEdge[0])}
-				activeEdge={activeEdge}
-				setEdges={setEdges}
-				resetNodes={resetNodes}
-				hasStream={hasStream}
-			/>
-			{!hasStream && showStreamCard && (
+			{open && activeEdge.length && ele && (
+				<StreamModal
+					ele={ele}
+					address={address}
+					onStart={onStart}
+					onStop={() => deleteEdge(activeEdge[0])}
+					web3={web3}
+					isReadOnly={isReadOnly}
+					flowType={flowType}
+					open={open}
+					handleOpen={handleOpen}
+					handleClose={handleClose}
+					onClickStart={handleStart(ele)}
+					onClickStop={handleStop(ele)}
+					activeEdge={activeEdge}
+					setEdges={setEdges}
+					amount={amount}
+					setAmount={setAmount}
+					resetNodes={resetNodes}
+					hasStream={hasStream}
+					deleteEdge={() => deleteEdge(activeEdge[0])}
+					flowRate={stream ? state[stream.flowKey]?.placeholder : undefined}
+				/>
+			)}
+			{hasStream && showStreamCard && activeEdge && (
 				<HoverCard
 					handleOpen={handleOpen}
-					handleStop={() => deleteEdge(activeEdge[0])}
+					onClickStop={handleStop(ele)}
 					setShowStreamCard={setShowStreamCard}
+					coinA={activeEdge[0].source.split('-')[0]}
+					coinB={activeEdge[0].target.split('-')[0]}
+					stream={state[stream.flowKey]?.streamedSoFar}
+					flowRate={state[stream.flowKey]?.placeholder}
+					onStop={() => deleteEdge(activeEdge[0])}
 				/>
 			)}
 		</div>
