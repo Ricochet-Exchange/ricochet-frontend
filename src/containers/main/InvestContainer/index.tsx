@@ -79,7 +79,14 @@ export const InvestContainer: React.FC<IProps> = () => {
 				/>
 			</div>
 			<div className={styles.container}>
-				<div className={styles.content}>
+				<div
+					className={styles.content}
+					style={
+						currentTab === TABS.INTERACTIVE
+							? { width: '100%', height: 'calc(100vh - 200px)', overflowY: 'scroll' }
+							: {}
+					}
+				>
 					<Box sx={{ width: '100%', height: '100%' }}>
 						<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 							<Tabs value={currentTab} onChange={switchTab} aria-label="rex market tabs">

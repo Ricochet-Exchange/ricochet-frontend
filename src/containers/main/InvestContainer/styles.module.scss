@@ -100,9 +100,6 @@
 }
 
 .content {
-  width: 100%;
-  height: calc(100vh - 200px);
-  overflow-y: scroll;
   padding-right: 20px;
   @include tablet() {
     padding-right: 10px;
