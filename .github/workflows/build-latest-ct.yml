@@ -15,10 +15,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      - name: Setup NodeJS 14
+      - name: Setup NodeJS 16
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 16
       - name: check dependencies
         run:  yarn
       - name: Set up Docker Buildx
