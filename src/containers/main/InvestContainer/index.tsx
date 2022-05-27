@@ -9,11 +9,12 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { RICAddress } from 'constants/polygon_config';
 import { useDispatch } from 'react-redux';
-import { startFlowAction, stopFlowAction } from 'store/main/actionCreators';
+import { connectWeb3Modal, startFlowAction, stopFlowAction } from 'store/main/actionCreators';
 import styles from './styles.module.scss';
 import { InteractiveStreamManager } from '../InteractiveStreamManager';
 import { TabPanel } from './InvestTabPanel';
 import { InvestMarket } from './InvestMarket';
+import { SignInButton } from 'components/banks/SignInButton';
 
 export enum TABS {
 	'MARKET',
@@ -43,6 +44,10 @@ export const InvestContainer: React.FC<IProps> = () => {
 		},
 		[dispatch],
 	);
+
+	const handleSignIn = useCallback(() => {
+		dispatch(connectWeb3Modal());
+	}, [dispatch]);
 
 	return (
 		<div className={styles.outer_container}>
@@ -78,7 +83,14 @@ export const InvestContainer: React.FC<IProps> = () => {
 							<InvestMarket handleStart={handleStart} handleStop={handleStop} />
 						</TabPanel>
 						<TabPanel index={TABS.INTERACTIVE} tab={currentTab}>
-							<InteractiveStreamManager handleStart={handleStart} handleStop={handleStop} />
+							{address ? (
+								<InteractiveStreamManager handleStart={handleStart} handleStop={handleStop} />
+							) : (
+								<div className={styles.connectWalletContainer}>
+									<p>{t('Please connect your wallet')}</p>
+									<SignInButton onClick={handleSignIn} />
+								</div>
+							)}
 						</TabPanel>
 					</Box>
 				</div>
