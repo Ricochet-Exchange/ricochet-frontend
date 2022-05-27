@@ -1,62 +1,62 @@
+import { useShallowSelector } from 'hooks/useShallowSelector';
+import { selectMain } from 'store/main/selectors';
 import React from 'react';
 
 interface IProps {
   open?:boolean,
   onClose?:any,
   setToken?: any,
-  tokenList?: any
+  tokenList?: any,
+  direction?: string,
 }
 
 export const InchModal: React.FC<IProps> = ({
-  open, onClose, setToken, tokenList, 
+  open, onClose, setToken, tokenList, direction,
 }) => {
   if (!open) return null;
+  
+  const state = useShallowSelector(selectMain);
+
+  const {
+    balances,
+  } = state;
 
   return (
     
-    <div style={{ overflow: 'auto', height: '500px' }}>
+    <div style={{
+      overflow: 'auto', height: '500px', display: 'flex', flexDirection: 'column', 
+    }}
+    >
       
-      {!tokenList
-        ? null
-        : Object.keys(tokenList).map((token, index) => (
-          <button
-            style={{
-              padding: '5px 20px',
-              display: 'flex',
-              alignItems: 'center',
-              cursor: 'pointer',
-            }}
-                         
-            onClick={() => {
-              setToken(tokenList[token]);
-              onClose();
-            }}
-            key={`id-${token}`}
-          >
-            <img
-              style={{
-                height: '32px',
-                width: '32px',
-                marginRight: '20px',
-              }}
-              src={tokenList[token].logoURI}
-              alt="noLogo"
-            />
-            <div>
-              {/* <h4>{tokenList[token].name}</h4> */}
-              <span
-                style={{
-                  fontWeight: '600',
-                  fontSize: '15px',
-                  lineHeight: '14px',
-                }}
-              >
-                {index}
-                {tokenList[token].symbol}
-              </span>
-            </div>
-          </button>
-        ))}
+      {
+        tokenList && direction === 'out' ?
+          (tokenList).map((token: any, index: number) => (
+          
+            <button onClick={() => { setToken(token.address); onClose(); }}>
+              {token.currency}
+              {console.log(index)}
+            </button>
+          ))
+          :
+          null
+        }
+      {
+        tokenList && direction === 'in' && balances ? 
+     
+          tokenList.map((currency: any) => {
+            if (+(balances[currency.address]) > 0) {
+              return (
+                <button onClick={() => { setToken(currency.address); onClose(); }}>
+                  {currency.currency}
+                </button>
+              );
+            }
+          
+            return null;
+          })
+          :
+          ''
+      }
     </div>
   );
 };

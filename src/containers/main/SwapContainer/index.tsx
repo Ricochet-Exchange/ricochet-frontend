@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Card, Image } from 'antd';
+import { Button, Card } from 'antd';
 import { ArrowDownOutlined } from '@ant-design/icons';
 import { InchModal } from 'components/swap/InchModal';
-
 import ReactModal from 'react-modal';
 
 import {
@@ -16,19 +15,55 @@ import {
   IDLExAddress,
   RICAddress,
 } from 'constants/polygon_config';
+
 import customStyles from './styles.module.scss';
 
-const tokens = {
-  DAIxAddress,
-  USDCxAddress,
-  WETHxAddress,
-  MKRxAddress, 
-  WBTCxAddress,
-  MATICxAddress,
-  SUSHIxAddress,
-  IDLExAddress,
-  RICAddress,
-};
+const supportedCurrencies = [ 
+  {
+    currency: 'DAIx',
+    address: DAIxAddress,
+  },
+
+  {
+    currency: 'USDCx',
+    address: USDCxAddress,
+  },
+
+  {
+    currency: 'WETHx',
+    address: WETHxAddress,
+  },
+
+  {
+    currency: 'MKRx',
+    address: MKRxAddress,
+  },
+
+  {
+    currency: 'WBTCx',
+    address: WBTCxAddress,
+  },
+
+  {
+    currency: 'MATICx',
+    address: MATICxAddress,
+  },
+
+  {
+    currency: 'SUSHIx',
+    address: SUSHIxAddress,
+  },
+
+  {
+    currency: 'IDLEx',
+    address: IDLExAddress,
+  },
+
+  {
+    currency: 'RIC',
+    address: RICAddress,
+  },
+];
 
 interface IProps { }
 
@@ -92,16 +127,8 @@ export const SwapContainer: React.FC<IProps> = () => {
   const [quote, setQuote] = useState();
   const [fromAmount, setFromAmount] = useState();
   const [isToModalActive, setToModalActive] = useState(false);
+
   console.log('>>>>>', isToModalActive, fromToken, toToken, setQuote, setFromAmount);
-
-  // const tokens = useMemo(() => {
-  //   return { ...customTokens, ...tokenList };
-  // }, [customTokens, tokenList]);
-
-  // React.useEffect(() => {
-  //   if (!tokens.tokens || fromToken) return null;
-  //   setFromToken(tokens.tokens[nativeAddress]);
-  // }, [tokens, fromToken]);
 
   return (
     <div className={customStyles.wrapper}>
@@ -150,16 +177,9 @@ export const SwapContainer: React.FC<IProps> = () => {
               onClick={() => setFromModalActive(true)}
             >
               {fromToken ? (
-                <Image
-                  src={
-                    fromToken?.logoURI ||
-                    'https://etherscan.io/images/main/empty-token.png'
-                  }
-                  alt="nologo"
-                  width="30px"
-                  preview={false}
-                  style={{ borderRadius: '15px' }}
-                />
+                <div>
+                  {fromToken}
+                </div>
               ) : (
                 <span>Select a token</span>
               )}
@@ -215,16 +235,9 @@ export const SwapContainer: React.FC<IProps> = () => {
               type={toToken ? 'default' : 'primary'}
             >
               {toToken ? (
-                <Image
-                  src={
-                    toToken?.logoURI ||
-                    'https://etherscan.io/images/main/empty-token.png'
-                  }
-                  alt="nologo"
-                  width="30px"
-                  preview={false}
-                  style={{ borderRadius: '15px' }}
-                />
+                <div>
+                  {toToken}
+                </div>
               ) : (
                 <span>Select a token</span>
               )}
@@ -277,7 +290,8 @@ export const SwapContainer: React.FC<IProps> = () => {
           open={isFromModalActive}
           onClose={() => setFromModalActive(false)}
           setToken={setFromToken}
-          tokenList={tokens}
+          tokenList={supportedCurrencies}
+          direction="in"
         />
       </ReactModal>
       <ReactModal
@@ -290,7 +304,8 @@ export const SwapContainer: React.FC<IProps> = () => {
           open={isToModalActive}
           onClose={() => setToModalActive(false)}
           setToken={setToToken}
-          tokenList={tokens}
+          tokenList={supportedCurrencies}
+          direction="out"
         />
 
       </ReactModal>
