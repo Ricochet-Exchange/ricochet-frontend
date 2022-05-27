@@ -156,10 +156,10 @@ export default function StreamModal({
 			} else {
 				onStart();
 			}
-			// setIsLoading(false);
+			setIsLoading(false);
 
-			// resetNodes();
-			// handleClose();
+			resetNodes();
+			handleClose();
 		};
 		if (flowType === FlowTypes.market) {
 			// only for market flows
