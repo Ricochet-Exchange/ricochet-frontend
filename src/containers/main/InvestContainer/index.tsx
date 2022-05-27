@@ -15,6 +15,8 @@ import { InteractiveStreamManager } from '../InteractiveStreamManager';
 import { TabPanel } from './InvestTabPanel';
 import { InvestMarket } from './InvestMarket';
 import { SignInButton } from 'components/banks/SignInButton';
+import { useRouteMatch } from 'react-router-dom';
+import { FlowTypes, RoutesToFlowTypes } from 'constants/flowConfig';
 
 export enum TABS {
 	'MARKET',
@@ -27,6 +29,9 @@ export const InvestContainer: React.FC<IProps> = () => {
 	const state = useShallowSelector(selectMain);
 	const { address, balances } = state;
 	const dispatch = useDispatch();
+
+	const match = useRouteMatch();
+	const flowType = RoutesToFlowTypes[match.path];
 
 	const [currentTab, setCurrentTab] = useState<TABS>(TABS.MARKET);
 	const switchTab = (evt: React.SyntheticEvent, tab: TABS) => setCurrentTab(tab);
@@ -68,31 +73,39 @@ export const InvestContainer: React.FC<IProps> = () => {
 							: {}
 					}
 				>
-					<Box sx={{ width: '100%', height: '100%' }}>
-						<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-							<Tabs value={currentTab} onChange={switchTab} aria-label="rex market tabs">
-								<Tab label="Market" id={`${TABS.MARKET}`} aria-controls={`tabpanel-${TABS.MARKET}`} />
-								<Tab
-									label="Interactive"
-									id={`${TABS.INTERACTIVE}`}
-									aria-controls={`tabpanel-${TABS.INTERACTIVE}`}
-								/>
-							</Tabs>
+					{flowType === FlowTypes.market ? (
+						<Box sx={{ width: '100%', height: '100%' }}>
+							<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+								<Tabs value={currentTab} onChange={switchTab} aria-label="rex market tabs">
+									<Tab
+										label="Market"
+										id={`${TABS.MARKET}`}
+										aria-controls={`tabpanel-${TABS.MARKET}`}
+									/>
+									<Tab
+										label="Interactive"
+										id={`${TABS.INTERACTIVE}`}
+										aria-controls={`tabpanel-${TABS.INTERACTIVE}`}
+									/>
+								</Tabs>
+							</Box>
+							<TabPanel index={TABS.MARKET} tab={currentTab}>
+								<InvestMarket handleStart={handleStart} handleStop={handleStop} />
+							</TabPanel>
+							<TabPanel index={TABS.INTERACTIVE} tab={currentTab}>
+								{address ? (
+									<InteractiveStreamManager handleStart={handleStart} handleStop={handleStop} />
+								) : (
+									<div className={styles.connectWalletContainer}>
+										<p>{t('Please connect your wallet')}</p>
+										<SignInButton onClick={handleSignIn} />
+									</div>
+								)}
+							</TabPanel>
 						</Box>
-						<TabPanel index={TABS.MARKET} tab={currentTab}>
-							<InvestMarket handleStart={handleStart} handleStop={handleStop} />
-						</TabPanel>
-						<TabPanel index={TABS.INTERACTIVE} tab={currentTab}>
-							{address ? (
-								<InteractiveStreamManager handleStart={handleStart} handleStop={handleStop} />
-							) : (
-								<div className={styles.connectWalletContainer}>
-									<p>{t('Please connect your wallet')}</p>
-									<SignInButton onClick={handleSignIn} />
-								</div>
-							)}
-						</TabPanel>
-					</Box>
+					) : (
+						<InvestMarket handleStart={handleStart} handleStop={handleStop} />
+					)}
 				</div>
 
 				<div>
