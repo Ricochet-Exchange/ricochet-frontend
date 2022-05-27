@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -8,10 +8,11 @@ import { Stack } from '@mui/material';
 
 import type { StreamModalProps } from './StreamModal';
 import { showErrorToast } from 'components/common/Toaster';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 type HoverCardProps = Pick<StreamModalProps, 'handleOpen' | 'onClickStop'> & {
-	coinA: any;
-	coinB: any;
+	coinA: string;
+	coinB: string;
 	stream: any;
 	flowRate: any;
 	setShowStreamCard: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,12 +29,17 @@ export default function HoverCard({
 	flowRate,
 	onStop,
 }: HoverCardProps) {
+	const [isLoading, setIsLoading] = useState(false);
+
 	const stopStream = useCallback(() => {
+		setIsLoading(true);
 		const callback = (e?: string) => {
 			if (e) {
 				showErrorToast(e, 'Error');
+				setIsLoading(false);
 			} else {
 				onStop();
+				setIsLoading(false);
 				setShowStreamCard(false);
 			}
 		};
@@ -72,18 +78,12 @@ export default function HoverCard({
 			</CardContent>
 			<CardActions>
 				<Stack spacing={16} direction="row" sx={{ justifyContent: 'center' }}>
-					<Button
-						variant="contained"
-						onClick={() => {
-							handleOpen();
-							console.log('Updated Stream!');
-						}}
-					>
+					<Button variant="contained" onClick={handleOpen}>
 						Edit
 					</Button>
-					<Button variant="contained" onClick={stopStream}>
+					<LoadingButton loading={isLoading} variant="contained" onClick={stopStream}>
 						Stop
-					</Button>
+					</LoadingButton>
 				</Stack>
 			</CardActions>
 		</Card>

@@ -3,7 +3,7 @@ import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
@@ -156,10 +156,10 @@ export default function StreamModal({
 			} else {
 				onStart();
 			}
-			setIsLoading(false);
+			// setIsLoading(false);
 
-			resetNodes();
-			handleClose();
+			// resetNodes();
+			// handleClose();
 		};
 		if (flowType === FlowTypes.market) {
 			// only for market flows
@@ -249,15 +249,29 @@ export default function StreamModal({
 						<Stack spacing={16} direction="row" sx={{ justifyContent: 'center' }}>
 							{hasStream ? (
 								<StreamActionTooltip title={tooltip} placement="top" arrow>
-									<Button variant="contained" disabled={disabled} onClick={startStream}>
-										Update
-									</Button>
+									<span>
+										<LoadingButton
+											variant="contained"
+											loading={isLoading}
+											disabled={disabled}
+											onClick={startStream}
+										>
+											Update
+										</LoadingButton>
+									</span>
 								</StreamActionTooltip>
 							) : (
 								<StreamActionTooltip title={tooltip} placement="top" arrow>
-									<Button variant="contained" disabled={disabled} onClick={startStream}>
-										Start
-									</Button>
+									<span>
+										<LoadingButton
+											variant="contained"
+											loading={isLoading}
+											disabled={disabled}
+											onClick={startStream}
+										>
+											Start
+										</LoadingButton>
+									</span>
 								</StreamActionTooltip>
 							)}
 						</Stack>
