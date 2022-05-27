@@ -184,22 +184,22 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 
 	const [nodes, setNodes] = useState<Node<any>[]>(initialNodes);
 	const [edges, setEdges] = useState<Edge<any>[]>(initialEdges);
-	const [activeEdge, setActiveEdge] = useState<Edge<any>[]>([]);
+	const [activeEdge, setActiveEdge] = useState<Edge<any> | null>(null);
 	const [startNode, setStartNode] = useState<Node<any> | null>(null);
 
 	const [amount, setAmount] = React.useState('0');
 
-	const [ele, setEle] = useState<InvestmentFlow | null>(null);
+	const [flow, setFlow] = useState<InvestmentFlow | null>(null);
 
 	useEffect(() => {
-		if (activeEdge.length) {
+		if (activeEdge) {
 			const config = filteredList.find(
-				(ele) =>
-					activeEdge[0].source.split('-')[0].includes(ele.coinA) &&
-					activeEdge[0].target.split('-')[0].includes(ele.coinB),
+				(flow) =>
+					activeEdge.source.split('-')[0].includes(flow.coinA) &&
+					activeEdge.target.split('-')[0].includes(flow.coinB),
 			);
 			if (config) {
-				setEle(config);
+				setFlow(config);
 			}
 		}
 	}, [activeEdge, filteredList, userStreams]);
@@ -225,7 +225,7 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 
 			return current;
 		});
-	}, [ele, state, userStreams]);
+	}, [flow, state, userStreams]);
 
 	const [showStreamCard, setShowStreamCard] = useState<boolean>(false);
 
@@ -271,7 +271,7 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 					const newActiveEdge = edge.find(
 						(e) => connection.source?.includes(e.source) && connection.target?.includes(e.target),
 					)!;
-					setActiveEdge([newActiveEdge]);
+					setActiveEdge(newActiveEdge);
 					return edge;
 				});
 			}
@@ -322,21 +322,19 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		filterNodes(startNode, true);
 	};
 
-	const stream =
-		activeEdge.length > 0
-			? userStreams.find(
-					(stream) =>
-						activeEdge[0].source.includes(stream.coinA) && activeEdge[0].target.includes(stream.coinB),
-			  )
-			: undefined;
+	const stream = activeEdge
+		? userStreams.find(
+				(stream) => activeEdge.source.includes(stream.coinA) && activeEdge.target.includes(stream.coinB),
+		  )
+		: undefined;
 
 	const hasStream = stream !== undefined;
 
 	const onStart = () => {
 		// update edge
-		if (!hasStream) {
+		if (!hasStream && activeEdge) {
 			edges.map((edge) => {
-				if (edge.id === activeEdge[0].id) {
+				if (edge.id === activeEdge.id) {
 					edge.animated = true;
 					edge.label = `${amount} ${edge.source.split('-')[0]} /month`;
 					edge.style = {
@@ -360,7 +358,7 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 				onConnect={onConnect}
 				onEdgeClick={(evt, edge) => {
 					if (edge.animated === true) {
-						setActiveEdge([edge]);
+						setActiveEdge(edge);
 						setShowStreamCard(true);
 					}
 				}}
@@ -389,40 +387,39 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 				<Controls />
 				<Background />
 			</ReactFlow>
-			{open && activeEdge.length && ele && (
+			{open && activeEdge && flow && (
 				<StreamModal
-					ele={ele}
+					flow={flow}
+					activeEdge={activeEdge}
 					address={address}
 					onStart={onStart}
-					onStop={() => deleteEdge(activeEdge[0])}
 					web3={web3}
 					isReadOnly={isReadOnly}
 					flowType={flowType}
 					open={open}
 					handleOpen={handleOpen}
 					handleClose={handleClose}
-					onClickStart={handleStart(ele)}
-					onClickStop={handleStop(ele)}
-					activeEdge={activeEdge}
+					onClickStart={handleStart(flow)}
+					onClickStop={handleStop(flow)}
 					setEdges={setEdges}
 					amount={amount}
 					setAmount={setAmount}
 					resetNodes={resetNodes}
 					hasStream={hasStream}
-					deleteEdge={() => deleteEdge(activeEdge[0])}
+					deleteEdge={() => deleteEdge(activeEdge)}
 					flowRate={stream ? state[stream.flowKey]?.placeholder : undefined}
 				/>
 			)}
 			{hasStream && showStreamCard && activeEdge && (
 				<HoverCard
 					handleOpen={handleOpen}
-					onClickStop={handleStop(ele)}
+					onClickStop={handleStop(flow)}
 					setShowStreamCard={setShowStreamCard}
-					coinA={activeEdge[0].source.split('-')[0]}
-					coinB={activeEdge[0].target.split('-')[0]}
+					coinA={activeEdge.source.split('-')[0]}
+					coinB={activeEdge.target.split('-')[0]}
 					stream={state[stream.flowKey]?.streamedSoFar}
 					flowRate={state[stream.flowKey]?.placeholder}
-					onStop={() => deleteEdge(activeEdge[0])}
+					onStop={() => deleteEdge(activeEdge)}
 				/>
 			)}
 		</div>

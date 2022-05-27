@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import { FlowTypes } from 'constants/flowConfig';
+import { FlowTypes, InvestmentFlow } from 'constants/flowConfig';
 import Web3 from 'web3';
 import { getShareScaler } from 'utils/getShareScaler';
 import { ExchangeKeys } from 'utils/getExchangeAddress';
@@ -18,6 +18,7 @@ import { rexReferralAddress } from 'constants/polygon_config';
 import { referralABI } from 'constants/abis';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
+import type { Edge } from 'react-flow-renderer';
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -42,7 +43,8 @@ const StreamActionTooltip = styled(({ className, ...props }: TooltipProps) => (
 }));
 
 export type StreamModalProps = {
-	ele: any;
+	flow: InvestmentFlow;
+	activeEdge: Edge;
 	open: boolean;
 	web3: Web3;
 	address: any;
@@ -50,36 +52,33 @@ export type StreamModalProps = {
 	handleOpen: any;
 	handleClose: any;
 	onClickStart: any;
-	activeEdge: any;
 	setEdges: any;
 	amount: string;
 	setAmount: any;
 	resetNodes: any;
 	hasStream: boolean;
 	onClickStop: any;
-	flowType: any;
+	flowType: FlowTypes;
 	onStart: any;
-	onStop: any;
 	deleteEdge: any;
 	flowRate: any;
 };
 
 export default function StreamModal({
-	ele,
+	flow,
+	activeEdge,
 	open,
 	web3,
 	address,
 	isReadOnly,
 	handleOpen,
 	handleClose,
-	activeEdge,
 	setEdges,
 	amount,
 	setAmount,
 	resetNodes,
 	hasStream,
 	onStart,
-	onStop,
 	flowType,
 	onClickStart,
 	onClickStop,
@@ -92,6 +91,9 @@ export default function StreamModal({
 	const [isAffiliate, setIsAffiliate] = useState(false);
 
 	const contract = getContract(rexReferralAddress, referralABI, web3);
+
+	const coinA = activeEdge.source.split('-')[0];
+	const coinB = activeEdge.target.split('-')[0];
 
 	useEffect(() => {
 		let isMounted = true;
@@ -118,9 +120,10 @@ export default function StreamModal({
 	useEffect(() => {
 		let isMounted = true;
 
-		if (web3?.currentProvider === null || flowType !== FlowTypes.market || !ele) return;
-		const exchangeKey = ele.flowKey.replace('FlowQuery', '') as ExchangeKeys;
-		getShareScaler(web3, exchangeKey, ele.tokenA, ele.tokenB).then((res) => {
+		if (web3?.currentProvider === null || flowType !== FlowTypes.market) return;
+		const { flowKey, tokenA, tokenB } = flow;
+		const exchangeKey = flowKey.replace('FlowQuery', '') as ExchangeKeys;
+		getShareScaler(web3, exchangeKey, tokenA, tokenB).then((res) => {
 			if (isMounted) {
 				setShareScaler(res);
 			}
@@ -128,7 +131,7 @@ export default function StreamModal({
 		return () => {
 			isMounted = false;
 		};
-	}, [web3, flowType, ele]);
+	}, [web3, flowType, flow]);
 
 	const onChange = (evt: ChangeEvent<HTMLInputElement>) => {
 		const val = Number(evt.target.value);
@@ -159,6 +162,7 @@ export default function StreamModal({
 			handleClose();
 		};
 		if (flowType === FlowTypes.market) {
+			// only for market flows
 			onClickStart(
 				(
 					((Math.floor(((parseFloat(amount) / 2592000) * 1e18) / shareScaler) * shareScaler) / 1e18) *
@@ -166,8 +170,6 @@ export default function StreamModal({
 				).toString(),
 				callback,
 			);
-		} else {
-			onClickStart(amount, callback);
 		}
 	}, [amount, deleteEdge, flowType, handleClose, isAffiliate, onClickStart, onStart, resetNodes, shareScaler]);
 
@@ -185,11 +187,11 @@ export default function StreamModal({
 					((Math.floor(((parseFloat(amount) / 2592000) * 1e18) / shareScaler) * shareScaler) / 1e18) *
 					2592000
 				).toFixed(6)}{' '}
-				{activeEdge.length && activeEdge[0].source.split('-')[0]}
+				{coinA}
 			</span>{' '}
 			so the contracts can evenly divide it and it will take a security deposit of{' '}
 			<span style={{ fontWeight: 700 }}>
-				{(parseFloat(amount) / 180.0).toFixed(6)} {activeEdge.length && activeEdge[0].source.split('-')[0]}
+				{(parseFloat(amount) / 180.0).toFixed(6)} {coinA}
 			</span>{' '}
 			from your balance. The Deposit will be refunded in full when you close the stream or lost if your balance
 			hits zero with the stream still open.
@@ -238,11 +240,11 @@ export default function StreamModal({
 							/>
 						</Box>
 						<Typography color="#2775ca" fontWeight="bold" fontSize={24}>
-							{activeEdge.length && activeEdge[0].source.split('-')[0]}
+							{coinA}
 						</Typography>
 						<Typography>per month into</Typography>
 						<Typography color="#2775ca" fontWeight="bold" fontSize={24}>
-							{activeEdge.length && activeEdge[0].target.split('-')[0]}
+							{coinB}
 						</Typography>
 						<Stack spacing={16} direction="row" sx={{ justifyContent: 'center' }}>
 							{hasStream ? (
