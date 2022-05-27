@@ -77,3 +77,13 @@
   width: 24px;
   height: 24px;
 }
+
+.ric_price_container {
+  background-color: var(--color-blue);
+  display: flex;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  width: auto;
+}
