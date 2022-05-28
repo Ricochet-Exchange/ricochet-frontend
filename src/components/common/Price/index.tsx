@@ -9,7 +9,7 @@ import { useShallowSelector } from '../../../hooks/useShallowSelector';
 import { selectMain } from '../../../store/main/selectors';
 import { FlowTypes } from 'constants/flowConfig';
 import { Coin } from 'constants/coins';
-import { querySushiPlPirce } from 'api';
+import { querySushiPoolPirces } from 'api';
 
 type Props = {
 	flowType: FlowTypes;
@@ -29,7 +29,9 @@ const getPrice = async (web3: Web3): Promise<string> => {
 // ie: <Price className='price' />
 export default function Price({ flowType, coinA, coinB }: Props) {
 	const [launchPadPrice, setLaunchPadPrice] = React.useState('');
-	const [marketPairPrice, setMarketPairPrice] = React.useState('');
+	const [marketPairPrice, setMarketPairPrice] = React.useState({
+		[`${coinA}-${coinB}`]: '',
+	});
 	const { web3 } = useShallowSelector(selectMain);
 	React.useEffect(() => {
 		let isMounted = true;
@@ -41,29 +43,48 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 			}
 		});
 
-		querySushiPlPirce().then(({ data }) => {
-			if (data?.data?.pair?.token1Price) {
-				if (isMounted) {
-					setMarketPairPrice(data?.data?.pair?.token1Price);
-				}
+		querySushiPoolPirces().then(({ data }) => {
+			if (data?.error) {
+				console.error('fetching Sushi Pools price error: ', data.error);
 			} else {
-				console.error('fetching Sushi Pools price error: ', data);
+				console.log('coin: ', coinA, coinB);
+				const pairs = data?.data;
+				console.log(pairs);
+				if (isMounted && pairs) {
+					const [_coinA, _coinB] = Object.keys(pairs).join('').split('_');
+					console.log('_coin', _coinA, _coinB);
+
+					let realPrice = '';
+					if (coinA === _coinA && coinB === _coinB) {
+						realPrice = pairs[`${coinA}_${coinB}`].token1Price;
+					} else if (coinA === _coinB && coinB === _coinA) {
+						realPrice = pairs[`${coinB}_${coinA}`].token0Price;
+					}
+					setMarketPairPrice((prev) => {
+						return {
+							...prev,
+							[`${coinA}-${coinB}`]: realPrice,
+						};
+					});
+				}
 			}
 		});
 
 		return () => {
 			isMounted = false;
 		};
-	}, [web3]);
+	}, [coinA, coinB, web3]);
 
-	if (!launchPadPrice && !marketPairPrice) return null;
+	console.log('pair price', marketPairPrice[`${coinA}-${coinB}`]);
+
+	if (!launchPadPrice && !marketPairPrice[`${coinA}-${coinB}`]) return null;
 
 	return (
 		<div className={styles.balance_container}>
 			<span className={styles.balance}>
 				{flowType === FlowTypes.launchpad
-					? `🚀  ${trimPad(launchPadPrice, 2)} ${coinA}/${coinB}`
-					: `@ ${trimPad(marketPairPrice, 3)} ${coinA}/${coinB}`}
+					? `🚀 ${trimPad(launchPadPrice, 2)} ${coinA}/${coinB}`
+					: `@ ${trimPad(marketPairPrice[`${coinA}-${coinB}`], 3)} ${coinA}/${coinB}`}
 			</span>
 		</div>
 	);

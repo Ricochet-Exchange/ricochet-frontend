@@ -3,7 +3,7 @@ import { getQueryGrath } from 'utils/getQueryGrath';
 import { getQueryReceived } from 'utils/getQueryReceived';
 import { getQueryDistributions } from 'utils/getQueryDistributions';
 import { getQueryStreams } from 'utils/getQueryStreams';
-import { getRicPrice } from 'utils/getRicPrice';
+import { getSushiPoolPrices } from 'utils/getSushiPoolPrice';
 
 export const queryFlows = async (queryAddress: string) => {
 	const QUERY_URL = process.env.REACT_APP_API_GRATH || '';
@@ -33,9 +33,9 @@ export const queryReceived = async (receiver: string) => {
 	return axios.post(QUERY_URL, { query });
 };
 
-export const querySushiPlPirce = async () => {
+export const querySushiPoolPirces = async () => {
 	const QUERY_URL = `https://api.thegraph.com/subgraphs/name/sushiswap/matic-exchange`;
-	const query = getRicPrice();
+	const query = getSushiPoolPrices();
 
 	return axios.post(QUERY_URL, { query });
 };
