@@ -27,7 +27,6 @@ import { CoinRateForm } from '../CoinRateForm';
 // import Price from '../../common/Price';
 import LpAPY from '../../common/LpAPY';
 import Price from '../../common/Price';
-import { RicPrice } from '../../common/RicPrice';
 import styles from './styles.module.scss';
 
 TimeAgo.addDefaultLocale(en);
@@ -216,11 +215,7 @@ export const PanelChange: FC<IProps> = ({
 								</span>
 							) : (
 								<div className={styles.row}>
-									{flowType === 'launchpad' ? (
-										<Price />
-									) : flowType === FlowTypes.market ? (
-										<RicPrice />
-									) : null}
+									<Price flowType={flowType} coinA={coinA} coinB={coinB} />
 									<div className={styles.coin}>
 										<CoinChange nameCoinLeft={coinA} nameCoinRight={coinB} />
 										{flowType === 'sushiLP' && <LpAPY contractAddress={contractAddress} />}
