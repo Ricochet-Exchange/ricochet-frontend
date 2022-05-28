@@ -11,6 +11,19 @@ import { FlowTypes } from 'constants/flowConfig';
 import { Coin } from 'constants/coins';
 import { querySushiPoolPirces } from 'api';
 
+// Sushi Pools
+const poolAddresses = {
+	[`${Coin.RIC}-${Coin.USDC}`]: '0xdbf5d66d77a83b96763c965d193d0fdd1f8a184b', // need {token1Price}
+	[`${Coin.USDC}-${Coin.RIC}`]: '0xdbf5d66d77a83b96763c965d193d0fdd1f8a184b', // need {token0Price}
+	// FIXME: add other pools
+	[`${Coin.USDC}-${Coin.WBTC}`]: '',
+	[`${Coin.WBTC}-${Coin.USDC}`]: '',
+	[`${Coin.USDC}-${Coin.ETH}`]: '',
+	[`${Coin.ETH}-${Coin.USDC}`]: '',
+	[`${Coin.DAI}-${Coin.ETH}`]: '',
+	[`${Coin.ETH}-${Coin.DAI}`]: '',
+};
+
 type Props = {
 	flowType: FlowTypes;
 	coinA: Coin;
@@ -43,22 +56,23 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 			}
 		});
 
-		querySushiPoolPirces().then(({ data }) => {
+		querySushiPoolPirces(poolAddresses[`${coinA}-${coinB}`]).then(({ data }) => {
 			if (data?.error) {
 				console.error('fetching Sushi Pools price error: ', data.error);
 			} else {
 				console.log('coin: ', coinA, coinB);
-				const pairs = data?.data;
-				console.log(pairs);
-				if (isMounted && pairs) {
-					const [_coinA, _coinB] = Object.keys(pairs).join('').split('_');
+				const { pair } = data.data;
+				console.log(pair);
+				if (isMounted && pair) {
+					const { symbol: _coinA } = pair.token0;
+					const { symbol: _coinB } = pair.token1;
 					console.log('_coin', _coinA, _coinB);
 
 					let realPrice = '';
 					if (coinA === _coinA && coinB === _coinB) {
-						realPrice = pairs[`${coinA}_${coinB}`].token1Price;
+						realPrice = pair.token0Price;
 					} else if (coinA === _coinB && coinB === _coinA) {
-						realPrice = pairs[`${coinB}_${coinA}`].token0Price;
+						realPrice = pair.token1Price;
 					}
 					setMarketPairPrice((prev) => {
 						return {
