@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { Button, Card } from 'antd';
 import { ArrowDownOutlined } from '@ant-design/icons';
 import { InchModal } from 'components/swap/InchModal';
-import ReactModal from 'react-modal';
-
 import {
+  swapContract,
   DAIxAddress,
   USDCxAddress,
   WETHxAddress,
@@ -13,8 +12,9 @@ import {
   MATICxAddress,
   SUSHIxAddress,
   IDLExAddress,
-  RICAddress,
 } from 'constants/polygon_config';
+import { tradeABI } from 'constants/abis';
+import ReactModal from 'react-modal';
 
 import customStyles from './styles.module.scss';
 
@@ -57,11 +57,6 @@ const supportedCurrencies = [
   {
     currency: 'IDLEx',
     address: IDLExAddress,
-  },
-
-  {
-    currency: 'RIC',
-    address: RICAddress,
   },
 ];
 
@@ -129,6 +124,22 @@ export const SwapContainer: React.FC<IProps> = () => {
   const [isToModalActive, setToModalActive] = useState(false);
 
   console.log('>>>>>', isToModalActive, fromToken, toToken, setQuote, setFromAmount);
+
+  const options = {
+    contractAddress: swapContract,
+    functionName: 'swap',
+    abi: tradeABI,
+    params: {
+      _from: '',
+      _to: '',
+      amountIn: '',
+      amountOutMin: '',
+      path: ['', ''],
+      poolFees: [''],
+    },
+  };
+
+  console.log(options);
 
   return (
     <div className={customStyles.wrapper}>
