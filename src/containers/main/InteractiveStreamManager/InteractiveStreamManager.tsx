@@ -5,6 +5,7 @@ import ReactFlow, {
 	applyNodeChanges,
 	Background,
 	Controls,
+	GetMiniMapNodeAttribute,
 	MarkerType,
 	MiniMap,
 	Position,
@@ -19,7 +20,6 @@ import { useRouteMatch } from 'react-router-dom';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain, selectUserStreams } from 'store/main/selectors';
 import { DAIxAddress, RICAddress, USDCxAddress, WBTCxAddress, WETHxAddress } from 'constants/polygon_config';
-import './reactFlow.styles.module.scss';
 
 const sourceCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC].map((coin, idx) => {
 	return {
@@ -57,16 +57,16 @@ const addressesMap = {
 	[Coin.RIC]: RICAddress,
 };
 
-const nodeColor = (node: Node<any>) => {
+const nodeColor: GetMiniMapNodeAttribute = (node: Node<any>) => {
 	switch (node.type) {
 		case 'input':
-			return 'red';
+			return '#ff0072';
 
 		case 'output':
-			return 'green';
+			return '#0041d0';
 
 		default:
-			return 'blue';
+			return '#ffffff';
 	}
 };
 
@@ -101,7 +101,6 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 			type: coin.type,
 			sourcePosition: coin.sourcePosition,
 			targetPosition: coin.targetPosition,
-			style: { background: coin.type === 'input' ? 'palevioletred' : 'lightseagreen' },
 		};
 	});
 
@@ -281,9 +280,6 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 
 	const defaultEdgeOptions: DefaultEdgeOptions = {
 		animated: true,
-		markerEnd: {
-			type: MarkerType.ArrowClosed,
-		},
 	};
 
 	const updateEdge = (edge: Edge<any>) => {};

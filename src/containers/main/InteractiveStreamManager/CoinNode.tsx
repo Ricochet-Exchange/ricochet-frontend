@@ -1,5 +1,6 @@
 import React from 'react';
 import { Coin, iconsCoin } from 'constants/coins';
+import ric from 'assets/images/coins/RicochetLogo.svg';
 import styles from './coinNode.styles.module.scss';
 
 type CoinNodeProps = {
@@ -8,13 +9,13 @@ type CoinNodeProps = {
 };
 
 export const CoinNode = ({ balance, coin }: CoinNodeProps) => {
-	const imgSrc = iconsCoin[coin];
+	const imgSrc = coin === Coin.RIC ? ric : iconsCoin[coin];
 
 	return (
 		<div className={styles.coinNode}>
-			<img src={imgSrc} alt={coin} width="16" height="16" />
+			<img src={imgSrc} alt={coin} width="16" height="16" style={{ borderRadius: '50%' }} />
 			<span>{(+balance).toFixed(6)}</span>
-			<span>{coin}</span>
+			<span style={{ color: 'white' }}>{coin}</span>
 		</div>
 	);
 };
