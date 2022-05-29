@@ -280,9 +280,6 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 
 	const defaultEdgeOptions: DefaultEdgeOptions = {
 		animated: true,
-		markerEnd: {
-			type: MarkerType.ArrowClosed,
-		},
 	};
 
 	const updateEdge = (edge: Edge<any>) => {};
