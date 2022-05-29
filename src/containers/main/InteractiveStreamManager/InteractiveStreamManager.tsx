@@ -19,7 +19,6 @@ import { useRouteMatch } from 'react-router-dom';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain, selectUserStreams } from 'store/main/selectors';
 import { DAIxAddress, RICAddress, USDCxAddress, WBTCxAddress, WETHxAddress } from 'constants/polygon_config';
-import './react_flow.styles.module.scss';
 
 const sourceCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC].map((coin, idx) => {
 	return {
