@@ -6,7 +6,6 @@ import ReactFlow, {
 	Background,
 	Controls,
 	GetMiniMapNodeAttribute,
-	MarkerType,
 	MiniMap,
 	Position,
 } from 'react-flow-renderer';
