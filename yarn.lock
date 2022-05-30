@@ -2427,6 +2427,13 @@
     prop-types "^15.8.1"
     react-is "^17.0.2"
 
+"@mui/icons-material@^5.8.0":
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/@mui/icons-material/-/icons-material-5.8.0.tgz#c85768434bda885c64a8e4b9e222e73912244570"
+  integrity sha512-ScwLxa0q5VYV70Jfc60V/9VD0b9SvIeZ0Jddx2Dt2pBUFFO9vKdrbt9LYiT+4p21Au5NdYIb2XSHj46CLN1v3g==
+  dependencies:
+    "@babel/runtime" "^7.17.2"
+
 "@mui/lab@^5.0.0-alpha.83":
   version "5.0.0-alpha.83"
   resolved "https://registry.yarnpkg.com/@mui/lab/-/lab-5.0.0-alpha.83.tgz#20e5acafb007407808b94384376afd3cc83d8025"
@@ -6659,6 +6666,11 @@ date-fns@^2.28.0:
   version "2.28.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.28.0.tgz#9570d656f5fc13143e50c975a3b6bbeb46cd08b2"
   integrity sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==
+
+dayjs@^1.11.2:
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.2.tgz#fa0f5223ef0d6724b3d8327134890cfe3d72fbe5"
+  integrity sha512-F4LXf1OeU9hrSYRPTTj/6FbO4HTjPKXvEIC1P2kcnFurViINCVk3ZV0xAS3XVx9MkMsXbbqlK6hjseaYbgKEHw==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.9:
   version "2.6.9"

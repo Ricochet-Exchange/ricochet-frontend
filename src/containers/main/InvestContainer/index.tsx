@@ -17,6 +17,7 @@ import { InvestMarket } from './InvestMarket';
 import { SignInButton } from 'components/banks/SignInButton';
 import { useRouteMatch } from 'react-router-dom';
 import { FlowTypes, RoutesToFlowTypes } from 'constants/flowConfig';
+import TradeHistoryTable from '../TradeHistory/TradeHistory';
 
 export enum TABS {
 	'MARKET',
@@ -89,7 +90,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 										aria-controls={`tabpanel-${TABS.INTERACTIVE}`}
 									/>
 									<Tab
-										label="Interactive"
+										label="Dashboard"
 										id={`${TABS.DASHBOARD}`}
 										aria-controls={`tabpanel-${TABS.DASHBOARD}`}
 									/>
@@ -110,7 +111,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 							</TabPanel>
 							<TabPanel index={TABS.DASHBOARD} tab={currentTab}>
 								{address ? (
-									{/** TODO */}
+									<TradeHistoryTable />
 								) : (
 									<div className={styles.connectWalletContainer}>
 										<p>{t('Please connect your wallet')}</p>
