@@ -21,6 +21,7 @@ import { FlowTypes, RoutesToFlowTypes } from 'constants/flowConfig';
 export enum TABS {
 	'MARKET',
 	'INTERACTIVE',
+	'DASHBOARD',
 }
 
 interface IProps {}
@@ -87,6 +88,11 @@ export const InvestContainer: React.FC<IProps> = () => {
 										id={`${TABS.INTERACTIVE}`}
 										aria-controls={`tabpanel-${TABS.INTERACTIVE}`}
 									/>
+									<Tab
+										label="Interactive"
+										id={`${TABS.DASHBOARD}`}
+										aria-controls={`tabpanel-${TABS.DASHBOARD}`}
+									/>
 								</Tabs>
 							</Box>
 							<TabPanel index={TABS.MARKET} tab={currentTab}>
@@ -95,6 +101,16 @@ export const InvestContainer: React.FC<IProps> = () => {
 							<TabPanel index={TABS.INTERACTIVE} tab={currentTab}>
 								{address ? (
 									<InteractiveStreamManager handleStart={handleStart} handleStop={handleStop} />
+								) : (
+									<div className={styles.connectWalletContainer}>
+										<p>{t('Please connect your wallet')}</p>
+										<SignInButton onClick={handleSignIn} />
+									</div>
+								)}
+							</TabPanel>
+							<TabPanel index={TABS.DASHBOARD} tab={currentTab}>
+								{address ? (
+									{/** TODO */}
 								) : (
 									<div className={styles.connectWalletContainer}>
 										<p>{t('Please connect your wallet')}</p>
