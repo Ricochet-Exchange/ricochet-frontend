@@ -21,7 +21,7 @@
 .input_wrap {
   @include flexbox(center, center);
   margin-bottom: 20px;
-
+  margin-top: 20px;
   @include tablet {
     width: 100%;
     padding: 15px 15px 30px 15px;
@@ -100,9 +100,6 @@
 }
 
 .content {
-  width: 100%;
-  height: calc(100vh - 200px);
-  overflow-y: scroll;
   padding-right: 20px;
   @include tablet() {
     padding-right: 10px;
@@ -160,4 +157,11 @@
   @include flexbox(center, center);
   justify-content: center;
   column-gap: 40px;
+}
+
+.connectWalletContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }

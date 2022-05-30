@@ -13,7 +13,7 @@
   height: 100%;
   margin: 0;
 
-  padding: 1em;
+  padding: 3em;
   padding-right: 3em;
 }
 
@@ -27,16 +27,17 @@
 }
 
 .container_input {
-  width: 503px;
+  margin-bottom: 20px;
   border-radius: 8px;
   background: var(--color-blue-light);
-
+  width: 503px;
   @include tablet{
     width: 100%;
   }
 }
 
 .input {
+
   border-radius: 8px;
   color: var(--color-blue);
   padding: 0;

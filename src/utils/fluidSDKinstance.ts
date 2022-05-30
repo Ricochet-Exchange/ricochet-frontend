@@ -1,13 +1,14 @@
 // @ts-ignore
-import SuperfluidSDK from '@superfluid-finance/js-sdk';
 import Web3 from 'web3';
+import { Framework } from '@superfluid-finance/sdk-core';
+import { ethers } from 'ethers';
 
-export const getSuperFluid = async (web3:Web3, tokens:string[] = ['USDC', 'WBTC', 'ETH']) => {
-  const superFluid = new SuperfluidSDK.Framework({
-    web3,
-    tokens,
-    version: 'v1',
-  });
-  await superFluid.initialize();
-  return superFluid;
+export const getSFFramework = async (web3: Web3) => {
+	const provider = new ethers.providers.Web3Provider(web3.currentProvider as any);
+	const framework = await Framework.create({
+		provider,
+		chainId: Number(process.env.REACT_APP_CHAIN_ID),
+		dataMode: 'WEB3_ONLY',
+	});
+	return framework;
 };
