@@ -7,6 +7,7 @@ export const Routes: any = {
   Distributions: `${home}/distributions`,
   InvestStreams: `${home}/invest/streams`,
   // InvestLiquidityMarkets: `${home}/invest/rex-lp`,
+  Swap: `${home}/swap`,
   InvestLaunchpads: `${home}/invest/rex-launchpad`,
   Wallet: `${home}/wallet`,
   Banks: `${home}/banks`,
@@ -14,5 +15,4 @@ export const Routes: any = {
   Refer: `${home}/refer`,
   Referral: `${home}/(.*)?/${REFERRAL_URL_PREFIX}/:referralId`,
   RecentActivity: `${home}/recent-activity`,
-  Swap: `${home}/swap`,
 };
