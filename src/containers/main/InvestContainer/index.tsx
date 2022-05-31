@@ -21,8 +21,8 @@ import TradeHistoryTable from '../TradeHistory/TradeHistory';
 
 export enum TABS {
 	'MARKET',
-	'INTERACTIVE',
-	'DASHBOARD',
+	'STREAMS',
+	'TRADES',
 }
 
 interface IProps {}
@@ -70,7 +70,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 				<div
 					className={styles.content}
 					style={
-						currentTab === TABS.INTERACTIVE
+						currentTab === TABS.STREAMS
 							? { width: '100%', height: 'calc(100vh - 200px)', overflowY: 'auto' }
 							: {}
 					}
@@ -83,23 +83,26 @@ export const InvestContainer: React.FC<IProps> = () => {
 										label="Market"
 										id={`${TABS.MARKET}`}
 										aria-controls={`tabpanel-${TABS.MARKET}`}
+										sx={{ textTransform: 'none' }}
 									/>
 									<Tab
-										label="Interactive"
-										id={`${TABS.INTERACTIVE}`}
-										aria-controls={`tabpanel-${TABS.INTERACTIVE}`}
+										label="Streams"
+										id={`${TABS.STREAMS}`}
+										aria-controls={`tabpanel-${TABS.STREAMS}`}
+										sx={{ textTransform: 'none' }}
 									/>
 									<Tab
-										label="Dashboard"
-										id={`${TABS.DASHBOARD}`}
-										aria-controls={`tabpanel-${TABS.DASHBOARD}`}
+										label="Trades"
+										id={`${TABS.TRADES}`}
+										aria-controls={`tabpanel-${TABS.TRADES}`}
+										sx={{ textTransform: 'none' }}
 									/>
 								</Tabs>
 							</Box>
 							<TabPanel index={TABS.MARKET} tab={currentTab}>
 								<InvestMarket handleStart={handleStart} handleStop={handleStop} />
 							</TabPanel>
-							<TabPanel index={TABS.INTERACTIVE} tab={currentTab}>
+							<TabPanel index={TABS.STREAMS} tab={currentTab}>
 								{address ? (
 									<InteractiveStreamManager handleStart={handleStart} handleStop={handleStop} />
 								) : (
@@ -109,7 +112,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 									</div>
 								)}
 							</TabPanel>
-							<TabPanel index={TABS.DASHBOARD} tab={currentTab}>
+							<TabPanel index={TABS.TRADES} tab={currentTab}>
 								{address ? (
 									<TradeHistoryTable />
 								) : (
