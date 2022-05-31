@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useQuery, gql } from '@apollo/client';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -17,6 +18,7 @@ import { visuallyHidden } from '@mui/utils';
 import dayjs from 'dayjs';
 import { Coin } from 'constants/coins';
 import styles from './styles.module.scss';
+import { indexIDA } from 'constants/flowConfig';
 
 type ColumnName = 'startDate' | 'endDate' | 'Input' | 'Output' | 'PnL';
 
@@ -242,11 +244,48 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 	);
 }
 
-export function TradeHistoryTable() {
-	const [order, setOrder] = React.useState<Order>('asc');
-	const [orderBy, setOrderBy] = React.useState<'startDate' | 'endDate'>('startDate');
-	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+const exchangeAddresses = indexIDA.map((ida) => ida.exchangeAddress.toLowerCase());
+
+/**
+ * @see https://github.com/Ricochet-Exchange/ricochet-frontend/pull/694#issuecomment-1141946668
+ */
+const GET_STREAMS = gql`
+	query GetStreams($sender: String!, $receivers: [String!]!) {
+		streams(where: { sender: $sender, receiver_in: $receivers, currentFlowRate: "0" }, first: 100) {
+			createdAtTimestamp
+			updatedAtTimestamp
+			streamedUntilUpdatedAt
+			receiver {
+				id
+			}
+			token {
+				id
+				symbol
+			}
+			currentFlowRate
+		}
+	}
+`;
+
+type TradeHistoryProps = {
+	address: string;
+};
+
+export function TradeHistoryTable({ address }: TradeHistoryProps) {
+	const [order, setOrder] = useState<Order>('asc');
+	const [orderBy, setOrderBy] = useState<'startDate' | 'endDate'>('startDate');
+	const [page, setPage] = useState(0);
+	const [rowsPerPage, setRowsPerPage] = useState(10);
+
+	const { loading, error, data } = useQuery(GET_STREAMS, {
+		variables: { sender: address.toLowerCase(), receivers: [...exchangeAddresses] },
+	});
+
+	useEffect(() => {
+		console.log('data: ', data);
+		console.log('loading: ', loading);
+		console.log('error: ', error);
+	}, [data, loading, error]);
 
 	const handleRequestSort = (event: React.MouseEvent<unknown>, property: 'startDate' | 'endDate') => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -262,6 +301,14 @@ export function TradeHistoryTable() {
 		setRowsPerPage(+event.target.value);
 		setPage(0);
 	};
+
+	if (loading) {
+		return <div>Loading...</div>;
+	}
+
+	if (!data.streams.length) {
+		return <div>You have no trades.</div>;
+	}
 
 	return (
 		<Paper sx={{ width: '100%', overflow: 'hidden' }}>

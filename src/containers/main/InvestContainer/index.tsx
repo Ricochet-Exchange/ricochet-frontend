@@ -114,7 +114,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 							</TabPanel>
 							<TabPanel index={TABS.TRADES} tab={currentTab}>
 								{address ? (
-									<TradeHistoryTable />
+									<TradeHistoryTable address={address} />
 								) : (
 									<div className={styles.connectWalletContainer}>
 										<p>{t('Please connect your wallet')}</p>
