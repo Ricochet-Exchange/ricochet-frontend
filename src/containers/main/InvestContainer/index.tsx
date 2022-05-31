@@ -17,7 +17,7 @@ import { InvestMarket } from './InvestMarket';
 import { SignInButton } from 'components/banks/SignInButton';
 import { useRouteMatch } from 'react-router-dom';
 import { FlowTypes, RoutesToFlowTypes } from 'constants/flowConfig';
-import TradeHistoryTable from '../TradeHistory/TradeHistory';
+import { TradeHistoryTable } from '../TradeHistory';
 
 export enum TABS {
 	'MARKET',

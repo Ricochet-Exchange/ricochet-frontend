@@ -242,7 +242,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 	);
 }
 
-export default function TradeHistoryTable() {
+export function TradeHistoryTable() {
 	const [order, setOrder] = React.useState<Order>('asc');
 	const [orderBy, setOrderBy] = React.useState<'startDate' | 'endDate'>('startDate');
 	const [page, setPage] = React.useState(0);
