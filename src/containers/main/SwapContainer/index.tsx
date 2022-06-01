@@ -1,12 +1,6 @@
-import React, { useState } from "react";
-import { Button, Card } from "antd";
+import { useState } from "react";
 import { ArrowDownOutlined } from "@ant-design/icons";
 import { InchModal } from "components/swap/InchModal";
-import { Protocol } from "@uniswap/router-sdk";
-import { AlphaRouter } from "@uniswap/smart-order-router";
-import { CurrencyAmount, Percent, Token, TradeType } from "@uniswap/sdk-core";
-import { JSBI } from "@uniswap/sdk";
-import { ethers } from "ethers";
 import {
   swapContract,
   DAIxAddress,
@@ -18,11 +12,24 @@ import {
   SUSHIxAddress,
   IDLExAddress,
 } from "constants/polygon_config";
+import ReactModal from "react-modal";
+
+import { Button, Card } from "antd";
+import React from "react";
+import { InvestNav } from "components/layout/InvestNav";
+import { getContract } from "utils/getContract";
+import { tradeABI } from "constants/abis";
+import { RICAddress } from "constants/polygon_config";
 import { selectMain } from "store/main/selectors";
 import { useShallowSelector } from "hooks/useShallowSelector";
-import { tradeABI } from "constants/abis";
-import { getContract } from "utils/getContract";
-import ReactModal from "react-modal";
+import { Protocol } from "@uniswap/router-sdk";
+import { AlphaRouter } from "@uniswap/smart-order-router";
+import { CurrencyAmount, Percent, Token, TradeType } from "@uniswap/sdk-core";
+import { JSBI } from "@uniswap/sdk";
+import { ethers } from "ethers";
+import { useTranslation } from "react-i18next";
+
+import { UserSettings } from "components/layout/UserSettings";
 
 import customStyles from "./styles.module.scss";
 
@@ -130,31 +137,19 @@ export const SwapContainer: React.FC<IProps> = () => {
   const [quote, setQuote] = useState();
   const [fromAmount, setFromAmount] = useState(0);
   const [isToModalActive, setToModalActive] = useState(false);
+
   const state = useShallowSelector(selectMain);
   const { address, balances } = state;
+  const { t } = useTranslation();
 
-  console.log(
-    ">>>>>",
-    isToModalActive,
-    fromToken,
-    toToken,
-    setQuote,
-    setFromAmount
+  const { web3 } = useShallowSelector(selectMain);
+  const contract = getContract(swapContract, tradeABI, web3);
+  const MATICx = "0x3aD736904E9e65189c3000c7DD2c8AC8bB7cD4e3";
+  const USDCx = "0xCAa7349CEA390F89641fe306D93591f87595dc1F";
+  const provider = new ethers.providers.Web3Provider(
+    web3.currentProvider as any
   );
-
-  const options = {
-    contractAddress: swapContract,
-    functionName: "swap",
-    abi: tradeABI,
-    params: {
-      _from: "",
-      _to: "",
-      amountIn: "",
-      amountOutMin: "",
-      path: ["", ""],
-      poolFees: [""],
-    },
-  };
+  const router = new AlphaRouter({ chainId: 137, provider: provider as any });
 
   const MATIC = new Token(
     137, // chainID
@@ -172,15 +167,14 @@ export const SwapContainer: React.FC<IProps> = () => {
     "USD//C"
   );
 
-  const { web3 } = useShallowSelector(selectMain);
-  const contract = getContract(swapContract, tradeABI, web3);
-  const MATICx = "0x3aD736904E9e65189c3000c7DD2c8AC8bB7cD4e3";
-  const USDCx = "0xCAa7349CEA390F89641fe306D93591f87595dc1F";
-  const provider = new ethers.providers.Web3Provider(
-    web3.currentProvider as any
+  console.log("MATIC", MATIC);
+  console.log("USDC", USDC);
+
+  const typedValueParsed = "100";
+  const amount = CurrencyAmount.fromRawAmount(
+    MATIC,
+    JSBI.BigInt(typedValueParsed)
   );
-  const router = new AlphaRouter({ chainId: 137, provider: provider as any });
-  const amount = CurrencyAmount.fromRawAmount(MATIC, JSBI.BigInt(fromAmount));
 
   async function handleSwap() {
     const route = await router.route(
@@ -226,7 +220,7 @@ export const SwapContainer: React.FC<IProps> = () => {
     setFromAmount(event.target.value);
   };
 
-  console.log(options);
+  // console.log(options);
 
   return (
     <>
