@@ -147,6 +147,12 @@ export default function StreamModal({
 			showErrorToast('Affiliates can not stream', 'Error');
 			return;
 		}
+		if (
+			!amount ||
+			((Math.floor(((parseFloat(amount) / 2592000) * 1e18) / shareScaler) * shareScaler) / 1e18) * 2592000 === 0
+		) {
+			return;
+		}
 		setIsLoading(true);
 
 		const callback = (e?: string) => {
@@ -237,6 +243,9 @@ export default function StreamModal({
 								variant="outlined"
 								value={amount}
 								onChange={onChange}
+								onClick={(evt) => {
+									evt.preventDefault();
+								}}
 							/>
 						</Box>
 						<Typography color="#2775ca" fontWeight="bold" fontSize={24}>
