@@ -16,10 +16,8 @@ import ReactModal from "react-modal";
 
 import { Button, Card } from "antd";
 import React from "react";
-import { InvestNav } from "components/layout/InvestNav";
 import { getContract } from "utils/getContract";
 import { tradeABI } from "constants/abis";
-import { RICAddress } from "constants/polygon_config";
 import { selectMain } from "store/main/selectors";
 import { useShallowSelector } from "hooks/useShallowSelector";
 import { Protocol } from "@uniswap/router-sdk";
@@ -28,9 +26,7 @@ import { CurrencyAmount, Percent, Token, TradeType } from "@uniswap/sdk-core";
 import { JSBI } from "@uniswap/sdk";
 import { ethers } from "ethers";
 import { useTranslation } from "react-i18next";
-
-import { UserSettings } from "components/layout/UserSettings";
-
+import { getUnderlyingSupertoken } from "utils/getUnderlyingToken";
 import customStyles from "./styles.module.scss";
 
 const supportedCurrencies = [
@@ -136,50 +132,53 @@ export const SwapContainer: React.FC<IProps> = () => {
   const [toToken, setToToken] = useState<ToTokenProps>();
   const [quote, setQuote] = useState();
   const [fromAmount, setFromAmount] = useState(0);
+  const [toAmount, setToAmount] = useState(0);
   const [isToModalActive, setToModalActive] = useState(false);
 
   const state = useShallowSelector(selectMain);
+
   const { address, balances } = state;
   const { t } = useTranslation();
 
   const { web3 } = useShallowSelector(selectMain);
   const contract = getContract(swapContract, tradeABI, web3);
-  const MATICx = "0x3aD736904E9e65189c3000c7DD2c8AC8bB7cD4e3";
-  const USDCx = "0xCAa7349CEA390F89641fe306D93591f87595dc1F";
+
   const provider = new ethers.providers.Web3Provider(
     web3.currentProvider as any
   );
   const router = new AlphaRouter({ chainId: 137, provider: provider as any });
 
-  const MATIC = new Token(
-    137, // chainID
-    "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", // 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270
-    18, // decimals
-    "WMATIC",
-    "Wrapped//Matic"
-  );
-
-  const USDC = new Token(
-    137,
-    "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
-    6,
-    "USDC",
-    "USD//C"
-  );
-
-  console.log("MATIC", MATIC);
-  console.log("USDC", USDC);
-
   const typedValueParsed = "100";
-  const amount = CurrencyAmount.fromRawAmount(
-    MATIC,
-    JSBI.BigInt(typedValueParsed)
-  );
 
   async function handleSwap() {
+
+    console.log('from: ', fromAmount, 'to: ', toAmount, 'fromToken: ', 
+    fromToken, 'toToken: ', toToken,
+    
+    );
+
+    let fromTokenAddress = null;
+    let toTokenAddress = null;
+    let amount = null;
+
+    /*@ts-ignore*/
+    fromTokenAddress = await getUnderlyingSupertoken(fromToken);
+    /*@ts-ignore*/
+    toTokenAddress = await getUnderlyingSupertoken(toToken);
+
+    if (fromToken !== null) {
+       amount = CurrencyAmount.fromRawAmount(
+        /*@ts-ignore*/
+        fromTokenAddress,
+        JSBI.BigInt(typedValueParsed)
+      );
+  
+    }
+
     const route = await router.route(
+      /*@ts-ignore*/
       amount,
-      USDC,
+      fromTokenAddress,
       TradeType.EXACT_INPUT,
       {
         recipient: address,
@@ -190,7 +189,7 @@ export const SwapContainer: React.FC<IProps> = () => {
     );
 
     console.log(route);
-    if (route) {
+    if (route && fromTokenAddress !== undefined && toTokenAddress !== undefined) {
       console.log(`Quote Exact In: ${route.quote.toFixed(2)}`);
       console.log(
         `Gas Adjusted Quote In: ${route.quoteGasAdjusted.toFixed(2)}`
@@ -199,13 +198,15 @@ export const SwapContainer: React.FC<IProps> = () => {
       console.log(contract.methods.swap, route?.methodParameters);
       const response = contract.methods
         .swap(
-          USDCx,
-          MATICx,
-          "100",
+          fromToken,
+          toToken,
+          fromAmount,
           "0",
           [
-            "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-            "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
+            /*@ts-ignore*/
+            `${fromTokenAddress.address}`,
+            /*@ts-ignore*/
+            `${toTokenAddress.address}`,
           ],
           ["500"]
         )
@@ -214,13 +215,19 @@ export const SwapContainer: React.FC<IProps> = () => {
         });
       console.log(response);
     }
+    else{
+      console.log(fromTokenAddress, toTokenAddress)
+    }
   }
 
   const handleFromAmountChange = (event: any) => {
-    setFromAmount(event.target.value);
+    setFromAmount(parseInt(event.target.value));
   };
 
-  // console.log(options);
+  const handleToAmountChange = (event: any) => {
+    setToAmount(parseInt(event.target.value));
+  };
+  
 
   return (
     <>
@@ -317,8 +324,8 @@ export const SwapContainer: React.FC<IProps> = () => {
                   <input
                     placeholder="0.00"
                     style={styles.input}
-                    readOnly
-                    value=""
+                    onChange={handleToAmountChange}
+                    value={toAmount}
                   />
                   <p style={{ fontWeight: "600", color: "#434343" }}>
                     {/* {toTokenAmountUsd} */}
