@@ -263,15 +263,15 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 			if (
 				(marketMap as Record<any, Coin[]>)[source.data.label.props.coin].includes(target.data.label.props.coin)
 			) {
-				handleOpen();
 				setEdges((eds) => {
-					const edge = addEdge({ ...connection, animated: false }, eds);
+					const edge = addEdge({ ...connection, animated: false }, []);
 					const newActiveEdge = edge.find(
 						(e) => connection.source?.includes(e.source) && connection.target?.includes(e.target),
 					)!;
 					setActiveEdge(newActiveEdge);
 					return edge;
 				});
+				handleOpen();
 			}
 		},
 		[initialNodes, userStreams],
@@ -373,7 +373,12 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 					filterNodes(node);
 				}}
 				onConnectStop={(evt) => {
-					resetNodes();
+					setNodes((nodes) => {
+						return nodes.map((n) => {
+							n.style = { ...n.style, opacity: 1 };
+							return n;
+						});
+					});
 				}}
 				defaultEdgeOptions={defaultEdgeOptions}
 				fitView
