@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -50,27 +50,27 @@ const columns: readonly Column[] = [
 		label: 'Input',
 		minWidth: 112,
 		align: 'left',
-		tooltip: 'the USD amount is based on the Super Token price at the start of the trade.',
+		tooltip: "USD amount = the Super Token's (below) price at the start of the trade * tokenAmount.",
 	},
 	{
 		id: 'Output',
 		label: 'Output',
 		minWidth: 112,
 		align: 'left',
-		tooltip: 'the USD amount is based on the Super Token price at the end of the trade.',
+		tooltip: "USD amount = the Super Token's (below) price at the start of the trade * tokenAmount.",
 	},
 	{
 		id: 'PnL',
 		label: 'PNL',
 		minWidth: 112,
 		align: 'left',
-		tooltip: 'PnL means profit and loss, and is calculated by (USD amount out - USD amount in) / USD amount in.',
+		tooltip: 'PnL (profit and loss) = (USD amount out - USD amount in) / USD amount in.',
 	},
 ];
 
 interface Data {
-	startDate: string;
-	endDate: string;
+	startDate: number;
+	endDate: number;
 	input: {
 		coin: Coin;
 		tokenAmount: number;
@@ -327,8 +327,8 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		);
 		if (!distribution) continue;
 		const row: Data = {
-			startDate: (Number(streamsData.streams[i].createdAtTimestamp) * 1e3).toString(),
-			endDate: Number(distribution.updatedAtTimestamp * 1e3).toString(),
+			startDate: Number(streamsData.streams[i].createdAtTimestamp) * 1e3,
+			endDate: Number(distribution.updatedAtTimestamp) * 1e3,
 			input: {
 				coin: streamsData.streams[i].token.symbol,
 				tokenAmount: Number(streamsData.streams[i].streamedUntilUpdatedAt) / 1e18,
@@ -346,7 +346,7 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 				percent: 0,
 			},
 		};
-		rows[i] = row;
+		rows.push(row);
 	}
 
 	return (
