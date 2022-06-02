@@ -72,6 +72,12 @@ const supportedCurrencies = [
   },
 ];
 
+const fUSDCxAddress = "0x0F1D7C55A2B133E000eA10EeC03c774e0d6796e8";
+const fUSDCAddress = "0xbe49ac1EadAc65dccf204D4Df81d650B50122aB2";
+const fDAIxAddress = "0x745861AeD1EEe363b4AaA5F1994Be40b1e05Ff90";
+const fDAIAddress = "0x15F0Ca26781C3852f8166eD2ebce5D18265cceb7";
+const rinkebyContract = "0xa48Fe52FE42E7107C717D82Dfa61cf5Ff6919347";
+
 interface IProps {}
 
 const styles = {
@@ -129,8 +135,8 @@ const Arrow = () => (
 
 export const SwapContainer: React.FC<IProps> = () => {
   const [isFromModalActive, setFromModalActive] = useState(false);
-  const [fromToken, setFromToken] = useState<FromTokenProps>();
-  const [toToken, setToToken] = useState<ToTokenProps>();
+  const [fromTokenAddress, setFromTokenAddress] = useState<FromTokenProps>();
+  const [toTokenAddress, setToTokenAddress] = useState<ToTokenProps>();
   const [quote, setQuote] = useState();
   const [fromAmount, setFromAmount] = useState(0);
   const [toAmount, setToAmount] = useState(0);
@@ -142,7 +148,8 @@ export const SwapContainer: React.FC<IProps> = () => {
   const { t } = useTranslation();
 
   const { web3 } = useShallowSelector(selectMain);
-  const contract = getContract(swapContract, tradeABI, web3);
+  // const contract = getContract(swapContract, tradeABI, web3);
+  const contract = getContract(rinkebyContract, tradeABI, web3);
 
   const provider = new ethers.providers.Web3Provider(
     web3.currentProvider as any
@@ -152,34 +159,43 @@ export const SwapContainer: React.FC<IProps> = () => {
   const typedValueParsed = "100";
 
   async function handleSwap() {
-
-    console.log('from: ', fromAmount, 'to: ', toAmount, 'fromToken: ', 
-    fromToken, 'toToken: ', toToken,
-    
+    console.log(
+      "from: ",
+      fromAmount,
+      "to: ",
+      toAmount,
+      "fromTokenAddress: ",
+      fromTokenAddress,
+      "toTokenAddress: ",
+      toTokenAddress
     );
 
-    let fromTokenAddress = null;
-    let toTokenAddress = null;
+    let fromToken = null;
+    let toToken = null;
     let amount = null;
 
     /*@ts-ignore*/
-    fromTokenAddress = await getUnderlyingSupertoken(fromToken);
+    fromToken = getUnderlyingSupertoken(USDCxAddress);
+    console.log("fromToken: ", fromToken);
     /*@ts-ignore*/
-    toTokenAddress = await getUnderlyingSupertoken(toToken);
+    toToken = getUnderlyingSupertoken(MATICxAddress);
+    console.log("toToken: ", toToken);
+
+    fromToken = new Token(137, fUSDCAddress, 18, "fUSDC", "fUSDC");
+    toToken = new Token(137, fDAIAddress, 18, "fDAI", "fDAI");
 
     if (fromToken !== null) {
-       amount = CurrencyAmount.fromRawAmount(
+      amount = CurrencyAmount.fromRawAmount(
         /*@ts-ignore*/
-        fromTokenAddress,
+        fromToken,
         JSBI.BigInt(typedValueParsed)
       );
-  
     }
 
     const route = await router.route(
       /*@ts-ignore*/
       amount,
-      fromTokenAddress,
+      fromToken,
       TradeType.EXACT_INPUT,
       {
         recipient: address,
@@ -189,37 +205,34 @@ export const SwapContainer: React.FC<IProps> = () => {
       { minSplits: 1, protocols: [Protocol.V3] }
     );
 
-    console.log(route);
-    if (route && fromTokenAddress !== undefined && toTokenAddress !== undefined) {
+    console.log("route: ", route);
+    if (route && fromToken !== undefined && toToken !== undefined) {
       console.log(`Quote Exact In: ${route.quote.toFixed(2)}`);
       console.log(
         `Gas Adjusted Quote In: ${route.quoteGasAdjusted.toFixed(2)}`
       );
       console.log(`Gas Used USD: ${route.estimatedGasUsedUSD.toFixed(6)}`);
       console.log(contract.methods.swap, route?.methodParameters);
-      const response = contract.methods
-        .swap(
-          fromToken,
-          toToken,
-          fromAmount,
-          "0",
-          [
-            "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
-            /*@ts-ignore*/
-            // `${fromTokenAddress.address}`,
-            /*@ts-ignore*/
-            // `${toTokenAddress.address}`,
-          ],
-          ["500"]
-        )
-        .send({
-          from: address,
-        });
+      const response = contract.methods.swap(
+        // fromTokenAddress,
+        fUSDCxAddress,
+        // toTokenAddress,
+        fDAIxAddress,
+        20,
+        0,
+        [
+          fUSDCAddress,
+          fDAIAddress,
+          /*@ts-ignore*/
+          // `${fromToken.address}`,
+          /*@ts-ignore*/
+          // `${toTokenAddress.address}`,
+        ],
+        [500]
+      );
       console.log(response);
-    }
-    else{
-      console.log(fromTokenAddress, toTokenAddress)
+    } else {
+      console.log(fromToken, toTokenAddress);
     }
   }
 
@@ -230,7 +243,6 @@ export const SwapContainer: React.FC<IProps> = () => {
   const handleToAmountChange = (event: any) => {
     setToAmount(parseInt(event.target.value));
   };
-  
 
   return (
     <>
@@ -284,12 +296,12 @@ export const SwapContainer: React.FC<IProps> = () => {
                   }}
                   onClick={() => setFromModalActive(true)}
                 >
-                  {fromToken ? (
-                    <div>{fromToken}</div>
+                  {fromTokenAddress ? (
+                    <div>{fromTokenAddress}</div>
                   ) : (
                     <span>Select a token</span>
                   )}
-                  <span>{fromToken?.symbol}</span>
+                  <span>{fromTokenAddress?.symbol}</span>
                   <Arrow />
                 </Button>
               </div>
@@ -348,10 +360,14 @@ export const SwapContainer: React.FC<IProps> = () => {
                     border: "none",
                   }}
                   onClick={() => setToModalActive(true)}
-                  type={toToken ? "default" : "primary"}
+                  type={toTokenAddress ? "default" : "primary"}
                 >
-                  {toToken ? <div>{toToken}</div> : <span>Select a token</span>}
-                  <span>{toToken?.symbol}</span>
+                  {toTokenAddress ? (
+                    <div>{toTokenAddress}</div>
+                  ) : (
+                    <span>Select a token</span>
+                  )}
+                  <span>{toTokenAddress?.symbol}</span>
                   <Arrow />
                 </Button>
               </div>
@@ -398,7 +414,7 @@ export const SwapContainer: React.FC<IProps> = () => {
             <InchModal
               open={isFromModalActive}
               onClose={() => setFromModalActive(false)}
-              setToken={setFromToken}
+              setToken={setFromTokenAddress}
               tokenList={supportedCurrencies}
               direction="in"
             />
@@ -412,7 +428,7 @@ export const SwapContainer: React.FC<IProps> = () => {
             <InchModal
               open={isToModalActive}
               onClose={() => setToModalActive(false)}
-              setToken={setToToken}
+              setToken={setToTokenAddress}
               tokenList={supportedCurrencies}
               direction="out"
             />
