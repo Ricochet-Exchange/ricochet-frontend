@@ -91,49 +91,6 @@ interface Data {
 	};
 }
 
-const rows: Array<Data> = [
-	{
-		startDate: '1647100800000',
-		endDate: '1647792000000',
-		input: {
-			coin: Coin.USDCx,
-			tokenAmount: 100,
-			usdAmount: 100.01,
-			txn: '',
-		},
-		output: {
-			coin: Coin.ETHx,
-			tokenAmount: 0.07,
-			usdAmount: 110.02,
-			txn: '',
-		},
-		pnl: {
-			amount: 10.01,
-			percent: 10,
-		},
-	},
-	{
-		startDate: '1646841600000',
-		endDate: '1647878400000',
-		input: {
-			coin: Coin.USDCx,
-			tokenAmount: 200,
-			usdAmount: 200.02,
-			txn: '',
-		},
-		output: {
-			coin: Coin.WBTCx,
-			tokenAmount: 0.01,
-			usdAmount: 200.02,
-			txn: '',
-		},
-		pnl: {
-			amount: 20.0,
-			percent: 10,
-		},
-	},
-];
-
 type ContentProps = {
 	id: ColumnName;
 	row: Data;
@@ -152,11 +109,11 @@ function Content({ id, row }: ContentProps) {
 			break;
 
 		case 'Input':
-			content = `${row.input.tokenAmount} ${row.input.coin} ($${row.input.usdAmount})`;
+			content = `${row.input.tokenAmount.toFixed(6)} ${row.input.coin} ($${row.input.usdAmount})`;
 			break;
 
 		case 'Output':
-			content = `${row.output.tokenAmount} ${row.output.coin} ($${row.output.usdAmount})`;
+			content = `${row.output.tokenAmount.toFixed(6)} ${row.output.coin} ($${row.output.usdAmount})`;
 			break;
 
 		case 'PnL':
@@ -267,6 +224,41 @@ const GET_STREAMS = gql`
 	}
 `;
 
+const GET_DISTRIBUTIONS = gql`
+	query GetUserDistributionSubscriptions($subscriber: String!, $updatedAtTimestamps: [String!]!) {
+		indexSubscriptions(
+			first: 100
+			where: { subscriber: $subscriber, updatedAtTimestamp_in: $updatedAtTimestamps, index_ends_with: "0" }
+			orderBy: createdAtTimestamp
+			orderDirection: desc
+		) {
+			id
+			totalAmountReceivedUntilUpdatedAt
+			updatedAtTimestamp
+			createdAtTimestamp
+			approved
+			indexValueUntilUpdatedAt
+			units
+			index {
+				publisher {
+					id
+				}
+				indexValue
+				indexId
+				totalUnitsPending
+				totalUnits
+				updatedAtTimestamp
+				createdAtTimestamp
+				token {
+					id
+					name
+					symbol
+				}
+			}
+		}
+	}
+`;
+
 type TradeHistoryProps = {
 	address: string;
 };
@@ -277,15 +269,28 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
 
-	const { loading, error, data } = useQuery(GET_STREAMS, {
+	const {
+		loading: queryingStreams,
+		error: queryStreamsError,
+		data: streamsData,
+	} = useQuery(GET_STREAMS, {
 		variables: { sender: address.toLowerCase(), receivers: [...exchangeAddresses] },
 	});
 
-	useEffect(() => {
-		console.log('data: ', data);
-		console.log('loading: ', loading);
-		console.log('error: ', error);
-	}, [data, loading, error]);
+	const {
+		loading: queryingDistributions,
+		error: queryDistributionsError,
+		data: distributionsData,
+	} = useQuery(GET_DISTRIBUTIONS, {
+		skip: queryingStreams,
+		variables: {
+			subscriber: address.toLowerCase(),
+			updatedAtTimestamps:
+				streamsData && streamsData.streams.length
+					? [...streamsData.streams].map((stream) => stream.updatedAtTimestamp)
+					: [],
+		},
+	});
 
 	const handleRequestSort = (event: React.MouseEvent<unknown>, property: 'startDate' | 'endDate') => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -302,12 +307,46 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		setPage(0);
 	};
 
-	if (loading) {
+	if (queryingStreams || queryingDistributions) {
 		return <div>Loading...</div>;
 	}
 
-	if (!data.streams.length) {
+	if (queryStreamsError || queryDistributionsError) {
+		return <div>Something wrong when fetching trades history.</div>;
+	}
+
+	if (!streamsData.streams.length || !distributionsData.indexSubscriptions.length) {
 		return <div>You have no trades.</div>;
+	}
+
+	let rows: Data[] = [];
+
+	for (let i = 0; i < streamsData.streams.length; i++) {
+		const distribution = distributionsData.indexSubscriptions.find(
+			(idxSubstription: any) => idxSubstription.updatedAtTimestamp === streamsData.streams[i].updatedAtTimestamp,
+		);
+		if (!distribution) continue;
+		const row: Data = {
+			startDate: (Number(streamsData.streams[i].createdAtTimestamp) * 1e3).toString(),
+			endDate: Number(distribution.updatedAtTimestamp * 1e3).toString(),
+			input: {
+				coin: streamsData.streams[i].token.symbol,
+				tokenAmount: Number(streamsData.streams[i].streamedUntilUpdatedAt) / 1e18,
+				usdAmount: 0,
+				txn: '',
+			},
+			output: {
+				coin: distribution.index.token.symbol,
+				tokenAmount: Number(distribution.totalAmountReceivedUntilUpdatedAt) / 1e18,
+				usdAmount: 0,
+				txn: '',
+			},
+			pnl: {
+				amount: 0,
+				percent: 0,
+			},
+		};
+		rows[i] = row;
 	}
 
 	return (
