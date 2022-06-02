@@ -154,7 +154,7 @@ export const SwapContainer: React.FC<IProps> = () => {
   const provider = new ethers.providers.Web3Provider(
     web3.currentProvider as any
   );
-  const router = new AlphaRouter({ chainId: 137, provider: provider as any });
+  const router = new AlphaRouter({ chainId: 4, provider: provider as any });
 
   const typedValueParsed = "100";
 
@@ -181,16 +181,16 @@ export const SwapContainer: React.FC<IProps> = () => {
     toToken = getUnderlyingSupertoken(MATICxAddress);
     console.log("toToken: ", toToken);
 
-    fromToken = new Token(137, fUSDCAddress, 18, "fUSDC", "fUSDC");
-    toToken = new Token(137, fDAIAddress, 18, "fDAI", "fDAI");
+    fromToken = new Token(4, fUSDCxAddress, 18, "fUSDC", "fUSDC");
+    toToken = new Token(4, fDAIxAddress, 18, "fDAI", "fDAI");
 
-    if (fromToken !== null) {
-      amount = CurrencyAmount.fromRawAmount(
-        /*@ts-ignore*/
-        fromToken,
-        JSBI.BigInt(typedValueParsed)
-      );
-    }
+    // if (fromToken !== null) {
+    amount = CurrencyAmount.fromRawAmount(
+      /*@ts-ignore*/
+      fromToken,
+      JSBI.BigInt(typedValueParsed)
+    );
+    // }
 
     const route = await router.route(
       /*@ts-ignore*/
@@ -232,7 +232,7 @@ export const SwapContainer: React.FC<IProps> = () => {
       );
       console.log(response);
     } else {
-      console.log(fromToken, toTokenAddress);
+      console.log(fromToken, toToken);
     }
   }
 
