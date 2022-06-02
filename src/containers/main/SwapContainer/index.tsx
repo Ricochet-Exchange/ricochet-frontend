@@ -11,6 +11,9 @@ import {
   MATICxAddress,
   SUSHIxAddress,
   IDLExAddress,
+  USDCAddress,
+  DAIAddress,
+  WETHAddress,
 } from "constants/polygon_config";
 import ReactModal from "react-modal";
 
@@ -148,15 +151,13 @@ export const SwapContainer: React.FC<IProps> = () => {
   const { t } = useTranslation();
 
   const { web3 } = useShallowSelector(selectMain);
-  // const contract = getContract(swapContract, tradeABI, web3);
-  const contract = getContract(rinkebyContract, tradeABI, web3);
+  const contract = getContract(swapContract, tradeABI, web3);
+  // const contract = getContract(rinkebyContract, tradeABI, web3);
 
   const provider = new ethers.providers.Web3Provider(
     web3.currentProvider as any
   );
-  const router = new AlphaRouter({ chainId: 4, provider: provider as any });
-
-  const typedValueParsed = "100";
+  const router = new AlphaRouter({ chainId: 137, provider: provider as any });
 
   async function handleSwap() {
     console.log(
@@ -181,14 +182,14 @@ export const SwapContainer: React.FC<IProps> = () => {
     toToken = getUnderlyingSupertoken(MATICxAddress);
     console.log("toToken: ", toToken);
 
-    fromToken = new Token(4, fUSDCxAddress, 18, "fUSDC", "fUSDC");
-    toToken = new Token(4, fDAIxAddress, 18, "fDAI", "fDAI");
+    fromToken = new Token(137, USDCAddress, 18, "USDC", "USDC");
+    toToken = new Token(137, WETHAddress, 18, "DAI", "DAI");
 
     // if (fromToken !== null) {
     amount = CurrencyAmount.fromRawAmount(
       /*@ts-ignore*/
       fromToken,
-      JSBI.BigInt(typedValueParsed)
+      JSBI.BigInt(5)
     );
     // }
 
@@ -215,14 +216,14 @@ export const SwapContainer: React.FC<IProps> = () => {
       console.log(contract.methods.swap, route?.methodParameters);
       const response = contract.methods.swap(
         // fromTokenAddress,
-        fUSDCxAddress,
+        USDCxAddress,
         // toTokenAddress,
-        fDAIxAddress,
-        20,
+        WETHxAddress,
+        5,
         0,
         [
-          fUSDCAddress,
-          fDAIAddress,
+          USDCAddress,
+          WETHAddress
           /*@ts-ignore*/
           // `${fromToken.address}`,
           /*@ts-ignore*/
