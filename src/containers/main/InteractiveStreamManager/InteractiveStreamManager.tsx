@@ -114,8 +114,6 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		};
 	});
 
-	console.log(initialNodes);
-
 	const initialEdges: Edge<any>[] = [
 		{
 			animated: false,
