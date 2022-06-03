@@ -21,7 +21,7 @@
 .input_wrap {
   @include flexbox(center, center);
   margin-bottom: 20px;
-
+  margin-top: 20px;
   @include tablet {
     width: 100%;
     padding: 15px 15px 30px 15px;
