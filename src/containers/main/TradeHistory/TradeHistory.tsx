@@ -227,8 +227,8 @@ const GET_STREAMS = gql`
 const GET_DISTRIBUTIONS = gql`
 	query GetUserDistributionSubscriptions($subscriber: String!, $updatedAtTimestamps: [String!]!) {
 		indexSubscriptions(
-			first: 100
-			where: { subscriber: $subscriber, updatedAtTimestamp_in: $updatedAtTimestamps, index_ends_with: "0" }
+			first: 1000
+			where: { subscriber: $subscriber, updatedAtTimestamp_in: $updatedAtTimestamps }
 			orderBy: createdAtTimestamp
 			orderDirection: desc
 		) {
@@ -322,13 +322,45 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 	let rows: Data[] = [];
 
 	for (let i = 0; i < streamsData.streams.length; i++) {
-		const distribution = distributionsData.indexSubscriptions.find(
-			(idxSubstription: any) => idxSubstription.updatedAtTimestamp === streamsData.streams[i].updatedAtTimestamp,
+		const stream = streamsData.streams[i];
+		const distribution = distributionsData.indexSubscriptions.filter(
+			(idxSubscribtion: any) => idxSubscribtion.updatedAtTimestamp === stream.updatedAtTimestamp,
 		);
-		if (!distribution) continue;
+		let distributionExcludeSubsidy: any = {};
+		if (!distribution.length) continue;
+		else if (distribution.length === 1) {
+			distributionExcludeSubsidy.updatedAtTimestamp = distribution[0].updatedAtTimestamp;
+			distributionExcludeSubsidy.coin = distribution[0].index.token.symbol;
+			distributionExcludeSubsidy.tokenAmount = distribution[0].totalAmountReceivedUntilUpdatedAt;
+		} else if (distribution.length === 2) {
+			const input = stream.token.id;
+			const distribution1 = indexIDA.find(
+				(ida) =>
+					ida.input.toLowerCase() === input &&
+					ida.output.toLowerCase() === distribution[0].index.token.id &&
+					ida.subsidy?.toLowerCase() === distribution[1].index.token.id,
+			);
+			const distribution2 = indexIDA.find(
+				(ida) =>
+					ida.input.toLowerCase() === input &&
+					ida.output.toLowerCase() === distribution[1].index.token.id &&
+					ida.subsidy?.toLowerCase() === distribution[0].index.token.id,
+			);
+			if (distribution1) {
+				distributionExcludeSubsidy.updatedAtTimestamp = distribution[0].updatedAtTimestamp;
+				distributionExcludeSubsidy.coin = distribution[0].index.token.symbol;
+				distributionExcludeSubsidy.tokenAmount = distribution[0].totalAmountReceivedUntilUpdatedAt;
+			} else if (distribution2) {
+				distributionExcludeSubsidy.updatedAtTimestamp = distribution[1].updatedAtTimestamp;
+				distributionExcludeSubsidy.coin = distribution[1].index.token.symbol;
+				distributionExcludeSubsidy.tokenAmount = distribution[1].totalAmountReceivedUntilUpdatedAt;
+			}
+		}
+
+		if (!Object.values(distributionExcludeSubsidy).length) continue;
 		const row: Data = {
 			startDate: Number(streamsData.streams[i].createdAtTimestamp) * 1e3,
-			endDate: Number(distribution.updatedAtTimestamp) * 1e3,
+			endDate: Number(distributionExcludeSubsidy.updatedAtTimestamp) * 1e3,
 			input: {
 				coin: streamsData.streams[i].token.symbol,
 				tokenAmount: Number(streamsData.streams[i].streamedUntilUpdatedAt) / 1e18,
@@ -336,8 +368,8 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 				txn: '',
 			},
 			output: {
-				coin: distribution.index.token.symbol,
-				tokenAmount: Number(distribution.totalAmountReceivedUntilUpdatedAt) / 1e18,
+				coin: distributionExcludeSubsidy.coin,
+				tokenAmount: Number(distributionExcludeSubsidy.tokenAmount) / 1e18,
 				usdAmount: 0,
 				txn: '',
 			},
