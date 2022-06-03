@@ -18,10 +18,17 @@ import { flowConfig, InvestmentFlow, RoutesToFlowTypes } from 'constants/flowCon
 import { useRouteMatch } from 'react-router-dom';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain, selectUserStreams } from 'store/main/selectors';
-import { DAIxAddress, RICAddress, USDCxAddress, WBTCxAddress, WETHxAddress } from 'constants/polygon_config';
+import {
+	DAIxAddress,
+	MATICxAddress,
+	RICAddress,
+	USDCxAddress,
+	WBTCxAddress,
+	WETHxAddress,
+} from 'constants/polygon_config';
 import './reactFlow.styles.module.scss';
 
-const sourceCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC].map((coin, idx) => {
+const sourceCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC, Coin.MATICx].map((coin, idx) => {
 	return {
 		name: coin,
 		type: 'input',
@@ -31,7 +38,7 @@ const sourceCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC].ma
 	};
 });
 
-const targetCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC].map((coin, idx) => {
+const targetCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC, Coin.MATICx].map((coin, idx) => {
 	return {
 		name: coin,
 		type: 'output',
@@ -42,11 +49,12 @@ const targetCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC].ma
 });
 
 const marketMap = {
-	[Coin.USDCx]: [Coin.WBTCx, Coin.WETHx, Coin.RIC],
+	[Coin.USDCx]: [Coin.WBTCx, Coin.WETHx, Coin.RIC, Coin.MATICx],
 	[Coin.DAIx]: [Coin.WETHx],
 	[Coin.WBTCx]: [Coin.USDCx],
 	[Coin.WETHx]: [Coin.USDCx, Coin.DAIx],
 	[Coin.RIC]: [Coin.USDCx],
+	[Coin.MATICx]: [Coin.USDCx],
 };
 
 const addressesMap = {
@@ -55,6 +63,7 @@ const addressesMap = {
 	[Coin.WBTCx]: WBTCxAddress,
 	[Coin.WETHx]: WETHxAddress,
 	[Coin.RIC]: RICAddress,
+	[Coin.MATICx]: MATICxAddress,
 };
 
 const nodeColor = (node: Node<any>) => {
@@ -176,6 +185,24 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 			source: 'RIC-4',
 			target: 'USDCx-5',
 			id: 'reactflow__edge-RIC-4-USDCx-5',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'MATICx-6',
+			target: 'USDCx-5',
+			id: 'reactflow__edge-MATICx-6-USDCx-5',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'USDCx-0',
+			target: 'MATICx-11',
+			id: 'reactflow__edge-USDCx-0-MATICx-11',
 			style: {
 				opacity: 0,
 			},
