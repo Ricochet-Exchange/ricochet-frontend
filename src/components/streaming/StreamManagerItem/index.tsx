@@ -7,11 +7,11 @@ import { blockInvalidChar } from 'utils/blockInvalidChars';
 import { calculateFlowRate } from 'utils/calculateFlowRate';
 import {
 	twoWayMarketDAIWETHAddress,
-	// twoWayMarketMATICDAIAddress,
+	twoWayMarketMATICDAIAddress,
 	twoWayMarketWBTCAddress,
 	twoWayWETHMarketAddress,
 	twoWayMarketMATICUSDCAddress,
-	// twoWayMarketWBTCDAIAddress,
+	twoWayMarketWBTCDAIAddress,
 	wethxUsdcxExchangeAddress,
 	wbtcxUsdcxExchangeAddress,
 	usdcxEthSlpxExchangeAddress,
@@ -53,11 +53,11 @@ export const StreamManagerItem: FC<IProps> = ({
 }) => {
 	const rexMarketContracts = [
 		twoWayMarketDAIWETHAddress,
-		// twoWayMarketMATICDAIAddress,
+		twoWayMarketMATICDAIAddress,
 		twoWayMarketWBTCAddress,
 		twoWayWETHMarketAddress,
 		twoWayMarketMATICUSDCAddress,
-		// twoWayMarketWBTCDAIAddress,
+		twoWayMarketWBTCDAIAddress,
 		wethxUsdcxExchangeAddress,
 		wbtcxUsdcxExchangeAddress,
 		usdcxEthSlpxExchangeAddress,

@@ -288,46 +288,46 @@ export type MainState = {
 		streamedSoFar?: number;
 		receivedSoFar?: number;
 	};
-	// twoWayMaticDaiFlowQuery?: {
-	//   flowKey: string,
-	//   flowsReceived: number,
-	//   flowsOwned: string,
-	//   totalFlows: number,
-	//   placeholder: string,
-	//   subsidyRate: { perso:number, total:number, endDate:string },
-	//   streamedSoFar?: number,
-	//   receivedSoFar?: number,
-	// },
-	// twoWayDaiMaticFlowQuery?: {
-	//   flowKey: string,
-	//   flowsReceived: number,
-	//   flowsOwned: string,
-	//   totalFlows: number,
-	//   placeholder: string,
-	//   subsidyRate: { perso:number, total:number, endDate:string },
-	//   streamedSoFar?: number,
-	//   receivedSoFar?: number,
-	// }
-	// twoWayWbtcDaiFlowQuery?: {
-	//   flowKey: string,
-	//   flowsReceived: number,
-	//   flowsOwned: string,
-	//   totalFlows: number,
-	//   placeholder: string,
-	//   subsidyRate: { perso:number, total:number, endDate:string },
-	//   streamedSoFar?: number,
-	//   receivedSoFar?: number,
-	// },
-	// twoWayDaiWbtcFlowQuery?: {
-	//   flowKey: string,
-	//   flowsReceived: number,
-	//   flowsOwned: string,
-	//   totalFlows: number,
-	//   placeholder: string,
-	//   subsidyRate: { perso:number, total:number, endDate:string },
-	//   streamedSoFar?: number,
-	//   receivedSoFar?: number,
-	// }
+	twoWayMaticDaiFlowQuery?: {
+		flowKey: string;
+		flowsReceived: number;
+		flowsOwned: string;
+		totalFlows: number;
+		placeholder: string;
+		subsidyRate: { perso: number; total: number; endDate: string };
+		streamedSoFar?: number;
+		receivedSoFar?: number;
+	};
+	twoWayDaiMaticFlowQuery?: {
+		flowKey: string;
+		flowsReceived: number;
+		flowsOwned: string;
+		totalFlows: number;
+		placeholder: string;
+		subsidyRate: { perso: number; total: number; endDate: string };
+		streamedSoFar?: number;
+		receivedSoFar?: number;
+	};
+	twoWayWbtcDaiFlowQuery?: {
+		flowKey: string;
+		flowsReceived: number;
+		flowsOwned: string;
+		totalFlows: number;
+		placeholder: string;
+		subsidyRate: { perso: number; total: number; endDate: string };
+		streamedSoFar?: number;
+		receivedSoFar?: number;
+	};
+	twoWayDaiWbtcFlowQuery?: {
+		flowKey: string;
+		flowsReceived: number;
+		flowsOwned: string;
+		totalFlows: number;
+		placeholder: string;
+		subsidyRate: { perso: number; total: number; endDate: string };
+		streamedSoFar?: number;
+		receivedSoFar?: number;
+	};
 	isLoadingDowngrade: boolean;
 	isLoadingUpgrade: boolean;
 	isLoading: boolean;
