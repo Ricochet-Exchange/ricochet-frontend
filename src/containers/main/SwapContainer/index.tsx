@@ -14,6 +14,7 @@ import {
   USDCAddress,
   DAIAddress,
   WETHAddress,
+  WMATICAddress,
 } from "constants/polygon_config";
 import ReactModal from "react-modal";
 
@@ -183,7 +184,7 @@ export const SwapContainer: React.FC<IProps> = () => {
     console.log("toToken: ", toToken);
 
     fromToken = new Token(137, USDCAddress, 18, "USDC", "USDC");
-    toToken = new Token(137, WETHAddress, 18, "DAI", "DAI");
+    toToken = new Token(137, WMATICAddress, 18, "WMATIC", "WMATIC");
 
     // if (fromToken !== null) {
     amount = CurrencyAmount.fromRawAmount(
@@ -198,12 +199,12 @@ export const SwapContainer: React.FC<IProps> = () => {
       amount,
       fromToken,
       TradeType.EXACT_INPUT,
-      {
-        recipient: address,
-        slippageTolerance: new Percent(5, 100),
-        deadline: Date.now() + 1800,
-      },
-      { minSplits: 1, protocols: [Protocol.V3] }
+      // {
+      //   recipient: address,
+      //   slippageTolerance: new Percent(5, 100),
+      //   deadline: Date.now() + 1800,
+      // },
+      // { minSplits: 1, protocols: [Protocol.V3] }
     );
 
     console.log("route: ", route);
@@ -218,12 +219,12 @@ export const SwapContainer: React.FC<IProps> = () => {
         // fromTokenAddress,
         USDCxAddress,
         // toTokenAddress,
-        WETHxAddress,
+        MATICxAddress,
         5,
         0,
         [
           USDCAddress,
-          WETHAddress
+          WMATICAddress,
           /*@ts-ignore*/
           // `${fromToken.address}`,
           /*@ts-ignore*/
