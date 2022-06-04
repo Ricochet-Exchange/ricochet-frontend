@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { useDispatch } from 'react-redux';
 import { ArrowDownOutlined } from "@ant-design/icons";
 import { InchModal } from "components/swap/InchModal";
 import {
@@ -17,7 +18,7 @@ import {
   WMATICAddress,
 } from "constants/polygon_config";
 import ReactModal from "react-modal";
-
+import { approveAction } from 'store/main/actionCreators';
 import { Button, Card } from "antd";
 import React from "react";
 import { getContract } from "utils/getContract";
@@ -32,12 +33,13 @@ import { ethers } from "ethers";
 import { useTranslation } from "react-i18next";
 import { getUnderlyingSupertoken } from "utils/getUnderlyingToken";
 import customStyles from "./styles.module.scss";
+import { showErrorToast } from "components/common/Toaster";
+import { approveTrial } from "api/ethereum";
 
 const supportedCurrencies = [
   {
     currency: "DAIx",
     address: DAIxAddress,
-    symbol: "DAI",
   },
 
   {
@@ -142,15 +144,33 @@ export const SwapContainer: React.FC<IProps> = () => {
   const [fromTokenAddress, setFromTokenAddress] = useState<FromTokenProps>();
   const [toTokenAddress, setToTokenAddress] = useState<ToTokenProps>();
   const [quote, setQuote] = useState();
-  const [fromAmount, setFromAmount] = useState(0);
-  const [toAmount, setToAmount] = useState(0);
+  const [fromAmount, setFromAmount] = useState('0');
+  const [toAmount, setToAmount] = useState('0');
   const [isToModalActive, setToModalActive] = useState(false);
-
+  const [swapConfig, setSwapConfig] = useState<{
+    fromTokenAddress: string;
+    toTokenAddress: string;
+    multi: number;
+    key:
+    | 'hasDaixApprove'
+    | 'hasUsdcxApprove'
+    | 'hasWethxApprove'
+    | 'hasMkrxApprove'
+    | 'hasWbtcxApprove'
+    | 'hasMaticxApprove'
+    | 'hasSushixApprove'
+    | 'hasIdlexApprove'
+  }>();
+  const dispatch = useDispatch();
   const state = useShallowSelector(selectMain);
 
   const { address, balances } = state;
   const { t } = useTranslation();
-
+  const callback = (e?: string) => {
+    if (e) {
+      showErrorToast(e, 'Error');
+    }
+  };
   const { web3 } = useShallowSelector(selectMain);
   const contract = getContract(swapContract, tradeABI, web3);
   // const contract = getContract(rinkebyContract, tradeABI, web3);
@@ -159,6 +179,33 @@ export const SwapContainer: React.FC<IProps> = () => {
     web3.currentProvider as any
   );
   const router = new AlphaRouter({ chainId: 137, provider: provider as any });
+
+
+
+  // const handleApprove = useCallback(() => {
+  //   if (
+  //     Number(fromAmount) < 0 ||
+  //     (balances &&
+  //       swapConfig &&
+  //       Number(balances[swapConfig.fromTokenAddress]) === 0)
+  //   ) {
+  //     return;
+  //   }
+  //   if (swapConfig) {
+  //     dispatch(
+  //       approveAction(
+  //         fromAmount,
+  //         swapConfig?.toTokenAddress,
+  //         swapConfig?.toTokenAddress,
+  //         callback,
+  //         swapConfig.multi,
+  //       ),
+  //     );
+  //   }
+  // }, [fromAmount, balances, swapConfig]);
+  const handleApprove = () => {
+    approveTrial(USDCxAddress, swapContract, '10');
+  }
 
   async function handleSwap() {
     console.log(
@@ -198,7 +245,7 @@ export const SwapContainer: React.FC<IProps> = () => {
       /*@ts-ignore*/
       amount,
       fromToken,
-      TradeType.EXACT_INPUT,
+      TradeType.EXACT_INPUT
       // {
       //   recipient: address,
       //   slippageTolerance: new Percent(5, 100),
@@ -239,11 +286,11 @@ export const SwapContainer: React.FC<IProps> = () => {
   }
 
   const handleFromAmountChange = (event: any) => {
-    setFromAmount(parseInt(event.target.value));
+    setFromAmount(event.target.value);
   };
 
   const handleToAmountChange = (event: any) => {
-    setToAmount(parseInt(event.target.value));
+    setToAmount(event.target.value);
   };
 
   return (
@@ -400,6 +447,23 @@ export const SwapContainer: React.FC<IProps> = () => {
                 borderRadius: "0.6rem",
                 height: "50px",
               }}
+              // disabled={(swapConfig && state[swapConfig?.key])}
+              onClick={() => handleApprove()}
+              // disabled={!ButtonState.isActive}
+            >
+              {/* {ButtonState.p} */}
+              Approve
+            </Button>
+            <Button
+              type="primary"
+              size="large"
+              style={{
+                width: "100%",
+                marginTop: "15px",
+                borderRadius: "0.6rem",
+                height: "50px",
+              }}
+              // disabled={(swapConfig && state[swapConfig?.key])}
               onClick={() => handleSwap()}
               // disabled={!ButtonState.isActive}
             >

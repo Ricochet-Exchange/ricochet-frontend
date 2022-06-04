@@ -50,6 +50,14 @@ export const allowance = (
   .allowance(address, superTokenAddress)
   .call();
 
+export const approveTrial = (
+  superTokenAddress: any,
+  senderAddress: string,
+  amount: string,
+) => superTokenAddress.methods
+  .approve(senderAddress, amount)
+  .call();
+
 export const approve = async (
   contract: any,
   address: string,
