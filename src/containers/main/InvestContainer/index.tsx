@@ -69,7 +69,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 					className={styles.content}
 					style={
 						currentTab === TABS.INTERACTIVE
-							? { width: '100%', height: 'calc(100vh - 200px)', overflowY: 'scroll' }
+							? { width: '100%', height: 'calc(100vh - 200px)', overflowY: 'auto' }
 							: {}
 					}
 				>
