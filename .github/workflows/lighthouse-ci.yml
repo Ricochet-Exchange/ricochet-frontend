@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: 16
       - run: yarn install && npm install -g @lhci/cli@0.8.x
-      - run: yarn build
+      - run: export CI=false && yarn build
       - name: run lighthouse action
         id: lighthouse-report
         run: |

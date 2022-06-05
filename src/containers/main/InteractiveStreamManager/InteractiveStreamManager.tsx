@@ -5,7 +5,7 @@ import ReactFlow, {
 	applyNodeChanges,
 	Background,
 	Controls,
-	MarkerType,
+	GetMiniMapNodeAttribute,
 	MiniMap,
 	Position,
 } from 'react-flow-renderer';
@@ -26,7 +26,7 @@ import {
 	WBTCxAddress,
 	WETHxAddress,
 } from 'constants/polygon_config';
-import './reactFlow.styles.module.scss';
+// import './reactFlow.styles.module.scss';
 
 const sourceCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC, Coin.MATICx].map((coin, idx) => {
 	return {
@@ -66,16 +66,16 @@ const addressesMap = {
 	[Coin.MATICx]: MATICxAddress,
 };
 
-const nodeColor = (node: Node<any>) => {
+const nodeColor: GetMiniMapNodeAttribute = (node: Node<any>) => {
 	switch (node.type) {
 		case 'input':
-			return 'red';
+			return '#ff0072';
 
 		case 'output':
-			return 'green';
+			return '#0041d0';
 
 		default:
-			return 'blue';
+			return '#ffffff';
 	}
 };
 
@@ -110,7 +110,6 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 			type: coin.type,
 			sourcePosition: coin.sourcePosition,
 			targetPosition: coin.targetPosition,
-			style: { background: coin.type === 'input' ? 'palevioletred' : 'lightseagreen' },
 		};
 	});
 
@@ -292,15 +291,15 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 			if (
 				(marketMap as Record<any, Coin[]>)[source.data.label.props.coin].includes(target.data.label.props.coin)
 			) {
-				handleOpen();
 				setEdges((eds) => {
-					const edge = addEdge({ ...connection, animated: false }, eds);
+					const edge = addEdge({ ...connection, animated: false }, []);
 					const newActiveEdge = edge.find(
 						(e) => connection.source?.includes(e.source) && connection.target?.includes(e.target),
 					)!;
 					setActiveEdge(newActiveEdge);
 					return edge;
 				});
+				handleOpen();
 			}
 		},
 		[initialNodes, userStreams],
@@ -308,9 +307,6 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 
 	const defaultEdgeOptions: DefaultEdgeOptions = {
 		animated: true,
-		markerEnd: {
-			type: MarkerType.ArrowClosed,
-		},
 	};
 
 	const updateEdge = (edge: Edge<any>) => {};
@@ -405,7 +401,12 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 					filterNodes(node);
 				}}
 				onConnectStop={(evt) => {
-					resetNodes();
+					setNodes((nodes) => {
+						return nodes.map((n) => {
+							n.style = { ...n.style, opacity: 1 };
+							return n;
+						});
+					});
 				}}
 				defaultEdgeOptions={defaultEdgeOptions}
 				fitView
