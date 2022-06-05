@@ -26,7 +26,7 @@ import {
 	WBTCxAddress,
 	WETHxAddress,
 } from 'constants/polygon_config';
-import './reactFlow.styles.module.scss';
+// import './reactFlow.styles.module.scss';
 
 const sourceCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC, Coin.MATICx].map((coin, idx) => {
 	return {
@@ -50,11 +50,11 @@ const targetCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC, Co
 
 const marketMap = {
 	[Coin.USDCx]: [Coin.WBTCx, Coin.WETHx, Coin.RIC, Coin.MATICx],
-	[Coin.DAIx]: [Coin.WETHx],
-	[Coin.WBTCx]: [Coin.USDCx],
+	[Coin.DAIx]: [Coin.WETHx, Coin.WBTCx],
+	[Coin.WBTCx]: [Coin.USDCx, Coin.DAIx],
 	[Coin.WETHx]: [Coin.USDCx, Coin.DAIx],
 	[Coin.RIC]: [Coin.USDCx],
-	[Coin.MATICx]: [Coin.USDCx],
+	[Coin.MATICx]: [Coin.USDCx, Coin.DAIx],
 };
 
 const addressesMap = {
