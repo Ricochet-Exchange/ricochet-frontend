@@ -2,7 +2,6 @@ import React, { ChangeEvent, FC, useCallback, useEffect, useState } from 'react'
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { TextInput } from 'components/common/TextInput';
 import { PanelChange } from 'components/layout/PanelChange';
-import StreamManager from 'components/streaming/StreamManager';
 import { useTranslation } from 'react-i18next';
 import { ExchangeKeys } from 'utils/getExchangeAddress';
 import styles from './styles.module.scss';
@@ -24,7 +23,6 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 	const [filteredList, setFilteredList] = useState(flowConfig);
 	const [search, setSearch] = useState('');
 	const match = useRouteMatch();
-	const routeEnd = match.path.slice(-7);
 	const flowType = RoutesToFlowTypes[match.path];
 
 	useEffect(() => {
@@ -147,8 +145,6 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 					</span>
 				</div>
 			)}
-
-			{routeEnd === 'streams' ? <StreamManager /> : ''}
 		</>
 	);
 };
