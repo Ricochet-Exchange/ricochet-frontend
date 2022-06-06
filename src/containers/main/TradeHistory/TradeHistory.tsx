@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
+import Skeleton from '@mui/material/Skeleton';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -308,7 +309,7 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 	};
 
 	if (queryingStreams || queryingDistributions) {
-		return <div>Loading...</div>;
+		return <Skeleton animation="wave" width={'100%'} height={80} />;
 	}
 
 	if (queryStreamsError || queryDistributionsError) {
