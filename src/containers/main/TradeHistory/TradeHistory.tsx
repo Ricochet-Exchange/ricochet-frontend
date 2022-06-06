@@ -206,28 +206,39 @@ const exchangeAddresses = indexIDA.map((ida) => ida.exchangeAddress.toLowerCase(
 
 /**
  * @see https://github.com/Ricochet-Exchange/ricochet-frontend/pull/694#issuecomment-1141946668
+ * type 0 or 2 means the stream has been created or terminated, not including updated:
+ * @see https://github.com/superfluid-finance/protocol-monorepo/blob/6a151bcd9e4fc6b2b01a838b807320f003900809/packages/sdk-core/src/types.ts#L4-L7
  */
 const GET_STREAMS = gql`
 	query GetStreams($sender: String!, $receivers: [String!]!) {
-		streams(where: { sender: $sender, receiver_in: $receivers, currentFlowRate: "0" }, first: 100) {
-			createdAtTimestamp
-			updatedAtTimestamp
-			streamedUntilUpdatedAt
-			receiver {
-				id
+		streams: flowUpdatedEvents(
+			where: { sender: $sender, receiver_in: $receivers, type_in: [0, 2] }
+			orderBy: timestamp
+			orderDirection: desc
+			first: 100
+		) {
+			type
+			stream {
+				createdAtTimestamp
+				streamedUntilUpdatedAt
+				updatedAtTimestamp
+				token {
+					symbol
+					id
+				}
 			}
-			token {
-				id
-				symbol
-			}
-			currentFlowRate
+			receiver
+			timestamp
+			totalAmountStreamedUntilTimestamp
+			transactionHash
+			id
 		}
 	}
 `;
 
 const GET_DISTRIBUTIONS = gql`
 	query GetUserDistributionSubscriptions($subscriber: String!, $updatedAtTimestamps: [String!]!) {
-		indexSubscriptions(
+		distributions: indexSubscriptions(
 			first: 1000
 			where: { subscriber: $subscriber, updatedAtTimestamp_in: $updatedAtTimestamps }
 			orderBy: createdAtTimestamp
@@ -288,7 +299,7 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 			subscriber: address.toLowerCase(),
 			updatedAtTimestamps:
 				streamsData && streamsData.streams.length
-					? [...streamsData.streams].map((stream) => stream.updatedAtTimestamp)
+					? [...streamsData.streams].map((data) => data.stream.updatedAtTimestamp)
 					: [],
 		},
 	});
@@ -316,69 +327,68 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		return <div>Something wrong when fetching trades history.</div>;
 	}
 
-	if (!streamsData.streams.length || !distributionsData.indexSubscriptions.length) {
+	if (!streamsData.streams.length || !distributionsData.distributions.length) {
 		return <div>You have no trades.</div>;
 	}
 
-	let rows: Data[] = [];
+	const rows: Data[] = [];
+	const newStreamsData = [];
 
-	for (let i = 0; i < streamsData.streams.length; i++) {
-		const stream = streamsData.streams[i];
-		const distribution = distributionsData.indexSubscriptions.filter(
-			(idxSubscribtion: any) => idxSubscribtion.updatedAtTimestamp === stream.updatedAtTimestamp,
+	// Note: streamsData.streams' length must be even.
+	for (let i = 0; i < streamsData.streams.length; i += 2) {
+		const data = {
+			timestamp: {
+				createdAt: streamsData.streams[i].stream.createdAtTimestamp,
+				terminatedAt: streamsData.streams[i].stream.updatedAtTimestamp,
+			},
+			totalAmountStreamedUntilTimestamp: streamsData.streams[i].totalAmountStreamedUntilTimestamp,
+			transactionHash: {
+				created: streamsData.streams[i + 1].transactionHash,
+				terminated: streamsData.streams[i].transactionHash,
+			},
+			token: { ...streamsData.streams[i].stream.token },
+			receiver: streamsData.streams[i].receiver,
+		};
+		newStreamsData.push(data);
+	}
+
+	// Exclude subsidy token.
+	for (let i = 0; i < newStreamsData.length; i++) {
+		const data = newStreamsData[i];
+		// find specific market.
+		const market = indexIDA.find(
+			(ida) => ida.input.toLowerCase() === data.token.id && ida.exchangeAddress.toLowerCase() === data.receiver,
 		);
-		let distributionExcludeSubsidy: any = {};
-		if (!distribution.length) continue;
-		else if (distribution.length === 1) {
-			distributionExcludeSubsidy.updatedAtTimestamp = distribution[0].updatedAtTimestamp;
-			distributionExcludeSubsidy.coin = distribution[0].index.token.symbol;
-			distributionExcludeSubsidy.tokenAmount = distribution[0].totalAmountReceivedUntilUpdatedAt;
-		} else if (distribution.length === 2) {
-			const input = stream.token.id;
-			const distribution1 = indexIDA.find(
-				(ida) =>
-					ida.input.toLowerCase() === input &&
-					ida.output.toLowerCase() === distribution[0].index.token.id &&
-					ida.subsidy?.toLowerCase() === distribution[1].index.token.id,
-			);
-			const distribution2 = indexIDA.find(
-				(ida) =>
-					ida.input.toLowerCase() === input &&
-					ida.output.toLowerCase() === distribution[1].index.token.id &&
-					ida.subsidy?.toLowerCase() === distribution[0].index.token.id,
-			);
-			if (distribution1) {
-				distributionExcludeSubsidy.updatedAtTimestamp = distribution[0].updatedAtTimestamp;
-				distributionExcludeSubsidy.coin = distribution[0].index.token.symbol;
-				distributionExcludeSubsidy.tokenAmount = distribution[0].totalAmountReceivedUntilUpdatedAt;
-			} else if (distribution2) {
-				distributionExcludeSubsidy.updatedAtTimestamp = distribution[1].updatedAtTimestamp;
-				distributionExcludeSubsidy.coin = distribution[1].index.token.symbol;
-				distributionExcludeSubsidy.tokenAmount = distribution[1].totalAmountReceivedUntilUpdatedAt;
-			}
-		}
+		// must can find a specific market by input token and exchange address.
+		if (!market) continue;
+		const distribution = distributionsData.distributions.find(
+			(d: any) =>
+				d.updatedAtTimestamp === data.timestamp.terminatedAt &&
+				d.index.token.id === market.output.toLowerCase(),
+		);
+		if (!distribution) continue;
 
-		if (!Object.values(distributionExcludeSubsidy).length) continue;
 		const row: Data = {
-			startDate: Number(streamsData.streams[i].createdAtTimestamp) * 1e3,
-			endDate: Number(distributionExcludeSubsidy.updatedAtTimestamp) * 1e3,
+			startDate: Number(data.timestamp.createdAt) * 1e3,
+			endDate: Number(data.timestamp.terminatedAt) * 1e3,
 			input: {
-				coin: streamsData.streams[i].token.symbol,
-				tokenAmount: Number(streamsData.streams[i].streamedUntilUpdatedAt) / 1e18,
+				coin: data.token.symbol,
+				tokenAmount: Number(data.totalAmountStreamedUntilTimestamp) / 1e18,
 				usdAmount: 0,
-				txn: '',
+				txn: data.transactionHash.created,
 			},
 			output: {
-				coin: distributionExcludeSubsidy.coin,
-				tokenAmount: Number(distributionExcludeSubsidy.tokenAmount) / 1e18,
+				coin: distribution.index.token.symbol,
+				tokenAmount: Number(distribution.totalAmountReceivedUntilUpdatedAt) / 1e18,
 				usdAmount: 0,
-				txn: '',
+				txn: data.transactionHash.terminated,
 			},
 			pnl: {
 				amount: 0,
 				percent: 0,
 			},
 		};
+
 		rows.push(row);
 	}
 
