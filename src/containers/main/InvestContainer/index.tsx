@@ -20,7 +20,7 @@ import { FlowTypes, RoutesToFlowTypes } from 'constants/flowConfig';
 import { TradeHistoryTable } from '../TradeHistory';
 
 export enum TABS {
-	'MARKET',
+	'MARKETS',
 	'STREAMS',
 	'TRADES',
 }
@@ -35,7 +35,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 	const match = useRouteMatch();
 	const flowType = RoutesToFlowTypes[match.path];
 
-	const [currentTab, setCurrentTab] = useState<TABS>(TABS.MARKET);
+	const [currentTab, setCurrentTab] = useState<TABS>(TABS.MARKETS);
 	const switchTab = (evt: React.SyntheticEvent, tab: TABS) => setCurrentTab(tab);
 
 	const handleStart = useCallback(
@@ -80,9 +80,9 @@ export const InvestContainer: React.FC<IProps> = () => {
 							<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 								<Tabs value={currentTab} onChange={switchTab} aria-label="rex market tabs">
 									<Tab
-										label="Market"
-										id={`${TABS.MARKET}`}
-										aria-controls={`tabpanel-${TABS.MARKET}`}
+										label="Markets"
+										id={`${TABS.MARKETS}`}
+										aria-controls={`tabpanel-${TABS.MARKETS}`}
 										sx={{ textTransform: 'none' }}
 									/>
 									<Tab
@@ -99,7 +99,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 									/>
 								</Tabs>
 							</Box>
-							<TabPanel index={TABS.MARKET} tab={currentTab}>
+							<TabPanel index={TABS.MARKETS} tab={currentTab}>
 								<InvestMarket handleStart={handleStart} handleStop={handleStop} />
 							</TabPanel>
 							<TabPanel index={TABS.STREAMS} tab={currentTab}>
