@@ -216,8 +216,8 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'USDCx-0',
-			target: 'MATICx-12',
-			id: 'reactflow__edge-USDCx-0-MATICx-12',
+			target: 'MATICx-11',
+			id: 'reactflow__edge-USDCx-0-MATICx-11',
 			style: {
 				opacity: 0,
 			},
@@ -225,8 +225,8 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'DAIx-1',
-			target: 'MATICx-12',
-			id: 'reactflow__edge-DAIx-1-MATICx-12',
+			target: 'MATICx-11',
+			id: 'reactflow__edge-DAIx-1-MATICx-11',
 			style: {
 				opacity: 0,
 			},
