@@ -9,19 +9,18 @@ import { useShallowSelector } from '../../../hooks/useShallowSelector';
 import { selectMain } from '../../../store/main/selectors';
 import { FlowTypes } from 'constants/flowConfig';
 import { Coin } from 'constants/coins';
-import { querySushiPoolPirces } from 'api';
+import { querySushiPoolPrices } from 'api';
 
 // Sushi Pools
 const poolAddresses = {
 	[`${Coin.RIC}-${Coin.USDC}`]: '0xdbf5d66d77a83b96763c965d193d0fdd1f8a184b', // need {token1Price}
 	[`${Coin.USDC}-${Coin.RIC}`]: '0xdbf5d66d77a83b96763c965d193d0fdd1f8a184b', // need {token0Price}
-	// FIXME: add other pools
-	[`${Coin.USDC}-${Coin.WBTC}`]: '',
-	[`${Coin.WBTC}-${Coin.USDC}`]: '',
-	[`${Coin.USDC}-${Coin.ETH}`]: '',
-	[`${Coin.ETH}-${Coin.USDC}`]: '',
-	[`${Coin.DAI}-${Coin.ETH}`]: '',
-	[`${Coin.ETH}-${Coin.DAI}`]: '',
+	[`${Coin.USDC}-${Coin.WBTC}`]: '0xD02b870c556480491c70AaF98C297fddd93F6f5C',
+	[`${Coin.WBTC}-${Coin.USDC}`]: '0xD02b870c556480491c70AaF98C297fddd93F6f5C',
+	[`${Coin.USDC}-${Coin.ETH}`]: '0x34965ba0ac2451A34a0471F04CCa3F990b8dea27',
+	[`${Coin.ETH}-${Coin.USDC}`]: '0x34965ba0ac2451A34a0471F04CCa3F990b8dea27',
+	[`${Coin.DAI}-${Coin.ETH}`]: '0x6FF62bfb8c12109E8000935A6De54daD83a4f39f',
+	[`${Coin.ETH}-${Coin.DAI}`]: '0x6FF62bfb8c12109E8000935A6De54daD83a4f39f',
 };
 
 type Props = {
@@ -56,7 +55,7 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 			}
 		});
 
-		querySushiPoolPirces(poolAddresses[`${coinA}-${coinB}`]).then(({ data }) => {
+		querySushiPoolPrices(poolAddresses[`${coinA}-${coinB}`]).then(({ data }) => {
 			if (data?.error) {
 				console.error('fetching Sushi Pools price error: ', data.error);
 			} else {

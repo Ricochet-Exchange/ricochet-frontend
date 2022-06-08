@@ -33,7 +33,7 @@ export const queryReceived = async (receiver: string) => {
 	return axios.post(QUERY_URL, { query });
 };
 
-export const querySushiPoolPirces = async (poolAddress: string) => {
+export const querySushiPoolPrices = async (poolAddress: string) => {
 	const QUERY_URL = `https://api.thegraph.com/subgraphs/name/sushiswap/matic-exchange`;
 	const query = getSushiPoolPrices(poolAddress);
 
