@@ -68,9 +68,9 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 					console.log('_coin', _coinA, _coinB);
 
 					let realPrice = '';
-					if (coinA === _coinA && coinB === _coinB) {
+					if (_coinA.includes(coinA) && _coinB.includes(coinB)) {
 						realPrice = pair.token0Price;
-					} else if (coinA === _coinB && coinB === _coinA) {
+					} else if (_coinA.includes(coinB) && _coinB.includes(coinA)) {
 						realPrice = pair.token1Price;
 					}
 					setMarketPairPrice((prev) => {
