@@ -97,6 +97,8 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 			<span className={styles.balance}>
 				{flowType === FlowTypes.launchpad
 					? `🚀 ${trimPad(launchPadPrice, 2)} ${coinA}/${coinB}`
+					: trimPad(marketPairPrice[`${coinA}-${coinB}`], 3) === '0.000'
+					? `< 0.001 ${coinA}/${coinB}`
 					: `@ ${trimPad(marketPairPrice[`${coinA}-${coinB}`], 3)} ${coinA}/${coinB}`}
 			</span>
 		</div>
