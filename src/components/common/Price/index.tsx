@@ -59,13 +59,10 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 			if (data?.error) {
 				console.error('fetching Sushi Pools price error: ', data.error);
 			} else {
-				console.log('coin: ', coinA, coinB);
 				const { pair } = data.data;
-				console.log(pair);
 				if (isMounted && pair) {
 					const { symbol: _coinA } = pair.token0;
 					const { symbol: _coinB } = pair.token1;
-					console.log('_coin', _coinA, _coinB);
 
 					let realPrice = '';
 					if (_coinA.includes(coinA) && _coinB.includes(coinB)) {
@@ -87,8 +84,6 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 			isMounted = false;
 		};
 	}, [coinA, coinB, web3]);
-
-	console.log('pair price', marketPairPrice[`${coinA}-${coinB}`]);
 
 	if (!launchPadPrice && !marketPairPrice[`${coinA}-${coinB}`]) return null;
 
