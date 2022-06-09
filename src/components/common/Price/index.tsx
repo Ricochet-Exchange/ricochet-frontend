@@ -21,6 +21,8 @@ const poolAddresses = {
 	[`${Coin.ETH}-${Coin.USDC}`]: '0x34965ba0ac2451A34a0471F04CCa3F990b8dea27',
 	[`${Coin.DAI}-${Coin.ETH}`]: '0x6FF62bfb8c12109E8000935A6De54daD83a4f39f',
 	[`${Coin.ETH}-${Coin.DAI}`]: '0x6FF62bfb8c12109E8000935A6De54daD83a4f39f',
+	[`${Coin.WBTC}-${Coin.DAI}`]: '0x7a1d5E67c3a273274766E241363E3E98e721E456',
+	[`${Coin.DAI}-${Coin.WBTC}`]: '0x7a1d5E67c3a273274766E241363E3E98e721E456',
 };
 
 type Props = {
