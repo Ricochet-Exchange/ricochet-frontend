@@ -45,4 +45,4 @@ export const twoWayMarketDAIWETHAddress = "0x5970Acd9e2Cb09089FE61f4D0fEc1ae0E95
 export const twoWayMarketMATICUSDCAddress = "0x87588653F2F840Bf0589d5715679Db77d8fC021d";
 export const twoWayMarketMATICDAIAddress = "0xcaB28480ab5c1E133e9B7FC67E030B8DCC2A1d24";
 export const twoWayMarketWBTCDAIAddress = "0xE0073786618b886aA1aa44Df103850a227ADe9ae";
-export const swapContract = "0x0983c50085C81A7F41598Eb46a29001989102119";
+export const swapContractAddress = "0x0983c50085C81A7F41598Eb46a29001989102119";
