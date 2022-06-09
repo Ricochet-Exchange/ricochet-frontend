@@ -86,7 +86,7 @@
 .logo {
   position: fixed;
   z-index: 100000;
-  max-width: 8vw;
+  max-width: 7vw;
   width: 100%;
   @media screen and (max-width: 768px) {
     background: none;
@@ -176,3 +176,4 @@
     display: flex;
   }
 }
+
