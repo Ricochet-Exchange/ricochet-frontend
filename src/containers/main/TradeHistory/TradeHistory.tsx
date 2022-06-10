@@ -121,7 +121,7 @@ function Content({ id, row }: ContentProps) {
 			break;
 
 		case 'PnL':
-			content = `${row.pnl.amount.toFixed(2)} (${row.pnl.percent.toFixed(2)}%)`;
+			content = `${row.pnl.amount.toFixed(4)} (${row.pnl.percent.toFixed(2)}%)`;
 			break;
 
 		default:
@@ -253,15 +253,25 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 				if (data.error) {
 					throw new Error('Error querying sushiSwapPoolPrices: ', data.error);
 				}
-				_marketPairPrices[poolName] = {
-					/**
-					 * talked about this here: https://discord.com/channels/748031363935895552/748032044289753118/984745435266678824
-					 */
-					[data.data.pair.token0.symbol]:
-						(Number(data.data.pair.reserveUSD) * 0.5) / Number(data.data.pair.reserve0),
-					[data.data.pair.token1.symbol]:
-						(Number(data.data.pair.reserveUSD) * 0.5) / Number(data.data.pair.reserve1),
-				};
+				if (poolName === 'RIC-USDC' || poolName === 'USDC-RIC') {
+					// special case for RIC-USDC and USDC-RIC pools
+					_marketPairPrices[poolName] = {
+						[data.data.pair.token0.symbol]:
+							Number(data.data.pair.reserveUSD) / Number(data.data.pair.reserve0),
+						[data.data.pair.token1.symbol]:
+							Number(data.data.pair.reserveUSD) / Number(data.data.pair.reserve1),
+					};
+				} else {
+					_marketPairPrices[poolName] = {
+						/**
+						 * talked about this here: https://discord.com/channels/748031363935895552/748032044289753118/984745435266678824
+						 */
+						[data.data.pair.token0.symbol]:
+							(Number(data.data.pair.reserveUSD) * 0.5) / Number(data.data.pair.reserve0),
+						[data.data.pair.token1.symbol]:
+							(Number(data.data.pair.reserveUSD) * 0.5) / Number(data.data.pair.reserve1),
+					};
+				}
 			} catch (error) {
 				console.error(error);
 			}
