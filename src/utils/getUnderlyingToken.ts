@@ -18,7 +18,30 @@ import {
   IDLEAddress,
 } from "constants/polygon_config";
 
-export const getUnderlyingSupertoken = async (Supertoken: string) => {
+export const getUnderlyingSupertoken = async (SupertokenAddress: string) => {
+  switch (SupertokenAddress) {
+    case DAIxAddress:
+      return new Token(ChainId.POLYGON, DAIxAddress, 18);
+    case USDCxAddress:
+      return new Token(ChainId.POLYGON, USDCxAddress, 18);
+    case WETHxAddress:
+      return new Token(ChainId.POLYGON, WETHxAddress, 18);
+    case MKRxAddress:
+      return new Token(ChainId.POLYGON, MKRxAddress, 18);
+    case WBTCxAddress:
+      return new Token(ChainId.POLYGON, WBTCxAddress, 18);
+    case MATICxAddress:
+      return new Token(ChainId.POLYGON, MATICxAddress, 18);
+    case SUSHIxAddress:
+      return new Token(ChainId.POLYGON, SUSHIxAddress, 18);
+    case IDLExAddress:
+      return new Token(ChainId.POLYGON, IDLExAddress, 18);
+    default:
+      return new Token(ChainId.POLYGON, SupertokenAddress, 18);
+  }
+};
+
+export const getUnderlyingToken = async (Supertoken: string) => {
   const WMATIC = new Token(
     ChainId.POLYGON,
     "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", // 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270
@@ -27,13 +50,7 @@ export const getUnderlyingSupertoken = async (Supertoken: string) => {
     "Wrapped Matic"
   );
 
-  const USDC = new Token(
-    ChainId.POLYGON,
-    USDCAddress,
-    6,
-    "USDC",
-    "USD Coin"
-  );
+  const USDC = new Token(ChainId.POLYGON, USDCAddress, 6, "USDC", "USD Coin");
 
   const DAI = new Token(
     ChainId.POLYGON,

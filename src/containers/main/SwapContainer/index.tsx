@@ -31,7 +31,10 @@ import { CurrencyAmount, Percent, Token, TradeType } from "@uniswap/sdk-core";
 import { JSBI } from "@uniswap/sdk";
 import { ethers } from "ethers";
 import { useTranslation } from "react-i18next";
-import { getUnderlyingSupertoken } from "utils/getUnderlyingToken";
+import {
+  getUnderlyingSupertoken,
+  getUnderlyingToken,
+} from "utils/getUnderlyingToken";
 import customStyles from "./styles.module.scss";
 import { showErrorToast } from "components/common/Toaster";
 import Web3 from "web3";
@@ -135,12 +138,13 @@ const Arrow = () => (
 
 export const SwapContainer: React.FC<IProps> = () => {
   const [isFromModalActive, setFromModalActive] = useState(false);
-  const [fromTokenAddress, setFromTokenAddress] = useState<FromTokenProps>();
-  const [toTokenAddress, setToTokenAddress] = useState<ToTokenProps>();
+  const [fromTokenAddress, setFromTokenAddress] = useState("");
+  const [toTokenAddress, setToTokenAddress] = useState("");
   const [quote, setQuote] = useState();
   const [fromAmount, setFromAmount] = useState("0");
   const [toAmount, setToAmount] = useState("0");
   const [isToModalActive, setToModalActive] = useState(false);
+  const [isTokenApproved, setIsTokenApproved] = useState("");
   const [swapConfig, setSwapConfig] = useState<{
     fromTokenAddress: string;
     toTokenAddress: string;
@@ -161,10 +165,7 @@ export const SwapContainer: React.FC<IProps> = () => {
   const { address, balances } = state;
   const { web3 } = useShallowSelector(selectMain);
 
-
   const swapContract = getContract(swapContractAddress, tradeABI, web3);
-
-  const tokenContract = getContract(DAIxAddress, erc20ABI, web3);
 
   const provider = new ethers.providers.Web3Provider(
     web3.currentProvider as any
@@ -172,56 +173,47 @@ export const SwapContainer: React.FC<IProps> = () => {
   const router = new AlphaRouter({ chainId: 137, provider: provider as any });
 
   const handleApprove = async () => {
-    await tokenContract.methods
-      .approve(DAIxAddress, "1000000000000000000000")
-      .send({
-        from: address,
-      });
+    const tokenContract = getContract(fromTokenAddress, erc20ABI, web3);
+    await tokenContract.methods.approve(fromTokenAddress, fromAmount).send({
+      from: address,
+    });
   };
 
-  const checkIfApproved = async (address: string) => {
-  
-  }
+  const checkIfApproved = async (fromSupertoken: Token) => {
+    console.log(fromSupertoken);
+    const tokenContract = getContract(fromSupertoken.address, erc20ABI, web3);
+    let allowance = await tokenContract.methods
+      .allowance(address, swapContractAddress)
+      .call();
+    console.log("allowance: ", allowance);
+    return allowance.toString() >=
+      fromAmount + "0".repeat(fromSupertoken.decimals)
+      ? true
+      : false;
+  };
 
   async function handleSwap() {
+    let fromToken = await getUnderlyingToken(fromTokenAddress);
+    let toToken = await getUnderlyingToken(toTokenAddress);
+    let tempSupertoken = await getUnderlyingSupertoken(fromTokenAddress);
+    let isApproved = await checkIfApproved(tempSupertoken);
+    if (isApproved === false) {
+      console.log("First approve token");
+      return;
+    }
 
-    let fromToken = null;
-    let toToken = null;
-    let amount = null;
-
-    fromToken = await getUnderlyingSupertoken(DAIxAddress);
-    toToken = await getUnderlyingSupertoken(USDCxAddress);
-
-    // toToken = new Token(
-    //   ChainId.POLYGON,
-    //   USDCAddress.toLowerCase(),
-    //   6,
-    //   "USDC",
-    //   "USD//C"
-    // );
-    // fromToken = new Token(
-    //   ChainId.POLYGON,
-    //   DAIAddress.toLowerCase(),
-    //   18,
-    //   "DAI",
-    //   "DAI"
-    // );
     console.log("fromToken: ", fromToken);
     console.log("toToken: ", toToken);
 
-    setFromAmount("1");
-    amount = CurrencyAmount.fromRawAmount(
+    let currencyAmount = CurrencyAmount.fromRawAmount(
       /*@ts-ignore*/
       fromToken,
-      JSBI.BigInt(100000000)
+      JSBI.BigInt(fromAmount)
     );
-    // @ts-ignore
-    // amount = parseAmount(fromAmount, fromToken);
-    console.log("amount: ", amount);
-    // }
+    console.log("amount: ", currencyAmount);
 
     const route = await router.route(
-      amount,
+      currencyAmount,
       // @ts-ignore
       toToken,
       TradeType.EXACT_INPUT,
@@ -247,13 +239,11 @@ export const SwapContainer: React.FC<IProps> = () => {
       );
       console.log(`Gas Used USD: ${route.estimatedGasUsedUSD.toFixed(6)}`);
       console.log(swapContract.methods.swap, route?.methodParameters);
-      // let something = fromAmount * 10 ** 18;
-      // console.log("HSUIGPHRLIUFHIUFS", Web3.utils.toBN(parseInt(fromAmount) * 10 ** 18).toString())
       const response = swapContract.methods
         .swap(
-          DAIxAddress,
-          USDCxAddress,
-          "100000000",
+          fromToken.address,
+          toToken.address,
+          fromAmount + "0".repeat(fromToken.decimals),
           0,
           path,
           fees
@@ -332,7 +322,7 @@ export const SwapContainer: React.FC<IProps> = () => {
                   ) : (
                     <span>Select a token</span>
                   )}
-                  <span>{fromTokenAddress?.symbol}</span>
+                  {/* <span>{fromTokenAddress?.symbol}</span> */}
                   <Arrow />
                 </Button>
               </div>
@@ -398,7 +388,7 @@ export const SwapContainer: React.FC<IProps> = () => {
                   ) : (
                     <span>Select a token</span>
                   )}
-                  <span>{toTokenAddress?.symbol}</span>
+                  {/* <span>{toTokenAddress?.symbol}</span> */}
                   <Arrow />
                 </Button>
               </div>
