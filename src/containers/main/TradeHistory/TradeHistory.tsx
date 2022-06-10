@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import Skeleton from '@mui/material/Skeleton';
 import Paper from '@mui/material/Paper';
@@ -21,6 +21,8 @@ import { Coin } from 'constants/coins';
 import styles from './styles.module.scss';
 import { indexIDA } from 'constants/flowConfig';
 import { GET_DISTRIBUTIONS, GET_STREAMS } from './data/queries';
+import { quickSwapPools, sushiSwapPools } from 'constants/poolAddresses';
+import { queryQuickSwapPoolPrices, querySushiPoolPrices } from 'api';
 
 type ColumnName = 'startDate' | 'endDate' | 'Input' | 'Output' | 'PnL';
 
@@ -111,15 +113,15 @@ function Content({ id, row }: ContentProps) {
 			break;
 
 		case 'Input':
-			content = `${row.input.tokenAmount.toFixed(6)} ${row.input.coin} ($${row.input.usdAmount})`;
+			content = `${row.input.tokenAmount.toFixed(6)} ${row.input.coin} ($${row.input.usdAmount.toFixed(4)})`;
 			break;
 
 		case 'Output':
-			content = `${row.output.tokenAmount.toFixed(6)} ${row.output.coin} ($${row.output.usdAmount})`;
+			content = `${row.output.tokenAmount.toFixed(6)} ${row.output.coin} ($${row.output.usdAmount.toFixed(4)})`;
 			break;
 
 		case 'PnL':
-			content = `${row.pnl.amount.toFixed(2)} (${row.pnl.percent}%)`;
+			content = `${row.pnl.amount.toFixed(2)} (${row.pnl.percent.toFixed(2)}%)`;
 			break;
 
 		default:
@@ -214,6 +216,7 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 	const [orderBy, setOrderBy] = useState<'startDate' | 'endDate'>('startDate');
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
+	const [marketPairPrices, setMarketPairPrices] = useState<Record<string, Record<string, string>> | null>(null);
 
 	const {
 		loading: queryingStreams,
@@ -237,6 +240,65 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 					: [],
 		},
 	});
+
+	useEffect(() => {
+		let isMounted = true;
+		let _marketPairPrices: any = {};
+
+		Object.entries(sushiSwapPools).forEach(async ([poolName, pool]) => {
+			const poolAddress = pool.toLowerCase();
+			try {
+				const { data } = await querySushiPoolPrices(poolAddress);
+
+				if (data.error) {
+					throw new Error('Error querying sushiSwapPoolPrices: ', data.error);
+				}
+				_marketPairPrices[poolName] = {
+					/**
+					 * talked about this here: https://discord.com/channels/748031363935895552/748032044289753118/984745435266678824
+					 */
+					[data.data.pair.token0.symbol]:
+						(Number(data.data.pair.reserveUSD) * 0.5) / Number(data.data.pair.reserve0),
+					[data.data.pair.token1.symbol]:
+						(Number(data.data.pair.reserveUSD) * 0.5) / Number(data.data.pair.reserve1),
+				};
+			} catch (error) {
+				console.error(error);
+			}
+		});
+
+		Object.entries(quickSwapPools).forEach(async ([poolName, pool], idx) => {
+			const poolAddress = pool.toLowerCase();
+			try {
+				const { data } = await queryQuickSwapPoolPrices(poolAddress);
+
+				if (data.error) {
+					throw new Error('Error querying quickSwapPoolPrices: ', data.error);
+				}
+				_marketPairPrices[poolName] = {
+					/**
+					 * token0 price = reserveUSD / 2 / reserve0
+					 * token1 price = reserveUSD / 2 / reserve1
+					 */
+					[data.data.pair.token0.symbol]:
+						(Number(data.data.pair.reserveUSD) * 0.5) / Number(data.data.pair.reserve0),
+					[data.data.pair.token1.symbol]:
+						(Number(data.data.pair.reserveUSD) * 0.5) / Number(data.data.pair.reserve1),
+				};
+				if (idx === Object.keys(quickSwapPools).length - 1) {
+					if (isMounted) {
+						setMarketPairPrices(_marketPairPrices);
+					}
+				}
+			} catch (error) {
+				console.error(error);
+			}
+		});
+
+		return () => {
+			isMounted = false;
+		};
+	}, []);
 
 	const handleRequestSort = (event: React.MouseEvent<unknown>, property: 'startDate' | 'endDate') => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -322,6 +384,16 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 				percent: 0,
 			},
 		};
+
+		if (marketPairPrices) {
+			const coinA = row.input.coin.replace('x', '');
+			const coinB = row.output.coin.replace('x', '');
+			const marketPairPrice = marketPairPrices[`${coinA}-${coinB}`];
+			row.input.usdAmount = marketPairPrice ? row.input.tokenAmount * Number(marketPairPrice[coinA]) : 0;
+			row.output.usdAmount = marketPairPrice ? row.output.tokenAmount * Number(marketPairPrice[coinB]) : 0;
+			row.pnl.amount = row.output.usdAmount - row.input.usdAmount;
+			row.pnl.percent = row.input.usdAmount === 0 ? 0 : (row.pnl.amount / row.input.usdAmount) * 100;
+		}
 
 		rows.push(row);
 	}
