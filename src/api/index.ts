@@ -4,6 +4,7 @@ import { getQueryReceived } from 'utils/getQueryReceived';
 import { getQueryDistributions } from 'utils/getQueryDistributions';
 import { getQueryStreams } from 'utils/getQueryStreams';
 import { getSushiPoolPrices } from 'utils/getSushiPoolPrice';
+import { getQuickSwapPoolPrices } from 'utils/getQuickSwapPoolPrices';
 
 export const queryFlows = async (queryAddress: string) => {
 	const QUERY_URL = process.env.REACT_APP_API_GRATH || '';
@@ -35,7 +36,14 @@ export const queryReceived = async (receiver: string) => {
 
 export const querySushiPoolPrices = async (poolAddress: string) => {
 	const QUERY_URL = `https://api.thegraph.com/subgraphs/name/sushiswap/matic-exchange`;
-	const query = getSushiPoolPrices(poolAddress);
+	const query = getSushiPoolPrices(poolAddress ?? '');
+
+	return axios.post(QUERY_URL, { query });
+};
+
+export const queryQuickSwapPoolPrices = async (poolAddress: string) => {
+	const QUERY_URL = 'https://api.thegraph.com/subgraphs/name/sameepsi/quickswap06';
+	const query = getQuickSwapPoolPrices(poolAddress ?? '');
 
 	return axios.post(QUERY_URL, { query });
 };

@@ -18,9 +18,17 @@ import { flowConfig, InvestmentFlow, RoutesToFlowTypes } from 'constants/flowCon
 import { useRouteMatch } from 'react-router-dom';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain, selectUserStreams } from 'store/main/selectors';
-import { DAIxAddress, RICAddress, USDCxAddress, WBTCxAddress, WETHxAddress } from 'constants/polygon_config';
+import {
+	DAIxAddress,
+	MATICxAddress,
+	RICAddress,
+	USDCxAddress,
+	WBTCxAddress,
+	WETHxAddress,
+} from 'constants/polygon_config';
+// import './reactFlow.styles.module.scss';
 
-const sourceCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC].map((coin, idx) => {
+const sourceCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC, Coin.MATICx].map((coin, idx) => {
 	return {
 		name: coin,
 		type: 'input',
@@ -30,7 +38,7 @@ const sourceCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC].ma
 	};
 });
 
-const targetCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC].map((coin, idx) => {
+const targetCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC, Coin.MATICx].map((coin, idx) => {
 	return {
 		name: coin,
 		type: 'output',
@@ -41,11 +49,12 @@ const targetCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC].ma
 });
 
 const marketMap = {
-	[Coin.USDCx]: [Coin.WBTCx, Coin.WETHx, Coin.RIC],
-	[Coin.DAIx]: [Coin.WETHx],
-	[Coin.WBTCx]: [Coin.USDCx],
+	[Coin.USDCx]: [Coin.WBTCx, Coin.WETHx, Coin.RIC, Coin.MATICx],
+	[Coin.DAIx]: [Coin.WETHx, Coin.WBTCx, Coin.MATICx],
+	[Coin.WBTCx]: [Coin.USDCx, Coin.DAIx],
 	[Coin.WETHx]: [Coin.USDCx, Coin.DAIx],
 	[Coin.RIC]: [Coin.USDCx],
+	[Coin.MATICx]: [Coin.USDCx, Coin.DAIx],
 };
 
 const addressesMap = {
@@ -54,6 +63,7 @@ const addressesMap = {
 	[Coin.WBTCx]: WBTCxAddress,
 	[Coin.WETHx]: WETHxAddress,
 	[Coin.RIC]: RICAddress,
+	[Coin.MATICx]: MATICxAddress,
 };
 
 const nodeColor: GetMiniMapNodeAttribute = (node: Node<any>) => {
@@ -104,67 +114,12 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 	});
 
 	const initialEdges: Edge<any>[] = [
+		// RIC
 		{
 			animated: false,
 			source: 'USDCx-0',
-			target: 'RIC-9',
-			id: 'reactflow__edge-USDCx-0-RIC-9',
-			style: {
-				opacity: 0,
-			},
-		},
-		{
-			animated: false,
-			source: 'USDCx-0',
-			target: 'WETHx-8',
-			id: 'reactflow__edge-USDCx-0-WETHx-8',
-			style: {
-				opacity: 0,
-			},
-		},
-		{
-			animated: false,
-			source: 'USDCx-0',
-			sourceHandle: null,
-			target: 'WBTCx-7',
-			targetHandle: null,
-			id: 'reactflow__edge-USDCx-0-WBTCx-7',
-			style: {
-				opacity: 0,
-			},
-		},
-		{
-			animated: false,
-			source: 'DAIx-1',
-			target: 'WETHx-8',
-			id: 'reactflow__edge-DAIx-1-WETHx-8',
-			style: {
-				opacity: 0,
-			},
-		},
-		{
-			animated: false,
-			source: 'WBTCx-2',
-			target: 'USDCx-5',
-			id: 'reactflow__edge-WBTCx-2-USDCx-5',
-			style: {
-				opacity: 0,
-			},
-		},
-		{
-			animated: false,
-			source: 'WETHx-3',
-			target: 'USDCx-5',
-			id: 'reactflow__edge-WETHx-3-USDCx-5',
-			style: {
-				opacity: 0,
-			},
-		},
-		{
-			animated: false,
-			source: 'WETHx-3',
-			target: 'DAIx-6',
-			id: 'reactflow__edge-WETHx-3-DAIx-6',
+			target: 'RIC-10',
+			id: 'reactflow__edge-USDCx-0-RIC-10',
 			style: {
 				opacity: 0,
 			},
@@ -172,8 +127,124 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'RIC-4',
-			target: 'USDCx-5',
-			id: 'reactflow__edge-RIC-4-USDCx-5',
+			target: 'USDCx-6',
+			id: 'reactflow__edge-RIC-4-USDCx-6',
+			style: {
+				opacity: 0,
+			},
+		},
+
+		// WETHx
+		{
+			animated: false,
+			source: 'USDCx-0',
+			target: 'WETHx-9',
+			id: 'reactflow__edge-USDCx-0-WETHx-9',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'DAIx-1',
+			target: 'WETHx-9',
+			id: 'reactflow__edge-DAIx-1-WETHx-9',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'WETHx-3',
+			target: 'USDCx-6',
+			id: 'reactflow__edge-WETHx-3-USDCx-6',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'WETHx-3',
+			target: 'DAIx-7',
+			id: 'reactflow__edge-WETHx-3-DAIx-7',
+			style: {
+				opacity: 0,
+			},
+		},
+
+		// WBTCx
+		{
+			animated: false,
+			source: 'USDCx-0',
+			sourceHandle: null,
+			target: 'WBTCx-8',
+			targetHandle: null,
+			id: 'reactflow__edge-USDCx-0-WBTCx-8',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'DAIx-1',
+			target: 'WBTCx-8',
+			id: 'reactflow__edge-DAIx-1-WBTCx-8',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'WBTCx-2',
+			target: 'USDCx-6',
+			id: 'reactflow__edge-WBTCx-2-USDCx-6',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'WBTCx-2',
+			target: 'DAIx-7',
+			id: 'reactflow__edge-WBTCx-2-DAIx-7',
+			style: {
+				opacity: 0,
+			},
+		},
+
+		// MATICx
+		{
+			animated: false,
+			source: 'USDCx-0',
+			target: 'MATICx-11',
+			id: 'reactflow__edge-USDCx-0-MATICx-11',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'DAIx-1',
+			target: 'MATICx-11',
+			id: 'reactflow__edge-DAIx-1-MATICx-11',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'MATICx-5',
+			target: 'USDCx-6',
+			id: 'reactflow__edge-MATICx-5-USDCx-6',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'MATICx-5',
+			target: 'DAIx-7',
+			id: 'reactflow__edge-MATICx-6-DAIx-7',
 			style: {
 				opacity: 0,
 			},
