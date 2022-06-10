@@ -52,14 +52,14 @@ const columns: readonly Column[] = [
 		label: 'Input',
 		minWidth: 112,
 		align: 'left',
-		tooltip: "USD amount = the Super Token's (below) price at the start of the trade * tokenAmount.",
+		tooltip: "USD amount = the Super Token's (below) price at time of stream close * tokenAmount.",
 	},
 	{
 		id: 'Output',
 		label: 'Output',
 		minWidth: 112,
 		align: 'left',
-		tooltip: "USD amount = the Super Token's (below) price at the start of the trade * tokenAmount.",
+		tooltip: "USD amount = the Super Token's (below) price at time of stream close * tokenAmount.",
 	},
 	{
 		id: 'PnL',
