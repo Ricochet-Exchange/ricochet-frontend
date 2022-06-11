@@ -396,9 +396,20 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		};
 
 		if (marketPairPrices) {
-			const coinA = row.input.coin.replace('x', '');
-			const coinB = row.output.coin.replace('x', '');
+			let coinA = row.input.coin.replace('x', '');
+			let coinB = row.output.coin.replace('x', '');
 			const marketPairPrice = marketPairPrices[`${coinA}-${coinB}`];
+			if (!marketPairPrice[coinA]) {
+				// ETH should be WETH in marketPairPrices.
+				// MATIC should be WMATIC in marketPairPrices.
+				coinA = `W${coinA}`;
+			}
+			if (!marketPairPrice[coinB]) {
+				// ETH should be WETH in marketPairPrices.
+				// MATIC should be WMATIC in marketPairPrices.
+				coinB = `W${coinB}`;
+			}
+
 			row.input.usdAmount = marketPairPrice ? row.input.tokenAmount * Number(marketPairPrice[coinA]) : 0;
 			row.output.usdAmount = marketPairPrice ? row.output.tokenAmount * Number(marketPairPrice[coinB]) : 0;
 			row.pnl.amount = row.output.usdAmount - row.input.usdAmount;
