@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { connectWeb3Modal, startFlowAction, stopFlowAction } from 'store/main/actionCreators';
 import styles from './styles.module.scss';
 import { InteractiveStreamManager } from '../InteractiveStreamManager';
-import { TabPanel } from './InvestTabPanel';
+import { TabPanel } from './TabPanel';
 import { InvestMarket } from './InvestMarket';
 import { SignInButton } from 'components/banks/SignInButton';
 import { useRouteMatch } from 'react-router-dom';
