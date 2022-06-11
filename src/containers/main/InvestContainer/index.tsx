@@ -87,17 +87,13 @@ export const InvestContainer: React.FC<IProps> = () => {
 										sx={{ textTransform: 'none' }}
 									/>
 									<Tab
-										label={
-											<TabLabel labelContent="Streams" badgeContent="Beta" badgeColor="#5f8eb9" />
-										}
+										label={<TabLabel labelContent="Streams" />}
 										id={`${TABS.STREAMS}`}
 										aria-controls={`tabpanel-${TABS.STREAMS}`}
 										sx={{ textTransform: 'none' }}
 									/>
 									<Tab
-										label={
-											<TabLabel labelContent="Trades" badgeContent="Beta" badgeColor="#5f8eb9" />
-										}
+										label={<TabLabel labelContent="Trades" />}
 										id={`${TABS.TRADES}`}
 										aria-controls={`tabpanel-${TABS.TRADES}`}
 										sx={{ textTransform: 'none' }}
