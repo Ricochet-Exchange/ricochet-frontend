@@ -18,6 +18,7 @@ import { SignInButton } from 'components/banks/SignInButton';
 import { useRouteMatch } from 'react-router-dom';
 import { FlowTypes, RoutesToFlowTypes } from 'constants/flowConfig';
 import { TradeHistoryTable } from '../TradeHistory';
+import { TabLabel } from './TabLabel';
 
 export enum TABS {
 	'MARKETS',
@@ -86,13 +87,17 @@ export const InvestContainer: React.FC<IProps> = () => {
 										sx={{ textTransform: 'none' }}
 									/>
 									<Tab
-										label="Streams"
+										label={
+											<TabLabel labelContent="Streams" badgeContent="Beta" badgeColor="#5f8eb9" />
+										}
 										id={`${TABS.STREAMS}`}
 										aria-controls={`tabpanel-${TABS.STREAMS}`}
 										sx={{ textTransform: 'none' }}
 									/>
 									<Tab
-										label="Trades"
+										label={
+											<TabLabel labelContent="Trades" badgeContent="Beta" badgeColor="#5f8eb9" />
+										}
 										id={`${TABS.TRADES}`}
 										aria-controls={`tabpanel-${TABS.TRADES}`}
 										sx={{ textTransform: 'none' }}
