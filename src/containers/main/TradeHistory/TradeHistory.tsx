@@ -20,7 +20,7 @@ import dayjs from 'dayjs';
 import { Coin } from 'constants/coins';
 import styles from './styles.module.scss';
 import { indexIDA } from 'constants/flowConfig';
-import { GET_DISTRIBUTIONS, GET_STREAMS } from './data/queries';
+import { GET_DISTRIBUTIONS, GET_STREAMS_CREATED, GET_STREAMS_TERMINATED } from './data/queries';
 import { quickSwapPools, sushiSwapPools } from 'constants/poolAddresses';
 import { queryQuickSwapPoolPrices, querySushiPoolPrices } from 'api';
 
@@ -218,25 +218,47 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 	const [rowsPerPage, setRowsPerPage] = useState(10);
 	const [marketPairPrices, setMarketPairPrices] = useState<Record<string, Record<string, string>> | null>(null);
 
+	// 3-1. query streams by `terminated` type first, because trading history page needs.
 	const {
-		loading: queryingStreams,
-		error: queryStreamsError,
-		data: streamsData,
-	} = useQuery(GET_STREAMS, {
-		variables: { sender: address.toLowerCase(), receivers: [...exchangeAddresses] },
+		loading: queryingTerminatedStreams,
+		error: queryTerminatedStreamsError,
+		data: terminatedStreams,
+	} = useQuery(GET_STREAMS_TERMINATED, {
+		variables: {
+			sender: address.toLowerCase(),
+			receivers: [...exchangeAddresses],
+		},
 	});
 
+	// 3-2. query streams by `created` to get its transactionHash.
+	const {
+		loading: queryingCreatedStreams,
+		error: queryCreatedStreamsError,
+		data: createdStreams,
+	} = useQuery(GET_STREAMS_CREATED, {
+		skip: queryingTerminatedStreams,
+		variables: {
+			sender: address.toLowerCase(),
+			receivers: [...exchangeAddresses],
+			createdAtTimestamps:
+				terminatedStreams && terminatedStreams.streams.length
+					? [...terminatedStreams.streams].map((data) => data.stream.createdAtTimestamp)
+					: [],
+		},
+	});
+
+	// 3-3. query distribution data finally.
 	const {
 		loading: queryingDistributions,
 		error: queryDistributionsError,
 		data: distributionsData,
 	} = useQuery(GET_DISTRIBUTIONS, {
-		skip: queryingStreams,
+		skip: queryingCreatedStreams,
 		variables: {
 			subscriber: address.toLowerCase(),
 			updatedAtTimestamps:
-				streamsData && streamsData.streams.length
-					? [...streamsData.streams].map((data) => data.stream.updatedAtTimestamp)
+				createdStreams && createdStreams.streams.length
+					? [...createdStreams.streams].map((data) => data.flowUpdatedEvents[0].stream.updatedAtTimestamp)
 					: [],
 		},
 	});
@@ -325,35 +347,44 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		setPage(0);
 	};
 
-	if (queryingStreams || queryingDistributions) {
+	if (queryingTerminatedStreams || queryingCreatedStreams || queryingDistributions) {
 		return <Skeleton animation="wave" width={'100%'} height={80} />;
 	}
 
-	if (queryStreamsError || queryDistributionsError) {
+	if (queryTerminatedStreamsError || queryCreatedStreamsError || queryDistributionsError) {
 		return <div>Something wrong when fetching trades history.</div>;
 	}
 
-	if (!streamsData.streams.length || !distributionsData.distributions.length) {
+	if (
+		!terminatedStreams.streams.length ||
+		!createdStreams.streams.length ||
+		!distributionsData.distributions.length
+	) {
 		return <div>You have no trades.</div>;
 	}
 
 	const rows: Data[] = [];
 	const newStreamsData = [];
 
-	// Note: streamsData.streams' length must be even.
-	for (let i = 0; i < streamsData.streams.length; i += 2) {
+	for (let i = 0; i < terminatedStreams.streams.length; i += 1) {
+		const terminatedStream = terminatedStreams.streams[i];
+		const createdStream = createdStreams.streams.find(
+			(data: any) =>
+				data.flowUpdatedEvents[0].stream.createdAtTimestamp === terminatedStream.stream.createdAtTimestamp,
+		);
+		if (!createdStream) continue;
 		const data = {
 			timestamp: {
-				createdAt: streamsData.streams[i].stream.createdAtTimestamp,
-				terminatedAt: streamsData.streams[i].stream.updatedAtTimestamp,
+				createdAt: terminatedStream.stream.createdAtTimestamp,
+				terminatedAt: terminatedStream.stream.updatedAtTimestamp,
 			},
-			totalAmountStreamedUntilTimestamp: streamsData.streams[i].totalAmountStreamedUntilTimestamp,
+			totalAmountStreamedUntilTimestamp: terminatedStream.totalAmountStreamedUntilTimestamp,
 			transactionHash: {
-				created: streamsData.streams[i + 1].transactionHash,
-				terminated: streamsData.streams[i].transactionHash,
+				created: createdStream.flowUpdatedEvents[0].transactionHash,
+				terminated: terminatedStream.transactionHash,
 			},
-			token: { ...streamsData.streams[i].stream.token },
-			receiver: streamsData.streams[i].receiver,
+			token: { ...terminatedStream.stream.token },
+			receiver: terminatedStream.receiver,
 		};
 		newStreamsData.push(data);
 	}

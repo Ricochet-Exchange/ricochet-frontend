@@ -2,13 +2,30 @@ import { gql } from '@apollo/client';
 
 /**
  * @see https://github.com/Ricochet-Exchange/ricochet-frontend/pull/694#issuecomment-1141946668
- * type 0 or 2 means the stream has been created or terminated, not including updated:
+ *
+ * type `0` or `2` means the stream has been `created` or `terminated`, not including `updated`:
  * @see https://github.com/superfluid-finance/protocol-monorepo/blob/6a151bcd9e4fc6b2b01a838b807320f003900809/packages/sdk-core/src/types.ts#L4-L7
  */
-export const GET_STREAMS = gql`
-	query GetStreams($sender: String!, $receivers: [String!]!) {
+export const GET_STREAMS_CREATED = gql`
+	query GetStreamsCreated($sender: String!, $receivers: [String!]!, $createdAtTimestamps: [String!]!) {
+		streams: streams(
+			where: { sender: $sender, receiver_in: $receivers, createdAtTimestamp_in: $createdAtTimestamps }
+		) {
+			flowUpdatedEvents(where: { type: 0 }) {
+				transactionHash
+				stream {
+					createdAtTimestamp
+					updatedAtTimestamp
+				}
+			}
+		}
+	}
+`;
+
+export const GET_STREAMS_TERMINATED = gql`
+	query GetStreamsTerminated($sender: String!, $receivers: [String!]!) {
 		streams: flowUpdatedEvents(
-			where: { sender: $sender, receiver_in: $receivers, type_in: [0, 2] }
+			where: { sender: $sender, receiver_in: $receivers, type: 2 }
 			orderBy: timestamp
 			orderDirection: desc
 			first: 100
