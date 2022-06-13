@@ -94,20 +94,20 @@ export const InvestNav = () => {
 				<div className={styles.nav_text}>{t('Payments')}</div>
 			</NavLink>
 
-			<NavLink className={styles.nav_link} to={{ pathname: TUTORIAL_LINK }} target="_blank">
+			<a className={styles.nav_link} href={TUTORIAL_LINK} target="_blank">
 				<div className={styles.nav_text_tutorial}>{t('Tutorial')}</div>
 				<FontIcon name={FontIconName.External} size={16} />
-			</NavLink>
+			</a>
 
-			<NavLink
-				to={{ pathname: RICOCHET_V1_LINK }}
+			<a
+				href={RICOCHET_V1_LINK}
 				className={styles.nav_link_desktop_only}
-				activeClassName={styles.nav_link_active}
+				// activeClassName={styles.nav_link_active}
 				target="_blank"
 			>
 				<div className={styles.nav_text_tutorial}>{t('Ricochet V1')}</div>
 				<FontIcon name={FontIconName.External} size={16} />
-			</NavLink>
+			</a>
 		</div>
 	);
 };
