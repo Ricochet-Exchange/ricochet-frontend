@@ -108,7 +108,7 @@ export const StreamForm: React.FC<IProps> = ({
 
 			<div className={styles.input_container}>
 				<label className={styles.input_label} htmlFor="payment">
-					Stream Duration
+					Monthly Stream amount
 				</label>
 				<div className={styles.collection}>
 					<input
@@ -149,7 +149,11 @@ export const StreamForm: React.FC<IProps> = ({
 						? supportedCurrencies.map((currency) => {
 								if (+balances[currency.address] > 0) {
 									console.log(+balances[currency.address]);
-									return <option value={`${currency.address}`}>{currency.currency}</option>;
+									return (
+										<option value={`${currency.address}`}>
+											{currency.currency} {(+balances[currency.address]).toFixed(2)}{' '}
+										</option>
+									);
 								}
 								return '';
 						  })
