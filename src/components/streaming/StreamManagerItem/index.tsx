@@ -28,6 +28,7 @@ import {
 	usdcxMkrxExchangeAddress,
 	usdcxWbtcxExchangeAddress,
 	usdcxWethxExchangeAddress,
+	twoWayMarketRICUSDCAddress,
 } from 'constants/polygon_config';
 
 import styles from './styles.module.scss';
@@ -58,6 +59,7 @@ export const StreamManagerItem: FC<IProps> = ({
 		twoWayWETHMarketAddress,
 		// twoWayMarketMATICUSDCAddress,
 		// twoWayMarketWBTCDAIAddress,
+		twoWayMarketRICUSDCAddress,
 		wethxUsdcxExchangeAddress,
 		wbtcxUsdcxExchangeAddress,
 		usdcxEthSlpxExchangeAddress,
@@ -81,9 +83,8 @@ export const StreamManagerItem: FC<IProps> = ({
 	const [updatedFlowRate, updateFlowRate] = useState('');
 	const [updateOperation, update] = useState(false);
 	const [visiblity, setVisibility] = useState(true);
-
 	const streamTotalFlow = (+currentFlowRate / 1e8) * SECONDS_PER_MONTH;
-	const streamValue = streamTotalFlow - streamTotalFlow * 0.3;
+	const streamValue = streamTotalFlow - streamTotalFlow * 0.25;
 
 	useEffect(() => {
 		rexMarketContracts.forEach((market) => {
@@ -95,7 +96,8 @@ export const StreamManagerItem: FC<IProps> = ({
 
 	return (
 		<div className={visiblity ? styles.streamRow : styles.invisible}>
-			<div>
+			<div className={styles.stream_row_container}>
+				<h3 className={styles.currentFlowTime}>{`started ${date.slice(0, 16)}`}</h3>
 				<h3 className={styles.receiver}>
 					<strong>To: </strong>
 					{truncateAddr(receiver)}
@@ -105,8 +107,6 @@ export const StreamManagerItem: FC<IProps> = ({
 					<>
 						{/* @ts-expect-error */}
 						<TokenIcon tokenName={TokenSymbol} />
-
-						<h3 className={styles.currentFlowTime}>{`started on ${date}`}</h3>
 					</>
 				) : (
 					''
@@ -114,21 +114,17 @@ export const StreamManagerItem: FC<IProps> = ({
 			</div>
 
 			<h3 className={styles.currentFlowRate}>
-				{`$${streamValue.toFixed(2)} per month`}
+				{`${TokenSymbol}  `}
+				<strong>{`${streamValue.toFixed(2)}  `}</strong>
+				per month
 				<br />
-				{`$${(+currentFlowRate / 1e18).toFixed(8)} per second`}
+				<i style={{ color: 'gray', marginTop: '10px' }}>
+					{`${(+currentFlowRate / 1e18).toFixed(8)} per second`}
+				</i>
 			</h3>
 
 			<div className={styles.update_buttons}>
 				<div className={styles.update_buttons}>
-					<button
-						className={styles.change_flow_cancel}
-						onClick={() => {
-							deleteFlow(sender, receiver, TokenID);
-						}}
-					>
-						Delete Flow
-					</button>
 					<button
 						onClick={() => {
 							update(!updateOperation);
@@ -136,6 +132,14 @@ export const StreamManagerItem: FC<IProps> = ({
 						className={styles.toggleBtn}
 					>
 						Update
+					</button>
+					<button
+						className={styles.change_flow_cancel}
+						onClick={() => {
+							deleteFlow(sender, receiver, TokenID);
+						}}
+					>
+						Delete Flow
 					</button>
 				</div>
 
@@ -152,7 +156,7 @@ export const StreamManagerItem: FC<IProps> = ({
 								onKeyDown={blockInvalidChar}
 								min={0}
 								onChange={async (e) => {
-									const newFlow = await calculateFlowRate(+e.target.value, 1);
+									const newFlow = await calculateFlowRate(+e.target.value);
 									if (newFlow) {
 										await updateFlowRate(newFlow.toString());
 										console.log(newFlow.toString);

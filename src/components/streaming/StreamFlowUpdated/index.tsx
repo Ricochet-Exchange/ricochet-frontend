@@ -134,7 +134,7 @@ export const StreamFlowUpdated: FC<StreamFlowUpdatedProps> = ({ event, account, 
 								onKeyDown={blockInvalidChar}
 								min={0}
 								onChange={async (e) => {
-									const newFlow = await calculateFlowRate(+e.target.value, 1);
+									const newFlow = await calculateFlowRate(+e.target.value);
 									if (newFlow) {
 										await updateFlowRate(newFlow.toString());
 										console.log(newFlow.toString);

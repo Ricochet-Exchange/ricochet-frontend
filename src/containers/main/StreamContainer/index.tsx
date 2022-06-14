@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import { StreamForm } from 'components/streaming/StreamForm';
-import RecentStreamActivity from 'components/streaming/RecentStreamActivity';
 import { Framework } from '@superfluid-finance/sdk-core';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { ethers } from 'ethers';
@@ -86,17 +85,6 @@ export const StreamContainer = () => {
 						<h3 className={styles.result}>
 							Your stream has been created, you can view or edit your stream in the Activity Page.
 						</h3>
-						<button
-							onClick={() => {
-								ToggleFail(false);
-								ToggleTransaction(false);
-								ToggleRecent(!recentActivity);
-							}}
-							className={styles.recent_btn}
-						>
-							Back
-						</button>
-						<RecentStreamActivity />
 					</>
 				</div>
 			);
@@ -117,35 +105,6 @@ export const StreamContainer = () => {
 
 					<FailCard />
 				</>
-			);
-		}
-		if (recentActivity) {
-			return (
-				<div className={styles.stream_form_container}>
-					<>
-						<button
-							onClick={() => {
-								ToggleFail(false);
-								ToggleTransaction(false);
-								ToggleRecent(!recentActivity);
-							}}
-							className={styles.recent_btn}
-						>
-							Back
-						</button>
-						<button
-							onClick={() => {
-								ToggleFail(false);
-								ToggleTransaction(false);
-								ToggleRecent(false);
-							}}
-							className={styles.close_btn}
-						>
-							<FontIcon name={FontIconName.Close} className={styles.close} size={24} />
-						</button>
-						<RecentStreamActivity />
-					</>
-				</div>
 			);
 		}
 	};

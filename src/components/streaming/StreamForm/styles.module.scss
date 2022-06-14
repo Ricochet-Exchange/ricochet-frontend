@@ -40,34 +40,26 @@
     }
   }
 
+  .collection{
+    display: flex;
+    flex-direction: row;
+  }
+
+
+  .input_field_submit{
+    padding: 1em;
+    background: var(--color-blue);
+    border-radius: 12px;
+    border: none;
+    color: white;  
+  }
 }
 
 @media screen and (max-width: 786px) {
-  .stream_button{
-    margin-right: 1em;
-    height: 5vh;
-    width: 20vw;
-    border-radius: 10px;
-    border: none;
-    background-color: #678EB5;
-    color: white;
-    font-weight: bold;
-  }
-
-  .stream_panel_container{
-    // z-index: 100;
-    height: 600px;
-    width: 75vw;
-    background-color: #f5f7fa;
-    border-radius: 12px;
-    position: relative;
-    // top: 20vh;
-    // left: 5vw;
-    border: 2px solid rgba(0, 0, 0, 0.245);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  .stream_form{
+    width: 95vw;
+    
+    padding: 1em;
   }
 
   .close{

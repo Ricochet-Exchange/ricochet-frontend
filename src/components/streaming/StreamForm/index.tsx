@@ -35,7 +35,6 @@ export const StreamForm: React.FC<IProps> = ({
 	const [addressProvided, setAddressStatus] = useState(false);
 	const [flowProvided, setFlowStatus] = useState(false);
 	const [tokenProvided, setTokenStatus] = useState(false);
-	const [time, setTime] = useState(1);
 	const state = useShallowSelector(selectMain);
 
 	const supportedCurrencies = [
@@ -111,33 +110,23 @@ export const StreamForm: React.FC<IProps> = ({
 				<label className={styles.input_label} htmlFor="payment">
 					Stream Duration
 				</label>
-				<input
-					id="payment"
-					className={styles.input_field}
-					type="number"
-					placeholder="Payment Amount"
-					onKeyDown={blockInvalidChar}
-					min={0}
-					onChange={async (e) => {
-						const newFlow = await calculateFlowRate(+e.target.value, time);
-						if (newFlow) {
-							await updateFlowRate(newFlow.toString());
-							setFlowStatus(true);
-						}
-					}}
-				/>
-				<select
-					name="Time"
-					value={'1 Day'}
-					onChange={(e) => {
-						console.log(e.target.value);
-					}}
-				>
-					<option value={1}>1 Hour</option>
-					<option value={1}>1 Day</option>
-					<option>1 Week</option>
-					<option>1 Month</option>
-				</select>
+				<div className={styles.collection}>
+					<input
+						id="payment"
+						className={styles.input_field}
+						type="number"
+						placeholder="Payment Amount"
+						onKeyDown={blockInvalidChar}
+						min={0}
+						onChange={async (e) => {
+							const newFlow = await calculateFlowRate(+e.target.value);
+							if (newFlow) {
+								await updateFlowRate(newFlow.toString());
+								setFlowStatus(true);
+							}
+						}}
+					/>
+				</div>
 			</div>
 
 			<div className={styles.input_container}>
