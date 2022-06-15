@@ -2,46 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import Skeleton from '@mui/material/Skeleton';
 import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { visuallyHidden } from '@mui/utils';
-import dayjs from 'dayjs';
-import { Coin } from 'constants/coins';
 import styles from './styles.module.scss';
 import { indexIDA } from 'constants/flowConfig';
 import { GET_DISTRIBUTIONS, GET_STREAMS_CREATED, GET_STREAMS_TERMINATED } from './data/queries';
 import { quickSwapPools, sushiSwapPools } from 'constants/poolAddresses';
 import { queryQuickSwapPoolPrices, querySushiPoolPrices } from 'api';
+import type { Column, Data } from './types';
+import { EnhancedTableHead } from './EnhancedTableHead';
+import { Content } from './Content';
 
-type ColumnName = 'startDate' | 'endDate' | 'Input' | 'Output' | 'PnL';
-
-interface Column {
-	id: ColumnName;
-	label: string;
-	minWidth?: number;
-	align?: 'right' | 'left';
-	tooltip?: string;
-	format?: (value: number) => string;
-}
-
-const columns: readonly Column[] = [
+const columns: Column[] = [
 	{
 		id: 'startDate',
 		label: 'Start Date',
 		minWidth: 112,
 		align: 'left',
-		// format: (value: number) => value.toLocaleString('en-US')
 	},
 	{
 		id: 'endDate',
@@ -72,66 +54,6 @@ const columns: readonly Column[] = [
 	},
 ];
 
-interface Data {
-	startDate: number;
-	endDate: number;
-	input: {
-		coin: Coin;
-		tokenAmount: number;
-		usdAmount: number;
-		txn: string;
-	};
-	output: {
-		coin: Coin;
-		tokenAmount: number;
-		usdAmount: number;
-		txn: string;
-	};
-	pnl: {
-		// (USD amount out - USD amount in)
-		amount: number;
-		// (USD amount out - USD amount in) / USD amount in
-		percent: number;
-	};
-}
-
-type ContentProps = {
-	id: ColumnName;
-	row: Data;
-};
-
-function Content({ id, row }: ContentProps) {
-	let content;
-
-	switch (id) {
-		case 'startDate':
-			content = dayjs(Number(row.startDate)).format('DD/MM/YY');
-			break;
-
-		case 'endDate':
-			content = dayjs(Number(row.endDate)).format('DD/MM/YY');
-			break;
-
-		case 'Input':
-			content = `${row.input.tokenAmount.toFixed(6)} ${row.input.coin} ($${row.input.usdAmount.toFixed(4)})`;
-			break;
-
-		case 'Output':
-			content = `${row.output.tokenAmount.toFixed(6)} ${row.output.coin} ($${row.output.usdAmount.toFixed(4)})`;
-			break;
-
-		case 'PnL':
-			content = `${row.pnl.amount.toFixed(4)} (${row.pnl.percent.toFixed(2)}%)`;
-			break;
-
-		default:
-			content = 'not found';
-			break;
-	}
-
-	return <span>{content}</span>;
-}
-
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 	if (b[orderBy] < a[orderBy]) {
 		return -1;
@@ -142,7 +64,7 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 	return 0;
 }
 
-type Order = 'asc' | 'desc';
+export type Order = 'asc' | 'desc';
 
 function getComparator<Key extends keyof any>(
 	order: Order,
@@ -151,58 +73,6 @@ function getComparator<Key extends keyof any>(
 	return order === 'desc'
 		? (a, b) => descendingComparator(a, b, orderBy)
 		: (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-interface EnhancedTableProps {
-	onRequestSort: (event: React.MouseEvent<unknown>, property: 'startDate' | 'endDate') => void;
-	order: Order;
-	orderBy: string;
-}
-
-function EnhancedTableHead(props: EnhancedTableProps) {
-	const { onRequestSort, order, orderBy } = props;
-	const createSortHandler = (property: 'startDate' | 'endDate') => (event: React.MouseEvent<unknown>) => {
-		onRequestSort(event, property);
-	};
-
-	return (
-		<TableHead>
-			<TableRow>
-				{columns.map((column) => (
-					<TableCell
-						key={column.id}
-						align={column.align}
-						style={{ minWidth: column.minWidth }}
-						sortDirection={orderBy === column.id ? order : false}
-					>
-						{column.id === 'startDate' || column.id === 'endDate' ? (
-							<TableSortLabel
-								active={orderBy === column.id}
-								direction={orderBy === column.id ? order : 'asc'}
-								onClick={createSortHandler(column.id)}
-							>
-								{column.label}
-								{orderBy === column.id ? (
-									<Box component="span" sx={visuallyHidden}>
-										{order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-									</Box>
-								) : null}
-							</TableSortLabel>
-						) : (
-							<>
-								<span>{column.id}</span>
-								<Tooltip title={column.tooltip ?? ''} placement="top" enterTouchDelay={0}>
-									<IconButton>
-										<InfoOutlinedIcon />
-									</IconButton>
-								</Tooltip>
-							</>
-						)}
-					</TableCell>
-				))}
-			</TableRow>
-		</TableHead>
-	);
 }
 
 const exchangeAddresses = indexIDA.map((ida) => ida.exchangeAddress.toLowerCase());
@@ -454,7 +324,12 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		<Paper sx={{ width: '100%', overflow: 'hidden' }}>
 			<TableContainer sx={{ maxHeight: 440 }}>
 				<Table stickyHeader aria-label="sticky table">
-					<EnhancedTableHead onRequestSort={handleRequestSort} order={order} orderBy={orderBy} />
+					<EnhancedTableHead
+						columns={columns}
+						onRequestSort={handleRequestSort}
+						order={order}
+						orderBy={orderBy}
+					/>
 					<TableBody>
 						{rows
 							.sort(getComparator(order, orderBy))
