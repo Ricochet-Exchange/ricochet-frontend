@@ -5,6 +5,9 @@ import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { ethers } from 'ethers';
 import FailCard from 'components/streaming/FailCard';
 import { showErrorToast, showSuccessToast } from '../../../components/common/Toaster';
+import { useShallowSelector } from 'hooks/useShallowSelector';
+import { selectMain } from 'store/main/selectors';
+import { gas } from 'api/gasEstimator';
 import styles from './styles.module.scss';
 
 export const StreamContainer = () => {
@@ -16,12 +19,13 @@ export const StreamContainer = () => {
 	const [transactionFailed, ToggleFail] = useState(false);
 	const [recentActivity, ToggleRecent] = useState(false);
 
+	const { web3 } = useShallowSelector(selectMain);
+
 	async function createNewFlow() {
 		setIsLoading(true);
-		if (window.ethereum) {
-			// @ts-expect-error
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const chainId = Number(await window.ethereum.request({ method: 'eth_chainId' }));
+		if (web3) {
+			const provider = new ethers.providers.Web3Provider(web3.currentProvider as any);
+			const chainId = Number(process.env.REACT_APP_CHAIN_ID);
 
 			const sf = await Framework.create({
 				chainId: Number(chainId),
@@ -35,6 +39,9 @@ export const StreamContainer = () => {
 					flowRate,
 					receiver: recipient,
 					superToken,
+					overrides: {
+						...(await gas()),
+					},
 				});
 				await createFlowOperation.exec(signer);
 				showSuccessToast('Stream opened successfully');

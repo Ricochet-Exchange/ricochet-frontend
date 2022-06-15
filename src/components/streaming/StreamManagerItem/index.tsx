@@ -41,6 +41,7 @@ interface IProps {
 	TokenID: string;
 	timestamp: number;
 	TokenSymbol: string;
+	provider: any;
 }
 
 export const StreamManagerItem: FC<IProps> = ({
@@ -51,6 +52,7 @@ export const StreamManagerItem: FC<IProps> = ({
 	sender,
 	TokenID,
 	timestamp,
+	provider,
 }) => {
 	const rexMarketContracts = [
 		twoWayMarketDAIWETHAddress,
@@ -136,7 +138,7 @@ export const StreamManagerItem: FC<IProps> = ({
 					<button
 						className={styles.change_flow_cancel}
 						onClick={() => {
-							deleteFlow(sender, receiver, TokenID);
+							deleteFlow(sender, receiver, TokenID, provider);
 						}}
 					>
 						Delete Flow
@@ -145,14 +147,14 @@ export const StreamManagerItem: FC<IProps> = ({
 
 				{updateOperation ? (
 					<div className={styles.updatePrompt}>
-						{truncateAddr(receiver)}
 						<div className={styles.amount_container}>
+							{truncateAddr(receiver)}
 							<h3 className={styles.amount_label}>What is the new payment amount?</h3>
 							<input
 								id="payment"
 								className={styles.input_field}
 								type="number"
-								placeholder="Payment Amount Per month in"
+								placeholder="Payment Amount"
 								onKeyDown={blockInvalidChar}
 								min={0}
 								onChange={async (e) => {
@@ -166,25 +168,26 @@ export const StreamManagerItem: FC<IProps> = ({
 							<br />
 							<span>Per month</span>
 						</div>
+						<div className={styles.button_container}>
+							<button
+								className={styles.amount_change}
+								disabled={updatedFlowRate === ''}
+								onClick={() => {
+									updateExistingFlow(receiver, updatedFlowRate, TokenID, provider);
+								}}
+							>
+								Confirm
+							</button>
 
-						<button
-							className={styles.amount_change}
-							disabled={updatedFlowRate === ''}
-							onClick={() => {
-								updateExistingFlow(receiver, updatedFlowRate, TokenID);
-							}}
-						>
-							Confirm
-						</button>
-
-						<button
-							className={styles.change_flow_cancel}
-							onClick={() => {
-								update(false);
-							}}
-						>
-							Cancel
-						</button>
+							<button
+								className={styles.change_flow_cancel}
+								onClick={() => {
+									update(false);
+								}}
+							>
+								Cancel
+							</button>
+						</div>
 					</div>
 				) : (
 					''
