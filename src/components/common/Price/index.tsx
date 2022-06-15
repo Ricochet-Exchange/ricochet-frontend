@@ -16,7 +16,6 @@ const poolAddresses = {
 	[`${Coin.RIC}-${Coin.USDC}`]: '0xdbf5d66d77a83b96763c965d193d0fdd1f8a184b', // need {token1Price}
 	[`${Coin.USDC}-${Coin.RIC}`]: '0xdbf5d66d77a83b96763c965d193d0fdd1f8a184b', // need {token0Price}
 	[`${Coin.USDC}-${Coin.WBTC}`]: '0xD02b870c556480491c70AaF98C297fddd93F6f5C',
-	[`${Coin.WBTC}-${Coin.USDC}`]: '0xD02b870c556480491c70AaF98C297fddd93F6f5C',
 	[`${Coin.USDC}-${Coin.ETH}`]: '0x34965ba0ac2451A34a0471F04CCa3F990b8dea27',
 	[`${Coin.ETH}-${Coin.USDC}`]: '0x34965ba0ac2451A34a0471F04CCa3F990b8dea27',
 	[`${Coin.DAI}-${Coin.ETH}`]: '0x6FF62bfb8c12109E8000935A6De54daD83a4f39f',
@@ -27,6 +26,7 @@ const poolAddresses = {
 
 // QuickSwap Pools
 const quickSwapPools = {
+	[`${Coin.WBTC}-${Coin.USDC}`]: '0xf6a637525402643b0654a54bead2cb9a83c8b498',
 	[`${Coin.MATIC}-${Coin.USDC}`]: '0x6e7a5FAFcec6BB1e78bAE2A1F0B612012BF14827',
 	[`${Coin.USDC}-${Coin.MATIC}`]: '0x6e7a5FAFcec6BB1e78bAE2A1F0B612012BF14827',
 	[`${Coin.MATIC}-${Coin.DAI}`]: '0xEEf611894CeaE652979C9D0DaE1dEb597790C6eE',
