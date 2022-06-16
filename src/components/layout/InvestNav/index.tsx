@@ -109,6 +109,7 @@ export const InvestNav = () => {
 					<FontIcon name={FontIconName.External} size={16} />
 				</NavLink>
 			</div>
+
 		</div>
 	);
 };
