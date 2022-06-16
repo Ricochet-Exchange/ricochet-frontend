@@ -1,16 +1,14 @@
 .streamRow{
-  border-bottom: 2px solid #2776ca51;
+  border-radius: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  background-color: #EDF3FB;
   padding: 1em;
   transition: 0.5s;
-  &:hover{
-    background-color: #ccd1d7;
 
-  }
 }
 
 .receiver{
@@ -30,38 +28,38 @@ strong{
   color: rgba(160, 160, 160, 0.701)
 }
 
-.updatePrompt{
-  position: fixed;
-  right: 1vw;
-  height: 10vh;
-  width: 10vw;
-}
-
-.change_flow_update{
-  height: 5vh;
-  width: 7vw;
-  margin-right: 1em;
-  background-color: #2775CA;
-  color: white;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  &:hover{
-    background-color: #3c86d6;
-  }
-}
-
 .change_flow_cancel{
-  height: 5vh;
+  height: 40px;
+  margin-bottom: 1em;
   width: 7vw;
   background-color:#363b55;
   color: white;
   border-radius: 12px;
   border: none;
+  padding: 0.5em;
   cursor: pointer;
   &:hover{
     background-color: #363b55;
   }
+}
+
+.stream_row_container{
+  display: flex; 
+  flex-direction: row;
+  justify-content: space-around;
+  width: 30vw; 
+  align-items: center;
+}
+
+.toggleBtn{
+  height: 40px;
+  margin-bottom: 1em;
+  border-radius: 12px;
+  background-color: #2775CA;
+  padding: 0.5em;
+  width: 7vw;
+  border: none;
+  color: white;
 }
 
 .invisible{
@@ -69,11 +67,17 @@ strong{
 }
 
 .currentFlowRate{
-  font-size:Large;
+  font-size:medium;
+  text-align: center;
   margin-top: 2em;
   bottom: 0;
   width: 30%;
   color: #678EB5;
+
+  strong{
+    font-size: large;
+    color: #363b55;
+  }
 }
 
 .currentFlowTime{
@@ -86,9 +90,11 @@ strong{
   bottom: 0;
   left: 10vw; 
   height: 30vh;
-  width: 30vw;
+  width: 40vw;
   margin-left: 10;
-  background-color: white;
+  display: flex;
+  flex-direction: row;
+  background-color: #d8dfe9;
   padding-top: 1em;
   padding-left: 3em;
   box-shadow: 4px 4px 4px rgb(89, 89, 89);
@@ -97,26 +103,13 @@ strong{
 }
 
 .update_buttons{
-  margin-top: 1em;
-  height: 8vh;
-  width: 20vw;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.amount_change{
-  margin-top: 1em;
-  height: 5vh;
-  width: 9vw;
-  border: none;
-  border-radius: 12px;
-  margin-right: 1em;
+  flex-direction: column;
 }
 
 .amount_container{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .input_field{
@@ -125,47 +118,90 @@ strong{
   width: 18vw;
 }
 
-.toggleBtn{
-  height: 5vh;
-  border-radius: 12px;
+.button_container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   margin-left: 1em;
-  background-color: #2775CA;
-  padding: 0.5em;
-  width: 7vw;
-  border: none;
-  color: white;
+  button{
+    margin-top: 1em;
+    height: 4vh;
+    width: 7vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    height: 40px;
+    border-radius: 12px;
+    padding: 0.5em;
+    width: 7vw;
+    border: none;
+    color: white;
+  }
 }
+
 
 @media screen and (max-width: 786px) {
 
   .streamRow{
-    border-bottom: 2px solid #2776ca51;
+    border-bottom: 2px solid #2776ca26;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
-    padding: 1em;
+    padding: 0.5em;
+    height: 70vh;
     transition: 0.5s;
     &:hover{
       background-color: #ccd1d7;
   
     }
-  }
-  
+    .stream_row_container{
+      display: flex; 
+      flex-direction: column;
+      min-width: 100%;
+      align-items: center;
+    }
+    
 
-  .change_flow_cancel{
-    height: 5vh;
-    width: 30vw;
-    background-color: #363b55;
-    color: white;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    &:hover{
+    h3{
+      width: 100%;
+      font-size: small;
+      margin-top: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .update_buttons{
+      flex-direction: row;
+      height: 10vh;
+      width: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .change_flow_cancel{
+      height: 6vh;
+      margin-left: 1em;
+      font-size: small;
+      width: 30vw;
       background-color: #363b55;
+      color: white;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      &:hover{
+        background-color: #363b55;
+      }
     }
   }
+
+ 
+  
+
+
 
   
 .updatePrompt{
@@ -182,14 +218,7 @@ strong{
   border: 1px solid lightgray;
 }
 
-.update_buttons{
-  margin-top: 1em;
-  height: 8vh;
-  width: 80%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+
 
 .amount_change{
   margin-top: 1em;
