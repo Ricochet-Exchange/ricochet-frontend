@@ -1,38 +1,18 @@
 @import "../../../assets/styles/mixins";
 
-.outer_container {
-  display: flex;
-  overflow: auto;
-  @include tablet() {
-    display: block;
+@media screen and (max-width: 786px) {
+  .outer_container{
+    width: 100vw;
   }
 }
 
-.settings_mob {
-  display: none;
-
-  @include tablet {
-    display: block;
-    width: 100%;
-    padding: 0px 0 0 0;
-    position: relative;
+@media screen and (min-width: 786px) {
+  .outer_container{
+    padding: 2.5em;
   }
+  
 }
 
-.dot {
-  color: var(--color-blue);
-  margin: 0 0 0 23px;
-}
-
-.payment_page {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  margin: 40px;
-  @media screen and (max-width: 786px) {
-    flex-direction: column;
-  }
-}
 
 
 
