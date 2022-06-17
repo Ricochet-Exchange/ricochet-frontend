@@ -59,6 +59,7 @@ export const GET_DISTRIBUTIONS = gql`
 		) {
 			id
 			totalAmountReceivedUntilUpdatedAt
+			updatedAtBlockNumber
 			updatedAtTimestamp
 			createdAtTimestamp
 			approved

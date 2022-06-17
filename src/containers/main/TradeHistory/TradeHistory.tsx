@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import Skeleton from '@mui/material/Skeleton';
 import Paper from '@mui/material/Paper';
@@ -12,8 +12,6 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import styles from './styles.module.scss';
 import { indexIDA } from 'constants/flowConfig';
 import { GET_DISTRIBUTIONS, GET_STREAMS_CREATED, GET_STREAMS_TERMINATED } from './data/queries';
-import { quickSwapPools, sushiSwapPools } from 'constants/poolAddresses';
-import { queryQuickSwapPoolPrices, querySushiPoolPrices } from 'api';
 import type { Column, Data } from './types';
 import { EnhancedTableHead } from './EnhancedTableHead';
 import { Content } from './Content';
@@ -86,7 +84,6 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 	const [orderBy, setOrderBy] = useState<'startDate' | 'endDate'>('startDate');
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
-	const [marketPairPrices, setMarketPairPrices] = useState<Record<string, Record<string, string>> | null>(null);
 
 	// 3-1. query streams by `terminated` type first, because trading history page needs.
 	const {
@@ -132,75 +129,6 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 					: [],
 		},
 	});
-
-	useEffect(() => {
-		let isMounted = true;
-		let _marketPairPrices: any = {};
-
-		Object.entries(sushiSwapPools).forEach(async ([poolName, pool]) => {
-			const poolAddress = pool.toLowerCase();
-			try {
-				const { data } = await querySushiPoolPrices(poolAddress);
-
-				if (data.error) {
-					throw new Error('Error querying sushiSwapPoolPrices: ', data.error);
-				}
-				if (poolName === 'RIC-USDC' || poolName === 'USDC-RIC') {
-					// special case for RIC-USDC and USDC-RIC pools
-					_marketPairPrices[poolName] = {
-						[data.data.pair.token0.symbol]:
-							Number(data.data.pair.reserveUSD) / Number(data.data.pair.reserve0),
-						[data.data.pair.token1.symbol]:
-							Number(data.data.pair.reserveUSD) / Number(data.data.pair.reserve1),
-					};
-				} else {
-					_marketPairPrices[poolName] = {
-						/**
-						 * talked about this here: https://discord.com/channels/748031363935895552/748032044289753118/984745435266678824
-						 */
-						[data.data.pair.token0.symbol]:
-							(Number(data.data.pair.reserveUSD) * 0.5) / Number(data.data.pair.reserve0),
-						[data.data.pair.token1.symbol]:
-							(Number(data.data.pair.reserveUSD) * 0.5) / Number(data.data.pair.reserve1),
-					};
-				}
-			} catch (error) {
-				console.error(error);
-			}
-		});
-
-		Object.entries(quickSwapPools).forEach(async ([poolName, pool], idx) => {
-			const poolAddress = pool.toLowerCase();
-			try {
-				const { data } = await queryQuickSwapPoolPrices(poolAddress);
-
-				if (data.error) {
-					throw new Error('Error querying quickSwapPoolPrices: ', data.error);
-				}
-				_marketPairPrices[poolName] = {
-					/**
-					 * token0 price = reserveUSD / 2 / reserve0
-					 * token1 price = reserveUSD / 2 / reserve1
-					 */
-					[data.data.pair.token0.symbol]:
-						(Number(data.data.pair.reserveUSD) * 0.5) / Number(data.data.pair.reserve0),
-					[data.data.pair.token1.symbol]:
-						(Number(data.data.pair.reserveUSD) * 0.5) / Number(data.data.pair.reserve1),
-				};
-				if (idx === Object.keys(quickSwapPools).length - 1) {
-					if (isMounted) {
-						setMarketPairPrices(_marketPairPrices);
-					}
-				}
-			} catch (error) {
-				console.error(error);
-			}
-		});
-
-		return () => {
-			isMounted = false;
-		};
-	}, []);
 
 	const handleRequestSort = (event: React.MouseEvent<unknown>, property: 'startDate' | 'endDate') => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -294,28 +222,8 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 				amount: 0,
 				percent: 0,
 			},
+			updatedAtBlockNumber: Number(distribution.updatedAtBlockNumber),
 		};
-
-		if (marketPairPrices) {
-			let coinA = row.input.coin.replace('x', '');
-			let coinB = row.output.coin.replace('x', '');
-			const marketPairPrice = marketPairPrices[`${coinA}-${coinB}`];
-			if (!marketPairPrice[coinA]) {
-				// ETH should be WETH in marketPairPrices.
-				// MATIC should be WMATIC in marketPairPrices.
-				coinA = `W${coinA}`;
-			}
-			if (!marketPairPrice[coinB]) {
-				// ETH should be WETH in marketPairPrices.
-				// MATIC should be WMATIC in marketPairPrices.
-				coinB = `W${coinB}`;
-			}
-
-			row.input.usdAmount = marketPairPrice ? row.input.tokenAmount * Number(marketPairPrice[coinA]) : 0;
-			row.output.usdAmount = marketPairPrice ? row.output.tokenAmount * Number(marketPairPrice[coinB]) : 0;
-			row.pnl.amount = row.output.usdAmount - row.input.usdAmount;
-			row.pnl.percent = row.input.usdAmount === 0 ? 0 : (row.pnl.amount / row.input.usdAmount) * 100;
-		}
 
 		rows.push(row);
 	}

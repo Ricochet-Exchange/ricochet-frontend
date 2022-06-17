@@ -32,4 +32,5 @@ export interface Data {
 		// (USD amount out - USD amount in) / USD amount in
 		percent: number;
 	};
+	updatedAtBlockNumber: number;
 }
