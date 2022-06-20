@@ -17,7 +17,7 @@ const coingeckoIds = new Map<string, string>([
   [WBTCxAddress, 'wrapped-bitcoin'],
   [MATICxAddress, 'matic-network'],
   [MKRxAddress, 'maker'],
-  [RICAddress, 'richochet'],
+  // [RICAddress, 'richochet'],
   [IDLEAddress, 'idle'],
   [SUSHIAddress, 'sushi'],
 ]);
