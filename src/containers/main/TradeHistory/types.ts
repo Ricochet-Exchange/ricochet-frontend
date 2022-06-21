@@ -6,7 +6,7 @@ export interface Column {
 	id: ColumnName;
 	label: string;
 	minWidth?: number;
-	align?: 'right' | 'left';
+	align?: 'right' | 'left' | 'center';
 	tooltip?: string;
 	format?: (value: number) => string;
 }
@@ -16,14 +16,14 @@ export interface Data {
 	endDate: number;
 	input: {
 		coin: Coin;
-		tokenAmount: number;
-		usdAmount: number;
+		amount: number;
+		price: number;
 		txn: string;
 	};
 	output: {
 		coin: Coin;
-		tokenAmount: number;
-		usdAmount: number;
+		amount: number;
+		price: number;
 		txn: string;
 	};
 	pnl: {

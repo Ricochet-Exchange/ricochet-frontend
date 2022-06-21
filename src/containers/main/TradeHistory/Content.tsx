@@ -2,6 +2,16 @@ import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import type { ColumnName, Data } from './types';
 import { queryQuickSwapPoolPriceByBlock, querySushiSwapPoolPriceByBlock } from 'api';
+import styled from '@emotion/styled';
+
+export const Container = styled.div`
+	display: flex;
+	justify-content: center;
+`;
+
+export const Wrapper = styled.span`
+	width: 25%;
+`;
 
 enum POOLS {
 	'SUSHISWAP',
@@ -230,15 +240,15 @@ type ContentProps = {
 };
 
 export function Content({ id, row }: ContentProps) {
-	const [inputUsdAmount, setInputUsdAmount] = useState(row.input.usdAmount);
-	const [outputUsdAmount, setOutputUsdAmount] = useState(row.output.usdAmount);
+	const [inputUsdAmount, setInputUsdAmount] = useState(0);
+	const [outputUsdAmount, setOutputUsdAmount] = useState(0);
 	const [pnl, setPnl] = useState({ ...row.pnl });
 
 	useEffect(() => {
 		let isMounted = true;
 
 		(async () => {
-			const { input, output, updatedAtBlockNumber, pnl } = row;
+			const { input, output, updatedAtBlockNumber } = row;
 			// find pool type.
 			const pool = map.find((p) => p.superToken.tokenA === input.coin && p.superToken.tokenB === output.coin);
 			if (!pool) {
@@ -273,20 +283,18 @@ export function Content({ id, row }: ContentProps) {
 				token0Price = Number(data.data.pair.reserveUSD) / 2 / Number(data.data.pair.reserve0);
 				token1Price = Number(data.data.pair.reserveUSD) / 2 / Number(data.data.pair.reserve1);
 			}
-			input.usdAmount =
-				input.tokenAmount *
-				(data.data.pair.token0.symbol === pool.wrappedToken.tokenA ? token0Price : token1Price);
-			output.usdAmount =
-				output.tokenAmount *
-				(data.data.pair.token1.symbol === pool.wrappedToken.tokenB ? token1Price : token0Price);
-			pnl.amount = output.usdAmount - input.usdAmount;
-			pnl.percent = row.input.usdAmount === 0 ? 0 : (row.pnl.amount / row.input.usdAmount) * 100;
+			input.price = data.data.pair.token0.symbol === pool.wrappedToken.tokenA ? token0Price : token1Price;
+			output.price = data.data.pair.token1.symbol === pool.wrappedToken.tokenB ? token1Price : token0Price;
+			const _inputUsdAmount = row.input.amount * row.input.price;
+			const _outputUsdAmount = row.output.amount * row.output.price;
+			const _pnlAmount = _outputUsdAmount - _inputUsdAmount;
+			const _pnlPercent = _inputUsdAmount === 0 ? 0 : (_pnlAmount / _outputUsdAmount) * 100;
 			if (isMounted) {
-				setInputUsdAmount(input.usdAmount);
-				setOutputUsdAmount(output.usdAmount);
+				setInputUsdAmount(_inputUsdAmount);
+				setOutputUsdAmount(_outputUsdAmount);
 				setPnl({
-					amount: pnl.amount,
-					percent: pnl.percent,
+					amount: _pnlAmount,
+					percent: _pnlPercent,
 				});
 			}
 		})();
@@ -308,16 +316,32 @@ export function Content({ id, row }: ContentProps) {
 			break;
 
 		case 'Input':
-			content = `${row.input.tokenAmount.toFixed(6)} ${row.input.coin} ($${inputUsdAmount.toFixed(4)})`;
-			break;
+			return (
+				<Container>
+					<Wrapper>{`${row.input.coin}`}</Wrapper>
+					<Wrapper>{`$${row.input.price.toFixed(4)}`}</Wrapper>
+					<Wrapper>{`${row.input.amount.toFixed(6)}`}</Wrapper>
+					<Wrapper>{`$${inputUsdAmount.toFixed(4)}`}</Wrapper>
+				</Container>
+			);
 
 		case 'Output':
-			content = `${row.output.tokenAmount.toFixed(6)} ${row.output.coin} ($${outputUsdAmount.toFixed(4)})`;
-			break;
+			return (
+				<Container>
+					<Wrapper>{`${row.output.coin}`}</Wrapper>
+					<Wrapper>{`$${row.output.price.toFixed(4)}`}</Wrapper>
+					<Wrapper>{`${row.output.amount.toFixed(6)}`}</Wrapper>
+					<Wrapper>{`$${outputUsdAmount.toFixed(4)}`}</Wrapper>
+				</Container>
+			);
 
 		case 'PnL':
-			content = `${pnl.amount.toFixed(4)} (${pnl.percent.toFixed(2)}%)`;
-			break;
+			return (
+				<div style={{ display: 'flex' }}>
+					<span style={{ width: '50%' }}>{`$${pnl.amount.toFixed(4)}`}</span>
+					<span style={{ width: '50%' }}>{`${pnl.percent.toFixed(2)}%`}</span>
+				</div>
+			);
 
 		default:
 			content = 'not found';

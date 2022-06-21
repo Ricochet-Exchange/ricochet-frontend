@@ -32,22 +32,22 @@ const columns: Column[] = [
 	{
 		id: 'Input',
 		label: 'Input',
-		minWidth: 112,
-		align: 'left',
-		tooltip: "USD amount = the Super Token's (below) price at time of stream close * tokenAmount.",
+		minWidth: 360,
+		align: 'center',
+		tooltip: 'at the timestamp of the stream closed.',
 	},
 	{
 		id: 'Output',
 		label: 'Output',
-		minWidth: 112,
-		align: 'left',
-		tooltip: "USD amount = the Super Token's (below) price at time of stream close * tokenAmount.",
+		minWidth: 360,
+		align: 'center',
+		tooltip: 'at the timestamp of the stream closed.',
 	},
 	{
 		id: 'PnL',
 		label: 'PNL',
-		minWidth: 112,
-		align: 'left',
+		minWidth: 250,
+		align: 'center',
 		tooltip: 'PnL (profit and loss) = (USD amount out - USD amount in) / USD amount in.',
 	},
 ];
@@ -80,7 +80,7 @@ type TradeHistoryProps = {
 };
 
 export function TradeHistoryTable({ address }: TradeHistoryProps) {
-	const [order, setOrder] = useState<Order>('asc');
+	const [order, setOrder] = useState<Order>('desc');
 	const [orderBy, setOrderBy] = useState<'startDate' | 'endDate'>('startDate');
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -208,14 +208,14 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 			endDate: Number(data.timestamp.terminatedAt) * 1e3,
 			input: {
 				coin: data.token.symbol,
-				tokenAmount: Number(data.totalAmountStreamedUntilTimestamp) / 1e18,
-				usdAmount: 0,
+				amount: Number(data.totalAmountStreamedUntilTimestamp) / 1e18,
+				price: 0,
 				txn: data.transactionHash.created,
 			},
 			output: {
 				coin: distribution.index.token.symbol,
-				tokenAmount: Number(distribution.totalAmountReceivedUntilUpdatedAt) / 1e18,
-				usdAmount: 0,
+				amount: Number(distribution.totalAmountReceivedUntilUpdatedAt) / 1e18,
+				price: 0,
 				txn: data.transactionHash.terminated,
 			},
 			pnl: {
