@@ -41,3 +41,11 @@
   overflow: auto;
   z-index: 10;
 }
+
+.outer_container {
+  display: flex;
+  overflow: auto;
+  @include tablet() {
+    display: block;
+  }
+}

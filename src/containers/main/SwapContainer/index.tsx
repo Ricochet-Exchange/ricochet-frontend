@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ArrowDownOutlined } from "@ant-design/icons";
 import { InchModal } from "components/swap/InchModal";
@@ -37,7 +37,8 @@ import {
 } from "utils/getUnderlyingToken";
 import customStyles from "./styles.module.scss";
 import { showErrorToast } from "components/common/Toaster";
-import Web3 from "web3";
+import { InvestNav } from "components/layout/InvestNav";
+import { LoadingWrapper } from "components/common/LoadingWrapper";
 
 const supportedCurrencies = [
   {
@@ -145,6 +146,9 @@ export const SwapContainer: React.FC<IProps> = () => {
   const [toAmount, setToAmount] = useState("0");
   const [isToModalActive, setToModalActive] = useState(false);
   const [isTokenApproved, setIsTokenApproved] = useState("");
+  const [router, setRouter] = useState<AlphaRouter>();
+  const [provider, setProvider] = useState<ethers.providers.Web3Provider>();
+  const [isLoading, setIsLoading] = useState(true);
   const [swapConfig, setSwapConfig] = useState<{
     fromTokenAddress: string;
     toTokenAddress: string;
@@ -167,10 +171,21 @@ export const SwapContainer: React.FC<IProps> = () => {
 
   const swapContract = getContract(swapContractAddress, tradeABI, web3);
 
-  const provider = new ethers.providers.Web3Provider(
-    web3.currentProvider as any
-  );
-  const router = new AlphaRouter({ chainId: 137, provider: provider as any });
+  useEffect(() => {
+    if (web3.currentProvider) {
+      const provider = new ethers.providers.Web3Provider(
+        web3.currentProvider as any
+      );
+      setProvider(provider);
+      const router = new AlphaRouter({
+        chainId: 137,
+        provider: provider as any,
+      });
+      setRouter(router);
+      setIsLoading(false);
+    }
+    setIsLoading(true);
+  }, [web3.currentProvider]);
 
   const handleApprove = async () => {
     const tokenContract = getContract(fromTokenAddress, erc20ABI, web3);
@@ -212,6 +227,7 @@ export const SwapContainer: React.FC<IProps> = () => {
     );
     console.log("amount: ", currencyAmount);
 
+    // @ts-ignore
     const route = await router.route(
       currencyAmount,
       // @ts-ignore
@@ -269,208 +285,211 @@ export const SwapContainer: React.FC<IProps> = () => {
     <>
       {provider && (
         <div className={customStyles.wrapper}>
-          <Card style={styles.card} bodyStyle={{ padding: "18px" }}>
-            <Card
-              style={{ borderRadius: "1rem" }}
-              bodyStyle={{ padding: "0.8rem" }}
-            >
-              <div
-                style={{
-                  marginBottom: "5px",
-                  fontSize: "14px",
-                  color: "#434343",
-                }}
+          <InvestNav />
+          <LoadingWrapper isLoading={isLoading} loadingType="spinner">
+            <Card style={styles.card} bodyStyle={{ padding: "18px" }}>
+              <Card
+                style={{ borderRadius: "1rem" }}
+                bodyStyle={{ padding: "0.8rem" }}
               >
-                From
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexFlow: "row nowrap",
-                  alignItems: "center",
-                }}
-              >
-                <div style={{ display: "flex" }}>
-                  <input
-                    type="number"
-                    placeholder="0.00"
-                    style={{ ...styles.input }}
-                    onChange={handleFromAmountChange}
-                    value={fromAmount}
-                  />
-                  <p style={{ fontWeight: "600", color: "#434343" }}>
-                    {/* {fromTokenAmountUsd} */}
-                  </p>
-                </div>
-                <Button
+                <div
                   style={{
-                    height: "fit-content",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    borderRadius: "0.6rem",
-                    padding: "5px 10px",
-                    fontWeight: "500",
-                    fontSize: "17px",
-                    gap: "7px",
-                    border: "none",
-                  }}
-                  onClick={() => setFromModalActive(true)}
-                >
-                  {fromTokenAddress ? (
-                    <div>{fromTokenAddress}</div>
-                  ) : (
-                    <span>Select a token</span>
-                  )}
-                  {/* <span>{fromTokenAddress?.symbol}</span> */}
-                  <Arrow />
-                </Button>
-              </div>
-            </Card>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                padding: "10px",
-              }}
-            >
-              <ArrowDownOutlined />
-            </div>
-            <Card
-              style={{ borderRadius: "1rem" }}
-              bodyStyle={{ padding: "0.8rem" }}
-            >
-              <div
-                style={{
-                  marginBottom: "5px",
-                  fontSize: "14px",
-                  color: "#434343",
-                }}
-              >
-                To
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexFlow: "row nowrap",
-                  alignItems: "center",
-                }}
-              >
-                <div style={{ display: "flex" }}>
-                  <input
-                    placeholder="0.00"
-                    style={styles.input}
-                    onChange={handleToAmountChange}
-                    value={toAmount}
-                  />
-                  <p style={{ fontWeight: "600", color: "#434343" }}>
-                    {/* {toTokenAmountUsd} */}
-                  </p>
-                </div>
-                <Button
-                  style={{
-                    height: "fit-content",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    borderRadius: "0.6rem",
-                    padding: "5px 10px",
-                    fontWeight: "500",
-                    fontSize: "17px",
-                    gap: "7px",
-                    border: "none",
-                  }}
-                  onClick={() => setToModalActive(true)}
-                  type={toTokenAddress ? "default" : "primary"}
-                >
-                  {toTokenAddress ? (
-                    <div>{toTokenAddress}</div>
-                  ) : (
-                    <span>Select a token</span>
-                  )}
-                  {/* <span>{toTokenAddress?.symbol}</span> */}
-                  <Arrow />
-                </Button>
-              </div>
-            </Card>
-            {quote && (
-              <div>
-                <p
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    fontSize: "15px",
+                    marginBottom: "5px",
+                    fontSize: "14px",
                     color: "#434343",
-                    marginTop: "8px",
-                    padding: "0 10px",
                   }}
                 >
-                  {/* Estimated Gas: <p></p> */}
-                </p>
-                {/* <PriceSwap /> */}
+                  From
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexFlow: "row nowrap",
+                    alignItems: "center",
+                  }}
+                >
+                  <div style={{ display: "flex" }}>
+                    <input
+                      type="number"
+                      placeholder="0.00"
+                      style={{ ...styles.input }}
+                      onChange={handleFromAmountChange}
+                      value={fromAmount}
+                    />
+                    <p style={{ fontWeight: "600", color: "#434343" }}>
+                      {/* {fromTokenAmountUsd} */}
+                    </p>
+                  </div>
+                  <Button
+                    style={{
+                      height: "fit-content",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      borderRadius: "0.6rem",
+                      padding: "5px 10px",
+                      fontWeight: "500",
+                      fontSize: "17px",
+                      gap: "7px",
+                      border: "none",
+                    }}
+                    onClick={() => setFromModalActive(true)}
+                  >
+                    {fromTokenAddress ? (
+                      <div>{fromTokenAddress}</div>
+                    ) : (
+                      <span>Select a token</span>
+                    )}
+                    {/* <span>{fromTokenAddress?.symbol}</span> */}
+                    <Arrow />
+                  </Button>
+                </div>
+              </Card>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: "10px",
+                }}
+              >
+                <ArrowDownOutlined />
               </div>
-            )}
-            <Button
-              type="primary"
-              size="large"
-              style={{
-                width: "100%",
-                marginTop: "15px",
-                borderRadius: "0.6rem",
-                height: "50px",
-              }}
-              // disabled={(swapConfig && state[swapConfig?.key])}
-              onClick={() => handleApprove()}
-              // disabled={!ButtonState.isActive}
+              <Card
+                style={{ borderRadius: "1rem" }}
+                bodyStyle={{ padding: "0.8rem" }}
+              >
+                <div
+                  style={{
+                    marginBottom: "5px",
+                    fontSize: "14px",
+                    color: "#434343",
+                  }}
+                >
+                  To
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexFlow: "row nowrap",
+                    alignItems: "center",
+                  }}
+                >
+                  <div style={{ display: "flex" }}>
+                    <input
+                      placeholder="0.00"
+                      style={styles.input}
+                      onChange={handleToAmountChange}
+                      value={toAmount}
+                    />
+                    <p style={{ fontWeight: "600", color: "#434343" }}>
+                      {/* {toTokenAmountUsd} */}
+                    </p>
+                  </div>
+                  <Button
+                    style={{
+                      height: "fit-content",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      borderRadius: "0.6rem",
+                      padding: "5px 10px",
+                      fontWeight: "500",
+                      fontSize: "17px",
+                      gap: "7px",
+                      border: "none",
+                    }}
+                    onClick={() => setToModalActive(true)}
+                    type={toTokenAddress ? "default" : "primary"}
+                  >
+                    {toTokenAddress ? (
+                      <div>{toTokenAddress}</div>
+                    ) : (
+                      <span>Select a token</span>
+                    )}
+                    {/* <span>{toTokenAddress?.symbol}</span> */}
+                    <Arrow />
+                  </Button>
+                </div>
+              </Card>
+              {quote && (
+                <div>
+                  <p
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontSize: "15px",
+                      color: "#434343",
+                      marginTop: "8px",
+                      padding: "0 10px",
+                    }}
+                  >
+                    {/* Estimated Gas: <p></p> */}
+                  </p>
+                  {/* <PriceSwap /> */}
+                </div>
+              )}
+              <Button
+                type="primary"
+                size="large"
+                style={{
+                  width: "100%",
+                  marginTop: "15px",
+                  borderRadius: "0.6rem",
+                  height: "50px",
+                }}
+                // disabled={(swapConfig && state[swapConfig?.key])}
+                onClick={() => handleApprove()}
+                // disabled={!ButtonState.isActive}
+              >
+                {/* {ButtonState.p} */}
+                Approve
+              </Button>
+              <Button
+                type="primary"
+                size="large"
+                style={{
+                  width: "100%",
+                  marginTop: "15px",
+                  borderRadius: "0.6rem",
+                  height: "50px",
+                }}
+                // disabled={(swapConfig && state[swapConfig?.key])}
+                onClick={() => handleSwap()}
+                // disabled={!ButtonState.isActive}
+              >
+                {/* {ButtonState.p} */}
+                Swap
+              </Button>
+            </Card>
+            <ReactModal
+              isOpen={isFromModalActive}
+              className={customStyles.modal}
+              overlayClassName={customStyles.modal_overlay}
+              preventScroll
             >
-              {/* {ButtonState.p} */}
-              Approve
-            </Button>
-            <Button
-              type="primary"
-              size="large"
-              style={{
-                width: "100%",
-                marginTop: "15px",
-                borderRadius: "0.6rem",
-                height: "50px",
-              }}
-              // disabled={(swapConfig && state[swapConfig?.key])}
-              onClick={() => handleSwap()}
-              // disabled={!ButtonState.isActive}
+              <InchModal
+                open={isFromModalActive}
+                onClose={() => setFromModalActive(false)}
+                setToken={setFromTokenAddress}
+                tokenList={supportedCurrencies}
+                direction="in"
+              />
+            </ReactModal>
+            <ReactModal
+              isOpen={isToModalActive}
+              className={customStyles.modal}
+              overlayClassName={customStyles.modal_overlay}
+              preventScroll
             >
-              {/* {ButtonState.p} */}
-              Swap
-            </Button>
-          </Card>
-          <ReactModal
-            isOpen={isFromModalActive}
-            className={customStyles.modal}
-            overlayClassName={customStyles.modal_overlay}
-            preventScroll
-          >
-            <InchModal
-              open={isFromModalActive}
-              onClose={() => setFromModalActive(false)}
-              setToken={setFromTokenAddress}
-              tokenList={supportedCurrencies}
-              direction="in"
-            />
-          </ReactModal>
-          <ReactModal
-            isOpen={isToModalActive}
-            className={customStyles.modal}
-            overlayClassName={customStyles.modal_overlay}
-            preventScroll
-          >
-            <InchModal
-              open={isToModalActive}
-              onClose={() => setToModalActive(false)}
-              setToken={setToTokenAddress}
-              tokenList={supportedCurrencies}
-              direction="out"
-            />
-          </ReactModal>
+              <InchModal
+                open={isToModalActive}
+                onClose={() => setToModalActive(false)}
+                setToken={setToTokenAddress}
+                tokenList={supportedCurrencies}
+                direction="out"
+              />
+            </ReactModal>
+          </LoadingWrapper>
         </div>
       )}
     </>
