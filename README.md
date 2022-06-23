@@ -18,11 +18,11 @@
 </div>
 <div align="center">
     <br>
-    <a href="https://ricochet.exchange"><b>ricochet.exchange »</b></a>
+    <a href="https://ricochet.exchange"><b>ricochet.exchange » </b></a>
     <br><br>
     <a href="https://docs.ricochet.exchange/"><b>Documentation</b></a>
     •
-    <a href="https://github.com/Ricochet-Exchange/ricochet-frontend/issues/new"><b>Feature requests</b></a>
+    <a href="https://github.com/Ricochet-Exchange/ricochet-frontend/issues/new"><b>Feature request</b></a>
 </div>
 
 ### How to start
