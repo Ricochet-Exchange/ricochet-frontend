@@ -72,7 +72,7 @@ export const InvestNav = () => {
 				>
 					<FontIcon name={FontIconName.Lock} size={16} />
 					<div className={styles.nav_text}>{t('Vault')}</div>
-			</NavLink>*/}
+				</NavLink>*/}
 
 				<NavLink to={Routes.Refer} className={styles.nav_link} activeClassName={styles.nav_link_active}>
 					<FontIcon name={FontIconName.Refer} size={16} />
@@ -104,5 +104,6 @@ export const InvestNav = () => {
 				 <FontIcon name={FontIconName.External} size={16} />
 			 </a>
 		</div>
+	</div>
 	);
 };
