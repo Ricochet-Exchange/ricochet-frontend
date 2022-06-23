@@ -31,26 +31,28 @@ export const ReferContainer: React.FC<IProps> = () => {
 
 	useEffect(() => {
 		let isMounted = true;
-		const allCookies = document.cookie ?? '';
-
-		if (allCookies && allCookies.length > 1) {
-			setReferredBy(
-				allCookies
-					?.split('; ')
-					?.find((row) => row.startsWith('referralId='))
-					?.split('=')[1],
-			);
-		}
-
 		if (address && contract) {
 			(async () => {
 				const contractMethods = await contract.methods;
 				const affiliate = await contractMethods.customerToAffiliate(address.toLowerCase()).call();
 				if (affiliate !== '0') {
-					// const referral = await contractMethods.affiliates(affiliate).call();
-					// if (isMounted) {
-					// 	setReferredBy(referral.name);
-					// }
+					const referral = await contractMethods.affiliates(affiliate).call();
+					if (isMounted) {
+						setReferredBy(referral.name);
+					}
+				} else {
+					if (isMounted) {
+						const allCookies = document.cookie ?? '';
+
+						if (allCookies && allCookies.length > 1) {
+							setReferredBy(
+								allCookies
+									?.split('; ')
+									?.find((row) => row.startsWith('referralId='))
+									?.split('=')[1],
+							);
+						}
+					}
 				}
 			})();
 		}
