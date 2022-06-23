@@ -8,5 +8,8 @@ export const getQuickSwapPoolPrices = (poolAddress: string) => `{
       token1 {
         symbol
       }
+      reserve0
+      reserve1
+      reserveUSD
     }
   }`;
