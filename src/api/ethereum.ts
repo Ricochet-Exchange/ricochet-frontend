@@ -173,7 +173,7 @@ export const startFlow = async (
 						},
 					}),
 					await framework.cfaV1.createFlow({
-						superToken: outputTokenAddress,
+						superToken: inputTokenAddress,
 						sender: address,
 						receiver: exchangeAddress,
 						flowRate: amount.toString(),

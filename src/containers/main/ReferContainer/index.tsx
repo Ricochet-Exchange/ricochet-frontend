@@ -40,6 +40,19 @@ export const ReferContainer: React.FC<IProps> = () => {
 					if (isMounted) {
 						setReferredBy(referral.name);
 					}
+				} else {
+					if (isMounted) {
+						const allCookies = document.cookie ?? '';
+
+						if (allCookies && allCookies.length > 1) {
+							setReferredBy(
+								allCookies
+									?.split('; ')
+									?.find((row) => row.startsWith('referralId='))
+									?.split('=')[1],
+							);
+						}
+					}
 				}
 			})();
 		}

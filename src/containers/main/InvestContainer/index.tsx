@@ -12,15 +12,18 @@ import { useDispatch } from 'react-redux';
 import { connectWeb3Modal, startFlowAction, stopFlowAction } from 'store/main/actionCreators';
 import styles from './styles.module.scss';
 import { InteractiveStreamManager } from '../InteractiveStreamManager';
-import { TabPanel } from './InvestTabPanel';
+import { TabPanel } from './TabPanel';
 import { InvestMarket } from './InvestMarket';
 import { SignInButton } from 'components/banks/SignInButton';
 import { useRouteMatch } from 'react-router-dom';
 import { FlowTypes, RoutesToFlowTypes } from 'constants/flowConfig';
+import { TradeHistoryTable } from '../TradeHistory';
+import { TabLabel } from './TabLabel';
 
 export enum TABS {
-	'MARKET',
-	'INTERACTIVE',
+	'MARKETS',
+	'STREAMS',
+	'TRADES',
 }
 
 interface IProps {}
@@ -33,7 +36,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 	const match = useRouteMatch();
 	const flowType = RoutesToFlowTypes[match.path];
 
-	const [currentTab, setCurrentTab] = useState<TABS>(TABS.MARKET);
+	const [currentTab, setCurrentTab] = useState<TABS>(TABS.MARKETS);
 	const switchTab = (evt: React.SyntheticEvent, tab: TABS) => setCurrentTab(tab);
 
 	const handleStart = useCallback(
@@ -68,7 +71,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 				<div
 					className={styles.content}
 					style={
-						currentTab === TABS.INTERACTIVE
+						currentTab === TABS.STREAMS
 							? { width: '100%', height: 'calc(100vh - 200px)', overflowY: 'auto' }
 							: {}
 					}
@@ -78,23 +81,41 @@ export const InvestContainer: React.FC<IProps> = () => {
 							<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 								<Tabs value={currentTab} onChange={switchTab} aria-label="rex market tabs">
 									<Tab
-										label="Market"
-										id={`${TABS.MARKET}`}
-										aria-controls={`tabpanel-${TABS.MARKET}`}
+										label="Markets"
+										id={`${TABS.MARKETS}`}
+										aria-controls={`tabpanel-${TABS.MARKETS}`}
+										sx={{ textTransform: 'none' }}
 									/>
 									<Tab
-										label="Interactive"
-										id={`${TABS.INTERACTIVE}`}
-										aria-controls={`tabpanel-${TABS.INTERACTIVE}`}
+										label={<TabLabel labelContent="Streams" />}
+										id={`${TABS.STREAMS}`}
+										aria-controls={`tabpanel-${TABS.STREAMS}`}
+										sx={{ textTransform: 'none' }}
+									/>
+									<Tab
+										label={<TabLabel labelContent="Trades" />}
+										id={`${TABS.TRADES}`}
+										aria-controls={`tabpanel-${TABS.TRADES}`}
+										sx={{ textTransform: 'none' }}
 									/>
 								</Tabs>
 							</Box>
-							<TabPanel index={TABS.MARKET} tab={currentTab}>
+							<TabPanel index={TABS.MARKETS} tab={currentTab}>
 								<InvestMarket handleStart={handleStart} handleStop={handleStop} />
 							</TabPanel>
-							<TabPanel index={TABS.INTERACTIVE} tab={currentTab}>
+							<TabPanel index={TABS.STREAMS} tab={currentTab}>
 								{address ? (
 									<InteractiveStreamManager handleStart={handleStart} handleStop={handleStop} />
+								) : (
+									<div className={styles.connectWalletContainer}>
+										<p>{t('Please connect your wallet')}</p>
+										<SignInButton onClick={handleSignIn} />
+									</div>
+								)}
+							</TabPanel>
+							<TabPanel index={TABS.TRADES} tab={currentTab}>
+								{address ? (
+									<TradeHistoryTable address={address} />
 								) : (
 									<div className={styles.connectWalletContainer}>
 										<p>{t('Please connect your wallet')}</p>

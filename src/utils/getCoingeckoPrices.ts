@@ -3,7 +3,6 @@ import {
   IDLEAddress,
   MATICxAddress,
   MKRxAddress,
-  RICAddress,
   SUSHIAddress,
   USDCxAddress,
   WBTCxAddress,
@@ -17,7 +16,6 @@ const coingeckoIds = new Map<string, string>([
   [WBTCxAddress, 'wrapped-bitcoin'],
   [MATICxAddress, 'matic-network'],
   [MKRxAddress, 'maker'],
-  [RICAddress, 'richochet'],
   [IDLEAddress, 'idle'],
   [SUSHIAddress, 'sushi'],
 ]);
