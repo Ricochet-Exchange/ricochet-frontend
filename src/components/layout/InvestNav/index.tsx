@@ -99,7 +99,7 @@ export const InvestNav = () => {
 				 <FontIcon name={FontIconName.External} size={16} />
 			 </a>
 
-			 <a href={RICOCHET_V1_LINK} className={styles.nav_link_desktop_only} target="_blank" rel={'noreferrer'}>
+			 <a href={RICOCHET_V1_LINK} className={styles.nav_link} target="_blank" rel={'noreferrer'}>
 				 <div className={styles.nav_text_tutorial}>{t('Ricochet V1')}</div>
 				 <FontIcon name={FontIconName.External} size={16} />
 			 </a>
