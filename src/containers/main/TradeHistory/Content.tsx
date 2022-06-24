@@ -288,7 +288,7 @@ export function Content({ id, row }: ContentProps) {
 			const _inputUsdAmount = row.input.amount * row.input.price;
 			const _outputUsdAmount = row.output.amount * row.output.price;
 			const _pnlAmount = _outputUsdAmount - _inputUsdAmount;
-			const _pnlPercent = _inputUsdAmount === 0 ? 0 : (_pnlAmount / _outputUsdAmount) * 100;
+			const _pnlPercent = _inputUsdAmount === 0 ? 0 : (_pnlAmount / _inputUsdAmount) * 100;
 			if (isMounted) {
 				setInputUsdAmount(_inputUsdAmount);
 				setOutputUsdAmount(_outputUsdAmount);
