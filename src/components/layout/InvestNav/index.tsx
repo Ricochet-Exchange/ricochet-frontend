@@ -72,7 +72,7 @@ export const InvestNav = () => {
 				>
 					<FontIcon name={FontIconName.Lock} size={16} />
 					<div className={styles.nav_text}>{t('Vault')}</div>
-			</NavLink>*/}
+				</NavLink>*/}
 
 				<NavLink to={Routes.Refer} className={styles.nav_link} activeClassName={styles.nav_link_active}>
 					<FontIcon name={FontIconName.Refer} size={16} />
@@ -93,23 +93,17 @@ export const InvestNav = () => {
 					<img src={currency} alt="currency" width="16" height="16" style={{ filter: 'invert(1)' }} />
 					<div className={styles.nav_text}>{t('Payments')}</div>
 				</NavLink>
+        
+			 <a className={styles.nav_link} href={TUTORIAL_LINK} target="_blank">
+				 <div className={styles.nav_text_tutorial}>{t('Tutorial')}</div>
+				 <FontIcon name={FontIconName.External} size={16} />
+			 </a>
 
-				<NavLink className={styles.nav_link} to={{ pathname: TUTORIAL_LINK }} target="_blank">
-					<div className={styles.nav_text_tutorial}>{t('Tutorial')}</div>
-					<FontIcon name={FontIconName.External} size={16} />
-				</NavLink>
-
-				<NavLink
-					to={{ pathname: RICOCHET_V1_LINK }}
-					className={styles.nav_link_desktop_only}
-					activeClassName={styles.nav_link_active}
-					target="_blank"
-				>
-					<div className={styles.nav_text_tutorial}>{t('Ricochet V1')}</div>
-					<FontIcon name={FontIconName.External} size={16} />
-				</NavLink>
-			</div>
-
+			 <a href={RICOCHET_V1_LINK} className={styles.nav_link} target="_blank" rel={'noreferrer'}>
+				 <div className={styles.nav_text_tutorial}>{t('Ricochet V1')}</div>
+				 <FontIcon name={FontIconName.External} size={16} />
+			 </a>
 		</div>
+	</div>
 	);
 };
