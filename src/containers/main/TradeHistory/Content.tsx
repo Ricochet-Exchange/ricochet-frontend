@@ -35,7 +35,7 @@ interface T {
 	};
 }
 
-export const map: T[] = [
+const map: T[] = [
 	{
 		superToken: {
 			tokenA: 'USDCx',

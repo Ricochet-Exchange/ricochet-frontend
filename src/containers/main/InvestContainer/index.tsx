@@ -19,7 +19,7 @@ import { useRouteMatch } from 'react-router-dom';
 import { FlowTypes, RoutesToFlowTypes } from 'constants/flowConfig';
 import { TradeHistoryTable } from '../TradeHistory';
 import { TabLabel } from './TabLabel';
-import { Market } from './Market';
+import { Markets } from './Markets';
 
 export enum TABS {
 	'MARKETS',
@@ -103,7 +103,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 							</Box>
 							<TabPanel index={TABS.MARKETS} tab={currentTab}>
 								{/* <InvestMarket handleStart={handleStart} handleStop={handleStop} /> */}
-								<Market />
+								<Markets account={address} />
 							</TabPanel>
 							<TabPanel index={TABS.STREAMS} tab={currentTab}>
 								{address ? (
