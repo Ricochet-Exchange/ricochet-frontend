@@ -11,10 +11,9 @@ import Stack from '@mui/material/Stack';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import StopIcon from '@mui/icons-material/Stop';
-import { useQuery } from '@apollo/client';
-import { GET_STREAMS } from './data/queries';
 import { BigNumber, ethers } from 'ethers';
 import { indexIDA } from 'constants/flowConfig';
+import { calculateStreamed } from './utils/calculateStreamed';
 
 interface Row {
 	// wrapped coins(eg, WETH)
@@ -33,23 +32,13 @@ interface Row {
 	streams: number;
 }
 
-const exchangeAddresses = indexIDA
-	.slice(0, indexIDA.length - 1) // omit lanchpad streams for now.
-	.map((ida) => ida.exchangeAddress.toLowerCase());
-
 type MarketsProps = {
-	account: string;
+	loading: boolean;
+	error: any;
+	data: any;
 };
 
-export const Markets: FC<MarketsProps> = ({ account }) => {
-	const { loading, error, data } = useQuery(GET_STREAMS, {
-		skip: !account,
-		variables: {
-			sender: account.toLowerCase(),
-			receiver_in: [...exchangeAddresses],
-		},
-	});
-
+export const Markets: FC<MarketsProps> = ({ loading, error, data }) => {
 	if (loading) return <p>Loading...</p>;
 	if (error) return <p>Error :</p>;
 
@@ -57,15 +46,22 @@ export const Markets: FC<MarketsProps> = ({ account }) => {
 		.slice(0, indexIDA.length - 1) // omit lanchpad streams for now.
 		.map((item) => {
 			let inflowRate = '';
-			const currentFlowRate = data?.streams.find(
+			let streamed = '';
+
+			const currentStream = data?.streams.find(
 				(stream: any) =>
 					stream.token.symbol === item.superToken.tokenA &&
 					stream.receiver.id === item.exchangeAddress.toLowerCase(),
-			)?.currentFlowRate;
-			if (currentFlowRate) {
+			);
+
+			if (currentStream) {
+				const { currentFlowRate, streamedUntilUpdatedAt, updatedAtTimestamp } = currentStream;
 				const currentFlowRateBN = BigNumber.from(currentFlowRate);
+
 				inflowRate = ethers.utils.formatEther(currentFlowRateBN.mul(30 * 24 * 60 * 60));
+				streamed = calculateStreamed(streamedUntilUpdatedAt, updatedAtTimestamp, currentFlowRate);
 			}
+
 			return {
 				coinA: item.wrappedToken.tokenA,
 				coinB: item.wrappedToken.tokenB,
@@ -73,7 +69,7 @@ export const Markets: FC<MarketsProps> = ({ account }) => {
 				tokenB: item.superToken.tokenB,
 				price: `1078.989 ${item.superToken.tokenA}/USD`,
 				inflowRate,
-				streamed: '',
+				streamed,
 				received: '',
 				streamInTokenBalance: `5000 ${item.superToken.tokenA}`,
 				distributeOutTokenBalance: `0.025483 ${item.superToken.tokenB}`,

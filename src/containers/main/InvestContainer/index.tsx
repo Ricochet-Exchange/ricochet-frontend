@@ -16,16 +16,22 @@ import { TabPanel } from './TabPanel';
 import { InvestMarket } from './InvestMarket';
 import { SignInButton } from 'components/banks/SignInButton';
 import { useRouteMatch } from 'react-router-dom';
-import { FlowTypes, RoutesToFlowTypes } from 'constants/flowConfig';
+import { FlowTypes, indexIDA, RoutesToFlowTypes } from 'constants/flowConfig';
 import { TradeHistoryTable } from '../TradeHistory';
 import { TabLabel } from './TabLabel';
 import { Markets } from './Markets';
+import { useQuery } from '@apollo/client';
+import { GET_STREAMS } from './data/queries';
 
 export enum TABS {
 	'MARKETS',
 	'STREAMS',
 	'TRADES',
 }
+
+const exchangeAddresses = indexIDA
+	.slice(0, indexIDA.length - 1) // omit lanchpad streams for now.
+	.map((ida) => ida.exchangeAddress.toLowerCase());
 
 interface IProps {}
 export const InvestContainer: React.FC<IProps> = () => {
@@ -39,6 +45,17 @@ export const InvestContainer: React.FC<IProps> = () => {
 
 	const [currentTab, setCurrentTab] = useState<TABS>(TABS.MARKETS);
 	const switchTab = (evt: React.SyntheticEvent, tab: TABS) => setCurrentTab(tab);
+
+	// query streams.
+	const { loading, error, data } = useQuery(GET_STREAMS, {
+		skip: !address,
+		variables: {
+			sender: address.toLowerCase(),
+			receiver_in: [...exchangeAddresses],
+		},
+	});
+
+	// query distributions.
 
 	const handleStart = useCallback(
 		(config: { [key: string]: string }) => (amount: string, callback: (e?: string) => void) => {
@@ -103,7 +120,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 							</Box>
 							<TabPanel index={TABS.MARKETS} tab={currentTab}>
 								{/* <InvestMarket handleStart={handleStart} handleStop={handleStop} /> */}
-								<Markets account={address} />
+								<Markets loading={loading} error={error} data={data} />
 							</TabPanel>
 							<TabPanel index={TABS.STREAMS} tab={currentTab}>
 								{address ? (
