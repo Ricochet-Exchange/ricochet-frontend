@@ -2,7 +2,9 @@
 
 @media only screen and (min-width: 769px) {
   .header_wrap {
-    height: 12vh;
+    height: 100vh;
+
+    width: 12vw;
   }
 
   .settings_wrap {
@@ -19,21 +21,23 @@
   @include flexbox(center, space-between);
   padding-left: 1em;
   width: 100%;
-  background-color: #363b55;
+  background-color: #303030;
   position: fixed;
-  width: 100%;
+  width: 12vw;
   z-index: 999;
-  height: 90px;
+  height: 100vh;
   margin-bottom: 100px;
   @include tablet {
     @include flexbox(center, center);
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     max-height: 100px;
   }
 }
 .header_spacer{
-  height: 90px;
+  height: 32px;
   width: 100%;
   @include tablet {
     height: 0;
@@ -86,7 +90,9 @@
 .logo {
   position: fixed;
   z-index: 100000;
-  max-width: 7vw;
+  left: 1vw;
+  max-width: 8vw;
+  top: 7vh;
   width: 100%;
   @media screen and (max-width: 768px) {
     background: none;

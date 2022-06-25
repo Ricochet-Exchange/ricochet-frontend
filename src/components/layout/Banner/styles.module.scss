@@ -3,7 +3,7 @@
 .banner {
   top: 0;
   right: 0;
-  left: 0;
+  left: 12vw;
   z-index: 1000000;
   position: fixed;
   background-color: var(--color-yellow);
@@ -13,6 +13,7 @@
   -moz-box-flex: 1;
   flex-grow: 1;
   -moz-box-pack: center;
+  width: 88vw;
   justify-content: center;
   -moz-box-align: center;
   align-items: center;

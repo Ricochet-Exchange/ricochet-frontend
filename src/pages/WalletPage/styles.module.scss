@@ -2,7 +2,6 @@
 
 .content_special {
   position: relative;
-  background-color: #363b55;
   width: 100%;
   height: 100%;
   display: grid;
@@ -13,8 +12,10 @@
 
   .wallet{
     border-radius: 50px 0px 0px 0px;
-    background-color: white;
+    
+    background: #242729;
     min-height: 100vh;
+    color: rgb(208, 202, 202);
   }
 }
 

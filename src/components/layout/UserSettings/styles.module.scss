@@ -15,9 +15,10 @@
 
 .user_settings {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   padding-right: 1em;
   align-items: center;
+  height: 100vh;
   width: 100%;
 }
 
@@ -115,6 +116,7 @@
   z-index: 5;
   background: var(--color-white);
   border-radius: 20px;
+  margin-left: 5vw;
   min-width: 15vw;
   border: 1px solid rgba(0, 0, 0, 0.632);
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.374);

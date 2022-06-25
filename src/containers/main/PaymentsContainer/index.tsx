@@ -17,8 +17,6 @@ export const PaymentsContainer: React.FC<IProps> = () => {
 
 	return (
 		<div className={styles.outer_container}>
-			<InvestNav />
-
 			<div className={styles.payment_page}>
 				<StreamContainer />
 				<StreamManager />

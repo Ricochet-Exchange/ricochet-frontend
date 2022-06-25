@@ -15,7 +15,7 @@ export const TabPanel = ({ children, index, tab }: TabPanelProps) => {
 			id={`rex-tabpanel-${tab}`}
 			aria-labelledby={`rex-tab-${tab}`}
 			// height is equal to 100% minus tab height and border.
-			style={{ width: '100%', height: 'calc(100% - 48px - 1px)' }}
+			style={{ width: '100%', height: 'calc(100% - 48px - 1px)', borderBottom: '1px solid lightgray' }}
 		>
 			{index === tab && children}
 		</div>

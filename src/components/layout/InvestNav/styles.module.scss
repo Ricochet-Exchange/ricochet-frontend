@@ -13,15 +13,15 @@
 
   .nav_container {
     position: fixed;
-    top:15vh;
+    top: 20vh;
     left: 0;
     @include flexbox(flex-start, flex-start);
     flex-direction: column;
     text-align: left;
     flex-shrink: 1;
-    background-color: #363b55;
-    width: 10vw;
-    height: 100%;
+    background-color: #303030;
+    width: 12vw;
+    height: 65vh;
     overflow-y: scroll;
     overflow-x: hidden;
     direction: rtl;
@@ -36,12 +36,12 @@
     }
 
     .navscroller{
-      min-height: 120vh;
+      min-height: 65vh;
       width: 100%;
       height: 100%;
       padding-top:5vh;
     }
-
+    
   }
 
   .wallet_icon {
