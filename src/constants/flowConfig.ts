@@ -35,6 +35,12 @@ export enum FlowEnum {
 	usdcRicFlowQuery = 'usdcRicFlowQuery',
 }
 
+export enum FlowTypes {
+	launchpad = 'launchpad',
+	market = 'market',
+	sushiLP = 'sushiLP',
+}
+
 enum POOLS {
 	'SUSHISWAP',
 	'QUICKSWAP',
@@ -48,6 +54,8 @@ type IndexIDAType = {
 	subsidyIndex?: number;
 	inputIndex: number;
 	outputIndex: number;
+	flowKey: FlowEnum;
+	type: FlowTypes;
 	// from superfluid subgraph
 	superToken: {
 		tokenA: string;
@@ -73,6 +81,8 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 3,
 		inputIndex: 0,
 		outputIndex: 1,
+		flowKey: FlowEnum.twoWayusdcWethFlowQuery,
+		type: FlowTypes.market,
 		superToken: {
 			tokenA: 'USDCx',
 			tokenB: 'ETHx',
@@ -94,6 +104,8 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 2,
 		inputIndex: 1,
 		outputIndex: 0,
+		flowKey: FlowEnum.twoWaywethUsdcFlowQuery,
+		type: FlowTypes.market,
 		superToken: {
 			tokenA: 'ETHx',
 			tokenB: 'USDCx',
@@ -115,6 +127,8 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 3,
 		inputIndex: 0,
 		outputIndex: 1,
+		flowKey: FlowEnum.twoWayusdcWbtcFlowQuery,
+		type: FlowTypes.market,
 		superToken: {
 			tokenA: 'USDCx',
 			tokenB: 'WBTCx',
@@ -136,6 +150,8 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 2,
 		inputIndex: 1,
 		outputIndex: 0,
+		flowKey: FlowEnum.twoWaywbtcUsdcFlowQuery,
+		type: FlowTypes.market,
 		superToken: {
 			tokenA: 'WBTCx',
 			tokenB: 'USDCx',
@@ -157,6 +173,8 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 3,
 		inputIndex: 0,
 		outputIndex: 1,
+		flowKey: FlowEnum.twoWayDaiWethFlowQuery,
+		type: FlowTypes.market,
 		superToken: {
 			tokenA: 'DAIx',
 			tokenB: 'ETHx',
@@ -178,6 +196,8 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 2,
 		inputIndex: 1,
 		outputIndex: 0,
+		flowKey: FlowEnum.twoWayWethDaiFlowQuery,
+		type: FlowTypes.market,
 		superToken: {
 			tokenA: 'ETHx',
 			tokenB: 'DAIx',
@@ -199,6 +219,8 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 2,
 		inputIndex: 1,
 		outputIndex: 0,
+		flowKey: FlowEnum.twoWayRicUsdcFlowQuery,
+		type: FlowTypes.market,
 		superToken: {
 			tokenA: 'RIC',
 			tokenB: 'USDCx',
@@ -220,6 +242,8 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 3,
 		inputIndex: 0,
 		outputIndex: 1,
+		flowKey: FlowEnum.twoWayUsdcRicFlowQuery,
+		type: FlowTypes.market,
 		superToken: {
 			tokenA: 'USDCx',
 			tokenB: 'RIC',
@@ -241,6 +265,8 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 2,
 		inputIndex: 1,
 		outputIndex: 0,
+		flowKey: FlowEnum.twoWayMaticUsdcFlowQuery,
+		type: FlowTypes.market,
 		superToken: {
 			tokenA: 'MATICx',
 			tokenB: 'USDCx',
@@ -262,6 +288,8 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 3,
 		inputIndex: 0,
 		outputIndex: 1,
+		flowKey: FlowEnum.twoWayUsdcMaticFlowQuery,
+		type: FlowTypes.market,
 		superToken: {
 			tokenA: 'USDCx',
 			tokenB: 'MATICx',
@@ -283,6 +311,8 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 2,
 		inputIndex: 1,
 		outputIndex: 0,
+		flowKey: FlowEnum.twoWayMaticDaiFlowQuery,
+		type: FlowTypes.market,
 		superToken: {
 			tokenA: 'MATICx',
 			tokenB: 'DAIx',
@@ -304,6 +334,8 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 3,
 		inputIndex: 0,
 		outputIndex: 1,
+		flowKey: FlowEnum.twoWayDaiMaticFlowQuery,
+		type: FlowTypes.market,
 		superToken: {
 			tokenA: 'DAIx',
 			tokenB: 'MATICx',
@@ -325,6 +357,8 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 2,
 		inputIndex: 1,
 		outputIndex: 0,
+		flowKey: FlowEnum.twoWayWbtcDaiFlowQuery,
+		type: FlowTypes.market,
 		superToken: {
 			tokenA: 'WBTCx',
 			tokenB: 'DAIx',
@@ -346,6 +380,8 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 3,
 		inputIndex: 0,
 		outputIndex: 1,
+		flowKey: FlowEnum.twoWayDaiWbtcFlowQuery,
+		type: FlowTypes.market,
 		superToken: {
 			tokenA: 'DAIx',
 			tokenB: 'WBTCx',
@@ -366,6 +402,8 @@ export const indexIDA: IndexIDAType = [
 		subsidy: RICAddress,
 		inputIndex: 0, // just a placeholder, not used
 		outputIndex: 0,
+		flowKey: FlowEnum.usdcRicFlowQuery,
+		type: FlowTypes.launchpad,
 		superToken: {
 			tokenA: 'USDCx',
 			tokenB: 'RIC',
@@ -380,12 +418,6 @@ export const indexIDA: IndexIDAType = [
 		},
 	},
 ];
-
-export enum FlowTypes {
-	launchpad = 'launchpad',
-	market = 'market',
-	sushiLP = 'sushiLP',
-}
 
 export type InvestmentFlow = {
 	superToken: string;

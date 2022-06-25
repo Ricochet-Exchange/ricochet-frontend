@@ -14,6 +14,9 @@ import StopIcon from '@mui/icons-material/Stop';
 import { BigNumber, ethers } from 'ethers';
 import { indexIDA } from 'constants/flowConfig';
 import { calculateStreamed } from './utils/calculateStreamed';
+import Web3 from 'web3';
+import { useShallowSelector } from 'hooks/useShallowSelector';
+import { selectMain } from 'store/main/selectors';
 
 interface Row {
 	// wrapped coins(eg, WETH)
@@ -29,16 +32,21 @@ interface Row {
 	streamInTokenBalance: string;
 	distributeOutTokenBalance: string;
 	tvs: string;
-	streams: number;
+	streams?: number;
 }
 
 type MarketsProps = {
+	account: string;
 	loading: boolean;
 	error: any;
-	data: any;
+	streamsData: any;
+	distributionsData: any;
+	web3: Web3;
 };
 
-export const Markets: FC<MarketsProps> = ({ loading, error, data }) => {
+export const Markets: FC<MarketsProps> = ({ account, loading, error, streamsData, distributionsData, web3 }) => {
+	const state = useShallowSelector(selectMain);
+
 	if (loading) return <p>Loading...</p>;
 	if (error) return <p>Error :</p>;
 
@@ -47,8 +55,9 @@ export const Markets: FC<MarketsProps> = ({ loading, error, data }) => {
 		.map((item) => {
 			let inflowRate = '';
 			let streamed = '';
+			let received = '';
 
-			const currentStream = data?.streams.find(
+			const currentStream = streamsData?.streams.find(
 				(stream: any) =>
 					stream.token.symbol === item.superToken.tokenA &&
 					stream.receiver.id === item.exchangeAddress.toLowerCase(),
@@ -62,6 +71,31 @@ export const Markets: FC<MarketsProps> = ({ loading, error, data }) => {
 				streamed = calculateStreamed(streamedUntilUpdatedAt, updatedAtTimestamp, currentFlowRate);
 			}
 
+			const currentDistribution = distributionsData?.indexSubscriptions.find(
+				(distribution: any) =>
+					distribution.index.publisher.id === item.exchangeAddress.toLowerCase() &&
+					distribution.index.token.id === item.output.toLowerCase(),
+			);
+
+			if (currentDistribution) {
+				// const superToken = Web3.utils.toChecksumAddress(item.output);
+				// const publisher = Web3.utils.toChecksumAddress(item.exchangeAddress);
+				// const subscriber = Web3.utils.toChecksumAddress(account);
+				// const {indexValueUntilUpdatedAt, index, units} = currentDistribution;
+				// (async () => await getSFFramework(web3).then((framework) => framework.idaV1.getSubscription({
+				//   superToken,
+				//   publisher,
+				//   indexId: index.indexId,
+				//   subscriber,
+				//   providerOrSigner: framework.settings.provider,
+				// })).then((subscriptionDetail: any) => {
+				// 	received = calculateReceived(index.indexValue, indexValueUntilUpdatedAt, units || subscriptionDetail.units);
+				// 	console.log('received: ', received);
+				// }).catch((err: any) => {
+				// 	console.error('containers/InvestContainer/Markets.tsx: ', err);
+				// }))()
+			}
+
 			return {
 				coinA: item.wrappedToken.tokenA,
 				coinB: item.wrappedToken.tokenB,
@@ -70,11 +104,14 @@ export const Markets: FC<MarketsProps> = ({ loading, error, data }) => {
 				price: `1078.989 ${item.superToken.tokenA}/USD`,
 				inflowRate,
 				streamed,
-				received: '',
+				received,
 				streamInTokenBalance: `5000 ${item.superToken.tokenA}`,
 				distributeOutTokenBalance: `0.025483 ${item.superToken.tokenB}`,
-				tvs: `27,000 ${item.superToken.tokenA}/month`,
-				streams: 14,
+				tvs:
+					state[item.flowKey]?.flowsOwned !== undefined
+						? `${state[item.flowKey]?.flowsOwned} ${item.superToken.tokenA}/month`
+						: '-',
+				streams: state[item.flowKey]?.totalFlows,
 			};
 		});
 
@@ -140,7 +177,7 @@ export const Markets: FC<MarketsProps> = ({ loading, error, data }) => {
 								<TableCell>{row.streamInTokenBalance}</TableCell>
 								<TableCell>{row.distributeOutTokenBalance}</TableCell>
 								<TableCell>{row.tvs}</TableCell>
-								<TableCell>{row.streams}</TableCell>
+								<TableCell>{row.streams !== undefined ? row.streams : '-'}</TableCell>
 							</TableRow>
 						))}
 					</TableBody>

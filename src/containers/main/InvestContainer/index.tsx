@@ -21,7 +21,8 @@ import { TradeHistoryTable } from '../TradeHistory';
 import { TabLabel } from './TabLabel';
 import { Markets } from './Markets';
 import { useQuery } from '@apollo/client';
-import { GET_STREAMS } from './data/queries';
+import { GET_DISTRIBUTIONS, GET_STREAMS } from './data/queries';
+import { selectDistributions } from 'store/distributions/selectors';
 
 export enum TABS {
 	'MARKETS',
@@ -37,7 +38,7 @@ interface IProps {}
 export const InvestContainer: React.FC<IProps> = () => {
 	const { t } = useTranslation();
 	const state = useShallowSelector(selectMain);
-	const { address, balances } = state;
+	const { address, balances, web3 } = state;
 	const dispatch = useDispatch();
 
 	const match = useRouteMatch();
@@ -47,15 +48,35 @@ export const InvestContainer: React.FC<IProps> = () => {
 	const switchTab = (evt: React.SyntheticEvent, tab: TABS) => setCurrentTab(tab);
 
 	// query streams.
-	const { loading, error, data } = useQuery(GET_STREAMS, {
+	const {
+		loading: queryingStreams,
+		error: queryStreamError,
+		data: streamsData,
+	} = useQuery(GET_STREAMS, {
 		skip: !address,
 		variables: {
 			sender: address.toLowerCase(),
-			receiver_in: [...exchangeAddresses],
+			receivers: [...exchangeAddresses],
 		},
 	});
 
 	// query distributions.
+	const {
+		loading: queryingDistribution,
+		error: queryDistributionError,
+		data: distributionsData,
+	} = useQuery(GET_DISTRIBUTIONS, {
+		skip: !streamsData,
+		variables: {
+			subscriber: address.toLowerCase(),
+			updatedAtTimestamps: streamsData?.streams.length
+				? streamsData?.streams.map((stream: any) => stream.updatedAtTimestamp)
+				: [],
+		},
+	});
+
+	const loading = queryingStreams || queryingDistribution;
+	const error = queryStreamError || queryDistributionError;
 
 	const handleStart = useCallback(
 		(config: { [key: string]: string }) => (amount: string, callback: (e?: string) => void) => {
@@ -120,7 +141,14 @@ export const InvestContainer: React.FC<IProps> = () => {
 							</Box>
 							<TabPanel index={TABS.MARKETS} tab={currentTab}>
 								{/* <InvestMarket handleStart={handleStart} handleStop={handleStop} /> */}
-								<Markets loading={loading} error={error} data={data} />
+								<Markets
+									account={address}
+									loading={loading}
+									error={error}
+									streamsData={streamsData}
+									distributionsData={distributionsData}
+									web3={web3}
+								/>
 							</TabPanel>
 							<TabPanel index={TABS.STREAMS} tab={currentTab}>
 								{address ? (
