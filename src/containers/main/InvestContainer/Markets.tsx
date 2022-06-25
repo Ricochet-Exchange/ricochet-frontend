@@ -29,8 +29,8 @@ interface Row {
 	inflowRate: string;
 	streamed: string;
 	received: string;
-	streamInTokenBalance: string;
-	distributeOutTokenBalance: string;
+	streamInTokenBalance?: string;
+	distributeOutTokenBalance?: string;
 	tvs: string;
 	streams?: number;
 }
@@ -107,9 +107,13 @@ export const Markets: FC<MarketsProps> = ({ account, loading, error, streamsData
 				streamed,
 				received,
 				streamInTokenBalance:
-					address && balances ? `${Number(balances[item.input]).toFixed(6)} ${item.superToken.tokenA}` : '',
+					address && balances
+						? `${Number(balances[item.input]).toFixed(6)} ${item.superToken.tokenA}`
+						: undefined,
 				distributeOutTokenBalance:
-					address && balances ? `${Number(balances[item.output]).toFixed(6)} ${item.superToken.tokenB}` : '',
+					address && balances
+						? `${Number(balances[item.output]).toFixed(6)} ${item.superToken.tokenB}`
+						: undefined,
 				tvs:
 					state[item.flowKey]?.flowsOwned !== undefined
 						? `${state[item.flowKey]?.flowsOwned} ${item.superToken.tokenA}/month`
