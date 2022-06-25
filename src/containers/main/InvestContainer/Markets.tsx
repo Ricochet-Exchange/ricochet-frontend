@@ -46,6 +46,7 @@ type MarketsProps = {
 
 export const Markets: FC<MarketsProps> = ({ account, loading, error, streamsData, distributionsData, web3 }) => {
 	const state = useShallowSelector(selectMain);
+	const { address, balances } = state;
 
 	if (loading) return <p>Loading...</p>;
 	if (error) return <p>Error :</p>;
@@ -105,8 +106,10 @@ export const Markets: FC<MarketsProps> = ({ account, loading, error, streamsData
 				inflowRate,
 				streamed,
 				received,
-				streamInTokenBalance: `5000 ${item.superToken.tokenA}`,
-				distributeOutTokenBalance: `0.025483 ${item.superToken.tokenB}`,
+				streamInTokenBalance:
+					address && balances ? `${Number(balances[item.input]).toFixed(6)} ${item.superToken.tokenA}` : '',
+				distributeOutTokenBalance:
+					address && balances ? `${Number(balances[item.output]).toFixed(6)} ${item.superToken.tokenB}` : '',
 				tvs:
 					state[item.flowKey]?.flowsOwned !== undefined
 						? `${state[item.flowKey]?.flowsOwned} ${item.superToken.tokenA}/month`
@@ -174,8 +177,8 @@ export const Markets: FC<MarketsProps> = ({ account, loading, error, streamsData
 								<TableCell>{row.inflowRate ? `${row.inflowRate} ${row.tokenA}/month` : '-'}</TableCell>
 								<TableCell>{row.streamed ? `${row.streamed} ${row.tokenA}` : '-'}</TableCell>
 								<TableCell>{row.received ? `${row.received} ${row.tokenB}` : '-'}</TableCell>
-								<TableCell>{row.streamInTokenBalance}</TableCell>
-								<TableCell>{row.distributeOutTokenBalance}</TableCell>
+								<TableCell>{row.streamInTokenBalance ?? '-'}</TableCell>
+								<TableCell>{row.distributeOutTokenBalance ?? '-'}</TableCell>
 								<TableCell>{row.tvs}</TableCell>
 								<TableCell>{row.streams !== undefined ? row.streams : '-'}</TableCell>
 							</TableRow>
