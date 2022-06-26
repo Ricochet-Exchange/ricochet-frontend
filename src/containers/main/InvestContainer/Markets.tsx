@@ -217,7 +217,7 @@ export const Markets: FC<MarketsProps> = ({ loading, error, streamsData, distrib
 										/>
 									</TableCell>
 									<TableCell>{inflowRate ? `${inflowRate} ${tokenA}/month` : '-'}</TableCell>
-									<TableCell>{streamed ? `${streamed} ${tokenA}` : '-'}</TableCell>
+									<TableCell>{streamed ? `${(+streamed).toFixed(6)} ${tokenA}` : '-'}</TableCell>
 									<TableCell>
 										<ReceivedPlaceholder
 											distributions={distributionsData?.indexSubscriptions}

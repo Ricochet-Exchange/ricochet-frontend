@@ -65,5 +65,5 @@ export const ReceivedPlaceholder: FC<ReceivedPlaceholderProps> = ({
 		};
 	}, [account, distributions, exchangeAddress, tokenB, web3]);
 
-	return <span>{received ? `${received} ${token}` : '-'}</span>;
+	return <span>{received ? `${(+received).toFixed(6)} ${token}` : '-'}</span>;
 };
