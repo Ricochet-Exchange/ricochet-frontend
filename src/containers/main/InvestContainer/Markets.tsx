@@ -7,13 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import StopIcon from '@mui/icons-material/Stop';
 import { BigNumber, ethers } from 'ethers';
 import type { FlowTypes, IndexIDAType, Pool } from 'constants/flowConfig';
 import { calculateStreamed } from './utils/calculateStreamed';
@@ -22,6 +17,7 @@ import { selectMain } from 'store/main/selectors';
 import { getAddressLink } from 'utils/getAddressLink';
 import { ReceivedPlaceholder } from './ReceivedPlaceholder';
 import { PricePlaceholder } from './PricePlaceholder';
+import { Operation } from './Operation';
 
 export interface Row {
 	// wrapped coins(eg, WETH)
@@ -184,26 +180,7 @@ export const Markets: FC<MarketsProps> = ({ loading, error, streamsData, distrib
 													<OpenInNewIcon />
 												</Link>
 											</div>
-											<Stack direction="row" spacing={1}>
-												{/* has stream? */}
-												{!inflowRate ? (
-													<IconButton color="success" aria-label="start a stream">
-														<PlayArrowIcon />
-													</IconButton>
-												) : (
-													<IconButton color="success" aria-label="edit the stream">
-														<PauseIcon />
-													</IconButton>
-												)}
-												{/* has stream? */}
-												<IconButton
-													color="error"
-													aria-label="stop the stream"
-													disabled={!inflowRate}
-												>
-													<StopIcon />
-												</IconButton>
-											</Stack>
+											<Operation account={address} inflowRate={inflowRate} />
 										</div>
 									</TableCell>
 									<TableCell>
