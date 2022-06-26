@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import Skeleton from '@mui/material/Skeleton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -54,7 +55,8 @@ export const Markets: FC<MarketsProps> = ({ loading, error, streamsData, distrib
 	const state = useShallowSelector(selectMain);
 	const { address, balances, web3 } = state;
 
-	if (loading) return <p>Loading...</p>;
+	// height of the table
+	if (loading) return <Skeleton variant="rectangular" height={440} />;
 	if (error) return <p>Error :</p>;
 
 	const rows: Row[] = list.map((item) => {
