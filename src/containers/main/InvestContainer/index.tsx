@@ -29,10 +29,6 @@ export enum TABS {
 	'TRADES',
 }
 
-const exchangeAddresses = indexIDA
-	.slice(0, indexIDA.length - 1) // omit lanchpad streams for now.
-	.map((ida) => ida.exchangeAddress.toLowerCase());
-
 interface IProps {}
 export const InvestContainer: React.FC<IProps> = () => {
 	const { t } = useTranslation();
@@ -46,13 +42,17 @@ export const InvestContainer: React.FC<IProps> = () => {
 	const [currentTab, setCurrentTab] = useState<TABS>(TABS.MARKETS);
 	const switchTab = (evt: React.SyntheticEvent, tab: TABS) => setCurrentTab(tab);
 
+	const list = indexIDA.filter((ida) => ida.type === flowType);
+
+	const exchangeAddresses = list.map((ida) => ida.exchangeAddress.toLowerCase());
+
 	// query streams.
 	const {
 		loading: queryingStreams,
 		error: queryStreamError,
 		data: streamsData,
 	} = useQuery(GET_STREAMS, {
-		skip: !address,
+		skip: !address || !exchangeAddresses.length,
 		variables: {
 			sender: address.toLowerCase(),
 			receivers: [...exchangeAddresses],
@@ -140,11 +140,13 @@ export const InvestContainer: React.FC<IProps> = () => {
 							</Box>
 							<TabPanel index={TABS.MARKETS} tab={currentTab}>
 								{/* <InvestMarket handleStart={handleStart} handleStop={handleStop} /> */}
+								{/* `flowType` is `market`. */}
 								<Markets
 									loading={loading}
 									error={error}
 									streamsData={streamsData}
 									distributionsData={distributionsData}
+									list={list}
 								/>
 							</TabPanel>
 							<TabPanel index={TABS.STREAMS} tab={currentTab}>
@@ -169,7 +171,15 @@ export const InvestContainer: React.FC<IProps> = () => {
 							</TabPanel>
 						</Box>
 					) : (
-						<InvestMarket handleStart={handleStart} handleStop={handleStop} />
+						// <InvestMarket handleStart={handleStart} handleStop={handleStop} />
+						// `flowType` is `launchpad`
+						<Markets
+							loading={loading}
+							error={error}
+							streamsData={streamsData}
+							distributionsData={distributionsData}
+							list={list}
+						/>
 					)}
 				</div>
 

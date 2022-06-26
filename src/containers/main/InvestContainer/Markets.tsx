@@ -12,7 +12,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import StopIcon from '@mui/icons-material/Stop';
 import { BigNumber, ethers } from 'ethers';
-import { indexIDA } from 'constants/flowConfig';
+import type { IndexIDAType } from 'constants/flowConfig';
 import { calculateStreamed } from './utils/calculateStreamed';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
@@ -44,62 +44,61 @@ type MarketsProps = {
 	error: any;
 	streamsData: any;
 	distributionsData: any;
+	list: IndexIDAType;
 };
 
-export const Markets: FC<MarketsProps> = ({ loading, error, streamsData, distributionsData }) => {
+export const Markets: FC<MarketsProps> = ({ loading, error, streamsData, distributionsData, list }) => {
 	const state = useShallowSelector(selectMain);
 	const { address, balances, web3 } = state;
 
 	if (loading) return <p>Loading...</p>;
 	if (error) return <p>Error :</p>;
 
-	const rows: Row[] = indexIDA
-		.slice(0, indexIDA.length - 1) // omit lanchpad streams for now.
-		.map((item) => {
-			let inflowRate = '';
-			let streamed = '';
-			let received = '';
+	const rows: Row[] = list.map((item) => {
+		let inflowRate = '';
+		let streamed = '';
+		let received = '';
 
-			const currentStream = streamsData?.streams.find(
-				(stream: any) =>
-					stream.token.symbol === item.superToken.tokenA &&
-					stream.receiver.id === item.exchangeAddress.toLowerCase(),
-			);
+		const currentStream = streamsData?.streams.find(
+			(stream: any) =>
+				stream.token.symbol === item.superToken.tokenA &&
+				stream.receiver.id === item.exchangeAddress.toLowerCase(),
+		);
 
-			if (currentStream) {
-				const { currentFlowRate, streamedUntilUpdatedAt, updatedAtTimestamp } = currentStream;
-				const currentFlowRateBN = BigNumber.from(currentFlowRate);
+		if (currentStream) {
+			const { currentFlowRate, streamedUntilUpdatedAt, updatedAtTimestamp } = currentStream;
+			const currentFlowRateBN = BigNumber.from(currentFlowRate);
 
-				inflowRate = ethers.utils.formatEther(currentFlowRateBN.mul(30 * 24 * 60 * 60));
-				streamed = calculateStreamed(streamedUntilUpdatedAt, updatedAtTimestamp, currentFlowRate);
-			}
+			inflowRate = ethers.utils.formatEther(currentFlowRateBN.mul(30 * 24 * 60 * 60));
+			streamed = calculateStreamed(streamedUntilUpdatedAt, updatedAtTimestamp, currentFlowRate);
+		}
 
-			return {
-				coinA: item.wrappedToken.tokenA,
-				coinB: item.wrappedToken.tokenB,
-				tokenA: item.superToken.tokenA,
-				tokenB: item.superToken.tokenB,
-				exchangeAddress: item.exchangeAddress,
-				superToken: item.output,
-				price: `1078.989 ${item.superToken.tokenA}/USD`,
-				inflowRate,
-				streamed,
-				received,
-				streamInTokenBalance:
-					address && balances
-						? `${Number(balances[item.input]).toFixed(6)} ${item.superToken.tokenA}`
-						: undefined,
-				distributeOutTokenBalance:
-					address && balances
-						? `${Number(balances[item.output]).toFixed(6)} ${item.superToken.tokenB}`
-						: undefined,
-				tvs:
-					state[item.flowKey]?.flowsOwned !== undefined
-						? `${state[item.flowKey]?.flowsOwned} ${item.superToken.tokenA}/month`
-						: '-',
-				streams: state[item.flowKey]?.totalFlows,
-			};
-		});
+		return {
+			coinA: item.wrappedToken.tokenA,
+			coinB: item.wrappedToken.tokenB,
+			tokenA: item.superToken.tokenA,
+			tokenB: item.superToken.tokenB,
+			exchangeAddress: item.exchangeAddress,
+			superToken: item.output,
+			price: `1078.989 ${item.superToken.tokenA}/USD`,
+			inflowRate,
+			streamed,
+			received,
+			streamInTokenBalance:
+				address && balances
+					? `${Number(balances[item.input]).toFixed(6)} ${item.superToken.tokenA}`
+					: undefined,
+			distributeOutTokenBalance:
+				address && balances
+					? `${Number(balances[item.output]).toFixed(6)} ${item.superToken.tokenB}`
+					: undefined,
+			tvs:
+				state[item.flowKey]?.flowsOwned !== undefined
+					? `${state[item.flowKey]?.flowsOwned} ${item.superToken.tokenA}/month`
+					: '-',
+			streams: state[item.flowKey]?.totalFlows,
+		};
+	});
 
 	return (
 		<Paper sx={{ width: '100%', overflow: 'hidden' }}>

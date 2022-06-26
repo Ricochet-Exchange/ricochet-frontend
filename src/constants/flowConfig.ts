@@ -46,7 +46,7 @@ enum POOLS {
 	'QUICKSWAP',
 }
 
-type IndexIDAType = {
+export type IndexIDAType = {
 	exchangeAddress: string;
 	input: string;
 	output: string;
