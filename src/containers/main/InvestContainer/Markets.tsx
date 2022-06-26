@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC } from 'react';
+import React, { FC } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -14,17 +14,21 @@ import StopIcon from '@mui/icons-material/Stop';
 import { BigNumber, ethers } from 'ethers';
 import { indexIDA } from 'constants/flowConfig';
 import { calculateStreamed } from './utils/calculateStreamed';
-import Web3 from 'web3';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
+import { ReceivedPlaceholder } from './ReceivedPlaceholder';
 
-interface Row {
+export interface Row {
 	// wrapped coins(eg, WETH)
 	coinA: string;
 	coinB: string;
 	// super tokens(eg, ETHx)
 	tokenA: string;
 	tokenB: string;
+	// --- * ---
+	exchangeAddress: string;
+	superToken: string;
+	// --- * ---
 	price: string;
 	inflowRate: string;
 	streamed: string;
@@ -36,17 +40,15 @@ interface Row {
 }
 
 type MarketsProps = {
-	account: string;
 	loading: boolean;
 	error: any;
 	streamsData: any;
 	distributionsData: any;
-	web3: Web3;
 };
 
-export const Markets: FC<MarketsProps> = ({ account, loading, error, streamsData, distributionsData, web3 }) => {
+export const Markets: FC<MarketsProps> = ({ loading, error, streamsData, distributionsData }) => {
 	const state = useShallowSelector(selectMain);
-	const { address, balances } = state;
+	const { address, balances, web3 } = state;
 
 	if (loading) return <p>Loading...</p>;
 	if (error) return <p>Error :</p>;
@@ -72,36 +74,13 @@ export const Markets: FC<MarketsProps> = ({ account, loading, error, streamsData
 				streamed = calculateStreamed(streamedUntilUpdatedAt, updatedAtTimestamp, currentFlowRate);
 			}
 
-			const currentDistribution = distributionsData?.indexSubscriptions.find(
-				(distribution: any) =>
-					distribution.index.publisher.id === item.exchangeAddress.toLowerCase() &&
-					distribution.index.token.id === item.output.toLowerCase(),
-			);
-
-			if (currentDistribution) {
-				// const superToken = Web3.utils.toChecksumAddress(item.output);
-				// const publisher = Web3.utils.toChecksumAddress(item.exchangeAddress);
-				// const subscriber = Web3.utils.toChecksumAddress(account);
-				// const {indexValueUntilUpdatedAt, index, units} = currentDistribution;
-				// (async () => await getSFFramework(web3).then((framework) => framework.idaV1.getSubscription({
-				//   superToken,
-				//   publisher,
-				//   indexId: index.indexId,
-				//   subscriber,
-				//   providerOrSigner: framework.settings.provider,
-				// })).then((subscriptionDetail: any) => {
-				// 	received = calculateReceived(index.indexValue, indexValueUntilUpdatedAt, units || subscriptionDetail.units);
-				// 	console.log('received: ', received);
-				// }).catch((err: any) => {
-				// 	console.error('containers/InvestContainer/Markets.tsx: ', err);
-				// }))()
-			}
-
 			return {
 				coinA: item.wrappedToken.tokenA,
 				coinB: item.wrappedToken.tokenB,
 				tokenA: item.superToken.tokenA,
 				tokenB: item.superToken.tokenB,
+				exchangeAddress: item.exchangeAddress,
+				superToken: item.output,
 				price: `1078.989 ${item.superToken.tokenA}/USD`,
 				inflowRate,
 				streamed,
@@ -180,7 +159,16 @@ export const Markets: FC<MarketsProps> = ({ account, loading, error, streamsData
 								<TableCell>{row.price}</TableCell>
 								<TableCell>{row.inflowRate ? `${row.inflowRate} ${row.tokenA}/month` : '-'}</TableCell>
 								<TableCell>{row.streamed ? `${row.streamed} ${row.tokenA}` : '-'}</TableCell>
-								<TableCell>{row.received ? `${row.received} ${row.tokenB}` : '-'}</TableCell>
+								<TableCell>
+									<ReceivedPlaceholder
+										distributions={distributionsData?.indexSubscriptions}
+										exchangeAddress={row.exchangeAddress}
+										superToken={row.superToken}
+										token={row.tokenB}
+										account={address}
+										web3={web3}
+									/>
+								</TableCell>
 								<TableCell>{row.streamInTokenBalance ?? '-'}</TableCell>
 								<TableCell>{row.distributeOutTokenBalance ?? '-'}</TableCell>
 								<TableCell>{row.tvs}</TableCell>

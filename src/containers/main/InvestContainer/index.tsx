@@ -22,7 +22,6 @@ import { TabLabel } from './TabLabel';
 import { Markets } from './Markets';
 import { useQuery } from '@apollo/client';
 import { GET_DISTRIBUTIONS, GET_STREAMS } from './data/queries';
-import { selectDistributions } from 'store/distributions/selectors';
 
 export enum TABS {
 	'MARKETS',
@@ -38,7 +37,7 @@ interface IProps {}
 export const InvestContainer: React.FC<IProps> = () => {
 	const { t } = useTranslation();
 	const state = useShallowSelector(selectMain);
-	const { address, balances, web3 } = state;
+	const { address, balances } = state;
 	const dispatch = useDispatch();
 
 	const match = useRouteMatch();
@@ -142,12 +141,10 @@ export const InvestContainer: React.FC<IProps> = () => {
 							<TabPanel index={TABS.MARKETS} tab={currentTab}>
 								{/* <InvestMarket handleStart={handleStart} handleStop={handleStop} /> */}
 								<Markets
-									account={address}
 									loading={loading}
 									error={error}
 									streamsData={streamsData}
 									distributionsData={distributionsData}
-									web3={web3}
 								/>
 							</TabPanel>
 							<TabPanel index={TABS.STREAMS} tab={currentTab}>
