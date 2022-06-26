@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import StopIcon from '@mui/icons-material/Stop';
@@ -17,6 +18,8 @@ import { calculateStreamed } from './utils/calculateStreamed';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { ReceivedPlaceholder } from './ReceivedPlaceholder';
+import { getAddressLink } from 'utils/getAddressLink';
+import styles from './markets.module.scss';
 
 export interface Row {
 	// wrapped coins(eg, WETH)
@@ -118,62 +121,86 @@ export const Markets: FC<MarketsProps> = ({ loading, error, streamsData, distrib
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{rows.map((row) => (
-							<TableRow key={`${row.coinA}-${row.coinB}`}>
-								<TableCell sx={{ minWidth: 256 }}>
-									<div
-										style={{
-											display: 'flex',
-											alignItems: 'center',
-											justifyContent: 'space-between',
-										}}
-									>
-										<div>
-											<span>{row.coinA}</span>
-											<span>{' >> '}</span>
-											<span>{row.coinB}</span>
+						{rows.map((row) => {
+							const {
+								coinA,
+								coinB,
+								inflowRate,
+								price,
+								tokenA,
+								tokenB,
+								superToken,
+								streamed,
+								streamInTokenBalance,
+								streams,
+								distributeOutTokenBalance,
+								exchangeAddress,
+								tvs,
+							} = row;
+							const link = getAddressLink(superToken);
+
+							return (
+								<TableRow key={`${coinA}-${coinB}`}>
+									<TableCell sx={{ minWidth: 256 }}>
+										<div
+											style={{
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'space-between',
+											}}
+										>
+											<div style={{ width: '160px' }}>
+												<span>{coinA}</span>
+												<span>{' >> '}</span>
+												<span>{coinB}</span>
+											</div>
+											<div>
+												<a href={link} target="_blank" rel="noreferrer" className={styles.link}>
+													<OpenInNewIcon />
+												</a>
+											</div>
+											<Stack direction="row" spacing={1}>
+												{/* has stream? */}
+												{!inflowRate ? (
+													<IconButton color="success" aria-label="start a stream">
+														<PlayArrowIcon />
+													</IconButton>
+												) : (
+													<IconButton color="success" aria-label="edit the stream">
+														<PauseIcon />
+													</IconButton>
+												)}
+												{/* has stream? */}
+												<IconButton
+													color="error"
+													aria-label="stop the stream"
+													disabled={!inflowRate}
+												>
+													<StopIcon />
+												</IconButton>
+											</Stack>
 										</div>
-										<Stack direction="row" spacing={1}>
-											{/* has stream? */}
-											{!row.inflowRate ? (
-												<IconButton color="success" aria-label="start a stream">
-													<PlayArrowIcon />
-												</IconButton>
-											) : (
-												<IconButton color="success" aria-label="edit the stream">
-													<PauseIcon />
-												</IconButton>
-											)}
-											{/* has stream? */}
-											<IconButton
-												color="error"
-												aria-label="stop the stream"
-												disabled={!row.inflowRate}
-											>
-												<StopIcon />
-											</IconButton>
-										</Stack>
-									</div>
-								</TableCell>
-								<TableCell>{row.price}</TableCell>
-								<TableCell>{row.inflowRate ? `${row.inflowRate} ${row.tokenA}/month` : '-'}</TableCell>
-								<TableCell>{row.streamed ? `${row.streamed} ${row.tokenA}` : '-'}</TableCell>
-								<TableCell>
-									<ReceivedPlaceholder
-										distributions={distributionsData?.indexSubscriptions}
-										exchangeAddress={row.exchangeAddress}
-										superToken={row.superToken}
-										token={row.tokenB}
-										account={address}
-										web3={web3}
-									/>
-								</TableCell>
-								<TableCell>{row.streamInTokenBalance ?? '-'}</TableCell>
-								<TableCell>{row.distributeOutTokenBalance ?? '-'}</TableCell>
-								<TableCell>{row.tvs}</TableCell>
-								<TableCell>{row.streams !== undefined ? row.streams : '-'}</TableCell>
-							</TableRow>
-						))}
+									</TableCell>
+									<TableCell>{price}</TableCell>
+									<TableCell>{inflowRate ? `${inflowRate} ${tokenA}/month` : '-'}</TableCell>
+									<TableCell>{streamed ? `${streamed} ${tokenA}` : '-'}</TableCell>
+									<TableCell>
+										<ReceivedPlaceholder
+											distributions={distributionsData?.indexSubscriptions}
+											exchangeAddress={exchangeAddress}
+											superToken={superToken}
+											token={tokenB}
+											account={address}
+											web3={web3}
+										/>
+									</TableCell>
+									<TableCell>{streamInTokenBalance ?? '-'}</TableCell>
+									<TableCell>{distributeOutTokenBalance ?? '-'}</TableCell>
+									<TableCell>{tvs}</TableCell>
+									<TableCell>{streams !== undefined ? streams : '-'}</TableCell>
+								</TableRow>
+							);
+						})}
 					</TableBody>
 				</Table>
 			</TableContainer>
