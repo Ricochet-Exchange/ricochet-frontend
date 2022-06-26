@@ -15,12 +15,13 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import StopIcon from '@mui/icons-material/Stop';
 import { BigNumber, ethers } from 'ethers';
-import type { IndexIDAType } from 'constants/flowConfig';
+import type { FlowTypes, IndexIDAType, Pool } from 'constants/flowConfig';
 import { calculateStreamed } from './utils/calculateStreamed';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
-import { ReceivedPlaceholder } from './ReceivedPlaceholder';
 import { getAddressLink } from 'utils/getAddressLink';
+import { ReceivedPlaceholder } from './ReceivedPlaceholder';
+import { PricePlaceholder } from './PricePlaceholder';
 
 export interface Row {
 	// wrapped coins(eg, WETH)
@@ -33,7 +34,10 @@ export interface Row {
 	exchangeAddress: string;
 	superToken: string;
 	// --- * ---
-	price: string;
+	// --- * ---
+	pool: Pool;
+	type: FlowTypes;
+	// --- * ---
 	inflowRate: string;
 	streamed: string;
 	received: string;
@@ -49,9 +53,10 @@ type MarketsProps = {
 	streamsData: any;
 	distributionsData: any;
 	list: IndexIDAType;
+	flowType: FlowTypes;
 };
 
-export const Markets: FC<MarketsProps> = ({ loading, error, streamsData, distributionsData, list }) => {
+export const Markets: FC<MarketsProps> = ({ loading, error, streamsData, distributionsData, list, flowType }) => {
 	const state = useShallowSelector(selectMain);
 	const { address, balances, web3 } = state;
 
@@ -84,8 +89,9 @@ export const Markets: FC<MarketsProps> = ({ loading, error, streamsData, distrib
 			tokenA: item.superToken.tokenA,
 			tokenB: item.superToken.tokenB,
 			exchangeAddress: item.exchangeAddress,
+			pool: item.pool,
 			superToken: item.output,
-			price: `1078.989 ${item.superToken.tokenA}/USD`,
+			type: item.type,
 			inflowRate,
 			streamed,
 			received,
@@ -128,7 +134,8 @@ export const Markets: FC<MarketsProps> = ({ loading, error, streamsData, distrib
 								coinA,
 								coinB,
 								inflowRate,
-								price,
+								pool,
+								type,
 								tokenA,
 								tokenB,
 								superToken,
@@ -199,7 +206,16 @@ export const Markets: FC<MarketsProps> = ({ loading, error, streamsData, distrib
 											</Stack>
 										</div>
 									</TableCell>
-									<TableCell>{price}</TableCell>
+									<TableCell>
+										<PricePlaceholder
+											pool={pool}
+											tokenA={tokenA}
+											tokenB={tokenB}
+											type={type}
+											web3={web3}
+											coinA={coinA}
+										/>
+									</TableCell>
 									<TableCell>{inflowRate ? `${inflowRate} ${tokenA}/month` : '-'}</TableCell>
 									<TableCell>{streamed ? `${streamed} ${tokenA}` : '-'}</TableCell>
 									<TableCell>

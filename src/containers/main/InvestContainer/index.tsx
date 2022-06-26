@@ -13,7 +13,6 @@ import { connectWeb3Modal, startFlowAction, stopFlowAction } from 'store/main/ac
 import styles from './styles.module.scss';
 import { InteractiveStreamManager } from '../InteractiveStreamManager';
 import { TabPanel } from './TabPanel';
-import { InvestMarket } from './InvestMarket';
 import { SignInButton } from 'components/banks/SignInButton';
 import { useRouteMatch } from 'react-router-dom';
 import { FlowTypes, indexIDA, RoutesToFlowTypes } from 'constants/flowConfig';
@@ -147,6 +146,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 									streamsData={streamsData}
 									distributionsData={distributionsData}
 									list={list}
+									flowType={FlowTypes.market}
 								/>
 							</TabPanel>
 							<TabPanel index={TABS.STREAMS} tab={currentTab}>
@@ -170,7 +170,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 								)}
 							</TabPanel>
 						</Box>
-					) : (
+					) : flowType === FlowTypes.launchpad ? (
 						// <InvestMarket handleStart={handleStart} handleStop={handleStop} />
 						// `flowType` is `launchpad`
 						<Markets
@@ -179,8 +179,9 @@ export const InvestContainer: React.FC<IProps> = () => {
 							streamsData={streamsData}
 							distributionsData={distributionsData}
 							list={list}
+							flowType={FlowTypes.launchpad}
 						/>
-					)}
+					) : null}
 				</div>
 
 				<div>

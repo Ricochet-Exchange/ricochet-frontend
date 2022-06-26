@@ -41,9 +41,14 @@ export enum FlowTypes {
 	sushiLP = 'sushiLP',
 }
 
-enum POOLS {
+export enum POOLS {
 	'SUSHISWAP',
 	'QUICKSWAP',
+}
+
+export interface Pool {
+	type: POOLS;
+	id: string;
 }
 
 export type IndexIDAType = {
@@ -66,10 +71,7 @@ export type IndexIDAType = {
 		tokenA: string;
 		tokenB: string;
 	};
-	pool: {
-		type: POOLS;
-		id: string;
-	};
+	pool: Pool;
 }[];
 
 export const indexIDA: IndexIDAType = [
