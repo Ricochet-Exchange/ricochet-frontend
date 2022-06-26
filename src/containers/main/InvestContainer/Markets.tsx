@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
+import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -20,7 +21,6 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { ReceivedPlaceholder } from './ReceivedPlaceholder';
 import { getAddressLink } from 'utils/getAddressLink';
-import styles from './markets.module.scss';
 
 export interface Row {
 	// wrapped coins(eg, WETH)
@@ -139,7 +139,7 @@ export const Markets: FC<MarketsProps> = ({ loading, error, streamsData, distrib
 								exchangeAddress,
 								tvs,
 							} = row;
-							const link = getAddressLink(superToken);
+							const link = getAddressLink(exchangeAddress);
 
 							return (
 								<TableRow key={`${coinA}-${coinB}`}>
@@ -157,9 +157,25 @@ export const Markets: FC<MarketsProps> = ({ loading, error, streamsData, distrib
 												<span>{coinB}</span>
 											</div>
 											<div>
-												<a href={link} target="_blank" rel="noreferrer" className={styles.link}>
+												<Link
+													href={link}
+													target="_blank"
+													rel="noreferrer"
+													underline="none"
+													sx={{
+														'&:hover': {
+															color: 'info.main',
+														},
+														'&:active': {
+															color: 'info.main',
+														},
+														'&:visited': {
+															color: 'secondary.main',
+														},
+													}}
+												>
 													<OpenInNewIcon />
-												</a>
+												</Link>
 											</div>
 											<Stack direction="row" spacing={1}>
 												{/* has stream? */}
