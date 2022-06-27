@@ -147,6 +147,8 @@ export const InvestContainer: React.FC<IProps> = () => {
 									distributionsData={distributionsData}
 									list={list}
 									flowType={FlowTypes.market}
+									handleStart={handleStart}
+									handleStop={handleStop}
 								/>
 							</TabPanel>
 							<TabPanel index={TABS.STREAMS} tab={currentTab}>
@@ -180,6 +182,8 @@ export const InvestContainer: React.FC<IProps> = () => {
 							distributionsData={distributionsData}
 							list={list}
 							flowType={FlowTypes.launchpad}
+							handleStart={handleStart}
+							handleStop={handleStop}
 						/>
 					) : null}
 				</div>
