@@ -79,7 +79,7 @@ export const stopFlow = async (exchangeAddress: string, inputTokenAddress: strin
 			.exec(signer);
 	} catch (e: any) {
 		console.error(e);
-		throw new Error(e);
+		throw e;
 	}
 };
 
@@ -111,7 +111,8 @@ export const startFlow = async (
 				data.exchangeAddress === exchangeAddress,
 		);
 		if (!config) {
-			throw new Error(`No config found for this pair: , ${inputTokenAddress}, ${outputTokenAddress}`);
+			// eslint-disable-next-line no-throw-literal
+			throw { data: { error: 'No config found for this pair!' } };
 		}
 		const provider = new ethers.providers.Web3Provider(web3.currentProvider as any);
 		const signer = provider.getSigner();
@@ -130,7 +131,7 @@ export const startFlow = async (
 		});
 		const { maxFeePerGas, maxPriorityFeePerGas } = await gas();
 		if (web3Subscription.approved) {
-			if (Number(userFlow.flowRate) != 0) {
+			if (Number(userFlow.flowRate) !== 0) {
 				//Existing flow so call updateFlow
 				await framework.cfaV1
 					.updateFlow({
@@ -303,8 +304,7 @@ export const startFlow = async (
 			}
 		}
 	} catch (e: any) {
-		console.error(e);
-		throw new Error(e);
+		throw e;
 	}
 };
 

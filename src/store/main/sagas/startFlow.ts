@@ -9,30 +9,27 @@ import { sweepQueryFlow } from './sweepQueryFlow';
 import { startFlowAction } from '../actionCreators';
 import { selectMain } from '../selectors';
 
-export function* startFlowSaga({ payload }: ReturnType<typeof startFlowAction >) {
-  try {
-    const main: ReturnType<typeof selectMain> = yield select(selectMain);
-    const { web3 } = main;
-    const idaContract: Unwrap<typeof getContract> = yield call(
-      getContract,
-      idaAddress,
-      idaABI, web3,
-    );
-    const { config } = payload;
-    const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
-    yield call(startFlow,
-      idaContract,
-      config.superToken,
-      config.tokenA,
-      config.tokenB,
-      normalizedAmount,
-      web3,
-      config.referralId);
-    payload.callback();
-    yield call(sweepQueryFlow);
-  } catch (e) {
-    console.error(e);
-    const error = transformError(e);
-    payload.callback(error);
-  } 
+export function* startFlowSaga({ payload }: ReturnType<typeof startFlowAction>) {
+	try {
+		const main: ReturnType<typeof selectMain> = yield select(selectMain);
+		const { web3 } = main;
+		const idaContract: Unwrap<typeof getContract> = yield call(getContract, idaAddress, idaABI, web3);
+		const { config } = payload;
+		const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+		yield call(
+			startFlow,
+			idaContract,
+			config.superToken,
+			config.tokenA,
+			config.tokenB,
+			normalizedAmount,
+			web3,
+			config.referralId,
+		);
+		payload.callback();
+		yield call(sweepQueryFlow);
+	} catch (e) {
+		const error = transformError(e);
+		payload.callback(error);
+	}
 }
