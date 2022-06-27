@@ -170,7 +170,6 @@ export const RecentActivityContainer: FC = () => {
 
 	return (
 		<div>
-			<InvestNav />
 			<div className={styles.container}>
 				<Wrapper />
 			</div>

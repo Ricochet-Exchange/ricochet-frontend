@@ -49,6 +49,7 @@
   flex-wrap: wrap;
   width: auto;
 
+
   @include tablet {
     flex-wrap: nowrap;
     width: 100%;
@@ -57,7 +58,7 @@
 
 .currency_first,
 .currency_second {
-  color: var(--color-black-dark);
+  color: white;
   font-size: 18px;
   font-weight: 700;
   text-transform: uppercase;

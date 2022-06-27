@@ -6,10 +6,10 @@ type TabLabelProps = {
 	badgeColor?: string;
 };
 
-export const TabLabel = ({ labelContent, badgeContent = 'Beta', badgeColor = '#5f8eb9' }: TabLabelProps) => {
+export const TabLabel = ({ labelContent, badgeContent = 'Beta', badgeColor = 'lightblue' }: TabLabelProps) => {
 	return (
 		<div style={{ display: 'flex', gap: '4px' }}>
-			<span>{labelContent}</span>
+			<span style={{ color: 'white' }}>{labelContent}</span>
 			<sub style={{ color: badgeColor }}>{badgeContent}</sub>
 		</div>
 	);

@@ -59,7 +59,6 @@ export const InvestContainer: React.FC<IProps> = () => {
 
 	return (
 		<div className={styles.outer_container}>
-			<InvestNav />
 			<div className={styles.settings_mob}>
 				<UserSettings
 					className={styles.dot}
@@ -84,7 +83,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 										label="Markets"
 										id={`${TABS.MARKETS}`}
 										aria-controls={`tabpanel-${TABS.MARKETS}`}
-										sx={{ textTransform: 'none' }}
+										sx={{ textTransform: 'none', color: 'white' }}
 									/>
 									<Tab
 										label={<TabLabel labelContent="Streams" />}

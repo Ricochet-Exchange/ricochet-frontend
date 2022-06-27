@@ -13,14 +13,14 @@
 
   .nav_container {
     position: fixed;
-    top:15vh;
+    top:100px;
     left: 0;
     @include flexbox(flex-start, flex-start);
     flex-direction: column;
     text-align: left;
     flex-shrink: 1;
-    background-color: #363b55;
-    width: 10vw;
+    background: #2d3233;
+    width: 12vw;
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;

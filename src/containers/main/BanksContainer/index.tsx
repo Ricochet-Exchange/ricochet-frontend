@@ -15,107 +15,97 @@ import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 export const BanksContainer = () => {
-  const dispatch = useDispatch();
-  const { banks } = useShallowSelector(selectBanks);
-  const { address: accountAddress, isLoading } = useShallowSelector(selectMain);
-  const [hasBanks, setHasBank] = useState(false);
-  const { t } = useTranslation();
+	const dispatch = useDispatch();
+	const { banks } = useShallowSelector(selectBanks);
+	const { address: accountAddress, isLoading } = useShallowSelector(selectMain);
+	const [hasBanks, setHasBank] = useState(false);
+	const { t } = useTranslation();
 
-  const handleSignIn = useCallback(() => {
-    dispatch(connectWeb3Modal());
-  }, [dispatch]);
+	const handleSignIn = useCallback(() => {
+		dispatch(connectWeb3Modal());
+	}, [dispatch]);
 
-  useEffect(() => {
-    if (!isLoading) dispatch(banksGetData());
-  }, [isLoading]);
+	useEffect(() => {
+		if (!isLoading) dispatch(banksGetData());
+	}, [isLoading]);
 
-  useEffect(() => {
-    if (banks) {
-      setHasBank(banks.length !== 0);
-    }
-  }, [banks]);
+	useEffect(() => {
+		if (banks) {
+			setHasBank(banks.length !== 0);
+		}
+	}, [banks]);
 
-  const renderBanks = () =>
-    banks.map((bank: BankType) => (
-      <BankDetails
-        key={bank.bankAddress}
-        bank={bank}
-        accountAddress={accountAddress}
-        handleSignIn={handleSignIn}
-      />
-    ));
+	const renderBanks = () =>
+		banks.map((bank: BankType) => (
+			<BankDetails
+				key={bank.bankAddress}
+				bank={bank}
+				accountAddress={accountAddress}
+				handleSignIn={handleSignIn}
+			/>
+		));
 
-  return (
-    <div className={styles.outer_container}>
-      <InvestNav />
-      <div className={styles.container}>
-        {accountAddress ? (
-          <>
-            <LoadingWrapper
-              isLoading={isLoading}
-              className={styles.fullframe}
-            >
-              <div className={styles.contentTotal}>
-                {hasBanks ? (
-                  <table className={styles.dextable}>
-                    <thead>
-                      <tr>
-                        <td className={styles.section}>
-                          {t('Name')}
-                        </td>
-                        <td className={styles.section}>
-                          {t('Available for')}
-                          <br />
-                          {t('borrow')}
-                        </td>
-                        <td className={styles.section}>
-                          {t('Collateral Price')}
-                          <br />
-                          in
-                          <span className={styles.blue}> USD</span>
-                        </td>
-                        <td className={styles.section}>
-                          {t('Debt Price')}
-                          <br />
-                          in
-                          <span className={styles.blue}> USD</span>
-                        </td>
-                        <td className={styles.section}>{t('Interest Rate')}</td>
-                        <td className={styles.section}>{t('Origination Fee')}</td>
-                        <td className={styles.section}>
-                          {t('Collateralization')}
-                          <br />
-                          {t('Ratio')}
-                        </td>
-                        <td className={styles.section}>
-                          {t('Liquidation')}
-                          <br />
-                          {t('Penalty')}
-                        </td>
-                        <td>{t('Create Vault')}</td>
-                      </tr>
-                    </thead>
-                    <tbody>{renderBanks()}</tbody>
-                  </table>
-                ) : (
-                  <div className={styles.bank_empty}>
-                    <LoadingPopUp />
-                  </div>
-                )}
-              </div>
-            </LoadingWrapper>
-          </>
-        )
-          :
-          (
-            <div className={styles.sign_container}>
-              <p className={styles.sign_in_text}>{t('Sign in to see the bank')}</p>
-              <SignInButton
-                onClick={handleSignIn}
-              />
-            </div>
-          )}
-      </div>
-    </div>
-  );
+	return (
+		<div className={styles.outer_container}>
+			<div className={styles.container}>
+				{accountAddress ? (
+					<>
+						<LoadingWrapper isLoading={isLoading} className={styles.fullframe}>
+							<div className={styles.contentTotal}>
+								{hasBanks ? (
+									<table className={styles.dextable}>
+										<thead>
+											<tr>
+												<td className={styles.section}>{t('Name')}</td>
+												<td className={styles.section}>
+													{t('Available for')}
+													<br />
+													{t('borrow')}
+												</td>
+												<td className={styles.section}>
+													{t('Collateral Price')}
+													<br />
+													in
+													<span className={styles.blue}> USD</span>
+												</td>
+												<td className={styles.section}>
+													{t('Debt Price')}
+													<br />
+													in
+													<span className={styles.blue}> USD</span>
+												</td>
+												<td className={styles.section}>{t('Interest Rate')}</td>
+												<td className={styles.section}>{t('Origination Fee')}</td>
+												<td className={styles.section}>
+													{t('Collateralization')}
+													<br />
+													{t('Ratio')}
+												</td>
+												<td className={styles.section}>
+													{t('Liquidation')}
+													<br />
+													{t('Penalty')}
+												</td>
+												<td>{t('Create Vault')}</td>
+											</tr>
+										</thead>
+										<tbody>{renderBanks()}</tbody>
+									</table>
+								) : (
+									<div className={styles.bank_empty}>
+										<LoadingPopUp />
+									</div>
+								)}
+							</div>
+						</LoadingWrapper>
+					</>
+				) : (
+					<div className={styles.sign_container}>
+						<p className={styles.sign_in_text}>{t('Sign in to see the bank')}</p>
+						<SignInButton onClick={handleSignIn} />
+					</div>
+				)}
+			</div>
+		</div>
+	);
 };

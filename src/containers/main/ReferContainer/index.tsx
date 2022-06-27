@@ -136,7 +136,6 @@ export const ReferContainer: React.FC<IProps> = () => {
 
 	return (
 		<div className={styles.outer_container}>
-			<InvestNav />
 			<div className={styles.container}>
 				<div>
 					{referredBy ? (
