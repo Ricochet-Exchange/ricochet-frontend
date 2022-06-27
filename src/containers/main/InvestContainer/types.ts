@@ -26,6 +26,6 @@ export interface Row {
 	received: string;
 	streamInTokenBalance?: string;
 	distributeOutTokenBalance?: string;
-	tvs: string;
+	tvs?: string;
 	streams?: number;
 }

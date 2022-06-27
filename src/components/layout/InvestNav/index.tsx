@@ -14,7 +14,7 @@ export const InvestNav = () => {
 	return (
 		<div className={styles.nav_container}>
 			<div className={styles.navscroller}>
-				<NavLink
+				{/* <NavLink
 					className={styles.nav_link}
 					exact
 					activeClassName={styles.nav_link_active}
@@ -22,7 +22,7 @@ export const InvestNav = () => {
 				>
 					<FontIcon name={FontIconName.RicoUser} size={16} />
 					<div className={styles.nav_text}>{t('Streams')}</div>
-				</NavLink>
+				</NavLink> */}
 
 				<NavLink to={Routes.Wallet} className={styles.nav_link} activeClassName={styles.nav_link_active}>
 					<FontIcon name={FontIconName.Wallet} size={16} />
@@ -109,7 +109,6 @@ export const InvestNav = () => {
 					<FontIcon name={FontIconName.External} size={16} />
 				</NavLink>
 			</div>
-
 		</div>
 	);
 };
