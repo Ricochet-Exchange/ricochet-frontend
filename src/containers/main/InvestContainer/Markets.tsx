@@ -7,8 +7,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { BigNumber, ethers } from 'ethers';
@@ -23,6 +21,7 @@ import { PricePlaceholder } from './PricePlaceholder';
 import { Operation } from './Operation';
 import { StreamModal } from './StreamModal';
 import type { Row } from './types';
+import { LinkPlaceholder } from './LinkPlaceholder';
 
 type MarketsProps = {
 	loading: boolean;
@@ -129,7 +128,7 @@ export const Markets: FC<MarketsProps> = ({
 						<TableHead>
 							<TableRow>
 								<TableCell>Market</TableCell>
-								<TableCell>Price</TableCell>
+								<TableCell>{flowType === FlowTypes.market ? 'Price (USD)' : 'Price'}</TableCell>
 								<TableCell>Inflow Rate</TableCell>
 								<TableCell>Streamed</TableCell>
 								<TableCell>Received</TableCell>
@@ -190,25 +189,7 @@ export const Markets: FC<MarketsProps> = ({
 														<span>{coinB}</span>
 													</div>
 													<div>
-														<Link
-															href={link}
-															target="_blank"
-															rel="noreferrer"
-															underline="none"
-															sx={{
-																'&:hover': {
-																	color: 'info.main',
-																},
-																'&:active': {
-																	color: 'info.main',
-																},
-																'&:visited': {
-																	color: 'secondary.main',
-																},
-															}}
-														>
-															<OpenInNewIcon />
-														</Link>
+														<LinkPlaceholder link={link} />
 													</div>
 													<Operation
 														account={address}

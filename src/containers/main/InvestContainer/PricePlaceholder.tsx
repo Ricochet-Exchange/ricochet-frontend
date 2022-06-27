@@ -5,6 +5,7 @@ import { querySushiPoolPrices, queryQuickSwapPoolPrices } from 'api';
 import { FlowTypes, POOLS } from 'constants/flowConfig';
 import { getLauchpadPrice } from 'utils/getLauchpadPrice';
 import { trimPad } from 'utils/balances';
+import { LinkPlaceholder } from './LinkPlaceholder';
 
 type PricePlaceholderProps = Pick<Row, 'tokenA' | 'tokenB' | 'pool' | 'type' | 'coinA'> & {
 	web3: Web3;
@@ -81,7 +82,23 @@ export const PricePlaceholder: FC<PricePlaceholderProps> = ({ pool, tokenA, toke
 	}
 
 	if (type === FlowTypes.market) {
-		return <span>{`${(+price).toFixed(3)} ${tokenA}/USD`}</span>;
+		return (
+			<div
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'space-between',
+					width: '110px',
+				}}
+			>
+				<div style={{ width: '100px' }}>
+					<span>{(+price).toFixed(3)}</span>
+				</div>
+				<div>
+					<LinkPlaceholder link={`https://dexscreener.com/polygon/${pool.id}`} />
+				</div>
+			</div>
+		);
 	}
 
 	return <span>unknown flow type</span>;
