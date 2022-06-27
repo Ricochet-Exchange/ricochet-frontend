@@ -286,7 +286,7 @@ export const Markets: FC<MarketsProps> = ({
 					flowType={flowType}
 					isReadOnly={isReadOnly}
 					onClickStart={handleStart({
-						tokenA: 's' || row.input,
+						tokenA: row.input,
 						tokenB: row.output,
 						superToken: row.exchangeAddress,
 					})}

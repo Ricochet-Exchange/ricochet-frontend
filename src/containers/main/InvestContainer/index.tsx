@@ -21,6 +21,7 @@ import { TabLabel } from './TabLabel';
 import { Markets } from './Markets';
 import { useQuery } from '@apollo/client';
 import { GET_DISTRIBUTIONS, GET_STREAMS } from './data/queries';
+import type { ConfigType } from 'types/config';
 
 export enum TABS {
 	'MARKETS',
@@ -77,14 +78,14 @@ export const InvestContainer: React.FC<IProps> = () => {
 	const error = queryStreamError || queryDistributionError;
 
 	const handleStart = useCallback(
-		(config: { [key: string]: string }) => (amount: string, callback: (e?: string) => void) => {
+		(config: ConfigType) => (amount: string, callback: (e?: string) => void) => {
 			dispatch(startFlowAction(amount, config, callback));
 		},
 		[dispatch],
 	);
 
 	const handleStop = useCallback(
-		(config: { [key: string]: string }) => (callback: (e?: string) => void) => {
+		(config: ConfigType) => (callback: (e?: string) => void) => {
 			dispatch(stopFlowAction(config, callback));
 		},
 		[dispatch],
