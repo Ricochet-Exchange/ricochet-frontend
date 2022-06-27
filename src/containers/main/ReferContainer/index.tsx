@@ -164,6 +164,7 @@ export const ReferContainer: React.FC<IProps> = () => {
 							placeholder={t('Your new referral id')}
 							onChange={handleReferralId}
 							className={styles.input}
+							dontBlockChar
 							containerClassName={styles.container_input}
 							left={<div className={styles.hint}>{AFFILIATE_URL_PREFIX}</div>}
 						/>
