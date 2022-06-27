@@ -10,8 +10,8 @@ import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { BigNumber, ethers } from 'ethers';
-import type { IndexIDAType, Pool } from 'constants/flowConfig';
-import { FlowEnum, FlowTypes } from 'constants/flowConfig';
+import type { IndexIDAType } from 'constants/flowConfig';
+import { FlowTypes } from 'constants/flowConfig';
 import { calculateStreamed } from './utils/calculateStreamed';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
@@ -20,35 +20,7 @@ import { ReceivedPlaceholder } from './ReceivedPlaceholder';
 import { PricePlaceholder } from './PricePlaceholder';
 import { Operation } from './Operation';
 import { StreamModal } from './StreamModal';
-
-export interface Row {
-	// wrapped coins(eg, WETH)
-	coinA: string;
-	coinB: string;
-	// super tokens(eg, ETHx)
-	tokenA: string;
-	tokenB: string;
-	// --- * ---
-	exchangeAddress: string;
-	superToken: string;
-	// --- * ---
-	// --- * ---
-	pool: Pool;
-	type: FlowTypes;
-	key: FlowEnum;
-	// --- * ---
-	// --- * ---
-	input: string;
-	output: string;
-	// --- * ---
-	inflowRate: string;
-	streamed: string;
-	received: string;
-	streamInTokenBalance?: string;
-	distributeOutTokenBalance?: string;
-	tvs: string;
-	streams?: number;
-}
+import type { Row } from './types';
 
 type MarketsProps = {
 	loading: boolean;

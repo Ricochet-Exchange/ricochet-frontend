@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { getSFFramework } from 'utils/fluidSDKinstance';
 import Web3 from 'web3';
-import type { Row } from './Markets';
+import type { Row } from './types';
 import { calculateReceived } from './utils/calculateReceived';
 
 type ReceivedPlaceholderProps = Pick<Row, 'exchangeAddress' | 'superToken'> & {

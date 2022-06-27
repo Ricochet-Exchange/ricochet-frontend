@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import Web3 from 'web3';
-import type { Row } from './Markets';
+import type { Row } from './types';
 import { querySushiPoolPrices, queryQuickSwapPoolPrices } from 'api';
 import { FlowTypes, POOLS } from 'constants/flowConfig';
 import { getLauchpadPrice } from 'utils/getLauchpadPrice';

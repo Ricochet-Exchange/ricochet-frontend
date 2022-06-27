@@ -6,7 +6,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import StopIcon from '@mui/icons-material/Stop';
 import { showErrorToast, showSuccessToast, showToast } from 'components/common/Toaster';
-import type { Row } from './Markets';
+import type { Row } from './types';
 
 type OperationProps = {
 	account: string;
