@@ -13,7 +13,7 @@ import styles from './styles.module.scss';
 
 interface IProps {}
 
-const AFFILIATE_URL_PREFIX = 'app.ricochet.exchange/ref/';
+const AFFILIATE_URL_PREFIX = 'app.ricochet.exchange/#/ref/';
 
 export const ReferContainer: React.FC<IProps> = () => {
 	const { t } = useLang();
