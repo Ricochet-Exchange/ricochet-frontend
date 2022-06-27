@@ -143,15 +143,11 @@ export const Markets: FC<MarketsProps> = ({
 								// sort by flow rate first, and then by TVS
 								// @see https://github.com/Ricochet-Exchange/ricochet-frontend/pull/741#issuecomment-1165581684
 								.sort((a, b) => {
-									if (rows.find((row) => row.inflowRate)) {
-										// if user has at least 1 stream.
-										const order = Number(b.inflowRate) - Number(a.inflowRate);
-										if (!order) {
-											return Number(b.tvs) - Number(a.tvs);
-										}
-										return order;
+									const order = Number(b.inflowRate) - Number(a.inflowRate);
+									if (!order) {
+										return Number(b.tvs) - Number(a.tvs);
 									}
-									return 0;
+									return order;
 								})
 								.filter((row) => (showStreams ? row.inflowRate : row))
 								.map((row) => {
