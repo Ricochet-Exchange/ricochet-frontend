@@ -48,7 +48,7 @@ export const StreamManager: React.FC<IProps> = () => {
 		return () => {
 			mounted = false;
 		};
-	}, [web3, account]);
+	}, [web3, account, isLoading]);
 
 	return (
 		<div className={styles.container}>

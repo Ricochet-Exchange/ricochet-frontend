@@ -17,11 +17,11 @@ export const StreamContainer = () => {
 	const [flowRate, setFlowRate] = useState('');
 	const [transactionSuccess, ToggleTransaction] = useState(false);
 	const [transactionFailed, ToggleFail] = useState(false);
-	const [recentActivity, ToggleRecent] = useState(false);
+	const [recentActivity] = useState(false);
 
 	const { web3 } = useShallowSelector(selectMain);
 
-	async function createNewFlow() {
+	const createNewFlow = React.useCallback(async () => {
 		setIsLoading(true);
 		if (web3) {
 			const provider = new ethers.providers.Web3Provider(web3.currentProvider as any);
@@ -54,11 +54,11 @@ export const StreamContainer = () => {
 			}
 		}
 		setIsLoading(false);
-	}
+	}, [flowRate, recipient, superToken, web3]);
 
 	const handleStartStream = useCallback(() => {
 		createNewFlow();
-	}, [recipient, flowRate, superToken]);
+	}, [createNewFlow]);
 
 	const updateFlowRate = (flow: string): void => {
 		setFlowRate(flow);
