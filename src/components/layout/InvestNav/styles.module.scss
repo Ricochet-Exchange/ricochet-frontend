@@ -25,6 +25,10 @@
     overflow-y: scroll;
     overflow-x: hidden;
     direction: rtl;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
 
     @include tablet() {
       @include flexbox(flex-start, flex-start);

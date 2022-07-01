@@ -352,8 +352,6 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		animated: true,
 	};
 
-	const updateEdge = (edge: Edge<any>) => {};
-
 	const deleteEdge = (edge: Edge<any>) => {
 		if (edge)
 			setEdges((eds) => {

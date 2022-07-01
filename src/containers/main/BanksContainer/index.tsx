@@ -27,7 +27,7 @@ export const BanksContainer = () => {
 
 	useEffect(() => {
 		if (!isLoading) dispatch(banksGetData());
-	}, [isLoading]);
+	}, [isLoading, dispatch]);
 
 	useEffect(() => {
 		if (banks) {

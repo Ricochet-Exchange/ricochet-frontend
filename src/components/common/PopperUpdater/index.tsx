@@ -1,23 +1,22 @@
 import React, { useEffect, useMemo } from 'react';
 
 type Props = {
-  update: () => void;
-  deps?: any[];
-  delay?: number;
+	update: () => void;
+	deps?: any[];
+	delay?: number;
+	children?: any;
 };
 
-export const PopperUpdater: React.FC<Props> = ({
-  deps, update, children, delay = 0,
-}) => {
-  const dependencies = useMemo(() => (deps || []), [deps]);
+export const PopperUpdater: React.FC<Props> = ({ deps, update, children, delay = 0 }) => {
+	const dependencies = useMemo(() => deps || [], [deps]);
 
-  useEffect(() => {
-    if (!delay) {
-      update();
-      return;
-    }
-    const timer = setTimeout(() => update(), delay);
-    return () => clearTimeout(timer);
-  }, dependencies);
-  return <>{children}</>;
+	useEffect(() => {
+		if (!delay) {
+			update();
+			return;
+		}
+		const timer = setTimeout(() => update(), delay);
+		return () => clearTimeout(timer);
+	}, [dependencies, delay, update]);
+	return <>{children}</>;
 };

@@ -113,7 +113,7 @@ export const PanelChange: FC<IProps> = ({
 		return () => {
 			isMounted = false;
 		};
-	}, [address, contract]);
+	}, [address, contract, web3]);
 
 	useEffect(() => {
 		let isMounted = true;
@@ -126,7 +126,7 @@ export const PanelChange: FC<IProps> = ({
 		return () => {
 			isMounted = false;
 		};
-	}, [web3]);
+	}, [web3, exchangeKey, flowType, tokenA, tokenB]);
 
 	useEffect(() => {
 		let isMounted = true;
@@ -140,7 +140,7 @@ export const PanelChange: FC<IProps> = ({
 		return () => {
 			isMounted = false;
 		};
-	}, [web3]);
+	}, [web3, exchangeKey]);
 
 	function getFormattedNumber(num: string) {
 		return parseFloat(num)
@@ -165,12 +165,12 @@ export const PanelChange: FC<IProps> = ({
 		}
 	}, []);
 
-	const callback = (e?: string) => {
+	const callback = React.useCallback((e?: string) => {
 		if (e) {
 			showErrorToast(e, 'Error');
 		}
 		setIsLoading(false);
-	};
+	}, []);
 
 	const handleStart = useCallback(() => {
 		if (isAffiliate) {
@@ -192,12 +192,12 @@ export const PanelChange: FC<IProps> = ({
 		} else {
 			onClickStart(value, callback);
 		}
-	}, [value, balanceA]);
+	}, [value, balanceA, flowType, isAffiliate, onClickStart, shareScaler, callback]);
 
 	const handleStop = useCallback(() => {
 		setIsLoading(true);
 		onClickStop(callback);
-	}, [callback]);
+	}, [callback, onClickStop]);
 
 	// uncomment when need
 	// const date = generateDate(balanceA, personalFlow);

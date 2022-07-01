@@ -31,7 +31,7 @@ export const DistributionContainer: React.FC<IProps> = () => {
 
 	useEffect(() => {
 		if (!isLoading) dispatch(distributionsGetData());
-	}, [isLoading]);
+	}, [isLoading, dispatch]);
 
 	const filteredList = distributions.filter((distribution) => distribution.id.includes(search.toLowerCase()));
 	return (

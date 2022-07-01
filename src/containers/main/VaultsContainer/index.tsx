@@ -43,8 +43,7 @@ export const VaultsContainer = () => {
 
 	useEffect(() => {
 		if (banks.length !== 0) dispatch(banksGetData());
-	}, [banks]);
-
+	}, [banks, dispatch]);
 	useEffect(() => {
 		if (banks) {
 			setHasVault(banks.some((bank: BankType) => bank.vault.hasVault));

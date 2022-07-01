@@ -135,6 +135,10 @@
   padding: 0 10px;
   color: $dark-mode-lightblue;
   margin-top: 10px;
+  @media only screen and (max-width: 769px){
+    margin-top: 40px;
+  
+    }
 }
 
 .validation_errors {

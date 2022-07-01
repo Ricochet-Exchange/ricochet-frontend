@@ -54,31 +54,32 @@ export const StreamManagerItem: FC<IProps> = ({
 	timestamp,
 	provider,
 }) => {
-	const rexMarketContracts = [
-		twoWayMarketDAIWETHAddress,
-		// twoWayMarketMATICDAIAddress,
-		twoWayMarketWBTCAddress,
-		twoWayWETHMarketAddress,
-		// twoWayMarketMATICUSDCAddress,
-		// twoWayMarketWBTCDAIAddress,
-		twoWayMarketRICUSDCAddress,
-		wethxUsdcxExchangeAddress,
-		wbtcxUsdcxExchangeAddress,
-		usdcxEthSlpxExchangeAddress,
-		usdcxIdleExchangeAddress,
-		usdcxRicExchangeAddress,
-		maticxDaixExchangeAddress,
-		usdcxMaticxExchangeAddress,
-		maticxUsdcxExchangeAddress,
-		daixEthxExchangeAddress,
-		daixMaticxExchangeAddress,
-		daixMkrxExchangeAddress,
-		mkrxDaixExchangeAddress,
-		mkrxUsdcxExchangeAddress,
-		usdcxMkrxExchangeAddress,
-		usdcxWbtcxExchangeAddress,
-		usdcxWethxExchangeAddress,
-	];
+	const [rexMarketContracts, setRexMarketContracts] = React.useState<any>([]);
+
+	React.useEffect(() => {
+		setRexMarketContracts([
+			twoWayMarketDAIWETHAddress,
+			twoWayMarketWBTCAddress,
+			twoWayWETHMarketAddress,
+			twoWayMarketRICUSDCAddress,
+			wethxUsdcxExchangeAddress,
+			wbtcxUsdcxExchangeAddress,
+			usdcxEthSlpxExchangeAddress,
+			usdcxIdleExchangeAddress,
+			usdcxRicExchangeAddress,
+			maticxDaixExchangeAddress,
+			usdcxMaticxExchangeAddress,
+			maticxUsdcxExchangeAddress,
+			daixEthxExchangeAddress,
+			daixMaticxExchangeAddress,
+			daixMkrxExchangeAddress,
+			mkrxDaixExchangeAddress,
+			mkrxUsdcxExchangeAddress,
+			usdcxMkrxExchangeAddress,
+			usdcxWbtcxExchangeAddress,
+			usdcxWethxExchangeAddress,
+		]);
+	}, []);
 
 	const SECONDS_PER_MONTH = 30 / 24 / 60 / 60;
 	const date = new Date(timestamp * 1000).toString();
@@ -90,12 +91,12 @@ export const StreamManagerItem: FC<IProps> = ({
 	const streamValue = streamTotalFlow - streamTotalFlow * 0.25;
 
 	useEffect(() => {
-		rexMarketContracts.forEach((market) => {
+		rexMarketContracts.forEach((market: any) => {
 			if (market.toLowerCase() === receiver) {
 				setVisibility(false);
 			}
 		});
-	}, []);
+	}, [receiver, rexMarketContracts]);
 
 	return (
 		<div className={visiblity ? styles.streamRow : styles.invisible}>

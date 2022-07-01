@@ -1,5 +1,7 @@
 import main from './main.json';
 
-export default {
-  main,
+const Main = {
+	main,
 };
+
+export default Main;

@@ -93,17 +93,17 @@ export const InvestNav = () => {
 					<img src={currency} alt="currency" width="16" height="16" style={{ filter: 'invert(1)' }} />
 					<div className={styles.nav_text}>{t('Payments')}</div>
 				</NavLink>
-        
-			 <a className={styles.nav_link} href={TUTORIAL_LINK} target="_blank">
-				 <div className={styles.nav_text_tutorial}>{t('Tutorial')}</div>
-				 <FontIcon name={FontIconName.External} size={16} />
-			 </a>
 
-			 <a href={RICOCHET_V1_LINK} className={styles.nav_link} target="_blank" rel={'noreferrer'}>
-				 <div className={styles.nav_text_tutorial}>{t('Ricochet V1')}</div>
-				 <FontIcon name={FontIconName.External} size={16} />
-			 </a>
+				<a className={styles.nav_link} href={TUTORIAL_LINK} target="_blank" rel="noreferrer">
+					<div className={styles.nav_text_tutorial}>{t('Tutorial')}</div>
+					<FontIcon name={FontIconName.External} size={16} />
+				</a>
+
+				<a href={RICOCHET_V1_LINK} className={styles.nav_link} target="_blank" rel={'noreferrer'}>
+					<div className={styles.nav_text_tutorial}>{t('Ricochet V1')}</div>
+					<FontIcon name={FontIconName.External} size={16} />
+				</a>
+			</div>
 		</div>
-	</div>
 	);
 };
