@@ -8,6 +8,7 @@ import styles from './styles.module.scss';
 
 const TUTORIAL_LINK = 'https://docs.ricochet.exchange/tutorial/using-the-dapp';
 const RICOCHET_V1_LINK = 'https://v1.ricochet.exchange/';
+const SUPPORT = 'https://discord.com/channels/862796510604296263/864667072357597185';
 
 export const InvestNav = () => {
 	const { t } = useTranslation();
@@ -62,6 +63,11 @@ export const InvestNav = () => {
 					<FontIcon name={FontIconName.Refer} size={16} />
 					<div className={styles.nav_text}>{t('Refer')}</div>
 				</NavLink>
+
+				<a href={SUPPORT} className={styles.nav_link} target="_blank" rel={'noreferrer'}>
+					<div className={styles.nav_text_tutorial}>{t('Support')}</div>
+					<FontIcon name={FontIconName.External} size={16} />
+				</a>
 
 				<a className={styles.nav_link} href={TUTORIAL_LINK} target="_blank" rel="noreferrer">
 					<div className={styles.nav_text_tutorial}>{t('Tutorial')}</div>
