@@ -12,7 +12,6 @@ import {
 	twoWayWETHMarketAddress,
 	// twoWayMarketMATICUSDCAddress,
 	// twoWayMarketWBTCDAIAddress,
-
 	wethxUsdcxExchangeAddress,
 	wbtcxUsdcxExchangeAddress,
 	usdcxEthSlpxExchangeAddress,
@@ -30,7 +29,6 @@ import {
 	usdcxWbtcxExchangeAddress,
 	usdcxWethxExchangeAddress,
 	twoWayMarketRICUSDCAddress,
-
 } from 'constants/polygon_config';
 
 import styles from './styles.module.scss';
@@ -91,7 +89,6 @@ export const StreamManagerItem: FC<IProps> = ({
 	const streamTotalFlow = (+currentFlowRate / 1e8) * SECONDS_PER_MONTH;
 	const streamValue = streamTotalFlow - streamTotalFlow * 0.25;
 
-
 	useEffect(() => {
 		rexMarketContracts.forEach((market) => {
 			if (market.toLowerCase() === receiver) {
@@ -102,7 +99,6 @@ export const StreamManagerItem: FC<IProps> = ({
 
 	return (
 		<div className={visiblity ? styles.streamRow : styles.invisible}>
-
 			<div className={styles.stream_row_container}>
 				<h3 className={styles.currentFlowTime}>{`started ${date.slice(0, 16)}`}</h3>
 
@@ -122,14 +118,13 @@ export const StreamManagerItem: FC<IProps> = ({
 			</div>
 
 			<h3 className={styles.currentFlowRate}>
-				{`${TokenSymbol}  `}
 				<strong>{`${streamValue.toFixed(2)}  `}</strong>
+				{`${TokenSymbol}  `}
 				per month
 				<br />
-				<i style={{ color: 'gray', marginTop: '10px' }}>
+				<i style={{ color: 'lightblue', marginTop: '10px' }}>
 					{`${(+currentFlowRate / 1e18).toFixed(8)} per second`}
 				</i>
-
 			</h3>
 
 			<div className={styles.update_buttons}>
@@ -149,13 +144,11 @@ export const StreamManagerItem: FC<IProps> = ({
 						}}
 					>
 						Delete Flow
-
 					</button>
 				</div>
 
 				{updateOperation ? (
 					<div className={styles.updatePrompt}>
-
 						<div className={styles.amount_container}>
 							{truncateAddr(receiver)}
 
@@ -164,9 +157,7 @@ export const StreamManagerItem: FC<IProps> = ({
 								id="payment"
 								className={styles.input_field}
 								type="number"
-
 								placeholder="Payment Amount"
-
 								onKeyDown={blockInvalidChar}
 								min={0}
 								onChange={async (e) => {
@@ -200,7 +191,6 @@ export const StreamManagerItem: FC<IProps> = ({
 								Cancel
 							</button>
 						</div>
-
 					</div>
 				) : (
 					''

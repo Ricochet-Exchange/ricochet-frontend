@@ -1,14 +1,15 @@
+@import "../../../assets/styles/mixins";
+
 
 @media only screen and (min-width: 769px){
   .loading_wrap{
     height: 70vh;
     width: 30vw;
-    background-color: #EDF3FB;
+    background-color: $dark-mode-bg-2;
     padding: 1em;
-    border-top: 20px solid #6f767ed9;
-    border-bottom: 20px solid #6F767E;
+    border: 1px solid rgba(173, 216, 230, 0.589);
     border-radius: 25px;
-    color: rgb(42, 42, 42);
+    color: $dark-mode-lightblue;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -25,7 +26,7 @@
 
   .header_second{
     font-size: small;
-    color: rgba(42, 42, 42, 0.666);
+    color: lightgray;
   }
 
   .progress{
@@ -33,12 +34,12 @@
       position: relative;
       height: 10px;
       width: 40%;
-      border: 10px solid #678EB5;
+      border: 10px solid #b8c9da;
       border-radius: 15px;
   }
   .progress .color{
       margin-top: -5px;
-      background-color: #ffffff;
+      background-color: rgb(106, 113, 116);
       width: 0px;
       height: 10px;
       border-radius: 15px;
@@ -51,13 +52,12 @@
 @media only screen and (max-width: 769px){
   .loading_wrap{
     height: 100%;
-    width: 90%;
-    background-color: #EDF3FB;
+    width: 100%;
+    background-color: $dark-mode-bg-2;
     padding: 1em;
-    border-top: 20px solid #6F767E;
-    border-bottom: 20px solid #6F767E;
+    border: 1px solid rgba(173, 216, 230, 0.589);
     border-radius: 25px;
-    color: rgb(42, 42, 42);
+    color: $dark-mode-lightblue;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -75,7 +75,7 @@
 
   .header_second{
     font-size: small;
-    color: rgba(42, 42, 42, 0.666);
+    color: rgba(255, 255, 255, 0.666);
   }
 
   .progress{

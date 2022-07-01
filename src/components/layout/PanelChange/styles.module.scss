@@ -3,7 +3,7 @@
   @include flexbox(flex-start, center);
   flex-direction: column;
   border-radius: 10px;
-  background: #2d3233;
+  background: $dark-mode-bg-2;
   color: white;
   width: 100%;
   font-size: 14px;

@@ -1,8 +1,7 @@
 @import '../../../assets/styles/mixins';
 
 .styled_menu {
-  position: fixed;
-  background-color: #363b55;
+  position: fixed;  background-color: $dark-mode-bg;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -35,7 +34,7 @@
 .mobile_container {
   padding: 5px 15px 5px 15px;
   position: relative;
-  background-color: #678eb5;
+  background-color: $dark-mode-bg-2;
   height: 60px;
   margin-bottom: 20px;
   border: 1px solid transparent;

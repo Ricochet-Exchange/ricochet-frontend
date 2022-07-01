@@ -16,24 +16,22 @@
 }
 
 .input {
-  background: var(--color-white);
+  background: #484e51;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
   line-height: 140%;
-  color: var(--color-grey);
-
+  color: $dark-mode-lightblue;
   @include tablet {
     padding: 10px 0 10px 20px;
   }
 }
 
 .container_input {
-  background: var(--color-white);
+  background: #484e51;
   border-radius: 8px;
   width: 274px;
   height: 41px;
-
   @include tablet {
     width: 100%;
   }

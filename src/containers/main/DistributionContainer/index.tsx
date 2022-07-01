@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
-import { InvestNav } from '../../../components/layout/InvestNav';
 import { UserSettings } from '../../../components/layout/UserSettings';
 import { RICAddress } from '../../../constants/polygon_config';
 import { useLang } from '../../../hooks/useLang';
