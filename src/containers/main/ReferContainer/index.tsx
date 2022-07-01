@@ -125,18 +125,14 @@ export const ReferContainer: React.FC<IProps> = () => {
 
 	if (!address) {
 		return (
-			<div className={styles.container_special}>
-				<InvestNav />
-				<div className={styles.container_explain}>
-					{t('You have to connect your wallet to be able to create referrals')}
-				</div>
+			<div className={styles.container_explain}>
+				{t('You have to connect your wallet to be able to create referrals')}
 			</div>
 		);
 	}
 
 	return (
 		<div className={styles.outer_container}>
-			<InvestNav />
 			<div className={styles.container}>
 				<div>
 					{referredBy ? (

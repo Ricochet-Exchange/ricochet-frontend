@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
-import { InvestNav } from '../../../components/layout/InvestNav';
 import { UserSettings } from '../../../components/layout/UserSettings';
 import { RICAddress } from '../../../constants/polygon_config';
 import { useLang } from '../../../hooks/useLang';
@@ -37,7 +36,6 @@ export const DistributionContainer: React.FC<IProps> = () => {
 	const filteredList = distributions.filter((distribution) => distribution.id.includes(search.toLowerCase()));
 	return (
 		<div className={styles.outer_container}>
-			<InvestNav />
 			<div className={styles.container}>
 				<div className={styles.input_wrap}>
 					<TextInput

@@ -44,7 +44,6 @@ export const VaultsContainer = () => {
 	useEffect(() => {
 		if (banks.length !== 0) dispatch(banksGetData());
 	}, [banks, dispatch]);
-
 	useEffect(() => {
 		if (banks) {
 			setHasVault(banks.some((bank: BankType) => bank.vault.hasVault));
@@ -77,7 +76,6 @@ export const VaultsContainer = () => {
 
 	return (
 		<div className={styles.outer_container}>
-			<InvestNav />
 			<div className={styles.container}>
 				{accountAddress ? (
 					<>

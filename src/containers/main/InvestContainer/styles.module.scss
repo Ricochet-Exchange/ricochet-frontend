@@ -5,7 +5,7 @@
   overflow: auto;
   @include tablet() {
     display: block;
-    margin-top: 145px;
+    margin-top: 00px;
   }
 }
 
@@ -14,8 +14,8 @@
   height: 100%;
   margin: 0;
   padding: 1em;
-  padding-left: 2.5em;
-  padding-right: 3em;
+  padding-left: 3em;
+  padding-right: 2em;
 }
 
 .input_wrap {
@@ -32,7 +32,7 @@
 .container_input {
   width: 503px;
   border-radius: 8px;
-  background: var(--color-blue-light);
+  background: #484e51;
 
   @include tablet {
     width: 100%;
@@ -41,11 +41,11 @@
 
 .input {
   border-radius: 8px;
-  color: var(--color-blue);
+  color: $dark-mode-lightblue;
   padding: 0;
 
   &::placeholder {
-    color: var(--color-blue);
+    color: $dark-mode-lightblue;
 
     &:focus {
       color: transparent;
