@@ -77,7 +77,7 @@ export const ReferContainer: React.FC<IProps> = () => {
 		return () => {
 			isMounted = false;
 		};
-	}, [address, contract]);
+	}, [address, contract, web3]);
 
 	useEffect(() => {
 		let isMounted = true;
@@ -96,7 +96,7 @@ export const ReferContainer: React.FC<IProps> = () => {
 		return () => {
 			isMounted = false;
 		};
-	}, [status, address, contract]);
+	}, [status, address, contract, web3]);
 
 	const handleReferralId = (e: ChangeEvent<HTMLInputElement>) => {
 		const { value } = e.target;
