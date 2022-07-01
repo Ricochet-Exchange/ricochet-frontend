@@ -162,6 +162,7 @@ export const StreamForm: React.FC<IProps> = ({
 			</div>
 
 			<button
+				style={{ backgroundColor: '#79aad9' }}
 				className={styles.input_field_submit}
 				disabled={!addressProvided || !flowProvided || !tokenProvided}
 				onClick={() => {
