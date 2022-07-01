@@ -35,7 +35,23 @@ export enum FlowEnum {
 	usdcRicFlowQuery = 'usdcRicFlowQuery',
 }
 
-type IndexIDAType = {
+export enum FlowTypes {
+	launchpad = 'launchpad',
+	market = 'market',
+	sushiLP = 'sushiLP',
+}
+
+export enum POOLS {
+	'SUSHISWAP',
+	'QUICKSWAP',
+}
+
+export interface Pool {
+	type: POOLS;
+	id: string;
+}
+
+export type IndexIDAType = {
 	exchangeAddress: string;
 	input: string;
 	output: string;
@@ -43,6 +59,19 @@ type IndexIDAType = {
 	subsidyIndex?: number;
 	inputIndex: number;
 	outputIndex: number;
+	flowKey: FlowEnum;
+	type: FlowTypes;
+	// from superfluid subgraph
+	superToken: {
+		tokenA: string;
+		tokenB: string;
+	};
+	// from liquidity pool
+	wrappedToken: {
+		tokenA: string;
+		tokenB: string;
+	};
+	pool: Pool;
 }[];
 
 export const indexIDA: IndexIDAType = [
@@ -54,6 +83,20 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 3,
 		inputIndex: 0,
 		outputIndex: 1,
+		flowKey: FlowEnum.twoWayusdcWethFlowQuery,
+		type: FlowTypes.market,
+		superToken: {
+			tokenA: 'USDCx',
+			tokenB: 'ETHx',
+		},
+		wrappedToken: {
+			tokenA: 'USDC',
+			tokenB: 'WETH',
+		},
+		pool: {
+			type: POOLS.SUSHISWAP,
+			id: '0x34965ba0ac2451A34a0471F04CCa3F990b8dea27',
+		},
 	},
 	{
 		exchangeAddress: twoWayWETHMarketAddress,
@@ -63,6 +106,20 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 2,
 		inputIndex: 1,
 		outputIndex: 0,
+		flowKey: FlowEnum.twoWaywethUsdcFlowQuery,
+		type: FlowTypes.market,
+		superToken: {
+			tokenA: 'ETHx',
+			tokenB: 'USDCx',
+		},
+		wrappedToken: {
+			tokenA: 'WETH',
+			tokenB: 'USDC',
+		},
+		pool: {
+			type: POOLS.SUSHISWAP,
+			id: '0x34965ba0ac2451A34a0471F04CCa3F990b8dea27',
+		},
 	},
 	{
 		exchangeAddress: twoWayMarketWBTCAddress,
@@ -72,6 +129,20 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 3,
 		inputIndex: 0,
 		outputIndex: 1,
+		flowKey: FlowEnum.twoWayusdcWbtcFlowQuery,
+		type: FlowTypes.market,
+		superToken: {
+			tokenA: 'USDCx',
+			tokenB: 'WBTCx',
+		},
+		wrappedToken: {
+			tokenA: 'USDC',
+			tokenB: 'WBTC',
+		},
+		pool: {
+			type: POOLS.QUICKSWAP,
+			id: '0xf6a637525402643b0654a54bead2cb9a83c8b498',
+		},
 	},
 	{
 		exchangeAddress: twoWayMarketWBTCAddress,
@@ -81,6 +152,20 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 2,
 		inputIndex: 1,
 		outputIndex: 0,
+		flowKey: FlowEnum.twoWaywbtcUsdcFlowQuery,
+		type: FlowTypes.market,
+		superToken: {
+			tokenA: 'WBTCx',
+			tokenB: 'USDCx',
+		},
+		wrappedToken: {
+			tokenA: 'WBTC',
+			tokenB: 'USDC',
+		},
+		pool: {
+			type: POOLS.QUICKSWAP,
+			id: '0xf6a637525402643b0654a54bead2cb9a83c8b498',
+		},
 	},
 	{
 		exchangeAddress: twoWayMarketDAIWETHAddress,
@@ -90,6 +175,20 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 3,
 		inputIndex: 0,
 		outputIndex: 1,
+		flowKey: FlowEnum.twoWayDaiWethFlowQuery,
+		type: FlowTypes.market,
+		superToken: {
+			tokenA: 'DAIx',
+			tokenB: 'ETHx',
+		},
+		wrappedToken: {
+			tokenA: 'DAI',
+			tokenB: 'ETH',
+		},
+		pool: {
+			type: POOLS.SUSHISWAP,
+			id: '0x6FF62bfb8c12109E8000935A6De54daD83a4f39f',
+		},
 	},
 	{
 		exchangeAddress: twoWayMarketDAIWETHAddress,
@@ -99,6 +198,20 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 2,
 		inputIndex: 1,
 		outputIndex: 0,
+		flowKey: FlowEnum.twoWayWethDaiFlowQuery,
+		type: FlowTypes.market,
+		superToken: {
+			tokenA: 'ETHx',
+			tokenB: 'DAIx',
+		},
+		wrappedToken: {
+			tokenA: 'ETH',
+			tokenB: 'DAI',
+		},
+		pool: {
+			type: POOLS.SUSHISWAP,
+			id: '0x6FF62bfb8c12109E8000935A6De54daD83a4f39f',
+		},
 	},
 	{
 		exchangeAddress: twoWayMarketRICUSDCAddress,
@@ -108,6 +221,20 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 2,
 		inputIndex: 1,
 		outputIndex: 0,
+		flowKey: FlowEnum.twoWayRicUsdcFlowQuery,
+		type: FlowTypes.market,
+		superToken: {
+			tokenA: 'RIC',
+			tokenB: 'USDCx',
+		},
+		wrappedToken: {
+			tokenA: 'RIC',
+			tokenB: 'USDC',
+		},
+		pool: {
+			type: POOLS.SUSHISWAP,
+			id: '0xDBF5d66d77a83B96763c965D193D0fdD1f8A184B',
+		},
 	},
 	{
 		exchangeAddress: twoWayMarketRICUSDCAddress,
@@ -117,6 +244,20 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 3,
 		inputIndex: 0,
 		outputIndex: 1,
+		flowKey: FlowEnum.twoWayUsdcRicFlowQuery,
+		type: FlowTypes.market,
+		superToken: {
+			tokenA: 'USDCx',
+			tokenB: 'RIC',
+		},
+		wrappedToken: {
+			tokenA: 'USDC',
+			tokenB: 'RIC',
+		},
+		pool: {
+			type: POOLS.SUSHISWAP,
+			id: '0xDBF5d66d77a83B96763c965D193D0fdD1f8A184B',
+		},
 	},
 	{
 		exchangeAddress: twoWayMarketMATICUSDCAddress,
@@ -126,6 +267,20 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 2,
 		inputIndex: 1,
 		outputIndex: 0,
+		flowKey: FlowEnum.twoWayMaticUsdcFlowQuery,
+		type: FlowTypes.market,
+		superToken: {
+			tokenA: 'MATICx',
+			tokenB: 'USDCx',
+		},
+		wrappedToken: {
+			tokenA: 'WMATIC',
+			tokenB: 'USDC',
+		},
+		pool: {
+			type: POOLS.QUICKSWAP,
+			id: '0x6e7a5FAFcec6BB1e78bAE2A1F0B612012BF14827',
+		},
 	},
 	{
 		exchangeAddress: twoWayMarketMATICUSDCAddress,
@@ -135,6 +290,20 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 3,
 		inputIndex: 0,
 		outputIndex: 1,
+		flowKey: FlowEnum.twoWayUsdcMaticFlowQuery,
+		type: FlowTypes.market,
+		superToken: {
+			tokenA: 'USDCx',
+			tokenB: 'MATICx',
+		},
+		wrappedToken: {
+			tokenA: 'USDC',
+			tokenB: 'WMATIC',
+		},
+		pool: {
+			type: POOLS.QUICKSWAP,
+			id: '0x6e7a5FAFcec6BB1e78bAE2A1F0B612012BF14827',
+		},
 	},
 	{
 		exchangeAddress: twoWayMarketMATICDAIAddress,
@@ -144,6 +313,20 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 2,
 		inputIndex: 1,
 		outputIndex: 0,
+		flowKey: FlowEnum.twoWayMaticDaiFlowQuery,
+		type: FlowTypes.market,
+		superToken: {
+			tokenA: 'MATICx',
+			tokenB: 'DAIx',
+		},
+		wrappedToken: {
+			tokenA: 'WMATIC',
+			tokenB: 'DAI',
+		},
+		pool: {
+			type: POOLS.QUICKSWAP,
+			id: '0xEEf611894CeaE652979C9D0DaE1dEb597790C6eE',
+		},
 	},
 	{
 		exchangeAddress: twoWayMarketMATICDAIAddress,
@@ -153,6 +336,20 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 3,
 		inputIndex: 0,
 		outputIndex: 1,
+		flowKey: FlowEnum.twoWayDaiMaticFlowQuery,
+		type: FlowTypes.market,
+		superToken: {
+			tokenA: 'DAIx',
+			tokenB: 'MATICx',
+		},
+		wrappedToken: {
+			tokenA: 'DAI',
+			tokenB: 'WMATIC',
+		},
+		pool: {
+			type: POOLS.QUICKSWAP,
+			id: '0xEEf611894CeaE652979C9D0DaE1dEb597790C6eE',
+		},
 	},
 	{
 		exchangeAddress: twoWayMarketWBTCDAIAddress,
@@ -162,6 +359,20 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 2,
 		inputIndex: 1,
 		outputIndex: 0,
+		flowKey: FlowEnum.twoWayWbtcDaiFlowQuery,
+		type: FlowTypes.market,
+		superToken: {
+			tokenA: 'WBTCx',
+			tokenB: 'DAIx',
+		},
+		wrappedToken: {
+			tokenA: 'WBTC',
+			tokenB: 'DAI',
+		},
+		pool: {
+			type: POOLS.SUSHISWAP,
+			id: '0x7a1d5E67c3a273274766E241363E3E98e721E456',
+		},
 	},
 	{
 		exchangeAddress: twoWayMarketWBTCDAIAddress,
@@ -171,6 +382,20 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 3,
 		inputIndex: 0,
 		outputIndex: 1,
+		flowKey: FlowEnum.twoWayDaiWbtcFlowQuery,
+		type: FlowTypes.market,
+		superToken: {
+			tokenA: 'DAIx',
+			tokenB: 'WBTCx',
+		},
+		wrappedToken: {
+			tokenA: 'DAI',
+			tokenB: 'WBTC',
+		},
+		pool: {
+			type: POOLS.SUSHISWAP,
+			id: '0x7a1d5E67c3a273274766E241363E3E98e721E456',
+		},
 	},
 	{
 		exchangeAddress: usdcxRicExchangeAddress,
@@ -179,14 +404,22 @@ export const indexIDA: IndexIDAType = [
 		subsidy: RICAddress,
 		inputIndex: 0, // just a placeholder, not used
 		outputIndex: 0,
+		flowKey: FlowEnum.usdcRicFlowQuery,
+		type: FlowTypes.launchpad,
+		superToken: {
+			tokenA: 'USDCx',
+			tokenB: 'RIC',
+		},
+		wrappedToken: {
+			tokenA: 'USDC',
+			tokenB: 'RIC',
+		},
+		pool: {
+			type: POOLS.SUSHISWAP,
+			id: '0xDBF5d66d77a83B96763c965D193D0fdD1f8A184B',
+		},
 	},
 ];
-
-export enum FlowTypes {
-	launchpad = 'launchpad',
-	market = 'market',
-	sushiLP = 'sushiLP',
-}
 
 export type InvestmentFlow = {
 	superToken: string;

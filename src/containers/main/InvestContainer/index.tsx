@@ -13,12 +13,15 @@ import { connectWeb3Modal, startFlowAction, stopFlowAction } from 'store/main/ac
 import styles from './styles.module.scss';
 import { InteractiveStreamManager } from '../InteractiveStreamManager';
 import { TabPanel } from './TabPanel';
-import { InvestMarket } from './InvestMarket';
 import { SignInButton } from 'components/banks/SignInButton';
 import { useRouteMatch } from 'react-router-dom';
-import { FlowTypes, RoutesToFlowTypes } from 'constants/flowConfig';
+import { FlowTypes, indexIDA, RoutesToFlowTypes } from 'constants/flowConfig';
 import { TradeHistoryTable } from '../TradeHistory';
 import { TabLabel } from './TabLabel';
+import { Markets } from './Markets';
+import { useQuery } from '@apollo/client';
+import { GET_DISTRIBUTIONS, GET_STREAMS } from './data/queries';
+import type { ConfigType } from 'types/config';
 
 export enum TABS {
 	'MARKETS',
@@ -39,15 +42,50 @@ export const InvestContainer: React.FC<IProps> = () => {
 	const [currentTab, setCurrentTab] = useState<TABS>(TABS.MARKETS);
 	const switchTab = (evt: React.SyntheticEvent, tab: TABS) => setCurrentTab(tab);
 
+	const list = indexIDA.filter((ida) => ida.type === flowType);
+
+	const exchangeAddresses = list.map((ida) => ida.exchangeAddress.toLowerCase());
+
+	// query streams.
+	const {
+		loading: queryingStreams,
+		error: queryStreamError,
+		data: streamsData,
+	} = useQuery(GET_STREAMS, {
+		skip: !address || !exchangeAddresses.length,
+		variables: {
+			sender: address.toLowerCase(),
+			receivers: [...exchangeAddresses],
+		},
+	});
+
+	// query distributions.
+	const {
+		loading: queryingDistribution,
+		error: queryDistributionError,
+		data: distributionsData,
+	} = useQuery(GET_DISTRIBUTIONS, {
+		skip: !streamsData,
+		variables: {
+			subscriber: address.toLowerCase(),
+			updatedAtTimestamps: streamsData?.streams.length
+				? streamsData?.streams.map((stream: any) => stream.updatedAtTimestamp)
+				: [],
+		},
+	});
+
+	const loading = queryingStreams || queryingDistribution;
+	const error = queryStreamError || queryDistributionError;
+
 	const handleStart = useCallback(
-		(config: { [key: string]: string }) => (amount: string, callback: (e?: string) => void) => {
+		(config: ConfigType) => (amount: string, callback: (e?: string) => void) => {
 			dispatch(startFlowAction(amount, config, callback));
 		},
 		[dispatch],
 	);
 
 	const handleStop = useCallback(
-		(config: { [key: string]: string }) => (callback: (e?: string) => void) => {
+		(config: ConfigType) => (callback: (e?: string) => void) => {
 			dispatch(stopFlowAction(config, callback));
 		},
 		[dispatch],
@@ -101,7 +139,18 @@ export const InvestContainer: React.FC<IProps> = () => {
 								</Tabs>
 							</Box>
 							<TabPanel index={TABS.MARKETS} tab={currentTab}>
-								<InvestMarket handleStart={handleStart} handleStop={handleStop} />
+								{/* <InvestMarket handleStart={handleStart} handleStop={handleStop} /> */}
+								{/* `flowType` is `market`. */}
+								<Markets
+									loading={loading}
+									error={error}
+									streamsData={streamsData}
+									distributionsData={distributionsData}
+									list={list}
+									flowType={FlowTypes.market}
+									handleStart={handleStart}
+									handleStop={handleStop}
+								/>
 							</TabPanel>
 							<TabPanel index={TABS.STREAMS} tab={currentTab}>
 								{address ? (
@@ -124,9 +173,20 @@ export const InvestContainer: React.FC<IProps> = () => {
 								)}
 							</TabPanel>
 						</Box>
-					) : (
-						<InvestMarket handleStart={handleStart} handleStop={handleStop} />
-					)}
+					) : flowType === FlowTypes.launchpad ? (
+						// <InvestMarket handleStart={handleStart} handleStop={handleStop} />
+						// `flowType` is `launchpad`
+						<Markets
+							loading={loading}
+							error={error}
+							streamsData={streamsData}
+							distributionsData={distributionsData}
+							list={list}
+							flowType={FlowTypes.launchpad}
+							handleStart={handleStart}
+							handleStop={handleStop}
+						/>
+					) : null}
 				</div>
 
 				<div>
