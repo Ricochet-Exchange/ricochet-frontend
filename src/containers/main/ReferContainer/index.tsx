@@ -3,7 +3,6 @@ import { TextInput } from 'components/common/TextInput';
 import { useLang } from 'hooks/useLang';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
-import { InvestNav } from 'components/layout/InvestNav';
 import { rexReferralAddress } from 'constants/polygon_config';
 import { getContract } from 'utils/getContract';
 import { referralABI } from 'constants/abis';

@@ -1,7 +1,6 @@
 import { RICAddress } from 'constants/polygon_config';
 import { UpgradeContainer } from 'containers/main/UpgradeContainer';
 import { useShallowSelector } from 'hooks/useShallowSelector';
-import { InvestNav } from 'components/layout/InvestNav';
 import React, { FC } from 'react';
 import { selectMain } from 'store/main/selectors';
 import { useTranslation } from 'react-i18next';

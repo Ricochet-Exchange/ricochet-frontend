@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { UserSettings } from 'components/layout/UserSettings';
-import { InvestNav } from 'components/layout/InvestNav';
 import { useTranslation } from 'react-i18next';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
