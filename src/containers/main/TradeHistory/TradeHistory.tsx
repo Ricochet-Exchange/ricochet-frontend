@@ -11,10 +11,12 @@ import TableRow from '@mui/material/TableRow';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import styles from './styles.module.scss';
 import { indexIDA } from 'constants/flowConfig';
-import { GET_DISTRIBUTIONS, GET_STREAMS_CREATED, GET_STREAMS_TERMINATED } from './data/queries';
+import { GET_DISTRIBUTIONS, GET_STREAMS_CREATED, GET_STREAMS_TERMINATED, GET_STREAM_PERIODS } from './data/queries';
 import type { Column, Data } from './types';
 import { EnhancedTableHead } from './EnhancedTableHead';
 import { Content } from './Content';
+import { Coin } from 'constants/coins';
+import { ethers } from 'ethers';
 
 const columns: Column[] = [
 	{
@@ -97,6 +99,20 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		},
 	});
 
+	const {
+		loading: queryingStreamPeriods,
+		error: queryStreamPeriodsError,
+		data: streamPeriods,
+	} = useQuery(GET_STREAM_PERIODS, {
+		skip: queryingTerminatedStreams,
+		variables: {
+			id_in:
+				terminatedStreams && terminatedStreams.streams.length
+					? [...terminatedStreams.streams].map((data) => data.stream.id)
+					: [],
+		},
+	});
+
 	// 3-2. query streams by `created` to get its transactionHash.
 	const {
 		loading: queryingCreatedStreams,
@@ -145,16 +161,17 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		setPage(0);
 	};
 
-	if (queryingTerminatedStreams || queryingCreatedStreams || queryingDistributions) {
+	if (queryingTerminatedStreams || queryingStreamPeriods || queryingCreatedStreams || queryingDistributions) {
 		return <Skeleton animation="wave" width={'100%'} height={80} />;
 	}
 
-	if (queryTerminatedStreamsError || queryCreatedStreamsError || queryDistributionsError) {
+	if (queryTerminatedStreamsError || queryStreamPeriodsError || queryCreatedStreamsError || queryDistributionsError) {
 		return <div>Something wrong when fetching trades history.</div>;
 	}
 
 	if (
 		!terminatedStreams.streams.length ||
+		!streamPeriods.streamPeriods.length ||
 		!createdStreams.streams.length ||
 		!distributionsData.distributions.length
 	) {
@@ -162,71 +179,100 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 	}
 
 	const rows: Data[] = [];
-	const newStreamsData = [];
+	// const newStreamsData = [];
+	const data = [...streamPeriods.streamPeriods];
 
-	for (let i = 0; i < terminatedStreams.streams.length; i += 1) {
-		const terminatedStream = terminatedStreams.streams[i];
-		const createdStream = createdStreams.streams.find(
-			(data: any) =>
-				data.flowUpdatedEvents[0].stream.createdAtTimestamp === terminatedStream.stream.createdAtTimestamp,
-		);
-		if (!createdStream) continue;
-		const data = {
-			timestamp: {
-				createdAt: terminatedStream.stream.createdAtTimestamp,
-				terminatedAt: terminatedStream.stream.updatedAtTimestamp,
-			},
-			totalAmountStreamedUntilTimestamp: terminatedStream.totalAmountStreamedUntilTimestamp,
-			transactionHash: {
-				created: createdStream.flowUpdatedEvents[0].transactionHash,
-				terminated: terminatedStream.transactionHash,
-			},
-			token: { ...terminatedStream.stream.token },
-			receiver: terminatedStream.receiver,
-		};
-		newStreamsData.push(data);
-	}
-
-	// Exclude subsidy token.
-	for (let i = 0; i < newStreamsData.length; i++) {
-		const data = newStreamsData[i];
-		// find specific market.
-		const market = indexIDA.find(
-			(ida) => ida.input.toLowerCase() === data.token.id && ida.exchangeAddress.toLowerCase() === data.receiver,
-		);
-		// must can find a specific market by input token and exchange address.
-		if (!market) continue;
-		const distribution = distributionsData.distributions.find(
-			(d: any) =>
-				d.updatedAtTimestamp === data.timestamp.terminatedAt &&
-				d.index.token.id === market.output.toLowerCase(),
-		);
-		if (!distribution) continue;
+	for (let i = 0; i < data.length; i++) {
+		const streamPeriod = data[i];
 
 		const row: Data = {
-			startDate: Number(data.timestamp.createdAt) * 1e3,
-			endDate: Number(data.timestamp.terminatedAt) * 1e3,
+			startDate: Number(streamPeriod.startedAtTimestamp) * 1e3,
+			endDate: Number(streamPeriod.stoppedAtTimestamp) * 1e3,
 			input: {
-				coin: data.token.symbol,
-				amount: Number(data.totalAmountStreamedUntilTimestamp) / 1e18,
+				coin: streamPeriod.token.symbol,
+				amount: Number(ethers.utils.formatEther(streamPeriod.totalAmountStreamed)),
 				price: 0,
-				txn: data.transactionHash.created,
+				txn: '',
 			},
 			output: {
-				coin: distribution.index.token.symbol,
-				amount: Number(distribution.totalAmountReceivedUntilUpdatedAt) / 1e18,
+				coin: '' as Coin,
+				amount: 0,
 				price: 0,
-				txn: data.transactionHash.terminated,
+				txn: '',
 			},
 			pnl: {
 				amount: 0,
 				percent: 0,
 			},
-			updatedAtBlockNumber: Number(distribution.updatedAtBlockNumber),
+			updatedAtBlockNumber: 0,
 		};
 
 		rows.push(row);
 	}
+
+	// for (let i = 0; i < terminatedStreams.streams.length; i += 1) {
+	// 	const terminatedStream = terminatedStreams.streams[i];
+	// 	const createdStream = createdStreams.streams.find(
+	// 		(data: any) =>
+	// 			data.flowUpdatedEvents[0].stream.createdAtTimestamp === terminatedStream.stream.createdAtTimestamp,
+	// 	);
+	// 	if (!createdStream) continue;
+	// 	const data = {
+	// 		timestamp: {
+	// 			createdAt: terminatedStream.stream.createdAtTimestamp,
+	// 			terminatedAt: terminatedStream.stream.updatedAtTimestamp,
+	// 		},
+	// 		totalAmountStreamedUntilTimestamp: terminatedStream.totalAmountStreamedUntilTimestamp,
+	// 		transactionHash: {
+	// 			created: createdStream.flowUpdatedEvents[0].transactionHash,
+	// 			terminated: terminatedStream.transactionHash,
+	// 		},
+	// 		token: { ...terminatedStream.stream.token },
+	// 		receiver: terminatedStream.receiver,
+	// 	};
+	// 	newStreamsData.push(data);
+	// }
+
+	// Exclude subsidy token.
+	// for (let i = 0; i < newStreamsData.length; i++) {
+	// 	const data = newStreamsData[i];
+	// 	// find specific market.
+	// 	const market = indexIDA.find(
+	// 		(ida) => ida.input.toLowerCase() === data.token.id && ida.exchangeAddress.toLowerCase() === data.receiver,
+	// 	);
+	// 	// must can find a specific market by input token and exchange address.
+	// 	if (!market) continue;
+	// 	const distribution = distributionsData.distributions.find(
+	// 		(d: any) =>
+	// 			d.updatedAtTimestamp === data.timestamp.terminatedAt &&
+	// 			d.index.token.id === market.output.toLowerCase(),
+	// 	);
+	// 	if (!distribution) continue;
+
+	// 	const row: Data = {
+	// 		startDate: Number(data.timestamp.createdAt) * 1e3,
+	// 		endDate: Number(data.timestamp.terminatedAt) * 1e3,
+	// 		input: {
+	// 			coin: data.token.symbol,
+	// 			amount: Number(data.totalAmountStreamedUntilTimestamp) / 1e18,
+	// 			price: 0,
+	// 			txn: data.transactionHash.created,
+	// 		},
+	// 		output: {
+	// 			coin: distribution.index.token.symbol,
+	// 			amount: Number(distribution.totalAmountReceivedUntilUpdatedAt) / 1e18,
+	// 			price: 0,
+	// 			txn: data.transactionHash.terminated,
+	// 		},
+	// 		pnl: {
+	// 			amount: 0,
+	// 			percent: 0,
+	// 		},
+	// 		updatedAtBlockNumber: Number(distribution.updatedAtBlockNumber),
+	// 	};
+
+	// 	rows.push(row);
+	// }
 
 	return (
 		<Paper sx={{ width: '100%', overflow: 'hidden' }}>

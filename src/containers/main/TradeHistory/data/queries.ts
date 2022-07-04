@@ -32,6 +32,7 @@ export const GET_STREAMS_TERMINATED = gql`
 		) {
 			type
 			stream {
+				id
 				createdAtTimestamp
 				streamedUntilUpdatedAt
 				updatedAtTimestamp
@@ -45,6 +46,19 @@ export const GET_STREAMS_TERMINATED = gql`
 			totalAmountStreamedUntilTimestamp
 			transactionHash
 			id
+		}
+	}
+`;
+
+export const GET_STREAM_PERIODS = gql`
+	query Get_Stream_Periods($id_in: [ID!] = "") {
+		streamPeriods(where: { stream_: { id_in: $id_in } }, orderBy: startedAtTimestamp, orderDirection: desc) {
+			startedAtTimestamp
+			stoppedAtTimestamp
+			totalAmountStreamed
+			token {
+				symbol
+			}
 		}
 	}
 `;
