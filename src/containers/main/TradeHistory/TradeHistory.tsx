@@ -11,7 +11,12 @@ import TableRow from '@mui/material/TableRow';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import styles from './styles.module.scss';
 import { indexIDA } from 'constants/flowConfig';
-import { GET_DISTRIBUTIONS, GET_STREAMS_CREATED, GET_STREAMS_TERMINATED, GET_STREAM_PERIODS } from './data/queries';
+import {
+	GET_DISTRIBUTIONS,
+	GET_STREAMS_CREATED,
+	GET_STREAMS_WITH_FLOW_UPDATED_EVENTS,
+	GET_STREAM_PERIODS,
+} from './data/queries';
 import type { Column, Data } from './types';
 import { EnhancedTableHead } from './EnhancedTableHead';
 import { Content } from './Content';
@@ -87,12 +92,12 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
 
-	// 3-1. query streams by `terminated` type first, because trading history page needs.
+	// 3-1. query all streams with transaction hash.
 	const {
-		loading: queryingTerminatedStreams,
-		error: queryTerminatedStreamsError,
-		data: terminatedStreams,
-	} = useQuery(GET_STREAMS_TERMINATED, {
+		loading: queryingStreams,
+		error: queryStreamsError,
+		data: streams,
+	} = useQuery(GET_STREAMS_WITH_FLOW_UPDATED_EVENTS, {
 		variables: {
 			sender: address.toLowerCase(),
 			receivers: [...exchangeAddresses],
@@ -104,11 +109,11 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		error: queryStreamPeriodsError,
 		data: streamPeriods,
 	} = useQuery(GET_STREAM_PERIODS, {
-		skip: queryingTerminatedStreams,
+		skip: queryingStreams,
 		variables: {
 			id_in:
-				terminatedStreams && terminatedStreams.streams.length
-					? [...new Set([...terminatedStreams.streams].map((data) => data.stream.id))]
+				streams && streams.streams.length
+					? [...new Set([...streams.streams].map((data) => data.stream.id))]
 					: [],
 		},
 	});
@@ -119,13 +124,13 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		error: queryCreatedStreamsError,
 		data: createdStreams,
 	} = useQuery(GET_STREAMS_CREATED, {
-		skip: queryingTerminatedStreams,
+		skip: queryingStreams,
 		variables: {
 			sender: address.toLowerCase(),
 			receivers: [...exchangeAddresses],
 			createdAtTimestamps:
-				terminatedStreams && terminatedStreams.streams.length
-					? [...terminatedStreams.streams].map((data) => data.stream.createdAtTimestamp)
+				streams && streams.streams.length
+					? [...streams.streams].map((data) => data.stream.createdAtTimestamp)
 					: [],
 		},
 	});
@@ -161,16 +166,16 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		setPage(0);
 	};
 
-	if (queryingTerminatedStreams || queryingStreamPeriods || queryingCreatedStreams || queryingDistributions) {
+	if (queryingStreams || queryingStreamPeriods || queryingCreatedStreams || queryingDistributions) {
 		return <Skeleton animation="wave" width={'100%'} height={80} />;
 	}
 
-	if (queryTerminatedStreamsError || queryStreamPeriodsError || queryCreatedStreamsError || queryDistributionsError) {
+	if (queryStreamsError || queryStreamPeriodsError || queryCreatedStreamsError || queryDistributionsError) {
 		return <div>Something wrong when fetching trades history.</div>;
 	}
 
 	if (
-		!terminatedStreams.streams.length ||
+		!streams.streams.length ||
 		!streamPeriods.streamPeriods.length ||
 		!createdStreams.streams.length ||
 		!distributionsData.distributions.length

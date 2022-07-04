@@ -22,8 +22,8 @@ export const GET_STREAMS_CREATED = gql`
 	}
 `;
 
-export const GET_STREAMS_TERMINATED = gql`
-	query GetStreamsTerminated($sender: String!, $receivers: [String!]!) {
+export const GET_STREAMS_WITH_FLOW_UPDATED_EVENTS = gql`
+	query GetStreamsWithFlowUpdatedEvents($sender: String!, $receivers: [String!]!) {
 		streams: flowUpdatedEvents(
 			where: { sender: $sender, receiver_in: $receivers }
 			orderBy: timestamp
