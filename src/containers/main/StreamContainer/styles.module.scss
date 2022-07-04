@@ -1,3 +1,5 @@
+@import '../../../assets/styles/mixins';
+
 @media screen and (min-width: 786px) {
  
   .stream_form_container{
@@ -31,7 +33,7 @@
     width: 70%;
     margin-left: 15%;
     font-size: medium;
-    color: rgb(69, 68, 68);
+    color: rgb(202, 201, 201);
   }
 
   .stream_button{
@@ -116,6 +118,7 @@
     font-size: large;
     margin-top: 6em;
   }
+
 }
 
 @media screen and (max-width: 786px) {
@@ -129,28 +132,11 @@
     color: white;
     font-weight: bold;
   }
-  .recent_btn{
-    height: 5vh;
-    border: none;
-    padding-left: 1em;
-    padding-right: 1em;
-    position: absolute;
-    top: 1em;
-    border: none;
-    // z-index: 102;
-    background-color: #2775CA;
-    color: white;
-    font-weight: 600;
-    border-radius: 12px;
-    left: 1em;
-    box-shadow: 2px 2px lightgray;
-  }
+
   .stream_panel_container{
     // z-index: 100;
     height: 600px;
-    width: 100vw;
-    background-color: #f5f7fa;
-    border-radius: 12px;
+    background-color: $dark-mode-bg;
     position: relative;
     // top: 20vh;
     // left: 5vw;

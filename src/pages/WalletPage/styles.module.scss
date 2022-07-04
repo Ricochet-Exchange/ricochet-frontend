@@ -1,19 +1,16 @@
 @import '../../assets/styles/mixins';
 
 .content_special {
-  position: relative;
-  background-color: #363b55;
+  background-color: $dark-mode-bg;
   width: 100%;
   height: 100%;
-  display: grid;
-  grid-template-columns: 10VW 1fr;;
+  color: lightgray;
   @include tablet {
     border-radius: 0;
   }
 
   .wallet{
-    border-radius: 50px 0px 0px 0px;
-    background-color: white;
+    margin-left: 12vw;
     min-height: 100vh;
   }
 }
@@ -25,10 +22,11 @@
   .content_special {
     border-radius: 0px 0px 0px 0px;
     grid-template-columns: 1fr;
-    
     .wallet{
       border-radius: 0px 0px 0px 0px;
-      background-color: white;
+      background-color: $dark-mode-bg;
+      margin-left: 0vw;
+      min-height: 100vh;
     }
   }
   

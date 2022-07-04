@@ -6,7 +6,7 @@
 
 .wrap {
   height: 4vh;
-  color: rgb(45, 45, 45);
+  color: lightgray;
   text-decoration: none;
   display: flex;
   justify-content: center;
@@ -15,7 +15,7 @@
   width: auto;
 
   &:hover {
-    color: rgb(45, 45, 45);
+    color: lightgray;
   }
     @include tablet {
         padding-top: 0em;

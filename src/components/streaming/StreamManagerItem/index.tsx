@@ -119,11 +119,11 @@ export const StreamManagerItem: FC<IProps> = ({
 			</div>
 
 			<h3 className={styles.currentFlowRate}>
-				{`${TokenSymbol}  `}
 				<strong>{`${streamValue.toFixed(2)}  `}</strong>
+				{`${TokenSymbol}  `}
 				per month
 				<br />
-				<i style={{ color: 'gray', marginTop: '10px' }}>
+				<i style={{ color: 'lightblue', marginTop: '10px' }}>
 					{`${(+currentFlowRate / 1e18).toFixed(8)} per second`}
 				</i>
 			</h3>

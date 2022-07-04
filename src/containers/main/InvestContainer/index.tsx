@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { UserSettings } from 'components/layout/UserSettings';
-import { InvestNav } from 'components/layout/InvestNav';
 import { useTranslation } from 'react-i18next';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
@@ -59,7 +58,6 @@ export const InvestContainer: React.FC<IProps> = () => {
 
 	return (
 		<div className={styles.outer_container}>
-			<InvestNav />
 			<div className={styles.settings_mob}>
 				<UserSettings
 					className={styles.dot}
@@ -84,7 +82,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 										label="Markets"
 										id={`${TABS.MARKETS}`}
 										aria-controls={`tabpanel-${TABS.MARKETS}`}
-										sx={{ textTransform: 'none' }}
+										sx={{ textTransform: 'none', color: 'white' }}
 									/>
 									<Tab
 										label={<TabLabel labelContent="Streams" />}
