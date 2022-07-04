@@ -25,7 +25,7 @@ export const GET_STREAMS_CREATED = gql`
 export const GET_STREAMS_TERMINATED = gql`
 	query GetStreamsTerminated($sender: String!, $receivers: [String!]!) {
 		streams: flowUpdatedEvents(
-			where: { sender: $sender, receiver_in: $receivers, type: 2 }
+			where: { sender: $sender, receiver_in: $receivers }
 			orderBy: timestamp
 			orderDirection: desc
 			first: 100
@@ -52,7 +52,11 @@ export const GET_STREAMS_TERMINATED = gql`
 
 export const GET_STREAM_PERIODS = gql`
 	query Get_Stream_Periods($id_in: [ID!] = "") {
-		streamPeriods(where: { stream_: { id_in: $id_in } }, orderBy: startedAtTimestamp, orderDirection: desc) {
+		streamPeriods(
+			where: { stream_: { id_in: $id_in }, stoppedAtTimestamp_not: null }
+			orderBy: startedAtTimestamp
+			orderDirection: desc
+		) {
 			startedAtTimestamp
 			stoppedAtTimestamp
 			totalAmountStreamed

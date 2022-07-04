@@ -108,7 +108,7 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		variables: {
 			id_in:
 				terminatedStreams && terminatedStreams.streams.length
-					? [...terminatedStreams.streams].map((data) => data.stream.id)
+					? [...new Set([...terminatedStreams.streams].map((data) => data.stream.id))]
 					: [],
 		},
 	});
