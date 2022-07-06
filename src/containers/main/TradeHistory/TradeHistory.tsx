@@ -135,19 +135,19 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		},
 	});
 
-	// 3-3. query distribution data finally.
+	// find all distribution ids.
 	const {
 		loading: queryingDistributions,
 		error: queryDistributionsError,
 		data: distributionsData,
 	} = useQuery(GET_DISTRIBUTIONS, {
-		skip: queryingCreatedStreams,
+		// skip: queryingCreatedStreams,
 		variables: {
 			subscriber: address.toLowerCase(),
-			updatedAtTimestamps:
-				createdStreams && createdStreams.streams.length
-					? [...createdStreams.streams].map((data) => data.flowUpdatedEvents[0].stream.updatedAtTimestamp)
-					: [],
+			// updatedAtTimestamps:
+			// 	createdStreams && createdStreams.streams.length
+			// 		? [...createdStreams.streams].map((data) => data.flowUpdatedEvents[0].stream.updatedAtTimestamp)
+			// 		: [],
 		},
 	});
 
@@ -166,6 +166,8 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		setPage(0);
 	};
 
+	return <div>TODO</div>;
+
 	if (queryingStreams || queryingStreamPeriods || queryingCreatedStreams || queryingDistributions) {
 		return <Skeleton animation="wave" width={'100%'} height={80} />;
 	}
@@ -174,11 +176,16 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		return <div>Something wrong when fetching trades history.</div>;
 	}
 
+	const newD = distributionsData.distributions.filter((distribution: any) =>
+		exchangeAddresses.includes(distribution.index.publisher.id),
+	);
+	console.log(newD);
+
 	if (
 		!streams.streams.length ||
 		!streamPeriods.streamPeriods.length ||
 		!createdStreams.streams.length ||
-		!distributionsData.distributions.length
+		!newD.length
 	) {
 		return <div>You have no trades.</div>;
 	}
@@ -189,10 +196,11 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 
 	for (let i = 0; i < data.length; i++) {
 		const streamPeriod = data[i];
+		// console.log(streamPeriod);
 
 		const row: Data = {
-			startDate: Number(streamPeriod.startedAtTimestamp) * 1e3,
-			endDate: Number(streamPeriod.stoppedAtTimestamp) * 1e3,
+			startDate: streamPeriod.startedAtTimestamp,
+			endDate: streamPeriod.stoppedAtTimestamp,
 			input: {
 				coin: streamPeriod.token.symbol,
 				amount: Number(ethers.utils.formatEther(streamPeriod.totalAmountStreamed)),
@@ -210,7 +218,10 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 				percent: 0,
 			},
 			updatedAtBlockNumber: 0,
+			exchangeAddress: streamPeriod.receiver.id,
 		};
+
+		// console.log(row.exchangeAddress)
 
 		rows.push(row);
 	}
@@ -299,7 +310,22 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 										{columns.map((column) => {
 											return (
 												<TableCell key={column.id} align={column.align}>
-													<Content id={column.id} row={row} />{' '}
+													<Content
+														id={column.id}
+														row={row}
+														index={
+															newD.find((distribution: any) => {
+																console.log(
+																	distribution.index.publisher.id,
+																	row.exchangeAddress,
+																);
+																return (
+																	distribution.index.publisher.id ===
+																	row.exchangeAddress
+																);
+															})?.index.id
+														}
+													/>{' '}
 													{column.id === 'startDate' ? (
 														<a
 															href={`https://polygonscan.com/tx/${row.input.txn}`}

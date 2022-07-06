@@ -12,8 +12,8 @@ export interface Column {
 }
 
 export interface Data {
-	startDate: number;
-	endDate: number;
+	startDate: string;
+	endDate: string;
 	input: {
 		coin: Coin;
 		amount: number;
@@ -33,4 +33,5 @@ export interface Data {
 		percent: number;
 	};
 	updatedAtBlockNumber: number;
+	exchangeAddress: string;
 }

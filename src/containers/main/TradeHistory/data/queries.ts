@@ -25,27 +25,24 @@ export const GET_STREAMS_CREATED = gql`
 export const GET_STREAMS_WITH_FLOW_UPDATED_EVENTS = gql`
 	query GetStreamsWithFlowUpdatedEvents($sender: String!, $receivers: [String!]!) {
 		streams: flowUpdatedEvents(
-			where: { sender: $sender, receiver_in: $receivers }
+			where: { receiver_in: $receivers, sender: $sender }
 			orderBy: timestamp
 			orderDirection: desc
-			first: 100
 		) {
-			type
 			stream {
-				id
-				createdAtTimestamp
-				streamedUntilUpdatedAt
-				updatedAtTimestamp
-				token {
-					symbol
-					id
+				streamPeriods(
+					where: { stoppedAtTimestamp_not: null }
+					orderBy: startedAtTimestamp
+					orderDirection: desc
+				) {
+					startedAtTimestamp
+					stoppedAtTimestamp
+					token {
+						symbol
+					}
+					totalAmountStreamed
 				}
 			}
-			receiver
-			timestamp
-			totalAmountStreamedUntilTimestamp
-			transactionHash
-			id
 		}
 	}
 `;
@@ -57,6 +54,9 @@ export const GET_STREAM_PERIODS = gql`
 			orderBy: startedAtTimestamp
 			orderDirection: desc
 		) {
+			receiver {
+				id
+			}
 			startedAtTimestamp
 			stoppedAtTimestamp
 			totalAmountStreamed
@@ -68,10 +68,10 @@ export const GET_STREAM_PERIODS = gql`
 `;
 
 export const GET_DISTRIBUTIONS = gql`
-	query GetUserDistributionSubscriptions($subscriber: String!, $updatedAtTimestamps: [String!]!) {
+	query GetUserDistributionSubscriptions($subscriber: String!) {
 		distributions: indexSubscriptions(
 			first: 1000
-			where: { subscriber: $subscriber, updatedAtTimestamp_in: $updatedAtTimestamps }
+			where: { subscriber: $subscriber }
 			orderBy: createdAtTimestamp
 			orderDirection: desc
 		) {
@@ -84,6 +84,7 @@ export const GET_DISTRIBUTIONS = gql`
 			indexValueUntilUpdatedAt
 			units
 			index {
+				id
 				publisher {
 					id
 				}
@@ -99,6 +100,18 @@ export const GET_DISTRIBUTIONS = gql`
 					symbol
 				}
 			}
+		}
+	}
+`;
+
+export const GET_INDEX_VALUES = gql`
+	query GetIndexValues($index: String!, $timestamp_gte: BigInt, $timestamp_lte: BigInt) {
+		indexUpdatedEvents(
+			where: { index: $index, timestamp_gte: $timestamp_gte, timestamp_lte: $timestamp_lte }
+			first: 1000
+		) {
+			newIndexValue
+			oldIndexValue
 		}
 	}
 `;
