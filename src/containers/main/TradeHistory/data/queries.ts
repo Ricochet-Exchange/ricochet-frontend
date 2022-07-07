@@ -29,20 +29,22 @@ export const GET_STREAMS_WITH_FLOW_UPDATED_EVENTS = gql`
 			orderBy: timestamp
 			orderDirection: desc
 		) {
+			type
 			stream {
-				streamPeriods(
-					where: { stoppedAtTimestamp_not: null }
-					orderBy: startedAtTimestamp
-					orderDirection: desc
-				) {
-					startedAtTimestamp
-					stoppedAtTimestamp
-					token {
-						symbol
-					}
-					totalAmountStreamed
+				id
+				createdAtTimestamp
+				streamedUntilUpdatedAt
+				updatedAtTimestamp
+				token {
+					symbol
+					id
 				}
 			}
+			receiver
+			timestamp
+			totalAmountStreamedUntilTimestamp
+			transactionHash
+			id
 		}
 	}
 `;

@@ -165,9 +165,6 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		setRowsPerPage(+event.target.value);
 		setPage(0);
 	};
-
-	return <div>TODO</div>;
-
 	if (queryingStreams || queryingStreamPeriods || queryingCreatedStreams || queryingDistributions) {
 		return <Skeleton animation="wave" width={'100%'} height={80} />;
 	}

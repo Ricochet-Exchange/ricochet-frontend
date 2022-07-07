@@ -3,6 +3,9 @@ import dayjs from 'dayjs';
 import type { ColumnName, Data } from './types';
 import { queryQuickSwapPoolPriceByBlock, querySushiSwapPoolPriceByBlock } from 'api';
 import styled from '@emotion/styled';
+import { useQuery } from '@apollo/client';
+import Skeleton from '@mui/material/Skeleton';
+import { GET_INDEX_VALUES } from './data/queries';
 
 export const Container = styled.div`
 	display: flex;
@@ -237,9 +240,10 @@ const map: T[] = [
 type ContentProps = {
 	id: ColumnName;
 	row: Data;
+	index: string;
 };
 
-export function Content({ id, row }: ContentProps) {
+export function Content({ id, row, index }: ContentProps) {
 	const [inputUsdAmount, setInputUsdAmount] = useState(0);
 	const [outputUsdAmount, setOutputUsdAmount] = useState(0);
 	const [pnl, setPnl] = useState({ ...row.pnl });
@@ -304,15 +308,37 @@ export function Content({ id, row }: ContentProps) {
 		};
 	}, [row]);
 
+	const { loading, error, data } = useQuery(GET_INDEX_VALUES, {
+		skip: !index,
+		variables: {
+			index: '0x86c2b55bf5d3e9dac2747389b38d41c6b1f34179-0xcaa7349cea390f89641fe306d93591f87595dc1f-0',
+			timestamp_gte: row.startDate,
+			timestamp_lte: row.endDate,
+		},
+	});
+
+	if (loading) return <Skeleton animation="wave" width={'100%'} height={54} />;
+	if (error) return <p>Error :</p>;
+
+	if (data) {
+		const amount = data.indexUpdatedEvents.reduce(
+			(a: any, b: any) => {
+				return a + Number(b.newIndexValue) - Number(b.oldIndexValue);
+			},
+			[0],
+		);
+		row.output.amount = amount;
+	}
+
 	let content;
 
 	switch (id) {
 		case 'startDate':
-			content = dayjs(Number(row.startDate)).format('DD/MM/YY');
+			content = dayjs(Number(row.startDate) * 1e3).format('DD/MM/YY');
 			break;
 
 		case 'endDate':
-			content = dayjs(Number(row.endDate)).format('DD/MM/YY');
+			content = dayjs(Number(row.endDate) * 1e3).format('DD/MM/YY');
 			break;
 
 		case 'Input':
@@ -330,7 +356,7 @@ export function Content({ id, row }: ContentProps) {
 				<Container>
 					<Wrapper>{`${row.output.coin}`}</Wrapper>
 					<Wrapper>{`$${row.output.price.toFixed(4)}`}</Wrapper>
-					<Wrapper>{`${row.output.amount.toFixed(6)}`}</Wrapper>
+					<Wrapper>{typeof row.output.amount === 'number' ? `${row.output.amount.toFixed(6)}` : '-'}</Wrapper>
 					<Wrapper>{`$${outputUsdAmount.toFixed(4)}`}</Wrapper>
 				</Container>
 			);
