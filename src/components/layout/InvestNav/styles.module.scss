@@ -13,14 +13,14 @@
 
   .nav_container {
     position: fixed;
-    top:15vh;
+    top:100px;
     left: 0;
     @include flexbox(flex-start, flex-start);
     flex-direction: column;
     text-align: left;
     flex-shrink: 1;
-    background-color: #363b55;
-    width: 10vw;
+    background: $dark-mode-bg-2;
+    width: 12vw;
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -150,6 +150,8 @@
   .nav_container {
     display: flex;
     min-width: 100%;
+    
+    background-color: $dark-mode-bg-2;
     padding-top: 0em;
     height: 100%;
     overflow-x: scroll;
@@ -177,7 +179,6 @@
     flex-direction: row;
     flex-wrap: wrap;
     text-align: left;
-    background-color: #363b55;
     flex-wrap: nowrap;
   }
 

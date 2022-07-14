@@ -3,8 +3,8 @@
   @include flexbox(flex-start, center);
   flex-direction: column;
   border-radius: 10px;
-  background: var(--color-blue-light);
-  color: var(--color-black-dark);
+  background: $dark-mode-bg-2;
+  color: white;
   width: 100%;
   font-size: 14px;
   @include tablet {
@@ -54,7 +54,7 @@
   @include flexbox(center, center);
 
   flex-direction: column;
-  color: var(--color-white);
+  color: lightgray;
   flex: 1;
   width: 100%;
 
@@ -77,7 +77,7 @@
 
 .direction_label {
   min-width: 20%;
-  color: black;
+  color: white;
   text-align: right;
   padding: 3px 6px 0px 0px;
   font-style: normal;
@@ -137,7 +137,7 @@
   font-style: normal;
   font-size: 12px;
   line-height: 100%;
-  color: var(--color-grey);
+  color: rgb(212, 204, 204);
   padding-bottom: 15px;
 
   @include tablet {
@@ -149,7 +149,7 @@
   font-style: normal;
   font-size: 12px;
   line-height: 100%;
-  color: var(--color-grey);
+  color: lightblue;
 }
 
 .coin {

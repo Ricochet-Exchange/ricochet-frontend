@@ -3,7 +3,6 @@ import { Framework, IStreamFlowUpdatedEvent } from '@superfluid-finance/sdk-core
 import * as Sentry from '@sentry/react';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
-import { InvestNav } from 'components/layout/InvestNav';
 import type { ActivityEvents } from 'types/activity';
 import { SignInButton } from 'components/banks/SignInButton';
 import { useDispatch } from 'react-redux';
@@ -170,7 +169,6 @@ export const RecentActivityContainer: FC = () => {
 
 	return (
 		<div>
-			<InvestNav />
 			<div className={styles.container}>
 				<Wrapper />
 			</div>

@@ -3,7 +3,6 @@ import { TextInput } from 'components/common/TextInput';
 import { useLang } from 'hooks/useLang';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
-import { InvestNav } from 'components/layout/InvestNav';
 import { rexReferralAddress } from 'constants/polygon_config';
 import { getContract } from 'utils/getContract';
 import { referralABI } from 'constants/abis';
@@ -125,18 +124,14 @@ export const ReferContainer: React.FC<IProps> = () => {
 
 	if (!address) {
 		return (
-			<div className={styles.container_special}>
-				<InvestNav />
-				<div className={styles.container_explain}>
-					{t('You have to connect your wallet to be able to create referrals')}
-				</div>
+			<div className={styles.container_explain}>
+				{t('You have to connect your wallet to be able to create referrals')}
 			</div>
 		);
 	}
 
 	return (
 		<div className={styles.outer_container}>
-			<InvestNav />
 			<div className={styles.container}>
 				<div>
 					{referredBy ? (

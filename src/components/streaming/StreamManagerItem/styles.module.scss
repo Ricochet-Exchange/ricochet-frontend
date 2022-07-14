@@ -1,3 +1,5 @@
+@import "../../../assets/styles/mixins";
+
 .streamRow{
   border-radius: 12px;
   display: flex;
@@ -5,27 +7,29 @@
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  background-color: #EDF3FB;
+
+  background-color: $dark-mode-bg-2;
   padding: 1em;
   transition: 0.5s;
-
+  padding-left: 2.5em;
+  padding-right: 3.5em;
 }
 
 .receiver{
-  color: rgb(82, 82, 82);
+  color: white;
 }
 
 .currentFlow{
   font-size: small;
-  color: rgb(86, 86, 86);
+  color: $dark-mode-lightblue;
 }
 
 .outGoing{
-  color: #2775CA;
+  color:$dark-mode-lightblue;
 }
 
 strong{
-  color: rgba(160, 160, 160, 0.701)
+  color:$dark-mode-lightblue;
 }
 
 .change_flow_cancel{
@@ -72,17 +76,17 @@ strong{
   margin-top: 2em;
   bottom: 0;
   width: 30%;
-  color: #678EB5;
+  color: white;
 
   strong{
     font-size: large;
-    color: #363b55;
+    color: #5b9dc9;
   }
 }
 
 .currentFlowTime{
   font-size: small;
-  color: #7D8581;
+  color: #9ed0dd;
 }
 
 .updatePrompt{
@@ -94,17 +98,23 @@ strong{
   margin-left: 10;
   display: flex;
   flex-direction: row;
-  background-color: #d8dfe9;
+  background-color: #303030;
   padding-top: 1em;
+  color: white;
   padding-left: 3em;
   box-shadow: 4px 4px 4px rgb(89, 89, 89);
   border-radius: 12px;
-  border: 1px solid lightgray;
+  border: 1px solid rgb(99, 99, 99);
 }
 
 .update_buttons{
   display: flex;
   flex-direction: column;
+  padding-top: 1em;
+
+  .amount_change{
+    background-color: #2775CA;
+  }
 }
 
 .amount_container{
@@ -123,7 +133,7 @@ strong{
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-left: 1em;
+  margin-left: 2em;
   button{
     margin-top: 1em;
     height: 4vh;

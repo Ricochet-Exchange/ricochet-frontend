@@ -2,8 +2,8 @@
 
 .panel {
   border-radius: 10px;
-  background: var(--color-blue-light);
-  color: var(--color-black-dark);
+  background: $dark-mode-bg-2;
+  color: white;
   width: 100%;
   font-size: 14px;
   font-family: $default-font;
