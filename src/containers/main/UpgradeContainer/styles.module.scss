@@ -15,6 +15,9 @@
   border-collapse: collapse;
   overflow: hidden;
   width: 100%;
+  background-color: #2d3233;
+  margin-top: 5vh;
+  border-radius: 12px;
 }
 
 .blue {
@@ -84,7 +87,7 @@
   padding: 15px 15px 16px 12px;
   line-height: 25px;
   text-align: right;
-  border-right: 1px solid lightgray;
+  border-right: 1px solid rgb(138, 136, 136);
 }
 
 .dextable td.section {
@@ -188,11 +191,13 @@
 
 .wrapper {
   height: 100%;
+  padding: 2.5em;
   width: 100%;
   padding-top: 1vh;
   @include tablet {
     max-width: 100vw;
     height: 100%;
+    padding: 0em;
   }
 }
 
