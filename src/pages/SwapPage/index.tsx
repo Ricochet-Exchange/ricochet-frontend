@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import SwapContainer from 'containers/main/SwapContainer';
+import { SwapContainer } from 'containers/main/SwapContainer';
 import styles from './styles.module.scss';
 
 interface IProps {}
