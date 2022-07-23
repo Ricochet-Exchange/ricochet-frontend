@@ -1,0 +1,19 @@
+@import 'assets/styles/_mixins';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.row {
+  display: flex;
+  width: 70%;
+  padding: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
+.individual {
+  padding: 5px;
+}
