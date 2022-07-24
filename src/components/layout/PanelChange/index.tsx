@@ -82,6 +82,7 @@ export const PanelChange: FC<IProps> = ({
 	streamedSoFar,
 	receivedSoFar,
 }) => {
+	console.log(subsidyRate);
 	const link = getAddressLink(contractAddress);
 	const { web3, address } = useShallowSelector(selectMain);
 	const [inputShow, setInputShow] = useState(false);
@@ -234,7 +235,7 @@ export const PanelChange: FC<IProps> = ({
 										<span className={styles.number}>
 											{`$${personalFlow && getFlowUSDValue(personalFlow)} ${t('per month')}`}
 										</span>
-										{(subsidyRate?.perso || 0) > 0 ? (
+										{coinA !== 'RIC' && coinB !== 'RIC' ? (
 											<span>
 												<span data-tip data-for={`depositTooltipTotalPerso-${uuid}`}>
 													🔥
@@ -247,9 +248,7 @@ export const PanelChange: FC<IProps> = ({
 													className={styles.depositTooltip}
 												>
 													<span className={styles.depositTooltip_span}>
-														{`${t('Earning')} ${(subsidyRate?.perso || 0).toFixed(
-															2,
-														)} RIC/mo. ${t('subsidy')}`}
+														RIC subsidy of 50k per month.
 													</span>
 												</ReactTooltip>
 											</span>
