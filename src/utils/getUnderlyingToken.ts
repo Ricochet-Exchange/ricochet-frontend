@@ -18,7 +18,8 @@ import {
 	IDLEAddress,
 } from 'constants/polygon_config';
 
-export const tokenList: any = {
+
+export const superTokenList: any  = {
 	'DAIx': new Token(ChainId.POLYGON, DAIxAddress, 18, 'DAIx', 'Super DAI'),
 	'USDCx': new Token(ChainId.POLYGON, USDCxAddress, 18, 'USDCx', 'Super USDC'),
 	'WETHx': new Token(ChainId.POLYGON, WETHxAddress, 18, 'WETHx', 'Super WETH'),
@@ -27,6 +28,9 @@ export const tokenList: any = {
 	'MATICx': new Token(ChainId.POLYGON, MATICxAddress, 18, 'MATICx', 'Super MATIC'),
 	'SUSHIx': new Token(ChainId.POLYGON, SUSHIxAddress, 18, 'SUSHIx', 'Super SUSHI'),
 	'IDLEx': new Token(ChainId.POLYGON, IDLExAddress, 18, 'IDLEx', 'Super IDLE'),
+}
+
+export const tokenList: any = {
 	'WMATIC': new Token(
 		ChainId.POLYGON,
 		'0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', // 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270
@@ -79,7 +83,7 @@ export const tokenList: any = {
 	),
 };
 
-export const getUnderlyingSupertoken = async (SupertokenAddress: string) => {
+export const getUnderlyingSupertoken = (SupertokenAddress: string) => {
 	switch (SupertokenAddress) {
 		case DAIxAddress:
 			return new Token(ChainId.POLYGON, DAIxAddress, 18);
@@ -102,7 +106,7 @@ export const getUnderlyingSupertoken = async (SupertokenAddress: string) => {
 	}
 };
 
-export const getUnderlyingToken = async (Supertoken: string) => {
+export const getUnderlyingToken = (Supertoken: string) => {
 	const WMATIC = new Token(
 		ChainId.POLYGON,
 		'0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', // 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270
@@ -161,29 +165,24 @@ export const getUnderlyingToken = async (Supertoken: string) => {
 		'Idle',
 	);
 
-	if (Supertoken === MATICxAddress) {
-		return WMATIC;
+	switch (Supertoken) {
+		case 'DAIx':
+			return DAI;
+		case 'USDCx':
+			return USDC;
+		case 'WETHx':
+			return WETH;
+		case 'MKRx':
+			return MKR;
+		case 'WBTCx':
+			return WBTC;
+		case 'MATICx':
+			return WMATIC;
+		case SUSHIxAddress:
+			return SUSHI;
+		case 'IDLEx':
+			return IDLE;
+		default:
+			console.log('failed')
 	}
-	if (Supertoken === USDCxAddress) {
-		return USDC;
-	}
-	if (Supertoken === DAIxAddress) {
-		return DAI;
-	}
-	if (Supertoken === MKRxAddress) {
-		return MKR;
-	}
-	if (Supertoken === WETHxAddress) {
-		return WETH;
-	}
-	if (Supertoken === WBTCxAddress) {
-		return WBTC;
-	}
-	if (Supertoken === SUSHIxAddress) {
-		return SUSHI;
-	}
-	if (Supertoken === IDLExAddress) {
-		return IDLE;
-	}
-	console.log('Error in getUnderlyingToken()');
 };
