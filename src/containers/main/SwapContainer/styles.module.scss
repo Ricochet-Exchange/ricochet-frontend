@@ -1,0 +1,18 @@
+@import "../../../assets/styles/mixins";
+
+@media screen and (max-width: 786px) {
+  .outer_container{
+    width: 100vw;
+  }
+}
+
+@media screen and (min-width: 786px) {
+  .outer_container{
+    padding: 2.5em;
+  }
+  
+}
+
+
+
+
