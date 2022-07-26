@@ -15,6 +15,9 @@
   border-collapse: collapse;
   overflow: hidden;
   width: 100%;
+  margin-top: 5vh;
+  border-radius: 12px;
+  background-color: #2d3233;
 }
 
 .blue {
@@ -84,12 +87,12 @@
   padding: 15px 15px 16px 12px;
   line-height: 25px;
   text-align: right;
-  border-right: 1px solid lightgray;
+  border-right: 1px solid rgb(97, 97, 97);
 }
 
 .dextable td.section {
   text-align: right;
-  border-right: 1px solid lightgray;
+  border-right: 1px solid rgb(97, 97, 97);
 }
 
 .dextable tbody tr {
@@ -106,7 +109,7 @@
   padding: 20px;
   line-height: 25px;
   text-align: right;
-  border-right: 1px solid lightgray;
+  border-right: 1px solid rgb(97, 97, 97);
 }
 
 .redFont {
@@ -189,10 +192,12 @@
 .wrapper {
   height: 100%;
   width: 100%;
+  padding: 2.5em;
   padding-top: 1vh;
   @include tablet {
     max-width: 100vw;
     height: 100%;
+    padding: 0em;
   }
 }
 
