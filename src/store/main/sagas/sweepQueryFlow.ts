@@ -101,7 +101,6 @@ export function* sweepQueryFlow(): any {
 		// const subsidyRates = `${subsidyRatePerso.toFixed(3)} ${subsidyToken}/mo.
 		//     (out of ${(subsidyRateTotal / 1e3).toFixed(0)} kRIC/mo. total pooled) for ${flowKey}`;
 		// console.log(subsidyRates);
-
 		return { perso: subsidyRatePerso, total: subsidyRateTotal, endDate };
 	}
 

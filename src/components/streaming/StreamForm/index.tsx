@@ -148,7 +148,6 @@ export const StreamForm: React.FC<IProps> = ({
 					{balances
 						? supportedCurrencies.map((currency) => {
 								if (+balances[currency.address] > 0) {
-									console.log(+balances[currency.address]);
 									return (
 										<option value={`${currency.address}`}>
 											{currency.currency} {(+balances[currency.address]).toFixed(2)}{' '}

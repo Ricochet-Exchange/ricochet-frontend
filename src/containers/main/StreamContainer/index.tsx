@@ -47,7 +47,6 @@ export const StreamContainer = () => {
 				showSuccessToast('Stream opened successfully');
 				ToggleTransaction(true);
 			} catch (e) {
-				console.log(e);
 				showErrorToast('Could not open stream, check if you have an open stream already.');
 				ToggleTransaction(false);
 				ToggleFail(true);
