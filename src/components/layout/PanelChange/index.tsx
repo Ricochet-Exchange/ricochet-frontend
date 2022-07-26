@@ -235,7 +235,7 @@ export const PanelChange: FC<IProps> = ({
 										<span className={styles.number}>
 											{`$${personalFlow && getFlowUSDValue(personalFlow)} ${t('per month')}`}
 										</span>
-										{coinA !== 'RIC' && coinB !== 'RIC' ? (
+										{(subsidyRate?.total || 0) > 0 ? (
 											<span>
 												<span data-tip data-for={`depositTooltipTotalPerso-${uuid}`}>
 													🔥
@@ -353,7 +353,7 @@ export const PanelChange: FC<IProps> = ({
 											{`$${totalFlow && getFlowUSDValue(totalFlow)}`}
 										</span>
 										{t('per month')}
-										{(subsidyRate?.total || 0) > 0 ? (
+										{coinA !== 'RIC' && coinB !== 'RIC' ? (
 											<span>
 												<span data-tip data-for={`depositTooltipTotal-${uuid}`}>
 													🔥
@@ -365,13 +365,7 @@ export const PanelChange: FC<IProps> = ({
 													multiline
 													className={styles.depositTooltip}
 												>
-													<span className={styles.depositTooltip_span}>
-														{`${t('Total subsidy')}: ${(
-															(subsidyRate?.total || 0) / 1e3
-														).toFixed(0)}k RIC/mo. | ${t('Rewards End')}: ${
-															subsidyRate?.endDate
-														}`}
-													</span>
+													<span className={styles.depositTooltip_span}>50K RIC/mo.</span>
 												</ReactTooltip>
 											</span>
 										) : (
