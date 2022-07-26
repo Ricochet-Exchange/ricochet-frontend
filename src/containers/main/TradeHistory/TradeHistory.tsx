@@ -11,10 +11,17 @@ import TableRow from '@mui/material/TableRow';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import styles from './styles.module.scss';
 import { indexIDA } from 'constants/flowConfig';
-import { GET_DISTRIBUTIONS, GET_STREAMS_CREATED, GET_STREAMS_TERMINATED } from './data/queries';
+import {
+	GET_DISTRIBUTIONS,
+	GET_STREAMS_CREATED,
+	GET_STREAMS_WITH_FLOW_UPDATED_EVENTS,
+	GET_STREAM_PERIODS,
+} from './data/queries';
 import type { Column, Data } from './types';
 import { EnhancedTableHead } from './EnhancedTableHead';
 import { Content } from './Content';
+import { Coin } from 'constants/coins';
+import { ethers } from 'ethers';
 
 const columns: Column[] = [
 	{
@@ -85,15 +92,29 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
 
-	// 3-1. query streams by `terminated` type first, because trading history page needs.
+	// 3-1. query all streams with transaction hash.
 	const {
-		loading: queryingTerminatedStreams,
-		error: queryTerminatedStreamsError,
-		data: terminatedStreams,
-	} = useQuery(GET_STREAMS_TERMINATED, {
+		loading: queryingStreams,
+		error: queryStreamsError,
+		data: streams,
+	} = useQuery(GET_STREAMS_WITH_FLOW_UPDATED_EVENTS, {
 		variables: {
 			sender: address.toLowerCase(),
 			receivers: [...exchangeAddresses],
+		},
+	});
+
+	const {
+		loading: queryingStreamPeriods,
+		error: queryStreamPeriodsError,
+		data: streamPeriods,
+	} = useQuery(GET_STREAM_PERIODS, {
+		skip: queryingStreams,
+		variables: {
+			id_in:
+				streams && streams.streams.length
+					? [...new Set([...streams.streams].map((data) => data.stream.id))]
+					: [],
 		},
 	});
 
@@ -103,30 +124,30 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		error: queryCreatedStreamsError,
 		data: createdStreams,
 	} = useQuery(GET_STREAMS_CREATED, {
-		skip: queryingTerminatedStreams,
+		skip: queryingStreams,
 		variables: {
 			sender: address.toLowerCase(),
 			receivers: [...exchangeAddresses],
 			createdAtTimestamps:
-				terminatedStreams && terminatedStreams.streams.length
-					? [...terminatedStreams.streams].map((data) => data.stream.createdAtTimestamp)
+				streams && streams.streams.length
+					? [...streams.streams].map((data) => data.stream.createdAtTimestamp)
 					: [],
 		},
 	});
 
-	// 3-3. query distribution data finally.
+	// find all distribution ids.
 	const {
 		loading: queryingDistributions,
 		error: queryDistributionsError,
 		data: distributionsData,
 	} = useQuery(GET_DISTRIBUTIONS, {
-		skip: queryingCreatedStreams,
+		// skip: queryingCreatedStreams,
 		variables: {
 			subscriber: address.toLowerCase(),
-			updatedAtTimestamps:
-				createdStreams && createdStreams.streams.length
-					? [...createdStreams.streams].map((data) => data.flowUpdatedEvents[0].stream.updatedAtTimestamp)
-					: [],
+			// updatedAtTimestamps:
+			// 	createdStreams && createdStreams.streams.length
+			// 		? [...createdStreams.streams].map((data) => data.flowUpdatedEvents[0].stream.updatedAtTimestamp)
+			// 		: [],
 		},
 	});
 
@@ -144,89 +165,127 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		setRowsPerPage(+event.target.value);
 		setPage(0);
 	};
-
-	if (queryingTerminatedStreams || queryingCreatedStreams || queryingDistributions) {
+	if (queryingStreams || queryingStreamPeriods || queryingCreatedStreams || queryingDistributions) {
 		return <Skeleton animation="wave" width={'100%'} height={80} />;
 	}
 
-	if (queryTerminatedStreamsError || queryCreatedStreamsError || queryDistributionsError) {
+	if (queryStreamsError || queryStreamPeriodsError || queryCreatedStreamsError || queryDistributionsError) {
 		return <div>Something wrong when fetching trades history.</div>;
 	}
 
+	const newD = distributionsData.distributions.filter((distribution: any) =>
+		exchangeAddresses.includes(distribution.index.publisher.id),
+	);
+	console.log(newD);
+
 	if (
-		!terminatedStreams.streams.length ||
+		!streams.streams.length ||
+		!streamPeriods.streamPeriods.length ||
 		!createdStreams.streams.length ||
-		!distributionsData.distributions.length
+		!newD.length
 	) {
 		return <div>You have no trades.</div>;
 	}
 
 	const rows: Data[] = [];
-	const newStreamsData = [];
+	// const newStreamsData = [];
+	const data = [...streamPeriods.streamPeriods];
 
-	for (let i = 0; i < terminatedStreams.streams.length; i += 1) {
-		const terminatedStream = terminatedStreams.streams[i];
-		const createdStream = createdStreams.streams.find(
-			(data: any) =>
-				data.flowUpdatedEvents[0].stream.createdAtTimestamp === terminatedStream.stream.createdAtTimestamp,
-		);
-		if (!createdStream) continue;
-		const data = {
-			timestamp: {
-				createdAt: terminatedStream.stream.createdAtTimestamp,
-				terminatedAt: terminatedStream.stream.updatedAtTimestamp,
-			},
-			totalAmountStreamedUntilTimestamp: terminatedStream.totalAmountStreamedUntilTimestamp,
-			transactionHash: {
-				created: createdStream.flowUpdatedEvents[0].transactionHash,
-				terminated: terminatedStream.transactionHash,
-			},
-			token: { ...terminatedStream.stream.token },
-			receiver: terminatedStream.receiver,
-		};
-		newStreamsData.push(data);
-	}
-
-	// Exclude subsidy token.
-	for (let i = 0; i < newStreamsData.length; i++) {
-		const data = newStreamsData[i];
-		// find specific market.
-		const market = indexIDA.find(
-			(ida) => ida.input.toLowerCase() === data.token.id && ida.exchangeAddress.toLowerCase() === data.receiver,
-		);
-		// must can find a specific market by input token and exchange address.
-		if (!market) continue;
-		const distribution = distributionsData.distributions.find(
-			(d: any) =>
-				d.updatedAtTimestamp === data.timestamp.terminatedAt &&
-				d.index.token.id === market.output.toLowerCase(),
-		);
-		if (!distribution) continue;
+	for (let i = 0; i < data.length; i++) {
+		const streamPeriod = data[i];
+		// console.log(streamPeriod);
 
 		const row: Data = {
-			startDate: Number(data.timestamp.createdAt) * 1e3,
-			endDate: Number(data.timestamp.terminatedAt) * 1e3,
+			startDate: streamPeriod.startedAtTimestamp,
+			endDate: streamPeriod.stoppedAtTimestamp,
 			input: {
-				coin: data.token.symbol,
-				amount: Number(data.totalAmountStreamedUntilTimestamp) / 1e18,
+				coin: streamPeriod.token.symbol,
+				amount: Number(ethers.utils.formatEther(streamPeriod.totalAmountStreamed)),
 				price: 0,
-				txn: data.transactionHash.created,
+				txn: '',
 			},
 			output: {
-				coin: distribution.index.token.symbol,
-				amount: Number(distribution.totalAmountReceivedUntilUpdatedAt) / 1e18,
+				coin: '' as Coin,
+				amount: 0,
 				price: 0,
-				txn: data.transactionHash.terminated,
+				txn: '',
 			},
 			pnl: {
 				amount: 0,
 				percent: 0,
 			},
-			updatedAtBlockNumber: Number(distribution.updatedAtBlockNumber),
+			updatedAtBlockNumber: 0,
+			exchangeAddress: streamPeriod.receiver.id,
 		};
+
+		// console.log(row.exchangeAddress)
 
 		rows.push(row);
 	}
+
+	// for (let i = 0; i < terminatedStreams.streams.length; i += 1) {
+	// 	const terminatedStream = terminatedStreams.streams[i];
+	// 	const createdStream = createdStreams.streams.find(
+	// 		(data: any) =>
+	// 			data.flowUpdatedEvents[0].stream.createdAtTimestamp === terminatedStream.stream.createdAtTimestamp,
+	// 	);
+	// 	if (!createdStream) continue;
+	// 	const data = {
+	// 		timestamp: {
+	// 			createdAt: terminatedStream.stream.createdAtTimestamp,
+	// 			terminatedAt: terminatedStream.stream.updatedAtTimestamp,
+	// 		},
+	// 		totalAmountStreamedUntilTimestamp: terminatedStream.totalAmountStreamedUntilTimestamp,
+	// 		transactionHash: {
+	// 			created: createdStream.flowUpdatedEvents[0].transactionHash,
+	// 			terminated: terminatedStream.transactionHash,
+	// 		},
+	// 		token: { ...terminatedStream.stream.token },
+	// 		receiver: terminatedStream.receiver,
+	// 	};
+	// 	newStreamsData.push(data);
+	// }
+
+	// Exclude subsidy token.
+	// for (let i = 0; i < newStreamsData.length; i++) {
+	// 	const data = newStreamsData[i];
+	// 	// find specific market.
+	// 	const market = indexIDA.find(
+	// 		(ida) => ida.input.toLowerCase() === data.token.id && ida.exchangeAddress.toLowerCase() === data.receiver,
+	// 	);
+	// 	// must can find a specific market by input token and exchange address.
+	// 	if (!market) continue;
+	// 	const distribution = distributionsData.distributions.find(
+	// 		(d: any) =>
+	// 			d.updatedAtTimestamp === data.timestamp.terminatedAt &&
+	// 			d.index.token.id === market.output.toLowerCase(),
+	// 	);
+	// 	if (!distribution) continue;
+
+	// 	const row: Data = {
+	// 		startDate: Number(data.timestamp.createdAt) * 1e3,
+	// 		endDate: Number(data.timestamp.terminatedAt) * 1e3,
+	// 		input: {
+	// 			coin: data.token.symbol,
+	// 			amount: Number(data.totalAmountStreamedUntilTimestamp) / 1e18,
+	// 			price: 0,
+	// 			txn: data.transactionHash.created,
+	// 		},
+	// 		output: {
+	// 			coin: distribution.index.token.symbol,
+	// 			amount: Number(distribution.totalAmountReceivedUntilUpdatedAt) / 1e18,
+	// 			price: 0,
+	// 			txn: data.transactionHash.terminated,
+	// 		},
+	// 		pnl: {
+	// 			amount: 0,
+	// 			percent: 0,
+	// 		},
+	// 		updatedAtBlockNumber: Number(distribution.updatedAtBlockNumber),
+	// 	};
+
+	// 	rows.push(row);
+	// }
 
 	return (
 		<Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -248,7 +307,22 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 										{columns.map((column) => {
 											return (
 												<TableCell key={column.id} align={column.align}>
-													<Content id={column.id} row={row} />{' '}
+													<Content
+														id={column.id}
+														row={row}
+														index={
+															newD.find((distribution: any) => {
+																console.log(
+																	distribution.index.publisher.id,
+																	row.exchangeAddress,
+																);
+																return (
+																	distribution.index.publisher.id ===
+																	row.exchangeAddress
+																);
+															})?.index.id
+														}
+													/>{' '}
 													{column.id === 'startDate' ? (
 														<a
 															href={`https://polygonscan.com/tx/${row.input.txn}`}

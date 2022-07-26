@@ -22,16 +22,16 @@ export const GET_STREAMS_CREATED = gql`
 	}
 `;
 
-export const GET_STREAMS_TERMINATED = gql`
-	query GetStreamsTerminated($sender: String!, $receivers: [String!]!) {
+export const GET_STREAMS_WITH_FLOW_UPDATED_EVENTS = gql`
+	query GetStreamsWithFlowUpdatedEvents($sender: String!, $receivers: [String!]!) {
 		streams: flowUpdatedEvents(
-			where: { sender: $sender, receiver_in: $receivers, type: 2 }
+			where: { receiver_in: $receivers, sender: $sender }
 			orderBy: timestamp
 			orderDirection: desc
-			first: 100
 		) {
 			type
 			stream {
+				id
 				createdAtTimestamp
 				streamedUntilUpdatedAt
 				updatedAtTimestamp
@@ -49,11 +49,31 @@ export const GET_STREAMS_TERMINATED = gql`
 	}
 `;
 
+export const GET_STREAM_PERIODS = gql`
+	query Get_Stream_Periods($id_in: [ID!] = "") {
+		streamPeriods(
+			where: { stream_: { id_in: $id_in }, stoppedAtTimestamp_not: null }
+			orderBy: startedAtTimestamp
+			orderDirection: desc
+		) {
+			receiver {
+				id
+			}
+			startedAtTimestamp
+			stoppedAtTimestamp
+			totalAmountStreamed
+			token {
+				symbol
+			}
+		}
+	}
+`;
+
 export const GET_DISTRIBUTIONS = gql`
-	query GetUserDistributionSubscriptions($subscriber: String!, $updatedAtTimestamps: [String!]!) {
+	query GetUserDistributionSubscriptions($subscriber: String!) {
 		distributions: indexSubscriptions(
 			first: 1000
-			where: { subscriber: $subscriber, updatedAtTimestamp_in: $updatedAtTimestamps }
+			where: { subscriber: $subscriber }
 			orderBy: createdAtTimestamp
 			orderDirection: desc
 		) {
@@ -66,6 +86,7 @@ export const GET_DISTRIBUTIONS = gql`
 			indexValueUntilUpdatedAt
 			units
 			index {
+				id
 				publisher {
 					id
 				}
@@ -81,6 +102,18 @@ export const GET_DISTRIBUTIONS = gql`
 					symbol
 				}
 			}
+		}
+	}
+`;
+
+export const GET_INDEX_VALUES = gql`
+	query GetIndexValues($index: String!, $timestamp_gte: BigInt, $timestamp_lte: BigInt) {
+		indexUpdatedEvents(
+			where: { index: $index, timestamp_gte: $timestamp_gte, timestamp_lte: $timestamp_lte }
+			first: 1000
+		) {
+			newIndexValue
+			oldIndexValue
 		}
 	}
 `;
