@@ -6,12 +6,6 @@ import { Coin, namesCoin, iconsCoin, namesCoinX } from 'constants/coins';
 interface IProps {}
 
 const TokenModal = (props: any) => {
-	React.useEffect(() => {
-		namesCoinX.map((item) => {
-			console.log('-:', item);
-		});
-	}, []);
-
 	return (
 		<>
 			{props.display ? (

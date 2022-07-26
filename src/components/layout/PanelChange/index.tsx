@@ -82,7 +82,6 @@ export const PanelChange: FC<IProps> = ({
 	streamedSoFar,
 	receivedSoFar,
 }) => {
-	console.log(subsidyRate);
 	const link = getAddressLink(contractAddress);
 	const { web3, address } = useShallowSelector(selectMain);
 	const [inputShow, setInputShow] = useState(false);
@@ -91,8 +90,21 @@ export const PanelChange: FC<IProps> = ({
 	const [lastDistribution, setLastDistribution] = useState<Date>();
 	const [shareScaler, setShareScaler] = useState(1e3);
 	const [isAffiliate, setIsAffiliate] = useState(false);
+	const [userRewards, setUserRewards] = useState(0);
 	const contract = getContract(rexReferralAddress, referralABI, web3);
 	const { t } = useTranslation();
+
+	const personal_pool_rate = personalFlow ? personalFlow : 0;
+	const total_market_pool = totalFlow ? totalFlow : 0;
+	const subsidy_rate_static = 50000;
+
+	useEffect(() => {
+		const subsidy_rate = (+personal_pool_rate / +total_market_pool) * 100;
+		const received_reward = (+subsidy_rate / 100) * +subsidy_rate_static;
+		if (+received_reward > 0) {
+			setUserRewards(+received_reward.toFixed(2));
+		}
+	}, [personal_pool_rate, total_market_pool, subsidy_rate_static]);
 
 	useEffect(() => {
 		setIsLoading(mainLoading);
@@ -365,7 +377,11 @@ export const PanelChange: FC<IProps> = ({
 													multiline
 													className={styles.depositTooltip}
 												>
-													<span className={styles.depositTooltip_span}>50K RIC/mo.</span>
+													<span className={styles.depositTooltip_span}>
+														Total rewards: 50K RIC/mo.
+														<br />
+														Your rewards: {userRewards} RIC/mo.
+													</span>
 												</ReactTooltip>
 											</span>
 										) : (
