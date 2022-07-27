@@ -7,16 +7,18 @@
     grid-template-columns: 10vw 1fr;
     width: 100%;
     height: 100%;
-    background-color: #363b55;
   }
 
   .container {
     grid-column: 2;
     height: 100%;
     width: 100%;
-    padding: 2em;
+    padding-right: 3em;
+    padding-top: 3em;
+    padding-left: 4em;
     min-height: 90vh;
-    background-color: white;
+    background-color: $dark-mode-bg;
+    color: white;
     border-radius: 50px 0px 0px 0px;
   }
 }
@@ -29,7 +31,9 @@
   margin-left: 10vw;
   font-size: larger;
   border-radius: 50px 0px 0px 0px;
-  background-color: white;
+  
+  background-color: $dark-mode-bg;
+  color: white;
 }
 
 .container_special{
@@ -39,7 +43,7 @@
 
 
 .black {
-  color: black;
+  color: white;
 }
 
 .crimson {
@@ -59,8 +63,8 @@
   .container_input {
     width: 503px;
     border-radius: 8px;
-    background: var(--color-blue-light);
-  
+    background-color: $dark-mode-bg-2;
+    border: 1px solid $dark-mode-lightblue;
     @include tablet{
       width: 100%;
     }
@@ -78,7 +82,7 @@
     font-weight: bold;
   
     &::placeholder {
-      color: var(--color-blue);
+      color: $dark-mode-lightblue;
       font-weight: normal;;
   
       &:focus{
@@ -89,7 +93,7 @@
 
   .input_static {
     border-radius: 8px;
-    color: var(--color-blue-dark);
+    color: $dark-mode-lightblue;
     padding: 0 10px;
     font-size: inherit;
     font-weight: bold;
@@ -126,11 +130,15 @@
 }
 
 .explainer_container {
-  background: var(--color-blue-light);
-  border: 1px solid var(--color-white);
+  background-color: $dark-mode-bg-2;
+  border: 1px solid $dark-mode-lightblue;
   padding: 0 10px;
-  color: var(--color-blue);
+  color: $dark-mode-lightblue;
   margin-top: 10px;
+  @media only screen and (max-width: 769px){
+    margin-top: 40px;
+  
+    }
 }
 
 .validation_errors {
@@ -147,14 +155,13 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
-    background-color: #363b55;
-
   }
 
   .container {
+    color: white;
     margin-left: 0;
     border-radius: 0;
-    background-color: white;
+    background-color: $dark-mode-bg;
     padding: 2em;
     width: 100%;
     height: 100%;

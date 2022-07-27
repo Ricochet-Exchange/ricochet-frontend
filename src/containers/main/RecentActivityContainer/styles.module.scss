@@ -1,5 +1,8 @@
+@import '../../../assets/styles/mixins';
+
 .container {
   padding: 8px;
+  width: 100vw;
 }
 
 @media only screen and (min-width: 768px) {
@@ -27,13 +30,15 @@
   cursor: pointer;
   padding: 2em;
   min-height: 80px;
-  background-color: var(--color-blue-light);
+  background-color: $dark-mode-bg-2;
+  color: lightgray;
   border-radius: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .header{
-  color:#222529;
+  color:rgb(228, 228, 228);
+  margin-bottom: 1em;
 }
 
 .larger_streaming_wrapper {
@@ -107,6 +112,7 @@
   align-items: center;
   flex-direction: column;
   text-align: center;
+  color: white;
 }
 
 .loading_wrapper {

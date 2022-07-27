@@ -8,7 +8,6 @@ export const getSFFramework = async (web3: Web3) => {
 	const framework = await Framework.create({
 		provider,
 		chainId: Number(process.env.REACT_APP_CHAIN_ID),
-		dataMode: 'WEB3_ONLY',
 	});
 	return framework;
 };

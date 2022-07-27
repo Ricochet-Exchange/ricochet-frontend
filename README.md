@@ -27,32 +27,17 @@
 
 ### How to start
 
-bash:
+```bash
+yarn install && yarn start
+```
+
+Have an arm64 Macbook? `node-sass` does not work for arm64. To fix this, you replace it with `sass`.
 
 ```bash
-# creates a local development making sure that you are using the correct node version
-./make.sh dev
-
-# run tests (by calling yarn script directly)
-./make.sh test
+yarn remove node-sass && yarn add sass
 ```
 
-docker:
-
-```docker
-
-# build a dev docker image locally
-./make.sh build
-
-# run the docker image on localhost
-./make.sh run
-
-# remove the running container
-./make.sh rm
-
-# run the latest docker image
-docker run -p 3000:3000 testricochet/ricochet-frontend:latest
-```
+Once `sass` is installed you will still have errors trying to compile the project. To bypass this, simply comment out the `@extend .link` lines in the code.
 
 ### Project structure
 
@@ -81,5 +66,4 @@ REACT_APP_CHAIN_ID=137
 
 - `test your changes` - Check github actions, once all checks are successful, a new environment will be created in a few minutes, please check comments to get the complete url. It will look something like this:
   `a380c3be5e6284f4ca1dfc37a12b3033-851332533.eu-west-1.elb.amazonaws.com/your-branch-name`
-  the environment will be destroyed once the PR is merged or 
-  
+  the environment will be destroyed once the PR is merged or

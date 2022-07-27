@@ -4,7 +4,6 @@ import { gas } from 'api/gasEstimator';
 import { showErrorToast, showSuccessToast } from '../../components/common/Toaster';
 
 async function updateExistingFlow(recipient: string, flowRate: string, token: string, web3: any) {
-	console.log(typeof flowRate);
 	if (web3) {
 		const provider = new ethers.providers.Web3Provider(web3.currentProvider as any);
 		const chainId = Number(process.env.REACT_APP_CHAIN_ID);

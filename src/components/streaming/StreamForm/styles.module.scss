@@ -2,8 +2,8 @@
 
 @media screen and (min-width: 786px) {
   .stream_form{
-    background: var(--color-blue-light);
-    color: var(--color-black-dark);
+    background: $dark-mode-bg-2;
+    color: $dark-mode-lightblue;
     font-size: 14px;
     display: flex;
     border-radius: 10px;
@@ -27,12 +27,17 @@
         margin-top: 1em;
         padding: 0.7em;
         min-width: 15vw;
-        background: var(--color-white);
+        background: #484e51;
         border-radius: 8px;
-        border: 1px solid var(--color-blue);
+        border: 1px solid $dark-mode-lightblue;
+        color: $dark-mode-lightblue;
       }
       
       select{
+        background: #484e51;
+        border-radius: 8px;
+        border: 1px solid $dark-mode-lightblue;
+        color: $dark-mode-lightblue;
         margin-top: 1em;
         padding: 0.7em;
         width: 100%;
@@ -48,18 +53,17 @@
 
   .input_field_submit{
     padding: 1em;
-    background: var(--color-blue);
     border-radius: 12px;
     border: none;
-    color: white;  
+    color: rgb(70, 68, 68);
   }
 }
 
 @media screen and (max-width: 786px) {
   .stream_form{
     width: 95vw;
-    
     padding: 1em;
+    padding-top: 60px;
   }
 
   .close{
@@ -80,9 +84,10 @@
   }
 
   .input_field{
-    background-color: white;
+    background-color: #484e51;
     border-radius: 12px;
-    border: 3px solid #678EB5;
+    border: 1px solid $dark-mode-lightblue;
+    color: $dark-mode-lightblue;
     letter-spacing: 0.2px;
     height: 8vh;
     width: 100%;
@@ -110,7 +115,7 @@
     width: 100%;
   }
   .input_label{
-    color: rgb(76, 76, 76);
+    color: white;
     margin-top: 1em;
     font-size: large;
   }

@@ -130,7 +130,7 @@ export const startFlow = async (
 		});
 		const { maxFeePerGas, maxPriorityFeePerGas } = await gas();
 		if (web3Subscription.approved) {
-			if (Number(userFlow.flowRate) != 0) {
+			if (Number(userFlow.flowRate) !== 0) {
 				//Existing flow so call updateFlow
 				await framework.cfaV1
 					.updateFlow({

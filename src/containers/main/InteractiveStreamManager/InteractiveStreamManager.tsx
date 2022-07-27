@@ -327,7 +327,6 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 						target.data.label.props.coin.includes(stream.coinB),
 				)
 			) {
-				console.log('stream already exists');
 				return;
 			}
 
@@ -351,8 +350,6 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 	const defaultEdgeOptions: DefaultEdgeOptions = {
 		animated: true,
 	};
-
-	const updateEdge = (edge: Edge<any>) => {};
 
 	const deleteEdge = (edge: Edge<any>) => {
 		if (edge)

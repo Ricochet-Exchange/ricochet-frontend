@@ -180,7 +180,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 				),
 			);
 		}
-	}, [upgradeValue, balances, upgradeConfig]);
+	}, [upgradeValue, balances, upgradeConfig, dispatch]);
 
 	const handleMaxUpgrade = () => {
 		if (!balances || !upgradeConfig) return;

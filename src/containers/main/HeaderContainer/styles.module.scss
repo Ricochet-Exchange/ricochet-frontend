@@ -19,11 +19,12 @@
   @include flexbox(center, space-between);
   padding-left: 1em;
   width: 100%;
-  background-color: #363b55;
+  background: $dark-mode-bg-2;
+  box-shadow: 2px 2px 2px 2px rgba(69, 69, 69, 0.488);
   position: fixed;
   width: 100%;
   z-index: 999;
-  height: 90px;
+  height: 100px;
   margin-bottom: 100px;
   @include tablet {
     @include flexbox(center, center);
@@ -83,11 +84,21 @@
   text-decoration-line: underline;
 }
 
+.brand{
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: row;
+  width: 40vh;
+  color: rgba(255, 255, 255, 0.865);
+  font-size: large;
+}
+
 .logo {
-  position: fixed;
   z-index: 100000;
-  max-width: 7vw;
-  width: 100%;
+  top: 40px;
+  max-height: 50px;
   @media screen and (max-width: 768px) {
     background: none;
     border: none;
@@ -159,13 +170,32 @@
     width: 100%;
     top: 0;
     left: 0;
-    background-color: #363b55;
+    background: $dark-mode-bg-2;
     @include tablet {
       @include flexbox(center, center);
       display: flex;
       margin-top: 3.5em;
       flex-direction: row;
       max-height: 100px;
+    }
+  }
+
+  .logo {
+    z-index: 100000;
+    top: 0;
+    max-height: 50px;
+  }
+
+  .brand{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+    font-size: small;
+    margin-top: 0px;
+
+    h4{
+      display: none;
     }
   }
 }
