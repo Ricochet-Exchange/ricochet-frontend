@@ -9,7 +9,6 @@ import { getLedgerChainId, getLedgerProvider } from 'utils/getLedgerInfo';
 
 import { connectWeb3Modal, mainCheck, mainGetData, mainGetReadOnlyData, mainSetState } from '../actionCreators';
 import { store } from '../../index';
-import { isLedgerReferralIdSetIntoCookies } from '../../../utils/ledgerhq-frame-connector/helpers';
 
 export function* mainCheckSaga() {
 	try {
@@ -32,9 +31,6 @@ export function* mainCheckSaga() {
 			gnosisSafeProvider?.on('chainChanged', () => store.dispatch(mainCheck()));
 			gnosisSafeProvider?.on('accountsChanged', () => store.dispatch(mainGetData()));
 		} else if (ledgerHQFrame.isLedgerApp()) {
-			const referralIdSetIntoCookies = isLedgerReferralIdSetIntoCookies();
-			if (!referralIdSetIntoCookies)
-				console.warn('Referral ID missing from query param or ledger ?ref=<code> changed.');
 			const ledgerProvider: Unwrap<typeof getLedgerProvider> = yield call(getLedgerProvider, ledgerHQFrame);
 			const chainId: Unwrap<typeof getLedgerChainId> = yield call(getLedgerChainId, ledgerHQFrame);
 			yield put(mainSetState({ readWeb3, web3: new Web3(ledgerProvider! as any) }));

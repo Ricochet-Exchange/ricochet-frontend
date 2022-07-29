@@ -16,6 +16,9 @@ export const isLedgerDappBrowserProvider = (() => {
 		if (typeof window === 'undefined') return false;
 		try {
 			const isEmbed = !!params.get('embed');
+			const referralIdSetIntoCookies = checkAndStoreLedgerReferralIdIntoCookies();
+			if (!referralIdSetIntoCookies)
+				console.warn('Referral ID missing from query param or ledger ?ref=<code> changed.');
 			state = isIframe() && isEmbed;
 		} catch (error) {
 			state = false;
@@ -24,7 +27,7 @@ export const isLedgerDappBrowserProvider = (() => {
 	};
 })();
 
-export const isLedgerReferralIdSetIntoCookies = () => {
+export const checkAndStoreLedgerReferralIdIntoCookies = () => {
 	const params = new URLSearchParams(window.self.location.search);
 	const referralId = params.get('ref');
 	if (referralId === 'ledger') {
