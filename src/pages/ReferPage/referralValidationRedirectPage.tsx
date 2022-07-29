@@ -10,10 +10,9 @@ import { REFERRAL_URL_PREFIX } from 'constants/routes';
 import { Loader } from 'components/common/Loader';
 import { useTranslation } from 'react-i18next';
 import styles from './stylesReferralValidationRedirectPage.module.scss';
+import { THIRTY_DAYS_DURATION } from '../../constants/referralExpiry';
 
 interface IProps {}
-
-const thirtyDaysDuration = 30 * 24 * 60 * 60 * 1000;
 
 enum ReferrerValidationStatusTypes {
 	Loading,
@@ -60,7 +59,7 @@ const ReferralValidationRedirectPage: FC<IProps> = () => {
 					}
 
 					setRererrerValidationStatus(ReferrerValidationStatusTypes.Valid);
-					const expires = new Date(new Date().getTime() + thirtyDaysDuration);
+					const expires = new Date(new Date().getTime() + THIRTY_DAYS_DURATION);
 					setCookie('referralId', referralId, { path: '/', expires });
 					history.push(pathnameWithoutReferral(location.pathname));
 				})
