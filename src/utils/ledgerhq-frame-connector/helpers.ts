@@ -30,7 +30,7 @@ export const isLedgerDappBrowserProvider = (() => {
 export const checkAndStoreLedgerReferralIdIntoCookies = () => {
 	const params = new URLSearchParams(window.self.location.search);
 	const referralId = params.get('ref');
-	if (referralId === 'ledger') {
+	if (referralId === 'ledgerlive') {
 		const expires = new Date(new Date().getTime() + THIRTY_DAYS_DURATION);
 		setCookie('referralId', referralId, expires);
 		return true;
