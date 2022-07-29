@@ -8,9 +8,31 @@ export const isIframe = (): boolean => {
 	}
 };
 const params = new URLSearchParams(window.self.location.search);
+
+function checkAndStoreLedgerReferralIdIntoCookies() {
+	try {
+		const ledgerLiveURLParam = params.get('params');
+		const dappUrlParams = new URLSearchParams(JSON.parse(ledgerLiveURLParam!)?.dappUrl);
+		const referralId = dappUrlParams?.get('ref');
+		console.log(referralId === 'ledgerlive');
+		if (referralId === 'ledgerlive') {
+			const expires = new Date(new Date().getTime() + THIRTY_DAYS_DURATION);
+			setCookie('referralId', referralId, expires);
+			return true;
+		}
+		return false;
+	} catch (e) {
+		console.error('Error occurred while parsing ledger live query param', e);
+		return false;
+	}
+}
+
+function setCookie(cname: string, cvalue: string, expires: Date) {
+	document.cookie = cname + '=' + cvalue + ';expires=' + expires.toUTCString() + ';path=/';
+}
+
 export const isLedgerDappBrowserProvider = (() => {
 	let state: boolean | null = null;
-
 	return (): boolean => {
 		if (typeof state === 'boolean') return state;
 		if (typeof window === 'undefined') return false;
@@ -26,18 +48,3 @@ export const isLedgerDappBrowserProvider = (() => {
 		return !!state;
 	};
 })();
-
-export const checkAndStoreLedgerReferralIdIntoCookies = () => {
-	const params = new URLSearchParams(window.self.location.search);
-	const referralId = params.get('ref');
-	if (referralId === 'ledgerlive') {
-		const expires = new Date(new Date().getTime() + THIRTY_DAYS_DURATION);
-		setCookie('referralId', referralId, expires);
-		return true;
-	}
-	return false;
-};
-
-function setCookie(cname: string, cvalue: string, expires: Date) {
-	document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
-}
