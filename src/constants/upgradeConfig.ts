@@ -116,6 +116,6 @@ export const upgradeTokensList: {
 		tokenAddress: SDAM3CRVAddress,
 		superTokenAddress: SDAM3CRVRexAddress,
 		multi: 1e18,
-		key: 'hasSdtApprove',
+		key: 'hasSdam3CRVApprove',
 	},
 ];

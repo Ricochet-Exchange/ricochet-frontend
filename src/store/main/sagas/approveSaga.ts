@@ -16,6 +16,8 @@ import {
 	checkIfApproveSushi,
 	checkIfApproveMatic,
 	checkIfApproveIdle,
+	checkIfApproveSdt,
+	checkIfApproveSdam3CRV,
 } from './checkIfApprove';
 import { getBalances } from './getBalances';
 import { selectMain } from '../selectors';
@@ -50,6 +52,8 @@ export function* approveMainSaga({ payload }: ReturnType<typeof approveAction>) 
 			call(checkIfApproveSushi),
 			call(checkIfApproveMatic),
 			call(checkIfApproveIdle),
+			call(checkIfApproveSdt),
+			call(checkIfApproveSdam3CRV),
 		]);
 	} catch (e) {
 		const error = transformError(e);
