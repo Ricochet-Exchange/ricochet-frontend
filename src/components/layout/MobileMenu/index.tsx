@@ -21,7 +21,7 @@ export const MobileMenu: FC<IProps> = ({ closeMenu }) => {
 				<div className={styles.mobile_container}>
 					<div className={styles.mobile_styled_link}>
 						<div className={styles.anchor_container}>
-							<Link to={Routes.Invest}>
+							<Link to={Routes.Invest} opacityFull>
 								<div>{t('Invest')}</div>
 							</Link>
 						</div>

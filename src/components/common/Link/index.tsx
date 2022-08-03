@@ -8,9 +8,10 @@ type Props = {
 	className?: string;
 	activeClassName?: string;
 	children?: any;
+	opacityFull?: boolean;
 };
 
-const Link: React.FC<Props> = ({ to, className, activeClassName, children }) => {
+const Link: React.FC<Props> = ({ to, className, activeClassName, children, opacityFull = false }) => {
 	const onMouseDown = useCallback((e: any) => e.stopPropagation(), []);
 
 	return (
@@ -19,6 +20,7 @@ const Link: React.FC<Props> = ({ to, className, activeClassName, children }) => 
 			className={cx(styles.link, className)}
 			activeClassName={activeClassName}
 			onMouseDown={onMouseDown}
+			style={{ opacity: opacityFull ? '1' : '' }}
 		>
 			{children}
 		</NavLink>

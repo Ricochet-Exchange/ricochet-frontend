@@ -6,3 +6,13 @@
 .link:visited {
   color: initial;
 }
+
+.noTrades {
+  margin-top: 10px;
+  font-size: 25px;
+  margin-left: 50px;
+  @media (max-width: 789px) {
+    font-size: 14px;
+    margin-left: 13px;
+  }
+}
