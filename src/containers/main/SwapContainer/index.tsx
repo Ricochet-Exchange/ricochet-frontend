@@ -19,7 +19,7 @@ interface IProps {}
 
 export const SwapContainer: React.FC<IProps> = () => {
 	const { web3, address } = useShallowSelector(selectMain);
-	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [provider, setProvider] = useState<ethers.providers.Web3Provider>();
 	const [router, setRouter] = useState<AlphaRouter>();
 	const [inputSuperToken, setInputSuperToken] = useState('');
@@ -36,25 +36,29 @@ export const SwapContainer: React.FC<IProps> = () => {
 		if (web3.currentProvider) {
 			const web3Provider = new ethers.providers.Web3Provider(web3.currentProvider as any);
 			setProvider(web3Provider);
-			const tempRouter = new AlphaRouter({
+			const newRouter = new AlphaRouter({
 				chainId: 137,
 				provider: provider as any,
 			});
-			setRouter(tempRouter);
+			setRouter(newRouter);
 		}
 	}, [web3.currentProvider]);
+
+	const setChosenInputToken = (token: string) => {
+		const underlyingToken = getUnderlyingToken(token);
+		setInputToken(underlyingToken);
+		console.log('setChosenInputToken', underlyingToken)
+	};
 
 	const setChosenOutputToken = (token: string) => {
 		const underlyingToken = getUnderlyingToken(token);
 		setOutputToken(underlyingToken);
 	};
 
-	const setChosenInputToken = (token: string) => {
-		const underlyingToken = getUnderlyingToken(token);
-		setInputToken(underlyingToken);
-	};
-
 	const handleApprove = async () => {
+		setChosenInputToken(inputSuperToken);
+		setChosenOutputToken(outputSuperToken);
+		console.log(inputSuperToken, inputToken);
 		try{
 			// @ts-ignore
 			const tokenContract = getContract(inputToken.address, erc20ABI, web3);
@@ -71,16 +75,16 @@ export const SwapContainer: React.FC<IProps> = () => {
 	const handleSwapButtonClick = async () => {
 		setChosenInputToken(inputSuperToken);
 		setChosenOutputToken(outputSuperToken);
-		console.log(
-			'this shows us our progress 2 ',
-			inputSuperToken,
-			outputSuperToken,
-			inputToken,
-			outputToken,
-			inputAmount,
-			outputAmount,
-		);
-		console.log('test 3');
+		// console.log(
+		// 	'this shows us our progress 2 ',
+		// 	inputSuperToken,
+		// 	outputSuperToken,
+		// 	inputToken,
+		// 	outputToken,
+		// 	inputAmount,
+		// 	outputAmount,
+		// );
+		// console.log('test 3');
 		try {
 			await handleSwap();
 		} catch (error) {
@@ -89,8 +93,8 @@ export const SwapContainer: React.FC<IProps> = () => {
 	};
 
 	async function handleSwap() {
-		if (inputToken === undefined && outputToken === undefined && address) {
-			console.log('this wont work');
+		if (inputToken === undefined || outputToken === undefined || address === undefined) {
+			console.log('In handleSwap() this wont work');
 			return;
 		}
 		console.log('1');
@@ -140,15 +144,15 @@ export const SwapContainer: React.FC<IProps> = () => {
 		}
 	}
 
-	console.log(
-		'this shows us our progress ',
-		inputSuperToken,
-		outputSuperToken,
-		inputToken,
-		outputToken,
-		inputAmount,
-		outputAmount,
-	);
+	// console.log(
+	// 	'this shows us our progress ',
+	// 	inputSuperToken,
+	// 	outputSuperToken,
+	// 	inputToken,
+	// 	outputToken,
+	// 	inputAmount,
+	// 	outputAmount,
+	// );
 
 	return (
 		<div className={styles.outer_container}>
@@ -162,7 +166,7 @@ export const SwapContainer: React.FC<IProps> = () => {
 					setInputAmount={setInputAmount}
 					setOutputSuperToken={setOutputSuperToken}
 					setOutputAmount={setOutputAmount}
-					handleClick={handleSwapButtonClick}
+					handleSwap={handleSwapButtonClick}
 					handleApprove={handleApprove}
 				/>
 			) : (

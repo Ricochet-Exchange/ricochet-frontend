@@ -11,7 +11,7 @@ interface IProps {
 	setOutputSuperToken: (outputToken: string) => void;
 	setInputAmount: (inputAmount: string) => void;
 	setOutputAmount: (outputAmount: string) => void;
-	handleClick: () => void;
+	handleSwap: () => void;
 	inputAmount: string;
 	outputAmount: string;
 	handleApprove: () => void;
@@ -22,11 +22,11 @@ export const SwapModal: FC<IProps> = ({
 	outputSuperToken,
 	setInputSuperToken,
 	setOutputSuperToken,
-	setInputAmount,
-	setOutputAmount,
 	inputAmount,
 	outputAmount,
-	handleClick,
+	setInputAmount,
+	setOutputAmount,
+	handleSwap,
 	handleApprove,
 }) => {
 	console.log(Object.keys(superTokenList));
@@ -83,7 +83,7 @@ export const SwapModal: FC<IProps> = ({
 			<div className={styles.row}>
 				<Button
 					onClick={async () => {
-						await handleClick();
+						await handleSwap();
 					}}
 				>
 					Swap
