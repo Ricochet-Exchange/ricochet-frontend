@@ -187,13 +187,13 @@
   }
 
   .brand{
+    width: auto;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: inherit;
     flex-direction: row;
     font-size: small;
     margin-top: 0px;
-
     h4{
       display: none;
     }
