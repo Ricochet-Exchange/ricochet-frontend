@@ -72,7 +72,7 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 		queryQuickSwapPoolPrices(quickSwapPools[`${coinA}-${coinB}`]).then(({ data }) => {
 			// added this data.data check as it's crashing the application due to RIC price returning as NaN
 			if (data?.error || data.data === undefined) {
-				console.error('fetching Sushi Pools price error: ', data.error);
+				console.error('fetching Quickswap Pools price error: ', data.error);
 				return;
 			} else {
 				const { pair } = data.data;

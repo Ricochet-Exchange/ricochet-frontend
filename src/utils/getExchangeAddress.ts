@@ -43,6 +43,11 @@ import {
 	twoWayMarketMATICDAIAddress,
 	twoWayMarketWBTCDAIAddress,
 	twoWayMarketRICUSDCAddress,
+	IbAlluoUSDAddress,
+	StIbAlluoUSDAddress,
+	IbAlluoETHAddress,
+	StIbAlluoETHAddress,
+	twoWayMarketibAlluoUSDETHAddress,
 } from 'constants/polygon_config';
 
 export enum ExchangeKeys {
@@ -71,6 +76,8 @@ export enum ExchangeKeys {
 	'TWO_WAY_DAI_MATIC' = 'twoWayDaiMatic',
 	'TWO_WAY_WBTC_DAI' = 'twoWayWbtcDai',
 	'TWO_WAY_DAI_WBTC' = 'twoWayDaiWbtc',
+	'TWO_WAY_IBUSD_IBETH' = 'twoWayIbUsdIbEth',
+	'TWO_WAY_IBETH_IBUSD' = 'twoWayIbEthIbUsd',
 	'MATICx' = 'maticx',
 	'MKRx' = 'mkrx',
 	'MKR' = 'mkr',
@@ -90,6 +97,10 @@ export enum ExchangeKeys {
 	'SUSHI' = 'sushi',
 	'IDLEx' = 'idlex',
 	'IDLE' = 'idle',
+	'StIbAlluoUSD' = 'stiballuousd',
+	'StIbAlluoETH' = 'stiballuoeth',
+	'IbAlluoUSD' = 'iballuousd',
+	'IbAlluoETH' = 'iballuoeth',
 	'Referral' = 'referral',
 }
 
@@ -131,6 +142,10 @@ export const getExchangeAddressFromKey = (exchangeKey: ExchangeKeys) => {
 		sushi: SUSHIAddress,
 		idlex: IDLExAddress,
 		idle: IDLEAddress,
+		stiballuoeth: StIbAlluoETHAddress,
+		stiballuousd: StIbAlluoUSDAddress,
+		iballuousd: IbAlluoUSDAddress,
+		iballuoeth: IbAlluoETHAddress,
 		referral: rexReferralAddress,
 		twoWayusdcWeth: twoWayWETHMarketAddress,
 		twoWaywethUsdc: twoWayWETHMarketAddress,
@@ -146,6 +161,8 @@ export const getExchangeAddressFromKey = (exchangeKey: ExchangeKeys) => {
 		twoWayDaiWbtc: twoWayMarketWBTCDAIAddress,
 		twoWayRicUsdc: twoWayMarketRICUSDCAddress,
 		twoWayUsdcRic: twoWayMarketRICUSDCAddress,
+		twoWayIbUsdIbEth: twoWayMarketibAlluoUSDETHAddress,
+		twoWayIbEthIbUsd: twoWayMarketibAlluoUSDETHAddress,
 	};
 
 	return addresses[exchangeKey];
