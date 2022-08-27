@@ -57,6 +57,5 @@ export const getCoingeckoPrices = async (): Promise<{ [key: string]: number }> =
 			}
 		});
 	});
-	console.log('coingeckoPrices', coingeckoPrices);
 	return coingeckoPrices;
 };
