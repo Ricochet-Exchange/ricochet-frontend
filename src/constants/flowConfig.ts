@@ -53,8 +53,8 @@ type IndexIDAType = {
 export const indexIDA: IndexIDAType = [
 	{
 		exchangeAddress: twoWayMarketibAlluoUSDETHAddress,
-		input: StIbAlluoUSDAddress,
-		output: StIbAlluoETHAddress,
+		input: StIbAlluoETHAddress,
+		output: StIbAlluoUSDAddress,
 		subsidy: RICAddress,
 		subsidyIndex: 2,
 		inputIndex: 1,
@@ -62,8 +62,8 @@ export const indexIDA: IndexIDAType = [
 	},
 	{
 		exchangeAddress: twoWayMarketibAlluoUSDETHAddress,
-		input: StIbAlluoETHAddress,
-		output: StIbAlluoUSDAddress,
+		input: StIbAlluoUSDAddress,
+		output: StIbAlluoETHAddress,
 		subsidy: RICAddress,
 		subsidyIndex: 3,
 		inputIndex: 0,
@@ -232,7 +232,7 @@ const markets: InvestmentFlow[] = [
 		type: FlowTypes.market,
 	},
 	{
-		superToken: twoWayMarketWBTCDAIAddress,
+		superToken: twoWayMarketibAlluoUSDETHAddress,
 		tokenA: StIbAlluoUSDAddress,
 		tokenB: StIbAlluoETHAddress,
 		coinA: Coin.IbAlluoUSD,
