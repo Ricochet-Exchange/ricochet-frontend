@@ -11,8 +11,8 @@ import ric from 'assets/images/coins/ric.svg';
 import sushi from 'assets/images/coins/sushiswap.svg';
 import slp from 'assets/images/coins/slp.svg';
 import idle from 'assets/images/coins/idle.svg';
-import iballuousd from 'assets/images/coins/usdCoin.svg';
-import iballuoeth from 'assets/images/coins/ethereum.svg';
+import iballuousd from 'assets/images/coins/ibusd.svg';
+import iballuoeth from 'assets/images/coins/ibeth.svg';
 
 export enum Coin {
 	WBTC = 'WBTC',
