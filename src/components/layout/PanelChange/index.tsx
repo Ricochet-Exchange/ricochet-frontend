@@ -369,7 +369,10 @@ export const PanelChange: FC<IProps> = ({
 											{`$${totalFlow && getFlowUSDValue(totalFlow)}`}
 										</span>
 										{t('per month')}
-										{coinA !== 'RIC' && coinB !== 'RIC' ? (
+										{coinA !== 'RIC' &&
+										coinB !== 'RIC' &&
+										coinA !== 'IbAlluoUSD' &&
+										coinB !== 'IbAlluoUSD' ? (
 											<span>
 												<span
 													data-tip

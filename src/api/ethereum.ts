@@ -111,7 +111,9 @@ export const startFlow = async (
 				data.exchangeAddress === exchangeAddress,
 		);
 		if (!config) {
-			throw new Error(`No config found for this pair: , ${inputTokenAddress}, ${outputTokenAddress}`);
+			throw new Error(
+				`No config found for this pair: , ${inputTokenAddress}, ${outputTokenAddress}, ${exchangeAddress}`,
+			);
 		}
 		const provider = new ethers.providers.Web3Provider(web3.currentProvider as any);
 		const signer = provider.getSigner();

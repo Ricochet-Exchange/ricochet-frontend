@@ -69,11 +69,14 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 			| 'hasWethApprove'
 			| 'hasUsdcApprove'
 			| 'hasWbtcApprove'
+			| 'hasMkrApprove'
 			| 'hasDaiApprove'
 			| 'hasMkrApprove'
 			| 'hasMaticApprove'
 			| 'hasSushiApprove'
-			| 'hasIdleApprove';
+			| 'hasIdleApprove'
+			| 'hasIbAlluoETHApprove'
+			| 'hasIbAlluoUSDApprove';
 	}>();
 	const [upgradeValue, setUpgradeValue] = useState('');
 	const dispatch = useDispatch();
@@ -98,6 +101,8 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 		DAI: 'dai',
 		IDLE: 'idle',
 		RIC: 'richochet',
+		StIbAlluoETH: 'ethereum',
+		StIbAlluoUSD: 'usd-coin',
 	};
 
 	useEffect(() => {
