@@ -228,11 +228,19 @@ export const PanelChange: FC<IProps> = ({
 								</span>
 							) : (
 								<div className={styles.row}>
-									<Price flowType={flowType} coinA={coinA} coinB={coinB} />
+									<div
+										style={{
+											display: 'flex',
+											flexDirection: 'row',
+										}}
+									>
+										<Price flowType={flowType} coinA={coinA} coinB={coinB} />
+										<AddressLink addressLink={link} />
+									</div>
+
 									<div className={styles.coin}>
 										<CoinChange nameCoinLeft={coinA} nameCoinRight={coinB} />
 										{flowType === 'sushiLP' && <LpAPY contractAddress={contractAddress} />}
-										<AddressLink addressLink={link} />
 									</div>
 								</div>
 							)}
