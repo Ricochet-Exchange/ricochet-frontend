@@ -1,0 +1,14 @@
+.wrap{
+  position: fixed;
+  top: 10vh;
+  left: 12vw; 
+  width: 88vw;
+  height: 90vh;
+  background-color: #242729;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 15vh;
+  padding-bottom: 10vh;
+  overflow-y: scroll;
+}
