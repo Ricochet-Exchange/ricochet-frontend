@@ -354,6 +354,8 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 				<tbody>
 					{geckoPriceList !== undefined &&
 						sortedUpgradeTokensList.map((token, index) => {
+							const removeCoins = ['MKR', 'IDLE', 'SUSHI'];
+							if (removeCoins.includes(token.coin)) return null;
 							const usdPriceString = (geckoPriceList as any)[(geckoMapping as any)[token.coin]].usd;
 							const usdPrice = new Big(parseFloat(usdPriceString));
 							let inFlowRate = 0;
