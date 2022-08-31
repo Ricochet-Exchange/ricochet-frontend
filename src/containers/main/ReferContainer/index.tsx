@@ -23,6 +23,11 @@ export const ReferContainer: React.FC<IProps> = () => {
 	const [validationErrors, setValidationErrors] = useState<string[]>([]);
 	const [referredBy, setReferredBy] = useState<string | undefined>();
 	const [status, setStatus] = useState<AFFILIATE_STATUS | undefined>();
+	const [showId, setShowId] = useState<AFFILIATE_STATUS | undefined>();
+
+	useEffect(() => {
+		setCurrentReferralId(address.toLowerCase().slice(0, 10));
+	}, [address]);
 
 	useEffect(() => {
 		let isMounted = true;
@@ -30,9 +35,10 @@ export const ReferContainer: React.FC<IProps> = () => {
 			(async () => {
 				const contractMethods = await contract.methods;
 				const affiliate = await contractMethods.customerToAffiliate(address.toLowerCase()).call();
-				const referral = await contractMethods.affiliates(affiliate).call();
-				setCurrentReferralId(referral.id);
 				if (affiliate !== '0') {
+					const referral = await contractMethods.affiliates(affiliate).call();
+					setShowId(referral.id);
+
 					if (isMounted) {
 						setReferredBy(referral.name);
 					}
@@ -64,7 +70,6 @@ export const ReferContainer: React.FC<IProps> = () => {
 		(async () => {
 			if (address && contract) {
 				const affiliateStatus = await getAffiliateStatus(contract, address, web3);
-
 				if (isMounted) {
 					setStatus(affiliateStatus);
 				}
@@ -201,7 +206,7 @@ export const ReferContainer: React.FC<IProps> = () => {
 					<div className={styles.input_wrap}>
 						<TextInput
 							readOnly
-							value={`${AFFILIATE_URL_PREFIX}${currentReferralId}`}
+							value={`${AFFILIATE_URL_PREFIX}${showId}`}
 							className={styles.input_static}
 							containerClassName={styles.container_input}
 							right={
