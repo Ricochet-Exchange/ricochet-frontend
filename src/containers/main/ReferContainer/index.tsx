@@ -25,17 +25,14 @@ export const ReferContainer: React.FC<IProps> = () => {
 	const [status, setStatus] = useState<AFFILIATE_STATUS | undefined>();
 
 	useEffect(() => {
-		setCurrentReferralId(address.toLowerCase().slice(0, 10));
-	}, [address]);
-
-	useEffect(() => {
 		let isMounted = true;
 		if (address && contract) {
 			(async () => {
 				const contractMethods = await contract.methods;
 				const affiliate = await contractMethods.customerToAffiliate(address.toLowerCase()).call();
+				const referral = await contractMethods.affiliates(affiliate).call();
+				setCurrentReferralId(referral.id);
 				if (affiliate !== '0') {
-					const referral = await contractMethods.affiliates(affiliate).call();
 					if (isMounted) {
 						setReferredBy(referral.name);
 					}
@@ -67,6 +64,7 @@ export const ReferContainer: React.FC<IProps> = () => {
 		(async () => {
 			if (address && contract) {
 				const affiliateStatus = await getAffiliateStatus(contract, address, web3);
+
 				if (isMounted) {
 					setStatus(affiliateStatus);
 				}
