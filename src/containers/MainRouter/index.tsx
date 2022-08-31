@@ -7,6 +7,7 @@ import { InvestPage } from 'pages/InvestPage';
 import { PaymentsPage } from 'pages/PaymentsPage';
 import { RecentActivityPage } from 'pages/RecentActivityPage';
 import { ReferPage, ReferralValidationRedirectPage } from 'pages/ReferPage';
+import { WidgetPage } from 'pages/SwapPage';
 
 interface IProps {}
 
@@ -25,6 +26,7 @@ const MainRouter: FC<IProps> = () => {
 			<SentryRoute path={Routes.RecentActivity} component={RecentActivityPage} exact />
 			<SentryRoute path={Routes.Referral} component={ReferralValidationRedirectPage} exact />
 			<SentryRoute path={Routes.Payments} component={PaymentsPage} exact />
+			<SentryRoute path={Routes.Swap} component={WidgetPage} exact />
 			<Redirect to={{ pathname: Routes.Invest, search: location.search }} />
 			{/* Please do not change, it will break Ledger integration query parameter lookup */}
 		</Switch>
