@@ -8,7 +8,7 @@ export const swap = async (params: any, web3: any, address: any) => {
 		amountIn: '5',
 		amountOutMin: '0',
 		path: ['0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174', '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'],
-		poolFees: '500',
+		poolFees: ['500'],
 		_hasUnderlyingFrom: true,
 		_hasUnderlyingTo: true,
 	};
@@ -26,7 +26,16 @@ export const swap = async (params: any, web3: any, address: any) => {
 	const contract = new web3ToUse.eth.Contract(SwapABI as any, SwapContract);
 
 	try {
-		const method = contract.methods.SuperSwap();
+		const method = contract.methods.swap(
+			params._from,
+			params._to,
+			params.amountIn,
+			params.amountOutMin,
+			params.path,
+			params.poolFees,
+			params._hasUnderlyingFrom,
+			params._hasUnderlyingTo,
+		);
 		const tx = await method.send({
 			from: address,
 		});
