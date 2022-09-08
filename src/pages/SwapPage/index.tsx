@@ -2,6 +2,7 @@ import React from 'react';
 import { swap } from 'utils/swap/swap';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
+import Checkout from './layout/Checkout/Checkout';
 import Web3 from 'web3';
 
 export function SwapPage() {
@@ -17,7 +18,7 @@ export function SwapPage() {
 				justifyContent: 'center',
 			}}
 		>
-			SwapPage
+			<Checkout></Checkout>
 			<button
 				onClick={() => {
 					swap(
