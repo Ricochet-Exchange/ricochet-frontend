@@ -76,6 +76,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 			| 'hasSushiApprove'
 			| 'hasIdleApprove'
 			| 'hasIbAlluoETHApprove'
+			| 'hasIbAlluoBTCApprove'
 			| 'hasIbAlluoUSDApprove';
 	}>();
 	const [upgradeValue, setUpgradeValue] = useState('');
@@ -102,6 +103,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 		IDLE: 'idle',
 		RIC: 'richochet',
 		StIbAlluoETH: 'ethereum',
+		StIbAlluoBTC: 'bitcoin',
 		StIbAlluoUSD: 'usd-coin',
 	};
 

@@ -159,6 +159,9 @@ export function* sweepQueryFlow(): any {
 	const twoWayDaiWbtcFlowQuery = buildFlowQuery(FlowEnum.twoWayDaiWbtcFlowQuery);
 	const twoWayIbEthIbUsdFlowQuery = buildFlowQuery(FlowEnum.twoWayIbEthIbUsdFlowQuery);
 	const twoWayIbUsdIbEthFlowQuery = buildFlowQuery(FlowEnum.twoWayIbUsdIbEthFlowQuery);
+	const twoWayIbBTCIbUsdFlowQuery = buildFlowQuery(FlowEnum.twoWayIbBTCIbUsdFlowQuery);
+	const twoWayIbUsdIbBTCFlowQuery = buildFlowQuery(FlowEnum.twoWayIbUsdIbBTCFlowQuery);
+
 	// const daiEthFlowQuery = buildFlowQuery(FlowEnum.daiEthFlowQuery);
 	// const ethDaiFlowQuery = buildFlowQuery(FlowEnum.ethDaiFlowQuery);
 	// const daiMkrFlowQuery = buildFlowQuery(FlowEnum.daiMkrFlowQuery);
@@ -193,6 +196,8 @@ export function* sweepQueryFlow(): any {
 	twoWayDaiWbtcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, twoWayDaiWbtcFlowQuery);
 	twoWayIbEthIbUsdFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, twoWayIbEthIbUsdFlowQuery);
 	twoWayIbUsdIbEthFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, twoWayIbUsdIbEthFlowQuery);
+	twoWayIbBTCIbUsdFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, twoWayIbBTCIbUsdFlowQuery);
+	twoWayIbUsdIbBTCFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, twoWayIbUsdIbBTCFlowQuery);
 	// daiEthFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, daiEthFlowQuery);
 	// ethDaiFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, ethDaiFlowQuery);
 	// daiMkrFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, daiMkrFlowQuery);
@@ -221,6 +226,8 @@ export function* sweepQueryFlow(): any {
 			twoWayDaiWbtcFlowQuery,
 			twoWayIbEthIbUsdFlowQuery,
 			twoWayIbUsdIbEthFlowQuery,
+			twoWayIbBTCIbUsdFlowQuery,
+			twoWayIbUsdIbBTCFlowQuery,
 			// daiEthFlowQuery,
 			// ethDaiFlowQuery,
 			// daiMkrFlowQuery,
