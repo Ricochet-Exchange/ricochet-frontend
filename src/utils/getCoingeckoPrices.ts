@@ -25,7 +25,7 @@ const coingeckoIds = new Map<string, string>([
 	// from these contracts since 1 ibAlluoUSD > 1 USD
 	[StIbAlluoETHAddress, 'weth'],
 	[StIbAlluoUSDAddress, 'usd-coin'],
-	[StIbAlluoBTCAddress, 'wbtc'],
+	[StIbAlluoBTCAddress, 'wrapped-bitcoin'],
 ]);
 
 async function getPrices() {
