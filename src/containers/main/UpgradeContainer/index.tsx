@@ -76,6 +76,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 			| 'hasSushiApprove'
 			| 'hasIdleApprove'
 			| 'hasIbAlluoETHApprove'
+			| 'hasIbAlluoBTCApprove'
 			| 'hasIbAlluoUSDApprove';
 	}>();
 	const [upgradeValue, setUpgradeValue] = useState('');
@@ -102,6 +103,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 		IDLE: 'idle',
 		RIC: 'richochet',
 		StIbAlluoETH: 'ethereum',
+		StIbAlluoBTC: 'wrapped-bitcoin',
 		StIbAlluoUSD: 'usd-coin',
 	};
 
@@ -354,7 +356,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 				<tbody>
 					{geckoPriceList !== undefined &&
 						sortedUpgradeTokensList.map((token, index) => {
-							const usdPriceString = (geckoPriceList as any)[(geckoMapping as any)[token.coin]].usd;
+							const usdPriceString = (geckoPriceList as any)[(geckoMapping as any)[token.coin]]?.usd;
 							const usdPrice = new Big(parseFloat(usdPriceString));
 							let inFlowRate = 0;
 							const inFlowArray = flows?.flowsOwned?.filter(

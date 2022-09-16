@@ -27,6 +27,7 @@ import {
 	WETHxAddress,
 	StIbAlluoETHAddress,
 	StIbAlluoUSDAddress,
+	StIbAlluoBTCAddress,
 } from 'constants/polygon_config';
 // import './reactFlow.styles.module.scss';
 
@@ -39,6 +40,7 @@ const sourceCoins = [
 	Coin.MATICx,
 	Coin.StIbAlluoETH,
 	Coin.StIbAlluoUSD,
+	Coin.StIbAlluoBTC,
 ].map((coin, idx) => {
 	return {
 		name: coin,
@@ -58,6 +60,7 @@ const targetCoins = [
 	Coin.MATICx,
 	Coin.StIbAlluoETH,
 	Coin.StIbAlluoUSD,
+	Coin.StIbAlluoBTC,
 ].map((coin, idx) => {
 	return {
 		name: coin,
@@ -77,6 +80,8 @@ const marketMap = {
 	[Coin.MATICx]: [Coin.USDCx, Coin.DAIx],
 	[Coin.StIbAlluoETH]: [Coin.StIbAlluoUSD],
 	[Coin.StIbAlluoUSD]: [Coin.StIbAlluoETH],
+	[Coin.StIbAlluoBTC]: [Coin.StIbAlluoUSD],
+	[Coin.StIbAlluoUSD]: [Coin.StIbAlluoBTC],
 };
 
 const addressesMap = {
@@ -88,6 +93,7 @@ const addressesMap = {
 	[Coin.MATICx]: MATICxAddress,
 	[Coin.StIbAlluoETH]: StIbAlluoETHAddress,
 	[Coin.StIbAlluoUSD]: StIbAlluoUSDAddress,
+	[Coin.StIbAlluoBTC]: StIbAlluoBTCAddress,
 };
 
 const nodeColor: GetMiniMapNodeAttribute = (node: Node<any>) => {
@@ -287,6 +293,24 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 			source: 'StIbAlluoUSD-7',
 			target: 'StIbAlluoETH-14',
 			id: 'reactflow__edge-StIbAlluoUSD-7-StIbAlluoETH-14',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'StIbAlluoBTC-8',
+			target: 'StIbAlluoUSD-16',
+			id: 'reactflow__edge-StIbAlluoBTC-8-StIbAlluoUSD-16',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'StIbAlluoUSD-9',
+			target: 'StIbAlluoBTC-17',
+			id: 'reactflow__edge-StIbAlluoUSD-9-StIbAlluoBTC-17',
 			style: {
 				opacity: 0,
 			},

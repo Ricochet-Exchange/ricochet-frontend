@@ -19,6 +19,8 @@ import {
 	RICAddress,
 	StIbAlluoETHAddress,
 	IbAlluoETHAddress,
+	StIbAlluoBTCAddress,
+	IbAlluoBTCAddress,
 	StIbAlluoUSDAddress,
 	IbAlluoUSDAddress,
 	ZeroAddress,
@@ -39,6 +41,7 @@ export const upgradeTokensList: {
 		| 'hasSushiApprove'
 		| 'hasIdleApprove'
 		| 'hasIbAlluoETHApprove'
+		| 'hasIbAlluoBTCApprove'
 		| 'hasIbAlluoUSDApprove';
 }[] = [
 	{
@@ -110,6 +113,13 @@ export const upgradeTokensList: {
 		superTokenAddress: StIbAlluoETHAddress,
 		multi: 1e18,
 		key: 'hasIbAlluoETHApprove',
+	},
+	{
+		coin: Coin.StIbAlluoBTC,
+		tokenAddress: IbAlluoBTCAddress,
+		superTokenAddress: StIbAlluoBTCAddress,
+		multi: 1e18,
+		key: 'hasIbAlluoBTCApprove',
 	},
 	{
 		coin: Coin.StIbAlluoUSD,

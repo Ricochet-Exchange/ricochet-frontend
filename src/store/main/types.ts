@@ -17,6 +17,7 @@ export type MainState = {
 	hasIdleApprove?: boolean;
 	hasIbAlluoUSDApprove?: boolean;
 	hasIbAlluoETHApprove?: boolean;
+	hasIbAlluoBTCApprove?: boolean;
 	apy?: number;
 	rewardsApy?: number;
 	feesApy?: number;
@@ -341,6 +342,26 @@ export type MainState = {
 		receivedSoFar?: number;
 	};
 	twoWayIbEthIbUsdFlowQuery?: {
+		flowKey: string;
+		flowsReceived: number;
+		flowsOwned: string;
+		totalFlows: number;
+		placeholder: string;
+		subsidyRate: { perso: number; total: number; endDate: string };
+		streamedSoFar?: number;
+		receivedSoFar?: number;
+	};
+	twoWayIbUsdIbBTCFlowQuery?: {
+		flowKey: string;
+		flowsReceived: number;
+		flowsOwned: string;
+		totalFlows: number;
+		placeholder: string;
+		subsidyRate: { perso: number; total: number; endDate: string };
+		streamedSoFar?: number;
+		receivedSoFar?: number;
+	};
+	twoWayIbBTCIbUsdFlowQuery?: {
 		flowKey: string;
 		flowsReceived: number;
 		flowsOwned: string;

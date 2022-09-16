@@ -21,6 +21,8 @@ import {
 	IDLExAddress,
 	IbAlluoETHAddress,
 	StIbAlluoETHAddress,
+	IbAlluoBTCAddress,
+	StIbAlluoBTCAddress,
 	IbAlluoUSDAddress,
 	StIbAlluoUSDAddress,
 } from 'constants/polygon_config';
@@ -41,6 +43,7 @@ export function* checkIfApprove(
 		| 'hasSushiApprove'
 		| 'hasIdleApprove'
 		| 'hasIbAlluoETHApprove'
+		| 'hasIbAlluoBTCApprove'
 		| 'hasIbAlluoUSDApprove',
 ) {
 	const main: ReturnType<typeof selectMain> = yield select(selectMain);
@@ -77,6 +80,10 @@ export function* checkIfApproveWbtc() {
 
 export function* checkIfApproveIbAlluoETH() {
 	yield call(checkIfApprove, IbAlluoETHAddress, StIbAlluoETHAddress, 'hasIbAlluoETHApprove');
+}
+
+export function* checkIfApproveIbAlluoBTC() {
+	yield call(checkIfApprove, IbAlluoBTCAddress, StIbAlluoBTCAddress, 'hasIbAlluoBTCApprove');
 }
 
 export function* checkIfApproveIbAlluoUSD() {
