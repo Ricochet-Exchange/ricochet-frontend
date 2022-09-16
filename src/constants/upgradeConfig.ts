@@ -45,27 +45,6 @@ export const upgradeTokensList: {
 		| 'hasIbAlluoUSDApprove';
 }[] = [
 	{
-		coin: Coin.StIbAlluoETH,
-		tokenAddress: IbAlluoETHAddress,
-		superTokenAddress: StIbAlluoETHAddress,
-		multi: 1e18,
-		key: 'hasIbAlluoETHApprove',
-	},
-	{
-		coin: Coin.StIbAlluoBTC,
-		tokenAddress: IbAlluoBTCAddress,
-		superTokenAddress: StIbAlluoBTCAddress,
-		multi: 1e18,
-		key: 'hasIbAlluoBTCApprove',
-	},
-	{
-		coin: Coin.StIbAlluoUSD,
-		tokenAddress: IbAlluoUSDAddress,
-		superTokenAddress: StIbAlluoUSDAddress,
-		multi: 1e18,
-		key: 'hasIbAlluoUSDApprove',
-	},
-	{
 		coin: Coin.RIC,
 		tokenAddress: ZeroAddress,
 		superTokenAddress: RICAddress,
@@ -127,5 +106,26 @@ export const upgradeTokensList: {
 		superTokenAddress: IDLExAddress,
 		multi: 1e18,
 		key: 'hasIdleApprove',
+	},
+	{
+		coin: Coin.StIbAlluoETH,
+		tokenAddress: IbAlluoETHAddress,
+		superTokenAddress: StIbAlluoETHAddress,
+		multi: 1e18,
+		key: 'hasIbAlluoETHApprove',
+	},
+	{
+		coin: Coin.StIbAlluoBTC,
+		tokenAddress: IbAlluoBTCAddress,
+		superTokenAddress: StIbAlluoBTCAddress,
+		multi: 1e18,
+		key: 'hasIbAlluoBTCApprove',
+	},
+	{
+		coin: Coin.StIbAlluoUSD,
+		tokenAddress: IbAlluoUSDAddress,
+		superTokenAddress: StIbAlluoUSDAddress,
+		multi: 1e18,
+		key: 'hasIbAlluoUSDApprove',
 	},
 ];
