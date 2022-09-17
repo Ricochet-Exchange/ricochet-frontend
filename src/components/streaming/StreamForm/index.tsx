@@ -54,12 +54,6 @@ export const StreamForm: React.FC<IProps> = ({
 			currency: 'WETHx',
 			address: WETHxAddress,
 		},
-
-		{
-			currency: 'MKRx',
-			address: MKRxAddress,
-		},
-
 		{
 			currency: 'WBTCx',
 			address: WBTCxAddress,
@@ -68,16 +62,6 @@ export const StreamForm: React.FC<IProps> = ({
 		{
 			currency: 'MATICx',
 			address: MATICxAddress,
-		},
-
-		{
-			currency: 'SUSHIx',
-			address: SUSHIxAddress,
-		},
-
-		{
-			currency: 'IDLEx',
-			address: IDLExAddress,
 		},
 		{
 			currency: 'RIC',
@@ -140,7 +124,7 @@ export const StreamForm: React.FC<IProps> = ({
 
 			<div className={styles.input_container}>
 				<label className={styles.input_label} htmlFor="supertoken">
-					Supertoken
+					Ricochet Token
 				</label>
 				<select
 					name="SuperTokens"

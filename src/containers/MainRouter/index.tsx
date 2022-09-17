@@ -26,7 +26,7 @@ const MainRouter: FC<IProps> = () => {
 			<SentryRoute path={Routes.RecentActivity} component={RecentActivityPage} exact />
 			<SentryRoute path={Routes.Referral} component={ReferralValidationRedirectPage} exact />
 			<SentryRoute path={Routes.Payments} component={PaymentsPage} exact />
-			<SentryRoute path={Routes.SuperSwap} component={SwapPage} exact />
+			<SentryRoute path={Routes.Swap} component={SwapPage} exact />
 			<Redirect to={{ pathname: Routes.Invest, search: location.search }} />
 			{/* Please do not change, it will break Ledger integration query parameter lookup */}
 		</Switch>

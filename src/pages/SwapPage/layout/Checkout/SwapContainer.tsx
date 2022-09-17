@@ -6,21 +6,15 @@ import {
 	USDCxAddress,
 	RICAddress,
 	MATICxAddress,
-	MKRxAddress,
 	WETHxAddress,
 	WBTCxAddress,
-	SUSHIxAddress,
-	IDLExAddress,
 	DAIAddress,
 	USDCAddress,
 	WMATICAddress,
-	MKRAddress,
 	WETHAddress,
 	WBTCAddress,
-	SUSHIAddress,
-	IDLEAddress,
 } from 'constants/polygon_config';
-
+import axios from 'axios';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { swap } from 'utils/swap/swap';
@@ -32,46 +26,37 @@ export default function SwapContainer() {
 	const tokens = [
 		{
 			name: 'MATICx',
+			symbol: 'matic-network',
 			address: MATICxAddress,
 			underlyingToken: WMATICAddress,
 		},
 		{
-			name: 'MKRx',
-			address: MKRxAddress,
-			underlyingToken: MKRAddress,
-		},
-		{
 			name: 'WETHx',
+			symbol: 'ethereum',
 			address: WETHxAddress,
 			underlyingToken: WETHAddress,
 		},
 		{
 			name: 'WBTCx',
+			symbol: 'wrapped-bitcoin',
 			address: WBTCxAddress,
 			underlyingToken: WBTCAddress,
 		},
 		{
 			name: 'USDCx',
+			symbol: 'usd-coin',
 			address: USDCxAddress,
 			underlyingToken: USDCAddress,
 		},
 		{
 			name: 'DAIx',
+			symbol: 'dai',
 			address: DAIxAddress,
 			underlyingToken: DAIAddress,
 		},
 		{
-			name: 'SUSHIx',
-			address: SUSHIxAddress,
-			underlyingToken: SUSHIAddress,
-		},
-		{
-			name: 'IDLEx',
-			address: IDLExAddress,
-			underlyingToken: IDLEAddress,
-		},
-		{
 			name: 'RIC',
+			symbol: 'ric',
 			address: RICAddress,
 			underlyingToken: RICAddress,
 		},
@@ -82,6 +67,7 @@ export default function SwapContainer() {
 	const [fromSupertoken, setFromSupertoken] = React.useState('');
 	const [fromSymbol, setFromSymbol] = React.useState('');
 	const [toSupertoken, setToSupertoken] = React.useState('');
+	const [geckoPriceList, setGeckoPriceList] = React.useState<{}>();
 	const [toSymbol, setToSymbol] = React.useState('');
 	const [underlyingToken1, setUnderlyingToken1] = React.useState('');
 	const [underlyingToken2, setUnderlyingToken2] = React.useState('');
@@ -91,9 +77,53 @@ export default function SwapContainer() {
 	const [success, setSuccess] = React.useState(false);
 	const [tx, setTx] = React.useState('');
 
+	const coingeckoUrl =
+		'https://api.coingecko.com/api/v3/simple/price?ids=richochet%2Cusd-coin%2Cdai%2Cmaker%2Cethereum%2Cwrapped-bitcoin%2Cidle%2Cmatic-network%2Csushi&vs_currencies=usd';
+
+	React.useEffect(() => {
+		axios.get(coingeckoUrl).then((response) => {
+			setGeckoPriceList(response.data);
+		});
+		console.log(geckoPriceList);
+	}, []);
+
+	React.useEffect(() => {
+		if (amountIn !== '' && fromSymbol !== '' && toSymbol !== '' && geckoPriceList) {
+			let pricesArray = [];
+			let keys = Object.keys(geckoPriceList);
+			let values = Object.values(geckoPriceList);
+
+			for (let i = 0; i < keys.length; i++) {
+				pricesArray.push([keys[i], values[i]]);
+			}
+			let fromSymbolPrice = pricesArray.filter((pair) => pair[0] === fromSymbol);
+			console.log(fromSymbolPrice);
+			let price = fromSymbolPrice[0][1];
+			// @ts-ignore
+			price = price.usd;
+			// @ts-ignore
+			let priceAmountIn = price * amountIn;
+			console.log('price of ', priceAmountIn);
+
+			let toSymbolPrice = pricesArray.filter((pair) => pair[0] === toSymbol);
+			let toPrice = toSymbolPrice[0][1];
+			// @ts-ignore
+			toPrice = toPrice.usd;
+			// @ts-ignore
+			let outPutPrice = priceAmountIn / toPrice;
+			let fee = 0.01;
+			let outputFee = outPutPrice * fee;
+			let FinalOutputAmount = outPutPrice - outputFee;
+
+			setMinAmountOut(FinalOutputAmount.toFixed(4));
+		} else {
+			return;
+		}
+	}, [amountIn, fromSymbol, toSymbol]);
+
 	const handleSetFromToken = (value: any) => {
 		let fromToken = tokens.filter((token) => token.address == value);
-		let symbol = fromToken[0].name;
+		let symbol = fromToken[0].symbol;
 		let underlying = fromToken[0].underlyingToken;
 
 		setFromSupertoken(value);
@@ -103,7 +133,7 @@ export default function SwapContainer() {
 
 	const handleSetToToken = (value: any) => {
 		let fromToken = tokens.filter((token) => token.address == value);
-		let symbol = fromToken[0].name;
+		let symbol = fromToken[0].symbol;
 		let underlying = fromToken[0].underlyingToken;
 
 		setToSupertoken(value);

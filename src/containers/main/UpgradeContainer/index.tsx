@@ -245,9 +245,9 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 							<br />
 							{t('Balance')}
 						</td>
-						<td className={styles.section}>{t('Super Token Balance')}</td>
+						<td className={styles.section}>{t('Ricochet Token Balance')}</td>
 						<td className={styles.section}>
-							{t('Super Token Balance')}
+							{t('Ricochet Token Balance')}
 							<br />
 							in
 							<span className={styles.blue}> USD</span>

@@ -1,10 +1,9 @@
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import { Button } from '@mui/material';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import ButtonNew from 'components/common/ButtonNew';
+import { useShallowSelector } from 'hooks/useShallowSelector';
+import { selectMain } from 'store/main/selectors';
 import styles from './styles.module.scss';
 
 interface IProps {
@@ -38,6 +37,8 @@ export const SwapForm: React.FC<IProps> = ({
 	approved,
 	isLoading,
 }) => {
+	const { balances } = useShallowSelector(selectMain);
+
 	return (
 		<React.Fragment>
 			<Grid
@@ -56,7 +57,7 @@ export const SwapForm: React.FC<IProps> = ({
 							fontSize: 'larger',
 						}}
 					>
-						From Supertoken
+						From token
 					</Typography>
 					<select
 						name="SuperTokens"
@@ -72,22 +73,47 @@ export const SwapForm: React.FC<IProps> = ({
 						}}
 					>
 						<option value={''}>Choose a Token</option>
-						{tokens.map((token, i) => {
-							return (
-								<option key={`${token.name}-${i}`} value={token.address}>
-									{token.name}
-								</option>
-							);
-						})}
-					</select>
-				</Grid>
 
-				<Grid item xs={12} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-					<SwapHorizIcon
-						style={{
-							color: 'white',
-						}}
-					/>
+						{balances
+							? tokens.map((token, i) => {
+									if (+balances[token.address] > 0) {
+										return (
+											<option
+												key={`${token.name}-${i}`}
+												value={token.address}
+												style={{
+													display: 'flex',
+													alignItems: 'center',
+													justifyContent: 'space-between',
+													width: '100%',
+												}}
+											>
+												{token.name}
+												{'     --    balance:  '}
+												{(+balances[token.address]).toFixed(2)}
+											</option>
+										);
+									} else {
+										return (
+											<option
+												key={`${token.name}-${i}`}
+												value={token.address}
+												style={{
+													display: 'flex',
+													alignItems: 'center',
+													justifyContent: 'space-between',
+													width: '100%',
+												}}
+											>
+												{token.name}
+												{'     --    balance:  '}
+												{(+balances[token.address]).toFixed(2)}
+											</option>
+										);
+									}
+							  })
+							: ''}
+					</select>
 				</Grid>
 
 				<Grid item xs={12} sm={12}>
@@ -99,7 +125,7 @@ export const SwapForm: React.FC<IProps> = ({
 							fontSize: 'larger',
 						}}
 					>
-						To Supertoken
+						To token
 					</Typography>
 					<select
 						name="SuperTokens"
@@ -116,11 +142,15 @@ export const SwapForm: React.FC<IProps> = ({
 					>
 						<option value={''}>Choose a Token</option>
 						{tokens.map((token, i) => {
-							return (
-								<option key={`${token.name}-${i}`} value={token.address}>
-									{token.name}
-								</option>
-							);
+							if (token.name === 'USDCx') {
+								return;
+							} else {
+								return (
+									<option key={`${token.name}-${i}`} value={token.address}>
+										{token.name}
+									</option>
+								);
+							}
 						})}
 					</select>
 				</Grid>

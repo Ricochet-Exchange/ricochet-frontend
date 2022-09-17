@@ -15,11 +15,6 @@ export const InvestNav = () => {
 	return (
 		<div className={styles.nav_container}>
 			<div className={styles.navscroller}>
-				<NavLink to={Routes.SuperSwap} className={styles.nav_link} activeClassName={styles.nav_link_active}>
-					<FontIcon name={FontIconName.Loop} size={16} />
-					<div className={styles.nav_text}>{t('Swap')}</div>
-				</NavLink>
-
 				<NavLink to={Routes.Wallet} className={styles.nav_link} activeClassName={styles.nav_link_active}>
 					<FontIcon name={FontIconName.Wallet} size={16} />
 					<div className={styles.nav_text}>{t('Wallet')}</div>
@@ -28,6 +23,11 @@ export const InvestNav = () => {
 				<NavLink className={styles.nav_link} exact activeClassName={styles.nav_link_active} to={Routes.Invest}>
 					<FontIcon name={FontIconName.Swap} size={16} />
 					<div className={styles.nav_text}>{t('Market')}</div>
+				</NavLink>
+
+				<NavLink to={Routes.Swap} className={styles.nav_link} activeClassName={styles.nav_link_active}>
+					<FontIcon name={FontIconName.Loop} size={16} />
+					<div className={styles.nav_text}>{t('Swap')}</div>
 				</NavLink>
 
 				<NavLink className={styles.nav_link} activeClassName={styles.nav_link_active} to={Routes.Payments}>
