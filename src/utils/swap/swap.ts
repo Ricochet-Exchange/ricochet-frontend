@@ -1,5 +1,6 @@
 import { SwapABI } from 'constants/abis';
 import { SwapContract } from 'constants/contracts';
+import { gas } from 'api/gasEstimator';
 
 export const swap = async (params: any, web3: any, address: any) => {
 	if (!params) {
@@ -32,12 +33,12 @@ export const swap = async (params: any, web3: any, address: any) => {
 		);
 		const tx = await method.send({
 			from: address,
+			...(await gas()),
 		});
-
 		return tx;
 	} catch (error) {
 		// here do all error handling to readable stuff
 		console.log(error);
-		throw error;
+		return;
 	}
 };

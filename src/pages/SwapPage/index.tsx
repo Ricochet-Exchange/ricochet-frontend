@@ -1,9 +1,10 @@
 import React from 'react';
-import SwapForm from './layout/Checkout/SwapForm';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { LoadingPopUp } from 'components/common/LoadingPopUp';
 import Web3 from 'web3';
+import SwapContainer from './layout/Checkout/SwapContainer';
+import styles from './styles.module.scss';
 
 export function SwapPage() {
 	const { address, web3 } = useShallowSelector(selectMain);
@@ -17,7 +18,7 @@ export function SwapPage() {
 				alignItems: 'center',
 				justifyContent: 'center',
 				overflowY: 'scroll',
-				padding: '5em',
+				padding: '2em',
 			}}
 		>
 			<div
@@ -33,12 +34,11 @@ export function SwapPage() {
 				{address ? (
 					<div
 						style={{
-							width: '30vw',
-							backgroundColor: 'white',
-							padding: '1em',
+							backgroundColor: '#2d3233',
 						}}
+						className={styles.form}
 					>
-						<SwapForm />
+						<SwapContainer />
 					</div>
 				) : (
 					<LoadingPopUp />

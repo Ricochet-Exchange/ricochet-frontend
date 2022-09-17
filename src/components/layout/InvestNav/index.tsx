@@ -16,7 +16,7 @@ export const InvestNav = () => {
 		<div className={styles.nav_container}>
 			<div className={styles.navscroller}>
 				<NavLink to={Routes.SuperSwap} className={styles.nav_link} activeClassName={styles.nav_link_active}>
-					<FontIcon name={FontIconName.Wallet} size={16} />
+					<FontIcon name={FontIconName.Loop} size={16} />
 					<div className={styles.nav_text}>{t('Swap')}</div>
 				</NavLink>
 
