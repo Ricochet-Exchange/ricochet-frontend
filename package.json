@@ -106,11 +106,11 @@
     "eslint-plugin-import": "2.25.4",
     "eslint-plugin-jsx-a11y": "6.5.1",
     "eslint-plugin-react": "7.20.3",
-    "eslint-plugin-react-hooks": "4.2.0",
+    "eslint-plugin-react-hooks": "4.6.0",
     "fontello-cli": "0.6.2",
     "husky": ">=6",
     "lint-staged": "12.3.4",
-    "node-sass": "^6.0.0",
+    "node-sass": "^7.0.3",
     "prettier": "^2.6.2"
   },
   "resolutions": {
