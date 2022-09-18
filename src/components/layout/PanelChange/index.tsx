@@ -1,30 +1,31 @@
-import React, { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+import { AddressLink } from 'components/common/AddressLink';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { showErrorToast } from 'components/common/Toaster';
-import ReactTooltip from 'react-tooltip';
-import { ExchangeKeys } from 'utils/getExchangeAddress';
-import { getLastDistributionOnPair } from 'utils/getLastDistributions';
-import { useShallowSelector } from 'hooks/useShallowSelector';
-import { AddressLink } from 'components/common/AddressLink';
-import { getAddressLink } from 'utils/getAddressLink';
-import { selectMain } from 'store/main/selectors';
-import ReactTimeAgo from 'react-time-ago';
-import TimeAgo from 'javascript-time-ago';
-import { useTranslation } from 'react-i18next';
-import en from 'javascript-time-ago/locale/en.json';
-import { getContract } from 'utils/getContract';
-import { rexReferralAddress } from 'constants/polygon_config';
 import { referralABI } from 'constants/abis';
 import { Coin } from 'constants/coins';
 import { FlowTypes } from 'constants/flowConfig';
-import { getShareScaler } from 'utils/getShareScaler';
+import { rexReferralAddress } from 'constants/polygon_config';
+import { useShallowSelector } from 'hooks/useShallowSelector';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
+import React, { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import ReactTimeAgo from 'react-time-ago';
+import ReactTooltip from 'react-tooltip';
+import { selectMain } from 'store/main/selectors';
+import { getAddressLink } from 'utils/getAddressLink';
 import { AFFILIATE_STATUS, getAffiliateStatus } from 'utils/getAffiliateStatus';
-import { CoinChange } from '../CoinChange';
+import { getContract } from 'utils/getContract';
+import { ExchangeKeys } from 'utils/getExchangeAddress';
+import { getLastDistributionOnPair } from 'utils/getLastDistributions';
+import { getShareScaler } from 'utils/getShareScaler';
 import { CoinBalancePanel } from '../CoinBalancePanel';
+import { CoinChange } from '../CoinChange';
 import { CoinRateForm } from '../CoinRateForm';
 // import Price from '../../common/Price';
+import { AnimatedAmount } from 'components/common/AnimatedAmount';
 import LpAPY from '../../common/LpAPY';
 import Price from '../../common/Price';
 import styles from './styles.module.scss';
@@ -39,7 +40,8 @@ interface IProps {
 	coinB: Coin;
 	tokenA: string;
 	tokenB: string;
-	coingeckoPrice: number;
+	coingeckoPriceA: number;
+	coingeckoPriceB: number;
 	balanceA?: string;
 	balanceB?: string;
 	totalFlow?: string;
@@ -54,6 +56,8 @@ interface IProps {
 	isReadOnly?: boolean;
 	indexVal?: number;
 	streamedSoFar?: number;
+	streamedSoFarTimestamp: any;
+	receivedSoFarTimestamp: any;
 	receivedSoFar?: number;
 }
 
@@ -62,7 +66,8 @@ export const PanelChange: FC<IProps> = ({
 	onClickStop,
 	placeholder,
 	coinA,
-	coingeckoPrice,
+	coingeckoPriceA,
+	coingeckoPriceB,
 	coinB,
 	tokenA,
 	tokenB,
@@ -80,6 +85,7 @@ export const PanelChange: FC<IProps> = ({
 	exchangeKey,
 	indexVal,
 	streamedSoFar,
+	streamedSoFarTimestamp,
 	receivedSoFar,
 }) => {
 	const link = getAddressLink(contractAddress);
@@ -93,7 +99,7 @@ export const PanelChange: FC<IProps> = ({
 	const [userRewards, setUserRewards] = useState(0);
 	const contract = getContract(rexReferralAddress, referralABI, web3);
 	const { t } = useTranslation();
-
+	console.log({ coinA, coinB, coingeckoPriceA, coingeckoPriceB });
 	const personal_pool_rate = personalFlow ? personalFlow : 0;
 	const total_market_pool = totalFlow ? totalFlow : 0;
 	const subsidy_rate_static = 50000;
@@ -162,7 +168,8 @@ export const PanelChange: FC<IProps> = ({
 	}
 
 	function getFlowUSDValue(flow: string, toFixed: number = 0) {
-		return (parseFloat(flow as string) * coingeckoPrice).toFixed(toFixed);
+		if (!coingeckoPriceA) return '';
+		return (parseFloat(flow as string) * coingeckoPriceA).toFixed(toFixed);
 	}
 
 	const toggleInputShow = useCallback(() => {
@@ -214,8 +221,12 @@ export const PanelChange: FC<IProps> = ({
 
 	// uncomment when need
 	// const date = generateDate(balanceA, personalFlow);
-
 	const uuid = new Date().getTime().toString(36) + Math.random().toString(36).slice(2);
+
+	// if (!Number(personalFlow)) return null;
+
+	const coinBconversionMultiplier = (coingeckoPriceA || 0) / (coingeckoPriceB || 1);
+
 	return (
 		<>
 			<section className={styles.panel}>
@@ -285,16 +296,20 @@ export const PanelChange: FC<IProps> = ({
 											<span>{`${personalFlow && personalFlow} ${coinA}x / ${t('Month')}`}</span>
 										</span>
 									</div>
-									{streamedSoFar && (
+									{streamedSoFar && personalFlow && (
 										<>
 											<span
 												className={styles.number}
 												data-tip
 												data-for={`streamed-so-far-${indexVal}`}
 											>
-												{`${t('Streamed')} ${streamedSoFar.toFixed(6)} ${coinA}x ${t(
-													'so far',
-												)}`}
+												{`${t('Streamed')}`}{' '}
+												<AnimatedAmount
+													flowRatePerMonth={personalFlow}
+													streamedSoFar={streamedSoFar}
+													streamedSoFarTimestamp={streamedSoFarTimestamp}
+												/>{' '}
+												{`${coinA}x ${t('so far')}`}
 											</span>
 											<ReactTooltip
 												id={`streamed-so-far-${indexVal}`}
@@ -354,15 +369,24 @@ export const PanelChange: FC<IProps> = ({
 								<div className={styles.balances}>
 									<div className={styles.first_balance_container}>
 										<CoinBalancePanel
-											className={styles.currency_first_balance}
-											name={coinA}
 											balance={balanceA}
+											className={styles.currency_first_balance}
+											direction={-1}
+											flowRatePerMonth={personalFlow}
+											name={coinA}
+											stream={streamedSoFar}
+											timestamp={streamedSoFarTimestamp}
 										/>
 									</div>
 									<CoinBalancePanel
-										className={styles.currency_second_balance}
-										name={coinB}
 										balance={balanceB}
+										className={styles.currency_second_balance}
+										direction={1}
+										flowRatePerMonth={personalFlow}
+										name={coinB}
+										stream={streamedSoFar}
+										timestamp={streamedSoFarTimestamp}
+										conversionMultiplier={coinBconversionMultiplier}
 									/>
 								</div>
 							)}

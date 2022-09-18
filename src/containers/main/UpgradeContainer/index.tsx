@@ -1,25 +1,25 @@
 /* eslint-disable jsx-a11y/interactive-supports-focus */
+import axios from 'axios';
+import Big from 'big.js';
+import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { showErrorToast } from 'components/common/Toaster';
 import { UpgradePanel } from 'components/layout/UpgradePanel';
 import { UserSettings } from 'components/layout/UserSettings';
 import { Coin, iconsCoin } from 'constants/coins';
-import React, { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
+import { upgradeTokensList } from 'constants/upgradeConfig';
+import { useShallowSelector } from 'hooks/useShallowSelector';
+import { useTranslation } from 'i18n';
+import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useDispatch } from 'react-redux';
-import { approveAction, downgradeAction, upgradeAction } from 'store/main/actionCreators';
-import { useShallowSelector } from 'hooks/useShallowSelector';
-import { selectMain } from 'store/main/selectors';
-import { upgradeTokensList } from 'constants/upgradeConfig';
-import { sortByColumn } from 'utils/sortByColumn';
-import { useTranslation } from 'i18n';
-import { FontIcon, FontIconName } from 'components/common/FontIcon';
-import axios from 'axios';
-import Big from 'big.js';
 import { Popover } from 'react-tiny-popover';
-import styles from './styles.module.scss';
+import { approveAction, downgradeAction, upgradeAction } from 'store/main/actionCreators';
+import { selectMain } from 'store/main/selectors';
+import { sortByColumn } from 'utils/sortByColumn';
 import { queryFlows } from '../../../api';
 import { Flow } from '../../../types/flow';
+import styles from './styles.module.scss';
 
 function getFormattedNumber(num: string) {
 	return parseFloat(num)
@@ -453,7 +453,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 									</td>
 									<td>
 										<div className={styles.streamshow}>
-											{balances && inFlow ? (
+											{balances && outFlow ? (
 												<>
 													+ ${outFlow.toFixed(2)}
 													<FontIcon

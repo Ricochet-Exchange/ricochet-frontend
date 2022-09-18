@@ -1,4 +1,18 @@
+import { Coin } from 'constants/coins';
+import { flowConfig, InvestmentFlow, RoutesToFlowTypes } from 'constants/flowConfig';
+import {
+	DAIxAddress,
+	MATICxAddress,
+	RICAddress,
+	StIbAlluoETHAddress,
+	StIbAlluoUSDAddress,
+	USDCxAddress,
+	WBTCxAddress,
+	WETHxAddress,
+} from 'constants/polygon_config';
+import { useShallowSelector } from 'hooks/useShallowSelector';
 import React, { FC, useCallback, useEffect, useState } from 'react';
+import type { DefaultEdgeOptions, Edge, Node, OnConnect, OnEdgesChange, OnNodesChange } from 'react-flow-renderer';
 import ReactFlow, {
 	addEdge,
 	applyEdgeChanges,
@@ -9,25 +23,11 @@ import ReactFlow, {
 	MiniMap,
 	Position,
 } from 'react-flow-renderer';
-import type { Node, Edge, DefaultEdgeOptions, OnNodesChange, OnEdgesChange, OnConnect } from 'react-flow-renderer';
-import { Coin } from 'constants/coins';
-import { CoinNode } from './CoinNode';
-import StreamModal from './StreamModal';
-import HoverCard from './HoverCard';
-import { flowConfig, InvestmentFlow, RoutesToFlowTypes } from 'constants/flowConfig';
 import { useRouteMatch } from 'react-router-dom';
-import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain, selectUserStreams } from 'store/main/selectors';
-import {
-	DAIxAddress,
-	MATICxAddress,
-	RICAddress,
-	USDCxAddress,
-	WBTCxAddress,
-	WETHxAddress,
-	StIbAlluoETHAddress,
-	StIbAlluoUSDAddress,
-} from 'constants/polygon_config';
+import { CoinNode } from './CoinNode';
+import HoverCard from './HoverCard';
+import StreamModal from './StreamModal';
 // import './reactFlow.styles.module.scss';
 
 const sourceCoins = [
@@ -115,6 +115,7 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 	const [filteredList, setFilteredList] = useState(flowConfig);
 	const match = useRouteMatch();
 	const flowType = RoutesToFlowTypes[match.path];
+	const { coingeckoPrices } = state;
 
 	useEffect(() => {
 		if (flowType) {
@@ -123,12 +124,59 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 	}, [flowType, state, userStreams]);
 
 	const initialNodes: Node<any>[] = [...sourceCoins, ...targetCoins].map((coin, idx) => {
+		const outgoingStream = userStreams.find((stream) => {
+			return stream.tokenA === (addressesMap as any)[coin.name];
+		});
+		const incomingStream = userStreams.find((stream) => {
+			return stream.tokenB === (addressesMap as any)[coin.name];
+		});
+		const outgoingFlowRate = outgoingStream ? state[outgoingStream.flowKey]?.placeholder || '0' : '0';
+		const incomingFlowRate = incomingStream ? state[incomingStream.flowKey]?.placeholder || '0' : '0';
+		const props = new Map();
+		let conversionMultiplier = 1;
+		console.log({
+			coin: coin.name,
+			hasBoth: Boolean(outgoingStream) && Boolean(incomingStream),
+			streams: `${incomingStream?.flowKey} :: ${outgoingStream?.flowKey}`,
+		});
+
+		// check if coin has outgoing stream
+		if (outgoingStream) {
+			const streamedSoFar = state[outgoingStream.flowKey]?.streamedSoFar;
+			const streamedSoFarTimestamp = state[outgoingStream.flowKey]?.streamedSoFarTimestamp;
+			props.set('streamedSoFar', streamedSoFar);
+			props.set('streamedSoFarTimestamp', streamedSoFarTimestamp);
+		}
+		// check if coin has incoming stream
+		if (incomingStream) {
+			const streamedSoFar = state[incomingStream.flowKey]?.streamedSoFar;
+			const streamedSoFarTimestamp = state[incomingStream.flowKey]?.streamedSoFarTimestamp;
+			const { coinA, coinB, tokenA, tokenB } = incomingStream;
+			props.set('streamedSoFar', streamedSoFar);
+			props.set('streamedSoFarTimestamp', streamedSoFarTimestamp);
+
+			if (coingeckoPrices) {
+				conversionMultiplier = (coingeckoPrices[tokenA] || 0) / (coingeckoPrices[tokenB] || 1);
+			}
+			console.log({ streamedSoFar, conversionMultiplier, coinAB: `${coinA} -> ${coinB}` });
+			props.set('conversionMultiplier', conversionMultiplier);
+		}
+
+		const netFlowRate = +incomingFlowRate - +outgoingFlowRate;
+		console.log(`${coin.name} ::  ${netFlowRate}`);
+
 		return {
 			id: `${coin.name}-${idx}`,
 			position: coin.position,
 			data: {
 				label: (
-					<CoinNode coin={coin.name} balance={balances ? balances[(addressesMap as any)[coin.name]] : '-'} />
+					<CoinNode
+						coin={coin.name}
+						balance={balances ? balances[(addressesMap as any)[coin.name]] : '-'}
+						flowRate={Math.abs(netFlowRate)}
+						direction={netFlowRate < 0 ? -1 : 1}
+						{...Object.fromEntries(props)}
+					/>
 				),
 			},
 			type: coin.type,
@@ -453,6 +501,15 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		}
 	};
 
+	let coinAconversionMultiplier = 1;
+	let coinBconversionMultiplier = 1;
+
+	if (coingeckoPrices && stream) {
+		const { tokenA, tokenB } = stream;
+		coinAconversionMultiplier = (coingeckoPrices[tokenA] || 0) / (coingeckoPrices[tokenB] || 1);
+		coinBconversionMultiplier = (coingeckoPrices[tokenB] || 0) / (coingeckoPrices[tokenA] || 1);
+	}
+
 	return (
 		<div style={{ width: '100%', height: '100%', position: 'relative' }}>
 			<ReactFlow
@@ -517,7 +574,7 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 					resetNodes={resetNodes}
 					hasStream={hasStream}
 					deleteEdge={() => deleteEdge(activeEdge)}
-					flowRate={stream ? state[stream.flowKey]?.placeholder : undefined}
+					flowRate={hasStream ? state[stream.flowKey]?.placeholder : undefined}
 				/>
 			)}
 			{hasStream && showStreamCard && activeEdge && (
@@ -527,7 +584,10 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 					setShowStreamCard={setShowStreamCard}
 					coinA={activeEdge.source.split('-')[0]}
 					coinB={activeEdge.target.split('-')[0]}
+					coinAconversionMultiplier={coinAconversionMultiplier}
+					coinBconversionMultiplier={coinBconversionMultiplier}
 					stream={state[stream.flowKey]?.streamedSoFar}
+					streamTimestamp={state[stream.flowKey]?.streamedSoFarTimestamp}
 					flowRate={state[stream.flowKey]?.placeholder}
 					onStop={() => deleteEdge(activeEdge)}
 				/>

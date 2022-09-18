@@ -1,24 +1,24 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-import LoadingButton from '@mui/lab/LoadingButton';
-import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
-import { FlowTypes, InvestmentFlow } from 'constants/flowConfig';
-import Web3 from 'web3';
-import { getShareScaler } from 'utils/getShareScaler';
-import { ExchangeKeys } from 'utils/getExchangeAddress';
+import Tooltip, { tooltipClasses, TooltipProps } from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import { showErrorToast } from 'components/common/Toaster';
+import { referralABI } from 'constants/abis';
+import { FlowTypes, InvestmentFlow } from 'constants/flowConfig';
+import { rexReferralAddress } from 'constants/polygon_config';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import type { Edge } from 'react-flow-renderer';
 import { AFFILIATE_STATUS, getAffiliateStatus } from 'utils/getAffiliateStatus';
 import { getContract } from 'utils/getContract';
-import { rexReferralAddress } from 'constants/polygon_config';
-import { referralABI } from 'constants/abis';
-import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
-import { styled } from '@mui/material/styles';
-import type { Edge } from 'react-flow-renderer';
+import { ExchangeKeys } from 'utils/getExchangeAddress';
+import { getShareScaler } from 'utils/getShareScaler';
+import Web3 from 'web3';
 
 const style = {
 	position: 'absolute' as 'absolute',

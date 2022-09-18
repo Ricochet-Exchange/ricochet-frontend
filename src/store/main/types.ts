@@ -28,7 +28,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	usdcSlpEthFlowQuery?: {
 		flowKey: string;
@@ -38,7 +40,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	usdcWethFlowQuery?: {
 		flowKey: string;
@@ -48,7 +52,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	daiMkrFlowQuery?: {
 		flowKey: string;
@@ -58,7 +64,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	mkrDaiFlowQuery?: {
 		flowKey: string;
@@ -68,7 +76,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	usdcMkrFlowQuery?: {
 		flowKey: string;
@@ -78,7 +88,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	mkrUsdcFlowQuery?: {
 		flowKey: string;
@@ -88,7 +100,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	daiMaticFlowQuery?: {
 		flowKey: string;
@@ -98,7 +112,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	maticDaiFlowQuery?: {
 		flowKey: string;
@@ -108,7 +124,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	usdcMaticFlowQuery?: {
 		flowKey: string;
@@ -118,7 +136,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	maticUsdcFlowQuery?: {
 		flowKey: string;
@@ -128,7 +148,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	daiEthFlowQuery?: {
 		flowKey: string;
@@ -138,7 +160,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	ethDaiFlowQuery?: {
 		flowKey: string;
@@ -148,7 +172,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	usdcWbtcFlowQuery?: {
 		flowKey: string;
@@ -158,7 +184,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	wethUsdcFlowQuery?: {
 		flowKey: string;
@@ -168,7 +196,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	wbtcUsdcFlowQuery?: {
 		flowKey: string;
@@ -178,7 +208,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	usdcIdleFlowQuery?: {
 		flowKey: string;
@@ -188,7 +220,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	twoWayusdcWethFlowQuery?: {
 		flowKey: string;
@@ -198,7 +232,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	twoWaywethUsdcFlowQuery?: {
 		flowKey: string;
@@ -208,7 +244,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	twoWaywbtcUsdcFlowQuery?: {
 		flowKey: string;
@@ -218,7 +256,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	twoWayusdcWbtcFlowQuery?: {
 		flowKey: string;
@@ -228,7 +268,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	twoWayDaiWethFlowQuery?: {
 		flowKey: string;
@@ -238,7 +280,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	twoWayWethDaiFlowQuery?: {
 		flowKey: string;
@@ -248,7 +292,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	twoWayRicUsdcFlowQuery?: {
 		flowKey: string;
@@ -258,7 +304,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	twoWayUsdcRicFlowQuery?: {
 		flowKey: string;
@@ -268,7 +316,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	twoWayMaticUsdcFlowQuery?: {
 		flowKey: string;
@@ -278,7 +328,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	twoWayUsdcMaticFlowQuery?: {
 		flowKey: string;
@@ -288,7 +340,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	twoWayMaticDaiFlowQuery?: {
 		flowKey: string;
@@ -298,7 +352,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	twoWayDaiMaticFlowQuery?: {
 		flowKey: string;
@@ -308,7 +364,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	twoWayWbtcDaiFlowQuery?: {
 		flowKey: string;
@@ -318,7 +376,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	twoWayDaiWbtcFlowQuery?: {
 		flowKey: string;
@@ -328,7 +388,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	twoWayIbUsdIbEthFlowQuery?: {
 		flowKey: string;
@@ -338,7 +400,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	twoWayIbEthIbUsdFlowQuery?: {
 		flowKey: string;
@@ -348,7 +412,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	isLoadingDowngrade: boolean;
 	isLoadingUpgrade: boolean;

@@ -1,22 +1,26 @@
-import React, { useCallback, useState } from 'react';
+import { Stack } from '@mui/material';
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Stack } from '@mui/material';
+import React, { useCallback, useState } from 'react';
 
-import type { StreamModalProps } from './StreamModal';
-import { showErrorToast } from 'components/common/Toaster';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { AnimatedAmount } from 'components/common/AnimatedAmount';
+import { showErrorToast } from 'components/common/Toaster';
+import type { StreamModalProps } from './StreamModal';
 
 type HoverCardProps = Pick<StreamModalProps, 'handleOpen' | 'onClickStop'> & {
 	coinA: string;
 	coinB: string;
 	stream: any;
+	streamTimestamp: any;
 	flowRate: any;
 	setShowStreamCard: React.Dispatch<React.SetStateAction<boolean>>;
 	onStop: any;
+	coinAconversionMultiplier: number;
+	coinBconversionMultiplier: number;
 };
 
 export default function HoverCard({
@@ -25,12 +29,14 @@ export default function HoverCard({
 	setShowStreamCard,
 	coinA,
 	coinB,
+	onStop,
 	stream,
 	flowRate,
-	onStop,
+	streamTimestamp,
+	coinAconversionMultiplier,
+	coinBconversionMultiplier,
 }: HoverCardProps) {
 	const [isLoading, setIsLoading] = useState(false);
-
 	const stopStream = useCallback(() => {
 		setIsLoading(true);
 		const callback = (e?: string) => {
@@ -66,14 +72,38 @@ export default function HoverCard({
 					per month
 				</Typography>
 				<br />
+				{stream && streamTimestamp && (
+					<>
+						<Typography>Already spent</Typography>
+						<Typography sx={{ color: '#2775ca' }}>
+							<AnimatedAmount
+								balance={stream}
+								flowRatePerMonth={flowRate}
+								streamedSoFar={stream}
+								streamedSoFarTimestamp={streamTimestamp}
+							/>
+							{coinA}
+						</Typography>
+					</>
+				)}
 				<br />
-				<Typography>Already spent</Typography>
-				<Typography sx={{ color: '#2775ca' }}>
-					{stream} {coinA}
-				</Typography>
-				<br />
-				<Typography>To purchase</Typography>
-				<Typography sx={{ color: '#2775ca' }}>{coinB}</Typography>
+				{stream && streamTimestamp && (
+					<>
+						<Typography>{coinAconversionMultiplier ? 'Received so far' : 'To purchase'}</Typography>
+						<Typography sx={{ color: '#2775ca' }}>
+							{coinAconversionMultiplier > 0 && (
+								<AnimatedAmount
+									balance={0}
+									flowRatePerMonth={flowRate}
+									streamedSoFar={stream}
+									streamedSoFarTimestamp={streamTimestamp}
+									conversionMultiplier={coinAconversionMultiplier}
+								/>
+							)}
+							{coinB}
+						</Typography>
+					</>
+				)}
 				<br />
 			</CardContent>
 			<CardActions>
