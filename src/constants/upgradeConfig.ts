@@ -6,16 +6,10 @@ import {
 	USDCxAddress,
 	WETHAddress,
 	WETHxAddress,
-	MKRAddress,
-	MKRxAddress,
 	WBTCAddress,
 	WBTCxAddress,
 	WMATICAddress,
 	MATICxAddress,
-	SUSHIAddress,
-	SUSHIxAddress,
-	IDLEAddress,
-	IDLExAddress,
 	RICAddress,
 	StIbAlluoETHAddress,
 	IbAlluoETHAddress,
@@ -39,11 +33,15 @@ export const upgradeTokensList: {
 		| 'hasUsdcApprove'
 		| 'hasWbtcApprove'
 		| 'hasDaiApprove'
-		| 'hasMaticApprove'
-		| 'hasMkrApprove'
-		| 'hasSushiApprove'
-		| 'hasIdleApprove';
+		| 'hasMaticApprove';
 }[] = [
+	{
+		coin: Coin.RIC,
+		tokenAddress: ZeroAddress,
+		superTokenAddress: RICAddress,
+		multi: 1e6,
+		key: 'hasUsdcApprove',
+	},
 	{
 		coin: Coin.StIbAlluoETH,
 		tokenAddress: IbAlluoETHAddress,
@@ -66,13 +64,6 @@ export const upgradeTokensList: {
 		key: 'hasIbAlluoUSDApprove',
 	},
 	{
-		coin: Coin.RIC,
-		tokenAddress: ZeroAddress,
-		superTokenAddress: RICAddress,
-		multi: 1e6,
-		key: 'hasUsdcApprove',
-	},
-	{
 		coin: Coin.USDC,
 		tokenAddress: USDCAddress,
 		superTokenAddress: USDCxAddress,
@@ -85,13 +76,6 @@ export const upgradeTokensList: {
 		superTokenAddress: DAIxAddress,
 		multi: 1e18,
 		key: 'hasDaiApprove',
-	},
-	{
-		coin: Coin.MKR,
-		tokenAddress: MKRAddress,
-		superTokenAddress: MKRxAddress,
-		multi: 1e18,
-		key: 'hasMkrApprove',
 	},
 	{
 		coin: Coin.WETH,
@@ -113,19 +97,5 @@ export const upgradeTokensList: {
 		superTokenAddress: MATICxAddress,
 		multi: 1e18,
 		key: 'hasMaticApprove',
-	},
-	{
-		coin: Coin.SUSHI,
-		tokenAddress: SUSHIAddress,
-		superTokenAddress: SUSHIxAddress,
-		multi: 1e18,
-		key: 'hasSushiApprove',
-	},
-	{
-		coin: Coin.IDLE,
-		tokenAddress: IDLEAddress,
-		superTokenAddress: IDLExAddress,
-		multi: 1e18,
-		key: 'hasIdleApprove',
 	},
 ];
