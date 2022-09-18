@@ -189,13 +189,13 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 			(
 				parseFloat(balances[token.superTokenAddress]) *
 				parseFloat((geckoPriceList as any)[(geckoMapping as any)[token.coin]].usd)
-			).toFixed(2);
+			).toFixed(6);
 
-		return total + token.coin === Coin.RIC ? 0 : parseFloat(balancess as any);
+		return total + (token.coin === Coin.RIC ? 0 : parseFloat(balancess as any));
 	}, 0);
 
 	const getWalletBalance = (token: any) =>
-		token.coin === Coin.RIC ? 'NA' : balances && parseFloat(balances[token.tokenAddress]).toFixed(2);
+		token.coin === Coin.RIC ? 'NA' : balances && parseFloat(balances[token.tokenAddress]).toFixed(6);
 
 	const totalWalletBalance = upgradeTokensList.reduce((total, token) => {
 		const balancess =
@@ -204,9 +204,9 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 			(
 				parseFloat(getWalletBalance(token) || '') *
 				parseFloat((geckoPriceList as any)[(geckoMapping as any)[token.coin]].usd)
-			).toFixed(2);
+			).toFixed(6);
 
-		return total + token.coin === Coin.RIC ? 0 : parseFloat(balancess as any);
+		return total + (token.coin === Coin.RIC ? 0 : parseFloat(balancess as any));
 	}, 0);
 
 	const getFlow = (outFlow: any, inFlow: any) =>
@@ -246,35 +246,16 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 							<br />
 							<span>
 								{t('Total balance')}:{' '}
-								<b>${totalWalletBalance ? totalWalletBalance.toFixed(2) : '0.00'}</b>
+								<b>${totalWalletBalance ? totalWalletBalance.toFixed(6) : '0.0000'}</b>
 							</span>
 						</td>
 						<td className={styles.section}>
 							<span>{t('Ricochet Balance')}</span>
 							<br />
 							<span>
-								{t('Total balance')}: <b>${totalBalance ? totalBalance.toFixed(2) : '0.00'}</b>
+								{t('Total balance')}: <b>${totalBalance ? totalBalance.toFixed(6) : '0.0000'}</b>
 							</span>
 						</td>
-						{/* <td className={styles.section}>
-							{t('Super Token Balance')}
-							<br />
-							in
-							<span className={styles.blue}> USD</span>
-							<br />
-							<span>
-								{t('Total balance')}: <b>${totalBalance ? totalBalance.toFixed(2) : '0.00'}</b>
-							</span>
-						</td> */}
-						{/* <td>
-							{t('Incoming')}
-							&nbsp;
-							{t('Outgoing')}
-							<br />
-							{t('per month')}
-							&nbsp; in
-							<span className={styles.blue}> USD</span>
-						</td> */}
 						<td className={styles.section}>
 							{t('Monthly net Flow')}
 							<br />
@@ -320,24 +301,6 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 									))}
 							</button>
 						</td>
-						{/* <td className={styles.sortButtonRowTd}>
-							<button
-								className={styles.sortButton}
-								onClick={() => handleSortClick('superTokenBalanceInUSD')}
-							>
-								{sortColumn === 'superTokenBalanceInUSD' &&
-									(sortDirection === 'asc' ? (
-										<FontIcon name={FontIconName.ArrowUp} className={styles.arrow_up} />
-									) : (
-										<FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} />
-									))}
-							</button>
-						</td>
-						<td className={styles.sortButtonRowTd}>
-							<button className={styles.sortButton}>
-								<FontIcon name={FontIconName.ArrowDown} className={styles.arrow_down} size={0} />
-							</button>
-						</td> */}
 						<td className={styles.sortButtonRowTd}>
 							<button className={styles.sortButton} onClick={() => handleSortClick('monthlyNetFlow')}>
 								{sortColumn === 'monthlyNetFlow' &&
@@ -393,9 +356,9 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 									key={token.coin}
 									hidden={
 										hideLowBalance &&
-										getWalletBalance(token) === '0.00' &&
+										getWalletBalance(token) === '0.000000' &&
 										balances &&
-										parseFloat(balances[token.superTokenAddress]).toFixed(2) === '0.00'
+										parseFloat(balances[token.superTokenAddress]).toFixed(6) === '0.000000'
 									}
 								>
 									<td>
@@ -435,7 +398,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 												parseFloat(
 													(geckoPriceList as any)[(geckoMapping as any)[token.coin]].usd,
 												)
-											).toFixed(2)}`
+											).toFixed(6)}`
 										) : (
 											<span className={styles.wallet_loading}>
 												<Skeleton count={1} width={60} />
@@ -444,7 +407,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 									</td>
 									<td className={styles.section}>
 										{token && balances ? (
-											balances && parseFloat(balances[token.superTokenAddress]).toFixed(2)
+											balances && parseFloat(balances[token.superTokenAddress]).toFixed(6)
 										) : (
 											<span className={styles.wallet_loading}>
 												<Skeleton height={30} width={60} />
@@ -459,73 +422,13 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 												parseFloat(
 													(geckoPriceList as any)[(geckoMapping as any)[token.coin]].usd,
 												)
-											).toFixed(2)}`
+											).toFixed(6)}`
 										) : (
 											<span className={styles.wallet_loading}>
 												<Skeleton count={1} width={60} />
 											</span>
 										)}
 									</td>
-									{/* <td className={styles.section}>
-										{balances && geckoPriceList ? (
-											`$${(
-												parseFloat(balances[token.superTokenAddress]) *
-												parseFloat(
-													(geckoPriceList as any)[(geckoMapping as any)[token.coin]].usd,
-												)
-											).toFixed(2)}`
-										) : (
-											<span className={styles.wallet_loading}>
-												<Skeleton count={1} width={60} />
-											</span>
-										)}
-										<div className={styles.grey}>
-											{balances && geckoPriceList ? (
-												`@ $${getFormattedNumber(
-													(geckoPriceList as any)[(geckoMapping as any)[token.coin]].usd,
-												)}`
-											) : (
-												<span className={styles.wallet_loading}>
-													<Skeleton count={1} width={100} />
-												</span>
-											)}
-										</div>
-									</td>
-									<td>
-										<div className={styles.streamshow}>
-											{balances && inFlow ? (
-												<>
-													+ ${outFlow.toFixed(2)}
-													<FontIcon
-														className={styles.greenFont}
-														name={FontIconName.ArrowUpStrong}
-														size={15}
-													/>
-												</>
-											) : (
-												<span className={styles.wallet_loading}>
-													<Skeleton count={1} width={100} />
-												</span>
-											)}
-										</div>
-										<br />
-										<div className={styles.streamshow}>
-											{balances && inFlow ? (
-												<>
-													- ${inFlow.toFixed(2)}
-													<FontIcon
-														className={styles.redFont}
-														name={FontIconName.ArrowDownStrong}
-														size={15}
-													/>
-												</>
-											) : (
-												<span className={styles.wallet_loading}>
-													<Skeleton count={1} width={100} />
-												</span>
-											)}
-										</div>
-									</td> */}
 									<td className={styles.section}>
 										{balances && outFlow && inFlow ? (
 											getFlow(outFlow, inFlow)
