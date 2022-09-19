@@ -15,6 +15,11 @@ import {
 	twoWayMarketMATICUSDCAddress,
 	twoWayMarketMATICDAIAddress,
 	twoWayMarketWBTCDAIAddress,
+	StIbAlluoETHAddress,
+	StIbAlluoUSDAddress,
+	twoWayMarketibAlluoUSDETHAddress,
+	StIbAlluoBTCAddress,
+	twoWayMarketibAlluoUSDBTCAddress,
 } from './polygon_config';
 
 export enum FlowEnum {
@@ -32,6 +37,10 @@ export enum FlowEnum {
 	twoWayDaiMaticFlowQuery = 'twoWayDaiMaticFlowQuery',
 	twoWayWbtcDaiFlowQuery = 'twoWayWbtcDaiFlowQuery',
 	twoWayDaiWbtcFlowQuery = 'twoWayDaiWbtcFlowQuery',
+	twoWayIbUsdIbEthFlowQuery = 'twoWayIbUsdIbEthFlowQuery',
+	twoWayIbEthIbUsdFlowQuery = 'twoWayIbEthIbUsdFlowQuery',
+	twoWayIbUsdIbBTCFlowQuery = 'twoWayIbUsdIbBTCFlowQuery',
+	twoWayIbBTCIbUsdFlowQuery = 'twoWayIbBTCIbUsdFlowQuery',
 	usdcRicFlowQuery = 'usdcRicFlowQuery',
 }
 
@@ -46,6 +55,42 @@ type IndexIDAType = {
 }[];
 
 export const indexIDA: IndexIDAType = [
+	{
+		exchangeAddress: twoWayMarketibAlluoUSDETHAddress,
+		input: StIbAlluoETHAddress,
+		output: StIbAlluoUSDAddress,
+		subsidy: RICAddress,
+		subsidyIndex: 2,
+		inputIndex: 1,
+		outputIndex: 0,
+	},
+	{
+		exchangeAddress: twoWayMarketibAlluoUSDETHAddress,
+		input: StIbAlluoUSDAddress,
+		output: StIbAlluoETHAddress,
+		subsidy: RICAddress,
+		subsidyIndex: 3,
+		inputIndex: 0,
+		outputIndex: 1,
+	},
+	{
+		exchangeAddress: twoWayMarketibAlluoUSDBTCAddress,
+		input: StIbAlluoBTCAddress,
+		output: StIbAlluoUSDAddress,
+		subsidy: RICAddress,
+		subsidyIndex: 2,
+		inputIndex: 1,
+		outputIndex: 0,
+	},
+	{
+		exchangeAddress: twoWayMarketibAlluoUSDBTCAddress,
+		input: StIbAlluoUSDAddress,
+		output: StIbAlluoBTCAddress,
+		subsidy: RICAddress,
+		subsidyIndex: 3,
+		inputIndex: 0,
+		outputIndex: 1,
+	},
 	{
 		exchangeAddress: twoWayWETHMarketAddress,
 		input: USDCxAddress,
@@ -199,6 +244,42 @@ export type InvestmentFlow = {
 };
 
 const markets: InvestmentFlow[] = [
+	{
+		superToken: twoWayMarketibAlluoUSDETHAddress,
+		tokenA: StIbAlluoETHAddress,
+		tokenB: StIbAlluoUSDAddress,
+		coinA: Coin.IbAlluoETH,
+		coinB: Coin.IbAlluoUSD,
+		flowKey: FlowEnum.twoWayIbEthIbUsdFlowQuery,
+		type: FlowTypes.market,
+	},
+	{
+		superToken: twoWayMarketibAlluoUSDETHAddress,
+		tokenA: StIbAlluoUSDAddress,
+		tokenB: StIbAlluoETHAddress,
+		coinA: Coin.IbAlluoUSD,
+		coinB: Coin.IbAlluoETH,
+		flowKey: FlowEnum.twoWayIbUsdIbEthFlowQuery,
+		type: FlowTypes.market,
+	},
+	{
+		superToken: twoWayMarketibAlluoUSDBTCAddress,
+		tokenA: StIbAlluoBTCAddress,
+		tokenB: StIbAlluoUSDAddress,
+		coinA: Coin.IbAlluoBTC,
+		coinB: Coin.IbAlluoUSD,
+		flowKey: FlowEnum.twoWayIbBTCIbUsdFlowQuery,
+		type: FlowTypes.market,
+	},
+	{
+		superToken: twoWayMarketibAlluoUSDBTCAddress,
+		tokenA: StIbAlluoUSDAddress,
+		tokenB: StIbAlluoBTCAddress,
+		coinA: Coin.IbAlluoUSD,
+		coinB: Coin.IbAlluoBTC,
+		flowKey: FlowEnum.twoWayIbUsdIbBTCFlowQuery,
+		type: FlowTypes.market,
+	},
 	{
 		superToken: twoWayMarketRICUSDCAddress,
 		tokenA: USDCxAddress,

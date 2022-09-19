@@ -9,6 +9,9 @@ import {
 	SUSHIxAddress,
 	IDLExAddress,
 	RICAddress,
+	StIbAlluoETHAddress,
+	StIbAlluoUSDAddress,
+	StIbAlluoBTCAddress,
 } from 'constants/polygon_config';
 import { Loader } from 'components/common/Loader';
 import { useShallowSelector } from 'hooks/useShallowSelector';
@@ -77,10 +80,21 @@ export const StreamForm: React.FC<IProps> = ({
 			currency: 'IDLEx',
 			address: IDLExAddress,
 		},
-
 		{
 			currency: 'RIC',
 			address: RICAddress,
+		},
+		{
+			currency: 'StIbAlluoETH',
+			address: StIbAlluoETHAddress,
+		},
+		{
+			currency: 'StIbAlluoUSD',
+			address: StIbAlluoUSDAddress,
+		},
+		{
+			currency: 'StIbAlluoBTC',
+			address: StIbAlluoBTCAddress,
 		},
 	];
 

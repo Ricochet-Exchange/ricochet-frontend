@@ -18,6 +18,13 @@
   margin-top: 5vh;
   border-radius: 12px;
   background-color: #2d3233;
+
+}
+
+@include tablet {
+  .dextable {
+    border-radius: 0;
+  }
 }
 
 .blue {
@@ -259,6 +266,12 @@ label {
   cursor: pointer;
 }
 
+.balanceTokens {
+  @include tablet {
+    font-size: 10px;
+  }
+}
+
 /* Hide the browser's default checkbox */
 .container input {
   position: absolute;
@@ -351,7 +364,7 @@ label {
   .dextable th,
   .dextable td {
     word-break: keep-all;
-    line-height: 25px;
+    line-height: 13px;
     text-align: center;
     border-right: 1px solid rgba(161, 175, 202, 0.234);
   }

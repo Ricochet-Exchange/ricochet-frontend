@@ -228,11 +228,19 @@ export const PanelChange: FC<IProps> = ({
 								</span>
 							) : (
 								<div className={styles.row}>
-									<Price flowType={flowType} coinA={coinA} coinB={coinB} />
+									<div
+										style={{
+											display: 'flex',
+											flexDirection: 'row',
+										}}
+									>
+										<Price flowType={flowType} coinA={coinA} coinB={coinB} />
+										<AddressLink addressLink={link} />
+									</div>
+
 									<div className={styles.coin}>
 										<CoinChange nameCoinLeft={coinA} nameCoinRight={coinB} />
 										{flowType === 'sushiLP' && <LpAPY contractAddress={contractAddress} />}
-										<AddressLink addressLink={link} />
 									</div>
 								</div>
 							)}
@@ -249,7 +257,11 @@ export const PanelChange: FC<IProps> = ({
 										</span>
 										{(subsidyRate?.total || 0) > 0 ? (
 											<span>
-												<span data-tip data-for={`depositTooltipTotalPerso-${uuid}`}>
+												<span
+													data-tip
+													data-for={`depositTooltipTotalPerso-${uuid}`}
+													style={{ marginLeft: '6px' }}
+												>
 													🔥
 												</span>
 												<ReactTooltip
@@ -365,9 +377,16 @@ export const PanelChange: FC<IProps> = ({
 											{`$${totalFlow && getFlowUSDValue(totalFlow)}`}
 										</span>
 										{t('per month')}
-										{coinA !== 'RIC' && coinB !== 'RIC' ? (
+										{coinA !== 'RIC' &&
+										coinB !== 'RIC' &&
+										coinA !== 'IbAlluoUSD' &&
+										coinB !== 'IbAlluoUSD' ? (
 											<span>
-												<span data-tip data-for={`depositTooltipTotal-${uuid}`}>
+												<span
+													data-tip
+													data-for={`depositTooltipTotal-${uuid}`}
+													style={{ marginLeft: '6px' }}
+												>
 													🔥
 												</span>
 												<ReactTooltip
