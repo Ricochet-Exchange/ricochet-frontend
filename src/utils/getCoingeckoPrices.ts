@@ -1,9 +1,6 @@
 import {
 	DAIxAddress,
-	IDLEAddress,
 	MATICxAddress,
-	MKRxAddress,
-	SUSHIAddress,
 	USDCxAddress,
 	WBTCxAddress,
 	WETHxAddress,
@@ -18,9 +15,6 @@ const coingeckoIds = new Map<string, string>([
 	[WETHxAddress, 'weth'],
 	[WBTCxAddress, 'wrapped-bitcoin'],
 	[MATICxAddress, 'matic-network'],
-	[MKRxAddress, 'maker'],
-	[IDLEAddress, 'idle'],
-	[SUSHIAddress, 'sushi'],
 	// TODO: These prices need to be multiplied by the growingRatio
 	// from these contracts since 1 ibAlluoUSD > 1 USD
 	[StIbAlluoETHAddress, 'weth'],
