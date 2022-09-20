@@ -425,7 +425,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	twoWayIbBTCIbUsdFlowQuery?: {
 		flowKey: string;
@@ -435,7 +437,9 @@ export type MainState = {
 		placeholder: string;
 		subsidyRate: { perso: number; total: number; endDate: string };
 		streamedSoFar?: number;
+		streamedSoFarTimestamp?: number;
 		receivedSoFar?: number;
+		receivedSoFarTimestamp?: number;
 	};
 	isLoadingDowngrade: boolean;
 	isLoadingUpgrade: boolean;
