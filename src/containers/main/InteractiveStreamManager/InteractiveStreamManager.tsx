@@ -130,46 +130,49 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 	}, [flowType, state, userStreams]);
 
 	const initialNodes: Node<any>[] = [...sourceCoins, ...targetCoins].map((coin, idx) => {
-		const outgoingStream = userStreams.find((stream) => {
+		const outgoingStreams = userStreams.filter((stream) => {
 			return stream.tokenA === (addressesMap as any)[coin.name];
 		});
-		const incomingStream = userStreams.find((stream) => {
+		const incomingStreams = userStreams.filter((stream) => {
 			return stream.tokenB === (addressesMap as any)[coin.name];
 		});
-		const outgoingFlowRate = outgoingStream ? state[outgoingStream.flowKey]?.placeholder || '0' : '0';
-		const incomingFlowRate = incomingStream ? state[incomingStream.flowKey]?.placeholder || '0' : '0';
-		const props = new Map();
+
 		let conversionMultiplier = 1;
-		console.log({
-			coin: coin.name,
-			hasBoth: Boolean(outgoingStream) && Boolean(incomingStream),
-			streams: `${incomingStream?.flowKey} :: ${outgoingStream?.flowKey}`,
-		});
+		const props = new Map();
+		let outgoingFlowRate = '0',
+			incomingFlowRate = '0';
 
-		// check if coin has outgoing stream
-		if (outgoingStream) {
-			const streamedSoFar = state[outgoingStream.flowKey]?.streamedSoFar;
-			const streamedSoFarTimestamp = state[outgoingStream.flowKey]?.streamedSoFarTimestamp;
-			props.set('streamedSoFar', streamedSoFar);
-			props.set('streamedSoFarTimestamp', streamedSoFarTimestamp);
-		}
-		// check if coin has incoming stream
-		if (incomingStream) {
-			const streamedSoFar = state[incomingStream.flowKey]?.streamedSoFar;
-			const streamedSoFarTimestamp = state[incomingStream.flowKey]?.streamedSoFarTimestamp;
-			const { coinA, coinB, tokenA, tokenB } = incomingStream;
-			props.set('streamedSoFar', streamedSoFar);
-			props.set('streamedSoFarTimestamp', streamedSoFarTimestamp);
-
-			if (coingeckoPrices) {
-				conversionMultiplier = (coingeckoPrices[tokenA] || 0) / (coingeckoPrices[tokenB] || 1);
+		if (outgoingStreams.length === 1 || incomingStreams.length === 1) {
+			const outgoingStream = outgoingStreams.length > 0 && outgoingStreams[0];
+			// check if coin has outgoing stream
+			if (outgoingStream) {
+				outgoingFlowRate = state[outgoingStream.flowKey]?.placeholder || '0';
+				const streamedSoFar = state[outgoingStream.flowKey]?.streamedSoFar;
+				const streamedSoFarTimestamp = state[outgoingStream.flowKey]?.streamedSoFarTimestamp;
+				props.set('streamedSoFar', streamedSoFar);
+				props.set('streamedSoFarTimestamp', streamedSoFarTimestamp);
 			}
-			console.log({ streamedSoFar, conversionMultiplier, coinAB: `${coinA} -> ${coinB}` });
-			props.set('conversionMultiplier', conversionMultiplier);
-		}
 
-		const netFlowRate = +incomingFlowRate - +outgoingFlowRate;
-		console.log(`${coin.name} ::  ${netFlowRate}`);
+			const incomingStream = incomingStreams.length > 0 && incomingStreams[0];
+			// check if coin has incoming stream
+			if (incomingStream) {
+				incomingFlowRate = state[incomingStream.flowKey]?.placeholder || '0';
+				const streamedSoFar = state[incomingStream.flowKey]?.streamedSoFar;
+				const streamedSoFarTimestamp = state[incomingStream.flowKey]?.streamedSoFarTimestamp;
+				const { tokenA, tokenB } = incomingStream;
+				props.set('streamedSoFar', streamedSoFar);
+				props.set('streamedSoFarTimestamp', streamedSoFarTimestamp);
+
+				if (coingeckoPrices) {
+					conversionMultiplier = (coingeckoPrices[tokenA] || 0) / (coingeckoPrices[tokenB] || 1);
+				}
+				props.set('conversionMultiplier', conversionMultiplier);
+			}
+			const netFlowRate = +incomingFlowRate - +outgoingFlowRate;
+
+			props.set('flowRate', Math.abs(netFlowRate));
+			props.set('direction', netFlowRate < 0 ? -1 : 1);
+		}
 
 		return {
 			id: `${coin.name}-${idx}`,
@@ -179,8 +182,6 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 					<CoinNode
 						coin={coin.name}
 						balance={balances ? balances[(addressesMap as any)[coin.name]] : '-'}
-						flowRate={Math.abs(netFlowRate)}
-						direction={netFlowRate < 0 ? -1 : 1}
 						{...Object.fromEntries(props)}
 					/>
 				),
@@ -393,6 +394,7 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 				const stream = userStreams.find(
 					(stream) => edge.source.includes(stream.coinA) && edge.target.includes(stream.coinB),
 				);
+				console.log({ stream });
 				if (stream) {
 					return {
 						...edge,

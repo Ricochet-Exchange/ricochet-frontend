@@ -56,9 +56,9 @@ interface IProps {
 	isReadOnly?: boolean;
 	indexVal?: number;
 	streamedSoFar?: number;
-	streamedSoFarTimestamp: any;
-	receivedSoFarTimestamp: any;
+	streamedSoFarTimestamp?: number;
 	receivedSoFar?: number;
+	receivedSoFarTimestamp?: number;
 }
 
 export const PanelChange: FC<IProps> = ({
@@ -85,7 +85,7 @@ export const PanelChange: FC<IProps> = ({
 	exchangeKey,
 	indexVal,
 	streamedSoFar,
-	streamedSoFarTimestamp,
+	streamedSoFarTimestamp = 0,
 	receivedSoFar,
 }) => {
 	const link = getAddressLink(contractAddress);

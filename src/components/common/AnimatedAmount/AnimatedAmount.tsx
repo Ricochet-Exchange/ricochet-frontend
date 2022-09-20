@@ -38,7 +38,7 @@ export interface FlowingBalanceProps {
 export const AnimatedAmount: FC<FlowingBalanceProps> = ({
 	balance = '0',
 	streamedSoFar = '0',
-	streamedSoFarTimestamp = '0',
+	streamedSoFarTimestamp = 0,
 	flowRatePerMonth = 0,
 	direction = 1,
 	conversionMultiplier = 1,
@@ -100,8 +100,18 @@ export const AnimatedAmount: FC<FlowingBalanceProps> = ({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [streamedSoFar, streamedSoFarTimestamp, flowRatePerMonth]);
 
+	const finalWeiValue = weiValue.mul(direction).mul(conversionMultiplier);
+
 	if (direction > 0) {
-		return <> {bigExistingBalance.add(weiValue.mul(direction).mul(conversionMultiplier)).toFixed(6).toString()} </>;
+		return (
+			<span style={{ fontVariantNumeric: 'tabular-nums' }}>
+				{bigExistingBalance.add(finalWeiValue).toFixed(8).toString()}{' '}
+			</span>
+		);
 	}
-	return <> {bigExistingBalance.sub(weiValue.mul(direction).mul(conversionMultiplier)).toFixed(6).toString()} </>;
+	return (
+		<span style={{ fontVariantNumeric: 'tabular-nums' }}>
+			{bigExistingBalance.sub(finalWeiValue).toFixed(8).toString()}{' '}
+		</span>
+	);
 };
