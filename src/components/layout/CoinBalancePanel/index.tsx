@@ -43,7 +43,11 @@ export const CoinBalancePanel: FC<IProps> = ({
 					: balance && (+balance).toFixed(6)}
 			</div>
 
-			{name === 'IbAlluoETH' || name === 'IbAlluoUSD' ? <div>{`st${name}`}</div> : <div>{`${name}x`}</div>}
+			{name === 'IbAlluoETH' || name === 'IbAlluoUSD' || name === 'IbAlluoBTC' ? (
+				<div>{`st${name}`}</div>
+			) : (
+				<div>{`${name}x`}</div>
+			)}
 		</div>
 	);
 };

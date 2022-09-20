@@ -10,6 +10,7 @@ import {
 	IDLExAddress,
 	StIbAlluoETHAddress,
 	StIbAlluoUSDAddress,
+	StIbAlluoBTCAddress,
 } from './polygon_config';
 
 export const downgradeTokensList = [
@@ -52,5 +53,9 @@ export const downgradeTokensList = [
 	{
 		coin: Coin.StIbAlluoUSD,
 		tokenAddress: StIbAlluoUSDAddress,
+	},
+	{
+		coin: Coin.StIbAlluoBTC,
+		tokenAddress: StIbAlluoBTCAddress,
 	},
 ];

@@ -18,6 +18,8 @@ import {
 	StIbAlluoETHAddress,
 	StIbAlluoUSDAddress,
 	twoWayMarketibAlluoUSDETHAddress,
+	StIbAlluoBTCAddress,
+	twoWayMarketibAlluoUSDBTCAddress,
 } from './polygon_config';
 
 export enum FlowEnum {
@@ -37,6 +39,8 @@ export enum FlowEnum {
 	twoWayDaiWbtcFlowQuery = 'twoWayDaiWbtcFlowQuery',
 	twoWayIbUsdIbEthFlowQuery = 'twoWayIbUsdIbEthFlowQuery',
 	twoWayIbEthIbUsdFlowQuery = 'twoWayIbEthIbUsdFlowQuery',
+	twoWayIbUsdIbBTCFlowQuery = 'twoWayIbUsdIbBTCFlowQuery',
+	twoWayIbBTCIbUsdFlowQuery = 'twoWayIbBTCIbUsdFlowQuery',
 	usdcRicFlowQuery = 'usdcRicFlowQuery',
 }
 
@@ -64,6 +68,24 @@ export const indexIDA: IndexIDAType = [
 		exchangeAddress: twoWayMarketibAlluoUSDETHAddress,
 		input: StIbAlluoUSDAddress,
 		output: StIbAlluoETHAddress,
+		subsidy: RICAddress,
+		subsidyIndex: 3,
+		inputIndex: 0,
+		outputIndex: 1,
+	},
+	{
+		exchangeAddress: twoWayMarketibAlluoUSDBTCAddress,
+		input: StIbAlluoBTCAddress,
+		output: StIbAlluoUSDAddress,
+		subsidy: RICAddress,
+		subsidyIndex: 2,
+		inputIndex: 1,
+		outputIndex: 0,
+	},
+	{
+		exchangeAddress: twoWayMarketibAlluoUSDBTCAddress,
+		input: StIbAlluoUSDAddress,
+		output: StIbAlluoBTCAddress,
 		subsidy: RICAddress,
 		subsidyIndex: 3,
 		inputIndex: 0,
@@ -238,6 +260,24 @@ const markets: InvestmentFlow[] = [
 		coinA: Coin.IbAlluoUSD,
 		coinB: Coin.IbAlluoETH,
 		flowKey: FlowEnum.twoWayIbUsdIbEthFlowQuery,
+		type: FlowTypes.market,
+	},
+	{
+		superToken: twoWayMarketibAlluoUSDBTCAddress,
+		tokenA: StIbAlluoBTCAddress,
+		tokenB: StIbAlluoUSDAddress,
+		coinA: Coin.IbAlluoBTC,
+		coinB: Coin.IbAlluoUSD,
+		flowKey: FlowEnum.twoWayIbBTCIbUsdFlowQuery,
+		type: FlowTypes.market,
+	},
+	{
+		superToken: twoWayMarketibAlluoUSDBTCAddress,
+		tokenA: StIbAlluoUSDAddress,
+		tokenB: StIbAlluoBTCAddress,
+		coinA: Coin.IbAlluoUSD,
+		coinB: Coin.IbAlluoBTC,
+		flowKey: FlowEnum.twoWayIbUsdIbBTCFlowQuery,
 		type: FlowTypes.market,
 	},
 	{

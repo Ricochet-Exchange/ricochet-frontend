@@ -13,6 +13,7 @@ import {
 	checkIfApproveWeth,
 	checkIfApproveIbAlluoUSD,
 	checkIfApproveIbAlluoETH,
+	checkIfApproveIbAlluoBTC,
 } from './checkIfApprove';
 import { getBalances } from './getBalances';
 import { sweepQueryFlow } from './sweepQueryFlow';
@@ -38,6 +39,7 @@ export function* loadData() {
 			call(checkIfApproveMatic),
 			call(checkIfApproveIbAlluoUSD),
 			call(checkIfApproveIbAlluoETH),
+			call(checkIfApproveIbAlluoBTC),
 			call(sweepQueryFlow),
 		]);
 		yield put(

@@ -7,6 +7,7 @@ import { blockInvalidChar } from 'utils/blockInvalidChars';
 import { calculateFlowRate } from 'utils/calculateFlowRate';
 import {
 	twoWayMarketibAlluoUSDETHAddress,
+	twoWayMarketibAlluoUSDBTCAddress,
 	twoWayMarketDAIWETHAddress,
 	twoWayMarketMATICDAIAddress,
 	twoWayMarketWBTCAddress,
@@ -80,6 +81,7 @@ export const StreamManagerItem: FC<IProps> = ({
 			usdcxWbtcxExchangeAddress,
 			usdcxWethxExchangeAddress,
 			twoWayMarketibAlluoUSDETHAddress,
+			twoWayMarketibAlluoUSDBTCAddress,
 			twoWayMarketMATICDAIAddress,
 			twoWayMarketMATICUSDCAddress,
 			twoWayMarketWBTCDAIAddress,
