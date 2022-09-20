@@ -111,7 +111,7 @@ export default function SwapContainer() {
 			toPrice = toPrice.usd;
 			// @ts-ignore
 			let outPutPrice = priceAmountIn / toPrice;
-			let fee = 0.01;
+			let fee = 0.02;
 			let outputFee = outPutPrice * fee;
 			let FinalOutputAmount = outPutPrice - outputFee;
 
@@ -273,6 +273,7 @@ export default function SwapContainer() {
 					fromSupertoken={fromSupertoken}
 					toSupertoken={toSupertoken}
 					amountIn={amountIn}
+					toSymbol={toSymbol}
 					minAmountOut={minAmountOut}
 					approved={approved}
 					isLoading={loading}

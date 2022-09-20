@@ -16,6 +16,7 @@ interface IProps {
 	fromSupertoken: string;
 	toSupertoken: string;
 	amountIn: string;
+	toSymbol: string;
 	minAmountOut: string;
 	tokens: { name: string; address: string; underlyingToken: string }[];
 	approved: boolean;
@@ -29,10 +30,8 @@ export const SwapForm: React.FC<IProps> = ({
 	handleSetFromToken,
 	handleSetToToken,
 	handleSetAmountIn,
-	handleSetMinAmountOut,
-	fromSupertoken,
-	toSupertoken,
 	amountIn,
+	toSymbol,
 	minAmountOut,
 	approved,
 	isLoading,
@@ -180,29 +179,12 @@ export const SwapForm: React.FC<IProps> = ({
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<label
-						style={{
-							color: 'white',
-							marginBottom: '20px',
-						}}
-					>
-						Minimum Output Amount
-					</label>
-					<input
-						type={'text'}
-						value={minAmountOut}
-						required
-						onChange={async (e) => await handleSetMinAmountOut(e.target.value)}
-						style={{
-							color: 'white',
-							backgroundColor: '#2b2b2b',
-							width: '100%',
-							height: '6vh',
-							paddingLeft: '1em',
-							border: 'none',
-							fontSize: 'large',
-						}}
-					/>
+					<div className={styles.outputAmount}>
+						<h5>Minimum Output Amount:</h5>
+						<h5>
+							{minAmountOut} - {toSymbol}
+						</h5>
+					</div>
 				</Grid>
 				<Grid item xs={12}>
 					{approved ? (
