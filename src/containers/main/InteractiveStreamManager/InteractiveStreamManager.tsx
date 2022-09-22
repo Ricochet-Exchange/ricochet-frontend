@@ -394,7 +394,6 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 				const stream = userStreams.find(
 					(stream) => edge.source.includes(stream.coinA) && edge.target.includes(stream.coinB),
 				);
-				console.log({ stream });
 				if (stream) {
 					return {
 						...edge,

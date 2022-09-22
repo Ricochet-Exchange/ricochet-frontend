@@ -99,7 +99,6 @@ export const PanelChange: FC<IProps> = ({
 	const [userRewards, setUserRewards] = useState(0);
 	const contract = getContract(rexReferralAddress, referralABI, web3);
 	const { t } = useTranslation();
-	console.log({ coinA, coinB, coingeckoPriceA, coingeckoPriceB });
 	const personal_pool_rate = personalFlow ? personalFlow : 0;
 	const total_market_pool = totalFlow ? totalFlow : 0;
 	const subsidy_rate_static = 50000;
