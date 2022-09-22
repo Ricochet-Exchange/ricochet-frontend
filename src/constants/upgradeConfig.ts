@@ -43,6 +43,13 @@ export const upgradeTokensList: {
 		key: 'hasUsdcApprove',
 	},
 	{
+		coin: Coin.StIbAlluoUSD,
+		tokenAddress: IbAlluoUSDAddress,
+		superTokenAddress: StIbAlluoUSDAddress,
+		multi: 1e6,
+		key: 'hasUsdcApprove',
+	},
+	{
 		coin: Coin.StIbAlluoETH,
 		tokenAddress: IbAlluoETHAddress,
 		superTokenAddress: StIbAlluoETHAddress,
