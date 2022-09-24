@@ -31,6 +31,16 @@ export type MainState = {
 		streamedSoFar?: number;
 		receivedSoFar?: number;
 	};
+	usdcxibAlluoUSDFlowQuery?: {
+		flowKey: string;
+		flowsReceived: number;
+		flowsOwned: string;
+		totalFlows: number;
+		placeholder: string;
+		subsidyRate: { perso: number; total: number; endDate: string };
+		streamedSoFar?: number;
+		receivedSoFar?: number;
+	};
 	usdcSlpEthFlowQuery?: {
 		flowKey: string;
 		flowsReceived: number;

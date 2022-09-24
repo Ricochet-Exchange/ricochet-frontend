@@ -6,6 +6,7 @@ import {
 	twoWayMarketWBTCAddress,
 	USDCxAddress,
 	usdcxRicExchangeAddress,
+	usdcxibAlluoUSDAddress,
 	WBTCxAddress,
 	WETHxAddress,
 	twoWayMarketDAIWETHAddress,
@@ -42,6 +43,7 @@ export enum FlowEnum {
 	twoWayIbUsdIbBTCFlowQuery = 'twoWayIbUsdIbBTCFlowQuery',
 	twoWayIbBTCIbUsdFlowQuery = 'twoWayIbBTCIbUsdFlowQuery',
 	usdcRicFlowQuery = 'usdcRicFlowQuery',
+	usdcxibAlluoUSDFlowQuery = 'usdcxibAlluoUSDFlowQuery',
 }
 
 type IndexIDAType = {
@@ -225,6 +227,15 @@ export const indexIDA: IndexIDAType = [
 		inputIndex: 0, // just a placeholder, not used
 		outputIndex: 0,
 	},
+	{
+		exchangeAddress: usdcxibAlluoUSDAddress,
+		input: USDCxAddress,
+		output: StIbAlluoUSDAddress,
+		subsidy: RICAddress,
+		subsidyIndex: 1,
+		inputIndex: 0,
+		outputIndex: 0,
+	},
 ];
 
 export enum FlowTypes {
@@ -287,6 +298,15 @@ const markets: InvestmentFlow[] = [
 		coinA: Coin.USDC,
 		coinB: Coin.RIC,
 		flowKey: FlowEnum.twoWayUsdcRicFlowQuery,
+		type: FlowTypes.market,
+	},
+	{
+		superToken: usdcxibAlluoUSDAddress,
+		tokenA: USDCxAddress,
+		tokenB: StIbAlluoUSDAddress,
+		coinA: Coin.USDC,
+		coinB: Coin.IbAlluoUSD,
+		flowKey: FlowEnum.usdcxibAlluoUSDFlowQuery,
 		type: FlowTypes.market,
 	},
 	{

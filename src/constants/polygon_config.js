@@ -38,6 +38,7 @@ export const maticxDaixExchangeAddress = '0x250efbB94De68dD165bD6c98e804E08153Eb
 export const usdcxRicExchangeAddress = '0x98d463A3F29F259E67176482eB15107F364c7E18';
 export const usdcxEthSlpxExchangeAddress = '0xeb367F6a0DDd531666D778BC096d212a235a6f78';
 export const usdcxIdleExchangeAddress = '0xBe79a6fd39a8E8b0ff7E1af1Ea6E264699680584';
+export const usdcxibAlluoUSDAddress = '0xE53dd10d49C8072d68d48c163d9e1A219bd6852D';
 export const rexLPETHAddress = '0x9d5753d8eb0Bc849C695461F866a851F13947CB3';
 export const SUSHIxAddress = '0xDaB943C03f9e84795DC7BF51DdC71DaF0033382b';
 export const SUSHIAddress = '0x0b3F868E0BE5597D5DB7fEB59E1CADBb0fdDa50a';

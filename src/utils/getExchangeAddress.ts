@@ -51,6 +51,7 @@ import {
 	StIbAlluoBTCAddress,
 	twoWayMarketibAlluoUSDETHAddress,
 	twoWayMarketibAlluoUSDBTCAddress,
+	usdcxibAlluoUSDAddress,
 } from 'constants/polygon_config';
 
 export enum ExchangeKeys {
@@ -67,6 +68,7 @@ export enum ExchangeKeys {
 	'USDC_MATIC' = 'usdcMatic',
 	'USDC_MKR' = 'usdcMkr',
 	'USDC_RIC' = 'usdcRic',
+	'USDC_IBALLUO' = 'usdcxibAlluoUSD',
 	'USDC_WBTC' = 'twoWayusdcWbtc',
 	'USDC_WETH' = 'twoWayusdcWeth',
 	'WBTC_USDC' = 'twoWaywbtcUsdc',
@@ -126,6 +128,7 @@ export const getExchangeAddressFromKey = (exchangeKey: ExchangeKeys) => {
 		usdcMatic: usdcxMaticxExchangeAddress,
 		usdcMkr: usdcxMkrxExchangeAddress,
 		usdcRic: usdcxRicExchangeAddress,
+		usdcxibAlluoUSD: usdcxibAlluoUSDAddress,
 		usdcWbtc: usdcxWbtcxExchangeAddress,
 		usdcWeth: usdcxWethxExchangeAddress,
 		wbtcUsdc: wbtcxUsdcxExchangeAddress,
