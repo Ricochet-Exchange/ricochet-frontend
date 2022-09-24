@@ -18,6 +18,7 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { blockInvalidChar } from 'utils/blockInvalidChars';
 import { calculateFlowRate } from 'utils/calculateFlowRate';
+import Grid from '@mui/material/Grid';
 import styles from './styles.module.scss';
 
 interface IProps {
@@ -101,13 +102,32 @@ export const StreamForm: React.FC<IProps> = ({
 	const { balances } = state;
 
 	return (
-		<div className={styles.stream_form}>
-			<div className={styles.input_container}>
-				<label htmlFor="recipient" className={styles.input_label}>
-					Wallet Address here
+		<Grid
+			container
+			xs={8}
+			spacing={3}
+			justifyContent="center"
+			alignSelf="center"
+			style={{
+				backgroundColor: '#2d3233',
+				borderRadius: '10px',
+				color: 'lightblue',
+				fontSize: '14px',
+				padding: '2em',
+				marginTop: '24px',
+				marginLeft: '0px',
+				maxWidth: '800px',
+				paddingRight: '50px',
+			}}
+		>
+			<Grid item xs={12} sm={12}>
+				<label htmlFor="recipient" className={styles.label}>
+					Recipient
 				</label>
+			</Grid>
+			<Grid item xs={12} sm={12}>
 				<input
-					className={styles.input_field}
+					className={styles.input}
 					type="text"
 					id="recipient"
 					placeholder="Receiver Address"
@@ -118,34 +138,34 @@ export const StreamForm: React.FC<IProps> = ({
 						}
 					}}
 				/>
-			</div>
+			</Grid>
 
-			<div className={styles.input_container}>
-				<label className={styles.input_label} htmlFor="payment">
-					Monthly Stream amount
+			<Grid item xs={12} sm={12}>
+				<label className={styles.label} htmlFor="payment">
+					Monthly payment amount
 				</label>
-				<div className={styles.collection}>
-					<input
-						id="payment"
-						className={styles.input_field}
-						type="number"
-						placeholder="Payment Amount"
-						onKeyDown={blockInvalidChar}
-						min={0}
-						onChange={async (e) => {
-							const newFlow = await calculateFlowRate(+e.target.value);
-							if (newFlow) {
-								await updateFlowRate(newFlow.toString());
-								setFlowStatus(true);
-							}
-						}}
-					/>
-				</div>
-			</div>
+			</Grid>
+			<Grid item xs={12} sm={12}>
+				<input
+					id="payment"
+					className={styles.input}
+					type="number"
+					placeholder="Payment Amount"
+					onKeyDown={blockInvalidChar}
+					min={0}
+					onChange={async (e) => {
+						const newFlow = await calculateFlowRate(+e.target.value);
+						if (newFlow) {
+							await updateFlowRate(newFlow.toString());
+							setFlowStatus(true);
+						}
+					}}
+				/>
+			</Grid>
 
-			<div className={styles.input_container}>
-				<label className={styles.input_label} htmlFor="supertoken">
-					Supertoken
+			<Grid item xs={12} sm={12}>
+				<label className={styles.label} htmlFor="supertoken">
+					Token to stream
 				</label>
 				<select
 					name="SuperTokens"
@@ -154,7 +174,7 @@ export const StreamForm: React.FC<IProps> = ({
 						await updateSuperToken(e.target.value);
 						setTokenStatus(true);
 					}}
-					className={styles.input_field}
+					className={styles.select}
 				>
 					<option value="" selected>
 						Choose A Token
@@ -172,18 +192,20 @@ export const StreamForm: React.FC<IProps> = ({
 						  })
 						: ''}
 				</select>
-			</div>
+			</Grid>
 
-			<button
-				style={{ backgroundColor: '#79aad9' }}
-				className={styles.input_field_submit}
-				disabled={!addressProvided || !flowProvided || !tokenProvided}
-				onClick={() => {
-					createFlow();
-				}}
-			>
-				{loading ? <Loader /> : 'Create Stream'}
-			</button>
-		</div>
+			<Grid item xs={12} sm={12}>
+				<button
+					style={{ backgroundColor: '#79aad9' }}
+					className={styles.input_field_submit}
+					disabled={!addressProvided || !flowProvided || !tokenProvided}
+					onClick={() => {
+						createFlow();
+					}}
+				>
+					{loading ? <Loader /> : 'Create Stream'}
+				</button>
+			</Grid>
+		</Grid>
 	);
 };

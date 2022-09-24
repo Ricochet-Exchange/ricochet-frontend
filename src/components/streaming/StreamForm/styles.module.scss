@@ -1,81 +1,66 @@
 @import "../../../assets/styles/mixins";
 
 @media screen and (min-width: 786px) {
-  .stream_form{
-    background: $dark-mode-bg-2;
-    color: $dark-mode-lightblue;
-    font-size: 14px;
-    display: flex;
-    border-radius: 10px;
-    align-items: center;
-    justify-content: space-around;
-    padding: 2em;
 
-    .input_container{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-
-      label{
-        font-weight: 500;
-        font-size: 18px;
-        line-height: 140%;
-      }
-    
-      input{
-        margin-top: 1em;
-        padding: 0.7em;
-        min-width: 15vw;
-        background: #484e51;
-        border-radius: 8px;
-        border: 1px solid $dark-mode-lightblue;
-        color: $dark-mode-lightblue;
-      }
-      
-      select{
-        background: #484e51;
-        border-radius: 8px;
-        border: 1px solid $dark-mode-lightblue;
-        color: $dark-mode-lightblue;
-        margin-top: 1em;
-        padding: 0.7em;
-        width: 100%;
-      }
-    }
+  .label {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 140%;
   }
 
-  .collection{
+  .input {
+    margin-top: -1em;
+    padding: 0.7em;
+    min-width: 15vw;
+    background: #484e51;
+    border-radius: 8px;
+    border: 1px solid $dark-mode-lightblue;
+    color: $dark-mode-lightblue;
+    width: 400px;
+  }
+
+  .select {
+    background: #484e51;
+    border-radius: 8px;
+    border: 1px solid $dark-mode-lightblue;
+    color: $dark-mode-lightblue;
+    margin-top: 1em;
+    padding: 0.7em;
+    width: 100%;
+  }
+
+  .collection {
     display: flex;
     flex-direction: row;
   }
 
 
-  .input_field_submit{
+  .input_field_submit {
     padding: 1em;
     border-radius: 12px;
     border: none;
     color: rgb(70, 68, 68);
+    cursor: pointer;
   }
 }
 
 @media screen and (max-width: 786px) {
-  .stream_form{
+  .stream_form {
     width: 95vw;
     padding: 1em;
     padding-top: 60px;
   }
 
-  .close{
+  .close {
     color: #678EB5;
-   }
+  }
 
-   .stream_form_container{
+  .stream_form_container {
     width: 100%;
     padding: 2em;
   }
 
-  .title{
+  .title {
     font-size: xx-large;
     color: #678EB5;
     font-weight: bold;
@@ -83,7 +68,7 @@
     text-align: left;
   }
 
-  .input_field{
+  .input {
     background-color: #484e51;
     border-radius: 12px;
     border: 1px solid $dark-mode-lightblue;
@@ -96,7 +81,18 @@
     padding: 0.3em;
   }
 
-  .input_field_submit{
+  .select {
+    background: #484e51;
+    border-radius: 8px;
+    border: 1px solid $dark-mode-lightblue;
+    color: $dark-mode-lightblue;
+    margin-top: 1em;
+    padding: 0.7em;
+    width: 100%;
+    height: 5vh;
+  }
+
+  .input_field_submit {
     color: white;
     margin-top: 2em;
     height: 5vh;
@@ -106,28 +102,30 @@
     border-radius: 12px;
     transition: 0.5s;
     cursor: pointer;
-    &:hover{
+
+    &:hover {
       transform: scale(0.9);
     }
   }
 
-  .input_container{
+  .input_container {
     width: 100%;
   }
-  .input_label{
+
+  .input_label {
     color: white;
     margin-top: 1em;
     font-size: large;
   }
 
-  .result{
+  .result {
     text-align: left;
     width: 100%;
 
     color: rgb(69, 68, 68);
   }
 
-  .nav_link{
+  .nav_link {
     height: 7vh;
     width: 50%;
     margin-top: 1em;
