@@ -1,6 +1,6 @@
-@import "../../../assets/styles/mixins";
+@import "../../../../../assets/styles/mixins";
 
-@media screen and (min-width: 786px) {
+@media screen and (min-width: 768px) {
   .container{
     margin-top: 1em;
     height: 100%;
@@ -14,11 +14,9 @@
   }
 }
 
-@media screen and (max-width: 786px) {
+@media screen and (max-width: 768px) {
   .outGoing{
     color: #2775CA;
-    margin-left: 1em;
-
   }
 }
 

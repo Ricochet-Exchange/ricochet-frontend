@@ -1,13 +1,13 @@
 @import '../../../assets/styles/mixins';
 
-@media screen and (min-width: 786px) {
- 
-  .stream_form_container{
+@media screen and (min-width: 768px) {
+
+  .stream_form_container {
     width: 100%;
     padding: 2em;
   }
 
-  .title{
+  .title {
     font-size: xx-large;
     color: #678EB5;
     font-weight: bold;
@@ -15,11 +15,11 @@
   }
 
 
-  .close{
-   color: #678EB5;
+  .close {
+    color: #678EB5;
   }
 
-  .exit_btn{
+  .exit_btn {
     position: absolute;
     top: 2em;
     background-color: #f5f7fa;
@@ -28,7 +28,7 @@
     cursor: pointer;
   }
 
-  .result{
+  .result {
     text-align: center;
     width: 70%;
     margin-left: 15%;
@@ -36,7 +36,7 @@
     color: rgb(202, 201, 201);
   }
 
-  .stream_button{
+  .stream_button {
     margin-right: 1em;
     padding: 0.8em;
     width: 8vw;
@@ -47,13 +47,14 @@
     cursor: pointer;
     transition: 0.5s;
     font-weight: bold;
-    &:hover{
+
+    &:hover {
       box-shadow: inset 0 100px 0 0 #abd2f3;
       color: rgb(62, 62, 62);
     }
   }
-  
-  .nav_link{
+
+  .nav_link {
     height: 7vh;
     width: 50%;
     margin-top: 1em;
@@ -68,13 +69,14 @@
     margin-left: 25%;
     margin-top: 2em;
   }
-  .success{
+
+  .success {
     color: #55B88D;
     font-size: xx-large;
     text-align: center;
   }
 
-  .close_btn{
+  .close_btn {
     position: absolute;
     top: 1em;
     border: none;
@@ -84,13 +86,14 @@
     cursor: pointer;
     transition: 0.9s;
     background-color: #363b55;
+
     // z-index: 102;
-    &:hover{
+    &:hover {
       background-color: #363b55;
     }
   }
 
-  .recent_btn{
+  .recent_btn {
     height: 5vh;
     padding-left: 1em;
     padding-right: 1em;
@@ -104,16 +107,18 @@
     border-radius: 12px;
     left: 1em;
     transition: 0.5s;
-    &:hover{
+
+    &:hover {
       box-shadow: inset 0 100px 0 0 #abd2f3;
       color: rgb(62, 62, 62);
     }
+
     color: white;
     font-weight: 600;
     border-radius: 12px;
   }
 
-  .warning{
+  .warning {
     color: #CC193E;
     font-size: large;
     margin-top: 6em;
@@ -121,8 +126,8 @@
 
 }
 
-@media screen and (max-width: 786px) {
-  .stream_button{
+@media screen and (max-width: 768px) {
+  .stream_button {
     margin-right: 1em;
     height: 5vh;
     width: 30vw;
@@ -133,54 +138,53 @@
     font-weight: bold;
   }
 
-  .stream_panel_container{
-    // z-index: 100;
-    height: 600px;
+  .stream_panel_container {
     background-color: $dark-mode-bg;
     position: relative;
     // top: 20vh;
-    // left: 5vw;
-    border: 2px solid rgba(0, 0, 0, 0.245);
+    left: -10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 50px;
   }
 
 
-  .close{
+  .close {
     color: #678EB5;
-   }
- 
-   .exit_btn{
-     position: absolute;
-     top: 2em;
-     background-color: #f5f7fa;
-     border: none;
-     right: 2em;
-   }
-
-   .stream_form_container{
-    width: 100%;
-    padding: 2em;
   }
 
-  .title{
+  .exit_btn {
+    position: absolute;
+    top: 2em;
+    background-color: #f5f7fa;
+    border: none;
+    right: 2em;
+  }
+
+  .stream_form_container {
+    width: 100%;
+    height: 100%;
+    // padding: 2em;
+  }
+
+  .title {
     font-size: xx-large;
     color: #678EB5;
     font-weight: bold;
     text-align: center;
   }
 
-  .result{
+  .result {
     text-align: center;
     width: 80%;
     margin-left: 10%;
     color: rgba(69, 68, 68, 0.653);
   }
 
-  
-  .nav_link{
+
+  .nav_link {
     height: 7vh;
     width: 50%;
     margin-left: 25%;
@@ -193,16 +197,16 @@
     padding-right: 1em;
     color: white;
     flex-direction: row;
-    
+
   }
 
-  .success{
+  .success {
     color: #55B88D;
     font-size: xx-large;
     text-align: center;
   }
 
-  .close_btn{
+  .close_btn {
     position: absolute;
     top: 0.5em;
     background-color: #f5f7fa;
@@ -213,10 +217,10 @@
     // z-index: 102;
   }
 
-  .warning{
+  .warning {
     color: #CC193E;
     font-size: large;
     margin-top: 6em;
- 
+
   }
 }

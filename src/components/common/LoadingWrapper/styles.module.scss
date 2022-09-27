@@ -11,7 +11,7 @@
   @include flexbox(center, center);
 }
 
-@media only screen and (max-width: 786px) {
+@media only screen and (max-width: 768px) {
   .loader {
     position: relative;
     top: 40;

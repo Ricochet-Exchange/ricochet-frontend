@@ -52,9 +52,7 @@ export const StreamManager: React.FC<IProps> = () => {
 
 	return (
 		<div className={styles.container}>
-			<div className="">
-				<h2 className={styles.outGoing}>Outgoing Streams.</h2>
-			</div>
+			<h2 className={styles.outGoing}>Outgoing Streams.</h2>
 
 			{streamList.map(({ createdAtTimestamp, sender, receiver, currentFlowRate, token }, i) => {
 				// @ts-expect-error
