@@ -26,9 +26,9 @@ export const upgradeTokensList: {
 	superTokenAddress: string;
 	multi: number;
 	key:
+		| 'hasIbAlluoUSDApprove'
 		| 'hasIbAlluoETHApprove'
 		| 'hasIbAlluoBTCApprove'
-		| 'hasIbAlluoUSDApprove'
 		| 'hasWethApprove'
 		| 'hasUsdcApprove'
 		| 'hasWbtcApprove'
@@ -43,6 +43,13 @@ export const upgradeTokensList: {
 		key: 'hasUsdcApprove',
 	},
 	{
+		coin: Coin.StIbAlluoUSD,
+		tokenAddress: IbAlluoUSDAddress,
+		superTokenAddress: StIbAlluoUSDAddress,
+		multi: 1e18,
+		key: 'hasIbAlluoUSDApprove',
+	},
+	{
 		coin: Coin.StIbAlluoETH,
 		tokenAddress: IbAlluoETHAddress,
 		superTokenAddress: StIbAlluoETHAddress,
@@ -55,13 +62,6 @@ export const upgradeTokensList: {
 		superTokenAddress: StIbAlluoBTCAddress,
 		multi: 1e18,
 		key: 'hasIbAlluoBTCApprove',
-	},
-	{
-		coin: Coin.StIbAlluoUSD,
-		tokenAddress: IbAlluoUSDAddress,
-		superTokenAddress: StIbAlluoUSDAddress,
-		multi: 1e18,
-		key: 'hasIbAlluoUSDApprove',
 	},
 	{
 		coin: Coin.USDC,
