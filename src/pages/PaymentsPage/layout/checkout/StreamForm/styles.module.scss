@@ -11,7 +11,8 @@
     color: lightblue;
     font-size: 14px;
     padding: 2em;
-    max-width: 800px;
+    width: 50vw;
+    min-width: 600px;
     align-content: center;
     align-items: center;
     justify-content: center;
@@ -33,7 +34,7 @@
     border-radius: 8px;
     border: 1px solid $dark-mode-lightblue;
     color: $dark-mode-lightblue;
-    width: 400px;
+    width: 100%;
   }
 
   .select {

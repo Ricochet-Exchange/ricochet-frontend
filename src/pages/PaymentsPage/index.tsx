@@ -5,9 +5,9 @@ import styles from './styles.module.scss';
 interface PayProps {}
 
 const PaymentsPage: FC<PayProps> = () => (
-  <div className={styles.content}>
-    <PaymentsContainer />
-  </div>
+	<div className={styles.content}>
+		<PaymentsContainer />
+	</div>
 );
 
 export { PaymentsPage };
