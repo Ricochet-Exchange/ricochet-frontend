@@ -3,11 +3,8 @@ import {
 	DAIxAddress,
 	USDCxAddress,
 	WETHxAddress,
-	MKRxAddress,
 	WBTCxAddress,
 	MATICxAddress,
-	SUSHIxAddress,
-	IDLExAddress,
 	RICAddress,
 	StIbAlluoETHAddress,
 	StIbAlluoUSDAddress,
@@ -15,6 +12,9 @@ import {
 import { Loader } from 'components/common/Loader';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import ButtonNew from 'components/common/ButtonNew';
 import { blockInvalidChar } from 'utils/blockInvalidChars';
 import { calculateFlowRate } from 'utils/calculateFlowRate';
 import styles from './styles.module.scss';

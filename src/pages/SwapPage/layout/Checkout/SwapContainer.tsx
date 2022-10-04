@@ -83,8 +83,8 @@ export default function SwapContainer() {
 	React.useEffect(() => {
 		axios.get(coingeckoUrl).then((response) => {
 			setGeckoPriceList(response.data);
+			console.log(response);
 		});
-		console.log(geckoPriceList);
 	}, []);
 
 	React.useEffect(() => {
@@ -201,7 +201,7 @@ export default function SwapContainer() {
 		setLoading(true);
 		web3.eth.handleRevert = true;
 		web3ToUse = web3;
-		console.log(fromSupertoken);
+
 		const contract = await new web3ToUse.eth.Contract(superTokenABI as any, fromSupertoken);
 
 		let bigNumAmountIn = await web3.utils.toWei(amountIn, 'ether');

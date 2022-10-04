@@ -9,6 +9,8 @@
     border-radius: 10px;
     align-items: center;
     justify-content: space-around;
+    flex-direction: column;
+    width: 40vw;
     padding: 2em;
 
     .input_container{

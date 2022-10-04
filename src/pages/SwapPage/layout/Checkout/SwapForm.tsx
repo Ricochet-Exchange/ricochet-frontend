@@ -141,9 +141,7 @@ export const SwapForm: React.FC<IProps> = ({
 					>
 						<option value={''}>Choose a Token</option>
 						{tokens.map((token, i) => {
-							if (token.name === 'USDCx') {
-								return;
-							} else {
+							{
 								return (
 									<option key={`${token.name}-${i}`} value={token.address}>
 										{token.name}

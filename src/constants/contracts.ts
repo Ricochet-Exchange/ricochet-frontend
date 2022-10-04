@@ -18,4 +18,4 @@ export const CONTRACT_ADDRESSES: ContractAddressType = {
 	137: ['0xe78dC447d404695541b540F2FbB7682fd24d778B', '0xE4924F84D834aC103a1Fb2774a4c0Bc526c7D593'],
 };
 
-export const SwapContract: string = '0x7d0c6cd0bfcb05710c0cc94fc673e866adae7745';
+export const SwapContract: string = '0x2995702816a86086Baa799F44F76c33111094498';
