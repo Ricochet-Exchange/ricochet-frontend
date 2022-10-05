@@ -7,23 +7,23 @@ const SDK = new SafeAppsSDK();
 export const getConnectedSafe = async (): Promise<SafeInfo | undefined> => SDK.safe.getInfo();
 
 export const isSafeApp = async (): Promise<boolean> => {
-  // check if we're in an iframe
-  if (window?.parent === window || isLedgerDappBrowserProvider()) {
-    return false;
-  }
-  const safe = await getConnectedSafe();
-  return !!safe;
+	// check if we're in an iframe
+	if (window?.parent === window || isLedgerDappBrowserProvider()) {
+		return false;
+	}
+	const safe = await getConnectedSafe();
+	return !!safe;
 };
 
 export const getProvider = async (): Promise<SafeAppProvider> => {
-  const safe = await getConnectedSafe();
-  if (!safe) throw Error('Could not load Safe information');
-  return new SafeAppProvider(safe, SDK);
+	const safe = await getConnectedSafe();
+	if (!safe) throw Error('Could not load Safe information');
+	return new SafeAppProvider(safe, SDK as any);
 };
 
 export const getSafeProvider = async (): Promise<SafeAppProvider | undefined> => {
-  if (await isSafeApp()) {
-    return getProvider();
-  }
-  return undefined;
+	if (await isSafeApp()) {
+		return getProvider();
+	}
+	return undefined;
 };
