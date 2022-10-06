@@ -33,7 +33,7 @@ export function* approveSaga(tokenAddress: string, superTokenAddress: string, am
 export function* approveMainSaga({ payload }: ReturnType<typeof approveAction>) {
 	try {
 		yield put(mainSetState({ isLoadingUpgrade: true }));
-		const { tokenAddress, superTokenAddress, value, multi } = payload;
+		const { tokenAddress, superTokenAddress } = payload;
 		// Allow max instead of amount
 		const amount = Web3.utils.toBN('2').pow(Web3.utils.toBN('256')).sub(Web3.utils.toBN('1')).toString();
 		yield call(approveSaga, tokenAddress, superTokenAddress, amount);

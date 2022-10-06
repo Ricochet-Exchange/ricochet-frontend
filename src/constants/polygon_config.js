@@ -53,5 +53,5 @@ export const twoWayMarketRICUSDCAddress = '0x86c2B55bf5d3E9DAC2747389B38D41C6B1F
 export const twoWayMarketMATICUSDCAddress = '0xF989C73d04D20c84d6A4D26d07090D0a63F021C7';
 export const twoWayMarketMATICDAIAddress = '0x9FC28B1887589785CA43C57946dD0d3eD781A1eE';
 export const twoWayMarketWBTCDAIAddress = '0xaA6BF289A0b3BB71dd7DfABE7A373410d37A4b70';
-export const twoWayMarketibAlluoUSDETHAddress = '0xD0a8aeD52e80F99F7daDa1E22369B707437b6B34';
-export const twoWayMarketibAlluoUSDBTCAddress = '0xD4dA831A1d94Af96DdEaB40429831d18D1c345e7';
+export const twoWayMarketibAlluoUSDETHAddress = '0x56aCA122d439365B455cECb14B4A39A9d1B54621';
+export const twoWayMarketibAlluoUSDBTCAddress = '0xbB5C64B929b1E60c085dcDf88dfe41c6b9dcf65B';

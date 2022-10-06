@@ -1,4 +1,4 @@
-@import "../../../assets/styles/mixins";
+@import "../../../../../assets/styles/mixins";
 
 .streamRow{
   border-radius: 12px;
@@ -152,7 +152,7 @@ strong{
 }
 
 
-@media screen and (max-width: 786px) {
+@media screen and (max-width: 768px) {
 
   .streamRow{
     border-bottom: 2px solid #2776ca26;
