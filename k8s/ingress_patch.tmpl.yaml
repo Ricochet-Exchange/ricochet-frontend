@@ -1,4 +1,0 @@
----
-- op: replace
-  path: "/spec/rules/0/http/paths/0/path"
-  value: /${BRANCH_NAME}/
