@@ -20,6 +20,8 @@ import {
 	StIbAlluoETHAddress,
 	IbAlluoUSDAddress,
 	StIbAlluoUSDAddress,
+	IbAlluoBTCAddress,
+	StIbAlluoBTCAddress,
 } from './polygon_config';
 
 type Transformer = {
@@ -35,6 +37,14 @@ export const tokenCoinTransformer: Transformer[] = [
 	{
 		token: StIbAlluoETHAddress,
 		coin: Coin.StIbAlluoETH,
+	},
+	{
+		token: IbAlluoBTCAddress,
+		coin: Coin.IbAlluoBTC,
+	},
+	{
+		token: StIbAlluoBTCAddress,
+		coin: Coin.StIbAlluoBTC,
 	},
 	{
 		token: IbAlluoUSDAddress,

@@ -13,6 +13,7 @@ import {
 	checkIfApproveWeth,
 	checkIfApproveIbAlluoUSD,
 	checkIfApproveIbAlluoETH,
+	checkIfApproveIbAlluoBTC,
 } from './checkIfApprove';
 import { getBalances } from './getBalances';
 import { sweepQueryFlow } from './sweepQueryFlow';
@@ -25,6 +26,7 @@ export function* loadData() {
 		const main: ReturnType<typeof selectMain> = yield select(selectMain);
 		const { web3 } = main;
 		const address: Unwrap<typeof getAddress> = yield call(getAddress, web3);
+		yield put(mainSetState({ address }));
 		const coingeckoPrices: Unwrap<typeof getCoingeckoPrices> = yield call(getCoingeckoPrices);
 		yield call(getBalances, address);
 		yield all([
@@ -38,6 +40,7 @@ export function* loadData() {
 			call(checkIfApproveMatic),
 			call(checkIfApproveIbAlluoUSD),
 			call(checkIfApproveIbAlluoETH),
+			call(checkIfApproveIbAlluoBTC),
 			call(sweepQueryFlow),
 		]);
 		yield put(

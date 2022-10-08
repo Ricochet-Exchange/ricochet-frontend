@@ -47,7 +47,11 @@ import {
 	StIbAlluoUSDAddress,
 	IbAlluoETHAddress,
 	StIbAlluoETHAddress,
+	IbAlluoBTCAddress,
+	StIbAlluoBTCAddress,
 	twoWayMarketibAlluoUSDETHAddress,
+	twoWayMarketibAlluoUSDBTCAddress,
+	usdcxibAlluoUSDAddress,
 } from 'constants/polygon_config';
 
 export enum ExchangeKeys {
@@ -64,6 +68,7 @@ export enum ExchangeKeys {
 	'USDC_MATIC' = 'usdcMatic',
 	'USDC_MKR' = 'usdcMkr',
 	'USDC_RIC' = 'usdcRic',
+	'USDC_IBALLUO' = 'usdcxibAlluoUSD',
 	'USDC_WBTC' = 'twoWayusdcWbtc',
 	'USDC_WETH' = 'twoWayusdcWeth',
 	'WBTC_USDC' = 'twoWaywbtcUsdc',
@@ -78,6 +83,8 @@ export enum ExchangeKeys {
 	'TWO_WAY_DAI_WBTC' = 'twoWayDaiWbtc',
 	'TWO_WAY_IBUSD_IBETH' = 'twoWayIbUsdIbEth',
 	'TWO_WAY_IBETH_IBUSD' = 'twoWayIbEthIbUsd',
+	'TWO_WAY_IBUSD_IBBTC' = 'twoWayIbUsdIbBTC',
+	'TWO_WAY_IBBTC_IBUSD' = 'twoWayIbBTCIbUsd',
 	'MATICx' = 'maticx',
 	'MKRx' = 'mkrx',
 	'MKR' = 'mkr',
@@ -99,8 +106,10 @@ export enum ExchangeKeys {
 	'IDLE' = 'idle',
 	'StIbAlluoUSD' = 'stiballuousd',
 	'StIbAlluoETH' = 'stiballuoeth',
+	'StIbAlluoBTC' = 'stiballuobtc',
 	'IbAlluoUSD' = 'iballuousd',
 	'IbAlluoETH' = 'iballuoeth',
+	'IbAlluoBTC' = 'iballuobtc',
 	'Referral' = 'referral',
 }
 
@@ -119,6 +128,7 @@ export const getExchangeAddressFromKey = (exchangeKey: ExchangeKeys) => {
 		usdcMatic: usdcxMaticxExchangeAddress,
 		usdcMkr: usdcxMkrxExchangeAddress,
 		usdcRic: usdcxRicExchangeAddress,
+		usdcxibAlluoUSD: usdcxibAlluoUSDAddress,
 		usdcWbtc: usdcxWbtcxExchangeAddress,
 		usdcWeth: usdcxWethxExchangeAddress,
 		wbtcUsdc: wbtcxUsdcxExchangeAddress,
@@ -146,6 +156,8 @@ export const getExchangeAddressFromKey = (exchangeKey: ExchangeKeys) => {
 		stiballuousd: StIbAlluoUSDAddress,
 		iballuousd: IbAlluoUSDAddress,
 		iballuoeth: IbAlluoETHAddress,
+		stiballuobtc: StIbAlluoBTCAddress,
+		iballuobtc: IbAlluoBTCAddress,
 		referral: rexReferralAddress,
 		twoWayusdcWeth: twoWayWETHMarketAddress,
 		twoWaywethUsdc: twoWayWETHMarketAddress,
@@ -163,6 +175,8 @@ export const getExchangeAddressFromKey = (exchangeKey: ExchangeKeys) => {
 		twoWayUsdcRic: twoWayMarketRICUSDCAddress,
 		twoWayIbUsdIbEth: twoWayMarketibAlluoUSDETHAddress,
 		twoWayIbEthIbUsd: twoWayMarketibAlluoUSDETHAddress,
+		twoWayIbUsdIbBTC: twoWayMarketibAlluoUSDBTCAddress,
+		twoWayIbBTCIbUsd: twoWayMarketibAlluoUSDBTCAddress,
 	};
 
 	return addresses[exchangeKey];

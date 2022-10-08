@@ -3,18 +3,19 @@ import {
 	DAIxAddress,
 	USDCxAddress,
 	WETHxAddress,
+	MKRxAddress,
 	WBTCxAddress,
 	MATICxAddress,
+	SUSHIxAddress,
+	IDLExAddress,
 	RICAddress,
 	StIbAlluoETHAddress,
 	StIbAlluoUSDAddress,
+	StIbAlluoBTCAddress,
 } from 'constants/polygon_config';
 import { Loader } from 'components/common/Loader';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import ButtonNew from 'components/common/ButtonNew';
 import { blockInvalidChar } from 'utils/blockInvalidChars';
 import { calculateFlowRate } from 'utils/calculateFlowRate';
 import styles from './styles.module.scss';
@@ -54,6 +55,12 @@ export const StreamForm: React.FC<IProps> = ({
 			currency: 'WETHx',
 			address: WETHxAddress,
 		},
+
+		{
+			currency: 'MKRx',
+			address: MKRxAddress,
+		},
+
 		{
 			currency: 'WBTCx',
 			address: WBTCxAddress,
@@ -62,6 +69,16 @@ export const StreamForm: React.FC<IProps> = ({
 		{
 			currency: 'MATICx',
 			address: MATICxAddress,
+		},
+
+		{
+			currency: 'SUSHIx',
+			address: SUSHIxAddress,
+		},
+
+		{
+			currency: 'IDLEx',
+			address: IDLExAddress,
 		},
 		{
 			currency: 'RIC',
@@ -75,83 +92,79 @@ export const StreamForm: React.FC<IProps> = ({
 			currency: 'StIbAlluoUSD',
 			address: StIbAlluoUSDAddress,
 		},
+		{
+			currency: 'StIbAlluoBTC',
+			address: StIbAlluoBTCAddress,
+		},
 	];
 
 	const { balances } = state;
 
 	return (
 		<div className={styles.stream_form}>
-			<div className={styles.input_container}>
-				<label htmlFor="recipient" className={styles.input_label}>
-					Wallet Address here
-				</label>
-				<input
-					className={styles.input_field}
-					type="text"
-					id="recipient"
-					placeholder="Receiver Address"
-					onChange={async (e) => {
-						if (e.target.value.length === 42) {
-							await updateRecipient(e.target.value);
-							setAddressStatus(true);
-						}
-					}}
-				/>
-			</div>
+			<label htmlFor="recipient" className={styles.label}>
+				Recipient
+			</label>
+			<input
+				className={styles.input}
+				type="text"
+				id="recipient"
+				placeholder="Receiver Address"
+				onChange={async (e) => {
+					if (e.target.value.length === 42) {
+						await updateRecipient(e.target.value);
+						setAddressStatus(true);
+					}
+				}}
+			/>
 
-			<div className={styles.input_container}>
-				<label className={styles.input_label} htmlFor="payment">
-					Monthly Stream amount
-				</label>
-				<div className={styles.collection}>
-					<input
-						id="payment"
-						className={styles.input_field}
-						type="number"
-						placeholder="Payment Amount"
-						onKeyDown={blockInvalidChar}
-						min={0}
-						onChange={async (e) => {
-							const newFlow = await calculateFlowRate(+e.target.value);
-							if (newFlow) {
-								await updateFlowRate(newFlow.toString());
-								setFlowStatus(true);
+			<label className={styles.label} htmlFor="payment">
+				Monthly payment amount
+			</label>
+			<input
+				id="payment"
+				className={styles.input}
+				type="number"
+				placeholder="Payment Amount"
+				onKeyDown={blockInvalidChar}
+				min={0}
+				onChange={async (e) => {
+					const newFlow = await calculateFlowRate(+e.target.value);
+					if (newFlow) {
+						await updateFlowRate(newFlow.toString());
+						setFlowStatus(true);
+					}
+				}}
+			/>
+
+			<label className={styles.label} htmlFor="supertoken">
+				Token to stream
+			</label>
+			<select
+				name="SuperTokens"
+				id="supertoken"
+				onChange={async (e) => {
+					await updateSuperToken(e.target.value);
+					setTokenStatus(true);
+				}}
+				className={styles.select}
+			>
+				<option value="" selected>
+					Choose A Token
+				</option>
+				{balances
+					? supportedCurrencies.map((currency) => {
+							if (+balances[currency.address] > 0) {
+								return (
+									<option value={`${currency.address}`}>
+										{currency.currency} {(+balances[currency.address]).toFixed(2)}{' '}
+									</option>
+								);
 							}
-						}}
-					/>
-				</div>
-			</div>
-
-			<div className={styles.input_container}>
-				<label className={styles.input_label} htmlFor="supertoken">
-					Ricochet Token
-				</label>
-				<select
-					name="SuperTokens"
-					id="supertoken"
-					onChange={async (e) => {
-						await updateSuperToken(e.target.value);
-						setTokenStatus(true);
-					}}
-					className={styles.input_field}
-				>
-					<option value="" selected>
-						Choose A Token
-					</option>
-					{balances
-						? supportedCurrencies.map((currency) => {
-								if (+balances[currency.address] > 0) {
-									return (
-										<option value={`${currency.address}`}>
-											{currency.currency} {(+balances[currency.address]).toFixed(2)}{' '}
-										</option>
-									);
-								}
-								return '';
-						  })
-						: ''}
-				</select>
-			</div>
+							return '';
+					  })
+					: ''}
+			</select>
 
 			<button
 				style={{ backgroundColor: '#79aad9' }}

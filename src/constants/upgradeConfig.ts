@@ -6,19 +6,15 @@ import {
 	USDCxAddress,
 	WETHAddress,
 	WETHxAddress,
-	MKRAddress,
-	MKRxAddress,
 	WBTCAddress,
 	WBTCxAddress,
 	WMATICAddress,
 	MATICxAddress,
-	SUSHIAddress,
-	SUSHIxAddress,
-	IDLEAddress,
-	IDLExAddress,
 	RICAddress,
 	StIbAlluoETHAddress,
 	IbAlluoETHAddress,
+	StIbAlluoBTCAddress,
+	IbAlluoBTCAddress,
 	StIbAlluoUSDAddress,
 	IbAlluoUSDAddress,
 	ZeroAddress,
@@ -30,16 +26,14 @@ export const upgradeTokensList: {
 	superTokenAddress: string;
 	multi: number;
 	key:
+		| 'hasIbAlluoUSDApprove'
+		| 'hasIbAlluoETHApprove'
+		| 'hasIbAlluoBTCApprove'
 		| 'hasWethApprove'
 		| 'hasUsdcApprove'
 		| 'hasWbtcApprove'
 		| 'hasDaiApprove'
-		| 'hasMaticApprove'
-		| 'hasMkrApprove'
-		| 'hasSushiApprove'
-		| 'hasIdleApprove'
-		| 'hasIbAlluoETHApprove'
-		| 'hasIbAlluoUSDApprove';
+		| 'hasMaticApprove';
 }[] = [
 	{
 		coin: Coin.RIC,
@@ -47,6 +41,27 @@ export const upgradeTokensList: {
 		superTokenAddress: RICAddress,
 		multi: 1e6,
 		key: 'hasUsdcApprove',
+	},
+	{
+		coin: Coin.StIbAlluoUSD,
+		tokenAddress: IbAlluoUSDAddress,
+		superTokenAddress: StIbAlluoUSDAddress,
+		multi: 1e18,
+		key: 'hasIbAlluoUSDApprove',
+	},
+	{
+		coin: Coin.StIbAlluoETH,
+		tokenAddress: IbAlluoETHAddress,
+		superTokenAddress: StIbAlluoETHAddress,
+		multi: 1e18,
+		key: 'hasIbAlluoETHApprove',
+	},
+	{
+		coin: Coin.StIbAlluoBTC,
+		tokenAddress: IbAlluoBTCAddress,
+		superTokenAddress: StIbAlluoBTCAddress,
+		multi: 1e18,
+		key: 'hasIbAlluoBTCApprove',
 	},
 	{
 		coin: Coin.USDC,
@@ -61,13 +76,6 @@ export const upgradeTokensList: {
 		superTokenAddress: DAIxAddress,
 		multi: 1e18,
 		key: 'hasDaiApprove',
-	},
-	{
-		coin: Coin.MKR,
-		tokenAddress: MKRAddress,
-		superTokenAddress: MKRxAddress,
-		multi: 1e18,
-		key: 'hasMkrApprove',
 	},
 	{
 		coin: Coin.WETH,
@@ -89,33 +97,5 @@ export const upgradeTokensList: {
 		superTokenAddress: MATICxAddress,
 		multi: 1e18,
 		key: 'hasMaticApprove',
-	},
-	{
-		coin: Coin.SUSHI,
-		tokenAddress: SUSHIAddress,
-		superTokenAddress: SUSHIxAddress,
-		multi: 1e18,
-		key: 'hasSushiApprove',
-	},
-	{
-		coin: Coin.IDLE,
-		tokenAddress: IDLEAddress,
-		superTokenAddress: IDLExAddress,
-		multi: 1e18,
-		key: 'hasIdleApprove',
-	},
-	{
-		coin: Coin.StIbAlluoETH,
-		tokenAddress: IbAlluoETHAddress,
-		superTokenAddress: StIbAlluoETHAddress,
-		multi: 1e18,
-		key: 'hasIbAlluoETHApprove',
-	},
-	{
-		coin: Coin.StIbAlluoUSD,
-		tokenAddress: IbAlluoUSDAddress,
-		superTokenAddress: StIbAlluoUSDAddress,
-		multi: 1e18,
-		key: 'hasIbAlluoUSDApprove',
 	},
 ];

@@ -21,6 +21,8 @@ import {
 	RICAddress,
 	IbAlluoETHAddress,
 	StIbAlluoETHAddress,
+	IbAlluoBTCAddress,
+	StIbAlluoBTCAddress,
 	IbAlluoUSDAddress,
 	StIbAlluoUSDAddress,
 } from 'constants/polygon_config';
@@ -50,6 +52,8 @@ export function* getBalances(address: string) {
 		rexLPETHAddress,
 		StIbAlluoETHAddress,
 		IbAlluoETHAddress,
+		StIbAlluoBTCAddress,
+		IbAlluoBTCAddress,
 		StIbAlluoUSDAddress,
 		IbAlluoUSDAddress,
 	];

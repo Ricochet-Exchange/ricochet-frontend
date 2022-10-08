@@ -13,6 +13,7 @@ import slp from 'assets/images/coins/slp.svg';
 import idle from 'assets/images/coins/idle.svg';
 import iballuousd from 'assets/images/coins/ibusd.svg';
 import iballuoeth from 'assets/images/coins/ibeth.svg';
+import iballuobtc from 'assets/images/coins/ibbtc.svg';
 
 export enum Coin {
 	WBTC = 'WBTC',
@@ -43,6 +44,8 @@ export enum Coin {
 	IbAlluoUSD = 'IbAlluoUSD',
 	StIbAlluoETH = 'StIbAlluoETH',
 	StIbAlluoUSD = 'StIbAlluoUSD',
+	StIbAlluoBTC = 'StIbAlluoBTC',
+	IbAlluoBTC = 'IbAlluoBTC',
 }
 
 export const namesCoin = [
@@ -57,6 +60,7 @@ export const namesCoin = [
 	Coin.IDLE,
 	Coin.IbAlluoETH,
 	Coin.IbAlluoUSD,
+	Coin.IbAlluoBTC,
 ];
 
 export const namesCoinX = [
@@ -71,6 +75,7 @@ export const namesCoinX = [
 	Coin.IDLEx,
 	Coin.StIbAlluoETH,
 	Coin.StIbAlluoUSD,
+	Coin.StIbAlluoBTC,
 ];
 
 export const iconsCoin: Partial<Record<Coin, string>> = {
@@ -102,4 +107,6 @@ export const iconsCoin: Partial<Record<Coin, string>> = {
 	[Coin.IbAlluoUSD]: iballuousd,
 	[Coin.StIbAlluoETH]: iballuoeth,
 	[Coin.StIbAlluoUSD]: iballuousd,
+	[Coin.IbAlluoBTC]: iballuobtc,
+	[Coin.StIbAlluoBTC]: iballuobtc,
 };

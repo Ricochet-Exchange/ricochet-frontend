@@ -1,14 +1,12 @@
 import {
 	DAIxAddress,
-	IDLEAddress,
 	MATICxAddress,
-	MKRxAddress,
-	SUSHIAddress,
 	USDCxAddress,
 	WBTCxAddress,
 	WETHxAddress,
 	StIbAlluoETHAddress,
 	StIbAlluoUSDAddress,
+	StIbAlluoBTCAddress,
 } from '../constants/polygon_config';
 
 const coingeckoIds = new Map<string, string>([
@@ -17,13 +15,11 @@ const coingeckoIds = new Map<string, string>([
 	[WETHxAddress, 'weth'],
 	[WBTCxAddress, 'wrapped-bitcoin'],
 	[MATICxAddress, 'matic-network'],
-	[MKRxAddress, 'maker'],
-	[IDLEAddress, 'idle'],
-	[SUSHIAddress, 'sushi'],
 	// TODO: These prices need to be multiplied by the growingRatio
 	// from these contracts since 1 ibAlluoUSD > 1 USD
 	[StIbAlluoETHAddress, 'weth'],
 	[StIbAlluoUSDAddress, 'usd-coin'],
+	[StIbAlluoBTCAddress, 'wrapped-bitcoin'],
 ]);
 
 async function getPrices() {

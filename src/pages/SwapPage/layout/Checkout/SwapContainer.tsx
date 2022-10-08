@@ -186,6 +186,7 @@ export default function SwapContainer() {
 				setTx(res.transactionHash);
 			});
 		} catch (e) {
+			setSuccess(false);
 			console.log(e);
 			setLoading(false);
 		}
@@ -243,10 +244,10 @@ export default function SwapContainer() {
 					Your swap of:
 					<br />
 					<br />
-					From Token: {fromSupertoken}
+					From Token: {fromSymbol}
 					<br />
 					<br />
-					To Token: {toSupertoken}
+					To Token: {toSymbol}
 					<br />
 					<br />
 					Amount In: {amountIn}
