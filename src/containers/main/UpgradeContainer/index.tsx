@@ -242,16 +242,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 					<tr className={styles.tableHeaders}>
 						<td className={styles.currencyStyle}>{t('Currency')}</td>
 						<td>
-							{t('Wallet')}
-							<br />
-							{t('Balance')}
-						</td>
-						<td className={styles.section}>{t('Ricochet Token Balance')}</td>
-						<td className={styles.section}>
-							{t('Ricochet Token Balance')}
-							<br />
-							in
-							<span className={styles.blue}> USD</span>8
+							{t('Wallet')} {t('Balance')}
 							<br />
 							<span>
 								{t('Total balance')}:{' '}
