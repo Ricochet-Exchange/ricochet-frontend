@@ -21,6 +21,8 @@ import { swap } from 'utils/swap/swap';
 import { superTokenABI } from 'constants/abis';
 import { SwapForm } from './SwapForm';
 import { SwapContract } from 'constants/contracts';
+import { FontIcon, FontIconName } from 'components/common/FontIcon';
+import styles from './styles.module.scss';
 
 export default function SwapContainer() {
 	const tokens = [
@@ -74,7 +76,8 @@ export default function SwapContainer() {
 	const [amountIn, setAmountIn] = React.useState('');
 	const [minAmountOut, setMinAmountOut] = React.useState('');
 	const [approved, setApprove] = React.useState(false);
-	const [success, setSuccess] = React.useState(false);
+	const [success, setSuccess] = React.useState(0);
+	const [slippageTolerance, setSlippageTolerance] = React.useState('0.02');
 	const [tx, setTx] = React.useState('');
 
 	const coingeckoUrl =
@@ -111,15 +114,15 @@ export default function SwapContainer() {
 			toPrice = toPrice.usd;
 			// @ts-ignore
 			let outPutPrice = priceAmountIn / toPrice;
-			let fee = 0.02;
+			let fee = +slippageTolerance;
 			let outputFee = outPutPrice * fee;
 			let FinalOutputAmount = outPutPrice - outputFee;
 
-			setMinAmountOut(FinalOutputAmount.toFixed(4));
+			setMinAmountOut(FinalOutputAmount.toFixed(6));
 		} else {
 			return;
 		}
-	}, [amountIn, fromSymbol, toSymbol]);
+	}, [amountIn, fromSymbol, toSymbol, slippageTolerance]);
 
 	const handleSetFromToken = (value: any) => {
 		let fromToken = tokens.filter((token) => token.address == value);
@@ -180,17 +183,21 @@ export default function SwapContainer() {
 				web3,
 				address,
 			).then((res) => {
-				console.log(res);
+				if (res == undefined) {
+					setSuccess(2);
+					setLoading(false);
+					return;
+				}
 				setLoading(false);
-				setSuccess(true);
+				setSuccess(1);
 				setTx(res.transactionHash);
 			});
 		} catch (e) {
-			setSuccess(false);
+			setSuccess(0);
 			console.log(e);
 			setLoading(false);
 		}
-	}, [fromSupertoken, toSupertoken, web3, address, amountIn, minAmountOut]);
+	}, [fromSupertoken, toSupertoken, web3, address, amountIn, minAmountOut, slippageTolerance]);
 
 	const ApproveSwapTokens = React.useCallback(async () => {
 		let web3ToUse;
@@ -223,7 +230,7 @@ export default function SwapContainer() {
 				setLoading(false);
 				console.log(error);
 			});
-	}, [amountIn, fromSupertoken, address]);
+	}, [amountIn, fromSupertoken, address, slippageTolerance]);
 
 	const handleSetAmountIn = (value: string) => {
 		setAmountIn(value);
@@ -233,9 +240,13 @@ export default function SwapContainer() {
 		setMinAmountOut(value);
 	};
 
+	const handleSetSlippageTolerance = (value: string) => {
+		setSlippageTolerance(value);
+	};
+
 	return (
 		<div>
-			{success ? (
+			{success === 1 ? (
 				<div
 					style={{
 						color: 'white',
@@ -262,7 +273,7 @@ export default function SwapContainer() {
 						View transaction
 					</a>
 				</div>
-			) : (
+			) : success === 0 ? (
 				<SwapForm
 					tokens={tokens}
 					ApproveSwapTokens={ApproveSwapTokens}
@@ -271,6 +282,7 @@ export default function SwapContainer() {
 					handleSetToToken={handleSetToToken}
 					handleSetAmountIn={handleSetAmountIn}
 					handleSetMinAmountOut={handleSetMinAmountOut}
+					handleSetSlippageTolerance={handleSetSlippageTolerance}
 					fromSupertoken={fromSupertoken}
 					toSupertoken={toSupertoken}
 					amountIn={amountIn}
@@ -279,6 +291,27 @@ export default function SwapContainer() {
 					approved={approved}
 					isLoading={loading}
 				/>
+			) : success === 2 ? (
+				<div className={styles.fail_wrapper}>
+					<h3 style={{ color: 'darkred' }}>We failed to Swap your tokens.</h3>
+					<FontIcon name={FontIconName.Close} size={26} />
+					<p style={{ color: 'white' }}>Please check your inputs and try again.</p>
+					<button
+						style={{
+							backgroundColor: '#678eb5',
+							color: 'white',
+							border: 'none',
+							borderRadius: '12px',
+							padding: '1em',
+							cursor: 'pointer',
+						}}
+						onClick={() => setSuccess(0)}
+					>
+						Try again
+					</button>
+				</div>
+			) : (
+				''
 			)}
 		</div>
 	);

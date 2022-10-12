@@ -13,6 +13,7 @@ interface IProps {
 	SwapTokens: () => void;
 	handleSetAmountIn: (arg: string) => void;
 	handleSetMinAmountOut: (arg: string) => void;
+	handleSetSlippageTolerance: (arg: string) => void;
 	fromSupertoken: string;
 	toSupertoken: string;
 	amountIn: string;
@@ -28,6 +29,7 @@ export const SwapForm: React.FC<IProps> = ({
 	ApproveSwapTokens,
 	SwapTokens,
 	handleSetFromToken,
+	handleSetSlippageTolerance,
 	handleSetToToken,
 	handleSetAmountIn,
 	amountIn,
@@ -37,7 +39,6 @@ export const SwapForm: React.FC<IProps> = ({
 	isLoading,
 }) => {
 	const { balances } = useShallowSelector(selectMain);
-
 	return (
 		<React.Fragment>
 			<Grid
@@ -191,6 +192,24 @@ export const SwapForm: React.FC<IProps> = ({
 							{minAmountOut} - {toSymbol}
 						</h5>
 					</div>
+					<select
+						name="slippage"
+						id="supertoken"
+						onChange={async (e) => await handleSetSlippageTolerance(e.target.value)}
+						className={styles.select}
+						style={{
+							color: 'lightgray',
+							backgroundColor: '#2b2b2b',
+							border: 'none',
+							fontSize: 'large',
+							paddingLeft: '1em',
+						}}
+					>
+						<option value={'0.02'}>Choose Slippage tolerance: default 2%</option>
+						<option value={'0.01'}>1%</option>
+						<option value={'0.02'}>2%</option>
+						<option value={'0.03'}>3%</option>
+					</select>
 				</Grid>
 				<Grid item xs={12}>
 					{approved ? (
