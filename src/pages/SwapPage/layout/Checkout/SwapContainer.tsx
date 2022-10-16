@@ -21,8 +21,10 @@ import { swap } from 'utils/swap/swap';
 import { superTokenABI } from 'constants/abis';
 import { SwapForm } from './SwapForm';
 import { SwapContract } from 'constants/contracts';
+import { strtodec } from 'utils/strToDecimalBN';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import styles from './styles.module.scss';
+import { ethers } from 'ethers';
 
 export default function SwapContainer() {
 	const tokens = [
@@ -78,6 +80,7 @@ export default function SwapContainer() {
 	const [approved, setApprove] = React.useState(false);
 	const [success, setSuccess] = React.useState(0);
 	const [slippageTolerance, setSlippageTolerance] = React.useState('0.02');
+	const [toTokenName, setToTokenName] = React.useState('');
 	const [tx, setTx] = React.useState('');
 
 	const coingeckoUrl =
@@ -138,10 +141,12 @@ export default function SwapContainer() {
 		let fromToken = tokens.filter((token) => token.address == value);
 		let symbol = fromToken[0].symbol;
 		let underlying = fromToken[0].underlyingToken;
+		let name = fromToken[0].name;
 
 		setToSupertoken(value);
 		setToSymbol(symbol);
 		setUnderlyingToken2(underlying);
+		setToTokenName(name);
 	};
 
 	const SwapTokens = React.useCallback(async () => {
@@ -166,8 +171,15 @@ export default function SwapContainer() {
 		let path = [underlyingToken1, underlyingToken2];
 
 		bigNumAmountIn = await Web3.utils.toWei(amountIn, 'ether');
-		bigNumMinAmountOut = await Web3.utils.toWei(minAmountOut, 'ether');
 
+		if (toTokenName === 'WBTCx') {
+			bigNumMinAmountOut = +minAmountOut * 10 ** 8;
+		} else if (toTokenName === 'USDCx') {
+			bigNumMinAmountOut = +minAmountOut * 10 ** 6;
+		} else {
+			bigNumMinAmountOut = await Web3.utils.toWei(minAmountOut, 'ether');
+		}
+		console.log(bigNumMinAmountOut, 'this is big num amount out');
 		try {
 			swap(
 				{
