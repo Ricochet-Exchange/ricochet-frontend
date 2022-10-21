@@ -311,6 +311,7 @@ export default function SwapContainer() {
 					fromSupertoken={fromSupertoken}
 					toSupertoken={toSupertoken}
 					amountIn={amountIn}
+					toName={toTokenName}
 					toSymbol={toSymbol}
 					minAmountOut={minAmountOut}
 					approved={approved}

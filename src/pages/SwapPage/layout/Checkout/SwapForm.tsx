@@ -17,6 +17,7 @@ interface IProps {
 	fromSupertoken: string;
 	toSupertoken: string;
 	amountIn: string;
+	toName: string;
 	toSymbol: string;
 	minAmountOut: string;
 	tokens: { name: string; address: string; underlyingToken: string }[];
@@ -34,7 +35,7 @@ export const SwapForm: React.FC<IProps> = ({
 	handleSetAmountIn,
 	fromSupertoken,
 	amountIn,
-	toSymbol,
+	toName,
 	minAmountOut,
 	approved,
 	isLoading,
@@ -221,7 +222,7 @@ export const SwapForm: React.FC<IProps> = ({
 					<div className={styles.outputAmount}>
 						<h5>Minimum Output Amount:</h5>
 						<h5>
-							{minAmountOut} - {toSymbol}
+							{minAmountOut} - {toName}
 						</h5>
 					</div>
 					<select
