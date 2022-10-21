@@ -94,7 +94,7 @@ export const SwapForm: React.FC<IProps> = ({
 											>
 												{token.name}
 												{'     --    balance:  '}
-												{(+balances[token.address]).toFixed(2)}
+												{(+balances[token.address]).toFixed(8)}
 											</option>
 										);
 									} else {
