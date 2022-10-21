@@ -32,6 +32,7 @@ export const SwapForm: React.FC<IProps> = ({
 	handleSetSlippageTolerance,
 	handleSetToToken,
 	handleSetAmountIn,
+	fromSupertoken,
 	amountIn,
 	toSymbol,
 	minAmountOut,
@@ -39,6 +40,15 @@ export const SwapForm: React.FC<IProps> = ({
 	isLoading,
 }) => {
 	const { balances } = useShallowSelector(selectMain);
+
+	const handleSetMaxIn = () => {
+		if (balances === undefined) {
+			return;
+		}
+		let amountMaxIn = +balances[fromSupertoken];
+		handleSetAmountIn(`${amountMaxIn}`);
+	};
+
 	return (
 		<React.Fragment>
 			<Grid
@@ -150,13 +160,11 @@ export const SwapForm: React.FC<IProps> = ({
 								console.log('RIC');
 								return;
 							}
-							{
-								return (
-									<option key={`${token.name}-${i}`} value={token.address}>
-										{token.name}
-									</option>
-								);
-							}
+							return (
+								<option key={`${token.name}-${i}`} value={token.address}>
+									{token.name}
+								</option>
+							);
 						})}
 					</select>
 				</Grid>
@@ -170,20 +178,44 @@ export const SwapForm: React.FC<IProps> = ({
 					>
 						Input Amount
 					</label>
-					<input
-						required
-						value={amountIn}
-						onChange={async (e) => await handleSetAmountIn(e.target.value)}
+					<div
 						style={{
-							color: 'white',
-							backgroundColor: '#2b2b2b',
-							width: '100%',
 							height: '6vh',
-							paddingLeft: '1em',
-							border: 'none',
-							fontSize: 'large',
+							width: '100%',
+							display: 'flex',
+							flexDirection: 'row',
+							marginTop: '0.5em',
 						}}
-					/>
+					>
+						<input
+							placeholder="0.00"
+							required
+							value={amountIn}
+							onChange={async (e) => await handleSetAmountIn(e.target.value)}
+							style={{
+								color: 'white',
+								backgroundColor: '#2b2b2b',
+								width: '100%',
+								height: '6vh',
+								paddingLeft: '1em',
+								border: 'none',
+								fontSize: 'large',
+							}}
+						/>
+						<button
+							style={{
+								height: '6vh',
+								width: '20%',
+								marginLeft: '1em',
+								backgroundColor: fromSupertoken !== '' ? '#79aad9' : 'lightgray',
+								color: '#303030',
+							}}
+							disabled={fromSupertoken !== '' ? false : true}
+							onClick={handleSetMaxIn}
+						>
+							Max
+						</button>
+					</div>
 				</Grid>
 				<Grid item xs={12}>
 					<div className={styles.outputAmount}>
@@ -219,7 +251,8 @@ export const SwapForm: React.FC<IProps> = ({
 							isLoading={isLoading}
 							onClick={SwapTokens}
 							style={{
-								backgroundColor: '#79aad9',
+								backgroundColor: '#79bbd9',
+								fontWeight: 'bold',
 								color: '#303030',
 							}}
 						>
@@ -233,6 +266,7 @@ export const SwapForm: React.FC<IProps> = ({
 							onClick={ApproveSwapTokens}
 							style={{
 								backgroundColor: '#79aad9',
+								fontWeight: 'bold',
 								color: '#303030',
 							}}
 						>
