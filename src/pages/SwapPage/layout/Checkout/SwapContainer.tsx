@@ -284,6 +284,8 @@ export default function SwapContainer() {
 					<a style={{ color: 'lightblue' }} href={`https://polygonscan.com/tx/${tx}`} target={'blank'}>
 						View transaction
 					</a>
+					<br />
+					<br />
 					<button
 						style={{
 							backgroundColor: '#678eb5',
