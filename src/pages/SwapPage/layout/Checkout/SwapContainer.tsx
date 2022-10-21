@@ -284,6 +284,19 @@ export default function SwapContainer() {
 					<a style={{ color: 'lightblue' }} href={`https://polygonscan.com/tx/${tx}`} target={'blank'}>
 						View transaction
 					</a>
+					<button
+						style={{
+							backgroundColor: '#678eb5',
+							color: 'white',
+							border: 'none',
+							borderRadius: '12px',
+							padding: '1em',
+							cursor: 'pointer',
+						}}
+						onClick={() => setSuccess(0)}
+					>
+						Return
+					</button>
 				</div>
 			) : success === 0 ? (
 				<SwapForm
