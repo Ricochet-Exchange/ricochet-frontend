@@ -25,6 +25,11 @@ export const InvestNav = () => {
 					<div className={styles.nav_text}>{t('Market')}</div>
 				</NavLink>
 
+				<NavLink to={Routes.Swap} className={styles.nav_link} activeClassName={styles.nav_link_active}>
+					<FontIcon name={FontIconName.Loop} size={16} />
+					<div className={styles.nav_text}>{t('Swap')}</div>
+				</NavLink>
+
 				<NavLink className={styles.nav_link} activeClassName={styles.nav_link_active} to={Routes.Payments}>
 					<img src={currency} alt="currency" width="16" height="16" style={{ filter: 'invert(1)' }} />
 					<div className={styles.nav_text}>{t('Payments')}</div>

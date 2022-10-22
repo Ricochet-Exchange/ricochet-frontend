@@ -1,10 +1,7 @@
 @import '../../assets/styles/mixins';
 
-
-
-@media only screen and (max-width: 768px) {
-
-  .content {
+@media only screen and (max-width: 769px){
+  .content {  
     margin-left: 0;
     position: relative;
     padding: 0;
@@ -28,6 +25,9 @@
     background-color: $dark-mode-bg;
     width: 88vw;
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     min-height: 100vh;
 
     @include tablet {
