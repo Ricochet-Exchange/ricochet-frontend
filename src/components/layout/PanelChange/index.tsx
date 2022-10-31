@@ -257,6 +257,13 @@ export const PanelChange: FC<IProps> = ({
 										</span>
 										{(subsidyRate?.total || 0) > 0 ? (
 											<span>
+												<span
+													data-tip
+													data-for={`depositTooltipTotalPerso-${uuid}`}
+													style={{ marginLeft: '6px' }}
+												>
+													🔥
+												</span>
 												<ReactTooltip
 													id={`depositTooltipTotalPerso-${uuid}`}
 													place="right"
@@ -375,6 +382,13 @@ export const PanelChange: FC<IProps> = ({
 										coinA !== 'IbAlluoUSD' &&
 										coinB !== 'IbAlluoUSD' ? (
 											<span>
+												<span
+													data-tip
+													data-for={`depositTooltipTotal-${uuid}`}
+													style={{ marginLeft: '6px' }}
+												>
+													🔥
+												</span>
 												<ReactTooltip
 													id={`depositTooltipTotal-${uuid}`}
 													place="right"
