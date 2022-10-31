@@ -46,6 +46,7 @@ export const IDLExAddress = '0xB63E38D21B31719e6dF314D3d2c351dF0D4a9162';
 export const IDLEAddress = '0xC25351811983818c9Fe6D8c580531819c8ADe90f';
 export const ZeroAddress = '0x0000000000000000000000000000000000000000';
 export const rexReferralAddress = '0xA0eC9E1542485700110688b3e6FbebBDf23cd901';
+export const claimAddress = '0x9dA677c3423E0eBc1e3d7c0a86e9b9a34Bbd2874';
 export const twoWayWETHMarketAddress = '0xF1748222B08193273fd34FF10A28352A2C25Adb0';
 export const twoWayMarketWBTCAddress = '0x11Bfe0ff11819274F0FD57EFB4fc365800792D54';
 export const twoWayMarketDAIWETHAddress = '0xB44B371A56cE0245ee961BB8b4a22568e3D32874';
