@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 /* eslint-disable */
 import React, { FC } from 'react';
+import { useQuery } from '@apollo/client';
 import styles from './styles.module.scss';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
@@ -9,6 +10,7 @@ import { claimAddress } from 'constants/polygon_config';
 import { claimABI } from 'constants/abis';
 import { gas } from 'api/gasEstimator';
 import RICToken from 'assets/images/coins/RicochetLogo.svg';
+import { GET_CLAIM_AMMOUNT } from 'containers/main/TradeHistory/data/queries';
 
 interface IProps {
 	address?: string;
@@ -23,6 +25,9 @@ interface claimDetailsProps {
 }
 [];
 export const ClaimPageSection: FC<IProps> = () => {
+	const checklkkk = useQuery(GET_CLAIM_AMMOUNT, {});
+	console.log('checkkk', checklkkk);
+
 	const { address, web3 } = useShallowSelector(selectMain);
 	const contract = getContract(claimAddress, claimABI, web3);
 
