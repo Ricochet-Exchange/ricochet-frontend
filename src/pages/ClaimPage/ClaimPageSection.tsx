@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 /* eslint-disable */
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import styles from './styles.module.scss';
 import { useShallowSelector } from 'hooks/useShallowSelector';
@@ -25,11 +25,18 @@ interface claimDetailsProps {
 }
 [];
 export const ClaimPageSection: FC<IProps> = () => {
-	const checklkkk = useQuery(GET_CLAIM_AMMOUNT, {});
-	console.log('checkkk', checklkkk);
-
 	const { address, web3 } = useShallowSelector(selectMain);
 	const contract = getContract(claimAddress, claimABI, web3);
+	const [userClaimDetails, setUserClaimDetails] = useState('');
+	const { loading, error, data } = useQuery(GET_CLAIM_AMMOUNT, {});
+	let startTime = '';
+	if (data) {
+		data.account.outflows.map((item: any) => {
+			if (item.receiver.id.toLowerCase() === address.toLowerCase()) {
+				startTime = item.flowUpdatedEvents[0].stream.updatedAtTimestamp;
+			}
+		});
+	}
 
 	const [claimAccess, setClaimAccess] = React.useState('0');
 	const [claimDetails, setClaimDetails] = React.useState<claimDetailsProps>();
@@ -42,6 +49,14 @@ export const ClaimPageSection: FC<IProps> = () => {
 				break;
 		}
 	};
+	if (startTime)
+		console.log(
+			'checkkk',
+			data,
+			userClaimDetails,
+			((Math.floor(new Date().getTime() / 1000.0) - parseInt(startTime)) * parseInt(claimDetails?.rate || '')) /
+				1e18,
+		);
 
 	const getWaterDropName = (tokenAddress: string) => {
 		switch (tokenAddress) {
@@ -111,10 +126,23 @@ export const ClaimPageSection: FC<IProps> = () => {
 			});
 	}, [address]);
 
+	console.log('checkkk', Number(claimAccess));
+
+	const buttonStatus = () => {
+		if (Number(claimAccess) && startTime?.length) {
+			return 'Claimed';
+		}
+		if (Number(claimAccess)) {
+			return 'Claim';
+		} else {
+			return 'Ineligible';
+		}
+	};
+
 	return (
 		<>
 			<div className={styles.page_wrapper}>
-				{Number(claimAccess) && Number(address) ? (
+				{
 					<div className={styles.container}>
 						<div className={styles.heading}>Your Gifts:</div>
 						<div className={styles.headers}>
@@ -122,6 +150,7 @@ export const ClaimPageSection: FC<IProps> = () => {
 							<div className={styles.stream}>{'Amount'}</div>
 							<div className={styles.balances}>{'Duration'}</div>
 							<div className={styles.streaming}>{'Deadline'}</div>
+							<div className={styles.streaming}>{'Total Claimed'}</div>
 							<div className={styles.streaming}>{'Claim'}</div>
 						</div>
 						<div>
@@ -152,13 +181,28 @@ export const ClaimPageSection: FC<IProps> = () => {
 													{' '}
 													{secondsToDays(Number(claimDetails?.duration))} days
 												</div>
-
 												<div className={styles.deadline_section}>
 													{epochToDate(claimDetails?.deadline ?? '')}
 												</div>
+												<div className={styles.deadline_section}>
+													{startTime?.length
+														? (
+																((Math.floor(new Date().getTime() / 1000.0) -
+																	parseInt(startTime)) *
+																	parseInt(claimDetails?.rate || '')) /
+																1e18
+														  ).toFixed(2)
+														: '-'}
+												</div>
 												<div className={styles.claim_section}>
-													<button className={styles.claim_button} onClick={handleClaim}>
-														Claim
+													<button
+														className={styles.claim_button}
+														disabled={
+															Boolean(startTime?.length) || Boolean(Number(claimAccess))
+														}
+														onClick={handleClaim}
+													>
+														{buttonStatus()}
 													</button>
 												</div>
 											</div>
@@ -168,11 +212,7 @@ export const ClaimPageSection: FC<IProps> = () => {
 							</div>
 						</div>
 					</div>
-				) : (
-					<div className={styles.container}>
-						<div className={styles.noClaimAccess}>you don't have access to claim for waterdrop</div>
-					</div>
-				)}
+				}
 			</div>
 		</>
 	);
