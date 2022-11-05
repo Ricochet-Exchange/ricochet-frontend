@@ -30,6 +30,7 @@ export const GET_CLAIM_AMMOUNT = gql`
 					totalAmountStreamedUntilTimestamp
 					stream {
 						currentFlowRate
+						createdAtTimestamp
 						updatedAtTimestamp
 					}
 				}

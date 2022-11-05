@@ -27,13 +27,12 @@ interface claimDetailsProps {
 export const ClaimPageSection: FC<IProps> = () => {
 	const { address, web3 } = useShallowSelector(selectMain);
 	const contract = getContract(claimAddress, claimABI, web3);
-	const [userClaimDetails, setUserClaimDetails] = useState('');
 	const { loading, error, data } = useQuery(GET_CLAIM_AMMOUNT, {});
 	let startTime = '';
 	if (data && address && !loading) {
 		data.account.outflows.map((item: any) => {
 			if (item.receiver.id.toLowerCase() === address.toLowerCase()) {
-				startTime = item.flowUpdatedEvents[0].stream.updatedAtTimestamp;
+				startTime = item.flowUpdatedEvents[0].stream.createdAtTimestamp;
 			}
 		});
 	}
@@ -49,14 +48,6 @@ export const ClaimPageSection: FC<IProps> = () => {
 				break;
 		}
 	};
-	if (startTime)
-		console.log(
-			'checkkk',
-			data,
-			userClaimDetails,
-			((Math.floor(new Date().getTime() / 1000.0) - parseInt(startTime)) * parseInt(claimDetails?.rate || '')) /
-				1e18,
-		);
 
 	const getWaterDropName = (tokenAddress: string) => {
 		switch (tokenAddress) {
@@ -81,7 +72,7 @@ export const ClaimPageSection: FC<IProps> = () => {
 	};
 
 	React.useEffect(() => {
-		if (address) {
+		if (address && contract) {
 			(async () => {
 				contract.methods
 					.userClaims(address)
@@ -128,16 +119,38 @@ export const ClaimPageSection: FC<IProps> = () => {
 			});
 	}, [address]);
 
-	console.log('checkkk', Number(claimAccess));
-
 	const buttonStatus = () => {
-		if (Number(claimAccess) && startTime?.length) {
+		const totalClaimedSoFar = (
+			((Math.floor(new Date().getTime() / 1000.0) - parseInt(startTime)) * parseInt(claimDetails?.rate || '')) /
+			1e18
+		).toFixed(2);
+		const totalClaimedAmount = Math.round(
+			(parseInt(claimDetails?.rate || '') * parseInt(claimDetails?.duration || '')) / 1e18,
+		);
+		if ((Number(claimAccess) && startTime?.length) || parseInt(totalClaimedSoFar) > totalClaimedAmount) {
 			return 'Claimed';
 		}
 		if (Number(claimAccess)) {
 			return 'Claim';
 		} else {
 			return 'Ineligible';
+		}
+	};
+
+	const claimAmountStatus = () => {
+		const totalClaimedSoFar = (
+			((Math.floor(new Date().getTime() / 1000.0) - parseInt(startTime)) * parseInt(claimDetails?.rate || '')) /
+			1e18
+		).toFixed(6);
+		const totalClaimedAmount = Math.round(
+			(parseInt(claimDetails?.rate || '') * parseInt(claimDetails?.duration || '')) / 1e18,
+		);
+		if (startTime?.length && parseInt(totalClaimedSoFar) > totalClaimedAmount) {
+			return totalClaimedAmount;
+		} else if (startTime?.length) {
+			return totalClaimedSoFar;
+		} else {
+			return '-';
 		}
 	};
 
@@ -187,16 +200,7 @@ export const ClaimPageSection: FC<IProps> = () => {
 													<div className={styles.deadline_section}>
 														{epochToDate(claimDetails?.deadline ?? '')}
 													</div>
-													<div className={styles.deadline_section}>
-														{startTime?.length
-															? (
-																	((Math.floor(new Date().getTime() / 1000.0) -
-																		parseInt(startTime)) *
-																		parseInt(claimDetails?.rate || '')) /
-																	1e18
-															  ).toFixed(2)
-															: '-'}
-													</div>
+													<div className={styles.deadline_section}>{claimAmountStatus()}</div>
 													<div className={styles.claim_section}>
 														<button
 															className={styles.claim_button}
