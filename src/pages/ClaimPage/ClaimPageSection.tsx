@@ -30,7 +30,7 @@ export const ClaimPageSection: FC<IProps> = () => {
 	const [userClaimDetails, setUserClaimDetails] = useState('');
 	const { loading, error, data } = useQuery(GET_CLAIM_AMMOUNT, {});
 	let startTime = '';
-	if (data) {
+	if (data && address && !loading) {
 		data.account.outflows.map((item: any) => {
 			if (item.receiver.id.toLowerCase() === address.toLowerCase()) {
 				startTime = item.flowUpdatedEvents[0].stream.updatedAtTimestamp;
@@ -81,28 +81,30 @@ export const ClaimPageSection: FC<IProps> = () => {
 	};
 
 	React.useEffect(() => {
-		(async () => {
-			contract.methods
-				.userClaims(address)
-				.call()
-				.then((res: any) => {
-					setClaimAccess(res);
-				})
-				.catch((error: any) => {
-					console.log('error', error);
-				});
-			if (claimAccess) {
+		if (address) {
+			(async () => {
 				contract.methods
-					.claims(1)
+					.userClaims(address)
 					.call()
 					.then((res: any) => {
-						setClaimDetails(res);
+						setClaimAccess(res);
 					})
 					.catch((error: any) => {
 						console.log('error', error);
 					});
-			}
-		})();
+				if (claimAccess) {
+					contract.methods
+						.claims(1)
+						.call()
+						.then((res: any) => {
+							setClaimDetails(res);
+						})
+						.catch((error: any) => {
+							console.log('error', error);
+						});
+				}
+			})();
+		}
 	}, [address, claimAccess]);
 
 	const handleClaim = React.useCallback(async () => {
