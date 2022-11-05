@@ -141,79 +141,86 @@ export const ClaimPageSection: FC<IProps> = () => {
 
 	return (
 		<>
-			<div className={styles.page_wrapper}>
-				{
-					<div className={styles.container}>
-						<div className={styles.heading}>Your Gifts:</div>
-						<div className={styles.headers}>
-							<div className={styles.market}>{'Token'}</div>
-							<div className={styles.stream}>{'Amount'}</div>
-							<div className={styles.balances}>{'Duration'}</div>
-							<div className={styles.streaming}>{'Deadline'}</div>
-							<div className={styles.streaming}>{'Total Claimed'}</div>
-							<div className={styles.streaming}>{'Claim'}</div>
-						</div>
-						<div>
-							<div className={styles.panel}>
-								<section className={styles.section}>
-									<div className={styles.section_wrapper}>
-										<div className={styles.content_container}>
-											<div className={styles.wrapper}>
-												<div className={styles.token_section}>
-													<img
-														src={getTokenIcon(claimDetails?.token || '')}
-														alt={'alluologo'}
-														width="27"
-														height="27"
-													></img>
-													<div className={styles.token_text}>
-														{getWaterDropName(claimDetails?.token || '')}
+			{address?.length ? (
+				<div className={styles.page_wrapper}>
+					{
+						<div className={styles.container}>
+							<div className={styles.heading}>Your Gifts:</div>
+							<div className={styles.headers}>
+								<div className={styles.market}>{'Token'}</div>
+								<div className={styles.stream}>{'Amount'}</div>
+								<div className={styles.balances}>{'Duration'}</div>
+								<div className={styles.streaming}>{'Deadline'}</div>
+								<div className={styles.streaming}>{'Total Claimed'}</div>
+								<div className={styles.streaming}>{'Claim'}</div>
+							</div>
+							<div>
+								<div className={styles.panel}>
+									<section className={styles.section}>
+										<div className={styles.section_wrapper}>
+											<div className={styles.content_container}>
+												<div className={styles.wrapper}>
+													<div className={styles.token_section}>
+														<img
+															src={getTokenIcon(claimDetails?.token || '')}
+															alt={'alluologo'}
+															width="27"
+															height="27"
+														></img>
+														<div className={styles.token_text}>
+															{getWaterDropName(claimDetails?.token || '')}
+														</div>
 													</div>
-												</div>
-												<div className={styles.amount_section}>
-													{Math.round(
-														(parseInt(claimDetails?.rate || '') *
-															parseInt(claimDetails?.duration || '')) /
-															1e18,
-													)}
-												</div>
-												<div className={styles.duration_section}>
-													{' '}
-													{secondsToDays(Number(claimDetails?.duration))} days
-												</div>
-												<div className={styles.deadline_section}>
-													{epochToDate(claimDetails?.deadline ?? '')}
-												</div>
-												<div className={styles.deadline_section}>
-													{startTime?.length
-														? (
-																((Math.floor(new Date().getTime() / 1000.0) -
-																	parseInt(startTime)) *
-																	parseInt(claimDetails?.rate || '')) /
-																1e18
-														  ).toFixed(2)
-														: '-'}
-												</div>
-												<div className={styles.claim_section}>
-													<button
-														className={styles.claim_button}
-														disabled={
-															Boolean(startTime?.length) || Boolean(Number(claimAccess))
-														}
-														onClick={handleClaim}
-													>
-														{buttonStatus()}
-													</button>
+													<div className={styles.amount_section}>
+														{Math.round(
+															(parseInt(claimDetails?.rate || '') *
+																parseInt(claimDetails?.duration || '')) /
+																1e18,
+														)}
+													</div>
+													<div className={styles.duration_section}>
+														{' '}
+														{secondsToDays(Number(claimDetails?.duration))} days
+													</div>
+													<div className={styles.deadline_section}>
+														{epochToDate(claimDetails?.deadline ?? '')}
+													</div>
+													<div className={styles.deadline_section}>
+														{startTime?.length
+															? (
+																	((Math.floor(new Date().getTime() / 1000.0) -
+																		parseInt(startTime)) *
+																		parseInt(claimDetails?.rate || '')) /
+																	1e18
+															  ).toFixed(2)
+															: '-'}
+													</div>
+													<div className={styles.claim_section}>
+														<button
+															className={styles.claim_button}
+															disabled={
+																Boolean(startTime?.length) ||
+																!Boolean(Number(claimAccess))
+															}
+															onClick={handleClaim}
+														>
+															{buttonStatus()}
+														</button>
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-								</section>
+									</section>
+								</div>
 							</div>
 						</div>
-					</div>
-				}
-			</div>
+					}
+				</div>
+			) : (
+				<div className={styles.container}>
+					<div className={styles.noClaimAccess}>Please connect wallet to see your claims.</div>
+				</div>
+			)}
 		</>
 	);
 };
