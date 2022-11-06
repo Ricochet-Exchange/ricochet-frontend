@@ -134,7 +134,7 @@ export const ClaimPageSection: FC<IProps> = () => {
 		if (Number(claimAccess)) {
 			return 'Claim';
 		} else {
-			return 'Ineligible';
+			return 'Try Alluo';
 		}
 	};
 
