@@ -9,7 +9,7 @@ import { getContract } from 'utils/getContract';
 import { claimAddress } from 'constants/polygon_config';
 import { claimABI } from 'constants/abis';
 import { gas } from 'api/gasEstimator';
-import RICToken from 'assets/images/coins/RicochetLogo.svg';
+import AlluoToken from 'assets/images/alluo-logo.png';
 import { GET_CLAIM_AMMOUNT } from 'containers/main/TradeHistory/data/queries';
 
 interface IProps {
@@ -42,7 +42,7 @@ export const ClaimPageSection: FC<IProps> = () => {
 	const getTokenIcon = (tokenAddress: string) => {
 		switch (tokenAddress) {
 			case '0x263026E7e53DBFDce5ae55Ade22493f828922965':
-				return RICToken;
+				return AlluoToken;
 
 			default:
 				break;
@@ -52,7 +52,7 @@ export const ClaimPageSection: FC<IProps> = () => {
 	const getWaterDropName = (tokenAddress: string) => {
 		switch (tokenAddress) {
 			case '0x263026E7e53DBFDce5ae55Ade22493f828922965':
-				return 'RIC Community Waterdrop';
+				return 'Alluo Community Waterdrop';
 
 			default:
 				break;
@@ -85,7 +85,7 @@ export const ClaimPageSection: FC<IProps> = () => {
 					});
 				if (claimAccess) {
 					contract.methods
-						.claims(1)
+						.claims(2)
 						.call()
 						.then((res: any) => {
 							setClaimDetails(res);
@@ -127,6 +127,7 @@ export const ClaimPageSection: FC<IProps> = () => {
 		const totalClaimedAmount = Math.round(
 			(parseInt(claimDetails?.rate || '') * parseInt(claimDetails?.duration || '')) / 1e18,
 		);
+
 		if ((Number(claimAccess) && startTime?.length) || parseInt(totalClaimedSoFar) > totalClaimedAmount) {
 			return 'Claimed';
 		}
