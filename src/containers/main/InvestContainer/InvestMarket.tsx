@@ -80,6 +80,7 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 
 	const streamEnds = computeStreamEnds(state, balances);
 
+	console.log('filteredList', filteredList);
 	return (
 		<>
 			<div className={styles.input_wrap}>
