@@ -247,6 +247,21 @@ export const PanelChange: FC<IProps> = ({
 	// uncomment when need
 	// const date = generateDate(balanceA, personalFlow);
 
+	const fireIconsCheck = (coinA: string, coinB: string) => {
+		if (
+			(coinA === 'IbAlluoUSD' && coinB === 'IbAlluoETH') ||
+			(coinA === 'USDC' && coinB === 'IbAlluoUSD') ||
+			(coinA === 'IbAlluoUSD' && coinB === 'IbAlluoBTC') ||
+			(coinA === 'USDC' && coinB === 'WETH') ||
+			(coinA === 'USDC' && coinB === 'WBTC') ||
+			(coinA === 'DAI' && coinB === 'WETH') ||
+			(coinA === 'USDC' && coinB === 'MATIC')
+		) {
+			return true;
+		}
+		return false;
+	};
+
 	const uuid = new Date().getTime().toString(36) + Math.random().toString(36).slice(2);
 	return (
 		<>
@@ -385,7 +400,7 @@ export const PanelChange: FC<IProps> = ({
 											{`$${totalFlow && getFlowUSDValue(totalFlow)}`}
 										</span>
 										{t('per month')}
-										{contractAddressAllowed(contractAddress) ? (
+										{fireIconsCheck(coinA, coinB) ? (
 											<span>
 												<span
 													data-tip
