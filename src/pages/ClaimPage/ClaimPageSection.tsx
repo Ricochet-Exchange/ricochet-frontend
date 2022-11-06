@@ -203,16 +203,24 @@ export const ClaimPageSection: FC<IProps> = () => {
 													</div>
 													<div className={styles.deadline_section}>{claimAmountStatus()}</div>
 													<div className={styles.claim_section}>
-														<button
-															className={styles.claim_button}
-															disabled={
-																Boolean(startTime?.length) ||
-																!Boolean(Number(claimAccess))
-															}
-															onClick={handleClaim}
-														>
-															{buttonStatus()}
-														</button>
+														{!Boolean(Number(claimAccess)) ? (
+															<button
+																className={styles.claim_button}
+																onClick={() =>
+																	window.open('https://alluo.finance/', '_blank')
+																}
+															>
+																{buttonStatus()}
+															</button>
+														) : (
+															<button
+																className={styles.claim_button}
+																disabled={Boolean(startTime?.length)}
+																onClick={handleClaim}
+															>
+																{buttonStatus()}
+															</button>
+														)}
 													</div>
 												</div>
 											</div>
