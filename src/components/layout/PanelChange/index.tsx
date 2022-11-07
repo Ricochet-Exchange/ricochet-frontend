@@ -252,9 +252,9 @@ export const PanelChange: FC<IProps> = ({
 			(coinA === 'IbAlluoUSD' && coinB === 'IbAlluoETH') ||
 			(coinA === 'USDC' && coinB === 'IbAlluoUSD') ||
 			(coinA === 'IbAlluoUSD' && coinB === 'IbAlluoBTC') ||
-			(coinA === 'USDC' && coinB === 'WETH') ||
+			(coinA === 'USDC' && coinB === 'ETH') ||
 			(coinA === 'USDC' && coinB === 'WBTC') ||
-			(coinA === 'DAI' && coinB === 'WETH') ||
+			(coinA === 'DAI' && coinB === 'ETH') ||
 			(coinA === 'USDC' && coinB === 'MATIC')
 		) {
 			return true;
