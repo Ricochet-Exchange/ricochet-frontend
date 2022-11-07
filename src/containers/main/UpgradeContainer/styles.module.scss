@@ -123,6 +123,8 @@
 }
 
 .currDisplayImg {
+  display: flex;
+  flex-direction: 'row';
   width: 25px;
   height: 25px;
 }

@@ -229,6 +229,36 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 		setHideLowBalance(!hideLowBalance);
 	};
 
+	const addToMetamask = async (address: string, symbol: string, token: any) => {
+		//@ts-ignore
+		const url = iconsCoin[token.coin];
+		const decimals = 18;
+		try {
+			// wasAdded is a boolean. Like any RPC method, an error may be thrown.
+			//@ts-ignore
+			const wasAdded = await ethereum.request({
+				method: 'wallet_watchAsset',
+				params: {
+					type: 'ERC20', // Initially only supports ERC20, but eventually more!
+					options: {
+						address: address, // The address that the token is at.
+						symbol: symbol, // A ticker symbol or shorthand, up to 5 chars.
+						decimals: decimals, // The number of decimals in the token
+						image: `https://app.ricochet.exchange${url}`, // A string url of the token logo
+					},
+				},
+			});
+
+			if (wasAdded) {
+				console.log('Thanks for your interest!');
+			} else {
+				console.log('Your loss!');
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<div className={styles.wrapper}>
 			<table className={styles.dextable}>
@@ -394,6 +424,11 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 												</div>
 
 												<div className={styles.currDisplayName}>{token.coin}</div>
+												<div
+													onClick={() => addToMetamask(token.tokenAddress, token.coin, token)}
+												>
+													<FontIcon name={FontIconName.Plus} size={12} />
+												</div>
 											</div>
 										) : (
 											<span className={styles.wallet_loading}>
