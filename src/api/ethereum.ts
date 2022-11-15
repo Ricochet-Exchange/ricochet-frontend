@@ -11,6 +11,7 @@ import {
 	RICAddress,
 	SUSHIxAddress,
 	usdcxRicExchangeAddress,
+	ricRexShirtLaunchpadAddress,
 } from 'constants/polygon_config';
 import Erc20Abi from 'constants/Erc20.json';
 import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
@@ -162,7 +163,7 @@ export const startFlow = async (
 			}
 		} else {
 			const userData = referralId ? web3.eth.abi.encodeParameter('string', referralId) : '0x';
-			if (exchangeAddress === usdcxRicExchangeAddress) {
+			if (exchangeAddress === usdcxRicExchangeAddress || exchangeAddress === ricRexShirtLaunchpadAddress) {
 				const operations = [
 					await framework.idaV1.approveSubscription({
 						superToken: outputTokenAddress,

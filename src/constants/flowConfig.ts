@@ -2,10 +2,12 @@ import { Routes } from 'constants/routes';
 import { Coin } from './coins';
 import {
 	RICAddress,
+	RexShirtAddress,
 	twoWayWETHMarketAddress,
 	twoWayMarketWBTCAddress,
 	USDCxAddress,
 	usdcxRicExchangeAddress,
+	ricRexShirtLaunchpadAddress,
 	usdcxibAlluoUSDAddress,
 	WBTCxAddress,
 	WETHxAddress,
@@ -43,6 +45,7 @@ export enum FlowEnum {
 	twoWayIbUsdIbBTCFlowQuery = 'twoWayIbUsdIbBTCFlowQuery',
 	twoWayIbBTCIbUsdFlowQuery = 'twoWayIbBTCIbUsdFlowQuery',
 	usdcRicFlowQuery = 'usdcRicFlowQuery',
+	ricRexShirtFlowQuery = 'ricRexShirtFlowQuery',
 	usdcxibAlluoUSDFlowQuery = 'usdcxibAlluoUSDFlowQuery',
 }
 
@@ -223,6 +226,14 @@ export const indexIDA: IndexIDAType = [
 		exchangeAddress: usdcxRicExchangeAddress,
 		input: USDCxAddress,
 		output: RICAddress,
+		subsidy: RICAddress,
+		inputIndex: 0, // just a placeholder, not used
+		outputIndex: 0,
+	},
+	{
+		exchangeAddress: ricRexShirtLaunchpadAddress,
+		input: RICAddress,
+		output: RexShirtAddress,
 		subsidy: RICAddress,
 		inputIndex: 0, // just a placeholder, not used
 		outputIndex: 0,
@@ -448,6 +459,15 @@ const launchpads: InvestmentFlow[] = [
 		coinA: Coin.USDC,
 		coinB: Coin.RIC,
 		flowKey: FlowEnum.usdcRicFlowQuery,
+		type: FlowTypes.launchpad,
+	},
+	{
+		superToken: ricRexShirtLaunchpadAddress,
+		tokenA: RICAddress,
+		tokenB: RexShirtAddress,
+		coinA: Coin.RIC,
+		coinB: Coin.REXSHIRT,
+		flowKey: FlowEnum.ricRexShirtFlowQuery,
 		type: FlowTypes.launchpad,
 	},
 ];
