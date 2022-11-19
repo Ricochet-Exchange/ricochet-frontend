@@ -12,4 +12,6 @@ export const Routes: any = {
 	Payments: `${home}/payments`,
 	Referral: `${home}/(.*)?/${REFERRAL_URL_PREFIX}/:referralId`,
 	RecentActivity: `${home}/recent-activity`,
+	Swap: `${home}/swap`,
+	Claim: `${home}/claim`,
 };

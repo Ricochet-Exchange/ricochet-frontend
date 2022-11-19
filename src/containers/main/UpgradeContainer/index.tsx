@@ -182,7 +182,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 		setDownGradeValue(balances[downgradeAddress]);
 	};
 
-	const totalBalance = upgradeTokensList.reduce((total, token) => {
+	const totalRicochetBalance = upgradeTokensList.reduce((total, token) => {
 		const balancess =
 			balances &&
 			geckoPriceList &&
@@ -191,7 +191,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 				parseFloat((geckoPriceList as any)[(geckoMapping as any)[token.coin]].usd)
 			).toFixed(6);
 
-		return total + (token.coin === Coin.RIC ? 0 : parseFloat(balancess as any));
+		return total + parseFloat(balancess as any);
 	}, 0);
 
 	const getWalletBalance = (token: any) =>
@@ -253,7 +253,8 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 							<span>{t('Ricochet Balance')}</span>
 							<br />
 							<span>
-								{t('Total balance')}: <b>${totalBalance ? totalBalance.toFixed(6) : '0.0000'}</b>
+								{t('Total balance')}:{' '}
+								<b>${totalRicochetBalance ? totalRicochetBalance.toFixed(6) : '0.0000'}</b>
 							</span>
 						</td>
 						<td className={styles.section}>
@@ -390,9 +391,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 											</span>
 										)}
 										<br />
-										{token.coin === Coin.RIC ? (
-											''
-										) : balances && geckoPriceList ? (
+										{balances && geckoPriceList ? (
 											`$${(
 												parseFloat(getWalletBalance(token) || '') *
 												parseFloat(
@@ -414,9 +413,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 											</span>
 										)}
 										<br />
-										{token.coin === Coin.RIC ? (
-											''
-										) : balances && geckoPriceList ? (
+										{balances && geckoPriceList ? (
 											`$${(
 												parseFloat(balances[token.superTokenAddress]) *
 												parseFloat(

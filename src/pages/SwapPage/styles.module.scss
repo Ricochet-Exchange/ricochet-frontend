@@ -1,0 +1,14 @@
+.form{
+  color: 'white';
+  padding: 3em;
+}
+
+@media screen and (max-width: 786px) {
+  
+}
+@media screen and (min-width: 786px) {
+  .form{
+    width: 40vw;
+    border-radius: 12px;
+  }
+}

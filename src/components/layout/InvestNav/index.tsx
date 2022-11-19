@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { Routes } from 'constants/routes';
 import { useTranslation } from 'react-i18next';
 import currency from 'assets/images/coins/currency.svg';
+import gift from 'assets/images/gift.svg';
 import styles from './styles.module.scss';
 
 const TUTORIAL_LINK = 'https://docs.ricochet.exchange/tutorial/using-the-dapp';
@@ -23,6 +24,16 @@ export const InvestNav = () => {
 				<NavLink className={styles.nav_link} exact activeClassName={styles.nav_link_active} to={Routes.Invest}>
 					<FontIcon name={FontIconName.Swap} size={16} />
 					<div className={styles.nav_text}>{t('Market')}</div>
+				</NavLink>
+
+				<NavLink to={Routes.Swap} className={styles.nav_link} activeClassName={styles.nav_link_active}>
+					<FontIcon name={FontIconName.Loop} size={16} />
+					<div className={styles.nav_text}>{t('Swap')}</div>
+				</NavLink>
+
+				<NavLink to={Routes.Claim} className={styles.nav_link} activeClassName={styles.nav_link_active}>
+					<img src={gift} width="16" height="16" style={{ filter: 'invert(1)', marginRight: '3px' }} />
+					<div className={styles.nav_text}>{t('Claim')}</div>
 				</NavLink>
 
 				<NavLink className={styles.nav_link} activeClassName={styles.nav_link_active} to={Routes.Payments}>

@@ -26,6 +26,7 @@ export function* loadData() {
 		const main: ReturnType<typeof selectMain> = yield select(selectMain);
 		const { web3 } = main;
 		const address: Unwrap<typeof getAddress> = yield call(getAddress, web3);
+		yield put(mainSetState({ address }));
 		const coingeckoPrices: Unwrap<typeof getCoingeckoPrices> = yield call(getCoingeckoPrices);
 		yield call(getBalances, address);
 		yield all([
