@@ -14,7 +14,7 @@ import idle from 'assets/images/coins/idle.svg';
 import iballuousd from 'assets/images/coins/ibusd.svg';
 import iballuoeth from 'assets/images/coins/ibeth.svg';
 import iballuobtc from 'assets/images/coins/ibbtc.svg';
-import rexshirt from 'assets/images/coins/rexshirt.png';
+import rexshirt from 'assets/images/coins/rexshirt.svg';
 
 export enum Coin {
 	WBTC = 'WBTC',
