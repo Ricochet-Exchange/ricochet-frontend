@@ -7,6 +7,12 @@
     max-height: 0;
   }
 }
+
+
+.add_button{
+  cursor: pointer;
+}
+
 .streamshow {
   display: inline-flex;
 }
@@ -112,9 +118,11 @@
 .redFont {
   color: var(--color-red);
 }
+
 .greenFont {
   color: var(--color-primary);
 }
+
 .currDisplay {
   display: flex;
   align-items: center;

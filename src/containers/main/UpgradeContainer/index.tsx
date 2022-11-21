@@ -425,7 +425,10 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 
 												<div className={styles.currDisplayName}>{token.coin}</div>
 												<div
-													onClick={() => addToMetamask(token.tokenAddress, token.coin, token)}
+													className="add_button"
+													onClick={() =>
+														addToMetamask(token.superTokenAddress, token.coin, token)
+													}
 												>
 													<FontIcon name={FontIconName.Plus} size={12} />
 												</div>
