@@ -282,8 +282,17 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'StIbAlluoETH-6',
-			target: 'StIbAlluoUSD-16',
-			id: 'reactflow__edge-StIbAlluoETH-6-StIbAlluoUSD-16',
+			target: 'StIbAlluoUSD-7',
+			id: 'reactflow__edge-StIbAlluoETH-6-StIbAlluoUSD-7',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'USDCx-0',
+			target: 'StIbAlluoUSD-7',
+			id: 'reactflow__edge-USDCx-0-StIbAlluoUSD-7',
 			style: {
 				opacity: 0,
 			},
@@ -291,8 +300,8 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'StIbAlluoUSD-7',
-			target: 'StIbAlluoETH-15',
-			id: 'reactflow__edge-StIbAlluoUSD-7-StIbAlluoETH-15',
+			target: 'StIbAlluoETH-6',
+			id: 'reactflow__edge-StIbAlluoUSD-7-StIbAlluoETH-6',
 			style: {
 				opacity: 0,
 			},
@@ -300,8 +309,8 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'StIbAlluoBTC-8',
-			target: 'StIbAlluoUSD-16',
-			id: 'reactflow__edge-StIbAlluoBTC-8-StIbAlluoUSD-16',
+			target: 'StIbAlluoUSD-7',
+			id: 'reactflow__edge-StIbAlluoBTC-8-StIbAlluoUSD-7',
 			style: {
 				opacity: 0,
 			},
@@ -309,8 +318,8 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'StIbAlluoUSD-7',
-			target: 'StIbAlluoBTC-17',
-			id: 'reactflow__edge-StIbAlluoUSD-7-StIbAlluoBTC-17',
+			target: 'StIbAlluoBTC-8',
+			id: 'reactflow__edge-StIbAlluoUSD-7-StIbAlluoBTC-8',
 			style: {
 				opacity: 0,
 			},
