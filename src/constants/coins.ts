@@ -14,6 +14,7 @@ import idle from 'assets/images/coins/idle.svg';
 import iballuousd from 'assets/images/coins/ibusd.svg';
 import iballuoeth from 'assets/images/coins/ibeth.svg';
 import iballuobtc from 'assets/images/coins/ibbtc.svg';
+import rexshirt from 'assets/images/coins/rexshirt.svg';
 
 export enum Coin {
 	WBTC = 'WBTC',
@@ -46,6 +47,7 @@ export enum Coin {
 	StIbAlluoUSD = 'StIbAlluoUSD',
 	StIbAlluoBTC = 'StIbAlluoBTC',
 	IbAlluoBTC = 'IbAlluoBTC',
+	REXSHIRT = 'REXSHIRT',
 }
 
 export const namesCoin = [
@@ -89,6 +91,7 @@ export const iconsCoin: Partial<Record<Coin, string>> = {
 	[Coin.MATIC]: matic,
 	[Coin.MKR]: mkr,
 	[Coin.RIC]: ric,
+	[Coin.REXSHIRT]: rexshirt,
 	[Coin.WETH]: eth,
 	[Coin.SLP]: slp,
 	[Coin.DAIx]: dai,
