@@ -97,7 +97,7 @@ export const PanelChange: FC<IProps> = ({
 
 	const personal_pool_rate = personalFlow ? personalFlow : 0;
 	const total_market_pool = totalFlow ? totalFlow : 0;
-	const subsidy_rate_static = 50000;
+	const subsidy_rate_static = emissionRate;
 
 	useEffect(() => {
 		const subsidy_rate = (+personal_pool_rate / +total_market_pool) * 100;
