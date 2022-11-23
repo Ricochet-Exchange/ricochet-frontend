@@ -66,12 +66,12 @@
 }
 
 .first_balance_container {
-  padding: 0 0 9px 0;
+  padding: 0 0 4px 0;
   display: flex;
 }
 
 .second_balance_container {
-  padding: 0 0 9px 0;
+  padding: 0 0 4px 0;
   display: flex;
 }
 
@@ -168,6 +168,7 @@
 .stream {
   text-align: center;
   flex: 1;
+  margin-left: 3em;
   width: 100%;
 
   @include tablet {

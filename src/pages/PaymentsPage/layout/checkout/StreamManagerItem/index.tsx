@@ -6,17 +6,21 @@ import { TokenIcon } from 'components/common/TokenIcon';
 import { blockInvalidChar } from 'utils/blockInvalidChars';
 import { calculateFlowRate } from 'utils/calculateFlowRate';
 import {
+	twoWayMarketibAlluoUSDETHAddress,
+	twoWayMarketibAlluoUSDBTCAddress,
 	twoWayMarketDAIWETHAddress,
-	// twoWayMarketMATICDAIAddress,
+	twoWayMarketMATICDAIAddress,
 	twoWayMarketWBTCAddress,
 	twoWayWETHMarketAddress,
-	// twoWayMarketMATICUSDCAddress,
-	// twoWayMarketWBTCDAIAddress,
+	twoWayMarketMATICUSDCAddress,
+	twoWayMarketWBTCDAIAddress,
+	twoWayMarketRICUSDCAddress,
 	wethxUsdcxExchangeAddress,
 	wbtcxUsdcxExchangeAddress,
 	usdcxEthSlpxExchangeAddress,
 	usdcxIdleExchangeAddress,
 	usdcxRicExchangeAddress,
+	ricRexShirtLaunchpadAddress,
 	maticxDaixExchangeAddress,
 	usdcxMaticxExchangeAddress,
 	maticxUsdcxExchangeAddress,
@@ -28,7 +32,6 @@ import {
 	usdcxMkrxExchangeAddress,
 	usdcxWbtcxExchangeAddress,
 	usdcxWethxExchangeAddress,
-	twoWayMarketRICUSDCAddress,
 } from 'constants/polygon_config';
 
 import styles from './styles.module.scss';
@@ -67,6 +70,7 @@ export const StreamManagerItem: FC<IProps> = ({
 			usdcxEthSlpxExchangeAddress,
 			usdcxIdleExchangeAddress,
 			usdcxRicExchangeAddress,
+			ricRexShirtLaunchpadAddress,
 			maticxDaixExchangeAddress,
 			usdcxMaticxExchangeAddress,
 			maticxUsdcxExchangeAddress,
@@ -78,6 +82,11 @@ export const StreamManagerItem: FC<IProps> = ({
 			usdcxMkrxExchangeAddress,
 			usdcxWbtcxExchangeAddress,
 			usdcxWethxExchangeAddress,
+			twoWayMarketibAlluoUSDETHAddress,
+			twoWayMarketibAlluoUSDBTCAddress,
+			twoWayMarketMATICDAIAddress,
+			twoWayMarketMATICUSDCAddress,
+			twoWayMarketWBTCDAIAddress,
 		]);
 	}, []);
 

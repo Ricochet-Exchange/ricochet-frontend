@@ -37,6 +37,8 @@
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@gnosis.pm/safe-apps-provider": "^0.9.2",
+    "@gnosis.pm/safe-apps-sdk": "^7.8.0",
+    "@gnosis.pm/safe-apps-web3modal": "^17.0.1",
     "@ledgerhq/iframe-provider": "^0.4.2",
     "@makerdao/multicall": "^0.12.0",
     "@mui/icons-material": "^5.8.0",
@@ -69,7 +71,7 @@
     "react-cookie": "^4.1.1",
     "react-dom": "^17.0.2",
     "react-flow-renderer": "^10.3.1",
-    "react-i18next": "^11.16.9",
+    "react-i18next": "^11.18.1",
     "react-loading-skeleton": "^3.1.0",
     "react-modal": "3.12.1",
     "react-popper": "^2.3.0",
@@ -89,7 +91,7 @@
     "walletlink": "^2.4.6",
     "web-vitals": "^1.0.1",
     "web3": "^1.6.1",
-    "web3modal": "^1.9.5"
+    "web3modal": "^1.9.9"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",
@@ -106,7 +108,7 @@
     "eslint-plugin-import": "2.25.4",
     "eslint-plugin-jsx-a11y": "6.5.1",
     "eslint-plugin-react": "7.20.3",
-    "eslint-plugin-react-hooks": "4.2.0",
+    "eslint-plugin-react-hooks": "4.6.0",
     "fontello-cli": "0.6.2",
     "husky": ">=6",
     "lint-staged": "12.3.4",

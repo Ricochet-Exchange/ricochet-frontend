@@ -15,10 +15,33 @@ export type MainState = {
 	hasMaticApprove?: boolean;
 	hasSushiApprove?: boolean;
 	hasIdleApprove?: boolean;
+	hasIbAlluoUSDApprove?: boolean;
+	hasIbAlluoETHApprove?: boolean;
+	hasIbAlluoBTCApprove?: boolean;
 	apy?: number;
 	rewardsApy?: number;
 	feesApy?: number;
 	usdcRicFlowQuery?: {
+		flowKey: string;
+		flowsReceived: number;
+		flowsOwned: string;
+		totalFlows: number;
+		placeholder: string;
+		subsidyRate: { perso: number; total: number; endDate: string };
+		streamedSoFar?: number;
+		receivedSoFar?: number;
+	};
+	ricRexShirtFlowQuery?: {
+		flowKey: string;
+		flowsReceived: number;
+		flowsOwned: string;
+		totalFlows: number;
+		placeholder: string;
+		subsidyRate: { perso: number; total: number; endDate: string };
+		streamedSoFar?: number;
+		receivedSoFar?: number;
+	};
+	usdcxibAlluoUSDFlowQuery?: {
 		flowKey: string;
 		flowsReceived: number;
 		flowsOwned: string;
@@ -319,6 +342,46 @@ export type MainState = {
 		receivedSoFar?: number;
 	};
 	twoWayDaiWbtcFlowQuery?: {
+		flowKey: string;
+		flowsReceived: number;
+		flowsOwned: string;
+		totalFlows: number;
+		placeholder: string;
+		subsidyRate: { perso: number; total: number; endDate: string };
+		streamedSoFar?: number;
+		receivedSoFar?: number;
+	};
+	twoWayIbUsdIbEthFlowQuery?: {
+		flowKey: string;
+		flowsReceived: number;
+		flowsOwned: string;
+		totalFlows: number;
+		placeholder: string;
+		subsidyRate: { perso: number; total: number; endDate: string };
+		streamedSoFar?: number;
+		receivedSoFar?: number;
+	};
+	twoWayIbEthIbUsdFlowQuery?: {
+		flowKey: string;
+		flowsReceived: number;
+		flowsOwned: string;
+		totalFlows: number;
+		placeholder: string;
+		subsidyRate: { perso: number; total: number; endDate: string };
+		streamedSoFar?: number;
+		receivedSoFar?: number;
+	};
+	twoWayIbUsdIbBTCFlowQuery?: {
+		flowKey: string;
+		flowsReceived: number;
+		flowsOwned: string;
+		totalFlows: number;
+		placeholder: string;
+		subsidyRate: { perso: number; total: number; endDate: string };
+		streamedSoFar?: number;
+		receivedSoFar?: number;
+	};
+	twoWayIbBTCIbUsdFlowQuery?: {
 		flowKey: string;
 		flowsReceived: number;
 		flowsOwned: string;

@@ -158,7 +158,7 @@ export function TradeHistoryTable({ address }: TradeHistoryProps) {
 		!createdStreams.streams.length ||
 		!distributionsData.distributions.length
 	) {
-		return <div>You have no trades.</div>;
+		return <div className={styles.noTrades}>You have no trades.</div>;
 	}
 
 	const rows: Data[] = [];

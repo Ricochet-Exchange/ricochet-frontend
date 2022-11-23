@@ -1,14 +1,14 @@
 import React, { useState, useCallback } from 'react';
-import { StreamForm } from 'components/streaming/StreamForm';
 import { Framework } from '@superfluid-finance/sdk-core';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { ethers } from 'ethers';
-import FailCard from 'components/streaming/FailCard';
+import FailCard from 'pages/PaymentsPage/layout/checkout/FailCard';
 import { showErrorToast, showSuccessToast } from '../../../components/common/Toaster';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { gas } from 'api/gasEstimator';
 import styles from './styles.module.scss';
+import { StreamForm } from 'pages/PaymentsPage/layout/checkout/StreamForm';
 
 export const StreamContainer = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -47,7 +47,6 @@ export const StreamContainer = () => {
 				showSuccessToast('Stream opened successfully');
 				ToggleTransaction(true);
 			} catch (e) {
-				console.log(e);
 				showErrorToast('Could not open stream, check if you have an open stream already.');
 				ToggleTransaction(false);
 				ToggleFail(true);

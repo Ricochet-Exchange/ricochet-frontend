@@ -5,7 +5,7 @@ import { PanelChange } from 'components/layout/PanelChange';
 import { useTranslation } from 'react-i18next';
 import { ExchangeKeys } from 'utils/getExchangeAddress';
 import styles from './styles.module.scss';
-import { flowConfig, FlowEnum, RoutesToFlowTypes } from 'constants/flowConfig';
+import { flowConfig, FlowEnum, InvestmentFlow, RoutesToFlowTypes } from 'constants/flowConfig';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain, selectUserStreams } from 'store/main/selectors';
 import { useRouteMatch } from 'react-router-dom';
@@ -27,7 +27,13 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 
 	useEffect(() => {
 		if (flowType) {
-			setFilteredList(flowConfig.filter((each) => each.type === flowType));
+			let sortedList = flowConfig.filter((each) => each.type === flowType);
+			sortedList = sortedList.sort((a, b) => {
+				const totalVolumeA = parseFloat(getFlowUSDValue(a));
+				const totalVolumeB = parseFloat(getFlowUSDValue(b));
+				return totalVolumeB - totalVolumeA;
+			});
+			setFilteredList(sortedList);
 		} else {
 			const sortedUserStreams = userStreams.sort((a, b) => {
 				const flowA = parseFloat(state[a.flowKey]?.placeholder || '0');
@@ -79,6 +85,12 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 	}
 
 	const streamEnds = computeStreamEnds(state, balances);
+
+	function getFlowUSDValue(flow: InvestmentFlow, toFixed: number = 0) {
+		return (
+			coingeckoPrices ? parseFloat(state[flow.flowKey]?.flowsOwned as string) * coingeckoPrices[flow.tokenA] : 0
+		).toFixed(toFixed);
+	}
 
 	return (
 		<>

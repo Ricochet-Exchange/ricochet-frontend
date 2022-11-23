@@ -25,10 +25,23 @@ import {
 	USDCxAddress,
 	WBTCxAddress,
 	WETHxAddress,
+	StIbAlluoETHAddress,
+	StIbAlluoUSDAddress,
+	StIbAlluoBTCAddress,
 } from 'constants/polygon_config';
 // import './reactFlow.styles.module.scss';
 
-const sourceCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC, Coin.MATICx].map((coin, idx) => {
+const sourceCoins = [
+	Coin.USDCx,
+	Coin.DAIx,
+	Coin.WBTCx,
+	Coin.WETHx,
+	Coin.RIC,
+	Coin.MATICx,
+	Coin.StIbAlluoETH,
+	Coin.StIbAlluoUSD,
+	Coin.StIbAlluoBTC,
+].map((coin, idx) => {
 	return {
 		name: coin,
 		type: 'input',
@@ -38,7 +51,17 @@ const sourceCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC, Co
 	};
 });
 
-const targetCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC, Coin.MATICx].map((coin, idx) => {
+const targetCoins = [
+	Coin.USDCx,
+	Coin.DAIx,
+	Coin.WBTCx,
+	Coin.WETHx,
+	Coin.RIC,
+	Coin.MATICx,
+	Coin.StIbAlluoETH,
+	Coin.StIbAlluoUSD,
+	Coin.StIbAlluoBTC,
+].map((coin, idx) => {
 	return {
 		name: coin,
 		type: 'output',
@@ -55,6 +78,10 @@ const marketMap = {
 	[Coin.WETHx]: [Coin.USDCx, Coin.DAIx],
 	[Coin.RIC]: [Coin.USDCx],
 	[Coin.MATICx]: [Coin.USDCx, Coin.DAIx],
+	[Coin.StIbAlluoETH]: [Coin.StIbAlluoUSD],
+	[Coin.StIbAlluoUSD]: [Coin.StIbAlluoETH],
+	[Coin.StIbAlluoBTC]: [Coin.StIbAlluoUSD],
+	[Coin.StIbAlluoUSD]: [Coin.StIbAlluoBTC],
 };
 
 const addressesMap = {
@@ -64,6 +91,9 @@ const addressesMap = {
 	[Coin.WETHx]: WETHxAddress,
 	[Coin.RIC]: RICAddress,
 	[Coin.MATICx]: MATICxAddress,
+	[Coin.StIbAlluoETH]: StIbAlluoETHAddress,
+	[Coin.StIbAlluoUSD]: StIbAlluoUSDAddress,
+	[Coin.StIbAlluoBTC]: StIbAlluoBTCAddress,
 };
 
 const nodeColor: GetMiniMapNodeAttribute = (node: Node<any>) => {
@@ -118,8 +148,8 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'USDCx-0',
-			target: 'RIC-10',
-			id: 'reactflow__edge-USDCx-0-RIC-10',
+			target: 'RIC-13',
+			id: 'reactflow__edge-USDCx-0-RIC-13',
 			style: {
 				opacity: 0,
 			},
@@ -127,8 +157,8 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'RIC-4',
-			target: 'USDCx-6',
-			id: 'reactflow__edge-RIC-4-USDCx-6',
+			target: 'USDCx-9',
+			id: 'reactflow__edge-RIC-4-USDCx-9',
 			style: {
 				opacity: 0,
 			},
@@ -138,8 +168,8 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'USDCx-0',
-			target: 'WETHx-9',
-			id: 'reactflow__edge-USDCx-0-WETHx-9',
+			target: 'WETHx-12',
+			id: 'reactflow__edge-USDCx-0-WETHx-12',
 			style: {
 				opacity: 0,
 			},
@@ -147,8 +177,8 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'DAIx-1',
-			target: 'WETHx-9',
-			id: 'reactflow__edge-DAIx-1-WETHx-9',
+			target: 'WETHx-12',
+			id: 'reactflow__edge-DAIx-1-WETHx-12',
 			style: {
 				opacity: 0,
 			},
@@ -156,8 +186,8 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'WETHx-3',
-			target: 'USDCx-6',
-			id: 'reactflow__edge-WETHx-3-USDCx-6',
+			target: 'USDCx-9',
+			id: 'reactflow__edge-WETHx-3-USDCx-9',
 			style: {
 				opacity: 0,
 			},
@@ -165,8 +195,8 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'WETHx-3',
-			target: 'DAIx-7',
-			id: 'reactflow__edge-WETHx-3-DAIx-7',
+			target: 'DAIx-10',
+			id: 'reactflow__edge-WETHx-3-DAIx-10',
 			style: {
 				opacity: 0,
 			},
@@ -177,9 +207,9 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 			animated: false,
 			source: 'USDCx-0',
 			sourceHandle: null,
-			target: 'WBTCx-8',
+			target: 'WBTCx-11',
 			targetHandle: null,
-			id: 'reactflow__edge-USDCx-0-WBTCx-8',
+			id: 'reactflow__edge-USDCx-0-WBTCx-11',
 			style: {
 				opacity: 0,
 			},
@@ -187,8 +217,8 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'DAIx-1',
-			target: 'WBTCx-8',
-			id: 'reactflow__edge-DAIx-1-WBTCx-8',
+			target: 'WBTCx-11',
+			id: 'reactflow__edge-DAIx-1-WBTCx-11',
 			style: {
 				opacity: 0,
 			},
@@ -196,8 +226,8 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'WBTCx-2',
-			target: 'USDCx-6',
-			id: 'reactflow__edge-WBTCx-2-USDCx-6',
+			target: 'USDCx-9',
+			id: 'reactflow__edge-WBTCx-2-USDCx-9',
 			style: {
 				opacity: 0,
 			},
@@ -205,8 +235,8 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'WBTCx-2',
-			target: 'DAIx-7',
-			id: 'reactflow__edge-WBTCx-2-DAIx-7',
+			target: 'DAIx-10',
+			id: 'reactflow__edge-WBTCx-2-DAIx-10',
 			style: {
 				opacity: 0,
 			},
@@ -216,8 +246,8 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'USDCx-0',
-			target: 'MATICx-11',
-			id: 'reactflow__edge-USDCx-0-MATICx-11',
+			target: 'MATICx-14',
+			id: 'reactflow__edge-USDCx-0-MATICx-14',
 			style: {
 				opacity: 0,
 			},
@@ -225,8 +255,8 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'DAIx-1',
-			target: 'MATICx-11',
-			id: 'reactflow__edge-DAIx-1-MATICx-11',
+			target: 'MATICx-14',
+			id: 'reactflow__edge-DAIx-1-MATICx-14',
 			style: {
 				opacity: 0,
 			},
@@ -234,8 +264,8 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'MATICx-5',
-			target: 'USDCx-6',
-			id: 'reactflow__edge-MATICx-5-USDCx-6',
+			target: 'USDCx-9',
+			id: 'reactflow__edge-MATICx-5-USDCx-9',
 			style: {
 				opacity: 0,
 			},
@@ -243,8 +273,44 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 		{
 			animated: false,
 			source: 'MATICx-5',
-			target: 'DAIx-7',
-			id: 'reactflow__edge-MATICx-6-DAIx-7',
+			target: 'DAIx-10',
+			id: 'reactflow__edge-MATICx-5-DAIx-10',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'StIbAlluoETH-6',
+			target: 'StIbAlluoUSD-16',
+			id: 'reactflow__edge-StIbAlluoETH-6-StIbAlluoUSD-16',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'StIbAlluoUSD-7',
+			target: 'StIbAlluoETH-15',
+			id: 'reactflow__edge-StIbAlluoUSD-7-StIbAlluoETH-15',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'StIbAlluoBTC-8',
+			target: 'StIbAlluoUSD-16',
+			id: 'reactflow__edge-StIbAlluoBTC-8-StIbAlluoUSD-16',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'StIbAlluoUSD-7',
+			target: 'StIbAlluoBTC-17',
+			id: 'reactflow__edge-StIbAlluoUSD-7-StIbAlluoBTC-17',
 			style: {
 				opacity: 0,
 			},
@@ -327,7 +393,6 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 						target.data.label.props.coin.includes(stream.coinB),
 				)
 			) {
-				console.log('stream already exists');
 				return;
 			}
 

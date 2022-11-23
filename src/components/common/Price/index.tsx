@@ -1,6 +1,6 @@
 import React from 'react';
 import { launchpadABI } from 'constants/abis';
-import { usdcxRicExchangeAddress } from 'constants/polygon_config';
+import { usdcxRicExchangeAddress, ricRexShirtLaunchpadAddress } from 'constants/polygon_config';
 import { fromWei, trimPad } from 'utils/balances';
 import { getContract } from 'utils/getContract';
 import Web3 from 'web3';
@@ -19,8 +19,14 @@ type Props = {
 } & React.HTMLProps<HTMLSpanElement>;
 
 // load abi, create contract instance, get price, normalize price, quicc maths, return
-const getPrice = async (web3: Web3): Promise<string> => {
-	const contract = getContract(usdcxRicExchangeAddress, launchpadABI, web3);
+const getPrice = async (web3: Web3, coinB: any): Promise<string> => {
+	let exchangeAddr = '';
+	if (coinB === Coin.RIC) {
+		exchangeAddr = usdcxRicExchangeAddress;
+	} else if (coinB === Coin.REXSHIRT) {
+		exchangeAddr = ricRexShirtLaunchpadAddress;
+	}
+	const contract = getContract(exchangeAddr, launchpadABI, web3);
 	const price = await contract.methods.getSharePrice().call();
 	const normalizedPrice = typeof price === 'string' ? price : price.toString();
 	return fromWei(normalizedPrice, 18);
@@ -38,7 +44,7 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 		let isMounted = true;
 		if (web3?.currentProvider === null) return;
 
-		getPrice(web3).then((p) => {
+		getPrice(web3, coinB).then((p) => {
 			if (isMounted) {
 				setLaunchPadPrice(p);
 			}
@@ -70,8 +76,10 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 		});
 
 		queryQuickSwapPoolPrices(quickSwapPools[`${coinA}-${coinB}`]).then(({ data }) => {
-			if (data?.error) {
-				console.error('fetching Sushi Pools price error: ', data.error);
+			// added this data.data check as it's crashing the application due to RIC price returning as NaN
+			if (data?.error || data.data === undefined) {
+				console.error('fetching Quickswap Pools price error: ', data.error);
+				return;
 			} else {
 				const { pair } = data.data;
 				if (isMounted && pair) {
@@ -105,7 +113,7 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 		<div className={styles.balance_container}>
 			<span className={styles.balance}>
 				{flowType === FlowTypes.launchpad
-					? `🚀 ${trimPad(launchPadPrice, 2)} ${coinA}/${coinB}`
+					? `🚀 ${trimPad(launchPadPrice, 3)} ${coinA}/${coinB}`
 					: trimPad(marketPairPrice[`${coinA}-${coinB}`], 3) === '0.000'
 					? `< 0.001 ${coinA}/${coinB}`
 					: `@ ${trimPad(marketPairPrice[`${coinA}-${coinB}`], 3)} ${coinA}/${coinB}`}

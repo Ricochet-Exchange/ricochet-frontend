@@ -52,12 +52,9 @@ export const StreamManager: React.FC<IProps> = () => {
 
 	return (
 		<div className={styles.container}>
-			<div className="">
-				<h2 className={styles.outGoing}>Outgoing Streams.</h2>
-			</div>
+			<h2 className={styles.outGoing}>Outgoing Streams.</h2>
 
 			{streamList.map(({ createdAtTimestamp, sender, receiver, currentFlowRate, token }, i) => {
-				console.log(i);
 				// @ts-expect-error
 				const TokenName = token.name;
 				// @ts-expect-error
@@ -65,7 +62,7 @@ export const StreamManager: React.FC<IProps> = () => {
 				// @ts-expect-error
 				const tokenSymbol = token.symbol;
 				return (
-					<div className={styles.card}>
+					<div className={styles.card} key={`${sender}-${i}`}>
 						<StreamManagerItem
 							sender={sender}
 							receiver={receiver}

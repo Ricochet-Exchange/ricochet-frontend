@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import en from 'javascript-time-ago/locale/en.json';
 import { getContract } from 'utils/getContract';
 import { rexReferralAddress } from 'constants/polygon_config';
-import { referralABI } from 'constants/abis';
+import { referralABI, streamExchangeABI } from 'constants/abis';
 import { Coin } from 'constants/coins';
 import { FlowTypes } from 'constants/flowConfig';
 import { getShareScaler } from 'utils/getShareScaler';
@@ -90,13 +90,43 @@ export const PanelChange: FC<IProps> = ({
 	const [lastDistribution, setLastDistribution] = useState<Date>();
 	const [shareScaler, setShareScaler] = useState(1e3);
 	const [isAffiliate, setIsAffiliate] = useState(false);
+	const [userRewards, setUserRewards] = useState(0);
 	const contract = getContract(rexReferralAddress, referralABI, web3);
+	const [emissionRate, setEmissionRate] = useState('');
 	const { t } = useTranslation();
+
+	const personal_pool_rate = personalFlow ? personalFlow : 0;
+	const total_market_pool = totalFlow ? totalFlow : 0;
+	const subsidy_rate_static = emissionRate;
+
+	useEffect(() => {
+		const subsidy_rate = (+personal_pool_rate / +total_market_pool) * 100;
+		const received_reward = (+subsidy_rate / 100) * +subsidy_rate_static;
+		if (+received_reward > 0) {
+			setUserRewards(+received_reward.toFixed(2));
+		}
+	}, [personal_pool_rate, total_market_pool, subsidy_rate_static]);
 
 	useEffect(() => {
 		setIsLoading(mainLoading);
 	}, [mainLoading]);
 
+	const contractAddressAllowed = (address: string) => {
+		const eligibleAddresses = [
+			'0x56aCA122d439365B455cECb14B4A39A9d1B54621',
+			'0xE53dd10d49C8072d68d48c163d9e1A219bd6852D',
+			'0xbB5C64B929b1E60c085dcDf88dfe41c6b9dcf65B',
+			'0xF1748222B08193273fd34FF10A28352A2C25Adb0',
+			'0x11Bfe0ff11819274F0FD57EFB4fc365800792D54',
+			'0xB44B371A56cE0245ee961BB8b4a22568e3D32874',
+			'0xF989C73d04D20c84d6A4D26d07090D0a63F021C7',
+		];
+		if (eligibleAddresses.includes(address)) {
+			return true;
+		} else {
+			return false;
+		}
+	};
 	useEffect(() => {
 		let isMounted = true;
 
@@ -106,6 +136,20 @@ export const PanelChange: FC<IProps> = ({
 
 				if (isMounted && affiliateStatus === AFFILIATE_STATUS.ENABLED) {
 					setIsAffiliate(true);
+				}
+				if (contractAddressAllowed(contractAddress)) {
+					const marketContract = getContract(contractAddress, streamExchangeABI, web3);
+
+					marketContract.methods
+						.getOutputPool(3)
+						.call()
+						.then((res: any) => {
+							const finRate = ((Number(res.emissionRate) / 1e18) * 2592000).toFixed(4);
+							setEmissionRate(finRate.toString());
+						})
+						.catch((error: any) => {
+							console.log('error', error);
+						});
 				}
 			})();
 		}
@@ -202,6 +246,21 @@ export const PanelChange: FC<IProps> = ({
 	// uncomment when need
 	// const date = generateDate(balanceA, personalFlow);
 
+	const fireIconsCheck = (coinA: string, coinB: string) => {
+		if (
+			(coinA === 'IbAlluoUSD' && coinB === 'IbAlluoETH') ||
+			(coinA === 'USDC' && coinB === 'IbAlluoUSD') ||
+			(coinA === 'IbAlluoUSD' && coinB === 'IbAlluoBTC') ||
+			(coinA === 'USDC' && coinB === 'ETH') ||
+			(coinA === 'USDC' && coinB === 'WBTC') ||
+			(coinA === 'DAI' && coinB === 'ETH') ||
+			(coinA === 'USDC' && coinB === 'MATIC')
+		) {
+			return true;
+		}
+		return false;
+	};
+
 	const uuid = new Date().getTime().toString(36) + Math.random().toString(36).slice(2);
 	return (
 		<>
@@ -215,11 +274,19 @@ export const PanelChange: FC<IProps> = ({
 								</span>
 							) : (
 								<div className={styles.row}>
-									<Price flowType={flowType} coinA={coinA} coinB={coinB} />
+									<div
+										style={{
+											display: 'flex',
+											flexDirection: 'row',
+										}}
+									>
+										<Price flowType={flowType} coinA={coinA} coinB={coinB} />
+										<AddressLink addressLink={link} />
+									</div>
+
 									<div className={styles.coin}>
 										<CoinChange nameCoinLeft={coinA} nameCoinRight={coinB} />
 										{flowType === 'sushiLP' && <LpAPY contractAddress={contractAddress} />}
-										<AddressLink addressLink={link} />
 									</div>
 								</div>
 							)}
@@ -234,28 +301,6 @@ export const PanelChange: FC<IProps> = ({
 										<span className={styles.number}>
 											{`$${personalFlow && getFlowUSDValue(personalFlow)} ${t('per month')}`}
 										</span>
-										{(subsidyRate?.perso || 0) > 0 ? (
-											<span>
-												<span data-tip data-for={`depositTooltipTotalPerso-${uuid}`}>
-													🔥
-												</span>
-												<ReactTooltip
-													id={`depositTooltipTotalPerso-${uuid}`}
-													place="right"
-													effect="solid"
-													multiline
-													className={styles.depositTooltip}
-												>
-													<span className={styles.depositTooltip_span}>
-														{`${t('Earning')} ${(subsidyRate?.perso || 0).toFixed(
-															2,
-														)} RIC/mo. ${t('subsidy')}`}
-													</span>
-												</ReactTooltip>
-											</span>
-										) : (
-											<span />
-										)}
 									</span>
 									<div>
 										<span className={styles.token_amounts}>
@@ -354,9 +399,13 @@ export const PanelChange: FC<IProps> = ({
 											{`$${totalFlow && getFlowUSDValue(totalFlow)}`}
 										</span>
 										{t('per month')}
-										{(subsidyRate?.total || 0) > 0 ? (
+										{fireIconsCheck(coinA, coinB) ? (
 											<span>
-												<span data-tip data-for={`depositTooltipTotal-${uuid}`}>
+												<span
+													data-tip
+													data-for={`depositTooltipTotal-${uuid}`}
+													style={{ marginLeft: '6px' }}
+												>
 													🔥
 												</span>
 												<ReactTooltip
@@ -367,11 +416,9 @@ export const PanelChange: FC<IProps> = ({
 													className={styles.depositTooltip}
 												>
 													<span className={styles.depositTooltip_span}>
-														{`${t('Total subsidy')}: ${(
-															(subsidyRate?.total || 0) / 1e3
-														).toFixed(0)}k RIC/mo. | ${t('Rewards End')}: ${
-															subsidyRate?.endDate
-														}`}
+														Total rewards: {emissionRate} RIC/mo.
+														<br />
+														Your rewards: {userRewards} RIC/mo.
 													</span>
 												</ReactTooltip>
 											</span>

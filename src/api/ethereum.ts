@@ -11,6 +11,7 @@ import {
 	RICAddress,
 	SUSHIxAddress,
 	usdcxRicExchangeAddress,
+	ricRexShirtLaunchpadAddress,
 } from 'constants/polygon_config';
 import Erc20Abi from 'constants/Erc20.json';
 import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
@@ -111,7 +112,9 @@ export const startFlow = async (
 				data.exchangeAddress === exchangeAddress,
 		);
 		if (!config) {
-			throw new Error(`No config found for this pair: , ${inputTokenAddress}, ${outputTokenAddress}`);
+			throw new Error(
+				`No config found for this pair: , ${inputTokenAddress}, ${outputTokenAddress}, ${exchangeAddress}`,
+			);
 		}
 		const provider = new ethers.providers.Web3Provider(web3.currentProvider as any);
 		const signer = provider.getSigner();
@@ -160,7 +163,7 @@ export const startFlow = async (
 			}
 		} else {
 			const userData = referralId ? web3.eth.abi.encodeParameter('string', referralId) : '0x';
-			if (exchangeAddress === usdcxRicExchangeAddress) {
+			if (exchangeAddress === usdcxRicExchangeAddress || exchangeAddress === ricRexShirtLaunchpadAddress) {
 				const operations = [
 					await framework.idaV1.approveSubscription({
 						superToken: outputTokenAddress,
