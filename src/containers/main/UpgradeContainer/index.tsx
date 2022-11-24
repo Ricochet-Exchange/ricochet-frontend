@@ -236,6 +236,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 	};
 
 	const addToMetamask = async (address: string, symbol: string, token: any) => {
+		console.log(token);
 		//@ts-ignore
 		const url = iconsCoin[token.coin];
 		const decimals = 18;
@@ -256,12 +257,12 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 			});
 
 			if (wasAdded) {
-				console.log('Thanks for your interest!');
+				//	console.log('Thanks for your interest!');
 			} else {
-				console.log('Your loss!');
+				//	console.log('Your loss!');
 			}
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
 		}
 	};
 
