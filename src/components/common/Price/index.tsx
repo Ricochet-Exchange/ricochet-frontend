@@ -27,8 +27,12 @@ const getPrice = async (web3: Web3, coinB: any): Promise<string> => {
 		exchangeAddr = ricRexShirtLaunchpadAddress;
 	}
 	const contract = getContract(exchangeAddr, launchpadABI, web3);
-	const price = await contract.methods.getSharePrice().call();
-	const normalizedPrice = typeof price === 'string' ? price : price.toString();
+	let price: string = '';
+	if (exchangeAddr !== '') {
+		price = await contract.methods.getSharePrice().call();
+	}
+	const normalizedPrice = price && typeof price === 'string' ? price : price.toString();
+	console.log(normalizedPrice, 'normalized');
 	return fromWei(normalizedPrice, 18);
 };
 
@@ -45,7 +49,7 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 		if (web3?.currentProvider === null) return;
 
 		getPrice(web3, coinB).then((p) => {
-			if (isMounted) {
+			if (isMounted && p) {
 				setLaunchPadPrice(p);
 			}
 		});

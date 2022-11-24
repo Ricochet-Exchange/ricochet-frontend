@@ -9,80 +9,63 @@ import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 interface IProps {
-  account: string;
-  ricBalance?: string;
-  mobile?: boolean;
+	account: string;
+	ricBalance?: string;
+	mobile?: boolean;
 }
 
-export const WalletButton: FC<IProps> = ({
-  ricBalance = '',
-  account,
-  mobile,
-}) => {
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
-  const preConnect = account === t('Connect Wallet');
-  const [connecting, setConnecting] = useState(false);
-  const { ensName, ensAvatar } = useENS(account);
+export const WalletButton: FC<IProps> = ({ ricBalance = '', account, mobile }) => {
+	const dispatch = useDispatch();
+	const { t } = useTranslation();
+	const preConnect = account === t('Connect Wallet');
+	const [connecting, setConnecting] = useState(false);
+	const { ensName, ensAvatar } = useENS(account);
+	//this solution doesn't work properly, examples: if user has pop ups disabled
+	const dispatchConnectWeb3Modal = () => {
+		if (preConnect) {
+			setConnecting(true);
+			dispatch(connectWeb3Modal());
+		} else {
+			window.location.reload();
+			localStorage.removeItem('WEB3_CONNECT_CACHED_PROVIDER');
+			localStorage.removeItem('persist:main');
+		}
+	};
+	if (!preConnect && connecting) {
+		setConnecting(false);
+	}
 
-  const dispatchConnectWeb3Modal = () => {
-    if (preConnect) {
-      setConnecting(true);
-      dispatch(connectWeb3Modal());
-    } else {
-      window.location.reload();
-      localStorage.removeItem('WEB3_CONNECT_CACHED_PROVIDER');
-      localStorage.removeItem('persist:main');
-    }
-  };
-  if (!preConnect && connecting) {
-    setConnecting(false);
-  }
+	return (
+		<ButtonNew className={styles.balance_panel} onClick={dispatchConnectWeb3Modal}>
+			{!mobile && (
+				<div className={styles.balance}>
+					{!preConnect && ricBalance && `${numFormatter(parseFloat(ricBalance))} RIC`}
+				</div>
+			)}
+			<div className={styles.account}>
+				<div className={styles.address}>
+					{/* eslint-disable-next-line no-nested-ternary */}
+					{connecting
+						? 'Connecting'
+						: // eslint-disable-next-line no-nested-ternary
+						mobile
+						? preConnect
+							? ensName || account
+							: 'Connected'
+						: preConnect
+						? account
+						: ensName || account.substring(0, 6)}
+				</div>
 
-  return (
-    <ButtonNew
-      className={styles.balance_panel}
-      onClick={dispatchConnectWeb3Modal}
-    >
-      {!mobile && (
-        <div className={styles.balance}>
-          {!preConnect &&
-            ricBalance &&
-            `${numFormatter(parseFloat(ricBalance))} RIC`}
-        </div>
-      )}
-      <div className={styles.account}>
-        <div className={styles.address}>
-          {/* eslint-disable-next-line no-nested-ternary */}
-          {connecting
-            ? 'Connecting'
-            // eslint-disable-next-line no-nested-ternary
-            : mobile
-              ? preConnect
-                ? ensName || account
-                : 'Connected'
-              : preConnect
-                ? account
-                : ensName || account.substring(0, 6)}
-        </div>
-
-        <div className={styles.icon_wrap}>
-          {!preConnect &&
-            (ensAvatar ? (
-              <img
-                className={styles.avatar}
-                src={ensAvatar}
-                alt="user avatar"
-              />
-            ) : (
-              <FontIcon
-                className={styles.icon}
-                name={FontIconName.RicoUser}
-                size={16}
-              />
-            ))}
-        </div>
-      </div>
-    </ButtonNew>
-  );
+				<div className={styles.icon_wrap}>
+					{!preConnect &&
+						(ensAvatar ? (
+							<img className={styles.avatar} src={ensAvatar} alt="user avatar" />
+						) : (
+							<FontIcon className={styles.icon} name={FontIconName.RicoUser} size={16} />
+						))}
+				</div>
+			</div>
+		</ButtonNew>
+	);
 };
