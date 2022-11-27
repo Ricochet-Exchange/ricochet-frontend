@@ -110,13 +110,11 @@ export const HeaderContainer: FC<IProps> = ({ address, balance }) => {
 							justifyContent: 'space-between',
 						}}
 					>
-						<h4
-							style={{
-								color: 'white',
-							}}
-						>
-							Monthly RIC Rewards: {aggregatedRICRewards}
-						</h4>
+						<div className={styles.reward}>
+							<h5>
+								Monthly Rewards: {aggregatedRICRewards && Number(aggregatedRICRewards).toFixed(2)} RIC
+							</h5>
+						</div>
 						<div style={{ width: '20px' }} />
 						<div className={styles.settings_wrap}>
 							<UserSettings className={styles.dot} ricBalance={balance} account={address} />

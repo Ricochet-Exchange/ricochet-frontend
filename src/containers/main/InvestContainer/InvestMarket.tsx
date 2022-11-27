@@ -24,6 +24,7 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 	const { balances, isLoading, coingeckoPrices } = state;
 	const [filteredList, setFilteredList] = useState(flowConfig);
 	const [aggregatedRewards, setAggregatedRewards] = useState<number[]>([]);
+	const { aggregatedRICRewards } = useShallowSelector(selectMain);
 	const [search, setSearch] = useState('');
 	const match = useRouteMatch();
 	const dispatch = useDispatch();
@@ -105,8 +106,9 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 		aggregatedRewards.forEach((reward) => {
 			aggregated = aggregated + reward;
 		});
-		console.log('agg', aggregatedRewards);
-		dispatch(addReward(`${aggregated}`));
+		if (aggregatedRICRewards && +aggregatedRICRewards !== aggregated) {
+			dispatch(addReward(`${aggregated}`));
+		}
 	}, [aggregatedRewards]);
 
 	return (
