@@ -111,9 +111,7 @@ export const HeaderContainer: FC<IProps> = ({ address, balance }) => {
 						}}
 					>
 						<div className={styles.reward}>
-							<h5>
-								Monthly Rewards: {aggregatedRICRewards && Number(aggregatedRICRewards).toFixed(2)} RIC
-							</h5>
+							<h5>Rewards: {aggregatedRICRewards && Number(aggregatedRICRewards).toFixed(2)} RIC/mo</h5>
 						</div>
 						<div style={{ width: '20px' }} />
 						<div className={styles.settings_wrap}>

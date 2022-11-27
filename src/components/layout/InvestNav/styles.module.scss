@@ -13,7 +13,7 @@
 
   .nav_container {
     position: fixed;
-    top:100px;
+    top: 80px;
     left: 0;
     @include flexbox(flex-start, flex-start);
     flex-direction: column;
