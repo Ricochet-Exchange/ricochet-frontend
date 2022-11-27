@@ -72,7 +72,7 @@ const targetCoins = [
 });
 
 const marketMap = {
-	[Coin.USDCx]: [Coin.WBTCx, Coin.WETHx, Coin.RIC, Coin.MATICx],
+	[Coin.USDCx]: [Coin.WBTCx, Coin.WETHx, Coin.RIC, Coin.MATICx, Coin.StIbAlluoUSD],
 	[Coin.DAIx]: [Coin.WETHx, Coin.WBTCx, Coin.MATICx],
 	[Coin.WBTCx]: [Coin.USDCx, Coin.DAIx],
 	[Coin.WETHx]: [Coin.USDCx, Coin.DAIx],
@@ -275,6 +275,15 @@ export const InteractiveStreamManager: FC<InteractiveStreamManagerProps> = ({ ha
 			source: 'MATICx-5',
 			target: 'DAIx-10',
 			id: 'reactflow__edge-MATICx-5-DAIx-10',
+			style: {
+				opacity: 0,
+			},
+		},
+		{
+			animated: false,
+			source: 'USDCx-0',
+			target: 'StIbAlluoUSD-16',
+			id: 'reactflow__edge-USDCx-0-StIbAlluoUSD-16',
 			style: {
 				opacity: 0,
 			},
