@@ -29,8 +29,8 @@ const getPrice = async (web3: Web3, coinB: any): Promise<string> => {
 		exchangeAddr = usdcxRicExchangeAddress;
 	} else if (coinB === Coin.REXSHIRT) {
 		exchangeAddr = ricRexShirtLaunchpadAddress;
-	} else if (coinB == Coin.REXSHIRT) {
-		exchangeAddr = ricRexShirtLaunchpadAddress;
+	} else if (coinB == Coin.REXHAT) {
+		exchangeAddr = ricRexHatLaunchpadAddress;
 	}
 	const contract = getContract(exchangeAddr, launchpadABI, web3);
 	let price: string = '';
