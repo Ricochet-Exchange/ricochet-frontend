@@ -26,6 +26,7 @@ import {
 	IbAlluoUSDAddress,
 	StIbAlluoUSDAddress,
 	RexShirtAddress,
+	RexHatAddress,
 } from 'constants/polygon_config';
 import { makeBatchRequest } from 'utils/makeBatchRequest';
 import { mainSetState } from '../actionCreators';
@@ -58,6 +59,7 @@ export function* getBalances(address: string) {
 		StIbAlluoUSDAddress,
 		IbAlluoUSDAddress,
 		RexShirtAddress,
+		RexHatAddress,
 	];
 
 	const main: ReturnType<typeof selectMain> = yield select(selectMain);
