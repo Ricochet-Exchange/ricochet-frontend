@@ -1,6 +1,10 @@
 import React from 'react';
 import { launchpadABI } from 'constants/abis';
-import { usdcxRicExchangeAddress, ricRexShirtLaunchpadAddress } from 'constants/polygon_config';
+import {
+	usdcxRicExchangeAddress,
+	ricRexShirtLaunchpadAddress,
+	ricRexHatLaunchpadAddress,
+} from 'constants/polygon_config';
 import { fromWei, trimPad } from 'utils/balances';
 import { getContract } from 'utils/getContract';
 import Web3 from 'web3';
@@ -24,6 +28,8 @@ const getPrice = async (web3: Web3, coinB: any): Promise<string> => {
 	if (coinB === Coin.RIC) {
 		exchangeAddr = usdcxRicExchangeAddress;
 	} else if (coinB === Coin.REXSHIRT) {
+		exchangeAddr = ricRexShirtLaunchpadAddress;
+	} else if (coinB == Coin.REXSHIRT) {
 		exchangeAddr = ricRexShirtLaunchpadAddress;
 	}
 	const contract = getContract(exchangeAddr, launchpadABI, web3);
