@@ -11,6 +11,7 @@ import { selectMain, selectUserStreams } from 'store/main/selectors';
 import { useRouteMatch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addReward } from 'store/main/actionCreators';
+import { useLocation } from 'react-router-dom';
 
 type InvestMarketProps = {
 	handleStart: any;
@@ -27,8 +28,11 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 	const { aggregatedRICRewards } = useShallowSelector(selectMain);
 	const [search, setSearch] = useState('');
 	const match = useRouteMatch();
+	const location = useLocation();
 	const dispatch = useDispatch();
 	const flowType = RoutesToFlowTypes[match.path];
+
+	console.log('location', location.pathname);
 
 	useEffect(() => {
 		if (flowType) {
@@ -106,7 +110,7 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 		aggregatedRewards.forEach((reward) => {
 			aggregated = aggregated + reward;
 		});
-		if (aggregatedRICRewards && +aggregatedRICRewards !== aggregated) {
+		if (aggregatedRICRewards && +aggregatedRICRewards !== aggregated && location.pathname !== '/invest/streams') {
 			dispatch(addReward(`${aggregated}`));
 		}
 	}, [aggregatedRewards]);
