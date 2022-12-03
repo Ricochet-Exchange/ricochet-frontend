@@ -11,7 +11,11 @@ import { selectMain, selectUserStreams } from 'store/main/selectors';
 import { useRouteMatch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addReward } from 'store/main/actionCreators';
-import { useLocation } from 'react-router-dom';
+import { getContract } from 'utils/getContract';
+import { rexReferralAddress } from 'constants/polygon_config';
+import { referralABI, streamExchangeABI } from 'constants/abis';
+import { AFFILIATE_STATUS, getAffiliateStatus } from 'utils/getAffiliateStatus';
+import { useLocation, useHistory } from 'react-router-dom';
 
 type InvestMarketProps = {
 	handleStart: any;
@@ -21,18 +25,23 @@ type InvestMarketProps = {
 export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop }) => {
 	const { t } = useTranslation();
 	const state = useShallowSelector(selectMain);
+	const { web3, address } = useShallowSelector(selectMain);
 	const userStreams = useShallowSelector(selectUserStreams);
 	const { balances, isLoading, coingeckoPrices } = state;
 	const [filteredList, setFilteredList] = useState(flowConfig);
 	const [aggregatedRewards, setAggregatedRewards] = useState<number[]>([]);
 	const { aggregatedRICRewards } = useShallowSelector(selectMain);
+
+	const history = useHistory();
+
+	const contract = getContract(rexReferralAddress, referralABI, web3);
 	const [search, setSearch] = useState('');
 	const match = useRouteMatch();
 	const location = useLocation();
+	const [emissionRate, setEmissionRate] = useState('');
+	const [isAffiliate, setIsAffiliate] = useState(false);
 	const dispatch = useDispatch();
 	const flowType = RoutesToFlowTypes[match.path];
-
-	console.log('location', location.pathname);
 
 	useEffect(() => {
 		if (flowType) {
@@ -102,18 +111,86 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 	}
 
 	const handleSetAggregatedRewards = (reward_amount: number) => {
-		setAggregatedRewards([...aggregatedRewards, reward_amount]);
+		setAggregatedRewards((aggregatedRewards) => [...aggregatedRewards, reward_amount]);
 	};
 
 	useEffect(() => {
 		let aggregated = 0;
+		console.log('history', history);
 		aggregatedRewards.forEach((reward) => {
 			aggregated = aggregated + reward;
 		});
-		if (aggregatedRICRewards && +aggregatedRICRewards !== aggregated && location.pathname !== '/invest/streams') {
+		if (aggregatedRICRewards && +aggregatedRICRewards !== aggregated) {
+			console.log('sol', location);
+
 			dispatch(addReward(`${aggregated}`));
 		}
 	}, [aggregatedRewards]);
+
+	const contractAddressAllowed = (address: string) => {
+		const eligibleAddresses = [
+			'0x56aCA122d439365B455cECb14B4A39A9d1B54621',
+			'0xE53dd10d49C8072d68d48c163d9e1A219bd6852D',
+			'0xbB5C64B929b1E60c085dcDf88dfe41c6b9dcf65B',
+			'0xF1748222B08193273fd34FF10A28352A2C25Adb0',
+			'0x11Bfe0ff11819274F0FD57EFB4fc365800792D54',
+			'0xB44B371A56cE0245ee961BB8b4a22568e3D32874',
+			'0xF989C73d04D20c84d6A4D26d07090D0a63F021C7',
+		];
+		if (eligibleAddresses.includes(address)) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
+	useEffect(() => {
+		console.log('made here');
+		let total = 0;
+
+		filteredList?.map((element) => {
+			let isMounted = true;
+
+			if (address && contract) {
+				(async () => {
+					const affiliateStatus = await getAffiliateStatus(contract, address, web3);
+
+					if (isMounted && affiliateStatus === AFFILIATE_STATUS.ENABLED) {
+						setIsAffiliate(true);
+					}
+					if (contractAddressAllowed(element.superToken)) {
+						const marketContract = getContract(element.superToken, streamExchangeABI, web3);
+
+						marketContract.methods
+							.getOutputPool(3)
+							.call()
+							.then((res: any) => {
+								const finRate = ((Number(res.emissionRate) / 1e18) * 2592000).toFixed(4);
+								setEmissionRate(finRate.toString());
+							})
+							.catch((error: any) => {
+								console.log('error', error);
+							});
+					}
+				})();
+			}
+
+			let personal_pool_rate = state[element.flowKey]?.placeholder;
+			let total_market_pool = state[element.flowKey]?.flowsOwned;
+			let date =
+				new Date().toLocaleDateString().split('/').reverse().join('') >=
+				(state[element.flowKey]?.subsidyRate.endDate.split('/').reverse().join('') || '0');
+			let subsidyRate = date ? state[element.flowKey]?.subsidyRate : undefined;
+
+			if (!personal_pool_rate || !total_market_pool) {
+				return;
+			}
+
+			const subsidy_rate = (+personal_pool_rate / +total_market_pool) * 100;
+			const received_reward = (+subsidy_rate / 100) * +emissionRate;
+			console.log('test', received_reward);
+		});
+	}, [filteredList]);
 
 	return (
 		<>
