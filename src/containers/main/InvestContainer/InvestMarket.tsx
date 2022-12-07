@@ -116,13 +116,11 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 
 	useEffect(() => {
 		let aggregated = 0;
-		console.log('history', history);
 		aggregatedRewards.forEach((reward) => {
 			aggregated = aggregated + reward;
 		});
 		if (aggregatedRICRewards && +aggregatedRICRewards !== aggregated) {
-			console.log('sol', location);
-
+			setAggregatedRewards([0]);
 			dispatch(addReward(`${aggregated}`));
 		}
 	}, [aggregatedRewards]);
@@ -145,9 +143,6 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 	};
 
 	useEffect(() => {
-		console.log('made here');
-		let total = 0;
-
 		filteredList?.map((element) => {
 			let isMounted = true;
 
