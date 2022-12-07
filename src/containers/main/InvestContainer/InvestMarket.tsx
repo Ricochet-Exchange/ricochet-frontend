@@ -101,14 +101,19 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 		setAggregatedRewards((aggregatedRewards) => [...aggregatedRewards, reward_amount]);
 	};
 
+	//This needs to be viewed by someone, issue is I need to clean up aggregatedRewardsArr after I do the math, but updating it retriggers useEffect and app gets stuck in loop
+
 	useEffect(() => {
 		let aggregated = 0;
 		aggregatedRewards.forEach((reward) => {
 			aggregated = aggregated + reward;
 		});
 		if (aggregatedRICRewards && +aggregatedRICRewards !== aggregated) {
-			setAggregatedRewards([0]);
 			dispatch(addReward(`${aggregated}`));
+			setAggregatedRewards([0]);
+		} else {
+			console.log('skipped func');
+			return;
 		}
 	}, [aggregatedRewards]);
 
