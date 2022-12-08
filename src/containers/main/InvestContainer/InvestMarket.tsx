@@ -111,6 +111,7 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 		if (aggregatedRICRewards && +aggregatedRICRewards !== aggregated) {
 			dispatch(addReward(`${aggregated}`));
 			setAggregatedRewards([0]);
+			return;
 		} else {
 			console.log('skipped func');
 			return;
