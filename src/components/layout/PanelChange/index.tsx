@@ -28,6 +28,8 @@ import { CoinRateForm } from '../CoinRateForm';
 import LpAPY from '../../common/LpAPY';
 import Price from '../../common/Price';
 import styles from './styles.module.scss';
+import { useDispatch } from 'react-redux';
+import { addReward } from 'store/main/actionCreators';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -47,7 +49,7 @@ interface IProps {
 	streamEnd?: string;
 	subsidyRate?: { perso: number; total: number; endDate: string };
 	personalFlow?: string;
-	aggregateRewards?: (reward_amount: number) => void;
+	// aggregateRewards?: (reward_amount: number) => void;
 	mainLoading?: boolean;
 	flowType: FlowTypes;
 	contractAddress: string;
@@ -81,7 +83,7 @@ export const PanelChange: FC<IProps> = ({
 	exchangeKey,
 	indexVal,
 	streamedSoFar,
-	aggregateRewards,
+	// aggregateRewards,
 	receivedSoFar,
 }) => {
 	const link = getAddressLink(contractAddress);
@@ -99,14 +101,33 @@ export const PanelChange: FC<IProps> = ({
 	const personal_pool_rate = personalFlow ? personalFlow : 0;
 	const total_market_pool = totalFlow ? totalFlow : 0;
 	const subsidy_rate_static = emissionRate;
+	const [aggregatedRewards, setAggregatedRewards] = useState<number[]>([]);
+	const { aggregatedRICRewards } = useShallowSelector(selectMain);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const subsidy_rate = (+personal_pool_rate / +total_market_pool) * 100;
 		const received_reward = (+subsidy_rate / 100) * +subsidy_rate_static;
 		if (received_reward !== undefined && +received_reward > 0) {
 			setUserRewards(+received_reward.toFixed(2));
-			//@ts-ignore
-			aggregateRewards(received_reward);
+			let rewards = +received_reward;
+			aggregatedRewards.push(rewards);
+		}
+	}, [personal_pool_rate, total_market_pool, subsidy_rate_static]);
+
+	useEffect(() => {
+		let aggregated = 0;
+		aggregatedRewards.forEach((reward) => {
+			aggregated = aggregated + reward;
+		});
+
+		if (aggregatedRICRewards && +aggregatedRICRewards !== aggregated) {
+			dispatch(addReward(`${aggregated}`));
+			aggregatedRewards.splice(0, aggregatedRewards.length);
+			return;
+		} else {
+			console.log('skipped func');
+			return;
 		}
 	}, [personal_pool_rate, total_market_pool, subsidy_rate_static]);
 
