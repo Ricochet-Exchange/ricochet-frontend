@@ -18,6 +18,7 @@ export type MainState = {
 	hasIbAlluoUSDApprove?: boolean;
 	hasIbAlluoETHApprove?: boolean;
 	hasIbAlluoBTCApprove?: boolean;
+	aggregatedRICRewards?: string;
 	apy?: number;
 	rewardsApy?: number;
 	feesApy?: number;

@@ -8,6 +8,8 @@ import { Hamburger } from 'components/Hamburger';
 import { useTranslation } from 'i18n';
 import styles from './styles.module.scss';
 import logo from '../../../assets/images/logo.svg';
+import { useShallowSelector } from 'hooks/useShallowSelector';
+import { selectMain } from 'store/main/selectors';
 
 interface IProps {
 	address: string;
@@ -17,6 +19,7 @@ interface IProps {
 export const HeaderContainer: FC<IProps> = ({ address, balance }) => {
 	const location = useLocation();
 	const { t } = useTranslation();
+	const { aggregatedRICRewards } = useShallowSelector(selectMain);
 
 	const [open, setOpen] = useState(false);
 
@@ -99,9 +102,23 @@ export const HeaderContainer: FC<IProps> = ({ address, balance }) => {
 						</Link>
 					</div>
 
-					<div className={styles.settings_wrap}>
-						<UserSettings className={styles.dot} ricBalance={balance} account={address} />
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+						}}
+					>
+						<div className={styles.reward}>
+							<h5>Rewards: {aggregatedRICRewards && Number(aggregatedRICRewards).toFixed(2)} RIC/mo</h5>
+						</div>
+						<div style={{ width: '20px' }} />
+						<div className={styles.settings_wrap}>
+							<UserSettings className={styles.dot} ricBalance={balance} account={address} />
+						</div>
 					</div>
+
 					<div className={styles.mob_head}>
 						<HeaderText />
 					</div>

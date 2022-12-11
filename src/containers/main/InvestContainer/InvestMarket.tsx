@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { TextInput } from 'components/common/TextInput';
 import { PanelChange } from 'components/layout/PanelChange';
@@ -9,6 +9,8 @@ import { flowConfig, FlowEnum, InvestmentFlow, RoutesToFlowTypes } from 'constan
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain, selectUserStreams } from 'store/main/selectors';
 import { useRouteMatch } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addReward } from 'store/main/actionCreators';
 
 type InvestMarketProps = {
 	handleStart: any;
@@ -21,8 +23,11 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 	const userStreams = useShallowSelector(selectUserStreams);
 	const { balances, isLoading, coingeckoPrices } = state;
 	const [filteredList, setFilteredList] = useState(flowConfig);
+	const [aggregatedRewards, setAggregatedRewards] = useState<number[]>([]);
+	const { aggregatedRICRewards } = useShallowSelector(selectMain);
 	const [search, setSearch] = useState('');
 	const match = useRouteMatch();
+	const dispatch = useDispatch();
 	const flowType = RoutesToFlowTypes[match.path];
 
 	useEffect(() => {
@@ -92,6 +97,27 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 		).toFixed(toFixed);
 	}
 
+	const handleSetAggregatedRewards = (reward_amount: number) => {
+		setAggregatedRewards((aggregatedRewards) => [...aggregatedRewards, reward_amount]);
+	};
+
+	//This needs to be viewed by someone, issue is I need to clean up aggregatedRewardsArr after I do the math, but updating it retriggers useEffect and app gets stuck in loop
+
+	useEffect(() => {
+		let aggregated = 0;
+		aggregatedRewards.forEach((reward) => {
+			aggregated = aggregated + reward;
+		});
+		if (aggregatedRICRewards && +aggregatedRICRewards !== aggregated) {
+			dispatch(addReward(`${aggregated}`));
+			setAggregatedRewards([0]);
+			return;
+		} else {
+			console.log('skipped func');
+			return;
+		}
+	}, [aggregatedRewards]);
+
 	return (
 		<>
 			<div className={styles.input_wrap}>
@@ -144,6 +170,7 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 							indexVal={idx}
 							streamedSoFar={state[element.flowKey]?.streamedSoFar}
 							receivedSoFar={state[element.flowKey]?.receivedSoFar}
+							aggregateRewards={handleSetAggregatedRewards}
 						/>
 					</div>
 				))}

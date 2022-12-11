@@ -47,6 +47,7 @@ interface IProps {
 	streamEnd?: string;
 	subsidyRate?: { perso: number; total: number; endDate: string };
 	personalFlow?: string;
+	aggregateRewards?: (reward_amount: number) => void;
 	mainLoading?: boolean;
 	flowType: FlowTypes;
 	contractAddress: string;
@@ -80,6 +81,7 @@ export const PanelChange: FC<IProps> = ({
 	exchangeKey,
 	indexVal,
 	streamedSoFar,
+	aggregateRewards,
 	receivedSoFar,
 }) => {
 	const link = getAddressLink(contractAddress);
@@ -94,7 +96,6 @@ export const PanelChange: FC<IProps> = ({
 	const contract = getContract(rexReferralAddress, referralABI, web3);
 	const [emissionRate, setEmissionRate] = useState('');
 	const { t } = useTranslation();
-
 	const personal_pool_rate = personalFlow ? personalFlow : 0;
 	const total_market_pool = totalFlow ? totalFlow : 0;
 	const subsidy_rate_static = emissionRate;
@@ -102,8 +103,10 @@ export const PanelChange: FC<IProps> = ({
 	useEffect(() => {
 		const subsidy_rate = (+personal_pool_rate / +total_market_pool) * 100;
 		const received_reward = (+subsidy_rate / 100) * +subsidy_rate_static;
-		if (+received_reward > 0) {
+		if (received_reward !== undefined && +received_reward > 0) {
 			setUserRewards(+received_reward.toFixed(2));
+			//@ts-ignore
+			aggregateRewards(received_reward);
 		}
 	}, [personal_pool_rate, total_market_pool, subsidy_rate_static]);
 
