@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useCallback, useEffect, useState, useMemo } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { TextInput } from 'components/common/TextInput';
 import { PanelChange } from 'components/layout/PanelChange';
@@ -38,6 +38,7 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 				const totalVolumeB = parseFloat(getFlowUSDValue(b));
 				return totalVolumeB - totalVolumeA;
 			});
+			console.log('sorted List', sortedList);
 			setFilteredList(sortedList);
 		} else {
 			const sortedUserStreams = userStreams.sort((a, b) => {
@@ -45,9 +46,16 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 				const flowB = parseFloat(state[b.flowKey]?.placeholder || '0');
 				return flowB - flowA;
 			});
+
+			console.log('sorted List', sortedUserStreams);
 			setFilteredList(sortedUserStreams);
 		}
 	}, [flowType, state, userStreams]);
+
+	useEffect(() => {
+		console.log('allFlow', filteredList);
+		dispatch(addReward(`${0}`));
+	}, [filteredList]);
 
 	const handleSearch = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {
@@ -96,26 +104,6 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 			coingeckoPrices ? parseFloat(state[flow.flowKey]?.flowsOwned as string) * coingeckoPrices[flow.tokenA] : 0
 		).toFixed(toFixed);
 	}
-
-	const handleSetAggregatedRewards = (reward_amount: number) => {
-		setAggregatedRewards((aggregatedRewards) => [...aggregatedRewards, reward_amount]);
-	};
-
-	//This needs to be viewed by someone, issue is I need to clean up aggregatedRewardsArr after I do the math, but updating it retriggers useEffect and app gets stuck in loop
-
-	useEffect(() => {
-		let aggregated = 0;
-		aggregatedRewards.forEach((reward) => {
-			aggregated = aggregated + reward;
-		});
-		if (aggregatedRICRewards && +aggregatedRICRewards !== aggregated) {
-			dispatch(addReward(`${aggregated}`));
-			setAggregatedRewards([0]);
-		} else {
-			console.log('skipped func');
-			return;
-		}
-	}, [aggregatedRewards]);
 
 	return (
 		<>
@@ -169,7 +157,6 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 							indexVal={idx}
 							streamedSoFar={state[element.flowKey]?.streamedSoFar}
 							receivedSoFar={state[element.flowKey]?.receivedSoFar}
-							aggregateRewards={handleSetAggregatedRewards}
 						/>
 					</div>
 				))}

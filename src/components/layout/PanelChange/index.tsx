@@ -47,7 +47,6 @@ interface IProps {
 	streamEnd?: string;
 	subsidyRate?: { perso: number; total: number; endDate: string };
 	personalFlow?: string;
-	aggregateRewards?: (reward_amount: number) => void;
 	mainLoading?: boolean;
 	flowType: FlowTypes;
 	contractAddress: string;
@@ -81,7 +80,6 @@ export const PanelChange: FC<IProps> = ({
 	exchangeKey,
 	indexVal,
 	streamedSoFar,
-	aggregateRewards,
 	receivedSoFar,
 }) => {
 	const link = getAddressLink(contractAddress);
@@ -105,8 +103,6 @@ export const PanelChange: FC<IProps> = ({
 		const received_reward = (+subsidy_rate / 100) * +subsidy_rate_static;
 		if (received_reward !== undefined && +received_reward > 0) {
 			setUserRewards(+received_reward.toFixed(2));
-			//@ts-ignore
-			aggregateRewards(received_reward);
 		}
 	}, [personal_pool_rate, total_market_pool, subsidy_rate_static]);
 

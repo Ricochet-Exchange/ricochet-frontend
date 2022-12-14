@@ -5,15 +5,31 @@ import { mainSetState } from '../actionCreators';
 export function* aggregatedRICRewards(value: string) {
 	const main: ReturnType<typeof selectMain> = yield select(selectMain);
 
-	let totalRewards: any = main.aggregatedRICRewards;
-	let RICreward = value;
-	let newReward: number = 0;
-	if (!totalRewards) {
-		console.log('error getting awards');
-		return;
-	}
-	//@ts-ignore
-	newReward = Number(totalRewards) + Number(RICreward.payload.value);
+	const aggregatedRewards = '0';
+
+	const {
+		twoWayusdcWethFlowQuery,
+		twoWayusdcWbtcFlowQuery,
+		twoWayIbUsdIbBTCFlowQuery,
+		twoWayIbUsdIbEthFlowQuery,
+		twoWayUsdcMaticFlowQuery,
+		usdcxibAlluoUSDFlowQuery,
+		twoWayDaiWethFlowQuery,
+	} = main;
+
+	const marketsArray = [
+		twoWayusdcWethFlowQuery,
+		twoWayusdcWbtcFlowQuery,
+		twoWayIbUsdIbBTCFlowQuery,
+		twoWayIbUsdIbEthFlowQuery,
+		twoWayUsdcMaticFlowQuery,
+		usdcxibAlluoUSDFlowQuery,
+		twoWayDaiWethFlowQuery,
+	];
+
+	console.log('marketsArray', marketsArray);
+
+	let newReward = 0;
 
 	yield put(mainSetState({ aggregatedRICRewards: `${newReward}` }));
 }
