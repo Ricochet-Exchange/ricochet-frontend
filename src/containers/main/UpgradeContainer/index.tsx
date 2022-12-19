@@ -236,7 +236,6 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 	};
 
 	const addToMetamask = async (address: string, symbol: string, token: any) => {
-		console.log(address, token);
 		if (symbol.length >= 11) {
 			symbol = symbol.slice(4, symbol.length);
 		}
@@ -246,13 +245,13 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 		try {
 			// wasAdded is a boolean. Like any RPC method, an error may be thrown.
 			//@ts-ignore
-			const wasAdded = await ethereum.request({
+			await ethereum.request({
 				method: 'wallet_watchAsset',
 				params: {
 					type: 'ERC20', // Initially only supports ERC20, but eventually more!
 					options: {
 						address: address, // The address that the token is at.
-						symbol: symbol, // A ticker symbol or shorthand, up to 5 chars.
+						symbol: `${symbol}x`, // A ticker symbol or shorthand, up to 5 chars.
 						decimals: decimals, // The number of decimals in the token
 						image: `https://app.ricochet.exchange${url}`, // A string url of the token logo
 					},
