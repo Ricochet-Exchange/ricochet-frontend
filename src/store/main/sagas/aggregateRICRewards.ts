@@ -7,8 +7,6 @@ import { mainSetState } from '../actionCreators';
 export function* aggregatedRICRewards(value: string) {
 	const main: ReturnType<typeof selectMain> = yield select(selectMain);
 
-	const aggregatedRewards = '0';
-
 	const {
 		twoWayusdcWethFlowQuery,
 		twoWayusdcWbtcFlowQuery,
@@ -30,31 +28,43 @@ export function* aggregatedRICRewards(value: string) {
 		[twoWayDaiWethFlowQuery, '0xB44B371A56cE0245ee961BB8b4a22568e3D32874'],
 	];
 
-	console.log('marketsArray', marketsArray, 'main', main, 'web3', web3);
+	if (web3?.currentProvider === null) return;
 
-	let newReward = 0;
-
-	let emission = '';
-
-	if (!web3) {
-		return;
-	}
+	let aggregatedRewards = 0;
 
 	marketsArray.map((market: any[]) => {
-		const marketContract = getContract(market[1], streamExchangeABI, web3);
+		const marketContract = getContract(market[1]!, streamExchangeABI, web3!);
 
 		marketContract.methods
 			.getOutputPool(3)
 			.call()
 			.then((res: any) => {
 				const finRate = ((Number(res.emissionRate) / 1e18) * 2592000).toFixed(4);
-				emission = finRate.toString();
-				console.log('finRate', finRate);
+				const emissionRate = finRate.toString();
+				const totalFlows = market[0]?.flowsOwned;
+				const userFlowIn = market[0]?.placeholder;
+				const subsidy_rate = (+userFlowIn / +totalFlows) * 100;
+				const received_reward = (+subsidy_rate / 100) * +emissionRate;
+				aggregatedRewards += received_reward;
+				console.log(
+					'finRate',
+					finRate,
+					'market',
+					market[0],
+					'received reward',
+					received_reward,
+					'aggregatedRewards',
+					aggregatedRewards,
+				);
+
+				return aggregatedRewards;
 			})
 			.catch((error: any) => {
 				console.log('error', error);
 			});
-	});
 
-	yield put(mainSetState({ aggregatedRICRewards: `${newReward}` }));
+		return;
+	});
+	console.log('agg', aggregatedRewards);
+	yield put(mainSetState({ aggregatedRICRewards: `${aggregatedRewards}` }));
 }

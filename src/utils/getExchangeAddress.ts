@@ -52,16 +52,11 @@ import {
 export enum ExchangeKeys {
 	'DAI_ETH' = 'twoWayDaiWeth',
 	'DAI_MATIC' = 'daiMatic',
-	'DAI_MKR' = 'daiMkr',
 	'ETH_DAI' = 'twoWayWethDai',
 	'MATIC_DAI' = 'maticDai',
 	'MATIC_USDC' = 'maticUsdc',
-	'MKR_DAI' = 'mkrDai',
-	'MKR_USDC' = 'mkrUsdc',
-	'USDC_ETH_SLP' = 'usdcEthSlp',
 	'USDC_IDLE' = 'usdcIdle',
 	'USDC_MATIC' = 'usdcMatic',
-	'USDC_MKR' = 'usdcMkr',
 	'USDC_RIC' = 'usdcRic',
 	'USDC_IBALLUO' = 'usdcxibAlluoUSD',
 	'USDC_WBTC' = 'twoWayusdcWbtc',
@@ -112,16 +107,10 @@ export const getExchangeAddressFromKey = (exchangeKey: ExchangeKeys) => {
 	const addresses = {
 		daiEth: daixEthxExchangeAddress,
 		daiMatic: daixMaticxExchangeAddress,
-		daiMkr: daixMkrxExchangeAddress,
 		ethDai: ethxDaixExchangeAddress,
 		maticDai: maticxDaixExchangeAddress,
 		maticUsdc: maticxUsdcxExchangeAddress,
-		mkrDai: mkrxDaixExchangeAddress,
-		mkrUsdc: mkrxUsdcxExchangeAddress,
-		usdcEthSlp: usdcxEthSlpxExchangeAddress,
-		usdcIdle: usdcxIdleExchangeAddress,
 		usdcMatic: usdcxMaticxExchangeAddress,
-		usdcMkr: usdcxMkrxExchangeAddress,
 		usdcRic: usdcxRicExchangeAddress,
 		ricRexShirt: ricRexShirtLaunchpadAddress,
 		usdcxibAlluoUSD: usdcxibAlluoUSDAddress,
@@ -175,5 +164,6 @@ export const getExchangeAddressFromKey = (exchangeKey: ExchangeKeys) => {
 		twoWayIbBTCIbUsd: twoWayMarketibAlluoUSDBTCAddress,
 	};
 
+	//@ts-ignore
 	return addresses[exchangeKey];
 };
