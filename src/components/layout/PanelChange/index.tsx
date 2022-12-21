@@ -8,6 +8,7 @@ import { ExchangeKeys } from 'utils/getExchangeAddress';
 import { getLastDistributionOnPair } from 'utils/getLastDistributions';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { AddressLink } from 'components/common/AddressLink';
+import { useIsMounted } from 'hooks/useIsMounted';
 import { getAddressLink } from 'utils/getAddressLink';
 import { selectMain } from 'store/main/selectors';
 import ReactTimeAgo from 'react-time-ago';
@@ -94,6 +95,7 @@ export const PanelChange: FC<IProps> = ({
 	const contract = getContract(rexReferralAddress, referralABI, web3);
 	const [emissionRate, setEmissionRate] = useState('');
 	const { t } = useTranslation();
+	const isMounted = useIsMounted();
 
 	const personal_pool_rate = personalFlow ? personalFlow : 0;
 	const total_market_pool = totalFlow ? totalFlow : 0;
@@ -128,8 +130,6 @@ export const PanelChange: FC<IProps> = ({
 		}
 	};
 	useEffect(() => {
-		let isMounted = true;
-
 		if (address && contract) {
 			(async () => {
 				const affiliateStatus = await getAffiliateStatus(contract, address, web3);
@@ -145,7 +145,9 @@ export const PanelChange: FC<IProps> = ({
 						.call()
 						.then((res: any) => {
 							const finRate = ((Number(res.emissionRate) / 1e18) * 2592000).toFixed(4);
-							setEmissionRate(finRate.toString());
+							if (isMounted.current) {
+								setEmissionRate(finRate.toString());
+							}
 						})
 						.catch((error: any) => {
 							console.log('error', error);
@@ -153,10 +155,6 @@ export const PanelChange: FC<IProps> = ({
 				}
 			})();
 		}
-
-		return () => {
-			isMounted = false;
-		};
 	}, [address, contract, web3]);
 
 	useEffect(() => {

@@ -3,11 +3,8 @@ import {
 	USDCxAddress,
 	WETHxAddress,
 	DAIxAddress,
-	MKRxAddress,
 	WBTCxAddress,
 	MATICxAddress,
-	SUSHIxAddress,
-	IDLExAddress,
 	StIbAlluoETHAddress,
 	StIbAlluoUSDAddress,
 	StIbAlluoBTCAddress,
@@ -23,10 +20,6 @@ export const downgradeTokensList = [
 		tokenAddress: DAIxAddress,
 	},
 	{
-		coin: Coin.MKRx,
-		tokenAddress: MKRxAddress,
-	},
-	{
 		coin: Coin.WETHx,
 		tokenAddress: WETHxAddress,
 	},
@@ -37,14 +30,6 @@ export const downgradeTokensList = [
 	{
 		coin: Coin.MATICx,
 		tokenAddress: MATICxAddress,
-	},
-	{
-		coin: Coin.SUSHIx,
-		tokenAddress: SUSHIxAddress,
-	},
-	{
-		coin: Coin.IDLEx,
-		tokenAddress: IDLExAddress,
 	},
 	{
 		coin: Coin.StIbAlluoETH,

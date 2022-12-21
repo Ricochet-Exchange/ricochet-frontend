@@ -7,15 +7,9 @@ import {
 	RICAddress,
 	DAIAddress,
 	DAIxAddress,
-	MKRAddress,
-	MKRxAddress,
 	USDCAddress,
 	WETHAddress,
 	WBTCAddress,
-	SUSHIAddress,
-	SUSHIxAddress,
-	IDLEAddress,
-	IDLExAddress,
 	IbAlluoETHAddress,
 	StIbAlluoETHAddress,
 	IbAlluoUSDAddress,
@@ -93,29 +87,5 @@ export const tokenCoinTransformer: Transformer[] = [
 	{
 		token: DAIxAddress,
 		coin: Coin.DAIx,
-	},
-	{
-		token: MKRAddress,
-		coin: Coin.MKR,
-	},
-	{
-		token: MKRxAddress,
-		coin: Coin.MKRx,
-	},
-	{
-		token: SUSHIAddress,
-		coin: Coin.SUSHI,
-	},
-	{
-		token: SUSHIxAddress,
-		coin: Coin.SUSHIx,
-	},
-	{
-		token: IDLEAddress,
-		coin: Coin.IDLE,
-	},
-	{
-		token: IDLExAddress,
-		coin: Coin.IDLEx,
 	},
 ];

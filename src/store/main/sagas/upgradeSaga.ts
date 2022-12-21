@@ -11,13 +11,10 @@ import Web3 from 'web3';
 import { mainSetState, upgradeAction } from '../actionCreators';
 import {
 	checkIfApproveUsdc,
-	checkIfApproveMkr,
 	checkIfApproveDai,
 	checkIfApproveWeth,
 	checkIfApproveWbtc,
-	checkIfApproveSushi,
 	checkIfApproveMatic,
-	checkIfApproveIdle,
 	checkIfApproveIbAlluoETH,
 	checkIfApproveIbAlluoBTC,
 	checkIfApproveIbAlluoUSD,
@@ -49,13 +46,10 @@ export function* upgradeMainSaga({ payload }: ReturnType<typeof upgradeAction>) 
 		payload.callback();
 		yield all([
 			call(checkIfApproveUsdc),
-			call(checkIfApproveMkr),
 			call(checkIfApproveDai),
 			call(checkIfApproveWeth),
 			call(checkIfApproveWbtc),
-			call(checkIfApproveSushi),
 			call(checkIfApproveMatic),
-			call(checkIfApproveIdle),
 			call(checkIfApproveIbAlluoETH),
 			call(checkIfApproveIbAlluoUSD),
 			call(checkIfApproveIbAlluoBTC),

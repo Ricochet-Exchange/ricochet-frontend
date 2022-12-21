@@ -9,7 +9,6 @@ import {
 	MATICxAddress,
 	rexLPETHAddress,
 	RICAddress,
-	SUSHIxAddress,
 	usdcxRicExchangeAddress,
 	ricRexShirtLaunchpadAddress,
 	ricRexHatLaunchpadAddress,
@@ -208,16 +207,6 @@ export const startFlow = async (
 					await framework.idaV1.approveSubscription({
 						superToken: RICAddress,
 						indexId: '1',
-						publisher: exchangeAddress,
-						userData,
-						overrides: {
-							maxFeePerGas,
-							maxPriorityFeePerGas,
-						},
-					}),
-					await framework.idaV1.approveSubscription({
-						superToken: SUSHIxAddress,
-						indexId: '2',
 						publisher: exchangeAddress,
 						userData,
 						overrides: {

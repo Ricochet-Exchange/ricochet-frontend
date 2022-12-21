@@ -4,10 +4,7 @@ import { getAddress } from 'utils/getAddress';
 import { mainGetData, mainSetState } from '../actionCreators';
 import {
 	checkIfApproveDai,
-	checkIfApproveIdle,
 	checkIfApproveMatic,
-	checkIfApproveMkr,
-	checkIfApproveSushi,
 	checkIfApproveUsdc,
 	checkIfApproveWbtc,
 	checkIfApproveWeth,
@@ -31,12 +28,9 @@ export function* loadData() {
 		yield call(getBalances, address);
 		yield all([
 			call(checkIfApproveUsdc),
-			call(checkIfApproveMkr),
 			call(checkIfApproveDai),
 			call(checkIfApproveWeth),
 			call(checkIfApproveWbtc),
-			call(checkIfApproveSushi),
-			call(checkIfApproveIdle),
 			call(checkIfApproveMatic),
 			call(checkIfApproveIbAlluoUSD),
 			call(checkIfApproveIbAlluoETH),

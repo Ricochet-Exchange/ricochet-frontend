@@ -1,66 +1,12 @@
 import { put, call, select } from 'redux-saga/effects';
 import { fromWei } from 'utils/balances';
-import {
-	rexLPETHAddress,
-	USDCxAddress,
-	USDCAddress,
-	DAIxAddress,
-	DAIAddress,
-	MATICxAddress,
-	WMATICAddress,
-	SUSHIxAddress,
-	SUSHIAddress,
-	MKRxAddress,
-	MKRAddress,
-	WETHxAddress,
-	WETHAddress,
-	WBTCxAddress,
-	WBTCAddress,
-	IDLExAddress,
-	IDLEAddress,
-	RICAddress,
-	IbAlluoETHAddress,
-	StIbAlluoETHAddress,
-	IbAlluoBTCAddress,
-	StIbAlluoBTCAddress,
-	IbAlluoUSDAddress,
-	StIbAlluoUSDAddress,
-	RexShirtAddress,
-	RexHatAddress,
-} from 'constants/polygon_config';
+import { tokenArray, WBTCAddress, USDCAddress, WMATICAddress } from 'constants/polygon_config';
 import { makeBatchRequest } from 'utils/makeBatchRequest';
 import { mainSetState } from '../actionCreators';
 import { selectMain } from '../selectors';
 
 export function* getBalances(address: string) {
-	const contractsAddress = [
-		DAIxAddress,
-		DAIAddress,
-		MKRxAddress,
-		MKRAddress,
-		MATICxAddress,
-		WMATICAddress,
-		SUSHIxAddress,
-		SUSHIAddress,
-		USDCxAddress,
-		USDCAddress,
-		WETHxAddress,
-		WETHAddress,
-		WBTCxAddress,
-		WBTCAddress,
-		IDLExAddress,
-		IDLEAddress,
-		RICAddress,
-		rexLPETHAddress,
-		StIbAlluoETHAddress,
-		IbAlluoETHAddress,
-		StIbAlluoBTCAddress,
-		IbAlluoBTCAddress,
-		StIbAlluoUSDAddress,
-		IbAlluoUSDAddress,
-		RexShirtAddress,
-		RexHatAddress,
-	];
+	const contractsAddress = tokenArray;
 
 	const main: ReturnType<typeof selectMain> = yield select(selectMain);
 	const { web3 } = main;

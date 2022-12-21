@@ -1,18 +1,5 @@
 import React, { useState } from 'react';
-import {
-	DAIxAddress,
-	USDCxAddress,
-	WETHxAddress,
-	MKRxAddress,
-	WBTCxAddress,
-	MATICxAddress,
-	SUSHIxAddress,
-	IDLExAddress,
-	RICAddress,
-	StIbAlluoETHAddress,
-	StIbAlluoUSDAddress,
-	StIbAlluoBTCAddress,
-} from 'constants/polygon_config';
+import { supportedCurrencies } from 'constants/polygon_config';
 import { Loader } from 'components/common/Loader';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
@@ -39,64 +26,6 @@ export const StreamForm: React.FC<IProps> = ({
 	const [flowProvided, setFlowStatus] = useState(false);
 	const [tokenProvided, setTokenStatus] = useState(false);
 	const state = useShallowSelector(selectMain);
-
-	const supportedCurrencies = [
-		{
-			currency: 'DAIx',
-			address: DAIxAddress,
-		},
-
-		{
-			currency: 'USDCx',
-			address: USDCxAddress,
-		},
-
-		{
-			currency: 'WETHx',
-			address: WETHxAddress,
-		},
-
-		{
-			currency: 'MKRx',
-			address: MKRxAddress,
-		},
-
-		{
-			currency: 'WBTCx',
-			address: WBTCxAddress,
-		},
-
-		{
-			currency: 'MATICx',
-			address: MATICxAddress,
-		},
-
-		{
-			currency: 'SUSHIx',
-			address: SUSHIxAddress,
-		},
-
-		{
-			currency: 'IDLEx',
-			address: IDLExAddress,
-		},
-		{
-			currency: 'RIC',
-			address: RICAddress,
-		},
-		{
-			currency: 'StIbAlluoETH',
-			address: StIbAlluoETHAddress,
-		},
-		{
-			currency: 'StIbAlluoUSD',
-			address: StIbAlluoUSDAddress,
-		},
-		{
-			currency: 'StIbAlluoBTC',
-			address: StIbAlluoBTCAddress,
-		},
-	];
 
 	const { balances } = state;
 

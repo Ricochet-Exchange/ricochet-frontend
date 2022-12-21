@@ -9,16 +9,10 @@ import {
 	USDCxAddress,
 	DAIAddress,
 	DAIxAddress,
-	MKRAddress,
-	MKRxAddress,
 	WETHAddress,
 	WETHxAddress,
 	WBTCAddress,
 	WBTCxAddress,
-	SUSHIAddress,
-	SUSHIxAddress,
-	IDLEAddress,
-	IDLExAddress,
 	IbAlluoETHAddress,
 	StIbAlluoETHAddress,
 	IbAlluoBTCAddress,
@@ -62,10 +56,6 @@ export function* checkIfApproveWeth() {
 	yield call(checkIfApprove, WETHAddress, WETHxAddress, 'hasWethApprove');
 }
 
-export function* checkIfApproveMkr() {
-	yield call(checkIfApprove, MKRAddress, MKRxAddress, 'hasMkrApprove');
-}
-
 export function* checkIfApproveUsdc() {
 	yield call(checkIfApprove, USDCAddress, USDCxAddress, 'hasUsdcApprove');
 }
@@ -94,12 +84,4 @@ export function* checkIfApproveMatic() {
 	// It would be needed to approve wmatic, but not native matic
 	// yield call(checkIfApprove, WMATICAddress, WMATICxAddress, 'hasWMaticApprove');
 	yield put(mainSetState({ hasMaticApprove: true }));
-}
-
-export function* checkIfApproveSushi() {
-	yield call(checkIfApprove, SUSHIAddress, SUSHIxAddress, 'hasSushiApprove');
-}
-
-export function* checkIfApproveIdle() {
-	yield call(checkIfApprove, IDLEAddress, IDLExAddress, 'hasIdleApprove');
 }
