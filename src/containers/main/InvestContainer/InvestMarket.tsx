@@ -53,8 +53,8 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 	}, [flowType, state, userStreams]);
 
 	useEffect(() => {
-		dispatch(addReward(`${0}`));
-	}, [state]);
+		console.log('filteredList', userStreams);
+	}, [userStreams]);
 
 	const handleSearch = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {

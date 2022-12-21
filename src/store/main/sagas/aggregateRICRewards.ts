@@ -16,6 +16,7 @@ export function* aggregatedRICRewards(value: string) {
 		usdcxibAlluoUSDFlowQuery,
 		twoWayDaiWethFlowQuery,
 		web3,
+		aggregatedRICRewards,
 	} = main;
 
 	const marketsArray = [
@@ -29,42 +30,33 @@ export function* aggregatedRICRewards(value: string) {
 	];
 
 	if (web3?.currentProvider === null) return;
-
 	let aggregatedRewards = 0;
+
+	console.log('main', main);
 
 	marketsArray.map((market: any[]) => {
 		const marketContract = getContract(market[1]!, streamExchangeABI, web3!);
+		const totalFlows = market[0]?.flowsOwned;
+		const userFlowIn = market[0]?.placeholder;
+		let finRate = '';
+		const emissionRate = finRate.toString();
+		let received_reward = 0;
 
 		marketContract.methods
 			.getOutputPool(3)
 			.call()
 			.then((res: any) => {
-				const finRate = ((Number(res.emissionRate) / 1e18) * 2592000).toFixed(4);
-				const emissionRate = finRate.toString();
-				const totalFlows = market[0]?.flowsOwned;
-				const userFlowIn = market[0]?.placeholder;
-				const subsidy_rate = (+userFlowIn / +totalFlows) * 100;
-				const received_reward = (+subsidy_rate / 100) * +emissionRate;
-				aggregatedRewards += received_reward;
-				console.log(
-					'finRate',
-					finRate,
-					'market',
-					market[0],
-					'received reward',
-					received_reward,
-					'aggregatedRewards',
-					aggregatedRewards,
-				);
-
-				return aggregatedRewards;
+				finRate = ((Number(res.emissionRate) / 1e18) * 2592000).toFixed(4);
 			})
 			.catch((error: any) => {
 				console.log('error', error);
 			});
 
-		return;
+		const subsidy_rate = (+userFlowIn / +totalFlows) * 100;
+		received_reward = (+subsidy_rate / 100) * +emissionRate;
+		aggregatedRewards += received_reward;
 	});
+
 	console.log('agg', aggregatedRewards);
 	yield put(mainSetState({ aggregatedRICRewards: `${aggregatedRewards}` }));
 }
