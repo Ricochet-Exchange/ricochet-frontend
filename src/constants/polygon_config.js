@@ -62,7 +62,7 @@ export const tokenArray = [
 	DAIAddress,
 	DAIxAddress,
 	USDCAddress,
-	USDCAddress,
+	USDCxAddress,
 	WETHxAddress,
 	WETHAddress,
 	WBTCAddress,
