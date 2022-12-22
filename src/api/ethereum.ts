@@ -134,34 +134,19 @@ export const startFlow = async (
 		});
 		const { maxFeePerGas, maxPriorityFeePerGas } = await gas();
 		if (web3Subscription.approved) {
-			if (Number(userFlow.flowRate) !== 0) {
-				//Existing flow so call updateFlow
-				await framework.cfaV1
-					.updateFlow({
-						superToken: inputTokenAddress,
-						sender: address,
-						receiver: exchangeAddress,
-						flowRate: amount.toString(),
-						overrides: {
-							maxFeePerGas,
-							maxPriorityFeePerGas,
-						},
-					})
-					.exec(signer);
-			} else {
-				// Flow is 0 so createFlow
-				await framework.cfaV1
-					.createFlow({
-						superToken: inputTokenAddress,
-						receiver: exchangeAddress,
-						flowRate: amount.toString(),
-						overrides: {
-							maxFeePerGas,
-							maxPriorityFeePerGas,
-						},
-					})
-					.exec(signer);
-			}
+			const transactionData = {
+				superToken: inputTokenAddress,
+				sender: address,
+				receiver: exchangeAddress,
+				flowRate: amount.toString(),
+				overrides: {
+					maxFeePerGas,
+					maxPriorityFeePerGas,
+				},
+			};
+			Number(userFlow.flowRate) !== 0
+				? await framework.cfaV1.updateFlow(transactionData).exec(signer)
+				: await framework.cfaV1.createFlow(transactionData).exec(signer);
 		} else {
 			const userData = referralId ? web3.eth.abi.encodeParameter('string', referralId) : '0x';
 			if (
