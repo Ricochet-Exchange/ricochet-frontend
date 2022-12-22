@@ -12,7 +12,7 @@ import {
 	usdcxRicExchangeAddress,
 	ricRexShirtLaunchpadAddress,
 	ricRexHatLaunchpadAddress,
-	ETHxAddress
+	WETHxAddress
 } from 'constants/polygon_config';
 import Erc20Abi from 'constants/Erc20.json';
 import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
@@ -216,7 +216,7 @@ export const startFlow = async (
 						},
 					}),
 					await framework.idaV1.approveSubscription({
-						superToken: ETHxAddress,
+						superToken: WETHxAddress,
 						indexId: '2',
 						publisher: exchangeAddress,
 						userData,
