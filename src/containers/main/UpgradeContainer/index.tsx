@@ -238,11 +238,9 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 	};
 
 	const addToMetamask = async (token: Token) => {
-		let symbol: string = token.coin;
+		let symbol: string;
 
-		if (symbol.length >= 11) {
-			symbol = symbol.slice(4, symbol.length);
-		}
+		token.coin.length >= 11 ? (symbol = symbol = token.coin.slice(4, token.coin.length)) : (symbol = token.coin);
 
 		const url = iconsCoin[token.coin];
 
