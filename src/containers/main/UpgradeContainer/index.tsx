@@ -26,6 +26,22 @@ interface IProps {
 	balance?: string;
 }
 
+interface Token {
+	coin: Coin;
+	tokenAddress: string;
+	superTokenAddress: string;
+	multi: number;
+	key:
+		| 'hasWethApprove'
+		| 'hasUsdcApprove'
+		| 'hasWbtcApprove'
+		| 'hasDaiApprove'
+		| 'hasMaticApprove'
+		| 'hasIbAlluoETHApprove'
+		| 'hasIbAlluoBTCApprove'
+		| 'hasIbAlluoUSDApprove';
+}
+
 export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 	const state = useShallowSelector(selectMain);
 	const {
@@ -54,21 +70,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 		flowsReceived: Flow[];
 	}>();
 	const [upgradeCoin, setUpgradeCoin] = useState(selectedUpgradeCoin);
-	const [upgradeConfig, setUpgradeConfig] = useState<{
-		coin: Coin;
-		tokenAddress: string;
-		superTokenAddress: string;
-		multi: number;
-		key:
-			| 'hasWethApprove'
-			| 'hasUsdcApprove'
-			| 'hasWbtcApprove'
-			| 'hasDaiApprove'
-			| 'hasMaticApprove'
-			| 'hasIbAlluoETHApprove'
-			| 'hasIbAlluoBTCApprove'
-			| 'hasIbAlluoUSDApprove';
-	}>();
+	const [upgradeConfig, setUpgradeConfig] = useState<Token>();
 	const [upgradeValue, setUpgradeValue] = useState('');
 	const dispatch = useDispatch();
 
@@ -235,30 +237,32 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 		setHideLowBalance(!hideLowBalance);
 	};
 
-	const addToMetamask = async (address: string, symbol: string, token: any) => {
+	const addToMetamask = async (token: Token) => {
+		let symbol: string = token.coin;
+
 		if (symbol.length >= 11) {
 			symbol = symbol.slice(4, symbol.length);
 		}
-		//@ts-ignore
+
 		const url = iconsCoin[token.coin];
-		const decimals = 18;
+
 		try {
-			// wasAdded is a boolean. Like any RPC method, an error may be thrown.
-			//@ts-ignore
-			await ethereum.request({
-				method: 'wallet_watchAsset',
-				params: {
-					type: 'ERC20', // Initially only supports ERC20, but eventually more!
-					options: {
-						address: address, // The address that the token is at.
-						symbol: `${symbol}x`, // A ticker symbol or shorthand, up to 5 chars.
-						decimals: decimals, // The number of decimals in the token
-						image: `https://app.ricochet.exchange${url}`, // A string url of the token logo
+			if (window.ethereum) {
+				await window.ethereum.request({
+					method: 'wallet_watchAsset',
+					params: {
+						type: 'ERC20', // Initially only supports ERC20, but eventually more!
+						options: {
+							address: token.superTokenAddress, // The address that the token is at.
+							symbol: `${symbol}x`, // A ticker symbol or shorthand, up to 5 chars.
+							decimals: 18, // The number of decimals in the token
+							image: `https://app.ricochet.exchange${url}`, // A string url of the token logo
+						},
 					},
-				},
-			});
+				});
+			}
 		} catch (error) {
-			// console.log(error);
+			console.log('error', error);
 		}
 	};
 
@@ -401,13 +405,11 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 													/>
 												</div>
 
-												<div className={styles.currDisplayName}>{token.coin}</div>
 												<div
-													className="add_button"
-													onClick={() =>
-														addToMetamask(token.superTokenAddress, token.coin, token)
-													}
+													onClick={() => addToMetamask(token)}
+													className={styles.currDisplayName}
 												>
+													{token.coin}
 													<FontIcon name={FontIconName.Plus} size={12} />
 												</div>
 											</div>

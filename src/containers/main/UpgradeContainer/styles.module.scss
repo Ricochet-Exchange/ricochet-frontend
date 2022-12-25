@@ -8,11 +8,6 @@
   }
 }
 
-
-.add_button{
-  cursor: pointer;
-}
-
 .streamshow {
   display: inline-flex;
 }
@@ -149,6 +144,11 @@
 
 .currDisplayName {
   height: 24px;
+  cursor: pointer;
+  
+  .add_button{
+    cursor: pointer;
+  }
 }
 
 .displaybutton {
