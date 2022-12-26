@@ -7,6 +7,7 @@
     max-height: 0;
   }
 }
+
 .streamshow {
   display: inline-flex;
 }
@@ -122,9 +123,11 @@
 .redFont {
   color: var(--color-red);
 }
+
 .greenFont {
   color: var(--color-primary);
 }
+
 .currDisplay {
   display: flex;
   align-items: center;
@@ -133,12 +136,19 @@
 }
 
 .currDisplayImg {
+  display: flex;
+  flex-direction: 'row';
   width: 25px;
   height: 25px;
 }
 
 .currDisplayName {
   height: 24px;
+  cursor: pointer;
+  
+  .add_button{
+    cursor: pointer;
+  }
 }
 
 .displaybutton {
