@@ -9,10 +9,10 @@ import {
 	MATICxAddress,
 	rexLPETHAddress,
 	RICAddress,
-	SUSHIxAddress,
 	usdcxRicExchangeAddress,
 	ricRexShirtLaunchpadAddress,
 	ricRexHatLaunchpadAddress,
+	//WETHxAddress
 } from 'constants/polygon_config';
 import Erc20Abi from 'constants/Erc20.json';
 import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
@@ -215,8 +215,8 @@ export const startFlow = async (
 							maxPriorityFeePerGas,
 						},
 					}),
-					await framework.idaV1.approveSubscription({
-						superToken: SUSHIxAddress,
+					/* await framework.idaV1.approveSubscription({
+						superToken: WETHxAddress,
 						indexId: '2',
 						publisher: exchangeAddress,
 						userData,
@@ -224,7 +224,7 @@ export const startFlow = async (
 							maxFeePerGas,
 							maxPriorityFeePerGas,
 						},
-					}),
+					}), */
 					await framework.idaV1.approveSubscription({
 						superToken: MATICxAddress,
 						indexId: '3',

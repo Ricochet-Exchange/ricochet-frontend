@@ -412,42 +412,6 @@ const markets: InvestmentFlow[] = [
 		flowKey: FlowEnum.twoWayUsdcMaticFlowQuery,
 		type: FlowTypes.market,
 	},
-	// {
-	// 	superToken: twoWayMarketMATICDAIAddress,
-	// 	tokenA: MATICxAddress,
-	// 	tokenB: DAIxAddress,
-	// 	coinA: Coin.MATIC,
-	// 	coinB: Coin.DAI,
-	// 	flowKey: FlowEnum.twoWayMaticDaiFlowQuery,
-	// 	type: FlowTypes.market,
-	// },
-	// {
-	// 	superToken: twoWayMarketMATICDAIAddress,
-	// 	tokenA: DAIxAddress,
-	// 	tokenB: MATICxAddress,
-	// 	coinA: Coin.DAI,
-	// 	coinB: Coin.MATIC,
-	// 	flowKey: FlowEnum.twoWayDaiMaticFlowQuery,
-	// 	type: FlowTypes.market,
-	// },
-	// {
-	// 	superToken: twoWayMarketWBTCDAIAddress,
-	// 	tokenA: WBTCxAddress,
-	// 	tokenB: DAIxAddress,
-	// 	coinA: Coin.WBTC,
-	// 	coinB: Coin.DAI,
-	// 	flowKey: FlowEnum.twoWayWbtcDaiFlowQuery,
-	// 	type: FlowTypes.market,
-	// },
-	// {
-	// 	superToken: twoWayMarketWBTCDAIAddress,
-	// 	tokenA: DAIxAddress,
-	// 	tokenB: WBTCxAddress,
-	// 	coinA: Coin.DAI,
-	// 	coinB: Coin.WBTC,
-	// 	flowKey: FlowEnum.twoWayDaiWbtcFlowQuery,
-	// 	type: FlowTypes.market,
-	// },
 ];
 
 const liquidityMarkets: InvestmentFlow[] = [

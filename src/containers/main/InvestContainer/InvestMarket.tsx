@@ -113,40 +113,41 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 				<div className={styles.ends}>{t('')}</div>
 			</div>
 			<div className={styles.content}>
-				{filteredList.map((element, idx) => (
-					<div className={styles.panel} key={`${element.coinA}-${element.coinB}-${element.flowKey}`}>
-						<PanelChange
-							placeholder={t('Input Rate')}
-							onClickStart={handleStart(element)}
-							onClickStop={handleStop(element)}
-							coinA={element.coinA}
-							coingeckoPrice={coingeckoPrices ? coingeckoPrices[element.tokenA] : 0}
-							coinB={element.coinB}
-							tokenA={element.tokenA}
-							tokenB={element.tokenB}
-							balanceA={balances && balances[element.tokenA]}
-							balanceB={balances && balances[element.tokenB]}
-							totalFlow={state[element.flowKey]?.flowsOwned}
-							totalFlows={state[element.flowKey]?.totalFlows}
-							streamEnd={streamEnds[element.flowKey]}
-							subsidyRate={
-								new Date().toLocaleDateString().split('/').reverse().join('') >=
-								(state[element.flowKey]?.subsidyRate.endDate.split('/').reverse().join('') || '0')
-									? undefined
-									: state[element.flowKey]?.subsidyRate
-							}
-							personalFlow={state[element.flowKey]?.placeholder}
-							mainLoading={isLoading}
-							flowType={element.type}
-							isReadOnly={state.isReadOnly}
-							contractAddress={element.superToken}
-							exchangeKey={element.flowKey.replace('FlowQuery', '') as ExchangeKeys}
-							indexVal={idx}
-							streamedSoFar={state[element.flowKey]?.streamedSoFar}
-							receivedSoFar={state[element.flowKey]?.receivedSoFar}
-						/>
-					</div>
-				))}
+				{filteredList &&
+					filteredList.map((element, idx) => (
+						<div className={styles.panel} key={`${element.coinA}-${element.coinB}-${element.flowKey}`}>
+							<PanelChange
+								placeholder={t('Input Rate')}
+								onClickStart={handleStart(element)}
+								onClickStop={handleStop(element)}
+								coinA={element.coinA}
+								coingeckoPrice={coingeckoPrices ? coingeckoPrices[element.tokenA] : 0}
+								coinB={element.coinB}
+								tokenA={element.tokenA}
+								tokenB={element.tokenB}
+								balanceA={balances && balances[element.tokenA]}
+								balanceB={balances && balances[element.tokenB]}
+								totalFlow={state[element.flowKey]?.flowsOwned}
+								totalFlows={state[element.flowKey]?.totalFlows}
+								streamEnd={streamEnds[element.flowKey]}
+								subsidyRate={
+									new Date().toLocaleDateString().split('/').reverse().join('') >=
+									(state[element.flowKey]?.subsidyRate.endDate.split('/').reverse().join('') || '0')
+										? undefined
+										: state[element.flowKey]?.subsidyRate
+								}
+								personalFlow={state[element.flowKey]?.placeholder}
+								mainLoading={isLoading}
+								flowType={element.type}
+								isReadOnly={state.isReadOnly}
+								contractAddress={element.superToken}
+								exchangeKey={element.flowKey.replace('FlowQuery', '') as ExchangeKeys}
+								indexVal={idx}
+								streamedSoFar={state[element.flowKey]?.streamedSoFar}
+								receivedSoFar={state[element.flowKey]?.receivedSoFar}
+							/>
+						</div>
+					))}
 			</div>
 
 			{filteredList.length === 0 && (

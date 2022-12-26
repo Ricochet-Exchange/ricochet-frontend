@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, useCallback, useEffect, useState, useRef } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
@@ -91,13 +91,19 @@ export const PanelChange: FC<IProps> = ({
 	const [shareScaler, setShareScaler] = useState(1e3);
 	const [isAffiliate, setIsAffiliate] = useState(false);
 	const [userRewards, setUserRewards] = useState(0);
-	const contract = getContract(rexReferralAddress, referralABI, web3);
 	const [emissionRate, setEmissionRate] = useState('');
 	const { t } = useTranslation();
-
 	const personal_pool_rate = personalFlow ? personalFlow : 0;
 	const total_market_pool = totalFlow ? totalFlow : 0;
 	const subsidy_rate_static = emissionRate;
+
+	const isMountedRef = useRef(true);
+	useEffect(
+		() => () => {
+			isMountedRef.current = false;
+		},
+		[],
+	);
 
 	useEffect(() => {
 		const subsidy_rate = (+personal_pool_rate / +total_market_pool) * 100;
@@ -130,22 +136,26 @@ export const PanelChange: FC<IProps> = ({
 	useEffect(() => {
 		let isMounted = true;
 
-		if (address && contract) {
+		if (address) {
 			(async () => {
-				const affiliateStatus = await getAffiliateStatus(contract, address, web3);
+				const contract = await getContract(rexReferralAddress, referralABI, web3);
+				if (!contract) return;
+				const affiliateStatus = await getAffiliateStatus(contract!, address, web3);
 
 				if (isMounted && affiliateStatus === AFFILIATE_STATUS.ENABLED) {
 					setIsAffiliate(true);
 				}
 				if (contractAddressAllowed(contractAddress)) {
-					const marketContract = getContract(contractAddress, streamExchangeABI, web3);
+					const marketContract = await getContract(contractAddress, streamExchangeABI, web3);
 
 					marketContract.methods
 						.getOutputPool(3)
 						.call()
 						.then((res: any) => {
 							const finRate = ((Number(res.emissionRate) / 1e18) * 2592000).toFixed(4);
-							setEmissionRate(finRate.toString());
+							if (isMountedRef.current) {
+								setEmissionRate(finRate.toString());
+							}
 						})
 						.catch((error: any) => {
 							console.log('error', error);
@@ -153,11 +163,10 @@ export const PanelChange: FC<IProps> = ({
 				}
 			})();
 		}
-
 		return () => {
 			isMounted = false;
 		};
-	}, [address, contract, web3]);
+	}, [address, web3]);
 
 	useEffect(() => {
 		let isMounted = true;
