@@ -148,7 +148,7 @@ export const PanelChange: FC<IProps> = ({
 				if (contractAddressAllowed(contractAddress)) {
 					const marketContract = await getContract(contractAddress, streamExchangeABI, web3);
 
-					marketContract.methods
+					marketContract?.methods
 						.getOutputPool(3)
 						.call()
 						.then((res: any) => {
