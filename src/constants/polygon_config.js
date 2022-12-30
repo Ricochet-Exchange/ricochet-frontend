@@ -5,7 +5,11 @@ export const hostAddress = '0x3E14dC1b13c488a8d5D310918780c983bD5982E7';
 export const idaAddress = '0xB0aABBA4B2783A72C52956CDEF62d438ecA2d7a1';
 export const ZeroAddress = '0x0000000000000000000000000000000000000000';
 export const rexReferralAddress = '0xA0eC9E1542485700110688b3e6FbebBDf23cd901';
+
+// Water Drops //
+
 export const claimAddress = '0x9dA677c3423E0eBc1e3d7c0a86e9b9a34Bbd2874';
+export const rexShirtWaterdrop = '0x6A0D03004232DE806900b3aCa2D8ab870BbB5Aee';
 
 // Currently in use contracts //
 

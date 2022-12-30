@@ -22,7 +22,7 @@ export const GET_STREAMS_CREATED = gql`
 	}
 `;
 
-export const GET_CLAIM_AMMOUNT = gql`
+export const GET_CLAIM_AMOUNT = gql`
 	query GetClaimAmmount {
 		account(id: "0x9da677c3423e0ebc1e3d7c0a86e9b9a34bbd2874") {
 			outflows {

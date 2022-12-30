@@ -1,16 +1,14 @@
-/* eslint-disable jsx-a11y/interactive-supports-focus */
-/* eslint-disable */
 import React, { FC, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import styles from './styles.module.scss';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { getContract } from 'utils/getContract';
-import { claimAddress } from 'constants/polygon_config';
+import { claimAddress, rexShirtWaterdrop } from 'constants/polygon_config';
 import { claimABI } from 'constants/abis';
 import { gas } from 'api/gasEstimator';
 import AlluoToken from 'assets/images/alluo-logo.png';
-import { GET_CLAIM_AMMOUNT } from 'containers/main/TradeHistory/data/queries';
+import { GET_CLAIM_AMOUNT } from 'containers/main/TradeHistory/data/queries';
 
 interface IProps {
 	address?: string;
@@ -23,11 +21,12 @@ interface claimDetailsProps {
 	rate?: string;
 	token?: string;
 }
-[];
+
 export const ClaimPageSection: FC<IProps> = () => {
 	const { address, web3 } = useShallowSelector(selectMain);
 	const contract = getContract(claimAddress, claimABI, web3);
-	const { loading, error, data } = useQuery(GET_CLAIM_AMMOUNT, {});
+	const { loading, error, data } = useQuery(GET_CLAIM_AMOUNT, {});
+
 	let startTime = '';
 	if (data && address && !loading) {
 		data.account.outflows.map((item: any) => {
@@ -39,6 +38,7 @@ export const ClaimPageSection: FC<IProps> = () => {
 
 	const [claimAccess, setClaimAccess] = React.useState('0');
 	const [claimDetails, setClaimDetails] = React.useState<claimDetailsProps>();
+
 	const getTokenIcon = (tokenAddress: string) => {
 		switch (tokenAddress) {
 			case '0x263026E7e53DBFDce5ae55Ade22493f828922965':
@@ -83,6 +83,7 @@ export const ClaimPageSection: FC<IProps> = () => {
 					.catch((error: any) => {
 						console.log('error', error);
 					});
+				//Replace this with the method waterDrop
 				if (claimAccess) {
 					contract.methods
 						.claims(2)
@@ -99,12 +100,11 @@ export const ClaimPageSection: FC<IProps> = () => {
 	}, [address, claimAccess]);
 
 	const handleClaim = React.useCallback(async () => {
-		if (!web3.currentProvider) {
+		if (!web3.currentProvider || !contract) {
 			console.log('fail');
 			return;
 		}
 
-		const contract = getContract(claimAddress, claimABI, web3);
 		await contract.methods
 			.claim()
 			.send({
@@ -117,7 +117,7 @@ export const ClaimPageSection: FC<IProps> = () => {
 			.catch((error: any) => {
 				console.log('error', error);
 			});
-	}, [address]);
+	}, [address, contract]);
 
 	const buttonStatus = () => {
 		const totalClaimedSoFar = (
