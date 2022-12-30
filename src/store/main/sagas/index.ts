@@ -12,6 +12,7 @@ import { aggregatedRICRewards } from './aggregateRICRewards';
 import { selectDowngradeCoinSaga, selectUpgradeCoinSaga, showTokenListSaga } from './selectCoinSaga';
 import { loadReadOnlyData } from './loadReadOnlyData';
 import { connectWeb3Modal } from './connectWeb3Modal';
+import { updateHistory } from './updateHistory';
 
 export default function* mainSaga() {
 	yield takeLeading(MainActionTypes.MAIN_CHECK, mainCheckSaga);
@@ -20,6 +21,8 @@ export default function* mainSaga() {
 	yield takeEvery(MainActionTypes.LOAD_DATA, loadData);
 	//@ts-ignore
 	yield takeLeading(MainActionTypes.ADD_REWARD, aggregatedRICRewards);
+	//@ts-ignore
+	yield takeLeading(MainActionTypes.UPDATE_HISTORY, updateHistory);
 
 	yield takeLeading(MainActionTypes.START_FLOW, startFlowSaga);
 	yield takeLeading(MainActionTypes.STOP_FLOW, stopFlowSaga);

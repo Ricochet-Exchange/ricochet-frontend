@@ -16,6 +16,7 @@ export const mainInitialState: Readonly<MainState> = {
 	isLoading: true,
 	isReadOnly: false,
 	aggregatedRICRewards: '0',
+	linkHistory: [],
 };
 
 export default createReducer(mainInitialState, MAIN_HANDLERS);

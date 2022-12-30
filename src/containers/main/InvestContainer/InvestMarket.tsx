@@ -1,5 +1,6 @@
 import { ChangeEvent, FC, useCallback, useEffect, useState, useMemo } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
+import history from 'utils/history';
 import { TextInput } from 'components/common/TextInput';
 import { PanelChange } from 'components/layout/PanelChange';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +11,7 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain, selectUserStreams } from 'store/main/selectors';
 import { useRouteMatch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addReward } from 'store/main/actionCreators';
+import { addReward, updateHistory } from 'store/main/actionCreators';
 
 type InvestMarketProps = {
 	handleStart: any;
@@ -29,6 +30,9 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 	const match = useRouteMatch();
 	const dispatch = useDispatch();
 	const flowType = RoutesToFlowTypes[match.path];
+	const { linkHistory } = useShallowSelector(selectMain);
+
+	console.log('history', history, 'linkHistory', linkHistory);
 
 	useEffect(() => {
 		if (flowType) {
@@ -51,10 +55,6 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 			setFilteredList(sortedUserStreams);
 		}
 	}, [flowType, state, userStreams]);
-
-	useEffect(() => {
-		console.log('filteredList', userStreams);
-	}, [userStreams]);
 
 	const handleSearch = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {
@@ -97,6 +97,26 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 	}
 
 	const streamEnds = computeStreamEnds(state, balances);
+
+	useEffect(() => {
+		let aggregated = 0;
+		aggregatedRewards.forEach((reward) => {
+			aggregated = aggregated + reward;
+		});
+		console.log(linkHistory, 'link history', 'history', history.location.hash);
+		dispatch(updateHistory(history.location.hash));
+		if (aggregatedRICRewards && linkHistory.length <= 2) {
+			dispatch(addReward(`${aggregated}`));
+			return;
+		} else {
+			console.log('skipped func');
+			return;
+		}
+	}, [aggregatedRewards]);
+
+	const handleSetAggregatedRewards = (reward_amount: number) => {
+		setAggregatedRewards((aggregatedRewards) => [...aggregatedRewards, reward_amount]);
+	};
 
 	function getFlowUSDValue(flow: InvestmentFlow, toFixed: number = 0) {
 		return (
@@ -156,6 +176,7 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 								indexVal={idx}
 								streamedSoFar={state[element.flowKey]?.streamedSoFar}
 								receivedSoFar={state[element.flowKey]?.receivedSoFar}
+								aggregateRewards={handleSetAggregatedRewards}
 							/>
 						</div>
 					))}

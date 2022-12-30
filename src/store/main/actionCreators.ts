@@ -19,6 +19,11 @@ export const mainSwitchNetwork = () => ({
 	type: MainActionTypes.MAIN_SWITCH_NETWORK,
 });
 
+export const updateHistory = (link: string) => ({
+	type: MainActionTypes.UPDATE_HISTORY,
+	payload: { link: link },
+});
+
 export const mainGetData = () => ({
 	type: MainActionTypes.LOAD_DATA,
 });
