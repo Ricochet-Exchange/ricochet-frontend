@@ -3,11 +3,13 @@ import { Coin } from './coins';
 import {
 	RICAddress,
 	RexShirtAddress,
+	RexHatAddress,
 	twoWayWETHMarketAddress,
 	twoWayMarketWBTCAddress,
 	USDCxAddress,
 	usdcxRicExchangeAddress,
 	ricRexShirtLaunchpadAddress,
+	ricRexHatLaunchpadAddress,
 	usdcxibAlluoUSDAddress,
 	WBTCxAddress,
 	WETHxAddress,
@@ -46,6 +48,7 @@ export enum FlowEnum {
 	twoWayIbBTCIbUsdFlowQuery = 'twoWayIbBTCIbUsdFlowQuery',
 	usdcRicFlowQuery = 'usdcRicFlowQuery',
 	ricRexShirtFlowQuery = 'ricRexShirtFlowQuery',
+	ricRexHatFlowQuery = 'ricRexHatFlowQuery',
 	usdcxibAlluoUSDFlowQuery = 'usdcxibAlluoUSDFlowQuery',
 }
 
@@ -239,6 +242,14 @@ export const indexIDA: IndexIDAType = [
 		outputIndex: 0,
 	},
 	{
+		exchangeAddress: ricRexHatLaunchpadAddress,
+		input: RICAddress,
+		output: RexHatAddress,
+		subsidy: RICAddress,
+		inputIndex: 0, // just a placeholder, not used
+		outputIndex: 0,
+	},
+	{
 		exchangeAddress: usdcxibAlluoUSDAddress,
 		input: USDCxAddress,
 		output: StIbAlluoUSDAddress,
@@ -401,42 +412,6 @@ const markets: InvestmentFlow[] = [
 		flowKey: FlowEnum.twoWayUsdcMaticFlowQuery,
 		type: FlowTypes.market,
 	},
-	// {
-	// 	superToken: twoWayMarketMATICDAIAddress,
-	// 	tokenA: MATICxAddress,
-	// 	tokenB: DAIxAddress,
-	// 	coinA: Coin.MATIC,
-	// 	coinB: Coin.DAI,
-	// 	flowKey: FlowEnum.twoWayMaticDaiFlowQuery,
-	// 	type: FlowTypes.market,
-	// },
-	// {
-	// 	superToken: twoWayMarketMATICDAIAddress,
-	// 	tokenA: DAIxAddress,
-	// 	tokenB: MATICxAddress,
-	// 	coinA: Coin.DAI,
-	// 	coinB: Coin.MATIC,
-	// 	flowKey: FlowEnum.twoWayDaiMaticFlowQuery,
-	// 	type: FlowTypes.market,
-	// },
-	// {
-	// 	superToken: twoWayMarketWBTCDAIAddress,
-	// 	tokenA: WBTCxAddress,
-	// 	tokenB: DAIxAddress,
-	// 	coinA: Coin.WBTC,
-	// 	coinB: Coin.DAI,
-	// 	flowKey: FlowEnum.twoWayWbtcDaiFlowQuery,
-	// 	type: FlowTypes.market,
-	// },
-	// {
-	// 	superToken: twoWayMarketWBTCDAIAddress,
-	// 	tokenA: DAIxAddress,
-	// 	tokenB: WBTCxAddress,
-	// 	coinA: Coin.DAI,
-	// 	coinB: Coin.WBTC,
-	// 	flowKey: FlowEnum.twoWayDaiWbtcFlowQuery,
-	// 	type: FlowTypes.market,
-	// },
 ];
 
 const liquidityMarkets: InvestmentFlow[] = [
@@ -468,6 +443,15 @@ const launchpads: InvestmentFlow[] = [
 		coinA: Coin.RIC,
 		coinB: Coin.REXSHIRT,
 		flowKey: FlowEnum.ricRexShirtFlowQuery,
+		type: FlowTypes.launchpad,
+	},
+	{
+		superToken: ricRexHatLaunchpadAddress,
+		tokenA: RICAddress,
+		tokenB: RexHatAddress,
+		coinA: Coin.RIC,
+		coinB: Coin.REXHAT,
+		flowKey: FlowEnum.ricRexHatFlowQuery,
 		type: FlowTypes.launchpad,
 	},
 ];

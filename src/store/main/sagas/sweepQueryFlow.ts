@@ -144,6 +144,7 @@ export function* sweepQueryFlow(): any {
 
 	const usdcRicFlowQuery = buildFlowQuery(FlowEnum.usdcRicFlowQuery);
 	const ricRexShirtFlowQuery = buildFlowQuery(FlowEnum.ricRexShirtFlowQuery);
+	const ricRexHatFlowQuery = buildFlowQuery(FlowEnum.ricRexHatFlowQuery);
 	const usdcxibAlluoUSDFlowQuery = buildFlowQuery(FlowEnum.usdcxibAlluoUSDFlowQuery);
 	const twoWayusdcWethFlowQuery = buildFlowQuery(FlowEnum.twoWayusdcWethFlowQuery);
 	const twoWayusdcWbtcFlowQuery = buildFlowQuery(FlowEnum.twoWayusdcWbtcFlowQuery);
@@ -183,6 +184,7 @@ export function* sweepQueryFlow(): any {
 	// WORKING
 	usdcRicFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcRicFlowQuery);
 	ricRexShirtFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, ricRexShirtFlowQuery);
+	ricRexHatFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, ricRexHatFlowQuery);
 	usdcxibAlluoUSDFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, usdcxibAlluoUSDFlowQuery);
 	twoWayusdcWethFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, twoWayusdcWethFlowQuery);
 	twoWayusdcWbtcFlowQuery.subsidyRate = yield call(getSubsidyRateFromQuery, twoWayusdcWbtcFlowQuery);
@@ -215,6 +217,7 @@ export function* sweepQueryFlow(): any {
 		mainSetState({
 			usdcRicFlowQuery,
 			ricRexShirtFlowQuery,
+			ricRexHatFlowQuery,
 			usdcxibAlluoUSDFlowQuery,
 			twoWayusdcWethFlowQuery,
 			twoWayusdcWbtcFlowQuery,

@@ -26,6 +26,22 @@ interface IProps {
 	balance?: string;
 }
 
+interface Token {
+	coin: Coin;
+	tokenAddress: string;
+	superTokenAddress: string;
+	multi: number;
+	key:
+		| 'hasWethApprove'
+		| 'hasUsdcApprove'
+		| 'hasWbtcApprove'
+		| 'hasDaiApprove'
+		| 'hasMaticApprove'
+		| 'hasIbAlluoETHApprove'
+		| 'hasIbAlluoBTCApprove'
+		| 'hasIbAlluoUSDApprove';
+}
+
 export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 	const state = useShallowSelector(selectMain);
 	const {
@@ -54,21 +70,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 		flowsReceived: Flow[];
 	}>();
 	const [upgradeCoin, setUpgradeCoin] = useState(selectedUpgradeCoin);
-	const [upgradeConfig, setUpgradeConfig] = useState<{
-		coin: Coin;
-		tokenAddress: string;
-		superTokenAddress: string;
-		multi: number;
-		key:
-			| 'hasWethApprove'
-			| 'hasUsdcApprove'
-			| 'hasWbtcApprove'
-			| 'hasDaiApprove'
-			| 'hasMaticApprove'
-			| 'hasIbAlluoETHApprove'
-			| 'hasIbAlluoBTCApprove'
-			| 'hasIbAlluoUSDApprove';
-	}>();
+	const [upgradeConfig, setUpgradeConfig] = useState<Token>();
 	const [upgradeValue, setUpgradeValue] = useState('');
 	const dispatch = useDispatch();
 
@@ -235,6 +237,33 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 		setHideLowBalance(!hideLowBalance);
 	};
 
+	const addToMetamask = async (token: Token) => {
+		let symbol: string;
+
+		token.coin.length >= 11 ? (symbol = symbol = token.coin.slice(4, token.coin.length)) : (symbol = token.coin);
+
+		const url = iconsCoin[token.coin];
+
+		try {
+			if (window.ethereum) {
+				await window.ethereum.request({
+					method: 'wallet_watchAsset',
+					params: {
+						type: 'ERC20', // Initially only supports ERC20, but eventually more!
+						options: {
+							address: token.superTokenAddress, // The address that the token is at.
+							symbol: `${symbol}x`, // A ticker symbol or shorthand, up to 5 chars.
+							decimals: 18, // The number of decimals in the token
+							image: `https://app.ricochet.exchange${url}`, // A string url of the token logo
+						},
+					},
+				});
+			}
+		} catch (error) {
+			console.log('error', error);
+		}
+	};
+
 	return (
 		<div className={styles.wrapper}>
 			<table className={styles.dextable}>
@@ -374,7 +403,13 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 													/>
 												</div>
 
-												<div className={styles.currDisplayName}>{token.coin}</div>
+												<div
+													onClick={() => addToMetamask(token)}
+													className={styles.currDisplayName}
+												>
+													{token.coin}
+													<FontIcon name={FontIconName.Plus} size={12} />
+												</div>
 											</div>
 										) : (
 											<span className={styles.wallet_loading}>
