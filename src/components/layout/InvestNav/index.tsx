@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { NavLink } from 'react-router-dom';
 import { Routes } from 'constants/routes';
 import { useTranslation } from 'react-i18next';
 import currency from 'assets/images/coins/currency.svg';
+import { flowConfig, FlowEnum, InvestmentFlow, RoutesToFlowTypes } from 'constants/flowConfig';
 import gift from 'assets/images/gift.svg';
 import styles from './styles.module.scss';
 
@@ -12,13 +13,12 @@ const RICOCHET_V1_LINK = 'https://v1.ricochet.exchange/';
 const SUPPORT = 'https://discord.com/channels/862796510604296263/864667072357597185';
 
 export const InvestNav = () => {
-	const [steam, setSteam] = React.useState(true);
-	const [number, setNumber] = React.useState(0);
+	const [streams] = useState(flowConfig);
 	const { t } = useTranslation();
 	return (
 		<div className={styles.nav_container}>
 			<div className={styles.navscroller}>
-				{steam ? (
+				{streams.length === 0 ? (
 					<NavLink
 						className={styles.nav_link}
 						exact
@@ -26,7 +26,7 @@ export const InvestNav = () => {
 						to={Routes.InvestStreams}
 					>
 						<FontIcon name={FontIconName.RicoUser} size={16} />
-						<div className={styles.nav_text}>{`${t('Active Streams')} (${number})`} </div>
+						<div className={styles.nav_text}>{`${t('Active Streams')} (${streams.length})`} </div>
 					</NavLink>
 				) : null}
 
