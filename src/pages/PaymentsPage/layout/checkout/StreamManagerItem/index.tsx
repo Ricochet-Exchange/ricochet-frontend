@@ -5,34 +5,7 @@ import { truncateAddr } from 'utils/helpers';
 import { TokenIcon } from 'components/common/TokenIcon';
 import { blockInvalidChar } from 'utils/blockInvalidChars';
 import { calculateFlowRate } from 'utils/calculateFlowRate';
-import {
-	twoWayMarketibAlluoUSDETHAddress,
-	twoWayMarketibAlluoUSDBTCAddress,
-	twoWayMarketDAIWETHAddress,
-	twoWayMarketMATICDAIAddress,
-	twoWayMarketWBTCAddress,
-	twoWayWETHMarketAddress,
-	twoWayMarketMATICUSDCAddress,
-	twoWayMarketWBTCDAIAddress,
-	twoWayMarketRICUSDCAddress,
-	wethxUsdcxExchangeAddress,
-	wbtcxUsdcxExchangeAddress,
-	usdcxEthSlpxExchangeAddress,
-	usdcxIdleExchangeAddress,
-	usdcxRicExchangeAddress,
-	ricRexShirtLaunchpadAddress,
-	maticxDaixExchangeAddress,
-	usdcxMaticxExchangeAddress,
-	maticxUsdcxExchangeAddress,
-	daixEthxExchangeAddress,
-	daixMaticxExchangeAddress,
-	daixMkrxExchangeAddress,
-	mkrxDaixExchangeAddress,
-	mkrxUsdcxExchangeAddress,
-	usdcxMkrxExchangeAddress,
-	usdcxWbtcxExchangeAddress,
-	usdcxWethxExchangeAddress,
-} from 'constants/polygon_config';
+import { marketArray } from 'constants/polygon_config';
 
 import styles from './styles.module.scss';
 
@@ -60,34 +33,7 @@ export const StreamManagerItem: FC<IProps> = ({
 	const [rexMarketContracts, setRexMarketContracts] = React.useState<any>([]);
 
 	React.useEffect(() => {
-		setRexMarketContracts([
-			twoWayMarketDAIWETHAddress,
-			twoWayMarketWBTCAddress,
-			twoWayWETHMarketAddress,
-			twoWayMarketRICUSDCAddress,
-			wethxUsdcxExchangeAddress,
-			wbtcxUsdcxExchangeAddress,
-			usdcxEthSlpxExchangeAddress,
-			usdcxIdleExchangeAddress,
-			usdcxRicExchangeAddress,
-			ricRexShirtLaunchpadAddress,
-			maticxDaixExchangeAddress,
-			usdcxMaticxExchangeAddress,
-			maticxUsdcxExchangeAddress,
-			daixEthxExchangeAddress,
-			daixMaticxExchangeAddress,
-			daixMkrxExchangeAddress,
-			mkrxDaixExchangeAddress,
-			mkrxUsdcxExchangeAddress,
-			usdcxMkrxExchangeAddress,
-			usdcxWbtcxExchangeAddress,
-			usdcxWethxExchangeAddress,
-			twoWayMarketibAlluoUSDETHAddress,
-			twoWayMarketibAlluoUSDBTCAddress,
-			twoWayMarketMATICDAIAddress,
-			twoWayMarketMATICUSDCAddress,
-			twoWayMarketWBTCDAIAddress,
-		]);
+		setRexMarketContracts(marketArray);
 	}, []);
 
 	const SECONDS_PER_MONTH = 30 / 24 / 60 / 60;
