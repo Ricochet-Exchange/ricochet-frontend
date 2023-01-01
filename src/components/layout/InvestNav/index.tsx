@@ -4,7 +4,8 @@ import { NavLink } from 'react-router-dom';
 import { Routes } from 'constants/routes';
 import { useTranslation } from 'react-i18next';
 import currency from 'assets/images/coins/currency.svg';
-import { flowConfig, FlowEnum, InvestmentFlow, RoutesToFlowTypes } from 'constants/flowConfig';
+import { useShallowSelector } from 'hooks/useShallowSelector';
+import { selectUserStreams } from 'store/main/selectors';
 import gift from 'assets/images/gift.svg';
 import styles from './styles.module.scss';
 
@@ -13,12 +14,13 @@ const RICOCHET_V1_LINK = 'https://v1.ricochet.exchange/';
 const SUPPORT = 'https://discord.com/channels/862796510604296263/864667072357597185';
 
 export const InvestNav = () => {
-	const [streams] = useState(flowConfig);
+	const userStreams = useShallowSelector(selectUserStreams);
 	const { t } = useTranslation();
+
 	return (
 		<div className={styles.nav_container}>
 			<div className={styles.navscroller}>
-				{streams.length === 0 ? (
+				{userStreams.length !== 0 ? (
 					<NavLink
 						className={styles.nav_link}
 						exact
@@ -26,7 +28,7 @@ export const InvestNav = () => {
 						to={Routes.InvestStreams}
 					>
 						<FontIcon name={FontIconName.RicoUser} size={16} />
-						<div className={styles.nav_text}>{`${t('Active Streams')} (${streams.length})`} </div>
+						<div className={styles.nav_text}>{`${t('Active Streams')} (${userStreams.length})`} </div>
 					</NavLink>
 				) : null}
 
