@@ -120,5 +120,6 @@ export const getExchangeAddressFromKey = (exchangeKey: ExchangeKeys) => {
 		twoWayIbBTCIbUsd: twoWayMarketibAlluoUSDBTCAddress,
 	};
 
+	//@ts-ignore
 	return addresses[exchangeKey];
 };

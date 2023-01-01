@@ -1,5 +1,6 @@
-import React, { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useCallback, useEffect, useState, useMemo } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
+import history from 'utils/history';
 import { TextInput } from 'components/common/TextInput';
 import { PanelChange } from 'components/layout/PanelChange';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +10,8 @@ import { flowConfig, FlowEnum, InvestmentFlow, RoutesToFlowTypes } from 'constan
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain, selectUserStreams } from 'store/main/selectors';
 import { useRouteMatch } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addReward, updateHistory } from 'store/main/actionCreators';
 
 type InvestMarketProps = {
 	handleStart: any;
@@ -21,9 +24,15 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 	const userStreams = useShallowSelector(selectUserStreams);
 	const { balances, isLoading, coingeckoPrices } = state;
 	const [filteredList, setFilteredList] = useState(flowConfig);
+	const [aggregatedRewards, setAggregatedRewards] = useState<number[]>([]);
+	const { aggregatedRICRewards, web3, address } = useShallowSelector(selectMain);
 	const [search, setSearch] = useState('');
 	const match = useRouteMatch();
+	const dispatch = useDispatch();
 	const flowType = RoutesToFlowTypes[match.path];
+	const { linkHistory } = useShallowSelector(selectMain);
+
+	console.log('history', history, 'linkHistory', linkHistory);
 
 	useEffect(() => {
 		if (flowType) {
@@ -33,6 +42,7 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 				const totalVolumeB = parseFloat(getFlowUSDValue(b));
 				return totalVolumeB - totalVolumeA;
 			});
+			console.log('sorted List', sortedList);
 			setFilteredList(sortedList);
 		} else {
 			const sortedUserStreams = userStreams.sort((a, b) => {
@@ -40,6 +50,8 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 				const flowB = parseFloat(state[b.flowKey]?.placeholder || '0');
 				return flowB - flowA;
 			});
+
+			console.log('sorted List', sortedUserStreams);
 			setFilteredList(sortedUserStreams);
 		}
 	}, [flowType, state, userStreams]);
@@ -86,12 +98,31 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 
 	const streamEnds = computeStreamEnds(state, balances);
 
+	useEffect(() => {
+		let aggregated = 0;
+		aggregatedRewards.forEach((reward) => {
+			aggregated = aggregated + reward;
+		});
+		console.log(linkHistory, 'link history', 'history', history.location.hash);
+		dispatch(updateHistory(history.location.hash));
+		if (aggregatedRICRewards && linkHistory.length <= 2) {
+			dispatch(addReward(`${aggregated}`));
+			return;
+		} else {
+			console.log('skipped func');
+			return;
+		}
+	}, [aggregatedRewards]);
+
+	const handleSetAggregatedRewards = (reward_amount: number) => {
+		setAggregatedRewards((aggregatedRewards) => [...aggregatedRewards, reward_amount]);
+	};
+
 	function getFlowUSDValue(flow: InvestmentFlow, toFixed: number = 0) {
 		return (
 			coingeckoPrices ? parseFloat(state[flow.flowKey]?.flowsOwned as string) * coingeckoPrices[flow.tokenA] : 0
 		).toFixed(toFixed);
 	}
-
 	return (
 		<>
 			<div className={styles.input_wrap}>
@@ -145,6 +176,7 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 								indexVal={idx}
 								streamedSoFar={state[element.flowKey]?.streamedSoFar}
 								receivedSoFar={state[element.flowKey]?.receivedSoFar}
+								aggregateRewards={handleSetAggregatedRewards}
 							/>
 						</div>
 					))}

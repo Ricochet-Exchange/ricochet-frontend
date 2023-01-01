@@ -3,90 +3,102 @@ import { MainActionTypes } from './actionTypes';
 import { MainState } from './types';
 
 export const mainSetState = (payload: Partial<MainState>) => ({
-  type: MainActionTypes.SET_STATE,
-  payload,
+	type: MainActionTypes.SET_STATE,
+	payload,
 });
 
 export const mainCheck = () => ({
-  type: MainActionTypes.MAIN_CHECK,
+	type: MainActionTypes.MAIN_CHECK,
 });
 
 export const connectWeb3Modal = () => ({
-  type: MainActionTypes.CONNECT_WEB3_MODAL,
+	type: MainActionTypes.CONNECT_WEB3_MODAL,
 });
 
 export const mainSwitchNetwork = () => ({
-  type: MainActionTypes.MAIN_SWITCH_NETWORK,
+	type: MainActionTypes.MAIN_SWITCH_NETWORK,
+});
+
+export const updateHistory = (link: string) => ({
+	type: MainActionTypes.UPDATE_HISTORY,
+	payload: { link: link },
 });
 
 export const mainGetData = () => ({
-  type: MainActionTypes.LOAD_DATA,
+	type: MainActionTypes.LOAD_DATA,
 });
 
-export const startFlowAction = (payload: string, 
-  config: { [key: string]: string },
-  callback: (e?: string) => void) => ({
-  type: MainActionTypes.START_FLOW,
-  payload: { amount: payload, config, callback },
+export const addReward = (amount: string) => ({
+	type: MainActionTypes.ADD_REWARD,
+	payload: { value: amount },
 });
 
-export const stopFlowAction = (
-  config: { [key:string]: string },
-  callback: (e?: string) => void,
+export const startFlowAction = (
+	payload: string,
+	config: { [key: string]: string },
+	callback: (e?: string) => void,
 ) => ({
-  type: MainActionTypes.STOP_FLOW,
-  payload: { callback, config },
+	type: MainActionTypes.START_FLOW,
+	payload: { amount: payload, config, callback },
 });
 
-export const downgradeAction = (
-  value: string,
-  tokenAddress: string,
-  callback: (e?:string) => void,
-) => ({
-  type: MainActionTypes.DOWNGRADE,
-  payload: { tokenAddress, value, callback },
+export const stopFlowAction = (config: { [key: string]: string }, callback: (e?: string) => void) => ({
+	type: MainActionTypes.STOP_FLOW,
+	payload: { callback, config },
 });
 
-export const approveAction = ( 
-  amount: string,
-  tokenAddress: string,
-  superTokenAddress: string,
-  callback: (e?:string) => void,
-  multi: number,
+export const downgradeAction = (value: string, tokenAddress: string, callback: (e?: string) => void) => ({
+	type: MainActionTypes.DOWNGRADE,
+	payload: { tokenAddress, value, callback },
+});
+
+export const approveAction = (
+	amount: string,
+	tokenAddress: string,
+	superTokenAddress: string,
+	callback: (e?: string) => void,
+	multi: number,
 ) => ({
-  type: MainActionTypes.APPROVE,
-  payload: {
-    value: amount, tokenAddress, superTokenAddress, multi, callback, 
-  },
+	type: MainActionTypes.APPROVE,
+	payload: {
+		value: amount,
+		tokenAddress,
+		superTokenAddress,
+		multi,
+		callback,
+	},
 });
 
 export const upgradeAction = (
-  amount: string,
-  superTokenAddress: string,
-  callback: (e?:string) => void,
-  multi: number,
+	amount: string,
+	superTokenAddress: string,
+	callback: (e?: string) => void,
+	multi: number,
 ) => ({
-  type: MainActionTypes.UPGRADE,
-  payload: {
-    value: amount, superTokenAddress, callback, multi, 
-  },
+	type: MainActionTypes.UPGRADE,
+	payload: {
+		value: amount,
+		superTokenAddress,
+		callback,
+		multi,
+	},
 });
 
 export const selectUpgradeCoin = (selectedUpgradeCoin: Coin) => ({
-  type: MainActionTypes.SELECT_UPGRADE_COIN,
-  payload: { selectedUpgradeCoin },
+	type: MainActionTypes.SELECT_UPGRADE_COIN,
+	payload: { selectedUpgradeCoin },
 });
 
 export const selectDowngradeCoin = (selectedDowngradeCoin: Coin) => ({
-  type: MainActionTypes.SELECT_DOWNGRADE_COIN,
-  payload: { selectedDowngradeCoin },
+	type: MainActionTypes.SELECT_DOWNGRADE_COIN,
+	payload: { selectedDowngradeCoin },
 });
 
 export const showTokenList = (coinType: Coin) => ({
-  type: MainActionTypes.SHOW_TYPE_TOKEN_LIST,
-  payload: { coinType },
+	type: MainActionTypes.SHOW_TYPE_TOKEN_LIST,
+	payload: { coinType },
 });
 
 export const mainGetReadOnlyData = () => ({
-  type: MainActionTypes.LOAD_READ_ONLY_DATA,
+	type: MainActionTypes.LOAD_READ_ONLY_DATA,
 });

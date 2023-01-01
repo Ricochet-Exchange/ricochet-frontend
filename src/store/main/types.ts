@@ -2,6 +2,7 @@ import Web3 from 'web3';
 import { Coin } from '../../constants/coins';
 
 export type MainState = {
+	linkHistory: string[];
 	web3: Web3;
 	readWeb3: Web3;
 	address: string;
@@ -18,6 +19,7 @@ export type MainState = {
 	hasIbAlluoUSDApprove?: boolean;
 	hasIbAlluoETHApprove?: boolean;
 	hasIbAlluoBTCApprove?: boolean;
+	aggregatedRICRewards?: string;
 	apy?: number;
 	rewardsApy?: number;
 	feesApy?: number;
