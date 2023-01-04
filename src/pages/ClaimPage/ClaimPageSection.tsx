@@ -27,6 +27,8 @@ export const ClaimPageSection: FC<IProps> = () => {
 	const contract = getContract(rexShirtWaterdrop, conditionalWaterdrop, web3);
 	const { loading, error, data } = useQuery(GET_CLAIM_AMOUNT, {});
 
+	console.log(contract);
+
 	let startTime = '';
 	if (data && address && !loading) {
 		data.account.outflows.map((item: any) => {
@@ -80,6 +82,7 @@ export const ClaimPageSection: FC<IProps> = () => {
 						.waterDrop()
 						.call()
 						.then((res: any) => {
+							console.log(res);
 							setClaimDetails(res);
 						})
 						.catch((error: any) => {
@@ -125,7 +128,7 @@ export const ClaimPageSection: FC<IProps> = () => {
 		if (Number(claimAccess)) {
 			return 'Claim';
 		} else {
-			return 'Try Alluo';
+			return 'Get Rexshirt';
 		}
 	};
 
@@ -148,7 +151,7 @@ export const ClaimPageSection: FC<IProps> = () => {
 
 	return (
 		<>
-			{address?.length ? (
+			{address?.length && claimDetails ? (
 				<div className={styles.page_wrapper}>
 					{
 						<div className={styles.container}>
@@ -169,8 +172,8 @@ export const ClaimPageSection: FC<IProps> = () => {
 												<div className={styles.wrapper}>
 													<div className={styles.token_section}>
 														<img
-															src={getTokenIcon(claimDetails?.token || '')}
-															alt={'alluologo'}
+															src={getTokenIcon(claimDetails?.token!)}
+															alt={'RexShirt'}
 															width="27"
 															height="27"
 														></img>
@@ -179,11 +182,10 @@ export const ClaimPageSection: FC<IProps> = () => {
 														</div>
 													</div>
 													<div className={styles.amount_section}>
-														{Math.round(
-															(parseInt(claimDetails?.rate || '') *
-																parseInt(claimDetails?.duration || '')) /
-																1e18,
-														)}
+														{(
+															(claimDetails?.rate * claimDetails?.duration) /
+															10 ** 18
+														).toFixed(2)}
 													</div>
 													<div className={styles.duration_section}>
 														{' '}
