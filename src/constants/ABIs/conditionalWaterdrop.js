@@ -1,4 +1,4 @@
-export const conditionalWaterdropABI = [
+export const conditionalWaterdrop = [
 	{
 		inputs: [
 			{ internalType: 'contract ISuperfluid', name: '_host', type: 'address' },

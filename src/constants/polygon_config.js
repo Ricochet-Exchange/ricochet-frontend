@@ -8,7 +8,6 @@ export const rexReferralAddress = '0xA0eC9E1542485700110688b3e6FbebBDf23cd901';
 
 // Water Drops //
 
-export const claimAddress = '0x9dA677c3423E0eBc1e3d7c0a86e9b9a34Bbd2874';
 export const rexShirtWaterdrop = '0x6A0D03004232DE806900b3aCa2D8ab870BbB5Aee';
 
 // Currently in use contracts //
@@ -174,3 +173,7 @@ export const usdcxRicExchangeAddress = '0x98d463A3F29F259E67176482eB15107F364c7E
 
 //USDC X IBALLUOUSD
 export const usdcxibAlluoUSDAddress = '0xE53dd10d49C8072d68d48c163d9e1A219bd6852D';
+
+//Deprecated Waterdrop
+
+export const claimAddress = '0x9dA677c3423E0eBc1e3d7c0a86e9b9a34Bbd2874';

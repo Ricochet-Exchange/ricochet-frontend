@@ -4,8 +4,8 @@ import styles from './styles.module.scss';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { getContract } from 'utils/getContract';
-import { claimAddress, rexShirtWaterdrop } from 'constants/polygon_config';
-import { claimABI } from 'constants/abis';
+import { rexShirtWaterdrop } from 'constants/polygon_config';
+import { conditionalWaterdrop } from 'constants/ABIs/conditionalWaterdrop';
 import { gas } from 'api/gasEstimator';
 import AlluoToken from 'assets/images/alluo-logo.png';
 import { GET_CLAIM_AMOUNT } from 'containers/main/TradeHistory/data/queries';
@@ -24,7 +24,7 @@ interface claimDetailsProps {
 
 export const ClaimPageSection: FC<IProps> = () => {
 	const { address, web3 } = useShallowSelector(selectMain);
-	const contract = getContract(claimAddress, claimABI, web3);
+	const contract = getContract(rexShirtWaterdrop, conditionalWaterdrop, web3);
 	const { loading, error, data } = useQuery(GET_CLAIM_AMOUNT, {});
 
 	let startTime = '';
@@ -41,7 +41,7 @@ export const ClaimPageSection: FC<IProps> = () => {
 
 	const getTokenIcon = (tokenAddress: string) => {
 		switch (tokenAddress) {
-			case '0x263026E7e53DBFDce5ae55Ade22493f828922965':
+			case '0x6A0D03004232DE806900b3aCa2D8ab870BbB5Aee':
 				return AlluoToken;
 
 			default:
@@ -51,8 +51,8 @@ export const ClaimPageSection: FC<IProps> = () => {
 
 	const getWaterDropName = (tokenAddress: string) => {
 		switch (tokenAddress) {
-			case '0x263026E7e53DBFDce5ae55Ade22493f828922965':
-				return 'Alluo Community Waterdrop';
+			case '0x6A0D03004232DE806900b3aCa2D8ab870BbB5Aee':
+				return 'Rex Shirt Waterdrop';
 
 			default:
 				break;
@@ -74,19 +74,10 @@ export const ClaimPageSection: FC<IProps> = () => {
 	React.useEffect(() => {
 		if (address && contract) {
 			(async () => {
-				contract.methods
-					.userClaims(address)
-					.call()
-					.then((res: any) => {
-						setClaimAccess(res);
-					})
-					.catch((error: any) => {
-						console.log('error', error);
-					});
 				//Replace this with the method waterDrop
 				if (claimAccess) {
 					contract.methods
-						.claims(2)
+						.waterDrop()
 						.call()
 						.then((res: any) => {
 							setClaimDetails(res);
