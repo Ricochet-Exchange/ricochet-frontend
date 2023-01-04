@@ -46,6 +46,7 @@ interface IProps {
 	totalFlows?: number;
 	streamEnd?: string;
 	subsidyRate?: { perso: number; total: number; endDate: string };
+	aggregateRewards: (reward_amount: number) => void;
 	personalFlow?: string;
 	mainLoading?: boolean;
 	flowType: FlowTypes;
@@ -75,6 +76,7 @@ export const PanelChange: FC<IProps> = ({
 	personalFlow,
 	mainLoading = false,
 	flowType,
+	aggregateRewards,
 	isReadOnly,
 	contractAddress,
 	exchangeKey,
@@ -83,7 +85,7 @@ export const PanelChange: FC<IProps> = ({
 	receivedSoFar,
 }) => {
 	const link = getAddressLink(contractAddress);
-	const { web3, address } = useShallowSelector(selectMain);
+	const { web3, address, linkHistory } = useShallowSelector(selectMain);
 	const [inputShow, setInputShow] = useState(false);
 	const [value, setValue] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
@@ -108,8 +110,11 @@ export const PanelChange: FC<IProps> = ({
 	useEffect(() => {
 		const subsidy_rate = (+personal_pool_rate / +total_market_pool) * 100;
 		const received_reward = (+subsidy_rate / 100) * +subsidy_rate_static;
-		if (+received_reward > 0) {
+		if (received_reward && +received_reward > 0) {
 			setUserRewards(+received_reward.toFixed(2));
+		}
+		if (received_reward && linkHistory.length <= 2) {
+			aggregateRewards(received_reward);
 		}
 	}, [personal_pool_rate, total_market_pool, subsidy_rate_static]);
 
@@ -183,8 +188,8 @@ export const PanelChange: FC<IProps> = ({
 
 	useEffect(() => {
 		let isMounted = true;
-		if (web3?.currentProvider === null) return;
-		getLastDistributionOnPair(web3, exchangeKey).then((p) => {
+		if (web3?.currentProvider === null || !exchangeKey || !isMounted) return;
+		getLastDistributionOnPair(web3, exchangeKey!).then((p) => {
 			if (isMounted) {
 				setLastDistribution(p);
 			}

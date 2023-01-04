@@ -137,23 +137,19 @@
 
 .mob_head {
   display: none;
+}
 
-  @include tablet {
-    @include flexbox(center, center);
-    span {
-      margin-bottom: 10px;
-    }
-    padding: 40px 0 35px 10px;
-    display: block;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 24px;
-    line-height: 110%;
-    text-align: center;
-    letter-spacing: -0.015em;
-    color: var(--color-white);
-    z-index: 4;
-  }
+.reward{
+  color: white;
+  height: 6vh;
+  background-color: #222529;
+  padding: 0em;
+  padding-right: 1em;
+  padding-left: 1em;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .dot {

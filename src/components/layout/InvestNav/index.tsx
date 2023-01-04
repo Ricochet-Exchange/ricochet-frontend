@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { NavLink } from 'react-router-dom';
 import { Routes } from 'constants/routes';
 import { useTranslation } from 'react-i18next';
 import currency from 'assets/images/coins/currency.svg';
+import { useShallowSelector } from 'hooks/useShallowSelector';
+import { selectUserStreams } from 'store/main/selectors';
 import gift from 'assets/images/gift.svg';
 import styles from './styles.module.scss';
 
@@ -12,10 +14,24 @@ const RICOCHET_V1_LINK = 'https://v1.ricochet.exchange/';
 const SUPPORT = 'https://discord.com/channels/862796510604296263/864667072357597185';
 
 export const InvestNav = () => {
+	const userStreams = useShallowSelector(selectUserStreams);
 	const { t } = useTranslation();
+
 	return (
 		<div className={styles.nav_container}>
 			<div className={styles.navscroller}>
+				{userStreams.length !== 0 ? (
+					<NavLink
+						className={styles.nav_link}
+						exact
+						activeClassName={styles.nav_link_active}
+						to={Routes.InvestStreams}
+					>
+						<FontIcon name={FontIconName.RicoUser} size={16} />
+						<div className={styles.nav_text}>{`${t('Active Streams')} (${userStreams.length})`} </div>
+					</NavLink>
+				) : null}
+
 				<NavLink to={Routes.Wallet} className={styles.nav_link} activeClassName={styles.nav_link_active}>
 					<FontIcon name={FontIconName.Wallet} size={16} />
 					<div className={styles.nav_text}>{t('Wallet')}</div>
@@ -48,16 +64,6 @@ export const InvestNav = () => {
 				>
 					<FontIcon name={FontIconName.Shuttle} size={16} />
 					<div className={styles.nav_text}>{t('Launchpad')}</div>
-				</NavLink>
-
-				<NavLink
-					className={styles.nav_link}
-					exact
-					activeClassName={styles.nav_link_active}
-					to={Routes.InvestStreams}
-				>
-					<FontIcon name={FontIconName.RicoUser} size={16} />
-					<div className={styles.nav_text}>{t('Active Streams')}</div>
 				</NavLink>
 
 				<NavLink

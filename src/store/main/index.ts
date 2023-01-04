@@ -5,16 +5,18 @@ import { MAIN_HANDLERS } from './handlers';
 import { MainState } from './types';
 
 export const mainInitialState: Readonly<MainState> = {
-  web3: new Web3(),
-  readWeb3: new Web3(),
-  address: '',
-  selectedDowngradeCoin: Coin.DAIx, 
-  selectedUpgradeCoin: Coin.DAI,
-  coinType: Coin.DAI,
-  isLoadingDowngrade: false,
-  isLoadingUpgrade: false,
-  isLoading: true,
-  isReadOnly: false,
+	web3: new Web3(),
+	readWeb3: new Web3(),
+	address: '',
+	selectedDowngradeCoin: Coin.DAIx,
+	selectedUpgradeCoin: Coin.DAI,
+	coinType: Coin.DAI,
+	isLoadingDowngrade: false,
+	isLoadingUpgrade: false,
+	isLoading: true,
+	isReadOnly: false,
+	aggregatedRICRewards: '0',
+	linkHistory: [],
 };
 
 export default createReducer(mainInitialState, MAIN_HANDLERS);
