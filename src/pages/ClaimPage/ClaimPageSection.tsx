@@ -124,11 +124,8 @@ export const ClaimPageSection: FC<IProps> = () => {
 
 		if ((Number(claimAccess) && startTime?.length) || parseInt(totalClaimedSoFar) > totalClaimedAmount) {
 			return 'Claimed';
-		}
-		if (Number(claimAccess)) {
-			return 'Claim';
 		} else {
-			return 'Get Rexshirt';
+			return 'Claim';
 		}
 	};
 
@@ -183,7 +180,8 @@ export const ClaimPageSection: FC<IProps> = () => {
 													</div>
 													<div className={styles.amount_section}>
 														{(
-															(claimDetails?.rate * claimDetails?.duration) /
+															(Number(claimDetails?.rate) *
+																Number(claimDetails?.duration)) /
 															10 ** 18
 														).toFixed(2)}
 													</div>
@@ -196,24 +194,13 @@ export const ClaimPageSection: FC<IProps> = () => {
 													</div>
 													<div className={styles.deadline_section}>{claimAmountStatus()}</div>
 													<div className={styles.claim_section}>
-														{!Boolean(Number(claimAccess)) ? (
-															<button
-																className={styles.claim_button}
-																onClick={() =>
-																	window.open('https://alluo.finance/', '_blank')
-																}
-															>
-																{buttonStatus()}
-															</button>
-														) : (
-															<button
-																className={styles.claim_button}
-																disabled={Boolean(startTime?.length)}
-																onClick={handleClaim}
-															>
-																{buttonStatus()}
-															</button>
-														)}
+														<button
+															className={styles.claim_button}
+															disabled={Boolean(startTime?.length)}
+															onClick={handleClaim}
+														>
+															{buttonStatus()}
+														</button>
 													</div>
 												</div>
 											</div>
