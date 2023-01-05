@@ -8,7 +8,8 @@ export const rexReferralAddress = '0xA0eC9E1542485700110688b3e6FbebBDf23cd901';
 
 // Water Drops //
 
-export const rexShirtWaterdrop = '0x6A0D03004232DE806900b3aCa2D8ab870BbB5Aee';
+export const rexShirtWaterdrop = '0xb1BC686Ec9EF1E3C096D0c9D6228CC57a16Ef8f6';
+export const alluoWaterdrop = '0x114e5EAbd33B34F3B7f481Df4fc2617dE6cd2B66';
 
 // Currently in use contracts //
 
