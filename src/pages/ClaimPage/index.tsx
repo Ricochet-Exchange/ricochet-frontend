@@ -1,4 +1,4 @@
-import { ClaimPageSection } from './ClaimPageSection';
+import { ClaimPageContainer } from './ClaimPageContainer';
 import React, { FC } from 'react';
 
 interface IProps {}
@@ -10,7 +10,7 @@ const ClaimPage: FC<IProps> = () => {
 	return (
 		<div className={''}>
 			<div className={''}>
-				<ClaimPageSection />
+				<ClaimPageContainer />
 			</div>
 		</div>
 	);

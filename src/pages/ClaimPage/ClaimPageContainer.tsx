@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { getContract } from 'utils/getContract';
-import { alluoWaterdrop } from 'constants/polygon_config';
+import { alluoWaterdrop, rexShirtWaterdrop } from 'constants/polygon_config';
 import { conditionalWaterdrop } from 'constants/ABIs/conditionalWaterdrop';
 import { gas } from 'api/gasEstimator';
 import AlluoToken from 'assets/images/alluo-logo.png';
@@ -22,9 +22,9 @@ interface claimDetailsProps {
 	token?: string;
 }
 
-export const ClaimPageSection: FC<IProps> = () => {
+export const ClaimPageContainer: FC<IProps> = () => {
 	const { address, web3 } = useShallowSelector(selectMain);
-	const contract = getContract(alluoWaterdrop, conditionalWaterdrop, web3);
+	const contract = getContract(rexShirtWaterdrop, conditionalWaterdrop, web3);
 	const { loading, error, data } = useQuery(GET_CLAIM_AMOUNT, {});
 
 	console.log(contract);
