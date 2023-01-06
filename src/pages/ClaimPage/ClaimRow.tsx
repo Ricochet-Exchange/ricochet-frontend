@@ -3,7 +3,9 @@ import styles from './styles.module.scss';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { useQuery } from '@apollo/client';
+import { RexShirtAddress, RICAddress } from 'constants/polygon_config';
 import AlluoToken from 'assets/images/alluo-logo.png';
+import RexShirtToken from 'assets/images/rex-shirt-logo.png';
 import { GET_CLAIM_AMOUNT } from 'containers/main/TradeHistory/data/queries';
 import { gas } from 'api/gasEstimator';
 
@@ -36,13 +38,18 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 		});
 	}
 
+	console.log('claim details', claimDetails);
+
 	//Methods: To-do use Utils or more these to utils
 
 	const getTokenIcon = (tokenAddress: string) => {
 		switch (tokenAddress) {
-			case '0x6A0D03004232DE806900b3aCa2D8ab870BbB5Aee':
+			//Rexshirt icon
+			case RICAddress:
 				return AlluoToken;
-
+			//Alluo icon
+			case RexShirtAddress:
+				return RexShirtToken;
 			default:
 				break;
 		}
@@ -50,9 +57,10 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 
 	const getWaterDropName = (tokenAddress: string) => {
 		switch (tokenAddress) {
-			case '0x6A0D03004232DE806900b3aCa2D8ab870BbB5Aee':
+			case RexShirtAddress:
 				return 'Rex Shirt Waterdrop';
-
+			case RICAddress:
+				return 'Alluo Waterdrop';
 			default:
 				break;
 		}
@@ -64,10 +72,14 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 	};
 
 	const epochToDate = (epoch: string) => {
-		const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
-		date.setUTCSeconds(Math.round(Number(epoch)));
-		const formattedDate = date.getUTCDate() + '-' + (date.getUTCMonth() + 1) + '-' + date.getUTCFullYear();
-		return formattedDate;
+		if (epoch !== '0') {
+			const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
+			date.setUTCSeconds(Math.round(Number(epoch)));
+			const formattedDate = date.getUTCDate() + '-' + (date.getUTCMonth() + 1) + '-' + date.getUTCFullYear();
+			return formattedDate;
+		} else {
+			return 'No Deadline';
+		}
 	};
 
 	const buttonStatus = () => {
@@ -103,12 +115,10 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 		}
 	};
 
-	//Retrieve details for waterdrop (deadline, duration, rate, token)
-
+	//Retrieve waterdrop data (token, rate, duration, deadline)
 	React.useEffect(() => {
 		if (address && contract) {
 			(async () => {
-				//Replace this with the method waterDrop
 				if (claimAccess) {
 					contract.methods
 						.waterDrop()
@@ -126,7 +136,6 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 	}, [address, claimAccess]);
 
 	//Claim Waterdrop
-
 	const handleClaim = React.useCallback(async () => {
 		if (!web3.currentProvider || !contract) {
 			console.log('fail');
@@ -155,12 +164,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 						<div className={styles.content_container}>
 							<div className={styles.wrapper}>
 								<div className={styles.token_section}>
-									<img
-										src={getTokenIcon(claimDetails?.token!)}
-										alt={'RexShirt'}
-										width="27"
-										height="27"
-									></img>
+									<img src={getTokenIcon(claimDetails?.token!)} alt={''} width="27" height="27"></img>
 									<div className={styles.token_text}>
 										{getWaterDropName(claimDetails?.token || '')}
 									</div>

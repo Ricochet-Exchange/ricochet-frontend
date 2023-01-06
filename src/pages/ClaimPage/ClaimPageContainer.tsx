@@ -49,17 +49,16 @@ export const ClaimPageContainer: FC<IProps> = () => {
 							<div className={styles.streaming}>{'Total Claimed'}</div>
 							<div className={styles.streaming}>{'Claim'}</div>
 						</div>
-					</div>
-
-					{rexShirtWaterdropContract &&
-						alluoWaterdropContract &&
-						waterdrops.map((waterdrop, i) => {
+						{waterdrops.map((waterdrop, i) => {
 							return (
-								//To do destructure this to pass in each value of waterdrop (address and initialized contract) individually.
-								//@ts-ignore
-								<ClaimRow key={`waterdrop-${i}`} waterdrop={waterdrop} />
+								<ClaimRow
+									key={`waterdrop-${i}`}
+									contract={waterdrop.contract}
+									waterdropAddress={waterdrop.waterdropAddress}
+								/>
 							);
 						})}
+					</div>
 				</div>
 			) : (
 				<div className={styles.container}>
