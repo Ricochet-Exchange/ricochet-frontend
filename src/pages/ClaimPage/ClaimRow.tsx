@@ -142,15 +142,15 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 			return;
 		}
 		let tx = await contract.methods.claim();
-
-		//Estimate gas, if transaction will succeed, then make transaction, else throw error and show user.
-		const resp = await tx
-			.estimateGas({})
-			.then((response: any) =>
-				tx.send({
-					from: address,
-				}),
-			)
+		const trigger = async () =>
+			tx.send({
+				from: address,
+				...(await gas()),
+			});
+		//Estimate gas, if transaction will succeed, then make transaction, else throw error and show userz
+		await tx
+			.estimateGas({ from: address })
+			.then((response: any) => trigger())
 			.catch((error: any) => {
 				showErrorToast('You are not eligible for this waterdrop.', 'Error');
 				console.log('err', error);
