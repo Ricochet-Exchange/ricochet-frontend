@@ -5,6 +5,7 @@ import { selectMain } from 'store/main/selectors';
 import { useQuery } from '@apollo/client';
 import { RexShirtAddress, RICAddress } from 'constants/polygon_config';
 import AlluoToken from 'assets/images/alluo-logo.png';
+import { showErrorToast } from 'components/common/Toaster';
 import RexShirtToken from 'assets/images/rex-shirt-logo.png';
 import { GET_CLAIM_AMOUNT } from 'containers/main/TradeHistory/data/queries';
 import { gas } from 'api/gasEstimator';
@@ -22,7 +23,6 @@ interface waterdrop {
 }
 
 export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
-	console.log('made it to row', contract, waterdropAddress);
 	const { address, web3 } = useShallowSelector(selectMain);
 	const { loading, error, data } = useQuery(GET_CLAIM_AMOUNT, {});
 
@@ -30,6 +30,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 	const [claimDetails, setClaimDetails] = React.useState<claimDetailsProps>();
 
 	let startTime = '';
+
 	if (data && address && !loading) {
 		data.account.outflows.map((item: any) => {
 			if (item.receiver.id.toLowerCase() === address.toLowerCase()) {
@@ -38,7 +39,14 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 		});
 	}
 
-	console.log('claim details', claimDetails);
+	const totalClaimedSoFar = (
+		((Math.floor(new Date().getTime() / 1000.0) - parseInt(startTime)) * parseInt(claimDetails?.rate || '')) /
+		1e18
+	).toFixed(2);
+
+	const totalClaimedAmount = Math.round(
+		(parseInt(claimDetails?.rate || '') * parseInt(claimDetails?.duration || '')) / 1e18,
+	);
 
 	//Methods: To-do use Utils or more these to utils
 
@@ -83,15 +91,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 	};
 
 	const buttonStatus = () => {
-		const totalClaimedSoFar = (
-			((Math.floor(new Date().getTime() / 1000.0) - parseInt(startTime)) * parseInt(claimDetails?.rate || '')) /
-			1e18
-		).toFixed(2);
-		const totalClaimedAmount = Math.round(
-			(parseInt(claimDetails?.rate || '') * parseInt(claimDetails?.duration || '')) / 1e18,
-		);
-
-		if ((Number(claimAccess) && startTime?.length) || parseInt(totalClaimedSoFar) > totalClaimedAmount) {
+		if ((Number(claimAccess) && startTime?.length) || parseInt(totalClaimedSoFar) >= totalClaimedAmount) {
 			return 'Claimed';
 		} else {
 			return 'Claim';
@@ -141,18 +141,19 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 			console.log('fail');
 			return;
 		}
+		let tx = await contract.methods.claim();
 
-		await contract.methods
-			.claim()
-			.send({
-				from: address,
-				...(await gas()),
-			})
-			.then((res: any) => {
-				console.log('response', res);
-			})
+		//Estimate gas, if transaction will succeed, then make transaction, else throw error and show user.
+		const resp = await tx
+			.estimateGas({})
+			.then((response: any) =>
+				tx.send({
+					from: address,
+				}),
+			)
 			.catch((error: any) => {
-				console.log('error', error);
+				showErrorToast('You are not eligible for this waterdrop.', 'Error');
+				console.log('err', error);
 			});
 	}, [address, contract]);
 
