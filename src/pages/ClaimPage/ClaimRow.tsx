@@ -39,15 +39,6 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 		});
 	}
 
-	const totalClaimedSoFar = (
-		((Math.floor(new Date().getTime() / 1000.0) - parseInt(startTime)) * parseInt(claimDetails?.rate || '')) /
-		1e18
-	).toFixed(2);
-
-	const totalClaimedAmount = Math.round(
-		(parseInt(claimDetails?.rate || '') * parseInt(claimDetails?.duration || '')) / 1e18,
-	);
-
 	React.useEffect(() => {
 		const findStatus = async () => {
 			let tx = await contract.methods.claim();
