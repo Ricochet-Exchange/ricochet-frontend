@@ -24,10 +24,10 @@ interface waterdrop {
 
 export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 	const { address, web3 } = useShallowSelector(selectMain);
-	const { loading, error, data } = useQuery(GET_CLAIM_AMOUNT, {});
-
-	const [claimAccess, setClaimAccess] = React.useState('0');
+	const { loading, data } = useQuery(GET_CLAIM_AMOUNT, {});
 	const [claimDetails, setClaimDetails] = React.useState<claimDetailsProps>();
+
+	const claimAccess = '0';
 
 	let startTime = '';
 

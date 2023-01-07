@@ -3,7 +3,7 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { useCookies } from 'react-cookie';
 import React, { FC, useEffect, useState } from 'react';
 import { getContract } from 'utils/getContract';
-import { referralABI } from 'constants/abis';
+import { referralABI } from 'constants/ABIs/referralABI';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { selectMain } from 'store/main/selectors';
 import { REFERRAL_URL_PREFIX } from 'constants/routes';
