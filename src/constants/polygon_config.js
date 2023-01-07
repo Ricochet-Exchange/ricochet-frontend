@@ -5,7 +5,11 @@ export const hostAddress = '0x3E14dC1b13c488a8d5D310918780c983bD5982E7';
 export const idaAddress = '0xB0aABBA4B2783A72C52956CDEF62d438ecA2d7a1';
 export const ZeroAddress = '0x0000000000000000000000000000000000000000';
 export const rexReferralAddress = '0xA0eC9E1542485700110688b3e6FbebBDf23cd901';
-export const claimAddress = '0x9dA677c3423E0eBc1e3d7c0a86e9b9a34Bbd2874';
+
+// Water Drops //
+
+export const rexShirtWaterdrop = '0x4965DD6Cc99e20B33B744374F132f7b5F8333a06';
+export const alluoWaterdrop = '0x114e5EAbd33B34F3B7f481Df4fc2617dE6cd2B66';
 
 // Currently in use contracts //
 
@@ -170,3 +174,7 @@ export const usdcxRicExchangeAddress = '0x98d463A3F29F259E67176482eB15107F364c7E
 
 //USDC X IBALLUOUSD
 export const usdcxibAlluoUSDAddress = '0xE53dd10d49C8072d68d48c163d9e1A219bd6852D';
+
+//Deprecated Waterdrop
+
+export const claimAddress = '0x9dA677c3423E0eBc1e3d7c0a86e9b9a34Bbd2874';

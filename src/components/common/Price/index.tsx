@@ -1,5 +1,5 @@
 import React from 'react';
-import { launchpadABI } from 'constants/abis';
+import { launchpadABI } from 'constants/ABIs/launchpad';
 import {
 	usdcxRicExchangeAddress,
 	ricRexShirtLaunchpadAddress,

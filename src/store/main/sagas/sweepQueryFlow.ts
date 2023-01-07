@@ -9,7 +9,7 @@ import { getOwnedFlows } from 'utils/getOwnedFlows';
 import { Flow } from 'types/flow';
 
 import { flowConfig, FlowEnum } from 'constants/flowConfig';
-import { erc20ABI } from 'constants/abis';
+import { erc20ABI } from 'constants/ABIs/ERC20';
 import { getContract } from 'utils/getContract';
 
 import calculateStreamedSoFar from 'pages/InvestPage/utils/calculateStreamedSoFar';

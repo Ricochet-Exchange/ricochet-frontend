@@ -5,7 +5,7 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { rexReferralAddress } from 'constants/polygon_config';
 import { getContract } from 'utils/getContract';
-import { referralABI } from 'constants/abis';
+import { referralABI } from 'constants/ABIs/referralABI';
 import { AFFILIATE_STATUS, filterValidationErrors, getAffiliateStatus } from 'utils/getAffiliateStatus';
 import ButtonNew from 'components/common/ButtonNew';
 import styles from './styles.module.scss';

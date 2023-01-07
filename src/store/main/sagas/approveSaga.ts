@@ -1,5 +1,5 @@
 import { approve } from 'api/ethereum';
-import { erc20ABI } from 'constants/abis';
+import { erc20ABI } from 'constants/ABIs/ERC20';
 import { call, put, all, select } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';

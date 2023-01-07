@@ -18,7 +18,7 @@ import axios from 'axios';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { swap } from 'utils/swap/swap';
-import { superTokenABI } from 'constants/abis';
+import { superTokenABI } from 'constants/ABIs/supertoken';
 import { SwapForm } from './SwapForm';
 import { SwapContract } from 'constants/contracts';
 import { strtodec } from 'utils/strToDecimalBN';

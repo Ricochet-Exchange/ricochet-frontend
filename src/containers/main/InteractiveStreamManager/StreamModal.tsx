@@ -15,7 +15,7 @@ import { showErrorToast } from 'components/common/Toaster';
 import { AFFILIATE_STATUS, getAffiliateStatus } from 'utils/getAffiliateStatus';
 import { getContract } from 'utils/getContract';
 import { rexReferralAddress } from 'constants/polygon_config';
-import { referralABI } from 'constants/abis';
+import { referralABI } from 'constants/ABIs/referralABI';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import type { Edge } from 'react-flow-renderer';

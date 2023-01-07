@@ -1,5 +1,5 @@
 import { upgrade, upgradeMatic } from 'api/ethereum';
-import { superTokenABI } from 'constants/abis';
+import { superTokenABI } from 'constants/ABIs/supertoken';
 import { call, put, all, select } from 'redux-saga/effects';
 import { Unwrap } from 'types/unwrap';
 import { getAddress } from 'utils/getAddress';

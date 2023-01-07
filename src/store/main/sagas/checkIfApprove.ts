@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects';
 import { getContract } from 'utils/getContract';
-import { erc20ABI } from 'constants/abis';
+import { erc20ABI } from 'constants/ABIs/ERC20';
 import { Unwrap } from 'types/unwrap';
 import { allowance } from 'api/ethereum';
 import { getAddress } from 'utils/getAddress';
