@@ -5,7 +5,6 @@ import { selectMain } from 'store/main/selectors';
 import { useQuery } from '@apollo/client';
 import { RexShirtAddress, RICAddress } from 'constants/polygon_config';
 import AlluoToken from 'assets/images/alluo-logo.png';
-import { showErrorToast } from 'components/common/Toaster';
 import RexShirtToken from 'assets/images/rex-shirt-logo.png';
 import { GET_CLAIM_AMOUNT } from 'containers/main/TradeHistory/data/queries';
 import { gas } from 'api/gasEstimator';
@@ -26,6 +25,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 	const { address, web3 } = useShallowSelector(selectMain);
 	const { loading, data } = useQuery(GET_CLAIM_AMOUNT, {});
 	const [claimDetails, setClaimDetails] = React.useState<claimDetailsProps>();
+	const [btnStatus, setButtonStatus] = React.useState<string>();
 
 	const claimAccess = '0';
 
@@ -39,14 +39,21 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 		});
 	}
 
-	const totalClaimedSoFar = (
-		((Math.floor(new Date().getTime() / 1000.0) - parseInt(startTime)) * parseInt(claimDetails?.rate || '')) /
-		1e18
-	).toFixed(2);
-
-	const totalClaimedAmount = Math.round(
-		(parseInt(claimDetails?.rate || '') * parseInt(claimDetails?.duration || '')) / 1e18,
-	);
+	React.useEffect(() => {
+		const findStatus = async () => {
+			let tx = await contract.methods.claim();
+			await tx
+				.estimateGas({ from: address })
+				.then((response: any) => setButtonStatus('Claim'))
+				.catch((error: any) => {
+					setButtonStatus('Ineligible');
+					console.log('err', error);
+				});
+		};
+		if (contract && address) {
+			findStatus();
+		}
+	}, []);
 
 	//Methods: To-do use Utils or more these to utils
 
@@ -87,14 +94,6 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 			return formattedDate;
 		} else {
 			return 'No Deadline';
-		}
-	};
-
-	const buttonStatus = () => {
-		if ((Number(claimAccess) && startTime?.length) || parseInt(totalClaimedSoFar) >= totalClaimedAmount) {
-			return 'Claimed';
-		} else {
-			return 'Claim';
 		}
 	};
 
@@ -148,13 +147,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 				...(await gas()),
 			});
 		//Estimate gas, if transaction will succeed, then make transaction, else throw error and show userz
-		await tx
-			.estimateGas({ from: address })
-			.then((response: any) => trigger())
-			.catch((error: any) => {
-				showErrorToast('You are not eligible for this waterdrop.', 'Error');
-				console.log('err', error);
-			});
+		trigger();
 	}, [address, contract]);
 
 	return (
@@ -186,10 +179,10 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 								<div className={styles.claim_section}>
 									<button
 										className={styles.claim_button}
-										disabled={Boolean(startTime?.length)}
+										disabled={btnStatus === 'Ineligible'}
 										onClick={handleClaim}
 									>
-										{buttonStatus()}
+										{btnStatus}
 									</button>
 								</div>
 							</div>
