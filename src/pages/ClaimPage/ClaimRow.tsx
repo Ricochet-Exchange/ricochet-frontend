@@ -50,8 +50,14 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query }) =
 					console.log('err', error);
 				});
 		};
+
 		if (contract && address) {
-			findStatus();
+			const hasClaimed = contract.methods
+				.hasClaimed(address)
+				.call()
+				.then((res: boolean) => {
+					res ? setButtonStatus('Claimed') : findStatus();
+				});
 		}
 	}, []);
 
