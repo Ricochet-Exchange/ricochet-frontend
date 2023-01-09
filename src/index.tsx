@@ -12,7 +12,7 @@ import 'i18n';
 import history from 'utils/history';
 import reportWebVitals from './reportWebVitals';
 import { store, persistor } from './store';
-import 'assets/styles/main.scss';
+import 'assets/styles/main.module.scss';
 
 Sentry.init({
 	dsn: process.env.REACT_APP_SENTRY_DSN,
