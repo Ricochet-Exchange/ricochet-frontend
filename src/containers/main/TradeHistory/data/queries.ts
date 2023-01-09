@@ -22,9 +22,29 @@ export const GET_STREAMS_CREATED = gql`
 	}
 `;
 
-export const GET_CLAIM_AMOUNT = gql`
+export const GET_CLAIM_AMOUNT_ALLUO = gql`
 	query GetClaimAmmount {
-		account(id: "0x9da677c3423e0ebc1e3d7c0a86e9b9a34bbd2874") {
+		account(id: "0x114e5eabd33b34f3b7f481df4fc2617de6cd2b66") {
+			outflows {
+				flowUpdatedEvents {
+					totalAmountStreamedUntilTimestamp
+					stream {
+						currentFlowRate
+						createdAtTimestamp
+						updatedAtTimestamp
+					}
+				}
+				receiver {
+					id
+				}
+			}
+		}
+	}
+`;
+
+export const GET_CLAIM_AMOUNT_REXSHIRT = gql`
+	query GetClaimAmmount {
+		account(id: "0x4965DD6Cc99e20B33B744374F132f7b5F8333a06") {
 			outflows {
 				flowUpdatedEvents {
 					totalAmountStreamedUntilTimestamp
