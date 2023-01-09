@@ -187,7 +187,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query }) =
 								<div className={styles.claim_section}>
 									<button
 										className={styles.claim_button}
-										disabled={btnStatus === 'Ineligible'}
+										disabled={btnStatus !== 'Claim'}
 										onClick={handleClaim}
 									>
 										{btnStatus}
