@@ -71,7 +71,7 @@ jobs:
         with:
           node-version: 16
       - name: build
-        run: yarn install && yarn build
+        run: yarn install --ignore-engines && yarn build
       - name: Deploy using fleek
         id: deploy
         uses: fleekhq/action-deploy@v1
