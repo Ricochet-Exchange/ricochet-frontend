@@ -4,6 +4,7 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { getContract } from 'utils/getContract';
 import { alluoWaterdrop, rexShirtWaterdrop } from 'constants/polygon_config';
+import { GET_CLAIM_AMOUNT_ALLUO, GET_CLAIM_AMOUNT_REXSHIRT } from 'containers/main/TradeHistory/data/queries';
 import { conditionalWaterdrop } from 'constants/ABIs/conditionalWaterdrop';
 import { ClaimRow } from './ClaimRow';
 
@@ -15,6 +16,7 @@ interface IProps {
 interface waterdrop {
 	contract: {};
 	waterdropAddress: string;
+	query: any;
 }
 
 export const ClaimPageContainer: FC<IProps> = () => {
@@ -28,10 +30,12 @@ export const ClaimPageContainer: FC<IProps> = () => {
 		{
 			contract: rexShirtWaterdropContract!,
 			waterdropAddress: rexShirtWaterdrop,
+			query: GET_CLAIM_AMOUNT_REXSHIRT,
 		},
 		{
 			contract: alluoWaterdropContract!,
 			waterdropAddress: alluoWaterdrop,
+			query: GET_CLAIM_AMOUNT_ALLUO,
 		},
 	];
 
@@ -55,6 +59,7 @@ export const ClaimPageContainer: FC<IProps> = () => {
 									key={`waterdrop-${i}`}
 									contract={waterdrop.contract}
 									waterdropAddress={waterdrop.waterdropAddress}
+									query={waterdrop.query}
 								/>
 							);
 						})}

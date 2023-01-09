@@ -6,7 +6,6 @@ import { useQuery } from '@apollo/client';
 import { RexShirtAddress, RICAddress } from 'constants/polygon_config';
 import AlluoToken from 'assets/images/alluo-logo.png';
 import RexShirtToken from 'assets/images/rex-shirt-logo.png';
-import { GET_CLAIM_AMOUNT } from 'containers/main/TradeHistory/data/queries';
 import { gas } from 'api/gasEstimator';
 
 interface claimDetailsProps {
@@ -19,11 +18,12 @@ interface claimDetailsProps {
 interface waterdrop {
 	contract: any;
 	waterdropAddress: string;
+	query: any;
 }
 
-export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
+export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query }) => {
 	const { address, web3 } = useShallowSelector(selectMain);
-	const { loading, data } = useQuery(GET_CLAIM_AMOUNT, {});
+	const { loading, data } = useQuery(query!, {});
 	const [claimDetails, setClaimDetails] = React.useState<claimDetailsProps>();
 	const [btnStatus, setButtonStatus] = React.useState<string>();
 
@@ -32,7 +32,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 	let startTime = '';
 
 	if (data && address && !loading) {
-		data.account.outflows.map((item: any) => {
+		data?.account?.outflows?.map((item: any) => {
 			if (item.receiver.id.toLowerCase() === address.toLowerCase()) {
 				startTime = item.flowUpdatedEvents[0].stream.createdAtTimestamp;
 			}
@@ -50,8 +50,14 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 					console.log('err', error);
 				});
 		};
+
 		if (contract && address) {
-			findStatus();
+			const hasClaimed = contract.methods
+				.hasClaimed(address)
+				.call()
+				.then((res: boolean) => {
+					res ? setButtonStatus('Claimed') : findStatus();
+				});
 		}
 	}, []);
 
@@ -99,15 +105,17 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 
 	const claimAmountStatus = () => {
 		const totalClaimedSoFar = (
-			((Math.floor(new Date().getTime() / 1000.0) - parseInt(startTime)) * parseInt(claimDetails?.rate || '')) /
+			((Math.floor(new Date().getTime() / 1000.0) - parseInt(startTime)) * parseInt(claimDetails?.rate!)) /
 			1e18
 		).toFixed(6);
 		const totalClaimedAmount = Math.round(
 			(parseInt(claimDetails?.rate || '') * parseInt(claimDetails?.duration || '')) / 1e18,
 		);
+
 		if (startTime?.length && parseInt(totalClaimedSoFar) > totalClaimedAmount) {
 			return totalClaimedAmount;
-		} else if (startTime?.length) {
+		} else if (startTime) {
+			console.log(totalClaimedSoFar);
 			return totalClaimedSoFar;
 		} else {
 			return '-';
@@ -179,7 +187,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 								<div className={styles.claim_section}>
 									<button
 										className={styles.claim_button}
-										disabled={btnStatus === 'Ineligible'}
+										disabled={btnStatus !== 'Claim'}
 										onClick={handleClaim}
 									>
 										{btnStatus}
