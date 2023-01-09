@@ -3,10 +3,9 @@ import styles from './styles.module.scss';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { useQuery } from '@apollo/client';
-import { RexShirtAddress, RICAddress, rexShirtWaterdrop, alluoWaterdrop } from 'constants/polygon_config';
+import { RexShirtAddress, RICAddress } from 'constants/polygon_config';
 import AlluoToken from 'assets/images/alluo-logo.png';
 import RexShirtToken from 'assets/images/rex-shirt-logo.png';
-import { GET_CLAIM_AMOUNT_ALLUO, GET_CLAIM_AMOUNT_REXSHIRT } from 'containers/main/TradeHistory/data/queries';
 import { gas } from 'api/gasEstimator';
 
 interface claimDetailsProps {
@@ -19,11 +18,12 @@ interface claimDetailsProps {
 interface waterdrop {
 	contract: any;
 	waterdropAddress: string;
+	query: any;
 }
 
-export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
+export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query }) => {
 	const { address, web3 } = useShallowSelector(selectMain);
-	const { loading, data } = useQuery(GET_CLAIM_AMOUNT_ALLUO, {});
+	const { loading, data } = useQuery(query!, {});
 	const [claimDetails, setClaimDetails] = React.useState<claimDetailsProps>();
 	const [btnStatus, setButtonStatus] = React.useState<string>();
 
@@ -32,7 +32,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress }) => {
 	let startTime = '';
 
 	if (data && address && !loading) {
-		data.account.outflows.map((item: any) => {
+		data?.account?.outflows?.map((item: any) => {
 			if (item.receiver.id.toLowerCase() === address.toLowerCase()) {
 				startTime = item.flowUpdatedEvents[0].stream.createdAtTimestamp;
 			}
