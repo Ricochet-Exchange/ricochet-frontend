@@ -3,6 +3,8 @@ import { InvestNav } from 'components/layout/InvestNav';
 import styles from './styles.module.scss';
 import { Coin, namesCoin, iconsCoin, namesCoinX } from 'constants/coins';
 
+//'InvestNav' is declared but its value is never read.
+
 interface IProps {}
 
 const TokenModal = (props: any) => {
