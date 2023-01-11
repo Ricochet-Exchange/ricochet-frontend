@@ -31,6 +31,10 @@ const client = new ApolloClient({
 	cache: new InMemoryCache(),
 });
 
+if (window.location.protocol == 'http:' && !window.location.href.includes('http://localhost:3000/')) {
+	window.location.href = window.location.href.replace('http:', 'https:');
+}
+
 const root = document.getElementById('root');
 
 ReactDOM.render(
