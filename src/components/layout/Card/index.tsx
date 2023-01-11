@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { LoadingWrapper } from 'components/common/LoadingWrapper';
-import styles from './main.module.scss';
+import styles from './styles.module.scss';
 
 type Props = {
 	title?: string | JSX.Element;

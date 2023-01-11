@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Button } from 'components/common/Button';
 import { LoadingWrapper } from 'components/common/LoadingWrapper';
 import { useTranslation } from 'react-i18next';
-import styles from './main.module.scss';
+import styles from './styles.module.scss';
 
 type Props = {
 	isLoadingApprove: boolean;

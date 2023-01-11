@@ -6,7 +6,7 @@ import { LoadingWrapper } from 'components/common/LoadingWrapper';
 import { EtherscanLink } from 'components/banks/EtherScanLink';
 import { Button } from 'components/common/Button';
 import { useTranslation } from 'react-i18next';
-import styles from './main.module.scss';
+import styles from './styles.module.scss';
 
 type Props = {
 	bank: any;
