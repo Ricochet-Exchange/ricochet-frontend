@@ -25,14 +25,12 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 	const { balances, isLoading, coingeckoPrices } = state;
 	const [filteredList, setFilteredList] = useState(flowConfig);
 	const [aggregatedRewards, setAggregatedRewards] = useState<number[]>([]);
-	const { aggregatedRICRewards, web3, address } = useShallowSelector(selectMain);
+	const { aggregatedRICRewards } = useShallowSelector(selectMain);
 	const [search, setSearch] = useState('');
 	const match = useRouteMatch();
 	const dispatch = useDispatch();
 	const flowType = RoutesToFlowTypes[match.path];
 	const { linkHistory } = useShallowSelector(selectMain);
-
-	console.log('history', history, 'linkHistory', linkHistory);
 
 	useEffect(() => {
 		if (flowType) {
@@ -42,7 +40,6 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 				const totalVolumeB = parseFloat(getFlowUSDValue(b));
 				return totalVolumeB - totalVolumeA;
 			});
-			console.log('sorted List', sortedList);
 			setFilteredList(sortedList);
 		} else {
 			const sortedUserStreams = userStreams.sort((a, b) => {
@@ -50,11 +47,9 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 				const flowB = parseFloat(state[b.flowKey]?.placeholder || '0');
 				return flowB - flowA;
 			});
-
-			console.log('sorted List', sortedUserStreams);
 			setFilteredList(sortedUserStreams);
 		}
-	}, [flowType, state, userStreams]);
+	}, [flowType, userStreams]);
 
 	const handleSearch = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {
