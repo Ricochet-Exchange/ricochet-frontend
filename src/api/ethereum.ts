@@ -1,6 +1,5 @@
 import { getSFFramework } from 'utils/fluidSDKinstance';
 import { getAddress } from 'utils/getAddress';
-import { getContract } from 'utils/getContract';
 import { chainSettings } from 'constants/chainSettings';
 import { CoinOption } from 'types/coinOption';
 import { TransactionReceipt } from '@ethersproject/providers';
@@ -14,9 +13,6 @@ import {
 	ricRexHatLaunchpadAddress,
 	//WETHxAddress
 } from 'constants/polygon_config';
-import Erc20Abi from 'constants/Erc20.json';
-import Erc20Bytes32Abi from 'constants/Erc20bytes32.json';
-import BankAbi from 'constants/Bank.json';
 import Web3 from 'web3';
 import { Signer } from '@ethersproject/abstract-signer';
 import Operation from '@superfluid-finance/sdk-core/dist/main/Operation';

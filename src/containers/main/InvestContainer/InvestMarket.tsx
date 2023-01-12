@@ -32,8 +32,6 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 	const flowType = RoutesToFlowTypes[match.path];
 	const { linkHistory } = useShallowSelector(selectMain);
 
-	console.log('history', history, 'linkHistory', linkHistory);
-
 	useEffect(() => {
 		if (flowType) {
 			let sortedList = flowConfig.filter((each) => each.type === flowType);
@@ -42,7 +40,6 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 				const totalVolumeB = parseFloat(getFlowUSDValue(b));
 				return totalVolumeB - totalVolumeA;
 			});
-			console.log('sorted List', sortedList);
 			setFilteredList(sortedList);
 		} else {
 			const sortedUserStreams = userStreams.sort((a, b) => {

@@ -13,15 +13,15 @@ export const alluoWaterdrop = '0x114e5EAbd33B34F3B7f481Df4fc2617dE6cd2B66';
 
 // Currently in use contracts //
 
-export const twoWayWETHMarketAddress = '0xF1748222B08193273fd34FF10A28352A2C25Adb0';
+export const twoWayWETHMarketAddress = '0xF1748222B08193273fd34FF10A28352A2C25Adb0'; // available
 export const twoWayMarketWBTCAddress = '0x11Bfe0ff11819274F0FD57EFB4fc365800792D54';
 export const twoWayMarketDAIWETHAddress = '0xB44B371A56cE0245ee961BB8b4a22568e3D32874';
 export const twoWayMarketRICUSDCAddress = '0x86c2B55bf5d3E9DAC2747389B38D41C6B1F34179';
 export const twoWayMarketMATICUSDCAddress = '0xF989C73d04D20c84d6A4D26d07090D0a63F021C7';
 export const twoWayMarketMATICDAIAddress = '0x9FC28B1887589785CA43C57946dD0d3eD781A1eE';
 export const twoWayMarketWBTCDAIAddress = '0xaA6BF289A0b3BB71dd7DfABE7A373410d37A4b70';
-export const twoWayMarketibAlluoUSDETHAddress = '0x56aCA122d439365B455cECb14B4A39A9d1B54621';
-export const twoWayMarketibAlluoUSDBTCAddress = '0xbB5C64B929b1E60c085dcDf88dfe41c6b9dcf65B';
+export const twoWayMarketibAlluoUSDETHAddress = '0x56aCA122d439365B455cECb14B4A39A9d1B54621'; // available in panel
+export const twoWayMarketibAlluoUSDBTCAddress = '0xbB5C64B929b1E60c085dcDf88dfe41c6b9dcf65B'; //available
 
 // Ricochet Exchange Tokens //
 
@@ -53,7 +53,7 @@ export const WBTCAddress = '0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6';
 export const StIbAlluoUSDAddress = '0xE9E759B969B991F2bFae84308385405B9Ab01541';
 export const IbAlluoUSDAddress = '0xC2DbaAEA2EfA47EBda3E572aa0e55B742E408BF6';
 
-export const StIbAlluoETHAddress = '0x2D4Dc956FBd0044a4EBA945e8bbaf98a14025C2d';
+export const StIbAlluoETHAddress = '0x2D4Dc956FBd0044a4EBA945e8bbaf98a14025C2d'; //available
 export const IbAlluoETHAddress = '0xc677B0918a96ad258A68785C2a3955428DeA7e50';
 
 export const StIbAlluoBTCAddress = '0x3E70E15c189e1FFe8FF44d713605528dC1701b63';

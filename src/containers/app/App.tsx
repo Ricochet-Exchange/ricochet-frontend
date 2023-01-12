@@ -11,7 +11,7 @@ const App: React.FC = () => {
 
 	useEffect(() => {
 		dispatch(mainCheck());
-	}, [dispatch]);
+	}, []);
 
 	return (
 		<HashRouter>
