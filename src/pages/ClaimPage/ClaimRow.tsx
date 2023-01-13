@@ -3,8 +3,15 @@ import styles from './styles.module.scss';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { useQuery } from '@apollo/client';
-import { RexShirtAddress, RICAddress } from 'constants/polygon_config';
+import {
+	RexShirtAddress,
+	RICAddress,
+	uniwhalesWaterdrop,
+	alluoWaterdrop,
+	rexShirtWaterdrop,
+} from 'constants/polygon_config';
 import AlluoToken from 'assets/images/alluo-logo.png';
+import Uniwhales from 'assets/images/uniwhales.png';
 import RexShirtToken from 'assets/images/rex-shirt-logo.png';
 import { gas } from 'api/gasEstimator';
 
@@ -63,11 +70,11 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query }) =
 
 	//Methods: To-do use Utils or more these to utils
 
-	const getTokenIcon = (tokenAddress: string) => {
+	const getTokenIcon = (tokenAddress: string, waterdropAddress: string) => {
 		switch (tokenAddress) {
 			//Rexshirt icon
 			case RICAddress:
-				return AlluoToken;
+				return waterdropAddress === uniwhalesWaterdrop ? Uniwhales : AlluoToken;
 			//Alluo icon
 			case RexShirtAddress:
 				return RexShirtToken;
@@ -76,12 +83,12 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query }) =
 		}
 	};
 
-	const getWaterDropName = (tokenAddress: string) => {
+	const getWaterDropName = (tokenAddress: string, waterdropAddress: string) => {
 		switch (tokenAddress) {
 			case RexShirtAddress:
 				return 'Rex Shirt Waterdrop';
 			case RICAddress:
-				return 'Alluo Waterdrop';
+				return waterdropAddress === uniwhalesWaterdrop ? 'Uniwhales Waterdrop' : 'Alluo Waterdrop';
 			default:
 				break;
 		}
@@ -166,15 +173,21 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query }) =
 						<div className={styles.content_container}>
 							<div className={styles.wrapper}>
 								<div className={styles.token_section}>
-									<img src={getTokenIcon(claimDetails?.token!)} alt={''} width="27" height="27"></img>
+									<img
+										src={getTokenIcon(claimDetails?.token!, waterdropAddress!)}
+										alt={''}
+										width="27"
+										height="27"
+									></img>
 									<div className={styles.token_text}>
-										{getWaterDropName(claimDetails?.token || '')}
+										{getWaterDropName(claimDetails?.token || '', waterdropAddress!)}
 									</div>
 								</div>
 								<div className={styles.amount_section}>
 									{((Number(claimDetails?.rate) * Number(claimDetails?.duration)) / 10 ** 18).toFixed(
 										2,
-									)}
+									)}{' '}
+									/ {waterdropAddress === rexShirtWaterdrop ? 'RexShirt Token' : 'RIC Token'}
 								</div>
 								<div className={styles.duration_section}>
 									{' '}

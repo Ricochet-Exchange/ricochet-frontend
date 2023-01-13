@@ -10,6 +10,7 @@ export const rexReferralAddress = '0xA0eC9E1542485700110688b3e6FbebBDf23cd901';
 
 export const rexShirtWaterdrop = '0x4965DD6Cc99e20B33B744374F132f7b5F8333a06';
 export const alluoWaterdrop = '0x114e5EAbd33B34F3B7f481Df4fc2617dE6cd2B66';
+export const uniwhalesWaterdrop = '0xa576a3E103f437f9845a400cd909CA5de6456A84';
 
 // Currently in use contracts //
 

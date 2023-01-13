@@ -3,8 +3,12 @@ import styles from './styles.module.scss';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { getContract } from 'utils/getContract';
-import { alluoWaterdrop, rexShirtWaterdrop } from 'constants/polygon_config';
-import { GET_CLAIM_AMOUNT_ALLUO, GET_CLAIM_AMOUNT_REXSHIRT } from 'containers/main/TradeHistory/data/queries';
+import { alluoWaterdrop, rexShirtWaterdrop, uniwhalesWaterdrop } from 'constants/polygon_config';
+import {
+	GET_CLAIM_AMOUNT_ALLUO,
+	GET_CLAIM_AMOUNT_REXSHIRT,
+	GET_CLAIM_AMOUNT_UNIWHALES,
+} from 'containers/main/TradeHistory/data/queries';
 import { conditionalWaterdrop } from 'constants/ABIs/conditionalWaterdrop';
 import { ClaimRow } from './ClaimRow';
 
@@ -25,6 +29,7 @@ export const ClaimPageContainer: FC<IProps> = () => {
 
 	const rexShirtWaterdropContract = getContract(rexShirtWaterdrop, conditionalWaterdrop, web3);
 	const alluoWaterdropContract = getContract(alluoWaterdrop, conditionalWaterdrop, web3);
+	const uniwhalesWaterdropContract = getContract(uniwhalesWaterdrop, conditionalWaterdrop, web3);
 
 	const waterdrops: waterdrop[] = [
 		{
@@ -36,6 +41,11 @@ export const ClaimPageContainer: FC<IProps> = () => {
 			contract: alluoWaterdropContract!,
 			waterdropAddress: alluoWaterdrop,
 			query: GET_CLAIM_AMOUNT_ALLUO,
+		},
+		{
+			contract: uniwhalesWaterdropContract!,
+			waterdropAddress: uniwhalesWaterdrop,
+			query: GET_CLAIM_AMOUNT_UNIWHALES,
 		},
 	];
 

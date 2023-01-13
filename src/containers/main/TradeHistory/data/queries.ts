@@ -22,6 +22,28 @@ export const GET_STREAMS_CREATED = gql`
 	}
 `;
 
+//TODO: REFACTOR TO ONLY USE VARS AND MAKE DRY
+
+export const GET_CLAIM_AMOUNT_UNIWHALES = gql`
+	query GetClaimAmmount {
+		account(id: "0xa576a3E103f437f9845a400cd909CA5de6456A84") {
+			outflows {
+				flowUpdatedEvents {
+					totalAmountStreamedUntilTimestamp
+					stream {
+						currentFlowRate
+						createdAtTimestamp
+						updatedAtTimestamp
+					}
+				}
+				receiver {
+					id
+				}
+			}
+		}
+	}
+`;
+
 export const GET_CLAIM_AMOUNT_ALLUO = gql`
 	query GetClaimAmmount {
 		account(id: "0x114e5eabd33b34f3b7f481df4fc2617de6cd2b66") {
