@@ -33,9 +33,9 @@ export const ClaimPageContainer: FC<IProps> = () => {
 
 	const waterdrops: waterdrop[] = [
 		{
-			contract: rexShirtWaterdropContract!,
-			waterdropAddress: rexShirtWaterdrop,
-			query: GET_CLAIM_AMOUNT_REXSHIRT,
+			contract: uniwhalesWaterdropContract!,
+			waterdropAddress: uniwhalesWaterdrop,
+			query: GET_CLAIM_AMOUNT_UNIWHALES,
 		},
 		{
 			contract: alluoWaterdropContract!,
@@ -43,9 +43,9 @@ export const ClaimPageContainer: FC<IProps> = () => {
 			query: GET_CLAIM_AMOUNT_ALLUO,
 		},
 		{
-			contract: uniwhalesWaterdropContract!,
-			waterdropAddress: uniwhalesWaterdrop,
-			query: GET_CLAIM_AMOUNT_UNIWHALES,
+			contract: rexShirtWaterdropContract!,
+			waterdropAddress: rexShirtWaterdrop,
+			query: GET_CLAIM_AMOUNT_REXSHIRT,
 		},
 	];
 

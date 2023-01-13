@@ -102,7 +102,7 @@
 .token_section {
 	flex: 1 1;
 	display: flex;
-	justify-content: center;
+	justify-content: left;
 	align-items: center;
 
 	@include tablet() {
