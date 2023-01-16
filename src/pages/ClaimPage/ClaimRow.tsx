@@ -194,12 +194,12 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query, nam
 								</div>
 								<div className={styles.duration_section}>
 									{' '}
-									{secondsToDays(Number(claimDetails?.duration))} days
+									{claimDetails && secondsToDays(Number(claimDetails.duration))} days
 								</div>
 								<div className={styles.deadline_section}>
-									{epochToDate(claimDetails?.deadline ?? '')}
+									{claimDetails && epochToDate(claimDetails.deadline ?? '')}
 								</div>
-								<div className={styles.deadline_section}>{claimAmountStatus()}</div>
+								<div className={styles.deadline_section}>{address && claimAmountStatus()}</div>
 								<div className={styles.claim_section}>
 									<button
 										className={styles.claim_button}
