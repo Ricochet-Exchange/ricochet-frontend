@@ -11,7 +11,7 @@ import {
 	rexShirtWaterdrop,
 } from 'constants/polygon_config';
 import AlluoToken from 'assets/images/alluo-logo.png';
-import { GET_CLAIM_AMOUNT } from 'containers/main/TradeHistory/data/queries';
+//import { GET_CLAIM_AMOUNT } from 'containers/main/TradeHistory/data/queries';
 import Uniwhales from 'assets/images/uniwhales.png';
 import RexShirtToken from 'assets/images/rex-shirt-logo.png';
 import { gas } from 'api/gasEstimator';
@@ -32,11 +32,13 @@ interface waterdrop {
 
 export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query, name }) => {
 	const { address, web3 } = useShallowSelector(selectMain);
-	const { loading, data } = useQuery(GET_CLAIM_AMOUNT, {
-		variables: {
-			id: waterdropAddress!,
-		},
-	});
+	//const { loading, data } = useQuery(GET_CLAIM_AMOUNT, {
+	//	variables: {
+	//		id: waterdropAddress!,
+	//	},
+	//});
+
+	const { loading, data } = useQuery(query, {});
 	const [claimDetails, setClaimDetails] = React.useState<claimDetailsProps>();
 	const [btnStatus, setButtonStatus] = React.useState<string>('Loading...');
 
@@ -44,16 +46,13 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query, nam
 
 	let startTime = '';
 
-	React.useEffect(() => {
-		console.log('data', data, 'name', name, query);
-		if (data && address && !loading) {
-			data?.account?.outflows?.map((item: any) => {
-				if (item.receiver.id.toLowerCase() === address.toLowerCase()) {
-					startTime = item.flowUpdatedEvents[0].stream.createdAtTimestamp;
-				}
-			});
-		}
-	}, [data, address, loading]);
+	if (data && address && !loading) {
+		data?.account?.outflows?.map((item: any) => {
+			if (item.receiver.id.toLowerCase() === address.toLowerCase()) {
+				startTime = item.flowUpdatedEvents[0].stream.createdAtTimestamp;
+			}
+		});
+	}
 
 	React.useEffect(() => {
 		const findStatus = async () => {
