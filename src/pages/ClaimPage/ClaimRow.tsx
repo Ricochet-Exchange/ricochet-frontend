@@ -26,9 +26,10 @@ interface waterdrop {
 	contract: any;
 	waterdropAddress: string;
 	query: any;
+	name: string;
 }
 
-export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query }) => {
+export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query, name }) => {
 	const { address, web3 } = useShallowSelector(selectMain);
 	const { loading, data } = useQuery(query!, {});
 	const [claimDetails, setClaimDetails] = React.useState<claimDetailsProps>();
@@ -54,7 +55,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query }) =
 				.then((response: any) => setButtonStatus('Claim'))
 				.catch((error: any) => {
 					setButtonStatus('Ineligible');
-					console.log('err', error, 'waterdrop', waterdropAddress);
+					console.log('err', error);
 				});
 		};
 
@@ -70,25 +71,27 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query }) =
 
 	//Methods: To-do use Utils or more these to utils
 
-	const getTokenIcon = (tokenAddress: string, waterdropAddress: string) => {
-		switch (tokenAddress) {
-			//Rexshirt icon
-			case RICAddress:
-				return waterdropAddress === uniwhalesWaterdrop ? Uniwhales : AlluoToken;
-			//Alluo icon
-			case RexShirtAddress:
+	const getTokenIcon = (name: string) => {
+		switch (name) {
+			case 'uniwhales':
+				return Uniwhales;
+			case 'alluo':
+				return AlluoToken;
+			case 'rexshirt':
 				return RexShirtToken;
 			default:
 				break;
 		}
 	};
 
-	const getWaterDropName = (tokenAddress: string, waterdropAddress: string) => {
-		switch (tokenAddress) {
-			case RexShirtAddress:
-				return 'Rex Shirt Waterdrop';
-			case RICAddress:
-				return waterdropAddress === uniwhalesWaterdrop ? 'Uniwhales Waterdrop' : 'Alluo Waterdrop';
+	const getWaterDropName = (name: string) => {
+		switch (name) {
+			case 'uniwhales':
+				return 'Uniwhales Waterdrop';
+			case 'alluo':
+				return 'Alluo Waterdrop';
+			case 'rexshirt':
+				return 'Rexshirt Waterdrop';
 			default:
 				break;
 		}
@@ -173,15 +176,8 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query }) =
 						<div className={styles.content_container}>
 							<div className={styles.wrapper}>
 								<div className={styles.token_section}>
-									<img
-										src={getTokenIcon(claimDetails?.token!, waterdropAddress!)}
-										alt={''}
-										width="27"
-										height="27"
-									></img>
-									<div className={styles.token_text}>
-										{getWaterDropName(claimDetails?.token || '', waterdropAddress!)}
-									</div>
+									<img src={getTokenIcon(name)} alt={''} width="27" height="27"></img>
+									<div className={styles.token_text}>{getWaterDropName(name)}</div>
 								</div>
 								<div className={styles.amount_section}>
 									{((Number(claimDetails?.rate) * Number(claimDetails?.duration)) / 10 ** 18).toFixed(

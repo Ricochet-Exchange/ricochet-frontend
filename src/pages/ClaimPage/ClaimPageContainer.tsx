@@ -21,6 +21,7 @@ interface waterdrop {
 	contract: {};
 	waterdropAddress: string;
 	query: any;
+	name: string;
 }
 
 export const ClaimPageContainer: FC<IProps> = () => {
@@ -36,16 +37,19 @@ export const ClaimPageContainer: FC<IProps> = () => {
 			contract: uniwhalesWaterdropContract!,
 			waterdropAddress: uniwhalesWaterdrop,
 			query: GET_CLAIM_AMOUNT_UNIWHALES,
+			name: 'uniwhales',
 		},
 		{
 			contract: alluoWaterdropContract!,
 			waterdropAddress: alluoWaterdrop,
 			query: GET_CLAIM_AMOUNT_ALLUO,
+			name: 'alluo',
 		},
 		{
 			contract: rexShirtWaterdropContract!,
 			waterdropAddress: rexShirtWaterdrop,
 			query: GET_CLAIM_AMOUNT_REXSHIRT,
+			name: 'rexshirt',
 		},
 	];
 
@@ -70,6 +74,7 @@ export const ClaimPageContainer: FC<IProps> = () => {
 									contract={waterdrop.contract}
 									waterdropAddress={waterdrop.waterdropAddress}
 									query={waterdrop.query}
+									name={waterdrop.name}
 								/>
 							);
 						})}
