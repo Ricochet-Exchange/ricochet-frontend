@@ -36,19 +36,19 @@ export const ClaimPageContainer: FC<IProps> = () => {
 		{
 			contract: uniwhalesWaterdropContract!,
 			waterdropAddress: uniwhalesWaterdrop,
-			query: GET_CLAIM_AMOUNT_UNIWHALES,
+			query: GET_CLAIM_AMOUNT_UNIWHALES!,
 			name: 'uniwhales',
 		},
 		{
 			contract: alluoWaterdropContract!,
 			waterdropAddress: alluoWaterdrop,
-			query: GET_CLAIM_AMOUNT_ALLUO,
+			query: GET_CLAIM_AMOUNT_ALLUO!,
 			name: 'alluo',
 		},
 		{
 			contract: rexShirtWaterdropContract!,
 			waterdropAddress: rexShirtWaterdrop,
-			query: GET_CLAIM_AMOUNT_REXSHIRT,
+			query: GET_CLAIM_AMOUNT_REXSHIRT!,
 			name: 'rexshirt',
 		},
 	];
@@ -70,7 +70,7 @@ export const ClaimPageContainer: FC<IProps> = () => {
 						{waterdrops.map((waterdrop, i) => {
 							return (
 								<ClaimRow
-									key={`waterdrop-${i}`}
+									key={`waterdrop-${i}-${name}`}
 									contract={waterdrop.contract}
 									waterdropAddress={waterdrop.waterdropAddress}
 									query={waterdrop.query}
