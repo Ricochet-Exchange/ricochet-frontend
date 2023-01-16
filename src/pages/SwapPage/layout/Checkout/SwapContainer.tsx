@@ -87,10 +87,15 @@ export default function SwapContainer() {
 		'https://api.coingecko.com/api/v3/simple/price?ids=richochet%2Cusd-coin%2Cdai%2Cmaker%2Cethereum%2Cwrapped-bitcoin%2Cidle%2Cmatic-network%2Csushi&vs_currencies=usd';
 
 	React.useEffect(() => {
-		axios.get(coingeckoUrl).then((response) => {
-			setGeckoPriceList(response.data);
-			console.log(response);
-		});
+		axios
+			.get(coingeckoUrl)
+			.then((response) => {
+				setGeckoPriceList(response.data);
+			})
+			.catch((error: any) => {
+				console.log('error', error);
+				return;
+			});
 	}, []);
 
 	React.useEffect(() => {
