@@ -54,7 +54,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query }) =
 				.then((response: any) => setButtonStatus('Claim'))
 				.catch((error: any) => {
 					setButtonStatus('Ineligible');
-					console.log('err', error);
+					console.log('err', error, 'waterdrop', waterdropAddress);
 				});
 		};
 
