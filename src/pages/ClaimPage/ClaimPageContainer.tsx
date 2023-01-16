@@ -70,7 +70,7 @@ export const ClaimPageContainer: FC<IProps> = () => {
 						{waterdrops.map((waterdrop, i) => {
 							return (
 								<ClaimRow
-									key={`waterdrop-${i}-${name}`}
+									key={`waterdrop-${i}-${waterdrop.name}`}
 									contract={waterdrop.contract}
 									waterdropAddress={waterdrop.waterdropAddress}
 									query={waterdrop.query}
