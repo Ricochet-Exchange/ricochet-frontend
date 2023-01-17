@@ -2,47 +2,6 @@
 # yarn lockfile v1
 
 
-"@0x/types@^3.3.7":
-  version "3.3.7"
-  resolved "https://registry.yarnpkg.com/@0x/types/-/types-3.3.7.tgz#2a8556b3398b6d6fac942c63de23ab22836624ee"
-  integrity sha512-6lPXPnvKaIfAJ5hIgs81SytqNCPCLstQ/DA598iLpb90KKjjz8QsdrfII4JeKdrEREvLcWSH9SeH4sNPWyLhlA==
-  dependencies:
-    "@types/node" "12.12.54"
-    bignumber.js "~9.0.2"
-    ethereum-types "^3.7.1"
-
-"@0x/typescript-typings@^5.3.2":
-  version "5.3.2"
-  resolved "https://registry.yarnpkg.com/@0x/typescript-typings/-/typescript-typings-5.3.2.tgz#b2b2a46ebff7f9d885b1357feae615225cb0bb31"
-  integrity sha512-VIo8PS/IRXrI1aEzM8TenUMViX4MFMKBnIAwqC4K/ewVDSnKyYZSk8fzw0XZph6tN07obchPf+1sHIWYe8EUow==
-  dependencies:
-    "@types/bn.js" "^4.11.0"
-    "@types/node" "12.12.54"
-    "@types/react" "*"
-    bignumber.js "~9.0.2"
-    ethereum-types "^3.7.1"
-    popper.js "1.14.3"
-
-"@0x/utils@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@0x/utils/-/utils-7.0.0.tgz#322168b21cf11741003c9cc490b13adafbe57393"
-  integrity sha512-g+Bp0eHUGhnVGeVZqGn7UVtpzs/FuoXksiDaajfJrHFW0owwo5YwpwFIAVU7/ca0B6IKa74e71gskLwWGINEFg==
-  dependencies:
-    "@0x/types" "^3.3.7"
-    "@0x/typescript-typings" "^5.3.2"
-    "@types/mocha" "^5.2.7"
-    "@types/node" "12.12.54"
-    abortcontroller-polyfill "^1.1.9"
-    bignumber.js "~9.0.2"
-    chalk "^2.3.0"
-    detect-node "2.0.3"
-    ethereum-types "^3.7.1"
-    ethereumjs-util "^7.1.5"
-    ethers "~4.0.4"
-    isomorphic-fetch "^3.0.0"
-    js-sha3 "^0.7.0"
-    lodash "^4.17.21"
-
 "@ampproject/remapping@^2.1.0":
   version "2.2.0"
   resolved "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.2.0.tgz"
@@ -3185,7 +3144,7 @@
   resolved "https://registry.npmjs.org/@types/big.js/-/big.js-6.1.4.tgz"
   integrity sha512-yBEfFBLpvnIS9MLcKG4XIpBhMRjDWEf4cSJ/uR5cPq2JrYB+yhYMPK8cF17hGfWmsWL7LuzJF/N4APRtmcg4sw==
 
-"@types/bn.js@^4.11.0", "@types/bn.js@^4.11.3", "@types/bn.js@^4.11.5":
+"@types/bn.js@^4.11.3", "@types/bn.js@^4.11.5":
   version "4.11.6"
   resolved "https://registry.npmjs.org/@types/bn.js/-/bn.js-4.11.6.tgz"
   integrity sha512-pqr857jrp2kPuO9uRjZ3PwnJTjoQy+fcdxvBTvHm6dkmEL9q+hDD/2j/0ELOBPtPnS8LjCX0gI9nbl8lVkadpg==
@@ -3307,20 +3266,10 @@
   resolved "https://registry.npmjs.org/@types/minimist/-/minimist-1.2.2.tgz"
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
 
-"@types/mocha@^5.2.7":
-  version "5.2.7"
-  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.2.7.tgz#315d570ccb56c53452ff8638738df60726d5b6ea"
-  integrity sha512-NYrtPht0wGzhwe9+/idPaBB+TqkY9AhTvOLMkThm0IoEfLaiVQZwBwyJ5puCkO3AUCWrmcoePjp2mbFocKy4SQ==
-
 "@types/node@*":
   version "18.0.0"
   resolved "https://registry.npmjs.org/@types/node/-/node-18.0.0.tgz"
   integrity sha512-cHlGmko4gWLVI27cGJntjs/Sj8th9aYwplmZFwmmgYQQvL5NUsgVJG7OddLvNfLqYS31KFN0s3qlaD9qCaxACA==
-
-"@types/node@12.12.54":
-  version "12.12.54"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.54.tgz#a4b58d8df3a4677b6c08bfbc94b7ad7a7a5f82d1"
-  integrity sha512-ge4xZ3vSBornVYlDnk7yZ0gK6ChHf/CHB7Gl1I0Jhah8DDnEQqBzgohYG4FX4p81TNirSETOiSyn+y1r9/IR6w==
 
 "@types/node@^12.12.6":
   version "12.20.55"
@@ -4073,11 +4022,6 @@ abbrev@1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/abbrev/-/abbrev-1.1.1.tgz"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
-
-abortcontroller-polyfill@^1.1.9:
-  version "1.7.5"
-  resolved "https://registry.yarnpkg.com/abortcontroller-polyfill/-/abortcontroller-polyfill-1.7.5.tgz#6738495f4e901fbb57b6c0611d0c75f76c485bed"
-  integrity sha512-JMJ5soJWP18htbbxJjG7bG6yuI6pRhgJ0scHHTfkUjf6wjP912xZWvM+A4sJK3gqd9E8fcPbDnOefbA9Th/FIQ==
 
 abstract-leveldown@~2.6.0:
   version "2.6.3"
@@ -4919,7 +4863,7 @@ bignumber.js@^7.2.1:
   resolved "https://registry.npmjs.org/bignumber.js/-/bignumber.js-7.2.1.tgz"
   integrity sha512-S4XzBk5sMB+Rcb/LNcpzXr57VRTxgAvaAEDAl1AwRx27j00hT84O6OkteE7u8UB3NuaaygCRrEpqox4uDOrbdQ==
 
-bignumber.js@^9.0.0, bignumber.js@^9.0.1, bignumber.js@~9.0.2:
+bignumber.js@^9.0.0, bignumber.js@^9.0.1:
   version "9.0.2"
   resolved "https://registry.npmjs.org/bignumber.js/-/bignumber.js-9.0.2.tgz"
   integrity sha512-GAcQvbpsM0pUb0zw1EI0KhQEZ+lRwR5fYaAp3vPOYuP7aDvGy6cVN6XHLauvF8SOga2y0dcLcjt3iQDTSEliyw==
@@ -5569,7 +5513,7 @@ chainsaw@~0.1.0:
   dependencies:
     traverse ">=0.3.0 <0.4"
 
-chalk@2.4.2, chalk@^2.0.0, chalk@^2.3.0, chalk@^2.3.2, chalk@^2.4.1, chalk@^2.4.2:
+chalk@2.4.2, chalk@^2.0.0, chalk@^2.3.2, chalk@^2.4.1, chalk@^2.4.2:
   version "2.4.2"
   resolved "https://registry.npmjs.org/chalk/-/chalk-2.4.2.tgz"
   integrity sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==
@@ -6934,11 +6878,6 @@ detect-newline@^3.0.0:
   resolved "https://registry.npmjs.org/detect-newline/-/detect-newline-3.1.0.tgz"
   integrity sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==
 
-detect-node@2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.3.tgz#a2033c09cc8e158d37748fbde7507832bd6ce127"
-  integrity sha512-64uDTOK+fKEa6XoSbkkDoeAX8Ep1XhwxwZtL1aw1En5p5UOK/ekJoFqd5BB1o+uOvF1iHVv6qDUxdOQ/VgWEQg==
-
 detect-node@^2.0.4:
   version "2.1.0"
   resolved "https://registry.npmjs.org/detect-node/-/detect-node-2.1.0.tgz"
@@ -7927,14 +7866,6 @@ ethereum-cryptography@^0.1.3:
     secp256k1 "^4.0.1"
     setimmediate "^1.0.5"
 
-ethereum-types@^3.7.1:
-  version "3.7.1"
-  resolved "https://registry.yarnpkg.com/ethereum-types/-/ethereum-types-3.7.1.tgz#8fa75e5d9f5da3c85535ea0d4bcd2614b1d650a8"
-  integrity sha512-EBQwTGnGZQ9oHK7Za3DFEOxiElksRCoZECkk418vHiE2d59lLSejDZ1hzRVphtFjAu5YqONz4/XuAYdMBg+gWA==
-  dependencies:
-    "@types/node" "12.12.54"
-    bignumber.js "~9.0.2"
-
 "ethereumjs-abi@git+https://github.com/ethereumjs/ethereumjs-abi.git":
   version "0.6.8"
   resolved "git+https://github.com/ethereumjs/ethereumjs-abi.git#ee3994657fa7a427238e6ba92a84d0b529bbcde0"
@@ -8048,7 +7979,7 @@ ethereumjs-vm@^2.3.4:
     rustbn.js "~0.2.0"
     safe-buffer "^5.1.1"
 
-ethers@^4.0.27, ethers@^4.0.32, ethers@~4.0.4:
+ethers@^4.0.27, ethers@^4.0.32:
   version "4.0.49"
   resolved "https://registry.npmjs.org/ethers/-/ethers-4.0.49.tgz"
   integrity sha512-kPltTvWiyu+OktYy1IStSO16i2e7cS9D9OxZ81q2UUaiNPVrm/RTcbxamCXF9VUSKzJIdJV68EAIhTEVBalRWg==
@@ -10206,14 +10137,6 @@ isobject@^3.0.0, isobject@^3.0.1:
   resolved "https://registry.npmjs.org/isobject/-/isobject-3.0.1.tgz"
   integrity sha512-WhB9zCku7EGTj/HQQRz5aUQEUeoQZH2bWcltRErOpymJ4boYE6wL9Tbr23krRPSZ+C5zqNSrSw+Cc7sZZ4b7vg==
 
-isomorphic-fetch@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/isomorphic-fetch/-/isomorphic-fetch-3.0.0.tgz#0267b005049046d2421207215d45d6a262b8b8b4"
-  integrity sha512-qvUtwJ3j6qwsF3jLxkZ72qCgjMysPzDfeV240JHiGZsANBYd+EEuu35v7dfrJ9Up0Ak07D7GGSkGhCHTqg/5wA==
-  dependencies:
-    node-fetch "^2.6.1"
-    whatwg-fetch "^3.4.1"
-
 isomorphic-ws@^4.0.1:
   version "4.0.1"
   resolved "https://registry.npmjs.org/isomorphic-ws/-/isomorphic-ws-4.0.1.tgz"
@@ -10779,11 +10702,6 @@ js-sha3@0.8.0, js-sha3@^0.8.0:
   version "0.8.0"
   resolved "https://registry.npmjs.org/js-sha3/-/js-sha3-0.8.0.tgz"
   integrity sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q==
-
-js-sha3@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.7.0.tgz#0a5c57b36f79882573b2d84051f8bb85dd1bd63a"
-  integrity sha512-Wpks3yBDm0UcL5qlVhwW9Jr9n9i4FfeWBFOOXP5puDS/SiudJGhw7DPyBqn3487qD4F0lsC0q3zxink37f7zeA==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
@@ -12910,11 +12828,6 @@ pnp-webpack-plugin@1.6.4:
   integrity sha512-7Wjy+9E3WwLOEL30D+m8TSTF7qJJUJLONBnwQp0518siuMxUQUbgZwssaFX+QKlZkjHZcw/IpZCt/H0srrntSg==
   dependencies:
     ts-pnp "^1.1.6"
-
-popper.js@1.14.3:
-  version "1.14.3"
-  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.3.tgz#1438f98d046acf7b4d78cd502bf418ac64d4f095"
-  integrity sha512-3lmujhsHXzb83+sI0PzfrE3O1XHZG8m8MXNMTupvA6LrM1/nnsiqYaacYc/RIente9VqnTDPztGEM8uvPAMGyg==
 
 portfinder@^1.0.26:
   version "1.0.28"
