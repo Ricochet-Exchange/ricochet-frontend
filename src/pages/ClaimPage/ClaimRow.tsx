@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import styles from './styles.module.scss';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
-import { useQuery } from '@apollo/client';
 import {
 	RexShirtAddress,
 	RICAddress,
@@ -35,7 +34,6 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 	const [claimedSoFar, setClaimedSoFar] = React.useState<number | string>('-');
 
 	const claimAccess = '0';
-
 	let startTime = '';
 
 	React.useEffect(() => {
