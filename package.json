@@ -33,6 +33,7 @@
     ]
   },
   "dependencies": {
+    "@0x/utils": "^7.0.0",
     "@apollo/client": "^3.6.5",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
