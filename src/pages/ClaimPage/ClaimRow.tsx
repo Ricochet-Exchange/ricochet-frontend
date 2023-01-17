@@ -2,13 +2,7 @@ import React, { FC } from 'react';
 import styles from './styles.module.scss';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
-import {
-	RexShirtAddress,
-	RICAddress,
-	uniwhalesWaterdrop,
-	alluoWaterdrop,
-	rexShirtWaterdrop,
-} from 'constants/polygon_config';
+import { rexShirtWaterdrop } from 'constants/polygon_config';
 import AlluoToken from 'assets/images/alluo-logo.png';
 import Uniwhales from 'assets/images/uniwhales.png';
 import RexShirtToken from 'assets/images/rex-shirt-logo.png';
@@ -53,11 +47,13 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 							(parseInt(claimDetails?.rate || '') * parseInt(claimDetails?.duration || '')) / 1e18,
 						);
 
-						if (startTime && parseInt(totalClaimedSoFar) > totalClaimedAmount) {
-							setClaimedSoFar(totalClaimedAmount);
+						console.log(totalClaimedAmount, totalClaimedSoFar);
+
+						if (startTime && parseInt(totalClaimedSoFar) > totalClaimedAmount && btnStatus === 'Claimed') {
+							setClaimedSoFar(totalClaimedAmount!);
 							return totalClaimedAmount;
-						} else if (startTime) {
-							setClaimedSoFar(totalClaimedSoFar);
+						} else if (startTime && btnStatus === 'Claimed') {
+							setClaimedSoFar(totalClaimedSoFar!);
 							return totalClaimedSoFar;
 						} else {
 							return '-';
