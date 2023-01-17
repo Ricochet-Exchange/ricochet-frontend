@@ -64,7 +64,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 					});
 			}
 		})();
-	}, [address, contract]);
+	}, [address, contract, btnStatus]);
 
 	React.useEffect(() => {
 		const findStatus = async () => {
