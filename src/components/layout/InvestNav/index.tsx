@@ -49,7 +49,7 @@ export const InvestNav = () => {
 
 				<NavLink to={Routes.Claim} className={styles.nav_link} activeClassName={styles.nav_link_active}>
 					<img src={gift} width="16" height="16" style={{ filter: 'invert(1)', marginRight: '3px' }} />
-					<div className={styles.nav_text}>{t('Claim')}</div>
+					<div className={styles.nav_text}>{t('Gifts')}</div>
 				</NavLink>
 
 				<NavLink className={styles.nav_link} activeClassName={styles.nav_link_active} to={Routes.Payments}>

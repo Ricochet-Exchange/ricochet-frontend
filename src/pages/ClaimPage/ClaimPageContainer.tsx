@@ -3,8 +3,7 @@ import styles from './styles.module.scss';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { getContract } from 'utils/getContract';
-import { alluoWaterdrop, rexShirtWaterdrop } from 'constants/polygon_config';
-import { GET_CLAIM_AMOUNT_ALLUO, GET_CLAIM_AMOUNT_REXSHIRT } from 'containers/main/TradeHistory/data/queries';
+import { alluoWaterdrop, rexShirtWaterdrop, uniwhalesWaterdrop } from 'constants/polygon_config';
 import { conditionalWaterdrop } from 'constants/ABIs/conditionalWaterdrop';
 import { ClaimRow } from './ClaimRow';
 
@@ -16,7 +15,7 @@ interface IProps {
 interface waterdrop {
 	contract: {};
 	waterdropAddress: string;
-	query: any;
+	name: string;
 }
 
 export const ClaimPageContainer: FC<IProps> = () => {
@@ -25,17 +24,23 @@ export const ClaimPageContainer: FC<IProps> = () => {
 
 	const rexShirtWaterdropContract = getContract(rexShirtWaterdrop, conditionalWaterdrop, web3);
 	const alluoWaterdropContract = getContract(alluoWaterdrop, conditionalWaterdrop, web3);
+	const uniwhalesWaterdropContract = getContract(uniwhalesWaterdrop, conditionalWaterdrop, web3);
 
 	const waterdrops: waterdrop[] = [
 		{
-			contract: rexShirtWaterdropContract!,
-			waterdropAddress: rexShirtWaterdrop,
-			query: GET_CLAIM_AMOUNT_REXSHIRT,
+			contract: uniwhalesWaterdropContract!,
+			waterdropAddress: uniwhalesWaterdrop,
+			name: 'uniwhales',
 		},
 		{
 			contract: alluoWaterdropContract!,
 			waterdropAddress: alluoWaterdrop,
-			query: GET_CLAIM_AMOUNT_ALLUO,
+			name: 'alluo',
+		},
+		{
+			contract: rexShirtWaterdropContract!,
+			waterdropAddress: rexShirtWaterdrop,
+			name: 'rexshirt',
 		},
 	];
 
@@ -56,10 +61,10 @@ export const ClaimPageContainer: FC<IProps> = () => {
 						{waterdrops.map((waterdrop, i) => {
 							return (
 								<ClaimRow
-									key={`waterdrop-${i}`}
+									key={`waterdrop-${i}-${waterdrop.name}`}
 									contract={waterdrop.contract}
 									waterdropAddress={waterdrop.waterdropAddress}
-									query={waterdrop.query}
+									name={waterdrop.name}
 								/>
 							);
 						})}
