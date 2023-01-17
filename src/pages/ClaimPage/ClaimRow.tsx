@@ -11,7 +11,6 @@ import {
 	rexShirtWaterdrop,
 } from 'constants/polygon_config';
 import AlluoToken from 'assets/images/alluo-logo.png';
-//import { GET_CLAIM_AMOUNT } from 'containers/main/TradeHistory/data/queries';
 import Uniwhales from 'assets/images/uniwhales.png';
 import RexShirtToken from 'assets/images/rex-shirt-logo.png';
 import { gas } from 'api/gasEstimator';
@@ -26,33 +25,52 @@ interface claimDetailsProps {
 interface waterdrop {
 	contract: any;
 	waterdropAddress: string;
-	query: any;
 	name: string;
 }
 
-export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query, name }) => {
+export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) => {
 	const { address, web3 } = useShallowSelector(selectMain);
-	//const { loading, data } = useQuery(GET_CLAIM_AMOUNT, {
-	//	variables: {
-	//		id: waterdropAddress!,
-	//	},
-	//});
-
-	const { loading, data } = useQuery(query, {});
 	const [claimDetails, setClaimDetails] = React.useState<claimDetailsProps>();
 	const [btnStatus, setButtonStatus] = React.useState<string>('Loading...');
+	const [claimedSoFar, setClaimedSoFar] = React.useState<number | string>('-');
 
 	const claimAccess = '0';
 
 	let startTime = '';
 
-	if (data && address && !loading) {
-		data?.account?.outflows?.map((item: any) => {
-			if (item.receiver.id.toLowerCase() === address.toLowerCase()) {
-				startTime = item.flowUpdatedEvents[0].stream.createdAtTimestamp;
+	React.useEffect(() => {
+		(async () => {
+			if (contract && address) {
+				contract.methods
+					.getFlow(address)
+					.call()
+					.then((res: any) => {
+						startTime = res.timestamp;
+						const totalClaimedSoFar = (
+							((Math.floor(new Date().getTime() / 1000.0) - parseInt(startTime)) *
+								parseInt(claimDetails?.rate!)) /
+							1e18
+						).toFixed(6);
+						const totalClaimedAmount = Math.round(
+							(parseInt(claimDetails?.rate || '') * parseInt(claimDetails?.duration || '')) / 1e18,
+						);
+
+						if (startTime && parseInt(totalClaimedSoFar) > totalClaimedAmount) {
+							setClaimedSoFar(totalClaimedAmount);
+							return totalClaimedAmount;
+						} else if (startTime) {
+							setClaimedSoFar(totalClaimedSoFar);
+							return totalClaimedSoFar;
+						} else {
+							return '-';
+						}
+					})
+					.catch((error: any) => {
+						console.log('error', error);
+					});
 			}
-		});
-	}
+		})();
+	}, [address, contract]);
 
 	React.useEffect(() => {
 		const findStatus = async () => {
@@ -67,7 +85,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query, nam
 		};
 
 		if (contract && address) {
-			const hasClaimed = contract.methods
+			contract.methods
 				.hasClaimed(address)
 				.call()
 				.then((res: boolean) => {
@@ -120,25 +138,6 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query, nam
 		}
 	};
 
-	const claimAmountStatus = () => {
-		const totalClaimedSoFar = (
-			((Math.floor(new Date().getTime() / 1000.0) - parseInt(startTime)) * parseInt(claimDetails?.rate!)) /
-			1e18
-		).toFixed(6);
-		const totalClaimedAmount = Math.round(
-			(parseInt(claimDetails?.rate || '') * parseInt(claimDetails?.duration || '')) / 1e18,
-		);
-
-		if (startTime?.length && parseInt(totalClaimedSoFar) > totalClaimedAmount) {
-			return totalClaimedAmount;
-		} else if (startTime) {
-			console.log(totalClaimedSoFar);
-			return totalClaimedSoFar;
-		} else {
-			return '-';
-		}
-	};
-
 	//Retrieve waterdrop data (token, rate, duration, deadline)
 	React.useEffect(() => {
 		if (address && contract) {
@@ -148,7 +147,6 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query, nam
 						.waterDrop()
 						.call()
 						.then((res: any) => {
-							console.log('res', res);
 							setClaimDetails(res);
 						})
 						.catch((error: any) => {
@@ -199,7 +197,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, query, nam
 								<div className={styles.deadline_section}>
 									{claimDetails && epochToDate(claimDetails.deadline ?? '')}
 								</div>
-								<div className={styles.deadline_section}>{address && claimAmountStatus()}</div>
+								<div className={styles.deadline_section}>{claimedSoFar}</div>
 								<div className={styles.claim_section}>
 									<button
 										className={styles.claim_button}
