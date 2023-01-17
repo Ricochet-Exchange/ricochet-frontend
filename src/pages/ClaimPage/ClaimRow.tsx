@@ -32,7 +32,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 
 	React.useEffect(() => {
 		(async () => {
-			if (contract && address && claimDetails) {
+			if (contract && address && claimDetails && btnStatus !== 'Loading...') {
 				contract.methods
 					.getFlow(address)
 					.call()
