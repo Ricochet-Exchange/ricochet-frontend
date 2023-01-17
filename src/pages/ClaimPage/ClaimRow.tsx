@@ -41,7 +41,6 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 					.then((res: any) => {
 						let startTime = res.timestamp;
 						setTimestamp(res.timestamp);
-						const timen = new Date().getTime();
 						const time = new Date().getTime() / 1000;
 						const newTime: any = time - +startTime;
 						setFlow(claimDetails?.rate!);
