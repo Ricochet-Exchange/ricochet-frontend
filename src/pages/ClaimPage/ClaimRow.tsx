@@ -32,7 +32,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 
 	React.useEffect(() => {
 		(async () => {
-			if (contract && address) {
+			if (contract && address && claimDetails) {
 				contract.methods
 					.getFlow(address)
 					.call()
@@ -64,7 +64,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 					});
 			}
 		})();
-	}, [address, contract, btnStatus]);
+	}, [address, contract, btnStatus, claimDetails]);
 
 	React.useEffect(() => {
 		const findStatus = async () => {
