@@ -26,7 +26,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 	const { address, web3 } = useShallowSelector(selectMain);
 	const [claimDetails, setClaimDetails] = React.useState<claimDetailsProps>();
 	const [btnStatus, setButtonStatus] = React.useState<string>('Loading...');
-	const [claimedSoFar, setClaimedSoFar] = React.useState<number | string>('0');
+	const [claimedSoFar, setClaimedSoFar] = React.useState<string>('0');
 	const [timestamp, setTimestamp] = React.useState('0');
 	const [flow, setFlow] = React.useState('0');
 
@@ -43,15 +43,15 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 						setTimestamp(res.timestamp);
 						const timen = new Date().getTime();
 						const time = new Date().getTime() / 1000;
-						const newTime = time - +startTime;
+						const newTime: any = time - +startTime;
 						setFlow(claimDetails?.rate!);
-						const totalClaimedSoFar = newTime * claimDetails.rate;
-						const totalClaimedAmount = claimDetails?.rate! * claimDetails?.duration!;
+						const totalClaimedSoFar: any = newTime * +claimDetails?.rate!;
+						const totalClaimedAmount: any = +claimDetails?.rate! * +claimDetails?.duration!;
 						if (startTime && parseInt(totalClaimedSoFar) > totalClaimedAmount && btnStatus === 'Claimed') {
-							setClaimedSoFar(totalClaimedAmount!);
+							setClaimedSoFar(`${totalClaimedAmount!}`);
 							return totalClaimedAmount;
 						} else if (startTime && btnStatus === 'Claimed') {
-							setClaimedSoFar(totalClaimedSoFar!);
+							setClaimedSoFar(`${totalClaimedSoFar!}`);
 							return totalClaimedSoFar;
 						} else {
 							return '-';
@@ -190,11 +190,11 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 									{claimDetails && epochToDate(claimDetails.deadline ?? '')}
 								</div>
 								<div className={styles.deadline_section}>
-									{claimedSoFar > 0 && flow > 0 && (
+									{+claimedSoFar > 0 && +flow > 0 && (
 										<FlowingBalance
 											balance={claimedSoFar}
 											flowRate={flow}
-											balanceTimestamp={timestamp}
+											balanceTimestamp={+timestamp}
 										/>
 									)}
 								</div>
