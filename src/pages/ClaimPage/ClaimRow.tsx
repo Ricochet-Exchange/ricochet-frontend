@@ -47,9 +47,6 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 						setFlow(claimDetails?.rate!);
 						const totalClaimedSoFar = newTime * claimDetails.rate;
 						const totalClaimedAmount = claimDetails?.rate! * claimDetails?.duration!;
-
-						console.log(totalClaimedAmount, totalClaimedSoFar);
-
 						if (startTime && parseInt(totalClaimedSoFar) > totalClaimedAmount && btnStatus === 'Claimed') {
 							setClaimedSoFar(totalClaimedAmount!);
 							return totalClaimedAmount;

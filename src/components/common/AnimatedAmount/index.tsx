@@ -1,5 +1,4 @@
 import { FC, ReactElement, useEffect, useMemo, useState } from 'react';
-import { BigNumber } from '@0x/utils';
 import { BigNumberish, ethers } from 'ethers';
 import { Box } from '@mui/material';
 
@@ -63,8 +62,6 @@ const FlowingBalance: FC<FlowingBalanceProps> = ({ balance, balanceTimestamp, fl
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [balance, balanceTimestamp, flowRate]);
 
-	console.log(weiValue, weiValue.toString());
-
 	return (
 		<Box
 			data-cy={'total-streamed'}
@@ -73,7 +70,7 @@ const FlowingBalance: FC<FlowingBalanceProps> = ({ balance, balanceTimestamp, fl
 				textOverflow: 'ellipsis',
 			}}
 		>
-			<div>{(+weiValue.toString() / 2 / 10 ** 18).toFixed(4)}</div>
+			<div>{(+weiValue.toString() / 2 / 10 ** 18).toFixed(5)}</div>
 		</Box>
 	);
 };
