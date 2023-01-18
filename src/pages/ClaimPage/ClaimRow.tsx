@@ -189,12 +189,14 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 									{claimDetails && epochToDate(claimDetails.deadline ?? '')}
 								</div>
 								<div className={styles.deadline_section}>
-									{+claimedSoFar > 0 && +flow > 0 && (
+									{+claimedSoFar > 0 && +flow > 0 && +claimedSoFar / 10 ** 18 < 1000 ? (
 										<FlowingBalance
 											balance={claimedSoFar}
 											flowRate={flow}
 											balanceTimestamp={+timestamp}
 										/>
+									) : (
+										+claimedSoFar / 10 ** 18
 									)}
 								</div>
 								<div className={styles.claim_section}>
