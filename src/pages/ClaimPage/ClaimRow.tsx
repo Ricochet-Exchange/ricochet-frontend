@@ -7,6 +7,7 @@ import AlluoToken from 'assets/images/alluo-logo.png';
 import Uniwhales from 'assets/images/uniwhales.png';
 import RexShirtToken from 'assets/images/rex-shirt-logo.png';
 import { gas } from 'api/gasEstimator';
+import FlowingBalance from 'components/common/AnimatedAmount';
 
 interface claimDetailsProps {
 	deadline?: string;
@@ -25,10 +26,11 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 	const { address, web3 } = useShallowSelector(selectMain);
 	const [claimDetails, setClaimDetails] = React.useState<claimDetailsProps>();
 	const [btnStatus, setButtonStatus] = React.useState<string>('Loading...');
-	const [claimedSoFar, setClaimedSoFar] = React.useState<number | string>('-');
+	const [claimedSoFar, setClaimedSoFar] = React.useState<string>('0');
+	const [timestamp, setTimestamp] = React.useState('0');
+	const [flow, setFlow] = React.useState('0');
 
 	const claimAccess = '0';
-	let startTime = '';
 
 	React.useEffect(() => {
 		(async () => {
@@ -37,23 +39,18 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 					.getFlow(address)
 					.call()
 					.then((res: any) => {
-						startTime = res.timestamp;
-						const totalClaimedSoFar = (
-							((Math.floor(new Date().getTime() / 1000.0) - parseInt(startTime)) *
-								parseInt(claimDetails?.rate!)) /
-							1e18
-						).toFixed(6);
-						const totalClaimedAmount = Math.round(
-							(parseInt(claimDetails?.rate || '') * parseInt(claimDetails?.duration || '')) / 1e18,
-						);
-
-						console.log(totalClaimedAmount, totalClaimedSoFar);
-
+						let startTime = res.timestamp;
+						setTimestamp(res.timestamp);
+						const time = new Date().getTime() / 1000;
+						const newTime: any = time - +startTime;
+						setFlow(claimDetails?.rate!);
+						const totalClaimedSoFar: any = newTime * +claimDetails?.rate!;
+						const totalClaimedAmount: any = +claimDetails?.rate! * +claimDetails?.duration!;
 						if (startTime && parseInt(totalClaimedSoFar) > totalClaimedAmount && btnStatus === 'Claimed') {
-							setClaimedSoFar(totalClaimedAmount!);
+							setClaimedSoFar(`${totalClaimedAmount!}`);
 							return totalClaimedAmount;
 						} else if (startTime && btnStatus === 'Claimed') {
-							setClaimedSoFar(totalClaimedSoFar!);
+							setClaimedSoFar(`${totalClaimedSoFar!}`);
 							return totalClaimedSoFar;
 						} else {
 							return '-';
@@ -191,7 +188,17 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 								<div className={styles.deadline_section}>
 									{claimDetails && epochToDate(claimDetails.deadline ?? '')}
 								</div>
-								<div className={styles.deadline_section}>{claimedSoFar}</div>
+								<div className={styles.deadline_section}>
+									{+claimedSoFar > 0 && +flow > 0 && +claimedSoFar / 10 ** 18 < 1000 ? (
+										<FlowingBalance
+											balance={claimedSoFar}
+											flowRate={flow}
+											balanceTimestamp={+timestamp}
+										/>
+									) : (
+										+claimedSoFar / 10 ** 18
+									)}
+								</div>
 								<div className={styles.claim_section}>
 									<button
 										className={styles.claim_button}
