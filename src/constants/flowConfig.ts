@@ -64,6 +64,33 @@ type IndexIDAType = {
 
 export const indexIDA: IndexIDAType = [
 	{
+		exchangeAddress: twoWayWETHMarketAddress,
+		input: USDCxAddress,
+		output: WETHxAddress,
+		subsidy: RICAddress,
+		subsidyIndex: 3,
+		inputIndex: 0,
+		outputIndex: 1,
+	},
+	{
+		exchangeAddress: twoWayMarketMATICUSDCAddress,
+		input: USDCxAddress,
+		output: MATICxAddress,
+		subsidy: RICAddress,
+		subsidyIndex: 3,
+		inputIndex: 0,
+		outputIndex: 1,
+	},
+	{
+		exchangeAddress: twoWayMarketWBTCAddress,
+		input: USDCxAddress,
+		output: WBTCxAddress,
+		subsidy: RICAddress,
+		subsidyIndex: 3,
+		inputIndex: 0,
+		outputIndex: 1,
+	},
+	{
 		exchangeAddress: twoWayMarketibAlluoUSDETHAddress,
 		input: StIbAlluoETHAddress,
 		output: StIbAlluoUSDAddress,
@@ -99,15 +126,7 @@ export const indexIDA: IndexIDAType = [
 		inputIndex: 0,
 		outputIndex: 1,
 	},
-	{
-		exchangeAddress: twoWayWETHMarketAddress,
-		input: USDCxAddress,
-		output: WETHxAddress,
-		subsidy: RICAddress,
-		subsidyIndex: 3,
-		inputIndex: 0,
-		outputIndex: 1,
-	},
+
 	{
 		exchangeAddress: twoWayWETHMarketAddress,
 		input: WETHxAddress,
@@ -117,15 +136,7 @@ export const indexIDA: IndexIDAType = [
 		inputIndex: 1,
 		outputIndex: 0,
 	},
-	{
-		exchangeAddress: twoWayMarketWBTCAddress,
-		input: USDCxAddress,
-		output: WBTCxAddress,
-		subsidy: RICAddress,
-		subsidyIndex: 3,
-		inputIndex: 0,
-		outputIndex: 1,
-	},
+
 	{
 		exchangeAddress: twoWayMarketWBTCAddress,
 		input: WBTCxAddress,
@@ -179,15 +190,6 @@ export const indexIDA: IndexIDAType = [
 		subsidyIndex: 2,
 		inputIndex: 1,
 		outputIndex: 0,
-	},
-	{
-		exchangeAddress: twoWayMarketMATICUSDCAddress,
-		input: USDCxAddress,
-		output: MATICxAddress,
-		subsidy: RICAddress,
-		subsidyIndex: 3,
-		inputIndex: 0,
-		outputIndex: 1,
 	},
 	// {
 	// 	exchangeAddress: twoWayMarketMATICDAIAddress,
@@ -278,6 +280,33 @@ export type InvestmentFlow = {
 
 const markets: InvestmentFlow[] = [
 	{
+		superToken: twoWayWETHMarketAddress,
+		tokenA: USDCxAddress,
+		tokenB: WETHxAddress,
+		coinA: Coin.USDC,
+		coinB: Coin.WETH,
+		flowKey: FlowEnum.twoWayusdcWethFlowQuery,
+		type: FlowTypes.market,
+	},
+	{
+		superToken: twoWayMarketMATICUSDCAddress,
+		tokenA: USDCxAddress,
+		tokenB: MATICxAddress,
+		coinA: Coin.USDC,
+		coinB: Coin.MATIC,
+		flowKey: FlowEnum.twoWayUsdcMaticFlowQuery,
+		type: FlowTypes.market,
+	},
+	{
+		superToken: twoWayMarketWBTCAddress,
+		tokenA: USDCxAddress,
+		tokenB: WBTCxAddress,
+		coinA: Coin.USDC,
+		coinB: Coin.WBTC,
+		flowKey: FlowEnum.twoWayusdcWbtcFlowQuery,
+		type: FlowTypes.market,
+	},
+	{
 		superToken: twoWayMarketibAlluoUSDETHAddress,
 		tokenA: StIbAlluoETHAddress,
 		tokenB: StIbAlluoUSDAddress,
@@ -332,24 +361,6 @@ const markets: InvestmentFlow[] = [
 		type: FlowTypes.market,
 	},
 	{
-		superToken: twoWayWETHMarketAddress,
-		tokenA: USDCxAddress,
-		tokenB: WETHxAddress,
-		coinA: Coin.USDC,
-		coinB: Coin.WETH,
-		flowKey: FlowEnum.twoWayusdcWethFlowQuery,
-		type: FlowTypes.market,
-	},
-	{
-		superToken: twoWayMarketWBTCAddress,
-		tokenA: USDCxAddress,
-		tokenB: WBTCxAddress,
-		coinA: Coin.USDC,
-		coinB: Coin.WBTC,
-		flowKey: FlowEnum.twoWayusdcWbtcFlowQuery,
-		type: FlowTypes.market,
-	},
-	{
 		superToken: twoWayMarketDAIWETHAddress,
 		tokenA: DAIxAddress,
 		tokenB: WETHxAddress,
@@ -401,15 +412,6 @@ const markets: InvestmentFlow[] = [
 		coinA: Coin.MATIC,
 		coinB: Coin.USDC,
 		flowKey: FlowEnum.twoWayMaticUsdcFlowQuery,
-		type: FlowTypes.market,
-	},
-	{
-		superToken: twoWayMarketMATICUSDCAddress,
-		tokenA: USDCxAddress,
-		tokenB: MATICxAddress,
-		coinA: Coin.USDC,
-		coinB: Coin.MATIC,
-		flowKey: FlowEnum.twoWayUsdcMaticFlowQuery,
 		type: FlowTypes.market,
 	},
 ];
