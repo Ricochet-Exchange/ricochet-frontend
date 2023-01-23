@@ -104,9 +104,12 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 	}, [address]);
 
 	useEffect(() => {
-		axios.get(coingeckoUrl).then((response) => {
-			setGeckoPriceList(response.data);
-		});
+		axios
+			.get(coingeckoUrl)
+			.then((response) => {
+				setGeckoPriceList(response.data);
+			})
+			.catch((error: string) => console.log(error));
 	}, [balances, upgradeConfig]);
 
 	useEffect(() => {

@@ -54,63 +54,69 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 		let isMounted = true;
 		if (web3?.currentProvider === null) return;
 
-		getPrice(web3, coinB).then((p) => {
-			if (isMounted && p) {
-				setLaunchPadPrice(p);
-			}
-		});
-
-		querySushiPoolPrices(sushiSwapPools[`${coinA}-${coinB}`]).then(({ data }) => {
-			if (data?.error) {
-				console.error('fetching Sushi Pools price error: ', data.error);
-			} else {
-				const { pair } = data.data;
-				if (isMounted && pair) {
-					const { symbol: _coinA } = pair.token0;
-					const { symbol: _coinB } = pair.token1;
-
-					let realPrice = '';
-					if (_coinA.includes(coinA) && _coinB.includes(coinB)) {
-						realPrice = pair.token0Price;
-					} else if (_coinA.includes(coinB) && _coinB.includes(coinA)) {
-						realPrice = pair.token1Price;
-					}
-					setMarketPairPrice((prev) => {
-						return {
-							...prev,
-							[`${coinA}-${coinB}`]: realPrice,
-						};
-					});
+		getPrice(web3, coinB)
+			.then((p) => {
+				if (isMounted && p) {
+					setLaunchPadPrice(p);
 				}
-			}
-		});
+			})
+			.catch((error: string) => console.log(error));
 
-		queryQuickSwapPoolPrices(quickSwapPools[`${coinA}-${coinB}`]).then(({ data }) => {
-			// added this data.data check as it's crashing the application due to RIC price returning as NaN
-			if (data?.error || data.data === undefined) {
-				console.error('fetching Quickswap Pools price error: ', data.error);
-				return;
-			} else {
-				const { pair } = data.data;
-				if (isMounted && pair) {
-					const { symbol: _coinA } = pair.token0;
-					const { symbol: _coinB } = pair.token1;
+		querySushiPoolPrices(sushiSwapPools[`${coinA}-${coinB}`])
+			.then(({ data }) => {
+				if (data?.error) {
+					console.error('fetching Sushi Pools price error: ', data.error);
+				} else {
+					const { pair } = data.data;
+					if (isMounted && pair) {
+						const { symbol: _coinA } = pair.token0;
+						const { symbol: _coinB } = pair.token1;
 
-					let realPrice = '';
-					if (_coinA.includes(coinA) && _coinB.includes(coinB)) {
-						realPrice = pair.token0Price;
-					} else if (_coinA.includes(coinB) && _coinB.includes(coinA)) {
-						realPrice = pair.token1Price;
+						let realPrice = '';
+						if (_coinA.includes(coinA) && _coinB.includes(coinB)) {
+							realPrice = pair.token0Price;
+						} else if (_coinA.includes(coinB) && _coinB.includes(coinA)) {
+							realPrice = pair.token1Price;
+						}
+						setMarketPairPrice((prev) => {
+							return {
+								...prev,
+								[`${coinA}-${coinB}`]: realPrice,
+							};
+						});
 					}
-					setMarketPairPrice((prev) => {
-						return {
-							...prev,
-							[`${coinA}-${coinB}`]: realPrice,
-						};
-					});
 				}
-			}
-		});
+			})
+			.catch((error: string) => console.log(error));
+
+		queryQuickSwapPoolPrices(quickSwapPools[`${coinA}-${coinB}`])
+			.then(({ data }) => {
+				// added this data.data check as it's crashing the application due to RIC price returning as NaN
+				if (data?.error || data.data === undefined) {
+					console.error('fetching Quickswap Pools price error: ', data.error);
+					return;
+				} else {
+					const { pair } = data.data;
+					if (isMounted && pair) {
+						const { symbol: _coinA } = pair.token0;
+						const { symbol: _coinB } = pair.token1;
+
+						let realPrice = '';
+						if (_coinA.includes(coinA) && _coinB.includes(coinB)) {
+							realPrice = pair.token0Price;
+						} else if (_coinA.includes(coinB) && _coinB.includes(coinA)) {
+							realPrice = pair.token1Price;
+						}
+						setMarketPairPrice((prev) => {
+							return {
+								...prev,
+								[`${coinA}-${coinB}`]: realPrice,
+							};
+						});
+					}
+				}
+			})
+			.catch((error: string) => console.log(error));
 
 		return () => {
 			isMounted = false;
