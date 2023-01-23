@@ -29,6 +29,9 @@ import { CoinRateForm } from '../CoinRateForm';
 import LpAPY from '../../common/LpAPY';
 import Price from '../../common/Price';
 import styles from './styles.module.scss';
+import { ibAllouToken } from 'constants/ABIs/ibAllouToken';
+import { fromWei, trimPad } from 'utils/balances';
+import { IbAlluoBTCAddress, IbAlluoETHAddress, IbAlluoUSDAddress } from 'constants/polygon_config';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -207,8 +210,30 @@ export const PanelChange: FC<IProps> = ({
 			.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	}
 
-	function getFlowUSDValue(flow: string, toFixed: number = 0) {
-		return (parseFloat(flow as string) * coingeckoPrice).toFixed(toFixed);
+	function getFlowUSDValue(
+		flow: string,
+		toFixed: number = 0,
+		isIbAlluo: boolean = false,
+		token: string | null = null,
+	) {
+		if (isIbAlluo) {
+			let tokenAddress: string = '';
+
+			if (token === Coin.IbAlluoBTC) {
+				tokenAddress = IbAlluoBTCAddress;
+			} else if (token === Coin.IbAlluoETH) {
+				tokenAddress = IbAlluoETHAddress;
+			} else if (token === Coin.IbAlluoUSD) {
+				tokenAddress = IbAlluoUSDAddress;
+			}
+
+			getIbAllouRatio(tokenAddress, flow).then((ratio) => {
+				console.log((parseFloat(flow as string) * parseFloat(ratio)).toFixed(toFixed));
+				return (parseFloat(flow as string) * parseFloat(ratio)).toFixed(toFixed);
+			});
+		} else {
+			return (parseFloat(flow as string) * coingeckoPrice).toFixed(toFixed);
+		}
 	}
 
 	const toggleInputShow = useCallback(() => {
@@ -258,6 +283,14 @@ export const PanelChange: FC<IProps> = ({
 		onClickStop(callback);
 	}, [callback, onClickStop]);
 
+	const getIbAllouRatio = async (address: string, price: string) => {
+		const contract = await getContract(address, ibAllouToken, web3);
+		const ratio = await contract.methods.growingRatio().call();
+		const ratioFloat = await fromWei(ratio, 18);
+		const ratioPrice = parseFloat(ratioFloat) * parseFloat(price);
+		return ratioPrice.toString();
+	};
+
 	// uncomment when need
 	// const date = generateDate(balanceA, personalFlow);
 
@@ -275,6 +308,13 @@ export const PanelChange: FC<IProps> = ({
 		}
 		return false;
 	};
+
+	function isIbAlluoU(token: string) {
+		if (token.includes('IbAlluo')) {
+			return true;
+		}
+		return false;
+	}
 
 	const uuid = new Date().getTime().toString(36) + Math.random().toString(36).slice(2);
 	return (
@@ -411,7 +451,12 @@ export const PanelChange: FC<IProps> = ({
 								<div className={styles.streaming}>
 									<span>
 										<span className={styles.number}>
-											{`$${totalFlow && getFlowUSDValue(totalFlow)}`}
+											{isIbAlluoU(coinB)
+												? `$${
+														totalFlow &&
+														getFlowUSDValue(totalFlow, 0, isIbAlluoU(coinB), coinB)
+												  }`
+												: `$${totalFlow && getFlowUSDValue(totalFlow)}`}
 										</span>
 										{t('per month')}
 										{fireIconsCheck(coinA, coinB) ? (
