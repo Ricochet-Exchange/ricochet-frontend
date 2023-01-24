@@ -4,7 +4,7 @@ import React from 'react';
 
 export const LoadingContext = React.createContext({
 	loading: true,
-	setLoading: () => {},
+	setLoading: (loading: boolean) => {},
 });
 
 export const useLoading = () => React.useContext(LoadingContext);
@@ -15,11 +15,21 @@ export const LoadingProvider = ({ children }: { children: any }) => {
 	return (
 		<LoadingContext.Provider
 			value={{
-				loading: true,
-				setLoading: () => {},
+				loading,
+				setLoading,
 			}}
 		>
-			{loading ? <div className="loading"></div> : null}
+			{loading ? (
+				<div className="body">
+					<div className="loader" />
+					<div className="longfazers">
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+				</div>
+			) : null}
 			{children}
 		</LoadingContext.Provider>
 	);
