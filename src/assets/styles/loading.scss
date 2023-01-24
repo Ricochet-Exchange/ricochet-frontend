@@ -1,0 +1,37 @@
+.loading {
+	margin: 0;
+	width: 100vw;
+	height: 100vh;
+	font-family: "Exo", sans-serif;
+	color: #fff;
+    z-index: 999999999;
+    position: fixed;
+	background: linear-gradient(-45deg, #2d3233, #0041d0, #23a6d5 );
+	background-size: 400% 400%;
+	-webkit-animation: gradientBG 10s ease infinite;
+	        animation: gradientBG 10s ease infinite;
+}
+
+
+@-webkit-keyframes gradientBG {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+@keyframes gradientBG {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}

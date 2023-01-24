@@ -13,6 +13,8 @@ import history from 'utils/history';
 import reportWebVitals from './reportWebVitals';
 import { store, persistor } from './store';
 import 'assets/styles/main.scss';
+import 'assets/styles/loading.scss';
+import { LoadingProvider } from 'context';
 
 Sentry.init({
 	dsn: process.env.REACT_APP_SENTRY_DSN,
@@ -31,7 +33,7 @@ const client = new ApolloClient({
 	cache: new InMemoryCache(),
 });
 
-if (window.location.protocol == 'http:' && !window.location.href.includes('http://localhost:3000/')) {
+if (window.location.protocol === 'http:' && !window.location.href.includes('http://localhost:3000/')) {
 	window.location.href = window.location.href.replace('http:', 'https:');
 }
 
@@ -43,7 +45,9 @@ ReactDOM.render(
 			<Provider store={store}>
 				<ConnectedRouter history={history}>
 					<PersistGate loading={null} persistor={persistor}>
-						<App />
+						<LoadingProvider>
+							<App />
+						</LoadingProvider>
 					</PersistGate>
 				</ConnectedRouter>
 			</Provider>
