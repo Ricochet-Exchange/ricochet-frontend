@@ -98,7 +98,6 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 		aggregatedRewards.forEach((reward) => {
 			aggregated = aggregated + reward;
 		});
-		console.log(linkHistory, 'link history', 'history', history.location.hash);
 		dispatch(updateHistory(history.location.hash));
 		if (aggregatedRICRewards && linkHistory.length <= 2) {
 			dispatch(addReward(`${aggregated}`));
