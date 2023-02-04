@@ -45,7 +45,6 @@ export const getCoingeckoPrices = async (): Promise<{ [key: string]: number }> =
 
 	await getPrices()
 		.then((response) => {
-			console.log(response);
 			tokenAddresses?.forEach((tokenAddress) => {
 				const id = coingeckoIds?.get(tokenAddress);
 				const tokenData = response.filter((res: any) => res.id === id!);

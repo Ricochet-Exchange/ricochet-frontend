@@ -29,9 +29,6 @@ export function* sweepQueryFlow(): any {
 
 	if (address) {
 		const [streamed, received] = yield all([call(queryStreams, address), call(queryReceived, address)]);
-
-		console.log(streamed, received);
-
 		(streamed?.data?.data?.streams || []).forEach((stream: any) => {
 			const streamedSoFar = streamedSoFarMap[`${stream.token.id}-${stream.receiver.id}`] || 0;
 			Object.assign(streamedSoFarMap, {
