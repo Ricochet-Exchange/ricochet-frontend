@@ -9,6 +9,7 @@ import {
 	StIbAlluoBTCAddress,
 	RICAddress,
 } from '../constants/polygon_config';
+import axios from 'axios';
 
 const coingeckoIds = new Map<string, string>([
 	[DAIxAddress, 'dai'],
@@ -27,14 +28,13 @@ const coingeckoIds = new Map<string, string>([
 async function getPrices() {
 	const ids = [...coingeckoIds.values()];
 	const coingeckoRequestUrl = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=USD&ids=${ids.join(',')}`;
-	return fetch(coingeckoRequestUrl, {
-		method: 'GET',
-		headers: {
-			Accept: 'application/json',
-			'Content-Type': 'application/json',
-		},
-	})
-		.then((response) => response.json())
+	return axios
+		.get(coingeckoRequestUrl, {
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+			},
+		})
+		.then((response) => response.data)
 		.then((responseData) => responseData)
 		.catch((error) => console.error(error));
 }
@@ -44,7 +44,7 @@ export const getCoingeckoPrices = async (): Promise<{ [key: string]: number }> =
 	const coingeckoPrices: { [key: string]: number } = {};
 
 	await getPrices()
-		.then((response: any[]) => {
+		.then((response) => {
 			console.log(response);
 			tokenAddresses?.forEach((tokenAddress) => {
 				const id = coingeckoIds?.get(tokenAddress);
