@@ -62,7 +62,7 @@ export const getCoingeckoPrices = async (): Promise<{ [key: string]: number }> =
 			setTimeout(() => {
 				getCoingeckoPrices();
 			}, 3000);
-			return;
+			throw error;
 		});
 	return coingeckoPrices;
 };
