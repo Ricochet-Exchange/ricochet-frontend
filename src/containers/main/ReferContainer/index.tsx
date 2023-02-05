@@ -23,9 +23,16 @@ export const ReferContainer: React.FC<IProps> = () => {
 	const [validationErrors, setValidationErrors] = useState<string[]>([]);
 	const [referredBy, setReferredBy] = useState<string | undefined>();
 	const [status, setStatus] = useState<AFFILIATE_STATUS | undefined>();
-
 	useEffect(() => {
-		setCurrentReferralId(address.toLowerCase().slice(0, 10));
+		if (contract) {
+			(async () => {
+				let currentReferralId = await contract.methods.addressToAffiliate(address.toLowerCase()).call();
+				if (currentReferralId !== '0') {
+					currentReferralId = await contract.methods.affiliates(currentReferralId).call();
+					setCurrentReferralId(currentReferralId.name);
+				}
+			})();
+		}
 	}, [address]);
 
 	useEffect(() => {
