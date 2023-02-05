@@ -32,6 +32,8 @@ export const ReferContainer: React.FC<IProps> = () => {
 					setCurrentReferralId(currentReferralId.name);
 				}
 			})();
+		} else {
+			setCurrentReferralId(address.toLowerCase().slice(0, 10));
 		}
 	}, [address]);
 
