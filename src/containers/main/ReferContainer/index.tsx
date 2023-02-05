@@ -23,6 +23,7 @@ export const ReferContainer: React.FC<IProps> = () => {
 	const [validationErrors, setValidationErrors] = useState<string[]>([]);
 	const [referredBy, setReferredBy] = useState<string | undefined>();
 	const [status, setStatus] = useState<AFFILIATE_STATUS | undefined>();
+
 	useEffect(() => {
 		if (contract) {
 			(async () => {
