@@ -1,19 +1,19 @@
 .body {
+  position: fixed;
 	margin: 0;
 	width: 100vw;
 	height: 100vh;
 	font-family: "Exo", sans-serif;
 	color: #fff;
-  position: fixed;
   top: 0%;
-	background: linear-gradient(-45deg, #23a6d5, #0041d0, #2d3233, );
+	background: linear-gradient(-60deg, #23a6d5, #0041d0, #2d3233, );
 	background-size: 400% 400%;
 	-webkit-animation: gradientBG 10s ease infinite;
 	animation: gradientBG 10s ease infinite;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999999999999999999999999999999999999999999999999;
+  z-index: 1000001;
 }
 
 .loader {
