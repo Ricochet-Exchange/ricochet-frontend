@@ -15,6 +15,7 @@ import { FlowTypes } from 'constants/flowConfig';
 import { Coin } from 'constants/coins';
 import { queryQuickSwapPoolPrices, querySushiPoolPrices } from 'api';
 import { sushiSwapPools, quickSwapPools } from 'constants/poolAddresses';
+import { useLoading } from 'context';
 
 type Props = {
 	flowType: FlowTypes;
@@ -38,18 +39,24 @@ const getPrice = async (web3: Web3, coinB: any): Promise<string> => {
 		price = await contract.methods.getSharePrice().call();
 	}
 	const normalizedPrice = price && typeof price === 'string' ? price : price.toString();
-	console.log(normalizedPrice, 'normalized');
+
 	return fromWei(normalizedPrice, 18);
 };
 
 // returns inline element, className or style can be directly applied to Price
 // ie: <Price className='price' />
 export default function Price({ flowType, coinA, coinB }: Props) {
+	const { setLoading } = useLoading();
 	const [launchPadPrice, setLaunchPadPrice] = React.useState('');
 	const [marketPairPrice, setMarketPairPrice] = React.useState({
 		[`${coinA}-${coinB}`]: '',
 	});
 	const { web3 } = useShallowSelector(selectMain);
+
+	React.useEffect(() => {
+		setLoading(false);
+	}, []);
+
 	React.useEffect(() => {
 		let isMounted = true;
 		if (web3?.currentProvider === null) return;

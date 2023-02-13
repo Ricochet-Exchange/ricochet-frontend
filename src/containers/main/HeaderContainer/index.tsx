@@ -27,6 +27,10 @@ export const HeaderContainer: FC<IProps> = ({ address, balance }) => {
 		setOpen(!open);
 	}, [open, setOpen]);
 
+	React.useEffect(() => {
+		console.log(aggregatedRICRewards);
+	}, [aggregatedRICRewards]);
+
 	const HeaderText = () => {
 		switch (location.pathname) {
 			case Routes.Wallet:

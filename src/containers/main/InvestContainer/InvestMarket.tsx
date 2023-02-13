@@ -118,6 +118,7 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 			coingeckoPrices ? parseFloat(state[flow.flowKey]?.flowsOwned as string) * coingeckoPrices[flow.tokenA] : 0
 		).toFixed(toFixed);
 	}
+
 	return (
 		<>
 			<div className={styles.input_wrap}>

@@ -21,9 +21,6 @@
     top: 50%;
     margin-left: -50px;
     left: 50%;
-    width: 100px;
-    height: 100px;  
-    background: url(https://ricochet.exchange/assets/images/logo-upd.svg) no-repeat center;
     animation: speeder .4s linear infinite;
   
     span {
@@ -35,6 +32,10 @@
       left: 60px;
       border-radius: 2px 10px 1px 0;
     }
+  }
+
+  .loaderText{
+    margin-top: 250px;
   }
   
   .base {

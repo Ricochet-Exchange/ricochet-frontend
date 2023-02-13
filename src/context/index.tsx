@@ -1,6 +1,5 @@
-import zIndex from '@mui/material/styles/zIndex';
-import { positions } from '@mui/system';
 import React from 'react';
+import Logo from './../assets/images/logo.svg';
 
 export const LoadingContext = React.createContext({
 	loading: true,
@@ -21,7 +20,10 @@ export const LoadingProvider = ({ children }: { children: any }) => {
 		>
 			{loading ? (
 				<div className="body">
-					<div className="loader" />
+					<div className="loader">
+						<img alt="ricochet logo" width={'100px'} height={'100px'} src={Logo} />
+					</div>
+					<div className="loaderText">Please hold on while we load your information.</div>
 					<div className="longfazers">
 						<span></span>
 						<span></span>
