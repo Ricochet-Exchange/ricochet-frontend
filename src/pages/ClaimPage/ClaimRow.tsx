@@ -81,7 +81,8 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 				.call()
 				.then((res: boolean) => {
 					res ? setButtonStatus('Claimed') : findStatus();
-				});
+				})
+				.catch((error: string) => console.log(error));
 		}
 	}, []);
 

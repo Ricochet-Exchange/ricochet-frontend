@@ -199,16 +199,18 @@ export default function SwapContainer() {
 				},
 				web3,
 				address,
-			).then((res) => {
-				if (res == undefined) {
-					setSuccess(2);
+			)
+				.then((res) => {
+					if (res == undefined) {
+						setSuccess(2);
+						setLoading(false);
+						return;
+					}
 					setLoading(false);
-					return;
-				}
-				setLoading(false);
-				setSuccess(1);
-				setTx(res.transactionHash);
-			});
+					setSuccess(1);
+					setTx(res.transactionHash);
+				})
+				.catch((error: string) => console.log(error));
 		} catch (e) {
 			setSuccess(0);
 			console.log(e);

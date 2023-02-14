@@ -177,11 +177,13 @@ export const PanelChange: FC<IProps> = ({
 	useEffect(() => {
 		let isMounted = true;
 		if (web3?.currentProvider === null || flowType !== FlowTypes.market) return;
-		getShareScaler(web3, exchangeKey, tokenA, tokenB).then((res) => {
-			if (isMounted) {
-				setShareScaler(res);
-			}
-		});
+		getShareScaler(web3, exchangeKey, tokenA, tokenB)
+			.then((res) => {
+				if (isMounted) {
+					setShareScaler(res);
+				}
+			})
+			.catch((error: string) => console.log(error));
 		return () => {
 			isMounted = false;
 		};
@@ -190,11 +192,13 @@ export const PanelChange: FC<IProps> = ({
 	useEffect(() => {
 		let isMounted = true;
 		if (web3?.currentProvider === null || !exchangeKey || !isMounted) return;
-		getLastDistributionOnPair(web3, exchangeKey!).then((p) => {
-			if (isMounted) {
-				setLastDistribution(p);
-			}
-		});
+		getLastDistributionOnPair(web3, exchangeKey!)
+			.then((p) => {
+				if (isMounted) {
+					setLastDistribution(p);
+				}
+			})
+			.catch((error: string) => console.log(error));
 
 		return () => {
 			isMounted = false;
