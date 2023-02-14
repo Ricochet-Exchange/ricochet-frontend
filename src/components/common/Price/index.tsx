@@ -54,12 +54,10 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 	const { web3 } = useShallowSelector(selectMain);
 
 	React.useEffect(() => {
-		setLoading(false);
-	}, []);
-
-	React.useEffect(() => {
 		let isMounted = true;
 		if (web3?.currentProvider === null) return;
+
+		setLoading(false);
 
 		getPrice(web3, coinB).then((p) => {
 			if (isMounted && p) {
