@@ -71,10 +71,6 @@ export const TradeContainer: React.FC<IProps> = () => {
 	const [tokenA, setTokenA] = React.useState({ symbol: 'none', token: 'select token' });
 	const [tokenB, setTokenB] = React.useState({ symbol: 'none', token: 'select token' });
 
-	const closeModal = () => {
-		console.log('hello');
-	};
-
 	return (
 		<>
 			<TokenModal display={showTokenModal} />
