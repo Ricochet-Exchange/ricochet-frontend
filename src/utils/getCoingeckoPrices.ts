@@ -60,7 +60,7 @@ export const getCoingeckoPrices = async (): Promise<{ [key: string]: number }> =
 			console.log(error, 'get token prices.');
 			setTimeout(() => {
 				getCoingeckoPrices();
-			}, 3000);
+			}, 300);
 			throw error;
 		});
 	return coingeckoPrices;
