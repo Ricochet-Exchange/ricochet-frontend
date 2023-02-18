@@ -40,19 +40,19 @@ if (window.location.protocol === 'http:' && !window.location.href.includes('http
 const root = document.getElementById('root');
 
 ReactDOM.render(
-	<LoadingProvider>
-		<ApolloProvider client={client}>
-			<CookiesProvider>
-				<Provider store={store}>
-					<ConnectedRouter history={history}>
-						<PersistGate loading={null} persistor={persistor}>
+	<ApolloProvider client={client}>
+		<CookiesProvider>
+			<Provider store={store}>
+				<ConnectedRouter history={history}>
+					<PersistGate loading={null} persistor={persistor}>
+						<LoadingProvider>
 							<App />
-						</PersistGate>
-					</ConnectedRouter>
-				</Provider>
-			</CookiesProvider>
-		</ApolloProvider>
-	</LoadingProvider>,
+						</LoadingProvider>
+					</PersistGate>
+				</ConnectedRouter>
+			</Provider>
+		</CookiesProvider>
+	</ApolloProvider>,
 	root,
 );
 
