@@ -246,10 +246,9 @@ export const PanelChange: FC<IProps> = ({
 		setIsLoading(true);
 		if (flowType === FlowTypes.market) {
 			onClickStart(
-				(
-					((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler) * shareScaler) / 1e18) *
-					2592000
-				).toString(),
+				(((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler) * shareScaler) / 1e18) * 2592000)
+					.toFixed()
+					.toString(),
 				callback,
 			);
 		} else {
