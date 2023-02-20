@@ -235,11 +235,11 @@ export const ReferContainer: React.FC<IProps> = () => {
 							<p className={styles.how_it_works_content}>
 								Go to the REX Referral page:{' '}
 								<a
-									href="https://app.ricochet.exchange/#/refer"
+									href="https://ricochet-exchange.eth.limo/#/refer"
 									target="_blank"
 									rel="noopener noreferrer"
 								>
-									https://app.ricochet.exchange/#/refer
+									https://ricochet-exchange.eth.limo/#/refer
 								</a>{' '}
 								. Enter your personalized referral URL provided on the page or use your address which is
 								the default URL. Then click Register
