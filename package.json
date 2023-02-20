@@ -38,7 +38,7 @@
     "@emotion/styled": "^11.8.1",
     "@gnosis.pm/safe-apps-provider": "^0.9.2",
     "@gnosis.pm/safe-apps-sdk": "^7.8.0",
-    "@gnosis.pm/safe-apps-web3modal": "^17.0.1",
+    "@gnosis.pm/safe-apps-web3modal": "^17.0.4",
     "@ledgerhq/iframe-provider": "^0.4.2",
     "@makerdao/multicall": "^0.12.0",
     "@mui/icons-material": "^5.8.0",
