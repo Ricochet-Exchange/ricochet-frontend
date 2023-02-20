@@ -47,7 +47,7 @@ export const getCoingeckoPrices = async (): Promise<{ [key: string]: number }> =
 		.then((response) => {
 			tokenAddresses?.forEach((tokenAddress) => {
 				const id = coingeckoIds?.get(tokenAddress);
-				const tokenData = response.filter((res: any) => res.id === id!);
+				const tokenData = response?.filter((res: any) => res?.id === id!);
 				if (tokenData === undefined) {
 					coingeckoPrices[tokenAddress] = 0;
 					console.warn('Could not fetch price for token ', tokenAddress);
