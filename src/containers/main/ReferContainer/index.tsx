@@ -26,17 +26,17 @@ export const ReferContainer: React.FC<IProps> = () => {
 
 	useEffect(() => {
 		if (!contract) {
-		  setCurrentReferralId(address.toLowerCase().slice(0, 10));
-		  return;
-		} 
-		const setReferralId = async () => {
-		  let currentReferralId = await contract.methods.addressToAffiliate(address.toLowerCase()).call();
-		  if (currentReferralId !== '0') {
-			currentReferralId = await contract.methods.affiliates(currentReferralId).call();
-			setCurrentReferralId(currentReferralId.name);
+			setCurrentReferralId(address.toLowerCase().slice(0, 10));
 			return;
-		  }
 		}
+		const setReferralId = async () => {
+			let currentReferralId = await contract.methods.addressToAffiliate(address.toLowerCase()).call();
+			if (currentReferralId !== '0') {
+				currentReferralId = await contract.methods.affiliates(currentReferralId).call();
+				setCurrentReferralId(currentReferralId.name);
+				return;
+			}
+		};
 		setReferralId();
 	}, [address, contract]);
 
@@ -226,6 +226,60 @@ export const ReferContainer: React.FC<IProps> = () => {
 						/>
 					</div>
 				)}
+
+				<div className={styles.how_it_works_container}>
+					<div className={styles.how_it_works}>How it works?</div>
+					<div className={styles.how_it_works_section}>
+						<div>
+							<div className={styles.how_it_works_steps}>Step 1: Choose a Affiliate ID</div>
+							<p className={styles.how_it_works_content}>
+								Go to the REX Referral page:{' '}
+								<a
+									href="https://ricochet-exchange.eth.limo/#/refer"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									https://ricochet-exchange.eth.limo/#/refer
+								</a>{' '}
+								. Enter your personalized referral URL provided on the page or use your address which is
+								the default URL. Then click Register
+							</p>
+							<div className={styles.how_it_works_steps}>Step 2: Register your Affiliate ID</div>
+							<p className={styles.how_it_works_content}>
+								After you click register, you'll receive a signature request from your Metamask wallet
+								for the link registration fee. Sign the request to proceed with your registration.
+								Someone from the core team will need to approve your registration.
+							</p>
+							<div className={styles.how_it_works_steps}>Step 3: Ask for Approval in Discord</div>
+							<p className={styles.how_it_works_content}>
+								After successfully registering your referral link, you will enter an approval period.
+								You should see the message "Awaiting verification. Come back later" message. This is
+								completed on the Ricochet discord. Ask in the #support channel to be approved.
+								<br />
+								<a href="https://discord.gg/ptqCBnJ9dr" target="_blank" rel="noopener noreferrer">
+									https://discord.gg/ptqCBnJ9dr
+								</a>
+							</p>
+							<div className={styles.how_it_works_steps}>Step 4: Share your link</div>
+							<p className={styles.how_it_works_content}>
+								Once approved, share your referral link with others and start earning!
+							</p>
+							<div className={styles.how_it_works}>Why should become an Affiliate?</div>
+							<p className={styles.how_it_works_content}>
+								As an affiliate <b>you receive 50% of the fees charged by Ricochet</b> to accounts you
+								refer. If you refer an account that DCAs $1000 with the protocol, Ricochet charges a 2%
+								fee for the transaction, you would earn $10 (50% of the $20 fee). These rewards can
+								provide a significant source of income if you are able to successfully refer a large
+								amount of volume to the protocol.
+								<br />
+								<br />
+								You can get registered as an affiliate <b>TODAY</b>. Just click on this link
+								app.ricochet.exchange, follow the steps above and start earning away! The Referral
+								System is completely on-chain and you'll receive your rewards every few hours.
+							</p>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	);
