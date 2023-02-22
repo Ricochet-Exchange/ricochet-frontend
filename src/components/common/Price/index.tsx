@@ -1,13 +1,9 @@
 import React from 'react';
 import { launchpadABI } from 'constants/ABIs/launchpad';
-import { ibAllouToken } from 'constants/ABIs/ibAllouToken';
 import {
 	usdcxRicExchangeAddress,
 	ricRexShirtLaunchpadAddress,
 	ricRexHatLaunchpadAddress,
-	IbAlluoBTCAddress,
-	IbAlluoETHAddress,
-	IbAlluoUSDAddress,
 } from 'constants/polygon_config';
 import { fromWei, trimPad } from 'utils/balances';
 import { getContract } from 'utils/getContract';
@@ -19,6 +15,7 @@ import { FlowTypes } from 'constants/flowConfig';
 import { Coin } from 'constants/coins';
 import { queryQuickSwapPoolPrices, querySushiPoolPrices } from 'api';
 import { sushiSwapPools, quickSwapPools } from 'constants/poolAddresses';
+import { useLoading } from 'context';
 
 type Props = {
 	flowType: FlowTypes;
@@ -33,18 +30,14 @@ const getPrice = async (web3: Web3, coinB: any): Promise<string> => {
 		exchangeAddr = usdcxRicExchangeAddress;
 	} else if (coinB === Coin.REXSHIRT) {
 		exchangeAddr = ricRexShirtLaunchpadAddress;
-	} else if (coinB === Coin.REXHAT) {
+	} else if (coinB == Coin.REXHAT) {
 		exchangeAddr = ricRexHatLaunchpadAddress;
 	}
-
 	const contract = getContract(exchangeAddr, launchpadABI, web3);
-
 	let price: string = '';
-
 	if (exchangeAddr !== '') {
 		price = await contract.methods.getSharePrice().call();
 	}
-
 	const normalizedPrice = price && typeof price === 'string' ? price : price.toString();
 
 	return fromWei(normalizedPrice, 18);
@@ -53,39 +46,18 @@ const getPrice = async (web3: Web3, coinB: any): Promise<string> => {
 // returns inline element, className or style can be directly applied to Price
 // ie: <Price className='price' />
 export default function Price({ flowType, coinA, coinB }: Props) {
+	const { setLoading } = useLoading();
 	const [launchPadPrice, setLaunchPadPrice] = React.useState('');
 	const [marketPairPrice, setMarketPairPrice] = React.useState({
 		[`${coinA}-${coinB}`]: '',
 	});
 	const { web3 } = useShallowSelector(selectMain);
 
-	const getTokenSymbol = (token: string) => {
-		if (token === Coin.IbAlluoBTC) {
-			return 'WBTC';
-		}
-
-		if (token === Coin.IbAlluoETH) {
-			return 'ETH';
-		}
-
-		if (token === Coin.IbAlluoUSD) {
-			return 'USDC';
-		}
-
-		return token;
-	};
-
-	const getIbAllouRatio = async (address: string, price: string) => {
-		const contract = await getContract(address, ibAllouToken, web3);
-		const ratio = await contract.methods.growingRatio().call();
-		const ratioFloat = await fromWei(ratio, 18);
-		const ratioPrice = parseFloat(ratioFloat) * parseFloat(price);
-		return ratioPrice.toString();
-	};
-
 	React.useEffect(() => {
 		let isMounted = true;
 		if (web3?.currentProvider === null) return;
+
+		setLoading(false);
 
 		getPrice(web3, coinB).then((p) => {
 			if (isMounted && p) {
@@ -93,7 +65,7 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 			}
 		});
 
-		querySushiPoolPrices(sushiSwapPools[`${getTokenSymbol(coinA)}-${getTokenSymbol(coinB)}`]).then(({ data }) => {
+		querySushiPoolPrices(sushiSwapPools[`${coinA}-${coinB}`]).then(({ data }) => {
 			if (data?.error) {
 				console.error('fetching Sushi Pools price error: ', data.error);
 			} else {
@@ -103,76 +75,17 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 					const { symbol: _coinB } = pair.token1;
 
 					let realPrice = '';
-
-					if (_coinA.includes(getTokenSymbol(coinA)) && _coinB.includes(getTokenSymbol(coinB))) {
+					if (_coinA.includes(coinA) && _coinB.includes(coinB)) {
 						realPrice = pair.token0Price;
-					} else if (_coinA.includes(getTokenSymbol(coinB)) && _coinB.includes(getTokenSymbol(coinA))) {
+					} else if (_coinA.includes(coinB) && _coinB.includes(coinA)) {
 						realPrice = pair.token1Price;
 					}
-
-					if (
-						coinA.includes(Coin.IbAlluoBTC) ||
-						coinA.includes(Coin.IbAlluoUSD) ||
-						coinA.includes(Coin.IbAlluoETH) ||
-						coinB.includes(Coin.IbAlluoBTC) ||
-						coinB.includes(Coin.IbAlluoUSD) ||
-						coinB.includes(Coin.IbAlluoETH)
-					) {
-						let tokenAddress: string = '';
-						let growthRatioPrice: string = '';
-						if (coinB === Coin.IbAlluoBTC) {
-							tokenAddress = IbAlluoBTCAddress;
-						} else if (coinB === Coin.IbAlluoETH) {
-							tokenAddress = IbAlluoETHAddress;
-						} else if (coinB === Coin.IbAlluoUSD) {
-							tokenAddress = IbAlluoUSDAddress;
-						}
-
-						if (tokenAddress !== '') {
-							getIbAllouRatio(tokenAddress, realPrice)
-								.then((data) => {
-									growthRatioPrice = data;
-									setMarketPairPrice((prev) => {
-										return {
-											...prev,
-											[`${coinA}-${coinB}`]: growthRatioPrice,
-										};
-									});
-								})
-								.catch((error) => {
-									return null;
-								});
-						} else {
-							setMarketPairPrice((prev) => {
-								return {
-									...prev,
-									[`${coinA}-${coinB}`]: realPrice,
-								};
-							});
-						}
-					}
-				}
-
-				if (coinA === Coin.USDC && coinB === Coin.IbAlluoUSD) {
-					let tokenAddress: string = '';
-					let growthRatioPrice: string = '';
-					tokenAddress = IbAlluoUSDAddress;
-
-					if (tokenAddress !== '') {
-						getIbAllouRatio(tokenAddress, '1')
-							.then((data) => {
-								growthRatioPrice = data;
-								setMarketPairPrice((prev) => {
-									return {
-										...prev,
-										[`${coinA}-${coinB}`]: growthRatioPrice,
-									};
-								});
-							})
-							.catch((error) => {
-								return null;
-							});
-					}
+					setMarketPairPrice((prev) => {
+						return {
+							...prev,
+							[`${coinA}-${coinB}`]: realPrice,
+						};
+					});
 				}
 			}
 		});
@@ -194,7 +107,6 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 					} else if (_coinA.includes(coinB) && _coinB.includes(coinA)) {
 						realPrice = pair.token1Price;
 					}
-
 					setMarketPairPrice((prev) => {
 						return {
 							...prev,
@@ -208,7 +120,7 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 		return () => {
 			isMounted = false;
 		};
-	}, [coinA, coinB, web3, getIbAllouRatio]);
+	}, [coinA, coinB, web3]);
 
 	if (!launchPadPrice && !marketPairPrice[`${coinA}-${coinB}`]) return null;
 

@@ -1,184 +1,206 @@
 @import '../../../assets/styles/mixins';
 
+@media only screen and (min-width: 769px) {
+	.outer_container {
+		display: grid;
+		grid-template-columns: 10vw 1fr;
+		width: 100%;
+		height: 100%;
+	}
 
-@media only screen and (min-width: 769px){
-  .outer_container {
-    display: grid;
-    grid-template-columns: 10vw 1fr;
-    width: 100%;
-    height: 100%;
-  }
-
-  .container {
-    grid-column: 2;
-    height: 100%;
-    width: 100%;
-    padding-right: 3em;
-    padding-top: 3em;
-    padding-left: 4em;
-    min-height: 90vh;
-    background-color: $dark-mode-bg;
-    color: white;
-    border-radius: 50px 0px 0px 0px;
-  }
+	.container {
+		grid-column: 2;
+		height: 100%;
+		width: 100%;
+		padding-right: 3em;
+		padding-top: 3em;
+		padding-left: 4em;
+		min-height: 90vh;
+		background-color: $dark-mode-bg;
+		color: white;
+		border-radius: 50px 0px 0px 0px;
+	}
 }
 
+.container_explain {
+	width: 90vw;
+	height: 90vh;
+	padding: 2em;
+	margin-left: 10vw;
+	font-size: larger;
+	border-radius: 50px 0px 0px 0px;
 
-.container_explain{
-  width: 90vw;
-  height: 90vh;
-  padding: 2em;
-  margin-left: 10vw;
-  font-size: larger;
-  border-radius: 50px 0px 0px 0px;
-  
-  background-color: $dark-mode-bg;
-  color: white;
+	background-color: $dark-mode-bg;
+	color: white;
 }
 
-.container_special{
-  display: flex;
-  flex-direction: row;
+.container_special {
+	display: flex;
+	flex-direction: row;
 }
-
 
 .black {
-  color: white;
+	color: white;
 }
 
 .crimson {
-    color:crimson;
+	color: crimson;
 }
 
 .input_wrap {
-    @include flexbox(center, center);
-    flex-direction: column;
-    margin-top: 20px;
-    @include tablet{
-      width: 100%;
-      padding: 0 0 30px 0;
-    }
-  }
-  
-  .container_input {
-    width: 503px;
-    border-radius: 8px;
-    background-color: $dark-mode-bg-2;
-    border: 1px solid $dark-mode-lightblue;
-    @include tablet{
-      width: 100%;
-    }
-  }
+	@include flexbox(center, center);
+	flex-direction: column;
+	margin-top: 20px;
+	@include tablet {
+		width: 100%;
+		padding: 0 0 30px 0;
+	}
+}
 
-  .hint {
-      margin-right: -10px;
-  }
-  
-  .input {
-    border-radius: 8px;
-    color: var(--color-blue-dark);
-    padding: 0;
-    font-size: inherit;
-    font-weight: bold;
-  
-    &::placeholder {
-      color: $dark-mode-lightblue;
-      font-weight: normal;;
-  
-      &:focus{
-        color:transparent
-      }
-    }
-  }
+.container_input {
+	width: 503px;
+	border-radius: 8px;
+	background-color: $dark-mode-bg-2;
+	border: 1px solid $dark-mode-lightblue;
+	@include tablet {
+		width: 100%;
+	}
+}
 
-  .input_static {
-    border-radius: 8px;
-    color: $dark-mode-lightblue;
-    padding: 0 10px;
-    font-size: inherit;
-    font-weight: bold;
-  }
-  
-  .register {
-    color: var(--color-blue);
-  }
+.hint {
+	margin-right: -10px;
+}
+
+.input {
+	border-radius: 8px;
+	color: var(--color-blue-dark);
+	padding: 0;
+	font-size: inherit;
+	font-weight: bold;
+
+	&::placeholder {
+		color: $dark-mode-lightblue;
+		font-weight: normal;
+
+		&:focus {
+			color: transparent;
+		}
+	}
+}
+
+.input_static {
+	border-radius: 8px;
+	color: $dark-mode-lightblue;
+	padding: 0 10px;
+	font-size: inherit;
+	font-weight: bold;
+}
 
 .register {
-  padding: 10px 20px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 140%;
-  width: 100%;
-  border: none;
+	color: var(--color-blue);
+}
 
-  &:active {
-    border: none;
-  }
+.register {
+	padding: 10px 20px;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 140%;
+	width: 100%;
+	border: none;
+
+	&:active {
+		border: none;
+	}
 }
 
 .register_wrap {
-    width: 100px;
+	width: 100px;
 }
 
 .button_as_text {
-  background: none;
-  border: none;
-  color: var(--color-blue);
-  font-weight: bold;
-  cursor: pointer;
+	background: none;
+	border: none;
+	color: var(--color-blue);
+	font-weight: bold;
+	cursor: pointer;
 }
 
 .explainer_container {
-  background-color: $dark-mode-bg-2;
-  border: 1px solid $dark-mode-lightblue;
-  padding: 0 10px;
-  color: $dark-mode-lightblue;
-  margin-top: 10px;
-  @media only screen and (max-width: 769px){
-    margin-top: 40px;
-  
-    }
+	background-color: $dark-mode-bg-2;
+	border: 1px solid $dark-mode-lightblue;
+	padding: 0 10px;
+	color: $dark-mode-lightblue;
+	margin-top: 10px;
+	@media only screen and (max-width: 769px) {
+		margin-top: 40px;
+	}
 }
 
 .validation_errors {
-  background: var(--color-blue-light);
-  padding: 0 10px;
-  color: black;
-  margin: 10px;
+	background: var(--color-blue-light);
+	padding: 0 10px;
+	color: black;
+	margin: 10px;
 }
 
-@media only screen and (max-width: 769px){
+@media only screen and (max-width: 769px) {
+	.outer_container {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: 100%;
+	}
 
-  .outer_container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-  }
+	.container {
+		color: white;
+		margin-left: 0;
+		border-radius: 0;
+		background-color: $dark-mode-bg;
+		padding: 2em;
+		width: 100%;
+		height: 100%;
+	}
 
-  .container {
-    color: white;
-    margin-left: 0;
-    border-radius: 0;
-    background-color: $dark-mode-bg;
-    padding: 2em;
-    width: 100%;
-    height: 100%;
-  }
+	.container_explain {
+		padding: 1em;
+	}
 
-  .container_explain{
-    padding: 1em;
-  }
+	.container_special {
+		display: flex;
+		flex-direction: column;
+		margin-left: 0;
+		border-radius: 0;
+		background-color: white;
+		width: 100%;
+		height: 100%;
+	}
+}
 
-  .container_special{
-    display: flex;
-    flex-direction: column;
-    margin-left: 0;
-    border-radius: 0;
-    background-color: white;
-    width: 100%;
-    height: 100%;
-  }
+.how_it_works_container {
+	margin: 50px 0;
+}
 
+.how_it_works {
+	font-size: 28px;
+	font-weight: 700;
+	line-height: 32px;
+	margin: 30px 0;
+}
+
+.how_it_works_section {
+	border: 1px solid white;
+	padding: 32px;
+	border-radius: 15px;
+}
+
+.how_it_works_steps {
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 24px;
+}
+
+.how_it_works_content {
+	font-size: 14px;
+	margin: 20px 0;
 }
