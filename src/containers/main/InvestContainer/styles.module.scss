@@ -106,27 +106,32 @@
 
 	.filterSellButton {
 		cursor: pointer;
+		height: 50px;
 		padding: 10px;
 		background: none;
-		border: 2px solid white;
-		color: white;
+		border: 2px solid red;
+		color: red;
 		margin: 5px;
 	}
 
 	.filterBuyButton {
 		cursor: pointer;
+		height: 50px;
 		padding: 10px;
 		background: none;
-		border: 2px solid white;
-		color: white;
+		border: 2px solid green;
+		color: green;
+		margin: 5px;
 	}
 
 	.filterYeildButton {
 		cursor: pointer;
+		height: 50px;
 		padding: 10px;
 		background: none;
-		border: 2px solid white;
-		color: white;
+		border: 2px solid yellow;
+		color: yellow;
+		margin: 5px;
 	}
 }
 
