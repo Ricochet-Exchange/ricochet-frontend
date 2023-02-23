@@ -146,14 +146,14 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 								.catch((error) => {
 									return null;
 								});
-						} else {
-							setMarketPairPrice((prev) => {
-								return {
-									...prev,
-									[`${coinA}-${coinB}`]: realPrice,
-								};
-							});
 						}
+					} else {
+						setMarketPairPrice((prev) => {
+							return {
+								...prev,
+								[`${coinA}-${coinB}`]: realPrice,
+							};
+						});
 					}
 				}
 
