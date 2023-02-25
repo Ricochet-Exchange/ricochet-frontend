@@ -31,6 +31,12 @@
 yarn install && yarn start
 ```
 
+In case browserlist is outdated, run probably in a new terminal
+```bash
+npx update-browserslist-db@latest
+```
+
+
 Have an arm64 Macbook? `node-sass` does not work for arm64. To fix this, you replace it with `sass`.
 
 ```bash
