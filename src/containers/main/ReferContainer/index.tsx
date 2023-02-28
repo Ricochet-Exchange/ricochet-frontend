@@ -201,11 +201,11 @@ export const ReferContainer: React.FC<IProps> = () => {
 							{t('Awaiting verification. Come back later or ping us on our discord:')}
 							<a
 								className={styles.black}
-								href="https://discord.gg/mss4t2ED3y"
+								href="https://discord.gg/HPUs46akfY"
 								target="_blank"
 								rel="noreferrer"
 							>
-								https://discord.gg/mss4t2ED3y
+								https://discord.gg/HPUs46akfY
 							</a>
 						</p>
 					</div>
