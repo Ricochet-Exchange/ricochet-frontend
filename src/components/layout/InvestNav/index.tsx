@@ -9,7 +9,7 @@ import { selectUserStreams } from 'store/main/selectors';
 import gift from 'assets/images/gift.svg';
 import styles from './styles.module.scss';
 
-const TUTORIAL_LINK = 'https://docs.ricochet.exchange/tutorial/using-the-dapp';
+const TUTORIAL_LINK = 'https://docs.ricochet.exchange/';
 const RICOCHET_V1_LINK = 'https://v1.ricochet.exchange/';
 const SUPPORT = 'https://discord.com/channels/862796510604296263/864667072357597185';
 
