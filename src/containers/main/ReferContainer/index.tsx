@@ -9,6 +9,7 @@ import { referralABI } from 'constants/ABIs/referralABI';
 import { AFFILIATE_STATUS, filterValidationErrors, getAffiliateStatus } from 'utils/getAffiliateStatus';
 import ButtonNew from 'components/common/ButtonNew';
 import styles from './styles.module.scss';
+import { DISCORD_LINK } from 'utils/helpers';
 
 interface IProps {}
 
@@ -199,13 +200,8 @@ export const ReferContainer: React.FC<IProps> = () => {
 					<div>
 						<p>
 							{t('Awaiting verification. Come back later or ping us on our discord:')}
-							<a
-								className={styles.black}
-								href="https://discord.gg/HPUs46akfY"
-								target="_blank"
-								rel="noreferrer"
-							>
-								https://discord.gg/HPUs46akfY
+							<a className={styles.black} href={DISCORD_LINK} target="_blank" rel="noreferrer">
+								{DISCORD_LINK}
 							</a>
 						</p>
 					</div>

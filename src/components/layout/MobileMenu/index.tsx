@@ -4,11 +4,11 @@ import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'i18n';
 import { Routes } from '../../../constants/routes';
 import styles from './styles.module.scss';
+import { RICOCHET_V1_LINK } from 'utils/helpers';
 
 interface IProps {
 	closeMenu?: () => void;
 }
-const RICOCHET_V1_LINK = 'https://v1.ricochet.exchange/';
 
 export const MobileMenu: FC<IProps> = ({ closeMenu }) => {
 	const { t } = useTranslation();

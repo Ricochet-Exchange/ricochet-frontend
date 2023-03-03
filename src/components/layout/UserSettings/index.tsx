@@ -4,6 +4,7 @@ import { Dropdown } from 'components/common/Dropdown';
 import { useTranslation } from 'i18n';
 import { WalletButton } from 'components/common/WalletButton';
 import styles from './styles.module.scss';
+import { DISCORD_LINK } from 'utils/helpers';
 
 interface IProps {
 	account: string;
@@ -39,24 +40,8 @@ export const UserSettings: FC<IProps> = ({ ricBalance = '', account, className }
 										<FontIcon name={FontIconName.Book} size={16} />
 									</a>
 								</li>
-								<li className={styles.paper}>
-									<a
-										className={styles.head}
-										href={`${process.env.PUBLIC_URL}/RicochetExchangeWhitepaper.pdf`}
-										target="_blank"
-										rel="noreferrer"
-									>
-										<div>{t('White Paper')}</div>
-										<FontIcon name={FontIconName.Paper} size={16} />
-									</a>
-								</li>
 								<li className={styles.discord}>
-									<a
-										className={styles.head}
-										href="https://discord.gg/HPUs46akfY"
-										target="_blank"
-										rel="noreferrer"
-									>
+									<a className={styles.head} href={DISCORD_LINK} target="_blank" rel="noreferrer">
 										<div>{t('Discord')}</div>
 										<FontIcon name={FontIconName.Chat} size={16} />
 									</a>
