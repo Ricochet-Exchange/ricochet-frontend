@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FC, useCallback, useEffect, useState, useRef } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import Big from 'big.js';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { showErrorToast } from 'components/common/Toaster';
@@ -244,16 +245,22 @@ export const PanelChange: FC<IProps> = ({
 			return;
 		}
 		setIsLoading(true);
+		const valueBig = new Big(value);
+		const resultBig = valueBig
+			.div(2592000)
+			.times(1e18)
+			.div(shareScaler)
+			.round(0, 0)
+			.times(shareScaler)
+			.div(1e18)
+			.times(2592000);
+		const result = resultBig.toFixed();
 		if (flowType === FlowTypes.market) {
-			onClickStart(
-				(
-					((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler) * shareScaler) / 1e18) *
-					2592000
-				).toString(),
-				callback,
-			);
+			// convert back to string
+
+			onClickStart(result, callback);
 		} else {
-			onClickStart(value, callback);
+			onClickStart(result, callback);
 		}
 	}, [value, balanceA, flowType, isAffiliate, onClickStart, shareScaler, callback]);
 

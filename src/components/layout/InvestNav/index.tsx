@@ -8,10 +8,7 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectUserStreams } from 'store/main/selectors';
 import gift from 'assets/images/gift.svg';
 import styles from './styles.module.scss';
-
-const TUTORIAL_LINK = 'https://docs.ricochet.exchange/tutorial/using-the-dapp';
-const RICOCHET_V1_LINK = 'https://v1.ricochet.exchange/';
-const SUPPORT = 'https://discord.com/channels/862796510604296263/864667072357597185';
+import { RICOCHET_V1_LINK, SUPPORT, TUTORIAL_LINK } from 'utils/helpers';
 
 export const InvestNav = () => {
 	const userStreams = useShallowSelector(selectUserStreams);
