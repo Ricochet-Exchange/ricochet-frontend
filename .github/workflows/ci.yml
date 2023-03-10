@@ -21,13 +21,13 @@ jobs:
                   node-version: 16.x
 
             - name: Install dependencies
-              run: npm install
+              run: yarn install
 
             - name: Lint
-              run: npm run lint
+              run: yarn lint
 
             - name: Prettier
-              run: npm run prettier
+              run: yarn prettier:check
 
     build:
         if: github.event.pull_request.draft == false
@@ -44,7 +44,7 @@ jobs:
                   node-version: 16.x
 
             - name: Install dependencies
-              run: npm install
+              run: yarn install
 
             - name: Build codebase
-              run: npm run build
+              run: yarn build
