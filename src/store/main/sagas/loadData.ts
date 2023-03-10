@@ -19,6 +19,7 @@ import { getCoingeckoPrices } from '../../../utils/getCoingeckoPrices';
 
 export function* loadData() {
 	try {
+		const startTime = performance.now();
 		yield put(mainSetState({ isLoading: true, isReadOnly: false }));
 		const main: ReturnType<typeof selectMain> = yield select(selectMain);
 		const { web3 } = main;
@@ -37,6 +38,8 @@ export function* loadData() {
 			call(checkIfApproveIbAlluoBTC),
 			call(sweepQueryFlow),
 		]);
+		const endTime = performance.now();
+		console.log('total time to load app', endTime - startTime);
 		yield put(
 			mainSetState({
 				address,
