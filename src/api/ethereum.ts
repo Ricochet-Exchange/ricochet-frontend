@@ -152,7 +152,7 @@ export const startFlow = async (
 			if (
 				exchangeAddress === usdcxRicExchangeAddress ||
 				exchangeAddress === ricRexShirtLaunchpadAddress ||
-				exchangeAddress == ricRexHatLaunchpadAddress
+				exchangeAddress === ricRexHatLaunchpadAddress
 			) {
 				const operations = [
 					await framework.idaV1.approveSubscription({
