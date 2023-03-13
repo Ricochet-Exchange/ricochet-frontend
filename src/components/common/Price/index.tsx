@@ -126,7 +126,7 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 		return () => {
 			isMounted = false;
 		};
-	}, [coinA, coinB, web3]);
+	}, [coinA, coinB, web3, setLoading]);
 
 	if (!launchPadPrice && !marketPairPrice[`${coinA}-${coinB}`]) return null;
 

@@ -16,6 +16,7 @@ export function* startFlowSaga({ payload }: ReturnType<typeof startFlowAction>) 
 		const idaContract: Unwrap<typeof getContract> = yield call(getContract, idaAddress, idaABI, web3);
 		const { config } = payload;
 		const normalizedAmount = Math.round((Number(payload.amount) * 1e18) / 2592000);
+		console.log(idaContract, config, normalizedAmount);
 		yield call(
 			startFlow,
 			idaContract,

@@ -6,6 +6,6 @@ export const chainSettings = {
 		symbol: process.env.REACT_APP_CHAIN_NAME,
 		decimals: 18,
 	},
-	rpcUrls: [process.env.REACT_APP_RPC_URLS],
+	rpcUrls: 'https://polygon.llamarpc.com' || [process.env.REACT_APP_RPC_URLS],
 	blockExplorerUrls: [process.env.REACT_APP_BLOCK_URLS],
 };

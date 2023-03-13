@@ -140,10 +140,12 @@ export const startFlow = async (
 					maxPriorityFeePerGas,
 				},
 			};
+			console.log(transactionData);
 			const tx =
 				Number(userFlow.flowRate) !== 0
 					? await framework.cfaV1.updateFlow(transactionData).exec(signer)
 					: await framework.cfaV1.createFlow(transactionData).exec(signer);
+			console.log(tx);
 			return tx;
 		} else {
 			const userData = referralId ? web3.eth.abi.encodeParameter('string', referralId) : '0x';
