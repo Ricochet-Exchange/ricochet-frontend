@@ -1,128 +1,125 @@
-@import "../../../assets/styles/mixins";
+@import '../../../assets/styles/mixins';
 
+@media only screen and (min-width: 769px) {
+	.loading_wrap {
+		height: 70vh;
+		width: 30vw;
+		background-color: $dark-mode-bg-2;
+		padding: 1em;
+		border: 1px solid rgba(173, 216, 230, 0.589);
+		border-radius: 25px;
+		color: $dark-mode-lightblue;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		animation: popup 0.2s linear;
+		text-align: center;
+		margin-top: 45px;
+	}
 
-@media only screen and (min-width: 769px){
-  .loading_wrap{
-    height: 70vh;
-    width: 30vw;
-    background-color: $dark-mode-bg-2;
-    padding: 1em;
-    border: 1px solid rgba(173, 216, 230, 0.589);
-    border-radius: 25px;
-    color: $dark-mode-lightblue;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    animation: popup 0.2s linear;
-    text-align: center;
-    margin-top: 45px;
-  }
+	.header {
+		font-size: x-large;
+		width: 80%;
+		margin-bottom: 3em;
+	}
 
-  .header{
-    font-size:x-large;
-    width: 80%;
-    margin-bottom: 3em;
-  }
+	.header_second {
+		font-size: small;
+		color: lightgray;
+	}
 
-  .header_second{
-    font-size: small;
-    color: lightgray;
-  }
-
-  .progress{
-      margin-bottom: 3em;
-      position: relative;
-      height: 10px;
-      width: 40%;
-      border: 10px solid #b8c9da;
-      border-radius: 15px;
-  }
-  .progress .color{
-      margin-top: -5px;
-      background-color: rgb(106, 113, 116);
-      width: 0px;
-      height: 10px;
-      border-radius: 15px;
-      animation: progress 8s infinite linear;    
-  }
-
+	.progress {
+		margin-bottom: 3em;
+		position: relative;
+		height: 10px;
+		width: 40%;
+		border: 10px solid #b8c9da;
+		border-radius: 15px;
+	}
+	.progress .color {
+		margin-top: -5px;
+		background-color: rgb(106, 113, 116);
+		width: 0px;
+		height: 10px;
+		border-radius: 15px;
+		animation: progress 8s infinite linear;
+	}
 }
 
+@media only screen and (max-width: 769px) {
+	.loading_wrap {
+		height: 100%;
+		width: 100%;
+		background-color: $dark-mode-bg-2;
+		padding: 1em;
+		border: 1px solid rgba(173, 216, 230, 0.589);
+		border-radius: 25px;
+		color: $dark-mode-lightblue;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		animation: popup 0.2s linear;
+		text-align: center;
+		margin-top: 1em;
+	}
 
-@media only screen and (max-width: 769px){
-  .loading_wrap{
-    height: 100%;
-    width: 100%;
-    background-color: $dark-mode-bg-2;
-    padding: 1em;
-    border: 1px solid rgba(173, 216, 230, 0.589);
-    border-radius: 25px;
-    color: $dark-mode-lightblue;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    animation: popup 0.2s linear;
-    text-align: center;
-    margin-top: 1em;
-  }
+	.header {
+		font-size: x-large;
+		width: 80%;
+		margin-bottom: 2em;
+	}
 
-  .header{
-    font-size:x-large;
-    width: 80%;
-    margin-bottom: 2em;
-  }
+	.header_second {
+		font-size: small;
+		color: rgba(255, 255, 255, 0.666);
+	}
 
-  .header_second{
-    font-size: small;
-    color: rgba(255, 255, 255, 0.666);
-  }
-
-  .progress{
-      margin-bottom: 2em;
-      position: relative;
-      height: 10px;
-      width: 40%;
-      border: 10px solid #678EB5;
-      border-radius: 15px;
-  }
-  .progress .color{
-      margin-top: -5px;
-      background-color: #ffffff;
-      width: 0px;
-      height: 10px;
-      border-radius: 15px;
-      animation: progress 8s infinite linear;    
-  }
+	.progress {
+		margin-bottom: 2em;
+		position: relative;
+		height: 10px;
+		width: 40%;
+		border: 10px solid #678eb5;
+		border-radius: 15px;
+	}
+	.progress .color {
+		margin-top: -5px;
+		background-color: #ffffff;
+		width: 0px;
+		height: 10px;
+		border-radius: 15px;
+		animation: progress 8s infinite linear;
+	}
 }
 
-@keyframes progress{
-  0%{
-    width: 0%;
-  }
-  15%{
-    width: 25%;
-  }
-  25%{
-      width: 50%;
-  }
-  50%{
-      width: 75%;
-  }
-  75%{
-      width: 85%;
-  }
-  100%{
-      width: 100%;
-  }
-};
+@keyframes progress {
+	0% {
+		width: 0%;
+	}
+	15% {
+		width: 25%;
+	}
+	25% {
+		width: 50%;
+	}
+	50% {
+		width: 75%;
+	}
+	75% {
+		width: 85%;
+	}
+	100% {
+		width: 100%;
+	}
+}
 
-@keyframes popup{
-0%{
-  transform: scale(0);
-}
-100%{
-  transform: scale(1);
-}
-};
+@keyframes popup {
+	0% {
+		transform: scale(0);
+	}
+	100% {
+		transform: scale(1);
+	}
+} ;

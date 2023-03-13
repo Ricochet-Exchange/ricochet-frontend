@@ -1,393 +1,391 @@
-@import "../../../assets/styles/mixins";
+@import '../../../assets/styles/mixins';
 
 @include tablet {
-  .dextable
-    td:not(:first-child):not(:last-child):not(:nth-child(2)):not(:nth-child(3)) {
-    display: none;
-    max-height: 0;
-  }
+	.dextable td:not(:first-child):not(:last-child):not(:nth-child(2)):not(:nth-child(3)) {
+		display: none;
+		max-height: 0;
+	}
 }
 
 .streamshow {
-  display: inline-flex;
+	display: inline-flex;
 }
 
 .dextable {
-  border-collapse: collapse;
-  overflow: hidden;
-  width: 100%;
-  margin-top: 5vh;
-  border-radius: 12px;
-  background-color: #2d3233;
-
+	border-collapse: collapse;
+	overflow: hidden;
+	width: 100%;
+	margin-top: 5vh;
+	border-radius: 12px;
+	background-color: #2d3233;
 }
 
 @include tablet {
-  .dextable {
-    border-radius: 0;
-  }
+	.dextable {
+		border-radius: 0;
+	}
 }
 
 .blue {
-  color: var(--color-blue-dark);
-  font-weight: 500;
+	color: var(--color-blue-dark);
+	font-weight: 500;
 }
 
 .grey {
-  color: var(--color-grey);
-  font-size: 12px;
-  font-weight: 400;
+	color: var(--color-grey);
+	font-size: 12px;
+	font-weight: 400;
 }
 
 .currencyStyle {
-  text-align: right !important;
+	text-align: right !important;
 }
 
 .dextable thead tr {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 120%;
-  text-transform: uppercase;
-  color: $dark-mode-lightblue;
-  text-align: right;
-  letter-spacing: 0px;
-  border-bottom: 1px solid var(--color-blue);
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 120%;
+	text-transform: uppercase;
+	color: $dark-mode-lightblue;
+	text-align: right;
+	letter-spacing: 0px;
+	border-bottom: 1px solid var(--color-blue);
 }
 
 .tableHeaders {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 120%;
-  text-transform: uppercase;
-  color: var(--color-grey);
-  text-align: right;
-  letter-spacing: 0px;
-  border-bottom: 1px solid var(--color-blue);
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 120%;
+	text-transform: uppercase;
+	color: var(--color-grey);
+	text-align: right;
+	letter-spacing: 0px;
+	border-bottom: 1px solid var(--color-blue);
 }
 
 .sortButtonsRow {
-  height: 35px;
+	height: 35px;
 }
 
 .sortButtonRowTd {
-  height: 100%;
-  border-bottom: 1px solid var(--color-blue);
+	height: 100%;
+	border-bottom: 1px solid var(--color-blue);
 }
 
 .sortButton {
-  height: 35px;
-  width: 100%;
-  background-color: black;
-  opacity: 0.5;
-  transition-duration: 0.4s;
-  color: white;
-  border: 0px;
+	height: 35px;
+	width: 100%;
+	background-color: black;
+	opacity: 0.5;
+	transition-duration: 0.4s;
+	color: white;
+	border: 0px;
 }
 
 .sortButton:hover {
-  cursor: pointer;
-  background-color:#303030;
+	cursor: pointer;
+	background-color: #303030;
 }
 
 .tableHeaders td {
-  padding: 15px 15px 16px 12px;
-  line-height: 25px;
-  text-align: right;
-  border-right: 1px solid rgb(97, 97, 97);
+	padding: 15px 15px 16px 12px;
+	line-height: 25px;
+	text-align: right;
+	border-right: 1px solid rgb(97, 97, 97);
 }
 
 .dextable td.section {
-  text-align: right;
-  border-right: 1px solid rgb(97, 97, 97);
+	text-align: right;
+	border-right: 1px solid rgb(97, 97, 97);
 }
 
 .dextable tbody tr {
-  border-bottom: 1px solid lightgray;
-  font-size: 0.9em;
-  font-weight: 500;
+	border-bottom: 1px solid lightgray;
+	font-size: 0.9em;
+	font-weight: 500;
 }
 
 .dextable tbody tr:last-of-type {
-  border-bottom: 2px solid lightgray;
+	border-bottom: 2px solid lightgray;
 }
 
 .dextable tbody td {
-  padding: 20px;
-  line-height: 25px;
-  text-align: right;
-  border-right: 1px solid rgb(97, 97, 97);
+	padding: 20px;
+	line-height: 25px;
+	text-align: right;
+	border-right: 1px solid rgb(97, 97, 97);
 }
 
 .redFont {
-  color: var(--color-red);
+	color: var(--color-red);
 }
 
 .greenFont {
-  color: var(--color-primary);
+	color: var(--color-primary);
 }
 
 .currDisplay {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  gap: 7px;
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	gap: 7px;
 }
 
 .currDisplayImg {
-  display: flex;
-  flex-direction: 'row';
-  width: 25px;
-  height: 25px;
+	display: flex;
+	flex-direction: 'row';
+	width: 25px;
+	height: 25px;
 }
 
 .currDisplayName {
-  height: 24px;
-  cursor: pointer;
-  
-  .add_button{
-    cursor: pointer;
-  }
+	height: 24px;
+	cursor: pointer;
+
+	.add_button {
+		cursor: pointer;
+	}
 }
 
 .displaybutton {
-  display: flex;
-  justify-content: space-evenly;
-  gap: 10px;
-  float: right;
+	display: flex;
+	justify-content: space-evenly;
+	gap: 10px;
+	float: right;
 
-  @include tablet {
-    flex-direction: column;
-    float: left; 
-  }
+	@include tablet {
+		flex-direction: column;
+		float: left;
+	}
 }
 
 .wallet_loading {
-  text-align: center;
-  flex: 1;
-  width: 100%;
+	text-align: center;
+	flex: 1;
+	width: 100%;
 
-  @include tablet {
-    @include flexbox(flex-start, center);
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    position: relative;
-    flex-direction: column;
-    flex: 0 0 25%;
-    padding: 0 0 20px -10px;
-  }
+	@include tablet {
+		@include flexbox(flex-start, center);
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		position: relative;
+		flex-direction: column;
+		flex: 0 0 25%;
+		padding: 0 0 20px -10px;
+	}
 }
 
 .displaybutton span.upgradeButton {
-  padding: 5px 12px;
-  text-align: center;
-  display: inline-block;
-  border-radius: 4px;
-  background-color: rgba(94, 244, 164, 0.15);
-  cursor: pointer;
-  color: #10bb6e;
+	padding: 5px 12px;
+	text-align: center;
+	display: inline-block;
+	border-radius: 4px;
+	background-color: rgba(94, 244, 164, 0.15);
+	cursor: pointer;
+	color: #10bb6e;
 }
 
 .displaybutton span.downgradeButton {
-  padding: 5px 12px;
-  color: #e94c31;
-  border-radius: 4px;
-  cursor: pointer;
-  background-color: rgba(237, 87, 120, 0.15);
+	padding: 5px 12px;
+	color: #e94c31;
+	border-radius: 4px;
+	cursor: pointer;
+	background-color: rgba(237, 87, 120, 0.15);
 }
 
 .displaybutton span.disabledButton {
-  padding: 5px 12px;
-  color: #b7c2d6;
-  border-radius: 4px;
-  background-color: rgb(225, 232, 248);
-  pointer-events: none;
+	padding: 5px 12px;
+	color: #b7c2d6;
+	border-radius: 4px;
+	background-color: rgb(225, 232, 248);
+	pointer-events: none;
 }
 
 .wrapper {
-  height: 100%;
-  width: 100%;
-  padding: 2.5em;
-  padding-top: 1vh;
-  @include tablet {
-    max-width: 100vw;
-    height: 100%;
-    padding: 0em;
-  }
+	height: 100%;
+	width: 100%;
+	padding: 2.5em;
+	padding-top: 1vh;
+	@include tablet {
+		max-width: 100vw;
+		height: 100%;
+		padding: 0em;
+	}
 }
 
 .container {
-  @include flexbox(center, flex-start);
+	@include flexbox(center, flex-start);
 
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
 }
 
 .upgrade {
-  margin: 0 0 70px 0;
-  width: 100%;
-  max-width: 670px;
+	margin: 0 0 70px 0;
+	width: 100%;
+	max-width: 670px;
 
-  @include tablet {
-    width: 100%;
-    margin: 0 0 20px 0;
-  }
+	@include tablet {
+		width: 100%;
+		margin: 0 0 20px 0;
+	}
 }
 
 .downgrade {
-  width: 100%;
-  max-width: 582px;
+	width: 100%;
+	max-width: 582px;
 
-  @include tablet {
-    width: 100%;
-    margin: 0 0 20px 0;
-  }
+	@include tablet {
+		width: 100%;
+		margin: 0 0 20px 0;
+	}
 }
 
 .header_upgrade,
 .header_downgrade {
-  font-style: normal;
-  font-weight: bold;
-  font-size: 36px;
-  line-height: 140%;
-  text-align: center;
-  color: var(--color-blue);
+	font-style: normal;
+	font-weight: bold;
+	font-size: 36px;
+	line-height: 140%;
+	text-align: center;
+	color: var(--color-blue);
 }
 
 .header_upgrade {
-  margin: 0 0 30px 0;
+	margin: 0 0 30px 0;
 }
 
 .header_downgrade {
-  margin: 50px 0 30px 0;
+	margin: 50px 0 30px 0;
 }
 
 .hideLowBalanceCheckbox {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  color: white;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	color: white;
 }
 
 label {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .balanceTokens {
-  @include tablet {
-    font-size: 10px;
-  }
+	@include tablet {
+		font-size: 10px;
+	}
 }
 
 /* Hide the browser's default checkbox */
 .container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
 }
 
 .checkmark {
-  margin: 2px;
-  margin-left: 5px;
-  height: 20px;
-  width: 20px;
-  background-color: #eee;
-  cursor: pointer;
+	margin: 2px;
+	margin-left: 5px;
+	height: 20px;
+	width: 20px;
+	background-color: #eee;
+	cursor: pointer;
 }
 
 /* On mouse-over, add a grey background color */
 .container:hover input ~ .checkmark {
-  background-color: #ccc;
+	background-color: #ccc;
 }
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkmark {
-  background-color: #2196F3;
+	background-color: #2196f3;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
+	content: '';
+	position: absolute;
+	display: none;
 }
 
 /* Show the checkmark when checked */
 .container input:checked ~ .checkmark:after {
-  display: block;
+	display: block;
 }
 
 /* Style the checkmark/indicator */
 .container .checkmark:after {
-  width: 5px;
-  height: 10px;
-  border: solid rgba(255, 255, 255, 0.591);
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+	width: 5px;
+	height: 10px;
+	border: solid rgba(255, 255, 255, 0.591);
+	border-width: 0 3px 3px 0;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
 }
 
 .settings_mob {
-  display: none;
+	display: none;
 
-  @include tablet {
-    display: block;
-    width: 100%;
-    padding: 0px 0 0 0;
-    position: relative;
-  }
+	@include tablet {
+		display: block;
+		width: 100%;
+		padding: 0px 0 0 0;
+		position: relative;
+	}
 }
 
 .dot {
-  color: var(--color-blue);
-  margin: 0 0 0 23px;
+	color: var(--color-blue);
+	margin: 0 0 0 23px;
 }
 
 @media only screen and (max-width: 769px) {
-  .settings_mob {
-    display: none;
+	.settings_mob {
+		display: none;
 
-    @include tablet {
-      display: block;
-      width: 100%;
-      padding: 0px;
-      position: relative;
-    }
-  }
+		@include tablet {
+			display: block;
+			width: 100%;
+			padding: 0px;
+			position: relative;
+		}
+	}
 
-  .currDisplayName {
-    font-size: x-small;
-  }
+	.currDisplayName {
+		font-size: x-small;
+	}
 
-  .wrapper {
-    height: 100%;
-    width: 100%;
-    padding: 0;
-  }
+	.wrapper {
+		height: 100%;
+		width: 100%;
+		padding: 0;
+	}
 
-  .dextable th,
-  .dextable td {
-    word-break: keep-all;
-    line-height: 13px;
-    text-align: center;
-    border-right: 1px solid rgba(161, 175, 202, 0.234);
-  }
+	.dextable th,
+	.dextable td {
+		word-break: keep-all;
+		line-height: 13px;
+		text-align: center;
+		border-right: 1px solid rgba(161, 175, 202, 0.234);
+	}
 }
 
 @media only screen and (max-width: 359px) {
-  .displaybutton {
-    height: 22px;
-    width: 30px;
-  }
+	.displaybutton {
+		height: 22px;
+		width: 30px;
+	}
 
-  .upgrade_downgrade_head {
-    font-size: xx-small;
-    text-align: left;
-  }
+	.upgrade_downgrade_head {
+		font-size: xx-small;
+		text-align: left;
+	}
 }

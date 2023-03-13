@@ -1,167 +1,167 @@
-@import "../../../assets/styles/mixins";
+@import '../../../assets/styles/mixins';
 
 .outer_container {
-  display: flex;
-  overflow: auto;
-  @include tablet() {
-    display: block;
-    margin-top: 00px;
-  }
+	display: flex;
+	overflow: auto;
+	@include tablet() {
+		display: block;
+		margin-top: 00px;
+	}
 }
 
 .container {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 1em;
-  padding-left: 3em;
-  padding-right: 0em;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 1em;
+	padding-left: 3em;
+	padding-right: 0em;
 }
 
 .input_wrap {
-  @include flexbox(center, center);
-  margin-bottom: 20px;
-  margin-top: 20px;
-  @include tablet {
-    width: 100%;
-    padding: 15px 15px 30px 15px;
-    margin-bottom: 0;
-  }
+	@include flexbox(center, center);
+	margin-bottom: 20px;
+	margin-top: 20px;
+	@include tablet {
+		width: 100%;
+		padding: 15px 15px 30px 15px;
+		margin-bottom: 0;
+	}
 }
 
 .container_input {
-  width: 503px;
-  border-radius: 8px;
-  background: #484e51;
+	width: 503px;
+	border-radius: 8px;
+	background: #484e51;
 
-  @include tablet {
-    width: 100%;
-  }
+	@include tablet {
+		width: 100%;
+	}
 }
 
 .input {
-  border-radius: 8px;
-  color: $dark-mode-lightblue;
-  padding: 0;
+	border-radius: 8px;
+	color: $dark-mode-lightblue;
+	padding: 0;
 
-  &::placeholder {
-    color: $dark-mode-lightblue;
+	&::placeholder {
+		color: $dark-mode-lightblue;
 
-    &:focus {
-      color: transparent;
-    }
-  }
+		&:focus {
+			color: transparent;
+		}
+	}
 }
 
 .search {
-  color: var(--color-blue);
+	color: var(--color-blue);
 }
 
 .headers {
-  @include flexbox(center, space-around);
+	@include flexbox(center, space-around);
 
-  // padding: 40px 50px 20px 30px;
-  padding: 2em;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 140%;
-  text-align: center;
-  text-transform: uppercase;
-  color: var(--color-grey);
+	// padding: 40px 50px 20px 30px;
+	padding: 2em;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 140%;
+	text-align: center;
+	text-transform: uppercase;
+	color: var(--color-grey);
 
-  @include tablet {
-    display: none;
-  }
+	@include tablet {
+		display: none;
+	}
 }
 
 .market {
-  flex: 1 1 0px;
+	flex: 1 1 0px;
 }
 .stream {
-  flex: 1 1 0px;
+	flex: 1 1 0px;
 }
 .balances {
-  flex: 1 1 0px;
+	flex: 1 1 0px;
 }
 .streaming {
-  flex: 1 1 0px;
+	flex: 1 1 0px;
 }
 .ends {
-  width: 30px;
+	width: 30px;
 }
 
 .panel {
-  margin: 0 0 10px 0;
-  @include tablet {
-    // width: inherit;
-    margin: 0 15px 15px 15px;
-  }
+	margin: 0 0 10px 0;
+	@include tablet {
+		// width: inherit;
+		margin: 0 15px 15px 15px;
+	}
 }
 
 .content {
-  padding-right: 20px;
-  @include tablet() {
-    padding-right: 0px;
-  }
+	padding-right: 20px;
+	@include tablet() {
+		padding-right: 0px;
+	}
 }
 
 .settings_mob {
-  display: none;
+	display: none;
 
-  @include tablet {
-    display: block;
-    width: 100%;
-    padding: 0px 0 0 0;
-    position: relative;
-  }
+	@include tablet {
+		display: block;
+		width: 100%;
+		padding: 0px 0 0 0;
+		position: relative;
+	}
 }
 
 .dot {
-  color: var(--color-blue);
-  margin: 0 0 0 23px;
+	color: var(--color-blue);
+	margin: 0 0 0 23px;
 }
 
 .empty_state {
-  color: var(--color-black-dark);
-  text-align: center;
-  padding: 50px 0;
+	color: var(--color-black-dark);
+	text-align: center;
+	padding: 50px 0;
 }
 
 .empty_state_text {
-  color: var(--color-black-dark);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  font-weight: bold;
-  margin-top: 20px;
+	color: var(--color-black-dark);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.3rem;
+	font-weight: bold;
+	margin-top: 20px;
 }
 
 .fee_disclaimer {
-  color: var(--color-black-dark);
-  display: flex;
-  justify-content: center;
-  font-size: 0.75rem;
-  line-height: 1.66;
-  padding: 15px;
+	color: var(--color-black-dark);
+	display: flex;
+	justify-content: center;
+	font-size: 0.75rem;
+	line-height: 1.66;
+	padding: 15px;
 }
 
 @media screen and (max-width: 768px) {
-  .container {
-    padding: 0;
-  }
+	.container {
+		padding: 0;
+	}
 }
 
 .dropdownHolder {
-  @include flexbox(center, center);
-  justify-content: center;
-  column-gap: 40px;
+	@include flexbox(center, center);
+	justify-content: center;
+	column-gap: 40px;
 }
 
 .connectWalletContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
 }
