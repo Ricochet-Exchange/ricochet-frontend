@@ -1,8 +1,10 @@
 {
 	"extends": ["react-app"],
 	"parser": "babel-eslint",
-	"plugins": [],
+	"plugins": ["react-hooks"],
 	"rules": {
+		"react-hooks/rules-of-hooks": "error",
+		"react-hooks/exhaustive-deps": "off",
 		"no-delete-var": "error",
 		"no-dupe-args": "error",
 		"no-dupe-class-members": "error",

@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useCallback, useEffect, useState, useMemo } from 'react';
+import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import history from 'utils/history';
 import { TextInput } from 'components/common/TextInput';
@@ -49,7 +49,8 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 			});
 			setFilteredList(sortedUserStreams);
 		}
-	}, [flowType, userStreams]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [flowType, userStreams, getFlowUSDValue]);
 
 	const handleSearch = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +107,8 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 			console.log('skipped func');
 			return;
 		}
-	}, [aggregatedRewards]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [aggregatedRewards, aggregatedRICRewards]);
 
 	const handleSetAggregatedRewards = (reward_amount: number) => {
 		setAggregatedRewards((aggregatedRewards) => [...aggregatedRewards, reward_amount]);

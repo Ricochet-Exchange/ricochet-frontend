@@ -153,20 +153,6 @@ export default function SwapContainer() {
 	};
 
 	const SwapTokens = React.useCallback(async () => {
-		let hasUnderlyingFrom;
-		let hasUnderlyingTo;
-
-		if (underlyingToken1 === fromSupertoken) {
-			hasUnderlyingFrom = false;
-		} else {
-			hasUnderlyingFrom = true;
-		}
-		if (underlyingToken2 === toSupertoken) {
-			hasUnderlyingTo = false;
-		} else {
-			hasUnderlyingTo = true;
-		}
-
 		setLoading(true);
 
 		let bigNumAmountIn;
@@ -214,6 +200,7 @@ export default function SwapContainer() {
 			console.log(e);
 			setLoading(false);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fromSupertoken, toSupertoken, web3, address, amountIn, minAmountOut, slippageTolerance]);
 
 	const ApproveSwapTokens = React.useCallback(async () => {
@@ -247,7 +234,7 @@ export default function SwapContainer() {
 				setLoading(false);
 				console.log(error);
 			});
-	}, [amountIn, fromSupertoken, address, slippageTolerance]);
+	}, [amountIn, fromSupertoken, address, web3]);
 
 	const handleSetAmountIn = (value: string) => {
 		setAmountIn(value);

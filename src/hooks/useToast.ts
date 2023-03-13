@@ -42,7 +42,7 @@ export const useToasts = (hideOnUnmount = true) => {
 		}
 
 		hideToastWrapped();
-	}, []);
+	}, [hideOnUnmount, hideToastWrapped]);
 
 	return {
 		showToast: showToastWrapped,
