@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { NavLink } from 'react-router-dom';
 import { Routes } from 'constants/routes';
