@@ -35,6 +35,13 @@ export const CoinRateForm: FC<IProps> = ({
 }) => {
 	const { t } = useTranslation();
 
+	const isDisabled = () => {
+		if (isReadOnly || isLoading) {
+			return true;
+		}
+		return false;
+	};
+
 	// Security Deposit is 4 hours worth of stream, so (4*60*60)/(30*24*60*60) = 1/180
 	return (
 		<div className={styles.input_container}>
@@ -78,7 +85,7 @@ export const CoinRateForm: FC<IProps> = ({
 							color="secondary"
 							onClick={onClickStop}
 							className={styles.stop}
-							disabled={isReadOnly || isLoading}
+							disabled={isDisabled()}
 							isLoading={isLoading}
 						>
 							{t('Stop')}

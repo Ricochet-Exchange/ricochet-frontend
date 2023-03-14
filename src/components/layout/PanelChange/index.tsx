@@ -275,7 +275,7 @@ export const PanelChange: FC<IProps> = ({
 		return ratioPrice.toString();
 	};
 
-	function isIbAlluo(coinA: Coin, coinB: Coin, totalFlow: string) {
+	function isIbAlluoToken(coinA: Coin, coinB: Coin, totalFlow: string) {
 		if (
 			coinA.includes(Coin.IbAlluoBTC) ||
 			coinA.includes(Coin.IbAlluoUSD) ||
@@ -297,8 +297,7 @@ export const PanelChange: FC<IProps> = ({
 			if (tokenAddress !== '') {
 				getIbAllouRatio(tokenAddress, totalFlow)
 					.then((data) => {
-						growthRatioPrice = data;
-						setSIbAllouFlow(growthRatioPrice);
+						setSIbAllouFlow(data);
 					})
 					.catch((error) => {
 						return null;
@@ -366,7 +365,7 @@ export const PanelChange: FC<IProps> = ({
 								<div className={styles.stream}>
 									<span>
 										<span className={styles.number}>
-											<>{`$${personalFlow && getFlowUSDValue(personalFlow)} ${t('per month')}`}</>
+											{`$${personalFlow && getFlowUSDValue(personalFlow)} ${t('per month')}`}
 										</span>
 									</span>
 									<div>
@@ -463,7 +462,7 @@ export const PanelChange: FC<IProps> = ({
 								<div className={styles.streaming}>
 									<span>
 										<span className={styles.number}>
-											{totalFlow && isIbAlluo(coinA, coinB, totalFlow) ? (
+											{totalFlow && isIbAlluoToken(coinA, coinB, totalFlow) ? (
 												<>{`$${ibAllouFlow && parseFloat(ibAllouFlow).toFixed(0)}`}</>
 											) : (
 												<>{`$${totalFlow && getFlowUSDValue(totalFlow)}`}</>
@@ -498,7 +497,7 @@ export const PanelChange: FC<IProps> = ({
 										)}
 									</span>
 									<span className={styles.token_amounts}>
-										{totalFlow && isIbAlluo(coinA, coinB, totalFlow) ? (
+										{totalFlow && isIbAlluoToken(coinA, coinB, totalFlow) ? (
 											<>
 												<span>{`${
 													ibAllouFlow && parseFloat(ibAllouFlow).toFixed(3)

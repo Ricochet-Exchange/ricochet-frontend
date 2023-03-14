@@ -100,84 +100,81 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 		querySushiPoolPrices(sushiSwapPools[`${getTokenSymbol(coinA)}-${getTokenSymbol(coinB)}`]).then(({ data }) => {
 			if (data?.error) {
 				console.error('fetching Sushi Pools price error: ', data.error);
-			} else {
-				const { pair } = data.data;
-				if (isMounted && pair) {
-					const { symbol: _coinA } = pair.token0;
-					const { symbol: _coinB } = pair.token1;
+				return;
+			}
 
-					let realPrice = '';
+			const { pair } = data.data;
 
-					if (_coinA.includes(getTokenSymbol(coinA)) && _coinB.includes(getTokenSymbol(coinB))) {
-						realPrice = pair.token0Price;
-					} else if (_coinA.includes(getTokenSymbol(coinB)) && _coinB.includes(getTokenSymbol(coinA))) {
-						realPrice = pair.token1Price;
-					}
+			if (!isMounted || !pair) {
+				return;
+			}
 
-					if (
-						coinA.includes(Coin.IbAlluoBTC) ||
-						coinA.includes(Coin.IbAlluoUSD) ||
-						coinA.includes(Coin.IbAlluoETH) ||
-						coinB.includes(Coin.IbAlluoBTC) ||
-						coinB.includes(Coin.IbAlluoUSD) ||
-						coinB.includes(Coin.IbAlluoETH)
-					) {
-						let tokenAddress: string = '';
-						let growthRatioPrice: string = '';
-						if (coinB === Coin.IbAlluoBTC) {
-							tokenAddress = IbAlluoBTCAddress;
-						} else if (coinB === Coin.IbAlluoETH) {
-							tokenAddress = IbAlluoETHAddress;
-						} else if (coinB === Coin.IbAlluoUSD) {
-							tokenAddress = IbAlluoUSDAddress;
-						}
+			const { token0, token1 } = pair;
 
-						if (tokenAddress !== '') {
-							getIbAllouRatio(tokenAddress, realPrice)
-								.then((data) => {
-									growthRatioPrice = data;
-									setMarketPairPrice((prev) => {
-										return {
-											...prev,
-											[`${coinA}-${coinB}`]: growthRatioPrice,
-										};
-									});
-								})
-								.catch((error) => {
-									return null;
-								});
-						}
-					} else {
-						setMarketPairPrice((prev) => {
-							return {
-								...prev,
-								[`${coinA}-${coinB}`]: realPrice,
-							};
-						});
-					}
+			const _coinA = token0.symbol;
+			const _coinB = token1.symbol;
+			let realPrice = '';
+
+			switch (`${_coinA}-${_coinB}`) {
+				case `${getTokenSymbol(coinA)}-${getTokenSymbol(coinB)}`:
+					realPrice = pair.token0Price;
+					break;
+				case `${getTokenSymbol(coinB)}-${getTokenSymbol(coinA)}`:
+					realPrice = pair.token1Price;
+					break;
+			}
+
+			const isIbAlluoPair =
+				coinA.includes(Coin.IbAlluoBTC) ||
+				coinA.includes(Coin.IbAlluoUSD) ||
+				coinA.includes(Coin.IbAlluoETH) ||
+				coinB.includes(Coin.IbAlluoBTC) ||
+				coinB.includes(Coin.IbAlluoUSD) ||
+				coinB.includes(Coin.IbAlluoETH);
+
+			if (isIbAlluoPair) {
+				let tokenAddress = null;
+				let growthRatioPrice = '';
+
+				switch (coinB) {
+					case Coin.IbAlluoBTC:
+						tokenAddress = IbAlluoBTCAddress;
+						break;
+					case Coin.IbAlluoETH:
+						tokenAddress = IbAlluoETHAddress;
+						break;
+					case Coin.IbAlluoUSD:
+						tokenAddress = IbAlluoUSDAddress;
+						break;
 				}
 
-				if (coinA === Coin.USDC && coinB === Coin.IbAlluoUSD) {
-					let tokenAddress: string = '';
-					let growthRatioPrice: string = '';
-					tokenAddress = IbAlluoUSDAddress;
-
-					if (tokenAddress !== '') {
-						getIbAllouRatio(tokenAddress, '1')
-							.then((data) => {
-								growthRatioPrice = data;
-								setMarketPairPrice((prev) => {
-									return {
-										...prev,
-										[`${coinA}-${coinB}`]: growthRatioPrice,
-									};
-								});
-							})
-							.catch((error) => {
-								return null;
+				if (tokenAddress) {
+					getIbAllouRatio(tokenAddress, realPrice)
+						.then((data) => {
+							growthRatioPrice = data;
+							setMarketPairPrice((prev) => {
+								return {
+									...prev,
+									[`${coinA}-${coinB}`]: growthRatioPrice,
+								};
 							});
-					}
+						})
+						.catch(() => null); // instead of return null in the catch()
 				}
+			} else if (coinA === Coin.USDC && coinB === Coin.IbAlluoUSD) {
+				getIbAllouRatio(IbAlluoUSDAddress, '1')
+					.then((data) => {
+						setMarketPairPrice((prev) => ({
+							...prev,
+							[`${coinA}-${coinB}`]: data,
+						}));
+					})
+					.catch(() => null);
+			} else {
+				setMarketPairPrice((prev) => ({
+					...prev,
+					[`${coinA}-${coinB}`]: realPrice,
+				}));
 			}
 		});
 
