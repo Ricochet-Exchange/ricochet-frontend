@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { NavLink } from 'react-router-dom';
 import { Routes } from 'constants/routes';
@@ -8,10 +8,7 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectUserStreams } from 'store/main/selectors';
 import gift from 'assets/images/gift.svg';
 import styles from './styles.module.scss';
-
-const TUTORIAL_LINK = 'https://docs.ricochet.exchange/tutorial/using-the-dapp';
-const RICOCHET_V1_LINK = 'https://v1.ricochet.exchange/';
-const SUPPORT = 'https://discord.com/channels/862796510604296263/864667072357597185';
+import { RICOCHET_V1_LINK, SUPPORT, TUTORIAL_LINK } from 'utils/helpers';
 
 export const InvestNav = () => {
 	const userStreams = useShallowSelector(selectUserStreams);
@@ -48,7 +45,13 @@ export const InvestNav = () => {
 				</NavLink>
 
 				<NavLink to={Routes.Claim} className={styles.nav_link} activeClassName={styles.nav_link_active}>
-					<img src={gift} width="16" height="16" style={{ filter: 'invert(1)', marginRight: '3px' }} />
+					<img
+						alt="logo for claim route"
+						src={gift}
+						width="16"
+						height="16"
+						style={{ filter: 'invert(1)', marginRight: '3px' }}
+					/>
 					<div className={styles.nav_text}>{t('Gifts')}</div>
 				</NavLink>
 
