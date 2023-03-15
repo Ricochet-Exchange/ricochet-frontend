@@ -1,25 +1,23 @@
 @import '../../assets/styles/mixins';
 
 .container {
-  width: 100%;
+	width: 100%;
 }
 
 .content {
-  grid-area: content;
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  background-color: $dark-mode-bg-2;
+	grid-area: content;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+	background-color: $dark-mode-bg-2;
 }
-
 
 @media screen and (max-width: 768px) {
-  .navbar{
-    height: 80px;
-    margin-top: 10vh;
-  }
-  .content {
-    max-width: 100vw;
-  }
+	.navbar {
+		height: 80px;
+		margin-top: 10vh;
+	}
+	.content {
+		max-width: 100vw;
+	}
 }
-

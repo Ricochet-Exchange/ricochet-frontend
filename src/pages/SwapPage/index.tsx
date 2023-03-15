@@ -2,12 +2,11 @@ import React from 'react';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { LoadingPopUp } from 'components/common/LoadingPopUp';
-import Web3 from 'web3';
 import SwapContainer from './layout/Checkout/SwapContainer';
 import styles from './styles.module.scss';
 
 export function SwapPage() {
-	const { address, web3 } = useShallowSelector(selectMain);
+	const { address } = useShallowSelector(selectMain);
 
 	return (
 		<div
