@@ -50,7 +50,7 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 			setFilteredList(sortedUserStreams);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [flowType, userStreams, getFlowUSDValue]);
+	}, [flowType, userStreams]);
 
 	const handleSearch = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {
@@ -108,7 +108,7 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 			return;
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [aggregatedRewards, aggregatedRICRewards]);
+	}, [aggregatedRewards]);
 
 	const handleSetAggregatedRewards = (reward_amount: number) => {
 		setAggregatedRewards((aggregatedRewards) => [...aggregatedRewards, reward_amount]);
