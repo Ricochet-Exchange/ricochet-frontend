@@ -1,27 +1,27 @@
-@import '../../../assets/styles/mixins';
+@import "../../../assets/styles/mixins";
 
 .wrap {
-	width: max-content;
-	padding: 15px;
-	border-radius: 10px;
-	height: max-content;
-	background: var(--color-white);
-	z-index: 15;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-top: 10vh;
+  width: max-content;
+  padding: 15px;
+  border-radius: 10px;
+  height: max-content;
+  background: var(--color-white);
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10vh;
 }
 
-.title {
-	font-size: 20px;
-	font-weight: 700;
-	line-height: 24px;
-	text-decoration: none;
-	color: var(--color-black-dark);
+.title {  
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  text-decoration: none;
+  color: var(--color-black-dark);
 }
 
 .link {
-	text-decoration: none;
-	color: var(--color-grey);
+  text-decoration: none;
+  color: var(--color-grey);
 }

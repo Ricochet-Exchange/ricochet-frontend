@@ -1,14 +1,14 @@
 {
-	"site": {
-		"id": "3075586c-0174-46a7-bb8f-e62e8186daaa",
-		"team": "feb665d4-5223-4c09-8bb9-94801c9d1369",
-		"platform": "ipfs",
-		"source": "ipfs",
-		"name": "ricochetxchange"
-	},
-	"build": {
-		"baseDir": "",
-		"publicDir": "build",
-		"rootDir": ""
-	}
+  "site": {
+    "id": "3075586c-0174-46a7-bb8f-e62e8186daaa",
+    "team": "feb665d4-5223-4c09-8bb9-94801c9d1369",
+    "platform": "ipfs",
+    "source": "ipfs",
+    "name": "ricochetxchange"
+  },
+  "build": {
+    "baseDir": "",
+    "publicDir": "build",
+    "rootDir": ""
+  }
 }

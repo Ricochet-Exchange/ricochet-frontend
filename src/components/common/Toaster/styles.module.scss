@@ -1,50 +1,51 @@
 @import 'assets/styles/_mixins.scss';
 
 .toast {
-	@include flexbox(center, stretch);
+  @include flexbox(center, stretch);
 
-	margin-top: 24px;
-	width: 100%;
-	min-height: 73px;
-	flex-direction: row;
-	color: #ffffff;
-	border-radius: 12px;
+  margin-top: 24px;
+  width: 100%;
+  min-height: 73px;
+  flex-direction: row;
+  color: #ffffff;
+  border-radius: 12px;
 
-	&.info {
-		background-color: var(--color-blue);
-	}
+  &.info {
+    background-color: var(--color-blue);
+  }
 
-	&.success {
-		background-color: var(--color-secondary);
-	}
+  &.success {
+    background-color: var(--color-secondary);
+  }
 
-	&.error {
-		background-color: var(--color-error);
-	}
+  &.error {
+    background-color: var(--color-error);
+  }
 
-	.close {
-		margin-right: 8px;
-		background: transparent;
-		border: none;
-		color: #ffffff;
-		font-weight: bold;
-	}
+  .close {
+    margin-right: 8px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-weight: bold;
+  }
 }
 
 .body {
-	flex: 1;
-	width: 100%;
-	padding: 16px 24px;
+  flex: 1;
+  width: 100%;
+  padding: 16px 24px;
 }
 
 .title {
-	font-size: 16px;
-	line-height: 24px;
-	font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
 }
 
 .text {
-	font-size: 14px;
-	line-height: 18px;
-	font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
 }
+

@@ -84,7 +84,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 				})
 				.catch((error: string) => console.log(error));
 		}
-	}, [address, contract]);
+	}, []);
 
 	//Methods: To-do use Utils or more these to utils
 
@@ -147,7 +147,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 				}
 			})();
 		}
-	}, [address, contract, claimAccess]);
+	}, [address, claimAccess]);
 
 	//Claim Waterdrop
 	const handleClaim = React.useCallback(async () => {
@@ -163,7 +163,7 @@ export const ClaimRow: FC<waterdrop> = ({ contract, waterdropAddress, name }) =>
 			});
 		//Estimate gas, if transaction will succeed, then make transaction, else throw error and show userz
 		trigger();
-	}, [address, contract, web3.currentProvider]);
+	}, [address, contract]);
 
 	return (
 		<div>

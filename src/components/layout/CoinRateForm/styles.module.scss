@@ -1,108 +1,108 @@
-@import '../../../assets/styles/mixins';
+@import "../../../assets/styles/mixins";
 
 .input_container {
-	@include flexbox(center, flex-start);
-	padding: 4px 0 27px 30px;
-	width: 100%;
+  @include flexbox(center, flex-start);
+  padding: 4px 0 27px 30px;
+  width: 100%;
 
-	@include tablet {
-		@include flexbox(center, center);
+  @include tablet {
+    @include flexbox(center, center);
 
-		flex-direction: column;
-		padding: 10px 0 10px 0;
-		width: 90%;
-		margin: auto;
-	}
+    flex-direction: column;
+    padding: 10px 0 10px 0;
+    width: 90%;
+    margin: auto;
+  }
 }
 
 .input {
-	background: #484e51;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 14px;
-	line-height: 140%;
-	color: $dark-mode-lightblue;
-	@include tablet {
-		padding: 10px 0 10px 20px;
-	}
+  background: #484e51;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 140%;
+  color: $dark-mode-lightblue;
+  @include tablet {
+    padding: 10px 0 10px 20px;
+  }
 }
 
 .container_input {
-	background: #484e51;
-	border-radius: 8px;
-	width: 274px;
-	height: 41px;
-	@include tablet {
-		width: 100%;
-	}
+  background: #484e51;
+  border-radius: 8px;
+  width: 274px;
+  height: 41px;
+  @include tablet {
+    width: 100%;
+  }
 }
 
 .input_wrap {
-	padding: 0 20px 0 0;
+  padding: 0 20px 0 0;
 
-	@include tablet {
-		width: 100%;
-		padding: 0;
-	}
+  @include tablet {
+    width: 100%;
+    padding: 0;
+  }
 }
 
 .right {
-	font-style: normal;
-	font-weight: normal;
-	font-size: 14px;
-	line-height: 140%;
-	color: var(--color-blue);
-	padding: 10px 20px 11px 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 140%;
+  color: var(--color-blue);
+  padding: 10px 20px 11px 0;
 }
 
 .buttons {
-	@include flexbox(center, center);
+  @include flexbox(center, center);
 
-	width: 100%;
+  width: 100%;
 
-	@include tablet {
-		margin: 10px 0 0 0;
-	}
+  @include tablet {
+    margin: 10px 0 0 0;
+  }
 }
 
 .start,
 .stop {
-	padding: 10px 20px;
-	font-style: normal;
-	font-weight: 500;
-	font-size: 14px;
-	line-height: 140%;
-	width: 100%;
-	border: none;
+  padding: 10px 20px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 140%;
+  width: 100%;
+  border: none;
 }
 
 .start_wrap {
-	padding: 0 8px 0 0;
+  padding: 0 8px 0 0;
 
-	@include tablet {
-		flex: 0 0 60%;
-		padding: 0 10px 0 0;
-	}
+  @include tablet {
+    flex: 0 0 60%;
+    padding: 0 10px 0 0;
+  }
 }
 
 .stop_wrap {
-	@include tablet {
-		flex: 0 0 40%;
-	}
+  @include tablet {
+    flex: 0 0 40%;
+  }
 }
 
 .depositTooltip_span {
-	width: 500px;
-	display: block;
-	text-align: justify;
-	opacity: 0.8;
-	font-size: 0.95em;
-	background: var(--color-blue);
+  width: 500px;
+  display: block;
+  text-align: justify;
+  opacity: 0.8;
+  font-size: 0.95em;
+  background: var(--color-blue);
 }
 .depositTooltip {
-	background: var(--color-blue) !important;
+  background: var(--color-blue) !important;
 }
 .__react_component_tooltip::before,
 .__react_component_tooltip::after {
-	border-top: 5px solid #062e56 !important;
+  border-top: 5px solid #062e56 !important;
 }

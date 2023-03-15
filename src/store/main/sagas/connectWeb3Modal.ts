@@ -1,6 +1,7 @@
 import { call, put } from 'redux-saga/effects';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import WalletLink from 'walletlink';
+import Web3Modal from 'web3modal';
 import { SafeAppWeb3Modal } from '@gnosis.pm/safe-apps-web3modal';
 import Web3 from 'web3';
 import Torus from '@toruslabs/torus-embed';

@@ -89,7 +89,7 @@ export const SwapForm: React.FC<IProps> = ({
 							? tokens.map((token, i) => {
 									if (token.name === 'RIC') {
 										console.log('RIC');
-										return null;
+										return;
 									}
 									if (+balances[token.address] > 0) {
 										return (
@@ -159,7 +159,7 @@ export const SwapForm: React.FC<IProps> = ({
 						{tokens.map((token, i) => {
 							if (token.name === 'RIC') {
 								console.log('RIC');
-								return null;
+								return;
 							}
 							return (
 								<option key={`${token.name}-${i}`} value={token.address}>

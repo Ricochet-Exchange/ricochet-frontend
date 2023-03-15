@@ -1,35 +1,35 @@
-@import '../../../../../assets/styles/mixins';
+@import "../../../../../assets/styles/mixins";
 
 @media screen and (min-width: 768px) {
-	.container {
-		margin-top: 1em;
-		height: 100%;
-		width: 50vw;
-		border-radius: 12px;
-		min-width: 600px;
-	}
+  .container {
+    margin-top: 1em;
+    height: 100%;
+    width: 50vw;
+    border-radius: 12px;
+    min-width: 600px;
+  }
 
-	.outGoing {
-		color: white;
-		font-size: 18px;
-	}
+  .outGoing {
+    color: white;
+    font-size: 18px;
+  }
 }
 
 @media screen and (max-width: 768px) {
-	.container {
-		width: 95vw;
-	}
+  .container {
+    width: 95vw;
+  }
 
-	.outGoing {
-		color: white;
-	}
+  .outGoing {
+    color: white;
+  }
 }
 
 .card {
-	margin: 0 0 10px 0;
+  margin: 0 0 10px 0;
 
-	@include tablet {
-		// width: inherit;
-		margin: 0 15px 15px 15px;
-	}
+  @include tablet {
+    // width: inherit;
+    margin: 0 15px 15px 15px;
+  }
 }

@@ -1,74 +1,73 @@
 @import '../../../assets/styles/mixins';
 
 .styled_menu {
-	position: fixed;
-	background-color: $dark-mode-bg;
-	display: flex;
-	flex-direction: column;
-	height: 100vh;
-	text-align: left;
-	padding: 2rem;
-	top: 0;
-	left: 0;
-	transition: transform 0.3s ease-in-out;
-	width: 100%;
-	z-index: 3;
-	a {
-		color: #efebec;
-		text-decoration: none;
-		transition: color 0.3s linear;
-		-webkit-tap-highlight-color: transparent;
+  position: fixed;  background-color: $dark-mode-bg;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  text-align: left;
+  padding: 2rem;
+  top: 0;
+  left: 0;
+  transition: transform 0.3s ease-in-out;
+  width: 100%;
+  z-index: 3;
+  a {
+    color: #efebec;
+    text-decoration: none;
+    transition: color 0.3s linear;
+    -webkit-tap-highlight-color: transparent;
 
-		@media (max-width: 576px) {
-			font-size: 14px;
-		}
-		&:active {
-			color: #efebec;
-		}
-	}
+    @media (max-width: 576px) {
+      font-size: 14px;
+    }
+    &:active {
+      color: #efebec;
+    }
+  }
 }
 
 .mobile_links {
-	margin-top: 150px;
+  margin-top: 150px;
 }
 
 .mobile_container {
-	padding: 5px 15px 5px 15px;
-	position: relative;
-	background-color: $dark-mode-bg-2;
-	height: 60px;
-	margin-bottom: 20px;
-	border: 1px solid transparent;
-	border-radius: 15px;
-	-webkit-tap-highlight-color: transparent;
-	> a {
-		color: #ffffff;
-		font-size: 13px;
-		line-height: 26px;
-		white-space: nowrap;
-		margin-right: 20px;
-	}
+  padding: 5px 15px 5px 15px;
+  position: relative;
+  background-color: $dark-mode-bg-2;
+  height: 60px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 15px;
+  -webkit-tap-highlight-color: transparent;
+  > a {
+    color: #ffffff;
+    font-size: 13px;
+    line-height: 26px;
+    white-space: nowrap;
+    margin-right: 20px;
+  }
 }
 
 .mobile_styled_link {
-	width: 100%;
-	display: block;
-	font-size: 18px;
-	letter-spacing: 0;
-	line-height: 18px;
-	text-decoration: none;
-	-webkit-tap-highlight-color: transparent;
+  width: 100%;
+  display: block;
+  font-size: 18px;
+  letter-spacing: 0;
+  line-height: 18px;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .anchor_container {
-	padding: 8px 0;
-	position: relative;
-	text-align: center;
-	> a {
-		color: #ffffff;
-		font-size: 13px;
-		line-height: 26px;
-		white-space: nowrap;
-		margin-right: 20px;
-	}
+  padding: 8px 0;
+  position: relative;
+  text-align: center;
+  > a {
+    color: #ffffff;
+    font-size: 13px;
+    line-height: 26px;
+    white-space: nowrap;
+    margin-right: 20px;
+  }
 }

@@ -1,4 +1,4 @@
-import { select, put } from 'redux-saga/effects';
+import { call, select, put } from 'redux-saga/effects';
 import { selectMain } from '../selectors';
 import { mainSetState } from '../actionCreators';
 

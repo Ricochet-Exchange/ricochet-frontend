@@ -5,9 +5,9 @@ import styles from './styles.module.scss';
 interface IProps {}
 
 const InvestPage: FC<IProps> = () => (
-	<div className={styles.content}>
-		<InvestContainer />
-	</div>
+  <div className={styles.content}>
+    <InvestContainer />
+  </div>
 );
 
 export { InvestPage };
