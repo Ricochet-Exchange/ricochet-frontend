@@ -474,7 +474,7 @@ export const PanelChange: FC<IProps> = ({
 						</div>
 					</div>
 				</div>
-				{inputShow && personalFlow && balanceA && (
+				{inputShow && personalFlow && (
 					<div className={styles.form_mob}>
 						<CoinRateForm
 							placeholder={placeholder}
@@ -483,7 +483,6 @@ export const PanelChange: FC<IProps> = ({
 							onClickStart={handleStart}
 							onClickStop={handleStop}
 							coin={coinA}
-							coinBalanceA={balanceA}
 							isLoading={isLoading}
 							isReadOnly={isReadOnly}
 							shareScaler={shareScaler}
@@ -492,7 +491,7 @@ export const PanelChange: FC<IProps> = ({
 						/>
 					</div>
 				)}
-				{inputShow && personalFlow && balanceA && (
+				{inputShow && personalFlow && (
 					<div className={styles.form}>
 						<CoinRateForm
 							placeholder={placeholder}
@@ -501,7 +500,6 @@ export const PanelChange: FC<IProps> = ({
 							onClickStart={handleStart}
 							onClickStop={handleStop}
 							coin={coinA}
-							coinBalanceA={balanceA}
 							isLoading={isLoading}
 							isReadOnly={isReadOnly}
 							personalFlow={getFormattedNumber(getFlowUSDValue(personalFlow))}
