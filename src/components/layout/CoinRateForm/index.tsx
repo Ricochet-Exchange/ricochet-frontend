@@ -52,29 +52,26 @@ export const CoinRateForm: FC<IProps> = ({
 			</div>
 			<div className={styles.buttons}>
 				<div className={styles.start_wrap}>
-					{
-						<ButtonNew
-							loaderColor="white"
-							color="primary"
-							onClick={onClickStart}
-							className={styles.start}
-							disabled={
-								isReadOnly ||
-								isLoading ||
-								!Boolean(parseInt(coinBalanceA ?? '') > 0) ||
-								!value ||
-								((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler) * shareScaler) /
-									1e18) *
-									2592000 ===
-									0
-							}
-							isLoading={isLoading}
-							data-tip
-							data-for={`depositTooltip-${indexVal}`}
-						>
-							{t('Start')}/{t('Edit')}
-						</ButtonNew>
-					}
+					<ButtonNew
+						loaderColor="white"
+						color="primary"
+						onClick={onClickStart}
+						className={styles.start}
+						disabled={
+							isReadOnly ||
+							isLoading ||
+							!Boolean(parseInt(coinBalanceA ?? '') > 0) ||
+							!value ||
+							((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler) * shareScaler) / 1e18) *
+								2592000 ===
+								0
+						}
+						isLoading={isLoading}
+						data-tip
+						data-for={`depositTooltip-${indexVal}`}
+					>
+						{t('Start')}/{t('Edit')}
+					</ButtonNew>
 				</div>
 				<div className={styles.stop_wrap}>
 					{parseFloat(personalFlow) > 0 && (
