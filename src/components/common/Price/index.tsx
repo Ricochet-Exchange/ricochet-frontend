@@ -126,7 +126,8 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 		return () => {
 			isMounted = false;
 		};
-	}, [coinA, coinB, web3, setLoading]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [coinA, coinB, web3]);
 
 	if (!launchPadPrice && !marketPairPrice[`${coinA}-${coinB}`]) return null;
 

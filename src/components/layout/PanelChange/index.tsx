@@ -174,7 +174,8 @@ export const PanelChange: FC<IProps> = ({
 		return () => {
 			isMounted = false;
 		};
-	}, [address, contractAddress, web3]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [address, web3]);
 
 	useEffect(() => {
 		let isMounted = true;
