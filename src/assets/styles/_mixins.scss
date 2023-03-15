@@ -4,76 +4,77 @@ $defaultFlexBoxAlign: center;
 $defaultFlexBoxJustify: center;
 
 @mixin flexbox($align: $defaultFlexBoxAlign, $justify: $defaultFlexBoxJustify) {
-	display: flex;
-	align-items: $align;
-	justify-content: $justify;
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
 }
 
 @mixin can_backdrop {
-	@supports ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px))) {
-		@content;
-	}
+  @supports ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px))) {
+    @content;
+  }
 }
 
-@mixin blur($color: rgba(223, 223, 223, 0.7), $radius: 15px) {
-	background: transparentize($color, 0.1);
+@mixin blur($color: rgba(223, 223,223, 0.7), $radius: 15px) {
+  background: transparentize($color, 0.1);
 
-	@include can_backdrop {
-		backdrop-filter: blur($radius);
-		-webkit-backdrop-filter: blur($radius);
-		background: transparentize($color, 0.5);
-	}
+  @include can_backdrop {
+    backdrop-filter: blur($radius);
+    -webkit-backdrop-filter: blur($radius);
+    background: transparentize($color, 0.5);
+  }
 }
 
 @mixin not_blur() {
-	background: rgba(0, 0, 0, 0.45);
+  background: rgba(0,0,0,0.45);
 
-	@include can_backdrop {
-		backdrop-filter: inherit;
-		-webkit-backdrop-filter: inherit;
-		background: gba(0, 0, 0, 0.45);
-	}
+  @include can_backdrop {
+    backdrop-filter: inherit;
+    -webkit-backdrop-filter: inherit;
+    background: gba(0,0,0,0.45);
+  }
 }
+
 
 // Media request mixins MobileFirst
 @mixin for_mobile {
-	@media screen and (max-width: 380px) {
-		@content;
-	}
+  @media screen and (max-width: 380px) {
+    @content;
+  }
 }
 
 @mixin for_large_mobile {
-	@media screen and (max-width: 480px) {
-		@content;
-	}
+  @media screen and (max-width: 480px) {
+    @content;
+  }
 }
 
 @mixin for_tablet {
-	@media screen and (max-width: 1280px) {
-		@content;
-	}
+  @media screen and (max-width: 1280px) {
+    @content;
+  }
 }
 
 @mixin for_breakpoint_width($max-width) {
-	@media screen and (max-width: $max-width) {
-		@content;
-	}
+  @media screen and (max-width: $max-width) {
+    @content;
+  }
 }
 
 @mixin tablet {
-	@media screen and (max-width: 768px) {
-		@content;
-	}
+  @media screen and (max-width: 768px) {
+    @content;
+  }
 }
 
 @mixin hidden() {
-	visibility: hidden;
-	pointer-events: none;
-	opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
 }
 
 @mixin lightshadow {
-	-webkit-box-shadow: 0px 13px 26px 0px rgba(0, 0, 0, 0.1);
-	-moz-box-shadow: 0px 13px 26px 0px rgba(0, 0, 0, 0.1);
-	box-shadow: 0px 13px 26px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0px 13px 26px 0px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 13px 26px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 13px 26px 0px rgba(0, 0, 0, 0.1);
 }

@@ -1,78 +1,79 @@
 @import '../../../assets/styles/mixins';
 
 .currency {
-	@include flexbox(center, center);
+  @include flexbox(center, center);
 }
 
 .labels {
-	@include flexbox(center, center);
+  @include flexbox(center, center);
 
-	position: relative;
+  position: relative;
 
-	& .img_usd,
-	.img_bitcoin {
-		// position: absolute;
-		// width: 32px;
-		padding: 0;
-		background: transparent;
-		border: none;
-	}
+  & .img_usd,
+  .img_bitcoin {
+    // position: absolute;
+    // width: 32px;
+    padding: 0;
+    background: transparent;
+    border: none;
+  }
 }
 
 .img_bitcoin {
-	// left: 22px;
+  // left: 22px;
 
-	&:active {
-		background: var(--color-blue-light);
-	}
+  &:active {
+    background: var(--color-blue-light);
+  }
 }
 
 .img_usd {
-	// left: 0px;
+  // left: 0px;
 
-	&:active {
-		background: var(--color-blue-light);
-	}
+  &:active {
+    background: var(--color-blue-light);
+  }
 }
 
 .currency_name_container {
-	width: 186px;
-	padding: 1em;
-	padding-left: 2em;
-	@include tablet {
-		width: 150px;
-		padding-left: 1em;
-	}
+  width: 186px;
+  padding: 1em;
+  padding-left: 2em;
+  @include tablet {
+    width: 150px;
+    padding-left: 1em;
+  }
 }
 .currency_name {
-	@include flexbox(center, flex-start);
-	width: auto;
+  @include flexbox(center, flex-start);
+  width: auto;
 
-	@include tablet {
-		flex-wrap: nowrap;
-		width: 100%;
-	}
+
+  @include tablet {
+    flex-wrap: nowrap;
+    width: 100%;
+  }
 }
 
 .currency_first,
 .currency_second {
-	color: white;
-	font-size: 15px;
-	font-weight: 700;
-	text-transform: uppercase;
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
 
-	@include tablet {
-		font-size: 16px;
-	}
+  @include tablet {
+    font-size: 16px;
+  }
 }
 
 .arrow_circle_container {
-	padding: 0 8px 0 8px;
+  padding: 0 8px 0 8px;
 }
 
 .arrow_circle {
-	@include flexbox(center, center);
-	color: var(--color-blue);
-	width: 24px;
-	height: 24px;
+  @include flexbox(center, center);
+  color: var(--color-blue);
+  width: 24px;
+  height: 24px;
 }

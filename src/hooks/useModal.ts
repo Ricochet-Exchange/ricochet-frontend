@@ -6,19 +6,16 @@ import { useShallowSelector } from './useShallowSelector';
 import { selectModal } from '../store/modal/selectors';
 
 export const useModal = () => {
-	const dispatch = useDispatch();
-	const { active, current } = useShallowSelector(selectModal);
-	const onCloseModal = useCallback(() => dispatch(modalHide()), [dispatch]);
-	const showModal = useCallback(
-		(modal: ModalType) => () => {
-			dispatch(modalShow(modal));
-		},
-		[dispatch],
-	);
-	return {
-		current,
-		active,
-		onCloseModal,
-		showModal,
-	};
+  const dispatch = useDispatch();
+  const { active, current } = useShallowSelector(selectModal);
+  const onCloseModal = useCallback(() => dispatch(modalHide()), [dispatch]);
+  const showModal = useCallback(
+    (modal: ModalType) =>
+      () => {
+        dispatch(modalShow(modal));
+      }, [dispatch],
+  ); 
+  return {
+    current, active, onCloseModal, showModal,
+  };
 };

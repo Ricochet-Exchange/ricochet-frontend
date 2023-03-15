@@ -9,7 +9,7 @@ jobs:
     lint:
         if: github.event.pull_request.draft == false
         name: lint
-        runs-on: ubuntu-latest
+        runs-on: [self-hosted, ci]
         steps:
             - uses: actions/checkout@v3
               with:
@@ -21,18 +21,18 @@ jobs:
                   node-version: 16.x
 
             - name: Install dependencies
-              run: yarn install
+              run: npm install
 
             - name: Lint
-              run: yarn lint --quiet
+              run: npm run lint
 
             - name: Prettier
-              run: yarn prettier:check
+              run: npm run prettier
 
     build:
         if: github.event.pull_request.draft == false
         name: build
-        runs-on: ubuntu-latest
+        runs-on: [self-hosted, ci]
         steps:
             - uses: actions/checkout@v3
               with:
@@ -44,7 +44,7 @@ jobs:
                   node-version: 16.x
 
             - name: Install dependencies
-              run: yarn install
+              run: npm install
 
             - name: Build codebase
-              run: yarn build
+              run: npm run build

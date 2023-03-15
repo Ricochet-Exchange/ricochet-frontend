@@ -1,61 +1,63 @@
 @import '../../../assets/styles/mixins';
 
-.balance_wrap {
-	@include flexbox(flex-start, center);
 
-	flex-direction: column;
-	margin: 0 0 0 10px;
+.balance_wrap {
+  @include flexbox(flex-start, center);
+
+  flex-direction: column;
+  margin: 0 0 0 10px;
 }
 
 .container_balance {
-	@include flexbox(center, center);
+  @include flexbox(center, center);
+
 }
 
 .name_wrap {
-	@include flexbox(center, center);
-	justify-content: space-between;
+  @include flexbox(center, center);
+  justify-content: space-between;
 }
 
 .name {
-	font-style: normal;
-	font-weight: bold;
-	font-size: 22px;
-	line-height: 140%;
-	color: var(--color-grey);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 140%;
+  color: var(--color-grey);
 }
-
+        
 .arrow_down,
 .arrow_up {
-	color: var(--color-blue);
-	&:active {
-		background: var(--color-blue-light);
-	}
+  color: var(--color-blue);
+  &:active {
+    background: var(--color-blue-light);
+  }
 }
 
 .btn_arrow_up,
 .btn_arrow_down {
-	&:active {
-		background: var(--color-blue-light);
-	}
+  &:active {
+    background: var(--color-blue-light);
+  }
 }
 
 .balance {
-	@include flexbox(center, center);
+  @include flexbox(center, center);
 }
 
 .balance_value {
-	font-style: normal;
-	font-weight: 700;
-	font-size: 14px;
-	line-height: 140%;
-	color: var(--color-blue);
-	padding: 0 0 0 4px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 140%;
+  color: var(--color-blue);
+  padding: 0 0 0 4px;
 }
 
 .balance_name {
-	color: var(--color-black-dark);
-	font-style: normal;
-	font-weight: normal;
-	font-size: 14px;
-	line-height: 140%;
+  color: var(--color-black-dark);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 140%;
 }
