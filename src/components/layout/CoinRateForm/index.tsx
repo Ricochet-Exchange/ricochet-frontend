@@ -18,6 +18,7 @@ interface IProps {
 	personalFlow: string;
 	shareScaler: number;
 	indexVal?: number;
+	coinBalanceA?: string;
 }
 
 export const CoinRateForm: FC<IProps> = ({
@@ -32,9 +33,9 @@ export const CoinRateForm: FC<IProps> = ({
 	personalFlow,
 	shareScaler,
 	indexVal,
+	coinBalanceA,
 }) => {
 	const { t } = useTranslation();
-
 	// Security Deposit is 4 hours worth of stream, so (4*60*60)/(30*24*60*60) = 1/180
 	return (
 		<div className={styles.input_container}>
@@ -59,6 +60,7 @@ export const CoinRateForm: FC<IProps> = ({
 						disabled={
 							isReadOnly ||
 							isLoading ||
+							!Boolean(parseInt(coinBalanceA ?? '') > 0) ||
 							!value ||
 							((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler) * shareScaler) / 1e18) *
 								2592000 ===
