@@ -1,30 +1,30 @@
 .button {
-  height: 40px;
-  padding: 6.4px 20px;
-  font-size: 16px;
-  font-family: inherit;
-  border-radius: 8px;
-  box-shadow: 0 13px 26px 0 rgba(0, 0, 0, 0.1);
-  font-weight: 700;
-  color: var(--color-blue);
-  line-height: 1.5715;
-  position: relative;
-  display: inline-block;
-  border: none;
-  background-color: white;
-  white-space: nowrap;
-  transition-property: all;
-  transition-duration: 0.05s;
-  transition-timing-function: ease-in-out;
-  transition-delay: 0s;
+	height: 40px;
+	padding: 6.4px 20px;
+	font-size: 16px;
+	font-family: inherit;
+	border-radius: 8px;
+	box-shadow: 0 13px 26px 0 rgba(0, 0, 0, 0.1);
+	font-weight: 700;
+	color: var(--color-blue);
+	line-height: 1.5715;
+	position: relative;
+	display: inline-block;
+	border: none;
+	background-color: white;
+	white-space: nowrap;
+	transition-property: all;
+	transition-duration: 0.05s;
+	transition-timing-function: ease-in-out;
+	transition-delay: 0s;
 
-  i {
-    margin-right: 5px;
-  }
+	i {
+		margin-right: 5px;
+	}
 }
 
 .button:hover:not(:disabled) {
-  box-shadow: 0 13px 26px 0 rgba(0, 0, 0, 0.1);
-  -webkit-transform: scale(0.98);
-  transform: scale(0.98);
+	box-shadow: 0 13px 26px 0 rgba(0, 0, 0, 0.1);
+	-webkit-transform: scale(0.98);
+	transform: scale(0.98);
 }

@@ -21,10 +21,8 @@ import { swap } from 'utils/swap/swap';
 import { superTokenABI } from 'constants/ABIs/supertoken';
 import { SwapForm } from './SwapForm';
 import { SwapContract } from 'constants/contracts';
-import { strtodec } from 'utils/strToDecimalBN';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import styles from './styles.module.scss';
-import { ethers } from 'ethers';
 
 export default function SwapContainer() {
 	const tokens = [
@@ -130,10 +128,10 @@ export default function SwapContainer() {
 		} else {
 			return;
 		}
-	}, [amountIn, fromSymbol, toSymbol, slippageTolerance]);
+	}, [amountIn, fromSymbol, toSymbol, slippageTolerance, geckoPriceList]);
 
 	const handleSetFromToken = (value: any) => {
-		let fromToken = tokens.filter((token) => token.address == value);
+		let fromToken = tokens.filter((token) => token.address === value);
 		let symbol = fromToken[0].symbol;
 		let underlying = fromToken[0].underlyingToken;
 
@@ -143,7 +141,7 @@ export default function SwapContainer() {
 	};
 
 	const handleSetToToken = (value: any) => {
-		let fromToken = tokens.filter((token) => token.address == value);
+		let fromToken = tokens.filter((token) => token.address === value);
 		let symbol = fromToken[0].symbol;
 		let underlying = fromToken[0].underlyingToken;
 		let name = fromToken[0].name;
@@ -155,20 +153,6 @@ export default function SwapContainer() {
 	};
 
 	const SwapTokens = React.useCallback(async () => {
-		let hasUnderlyingFrom;
-		let hasUnderlyingTo;
-
-		if (underlyingToken1 === fromSupertoken) {
-			hasUnderlyingFrom = false;
-		} else {
-			hasUnderlyingFrom = true;
-		}
-		if (underlyingToken2 === toSupertoken) {
-			hasUnderlyingTo = false;
-		} else {
-			hasUnderlyingTo = true;
-		}
-
 		setLoading(true);
 
 		let bigNumAmountIn;
@@ -201,7 +185,7 @@ export default function SwapContainer() {
 				address,
 			)
 				.then((res) => {
-					if (res == undefined) {
+					if (res === undefined) {
 						setSuccess(2);
 						setLoading(false);
 						return;
@@ -216,6 +200,7 @@ export default function SwapContainer() {
 			console.log(e);
 			setLoading(false);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fromSupertoken, toSupertoken, web3, address, amountIn, minAmountOut, slippageTolerance]);
 
 	const ApproveSwapTokens = React.useCallback(async () => {
@@ -249,7 +234,7 @@ export default function SwapContainer() {
 				setLoading(false);
 				console.log(error);
 			});
-	}, [amountIn, fromSupertoken, address, slippageTolerance]);
+	}, [amountIn, fromSupertoken, address, web3]);
 
 	const handleSetAmountIn = (value: string) => {
 		setAmountIn(value);

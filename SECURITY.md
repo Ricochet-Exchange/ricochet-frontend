@@ -4,11 +4,11 @@ The Ricochet bounty program rewards anyone who finds a bug in covered Ricochet's
 
 ## Rules and Rewards
 
-- Issues that have already been submitted by another user or are already known to the Ricochet team are not eligible for bounty rewards.
-- Public disclosure of a vulnerability makes it ineligible for a bounty. This includes exploiting the bug on mainnet or any public test network.
-- The Ricochet team, employees and all other people paid by Ricochet project, directly or indirectly, are not eligible for rewards.
-- Only the sites listed below are eligible for rewards.
-- The Ricochet bounty program considers a number of variables in determining rewards. Determinations of eligibility, score and all terms related to an award are at the sole and final discretion of the Ricochet team.
+-   Issues that have already been submitted by another user or are already known to the Ricochet team are not eligible for bounty rewards.
+-   Public disclosure of a vulnerability makes it ineligible for a bounty. This includes exploiting the bug on mainnet or any public test network.
+-   The Ricochet team, employees and all other people paid by Ricochet project, directly or indirectly, are not eligible for rewards.
+-   Only the sites listed below are eligible for rewards.
+-   The Ricochet bounty program considers a number of variables in determining rewards. Determinations of eligibility, score and all terms related to an award are at the sole and final discretion of the Ricochet team.
 
 The value of rewards paid out will vary depending on Severity. The severity is calculated according to the OWASP risk rating model based on Impact and Likelihood :
 
@@ -16,25 +16,25 @@ The value of rewards paid out will vary depending on Severity. The severity is c
 
 Reward sizes are _guided_ by the rules below, but are in the end, determined at the sole discretion of the Ricochet team
 
-- **Critical**: up to $25,000 USD
-- **High**: up to $12,500 USD
-- **Medium**: up to $5,000 USD
-- **Low**: up to $2,000 USD
-- **Note**: up to $1,000 USD
+-   **Critical**: up to $25,000 USD
+-   **High**: up to $12,500 USD
+-   **Medium**: up to $5,000 USD
+-   **Low**: up to $2,000 USD
+-   **Note**: up to $1,000 USD
 
 The Ricochet team reserves the right to adjust bounty amounts at any time in the future.
 
 In addition to Severity, other variables are also considered when the Ricochet team decides the score, including (but not limited to):
 
-- Quality of description. Higher rewards are paid for clear, well-written submissions.
-- Quality of reproducibility. Please include test code, scripts and detailed instructions. The easier it is for us to reproduce and verify the vulnerability, the higher the reward.
-- Quality of fix, if included. Higher rewards are paid for submissions with clear description of how to fix the issue.
+-   Quality of description. Higher rewards are paid for clear, well-written submissions.
+-   Quality of reproducibility. Please include test code, scripts and detailed instructions. The easier it is for us to reproduce and verify the vulnerability, the higher the reward.
+-   Quality of fix, if included. Higher rewards are paid for submissions with clear description of how to fix the issue.
 
 ## Covered Websites
 
 The following websites are covered by the bounty:
 
-- https://ricochet.exchange
+-   https://ricochet.exchange
 
 ## Important Legal Information
 

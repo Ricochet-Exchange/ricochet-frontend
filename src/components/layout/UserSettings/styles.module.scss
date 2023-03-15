@@ -1,73 +1,73 @@
-@import "../../../assets/styles/mixins";
+@import '../../../assets/styles/mixins';
 
 .icon_wrap {
-  padding: 8.25px 19px 9px 0;
-  margin: 0 0 0 auto;
+	padding: 8.25px 19px 9px 0;
+	margin: 0 0 0 auto;
 }
 
 .icon {
-  @include flexbox(center, center);
+	@include flexbox(center, center);
 
-  color: var(--color-white);
-  width: 12px;
-  height: 15.75px;
+	color: var(--color-white);
+	width: 12px;
+	height: 15.75px;
 }
 
 .user_settings {
-  display: flex;
-  flex-direction: row;
-  padding-right: 1em;
-  align-items: center;
-  width: 100%;
+	display: flex;
+	flex-direction: row;
+	padding-right: 1em;
+	align-items: center;
+	width: 100%;
 }
 
 .balance {
-  @include flexbox(center, center);
+	@include flexbox(center, center);
 
-  padding: 8px 0 8px 16px;
-  font-weight: bold;
-  font-size: 14px;
-  line-height: 17px;
-  letter-spacing: -0.01em;
-  font-weight: 700px;
-  white-space: nowrap;
-  margin: 0 10px 0 0;
+	padding: 8px 0 8px 16px;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 17px;
+	letter-spacing: -0.01em;
+	font-weight: 700px;
+	white-space: nowrap;
+	margin: 0 10px 0 0;
 }
 
 .address {
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 17px;
-  letter-spacing: -0.01em;
-  padding: 8px 0 8px 0;
-  margin: 0 7px 0 0;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 17px;
+	letter-spacing: -0.01em;
+	padding: 8px 0 8px 0;
+	margin: 0 7px 0 0;
 
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .dot_wrap {
-  .button {
-    background: transparent;
+	.button {
+		background: transparent;
 
-    &:hover,
-    &:active {
-      background: transparent;
-    }
-  }
+		&:hover,
+		&:active {
+			background: transparent;
+		}
+	}
 }
 
 .settings_wrap {
-  & a {
-    text-decoration: none;
-  }
+	& a {
+		text-decoration: none;
+	}
 }
 
 .list,
 .lang_list {
-  padding: 0;
-  margin: 0;
+	padding: 0;
+	margin: 0;
 }
 
 .docs,
@@ -75,71 +75,71 @@
 .discord,
 .github,
 .terms {
-  @include flexbox(flex-start, center);
-  height: 100%;
-  width: 100%;
-  transition: 0.7s;
-  padding: 0 1em;
-  cursor: pointer;
-  &:hover {
-    background-color: lightgray;
-  }
+	@include flexbox(flex-start, center);
+	height: 100%;
+	width: 100%;
+	transition: 0.7s;
+	padding: 0 1em;
+	cursor: pointer;
+	&:hover {
+		background-color: lightgray;
+	}
 }
 
 .docs {
-  border-radius: 20px 20px 0 0;
+	border-radius: 20px 20px 0 0;
 }
 
 .terms {
-  border-radius: 0 0 20px 20px;
+	border-radius: 0 0 20px 20px;
 }
 
 .head {
-  font-style: normal;
-  font-weight: 700;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1em;
-  width: 100%;
-  line-height: 110%;
-  color: var(--color-black-dark);
+	font-style: normal;
+	font-weight: 700;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1em;
+	width: 100%;
+	line-height: 110%;
+	color: var(--color-black-dark);
 
-  &:hover {
-    color: var(--color-black-dark);
-  }
+	&:hover {
+		color: var(--color-black-dark);
+	}
 }
 
 .settings_dropdown {
-  z-index: 5;
-  background: var(--color-white);
-  border-radius: 20px;
-  min-width: 15vw;
-  border: 1px solid rgba(0, 0, 0, 0.632);
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.374);
-  filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.15));
+	z-index: 5;
+	background: var(--color-white);
+	border-radius: 20px;
+	min-width: 15vw;
+	border: 1px solid rgba(0, 0, 0, 0.632);
+	box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.374);
+	filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.15));
 }
 
 .settings_button {
-  background-color: transparent;
-  border: none;
+	background-color: transparent;
+	border: none;
 }
 
 .connect_wallet {
-  @include flexbox(center, center);
-  font-size: 14px;
-  line-height: 17px;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-  margin: 10px;
+	@include flexbox(center, center);
+	font-size: 14px;
+	line-height: 17px;
+	letter-spacing: -0.01em;
+	white-space: nowrap;
+	margin: 10px;
 }
 
 @media only screen and (max-width: 769px) {
-  .user_settings {
-    background-color: $dark-mode-bg-2;
-    padding: 1em;
-    height: 100%;
-    justify-content: flex-end;
-  }
+	.user_settings {
+		background-color: $dark-mode-bg-2;
+		padding: 1em;
+		height: 100%;
+		justify-content: flex-end;
+	}
 }

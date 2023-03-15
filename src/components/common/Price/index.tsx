@@ -30,7 +30,7 @@ const getPrice = async (web3: Web3, coinB: any): Promise<string> => {
 		exchangeAddr = usdcxRicExchangeAddress;
 	} else if (coinB === Coin.REXSHIRT) {
 		exchangeAddr = ricRexShirtLaunchpadAddress;
-	} else if (coinB == Coin.REXHAT) {
+	} else if (coinB === Coin.REXHAT) {
 		exchangeAddr = ricRexHatLaunchpadAddress;
 	}
 	const contract = getContract(exchangeAddr, launchpadABI, web3);
@@ -59,11 +59,13 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 
 		setLoading(false);
 
-		getPrice(web3, coinB).then((p) => {
-			if (isMounted && p) {
-				setLaunchPadPrice(p);
-			}
-		}).catch((error: string) => console.log(error));
+		getPrice(web3, coinB)
+			.then((p) => {
+				if (isMounted && p) {
+					setLaunchPadPrice(p);
+				}
+			})
+			.catch((error: string) => console.log(error));
 
 		querySushiPoolPrices(sushiSwapPools[`${coinA}-${coinB}`])
 			.then(({ data }) => {
@@ -124,7 +126,7 @@ export default function Price({ flowType, coinA, coinB }: Props) {
 		return () => {
 			isMounted = false;
 		};
-	}, [coinA, coinB, web3]);
+	}, [coinA, coinB, web3, setLoading]);
 
 	if (!launchPadPrice && !marketPairPrice[`${coinA}-${coinB}`]) return null;
 

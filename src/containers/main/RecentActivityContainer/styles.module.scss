@@ -1,123 +1,123 @@
 @import '../../../assets/styles/mixins';
 
 .container {
-  padding: 8px;
-  width: 100vw;
+	padding: 8px;
+	width: 100vw;
 }
 
 @media only screen and (min-width: 768px) {
-  .container {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 1em;
-    padding-left: 2.5em;
-    padding-right: 3em;
-  }
+	.container {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 1em;
+		padding-left: 2.5em;
+		padding-right: 3em;
+	}
 
-  .parent_wrapper{
-    width: 90%;
-  }
+	.parent_wrapper {
+		width: 90%;
+	}
 }
 
 .address_wrapper {
-  display: inline-block;
-  position: relative;
+	display: inline-block;
+	position: relative;
 }
 
 .wrapper {
-  display: flex;
-  cursor: pointer;
-  padding: 2em;
-  min-height: 80px;
-  background-color: $dark-mode-bg-2;
-  color: lightgray;
-  border-radius: 8px;
-  margin-bottom: 12px;
+	display: flex;
+	cursor: pointer;
+	padding: 2em;
+	min-height: 80px;
+	background-color: $dark-mode-bg-2;
+	color: lightgray;
+	border-radius: 8px;
+	margin-bottom: 12px;
 }
 
-.header{
-  color:rgb(228, 228, 228);
-  margin-bottom: 1em;
+.header {
+	color: rgb(228, 228, 228);
+	margin-bottom: 1em;
 }
 
 .larger_streaming_wrapper {
-  display: none;
+	display: none;
 }
 
 .recieved_wrapper {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
 }
 
 .amount {
-  color: var(--color-blue-dark);
+	color: var(--color-blue-dark);
 }
 
 .transaction_link_wrapper {
-  color: white;
+	color: white;
 }
 
 @media only screen and (min-width: 768px) {
-  .wrapper {
-    pointer-events: none;
-    display: block;
-  }
+	.wrapper {
+		pointer-events: none;
+		display: block;
+	}
 
-  .streaming_wrapper {
-    display: none;
-  }
+	.streaming_wrapper {
+		display: none;
+	}
 
-  .larger_streaming_wrapper {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    position: relative;
-  }
+	.larger_streaming_wrapper {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		position: relative;
+	}
 
-  .larger_streaming_content {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+	.larger_streaming_content {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
 
-  .transaction_link_wrapper {
-    right: 0;
-    margin-left: auto;
-    pointer-events: auto;
-  }
+	.transaction_link_wrapper {
+		right: 0;
+		margin-left: auto;
+		pointer-events: auto;
+	}
 }
 
 .streaming_content {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  position: relative;
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	position: relative;
 }
 
 .right_arrow {
-  margin-left: auto;
-  margin-right: 8px;
+	margin-left: auto;
+	margin-right: 8px;
 }
 
 @media only screen and (min-width: 768px) {
-  .right_arrow {
-    display: none;
-  }
+	.right_arrow {
+		display: none;
+	}
 }
 
 .connect_wallet_wrapper {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
-  color: white;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	text-align: center;
+	color: white;
 }
 
 .loading_wrapper {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }

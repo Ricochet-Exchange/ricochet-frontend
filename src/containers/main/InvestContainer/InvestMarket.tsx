@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useCallback, useEffect, useState, useMemo } from 'react';
+import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import history from 'utils/history';
 import { TextInput } from 'components/common/TextInput';
@@ -49,7 +49,8 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 			});
 			setFilteredList(sortedUserStreams);
 		}
-	}, [flowType, userStreams]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [flowType, userStreams, getFlowUSDValue]);
 
 	const handleSearch = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +107,8 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 			console.log('skipped func');
 			return;
 		}
-	}, [aggregatedRewards]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [aggregatedRewards, aggregatedRICRewards]);
 
 	const handleSetAggregatedRewards = (reward_amount: number) => {
 		setAggregatedRewards((aggregatedRewards) => [...aggregatedRewards, reward_amount]);
@@ -118,9 +120,45 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 		).toFixed(toFixed);
 	}
 
+	function filterBuy() {
+		const filteredData = flowConfig.filter(
+			(item) => item.coinA === 'USDC' || item.coinA === 'DAI' || item.coinA === 'IbAlluoUSD',
+		);
+
+		setFilteredList(filteredData);
+	}
+
+	function filterSell() {
+		const filteredData = flowConfig.filter(
+			(item) =>
+				item.coinA === 'MATIC' || item.coinA === 'ETH' || item.coinA === 'WBTC' || item.coinA === 'IbAlluoBTC',
+		);
+
+		setFilteredList(filteredData);
+	}
+
+	function filterYeild() {
+		const filteredData = flowConfig.filter(
+			(item) => item.coinA === 'IbAlluoUSD' || item.coinA === 'IbAlluoETH' || item.coinA === 'IbAlluoBTC',
+		);
+
+		setFilteredList(filteredData);
+	}
+
 	return (
 		<>
 			<div className={styles.input_wrap}>
+				<div className={styles.filterButtonGroup}>
+					<button className={styles.filterBuyButton} onClick={() => filterBuy()}>
+						Buy
+					</button>
+					<button className={styles.filterSellButton} onClick={() => filterSell()}>
+						Sell
+					</button>
+					<button className={styles.filterYeildButton} onClick={() => filterYeild()}>
+						Yeild
+					</button>
+				</div>
 				<TextInput
 					value={search}
 					placeholder={t('Search by Name')}

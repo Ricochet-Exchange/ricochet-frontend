@@ -1,205 +1,203 @@
-@import "../../../assets/styles/mixins";
+@import '../../../assets/styles/mixins';
 
 @media only screen and (min-width: 769px) {
-  .header_wrap {
-    height: 12vh;
-  }
+	.header_wrap {
+		height: 12vh;
+	}
 
-  .settings_wrap {
-    position: relative;
-    right: 0;
-  }
+	.settings_wrap {
+		position: relative;
+		right: 0;
+	}
 
-  .links {
-    display: none;
-  }
+	.links {
+		display: none;
+	}
 }
 
 .header_wrap {
-  @include flexbox(center, space-between);
-  padding-left: 1em;
-  width: 100%;
-  background: $dark-mode-bg-2;
-  box-shadow: 2px 2px 2px 2px rgba(69, 69, 69, 0.488);
-  position: fixed;
-  width: 100%;
-  z-index: 999;
-  height: 80px;
-  margin-bottom: 100px;
-  @include tablet {
-    @include flexbox(center, center);
-    display: flex;
-    flex-direction: row;
-    max-height: 100px;
-  }
+	@include flexbox(center, space-between);
+	padding-left: 1em;
+	width: 100%;
+	background: $dark-mode-bg-2;
+	box-shadow: 2px 2px 2px 2px rgba(69, 69, 69, 0.488);
+	position: fixed;
+	width: 100%;
+	z-index: 999;
+	height: 80px;
+	margin-bottom: 100px;
+	@include tablet {
+		@include flexbox(center, center);
+		display: flex;
+		flex-direction: row;
+		max-height: 100px;
+	}
 }
-.header_spacer{
-  height: 90px;
-  width: 100%;
-  @include tablet {
-    height: 0;
-  }
+.header_spacer {
+	height: 90px;
+	width: 100%;
+	@include tablet {
+		height: 0;
+	}
 }
 
 .settings_wrap {
-  margin: 50px 0 50px 0;
+	margin: 50px 0 50px 0;
 
-  @include tablet {
-    display: none;
-  }
+	@include tablet {
+		display: none;
+	}
 }
 
 .links {
-  @include tablet {
-    display: none;
-  }
+	@include tablet {
+		display: none;
+	}
 }
 
 .dca_link {
-  padding: 0 30px 0 0;
+	padding: 0 30px 0 0;
 }
 
 .dca_link,
 .upgrade_link {
-  color: var(--color-white-dark);
-  font-style: normal;
-  font-weight: normal;
-  font-size: 18px;
-  line-height: 110%;
-  text-align: center;
-  letter-spacing: -0.015em;
-  text-decoration: none;
+	color: var(--color-white-dark);
+	font-style: normal;
+	font-weight: normal;
+	font-size: 18px;
+	line-height: 110%;
+	text-align: center;
+	letter-spacing: -0.015em;
+	text-decoration: none;
 
-  &:active,
-  &:checked {
-    color: var(--color-white);
-    font-weight: bold;
-    text-decoration: underline;
-  }
+	&:active,
+	&:checked {
+		color: var(--color-white);
+		font-weight: bold;
+		text-decoration: underline;
+	}
 }
 
 .active {
-  color: var(--color-white);
-  font-weight: bold;
-  text-decoration-line: underline;
+	color: var(--color-white);
+	font-weight: bold;
+	text-decoration-line: underline;
 }
 
-.brand{
-  margin-top: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  flex-direction: row;
-  width: 40vh;
-  color: rgba(255, 255, 255, 0.865);
-  font-size: large;
+.brand {
+	margin-top: 6px;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	flex-direction: row;
+	width: 40vh;
+	color: rgba(255, 255, 255, 0.865);
+	font-size: large;
 }
 
 .logo {
-  z-index: 100000;
-  top: 40px;
-  max-height: 50px;
-  @media screen and (max-width: 768px) {
-    background: none;
-    border: none;
-    display: block;
-    max-width: 80px;
-    position: relative;
-    cursor: pointer;
-    z-index: 5;
-  }
+	z-index: 100000;
+	top: 40px;
+	max-height: 50px;
+	@media screen and (max-width: 768px) {
+		background: none;
+		border: none;
+		display: block;
+		max-width: 80px;
+		position: relative;
+		cursor: pointer;
+		z-index: 5;
+	}
 }
 
-
 .mob_menu {
-  display: none;
-  @include tablet {
-    display: block;
-    padding: 29px 23px 45px 0;
-  }
+	display: none;
+	@include tablet {
+		display: block;
+		padding: 29px 23px 45px 0;
+	}
 
-  .menu_button {
-    background: transparent;
-    padding: 0;
-    border: none;
-  }
+	.menu_button {
+		background: transparent;
+		padding: 0;
+		border: none;
+	}
 }
 
 .mob_panel {
-  @include flexbox(center, space-between);
+	@include flexbox(center, space-between);
 
-  width: 100%;
-  @include tablet {
-    @include flexbox(center, space-between);
-    width: 100%;
-  }
+	width: 100%;
+	@include tablet {
+		@include flexbox(center, space-between);
+		width: 100%;
+	}
 }
 
 .mob_head {
-  display: none;
+	display: none;
 }
 
-.reward{
-  color: white;
-  height: 6vh;
-  background-color: #222529;
-  padding: 0em;
-  padding-right: 1em;
-  padding-left: 1em;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.reward {
+	color: white;
+	height: 6vh;
+	background-color: #222529;
+	padding: 0em;
+	padding-right: 1em;
+	padding-left: 1em;
+	border-radius: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .dot {
-  color: var(--color-white-dark);
-  margin: 0 0 0 23px;
-  cursor: pointer;
+	color: var(--color-white-dark);
+	margin: 0 0 0 23px;
+	cursor: pointer;
 }
 
 @media only screen and (max-width: 769px) {
-  .header_wrap {
-    @include flexbox(center, space-between);
-    margin-top: 0em;
-    padding-left: 1em;
-    width: 100%;
-    top: 0;
-    left: 0;
-    background: $dark-mode-bg-2;
-    @include tablet {
-      @include flexbox(center, center);
-      display: flex;
-      margin-top: 0em;
-      flex-direction: row;
-      max-height: 80px;
-    }
-  }
+	.header_wrap {
+		@include flexbox(center, space-between);
+		margin-top: 0em;
+		padding-left: 1em;
+		width: 100%;
+		top: 0;
+		left: 0;
+		background: $dark-mode-bg-2;
+		@include tablet {
+			@include flexbox(center, center);
+			display: flex;
+			margin-top: 0em;
+			flex-direction: row;
+			max-height: 80px;
+		}
+	}
 
-  .logo {
-    z-index: 100000;
-    top: 0;
-    max-height: 50px;
-  }
+	.logo {
+		z-index: 100000;
+		top: 0;
+		max-height: 50px;
+	}
 
-  .brand{
-    width: auto;
-    display: flex;
-    align-items: center;
-    justify-content: inherit;
-    flex-direction: row;
-    font-size: small;
-    margin-top: 0px;
-    h4{
-      display: none;
-    }
-  }
+	.brand {
+		width: auto;
+		display: flex;
+		align-items: center;
+		justify-content: inherit;
+		flex-direction: row;
+		font-size: small;
+		margin-top: 0px;
+		h4 {
+			display: none;
+		}
+	}
 }
 
 .hamburger_container {
-  display: none;
-  @media screen and (max-width: 768px) {
-    display: flex;
-  }
+	display: none;
+	@media screen and (max-width: 768px) {
+		display: flex;
+	}
 }
-
