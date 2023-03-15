@@ -9,85 +9,76 @@ import { CoinPlaceholder } from 'components/common/CoinPlaceholder';
 import styles from '../styles.module.scss';
 
 type IndexSubscribedProps = {
-  event: IndexUnitsUpdatedEvent;
+	event: IndexUnitsUpdatedEvent;
 };
 
 export const IndexUnitsUpdated: FC<IndexSubscribedProps> = ({ event }) => {
-  const {
-    name, token, timestamp, publisher, transactionHash, oldUnits, units,
-  } = event;
+	const { name, token, timestamp, publisher, transactionHash, oldUnits, units } = event;
 
-  const tokenName = getTokenName(token);
-  const time = new Date(timestamp * 1000).toString().split(' ')[4];
+	const tokenName = getTokenName(token);
+	const time = new Date(timestamp * 1000).toString().split(' ')[4];
 
-  let activityCopying = getActivityCopying(name);
+	let activityCopying = getActivityCopying(name);
 
-  if (units === '0') {
-    activityCopying = 'Stopped distribution';
-  } else if (oldUnits === '0') {
-    activityCopying = 'Started distribution';
-  }
+	if (units === '0') {
+		activityCopying = 'Stopped distribution';
+	} else if (oldUnits === '0') {
+		activityCopying = 'Started distribution';
+	}
 
-  /**
-   * stop propagation of event to prevent rendering mobile activity details page.
-   * 
-   * @param e React.MouseEvent<HTMLDivElement>
-   */
-  const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
-  };
+	/**
+	 * stop propagation of event to prevent rendering mobile activity details page.
+	 *
+	 * @param e React.MouseEvent<HTMLDivElement>
+	 */
+	const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => {
+		e.stopPropagation();
+	};
 
-  return (
-    <>
-      <div className={styles.larger_streaming_wrapper}>
-        <div className={styles.larger_streaming_content}>
-          <span>{time}</span>
-          <span>
-            {activityCopying}
-            {' '}
-            in
-          </span>
-          <TokenIcon tokenName={tokenName} />
-          <span className={styles.amount}>{tokenName ?? <CoinPlaceholder token={token} />}</span>
-          <span>from</span>
-          <CopiableAddress address={publisher} />
-          {(units !== '0' && oldUnits !== '0') && (
-            <span>
-              changed from 
-              {' '}
-              {oldUnits}
-              {' '}
-              to
-              {' '}
-              {units}
-            </span>
-          )}
-        </div>
-        <div className={styles.transaction_link_wrapper} role="button" aria-hidden="true" onClick={stopPropagation}>
-          <TransactionLink transactionHash={transactionHash} />
-        </div>
-      </div>
-      <div className={styles.streaming_wrapper}>
-        <div className={styles.streaming_content}>
-          <span>{time}</span>
-          <TokenIcon tokenName={tokenName} />
-          <span className={styles.amount}>{tokenName ?? <CoinPlaceholder token={token} />}</span>
-        </div>
-        <div>
-          <span>
-            {(oldUnits === '0' || units === '0') ? activityCopying : 'Updated subscription'}
-            &nbsp;from&nbsp;
-          </span>
-          <div className={styles.address_wrapper}>
-            <CopiableAddress address={publisher} />
-          </div>
-        </div>
-      </div>
-      <div className={styles.right_arrow}>
-        <span>
-          &gt;
-        </span>
-      </div>
-    </>
-  );
+	return (
+		<>
+			<div className={styles.larger_streaming_wrapper}>
+				<div className={styles.larger_streaming_content}>
+					<span>{time}</span>
+					<span>{activityCopying} in</span>
+					<TokenIcon tokenName={tokenName} />
+					<span className={styles.amount}>{tokenName ?? <CoinPlaceholder token={token} />}</span>
+					<span>from</span>
+					<CopiableAddress address={publisher} />
+					{units !== '0' && oldUnits !== '0' && (
+						<span>
+							changed from {oldUnits} to {units}
+						</span>
+					)}
+				</div>
+				<div
+					className={styles.transaction_link_wrapper}
+					role="button"
+					aria-hidden="true"
+					onClick={stopPropagation}
+				>
+					<TransactionLink transactionHash={transactionHash} />
+				</div>
+			</div>
+			<div className={styles.streaming_wrapper}>
+				<div className={styles.streaming_content}>
+					<span>{time}</span>
+					<TokenIcon tokenName={tokenName} />
+					<span className={styles.amount}>{tokenName ?? <CoinPlaceholder token={token} />}</span>
+				</div>
+				<div>
+					<span>
+						{oldUnits === '0' || units === '0' ? activityCopying : 'Updated subscription'}
+						&nbsp;from&nbsp;
+					</span>
+					<div className={styles.address_wrapper}>
+						<CopiableAddress address={publisher} />
+					</div>
+				</div>
+			</div>
+			<div className={styles.right_arrow}>
+				<span>&gt;</span>
+			</div>
+		</>
+	);
 };

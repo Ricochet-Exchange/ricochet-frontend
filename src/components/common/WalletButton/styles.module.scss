@@ -1,76 +1,76 @@
-@import "../../../assets/styles/_mixins.scss";
+@import '../../../assets/styles/_mixins.scss';
 
 .balance_panel {
-  @include flexbox(center, center);
-  width: fit-content;
-  max-width: 210px;
-  height: 33px !important;
-  background: var(--color-blue);
-  border: 1px solid var(--color-blue);
-  border-radius: 10px;
-  color: var(--color-white);
-  font-style: normal;
-  padding: 8px 1.5px 8px 1.5px;
-  cursor: pointer;
+	@include flexbox(center, center);
+	width: fit-content;
+	max-width: 210px;
+	height: 33px !important;
+	background: var(--color-blue);
+	border: 1px solid var(--color-blue);
+	border-radius: 10px;
+	color: var(--color-white);
+	font-style: normal;
+	padding: 8px 1.5px 8px 1.5px;
+	cursor: pointer;
 
-  @include tablet {
-    width: fit-content;
-    max-width: 100%;
-  }
+	@include tablet {
+		width: fit-content;
+		max-width: 100%;
+	}
 }
 
 .icon_wrap {
-  margin: 0 0 0 auto;
-  display: flex;
+	margin: 0 0 0 auto;
+	display: flex;
 }
 
 .icon {
-  @include flexbox(center, center);
-  margin-left: 8px;
-  color: var(--color-white);
-  width: 12px;
-  height: 15.75px;
+	@include flexbox(center, center);
+	margin-left: 8px;
+	color: var(--color-white);
+	width: 12px;
+	height: 15.75px;
 }
 
 .account {
-  background: #79aad9;
-  display: flex;
-  align-items: center;
-  padding: 3.5px 10px;
-  border-radius: 9px;
+	background: #79aad9;
+	display: flex;
+	align-items: center;
+	padding: 3.5px 10px;
+	border-radius: 9px;
 }
 
 .avatar {
-  margin-left: 8px;
-  height: 1.2rem;
-  width: 1.2rem;
-  border-radius: 50%;
+	margin-left: 8px;
+	height: 1.2rem;
+	width: 1.2rem;
+	border-radius: 50%;
 }
 
 .balance {
-  @include flexbox(center, center);
-  vertical-align: middle;
-  font-weight: bold;
-  font-size: 14px;
-  letter-spacing: -0.01em;
-  font-weight: 700px;
-  white-space: nowrap;
-  margin: 0 10px;
+	@include flexbox(center, center);
+	vertical-align: middle;
+	font-weight: bold;
+	font-size: 14px;
+	letter-spacing: -0.01em;
+	font-weight: 700px;
+	white-space: nowrap;
+	margin: 0 10px;
 }
 
 .icon-wrap:empty,
 .balance:empty {
-  display: none;
+	display: none;
 }
 .address {
-  @include flexbox(center, center);
-  font-weight: normal;
-  font-size: 12px;
-  letter-spacing: -0.01em;
+	@include flexbox(center, center);
+	font-weight: normal;
+	font-size: 12px;
+	letter-spacing: -0.01em;
 
-  vertical-align: middle;
+	vertical-align: middle;
 
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }

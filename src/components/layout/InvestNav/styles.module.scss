@@ -1,224 +1,222 @@
-@import "assets/styles/_mixins.scss";
+@import 'assets/styles/_mixins.scss';
 
 .badge {
-  padding: 1px 8px;
-  background: #79aad9;
-  margin-left: 10px;
-  font-size: 11px;
-  font-weight: bold;
-  border-radius: 19px;
+	padding: 1px 8px;
+	background: #79aad9;
+	margin-left: 10px;
+	font-size: 11px;
+	font-weight: bold;
+	border-radius: 19px;
 }
 
 @media only screen and (min-width: 769px) {
+	.nav_container {
+		position: fixed;
+		top: 60px;
+		left: 0;
+		@include flexbox(flex-start, flex-start);
+		flex-direction: column;
+		text-align: left;
+		flex-shrink: 1;
+		background: $dark-mode-bg-2;
+		width: 12vw;
+		height: 100%;
+		overflow-y: scroll;
+		overflow-x: hidden;
+		direction: rtl;
+		&::-webkit-scrollbar {
+			display: none;
+		}
+		scrollbar-width: none;
 
-  .nav_container {
-    position: fixed;
-    top: 60px;
-    left: 0;
-    @include flexbox(flex-start, flex-start);
-    flex-direction: column;
-    text-align: left;
-    flex-shrink: 1;
-    background: $dark-mode-bg-2;
-    width: 12vw;
-    height: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    direction: rtl;
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    scrollbar-width: none;
+		@include tablet() {
+			@include flexbox(flex-start, flex-start);
+			flex-direction: row;
+			max-width: 100%;
+			text-align: center;
+			border-right: none;
+			flex-wrap: wrap;
+		}
 
-    @include tablet() {
-      @include flexbox(flex-start, flex-start);
-      flex-direction: row;
-      max-width: 100%;
-      text-align: center;
-      border-right: none;
-      flex-wrap: wrap;
-    }
+		.navscroller {
+			min-height: 120vh;
+			width: 100%;
+			height: 100%;
+			padding-top: 5vh;
+		}
+	}
 
-    .navscroller{
-      min-height: 120vh;
-      width: 100%;
-      height: 100%;
-      padding-top:5vh;
-    }
+	.wallet_icon {
+		height: 16px;
+		margin-right: 6px;
+		filter: brightness(0) invert(1);
+	}
 
-  }
+	.logo {
+		position: absolute;
+		left: -9.5vw;
+		top: -5vh;
+	}
 
-  .wallet_icon {
-    height: 16px;
-    margin-right: 6px;
-    filter: brightness(0) invert(1);
-  }
+	.logo_img {
+		height: 6vh;
+		z-index: 100;
+	}
 
-  .logo {
-    position: absolute;
-    left: -9.5vw;
-    top: -5vh;
-  }
+	.link {
+		padding-left: 1em;
+		padding-top: 1.5em;
+		padding-bottom: 1.5em;
+		padding-right: 2em;
+		width: 100%;
+		text-decoration: none;
+		color: rgba(255, 255, 255, 0.855);
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		font-size: smaller;
+		width: 100%;
+		transition: 0.5s;
+		@include tablet() {
+			margin-bottom: 0.5rem;
+		}
 
-  .logo_img {
-    height: 6vh;
-    z-index: 100;
-  }
+		&:hover {
+			padding-left: 0.5vw;
+			background-color: #678eb5;
+		}
+	}
 
-  .link {
-    padding-left: 1em;
-    padding-top: 1.5em;
-    padding-bottom: 1.5em;
-    padding-right: 2em;
-    width: 100%;
-    text-decoration: none;
-    color: rgba(255, 255, 255, 0.855);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: smaller;
-    width: 100%;
-    transition: 0.5s;
-    @include tablet() {
-      margin-bottom: 0.5rem;
-    }
+	.nav_link {
+		cursor: pointer;
+		@extend .link;
+		display: flex;
+		width: 100%;
+		direction: ltr;
+		align-items: center;
+	}
 
-    &:hover {
-      padding-left: 0.5vw;
-      background-color: #678eb5;
-    }
-  }
+	.nav_text_tutorial {
+		text-overflow: ellipsis;
+		overflow: hidden;
+		margin-right: 6px;
+	}
 
-  .nav_link {
-    cursor: pointer;
-    @extend .link;
-    display: flex;
-    width: 100%;
-     direction: ltr;
-    align-items: center;
-  }
+	.nav_text {
+		text-overflow: ellipsis;
+		overflow: hidden;
+		margin-left: 6px;
+	}
 
-  .nav_text_tutorial {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    margin-right: 6px;
-  }
+	.nav_link_active {
+		background-color: #678eb5;
+		color: rgb(255, 255, 255);
+		font-weight: bold;
+		letter-spacing: 0.5px;
+	}
 
-  .nav_text {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    margin-left: 6px;
-  }
+	.vaultIcon {
+		position: absolute;
+		left: 10px;
+		fill: black;
+	}
 
-  .nav_link_active {
-    background-color: #678eb5;
-    color: rgb(255, 255, 255);
-    font-weight: bold;
-    letter-spacing: 0.5px;
-  }
+	.vaultIcon:hover {
+		fill: #40a9ff;
+	}
 
-  .vaultIcon {
-    position: absolute;
-    left: 10px;
-    fill: black;
-  }
+	.vaultIcon:active {
+		fill: white;
+	}
 
-  .vaultIcon:hover {
-    fill: #40a9ff;
-  }
-
-  .vaultIcon:active {
-    fill: white;
-  }
-
-  .nav_link_desktop_only {
-    cursor: pointer;
-    @extend .link;
-    display: flex;
-    align-items: center;
-  }
+	.nav_link_desktop_only {
+		cursor: pointer;
+		@extend .link;
+		display: flex;
+		align-items: center;
+	}
 }
 
 @media only screen and (max-width: 769px) {
-  .badge {
-    padding: 1px 7px !important;
-    margin-left: 8px;
-    font-size: 9px;
-    border-radius: 19px;
-  }
+	.badge {
+		padding: 1px 7px !important;
+		margin-left: 8px;
+		font-size: 9px;
+		border-radius: 19px;
+	}
 
-  .nav_container {
-    display: flex;
-    min-width: 100%;
-    
-    background-color: $dark-mode-bg-2;
-    padding-top: 0em;
-    height: 100%;
-    overflow-x: scroll;
+	.nav_container {
+		display: flex;
+		min-width: 100%;
 
-    .navscroller{
-      width: 200vw;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      flex-direction: row;
-    }
-  }
+		background-color: $dark-mode-bg-2;
+		padding-top: 0em;
+		height: 100%;
+		overflow-x: scroll;
 
-  .nav_link_desktop_only {
-    display: none;
-  }
+		.navscroller {
+			width: 200vw;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			flex-direction: row;
+		}
+	}
 
-  .logo {
-    display: none;
-  }
+	.nav_link_desktop_only {
+		display: none;
+	}
 
-  .nav_container {
-    display: flex;
-    min-height: 0;
-    flex-direction: row;
-    flex-wrap: wrap;
-    text-align: left;
-    flex-wrap: nowrap;
-  }
+	.logo {
+		display: none;
+	}
 
-  .nav_link{
-    min-width: 20vw;
-  }
+	.nav_container {
+		display: flex;
+		min-height: 0;
+		flex-direction: row;
+		flex-wrap: wrap;
+		text-align: left;
+		flex-wrap: nowrap;
+	}
 
-  .link {
-    padding: 1em;
-    width: 100%;
-    text-decoration: none;
-    color: rgba(255, 255, 255, 0.75);
-    text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 100%;
-    margin-bottom: 0;
-    font-size: x-small;
-  }
+	.nav_link {
+		min-width: 20vw;
+	}
 
-  .nav_link_active {
-    background-color: #678eb5;
-    color: rgb(253, 253, 253);
-    border-right: 0px solid black;
-  }
+	.link {
+		padding: 1em;
+		width: 100%;
+		text-decoration: none;
+		color: rgba(255, 255, 255, 0.75);
+		text-align: center;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		width: 100%;
+		margin-bottom: 0;
+		font-size: x-small;
+	}
 
-  .wallet_icon {
-    height: 2px;
-    filter: brightness(0) invert(1);
-  }
+	.nav_link_active {
+		background-color: #678eb5;
+		color: rgb(253, 253, 253);
+		border-right: 0px solid black;
+	}
 
-  .nav_link_name {
-    display: none;
-  }
+	.wallet_icon {
+		height: 2px;
+		filter: brightness(0) invert(1);
+	}
+
+	.nav_link_name {
+		display: none;
+	}
 }
 
 @media only screen and (max-width: 480px) {
-  .link {
-    font-size: xx-small;
-    text-align: center;
-  }
+	.link {
+		font-size: xx-small;
+		text-align: center;
+	}
 }
