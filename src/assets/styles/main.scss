@@ -1,68 +1,67 @@
-@import "./palette";
-@import "./variables";
+@import './palette';
+@import './variables';
 @import '../../assets/fonts/fontello/css/fontello.css';
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
-html, body {
-  // background-image: url('../images/background.png');
-  background-color: #2d3233;
-  background-size: cover;
-  font-family: $default-font;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  z-index: 0;
+html,
+body {
+	// background-image: url('../images/background.png');
+	background-color: #2d3233;
+	background-size: cover;
+	font-family: $default-font;
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+	z-index: 0;
 }
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 .react-flow {
-  background-color: #1a192b !important;
+	background-color: #1a192b !important;
 }
 
 .react-flow__edge-text {
-  font-weight: bold !important;
-  fill: white !important;
+	font-weight: bold !important;
+	fill: white !important;
 }
 
 .react-flow__edge-textbg {
-  fill: #1a192b !important;
+	fill: #1a192b !important;
 }
 
 .react-flow__node {
-  background: #1a192b !important;
+	background: #1a192b !important;
 }
 
 .react-flow__node-input {
-  border: 1px solid #ff0072 !important;
-  color: #ff0072 !important;
+	border: 1px solid #ff0072 !important;
+	color: #ff0072 !important;
 }
 
 .react-flow__node-input .react-flow__handle {
-  background-color: #ff0072 !important;
+	background-color: #ff0072 !important;
 }
 
 .react-flow__node-output {
-  border: 1px solid #0041d0 !important;
-  color: #0041d0 !important;
+	border: 1px solid #0041d0 !important;
+	color: #0041d0 !important;
 }
 
 .react-flow__node-output .react-flow__handle {
-  background-color: #0041d0  !important;
+	background-color: #0041d0 !important;
 }
 
 .react-flow__minimap {
-  background-color: #1a192b !important;
+	background-color: #1a192b !important;
 }
-
-

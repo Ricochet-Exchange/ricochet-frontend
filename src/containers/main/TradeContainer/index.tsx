@@ -1,7 +1,6 @@
 import React from 'react';
-import { InvestNav } from 'components/layout/InvestNav';
 import styles from './styles.module.scss';
-import { Coin, namesCoin, iconsCoin, namesCoinX } from 'constants/coins';
+import { iconsCoin, namesCoinX } from 'constants/coins';
 
 //'InvestNav' is declared but its value is never read.
 
@@ -23,7 +22,8 @@ const TokenModal = (props: any) => {
 							{namesCoinX.map((item) => {
 								return (
 									<div className={styles.token_selection} key={item}>
-										<img className={styles.token_image} src={iconsCoin.BTC} /> <span>{item}</span>
+										<img alt="token-img" className={styles.token_image} src={iconsCoin.BTC} />{' '}
+										<span>{item}</span>
 									</div>
 								);
 							})}
@@ -47,29 +47,11 @@ const WarningModal = (props: any) => {
 	);
 };
 
-const SettingsModal = (props: any) => {
-	return (
-		<>
-			{props.display ? (
-				<div className={styles.modal}>
-					<div className={styles.modal_container}></div>
-				</div>
-			) : null}
-		</>
-	);
-};
-
 export const TradeContainer: React.FC<IProps> = () => {
-	const [superTokenFrom] = React.useState();
-	const [superTokenTo] = React.useState();
-	const [ammountIn] = React.useState();
-	const [ammountOut] = React.useState();
-	const [address] = React.useState();
-	const [pool] = React.useState();
-	const [showTokenModal, setTokenModal] = React.useState(true);
+	const [showTokenModal] = React.useState(true);
 	const [showWaringModal] = React.useState(false);
-	const [tokenA, setTokenA] = React.useState({ symbol: 'none', token: 'select token' });
-	const [tokenB, setTokenB] = React.useState({ symbol: 'none', token: 'select token' });
+	const [tokenA] = React.useState({ symbol: 'none', token: 'select token' });
+	const [tokenB] = React.useState({ symbol: 'none', token: 'select token' });
 
 	return (
 		<>

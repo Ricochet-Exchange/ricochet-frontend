@@ -1,66 +1,65 @@
 @media screen and (max-width: 768px) {
-  .fail_wrapper{
-    height: 100%;
-    width: 80%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 1em;
-    margin-left: 0%;
-  }
+	.fail_wrapper {
+		height: 100%;
+		width: 80%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		padding: 1em;
+		margin-left: 0%;
+	}
 
-  .result{
-    text-align: center;
-    width: 100%;
-    font-size: large;
-    color: rgb(69, 68, 68);
-  }
+	.result {
+		text-align: center;
+		width: 100%;
+		font-size: large;
+		color: rgb(69, 68, 68);
+	}
 
-  .nav_link{
-    height: 7vh;
-    width: 50%;
-    margin-top: 1em;
-    background-color: #2775CA;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-left: 1em;
-    padding-right: 1em;
-    color: white;
-    flex-direction: row;
-  }
-
+	.nav_link {
+		height: 7vh;
+		width: 50%;
+		margin-top: 1em;
+		background-color: #2775ca;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding-left: 1em;
+		padding-right: 1em;
+		color: white;
+		flex-direction: row;
+	}
 }
 
 @media screen and (min-width: 768px) {
-  .fail_wrapper{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
+	.fail_wrapper {
+		height: 100%;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+	}
 
-  .result{
-    text-align: center;
-    width: 70%;
-    font-size: medium;
-    color: rgb(69, 68, 68);
-  }
+	.result {
+		text-align: center;
+		width: 70%;
+		font-size: medium;
+		color: rgb(69, 68, 68);
+	}
 
-  .nav_link{
-    height: 7vh;
-    width: 50%;
-    margin-top: 1em;
-    background-color: #2775CA;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-left: 1em;
-    padding-right: 1em;
-    color: white;
-    flex-direction: row;
-  }
+	.nav_link {
+		height: 7vh;
+		width: 50%;
+		margin-top: 1em;
+		background-color: #2775ca;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding-left: 1em;
+		padding-right: 1em;
+		color: white;
+		flex-direction: row;
+	}
 }

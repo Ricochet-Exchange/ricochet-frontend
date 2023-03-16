@@ -1,7 +1,5 @@
 import React from 'react';
 import { useShallowSelector } from 'hooks/useShallowSelector';
-import { useDispatch } from 'react-redux';
-import { addReward } from 'store/main/actionCreators';
 import { selectMain } from 'store/main/selectors';
 import { HeaderContainer } from 'containers/main/HeaderContainer';
 import { InvestNav } from 'components/layout/InvestNav';
@@ -12,7 +10,6 @@ interface IProps {}
 
 export const MainLayout: React.FC<IProps> = ({ children }) => {
 	const { address, balances } = useShallowSelector(selectMain);
-	const dispatch = useDispatch();
 
 	return (
 		<div className={styles.container}>

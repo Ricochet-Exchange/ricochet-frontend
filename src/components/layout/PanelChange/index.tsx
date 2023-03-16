@@ -118,6 +118,7 @@ export const PanelChange: FC<IProps> = ({
 		if (received_reward && linkHistory.length <= 2) {
 			aggregateRewards(received_reward);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [personal_pool_rate, total_market_pool, subsidy_rate_static]);
 
 	useEffect(() => {
@@ -173,6 +174,7 @@ export const PanelChange: FC<IProps> = ({
 		return () => {
 			isMounted = false;
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [address, web3]);
 
 	useEffect(() => {

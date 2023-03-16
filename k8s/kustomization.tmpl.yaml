@@ -1,18 +1,17 @@
 patchesJson6902:
-- target:
-    version: v1
-    kind: Ingress
-    name: ingress-frontend
-  path: ingress_patch.yaml
+    - target:
+          version: v1
+          kind: Ingress
+          name: ingress-frontend
+      path: ingress_patch.yaml
 namespace: ${BRANCH_NAME}
 resources:
-- deployment.yaml
-- service.yaml
-- namespace.yaml
-- ingress-frontend.yaml
+    - deployment.yaml
+    - service.yaml
+    - namespace.yaml
+    - ingress-frontend.yaml
 
 images:
-- name: amazonaws.com/ricochet
-  newName: ${ECR_REPOSITORY}
-  newTag: ${RANDOM_VAL}
-
+    - name: amazonaws.com/ricochet
+      newName: ${ECR_REPOSITORY}
+      newTag: ${RANDOM_VAL}
