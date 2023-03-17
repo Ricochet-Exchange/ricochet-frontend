@@ -52,26 +52,27 @@ export const CoinRateForm: FC<IProps> = ({
 			</div>
 			<div className={styles.buttons}>
 				<div className={styles.start_wrap}>
-					<ButtonNew
-						loaderColor="white"
-						color="primary"
-						onClick={onClickStart}
-						className={styles.start}
-						disabled={
-							isReadOnly ||
-							isLoading ||
-							!Boolean(parseInt(coinBalanceA ?? '') > 0) ||
-							!value ||
-							((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler) * shareScaler) / 1e18) *
-								2592000 ===
-								0
-						}
-						isLoading={isLoading}
-						data-tip
-						data-for={`depositTooltip-${indexVal}`}
-					>
-						{t('Start')}/{t('Edit')}
-					</ButtonNew>
+					<span data-tip data-for={`depositTooltip-${indexVal}`}>
+						<ButtonNew
+							loaderColor="white"
+							color="primary"
+							onClick={onClickStart}
+							className={styles.start}
+							disabled={
+								isReadOnly ||
+								isLoading ||
+								!Boolean(parseInt(coinBalanceA ?? '') > 0) ||
+								!value ||
+								((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler) * shareScaler) /
+									1e18) *
+									2592000 ===
+									0
+							}
+							isLoading={isLoading}
+						>
+							{t('Start')}/{t('Edit')}
+						</ButtonNew>
+					</span>
 				</div>
 				<div className={styles.stop_wrap}>
 					{parseFloat(personalFlow) > 0 && (
@@ -116,6 +117,16 @@ export const CoinRateForm: FC<IProps> = ({
 								lost if your balance hits zero with the stream still open.
 							</span>
 						)}
+					</ReactTooltip>
+				) : !Boolean(parseInt(coinBalanceA ?? '') > 0) ? (
+					<ReactTooltip
+						id={`depositTooltip-${indexVal}`}
+						place="right"
+						effect="solid"
+						multiline
+						className={styles.depositTooltip}
+					>
+						<span className={styles.depositTooltip_span}>No money, deposit in wallet page </span>
 					</ReactTooltip>
 				) : null}
 				<div />
