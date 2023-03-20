@@ -36,6 +36,8 @@ export const CoinRateForm: FC<IProps> = ({
 	coinBalanceA,
 }) => {
 	const { t } = useTranslation();
+	console.log('checkkkk', value && coin && coinBalanceA, value, coin, coinBalanceA, coinBalanceA);
+
 	// Security Deposit is 4 hours worth of stream, so (4*60*60)/(30*24*60*60) = 1/180
 	return (
 		<div className={styles.input_container}>
@@ -90,7 +92,7 @@ export const CoinRateForm: FC<IProps> = ({
 				</div>
 				<div style={{ flexBasis: '100%', height: '0' }}> </div>
 
-				{parseFloat(value) > 0 ? (
+				{Boolean(parseInt(coinBalanceA ?? '') < parseInt(value)) ? (
 					<ReactTooltip
 						id={`depositTooltip-${indexVal}`}
 						place="right"
@@ -98,7 +100,17 @@ export const CoinRateForm: FC<IProps> = ({
 						multiline
 						className={styles.depositTooltip}
 					>
-						{value && coin && (
+						<span className={styles.depositTooltip_span}>No money, deposit in wallet page </span>
+					</ReactTooltip>
+				) : value && coin && coinBalanceA ? (
+					<ReactTooltip
+						id={`depositTooltip-${indexVal}`}
+						place="right"
+						effect="solid"
+						multiline
+						className={styles.depositTooltip}
+					>
+						{
 							<span className={styles.depositTooltip_span}>
 								The amount per month will be rounded off to
 								<span style={{ fontWeight: 700 }}>
@@ -116,17 +128,7 @@ export const CoinRateForm: FC<IProps> = ({
 								from your balance. The Deposit will be refunded in full when you close the stream or
 								lost if your balance hits zero with the stream still open.
 							</span>
-						)}
-					</ReactTooltip>
-				) : !Boolean(parseInt(coinBalanceA ?? '') > 0) ? (
-					<ReactTooltip
-						id={`depositTooltip-${indexVal}`}
-						place="right"
-						effect="solid"
-						multiline
-						className={styles.depositTooltip}
-					>
-						<span className={styles.depositTooltip_span}>No money, deposit in wallet page </span>
+						}
 					</ReactTooltip>
 				) : null}
 				<div />
