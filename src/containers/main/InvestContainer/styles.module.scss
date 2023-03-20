@@ -106,32 +106,62 @@
 
 	.filterSellButton {
 		cursor: pointer;
-		height: 50px;
-		padding: 10px;
-		background: none;
-		border: 2px solid red;
-		color: red;
+
+		color: #fff;
 		margin: 5px;
+
+		background-color: #5f8eb9;
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 140%;
+		text-align: center;
+		white-space: nowrap;
+		vertical-align: baseline;
+		border-radius: 0.25rem;
+		width: max-content;
+		padding: 10px 20px;
+
+		border: none;
 	}
 
 	.filterBuyButton {
 		cursor: pointer;
-		height: 50px;
-		padding: 10px;
-		background: none;
-		border: 2px solid green;
-		color: green;
+
+		color: #fff;
 		margin: 5px;
+
+		background-color: #5f8eb9;
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 140%;
+		text-align: center;
+		white-space: nowrap;
+		vertical-align: baseline;
+		border-radius: 0.25rem;
+		width: max-content;
+		padding: 10px 20px;
+
+		border: none;
 	}
 
 	.filterYeildButton {
 		cursor: pointer;
-		height: 50px;
-		padding: 10px;
-		background: none;
-		border: 2px solid yellow;
-		color: yellow;
+
+		color: #fff;
 		margin: 5px;
+
+		background-color: #5f8eb9;
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 140%;
+		text-align: center;
+		white-space: nowrap;
+		vertical-align: baseline;
+		border-radius: 0.25rem;
+		width: max-content;
+		padding: 10px 20px;
+
+		border: none;
 	}
 }
 
