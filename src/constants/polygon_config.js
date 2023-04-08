@@ -14,15 +14,39 @@ export const uniwhalesWaterdrop = '0xa576a3E103f437f9845a400cd909CA5de6456A84';
 
 // Currently in use contracts //
 
-export const twoWayWETHMarketAddress = '0xF1748222B08193273fd34FF10A28352A2C25Adb0';
-export const twoWayMarketWBTCAddress = '0x11Bfe0ff11819274F0FD57EFB4fc365800792D54';
-export const twoWayMarketDAIWETHAddress = '0xB44B371A56cE0245ee961BB8b4a22568e3D32874';
+// USDC-ETH
+export const usdcEthMarketAddress = '0xeD2AEFFcC5a5FDcA84FaDfc421110C1c63d0971F';
+export const ethUsdcMarketAddress = '0x546283B93aD89b610A52994ecbCD97b8b98aDa1f';
+
+// USDC-WBTC
+export const usdcWbtcMarketAddress = '0x7d7A9Ab6085E99cb405d0dc164CB6ed9347908F3';
+export const wbtcUsdcMarketAddress = '0x6249828939200A08F5EeB114B9D9Bf6ac10061CC';
+
+// USDC-MATIC
+export const usdcMaticMarketAddress = '0xf68C90d7E9348cB5fEAD9BA13B29BC013dA1EE96';
+export const maticUsdcMarketAddress = '0x0b8F6e3FcD78C0258ad4a69f11057E6586576d34';
+
+// DAI-ETH
+export const daiEthMarketAddress = '0x6A2010fF236a0b753742684aEA078F72Bb04058E';
+export const ethDaiMarketAddress = '0x1cb1E93a485f6dd87a835B68A504173AaEC9Ab52';
+
+// DAI-WBTC
+export const daiWbtcMarketAddress = '0x0ecC06996864664b5D990165dc5868AB4101305d';
+export const wbtcDaiMarketAddress = '0x009f6822792Ebb47d8aAE25EB06499371Ab8096c';
+
+// DAI-MATIC
+export const daiMaticMarketAddress = '0x3aD32478453A28b2cD74e4C440957c6079274D8c';
+export const maticDaiMarketAddress = '0x543090bEeCa42A9C8E8F05c11c710BBCd22f2Cfd';
+
 export const twoWayMarketRICUSDCAddress = '0x86c2B55bf5d3E9DAC2747389B38D41C6B1F34179';
-export const twoWayMarketMATICUSDCAddress = '0xF989C73d04D20c84d6A4D26d07090D0a63F021C7';
-export const twoWayMarketMATICDAIAddress = '0x9FC28B1887589785CA43C57946dD0d3eD781A1eE';
-export const twoWayMarketWBTCDAIAddress = '0xaA6BF289A0b3BB71dd7DfABE7A373410d37A4b70';
 export const twoWayMarketibAlluoUSDETHAddress = '0x56aCA122d439365B455cECb14B4A39A9d1B54621';
 export const twoWayMarketibAlluoUSDBTCAddress = '0xbB5C64B929b1E60c085dcDf88dfe41c6b9dcf65B';
+
+// REXUniswapV3Market //
+export const USDC_DAI_MARKET_ADDRESS = '0x7ACe300B31b8dDBFDFa63EdA479bC2c2a01E9356';
+export const DAI_USDC_MARKET_ADDRESS = '0x0FC83C3b06152dd3B62fDaCf8075C8c4D5FbdFb3';
+
+// TODO: Refactor the rest of the markets as constants like above
 
 // Ricochet Exchange Tokens //
 
@@ -127,12 +151,18 @@ export const supportedCurrencies = [
 export const marketArray = [
 	twoWayMarketibAlluoUSDETHAddress,
 	twoWayMarketibAlluoUSDBTCAddress,
-	twoWayMarketMATICDAIAddress,
-	twoWayMarketMATICUSDCAddress,
-	twoWayMarketWBTCDAIAddress,
-	twoWayMarketDAIWETHAddress,
-	twoWayMarketWBTCAddress,
-	twoWayWETHMarketAddress,
+	usdcWbtcMarketAddress,
+	wbtcUsdcMarketAddress,
+	usdcEthMarketAddress,
+	ethUsdcMarketAddress,
+	usdcMaticMarketAddress,
+	maticUsdcMarketAddress,
+	daiEthMarketAddress,
+	ethDaiMarketAddress,
+	daiWbtcMarketAddress,
+	wbtcDaiMarketAddress,
+	daiMaticMarketAddress,
+	maticDaiMarketAddress,
 	twoWayMarketRICUSDCAddress,
 	ricRexShirtLaunchpadAddress,
 	ricRexHatLaunchpadAddress,

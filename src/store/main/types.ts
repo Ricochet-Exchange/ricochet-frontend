@@ -23,6 +23,27 @@ export type MainState = {
 	apy?: number;
 	rewardsApy?: number;
 	feesApy?: number;
+	// TODO: Move this somewhere else so there's not so much repetition
+	usdcDaiFlowQuery?: {
+		flowKey: string;
+		flowsReceived: number;
+		flowsOwned: string;
+		totalFlows: number;
+		placeholder: string;
+		subsidyRate: { perso: number; total: number; endDate: string };
+		streamedSoFar?: number;
+		receivedSoFar?: number;
+	};
+	daiUsdcFlowQuery?: {
+		flowKey: string;
+		flowsReceived: number;
+		flowsOwned: string;
+		totalFlows: number;
+		placeholder: string;
+		subsidyRate: { perso: number; total: number; endDate: string };
+		streamedSoFar?: number;
+		receivedSoFar?: number;
+	};
 	usdcRicFlowQuery?: {
 		flowKey: string;
 		flowsReceived: number;

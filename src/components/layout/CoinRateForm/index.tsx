@@ -58,16 +58,7 @@ export const CoinRateForm: FC<IProps> = ({
 							color="primary"
 							onClick={onClickStart}
 							className={styles.start}
-							disabled={
-								isReadOnly ||
-								isLoading ||
-								!Boolean(parseInt(coinBalanceA ?? '') > 0) ||
-								!value ||
-								((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler) * shareScaler) /
-									1e18) *
-									2592000 ===
-									0
-							}
+							disabled={isReadOnly || isLoading}
 							isLoading={isLoading}
 						>
 							{t('Start')}/{t('Edit')}

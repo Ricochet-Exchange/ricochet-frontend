@@ -1,5 +1,30 @@
 export const streamExchangeABI = [
 	{
+		inputs: [],
+		name: 'lastDistributedAt',
+		outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [{ internalType: 'uint32', name: '', type: 'uint32' }],
+		name: 'outputPools',
+		outputs: [
+			{ internalType: 'contract ISuperToken', name: 'token', type: 'address' },
+			{ internalType: 'uint128', name: 'feeRate', type: 'uint128' },
+			{ internalType: 'uint256', name: 'emissionRate', type: 'uint256' },
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'shareScaler',
+		outputs: [{ internalType: 'uint128', name: '', type: 'uint128' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
 		inputs: [
 			{ internalType: 'address', name: '_owner', type: 'address' },
 			{ internalType: 'contract ISuperfluid', name: '_host', type: 'address' },

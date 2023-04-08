@@ -13,6 +13,23 @@ export const getShareScaler = async (
 	const contract = getContract(getExchangeAddressFromKey(exchangeKey), streamExchangeABI, web3);
 
 	const { outputIndex } = indexIDA.filter((data) => data.input === tokenA && data.output === tokenB)[0];
-	const outputPool = await contract.methods.getOutputPool(outputIndex).call();
-	return outputPool.shareScaler * 1e3;
+	return await contract.methods
+		.outputPool(outputIndex)
+		.call()
+		.then((outputPool: any) => {
+			return outputPool.shareScaler;
+		})
+		// If it fails, use the `shareScaler` method available to REXUniswapV3Market contracts
+		.catch((err: any) => {
+			contract.methods
+				.shareScaler()
+				.call()
+				.then((shareScaler: any) => {
+					return shareScaler;
+				})
+				.catch((err: any) => {
+					console.error(err);
+					return 1;
+				});
+		});
 };
