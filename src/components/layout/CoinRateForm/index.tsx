@@ -98,7 +98,7 @@ export const CoinRateForm: FC<IProps> = ({
 						multiline
 						className={styles.depositTooltip}
 					>
-						<span className={styles.depositTooltip_span}>No money, deposit in wallet page </span>
+						<span className={styles.depositTooltip_span}>No enough money, deposit in wallet page </span>
 					</ReactTooltip>
 				) : value && coin && coinBalanceA ? (
 					<ReactTooltip
