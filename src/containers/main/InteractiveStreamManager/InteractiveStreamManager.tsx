@@ -25,23 +25,10 @@ import {
 	USDCxAddress,
 	WBTCxAddress,
 	WETHxAddress,
-	StIbAlluoETHAddress,
-	StIbAlluoUSDAddress,
-	StIbAlluoBTCAddress,
 } from 'constants/polygon_config';
 // import './reactFlow.styles.module.scss';
 
-const sourceCoins = [
-	Coin.USDCx,
-	Coin.DAIx,
-	Coin.WBTCx,
-	Coin.WETHx,
-	Coin.RIC,
-	Coin.MATICx,
-	Coin.StIbAlluoETH,
-	Coin.StIbAlluoUSD,
-	Coin.StIbAlluoBTC,
-].map((coin, idx) => {
+const sourceCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC, Coin.MATICx].map((coin, idx) => {
 	return {
 		name: coin,
 		type: 'input',
@@ -51,17 +38,7 @@ const sourceCoins = [
 	};
 });
 
-const targetCoins = [
-	Coin.USDCx,
-	Coin.DAIx,
-	Coin.WBTCx,
-	Coin.WETHx,
-	Coin.RIC,
-	Coin.MATICx,
-	Coin.StIbAlluoETH,
-	Coin.StIbAlluoUSD,
-	Coin.StIbAlluoBTC,
-].map((coin, idx) => {
+const targetCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC, Coin.MATICx].map((coin, idx) => {
 	return {
 		name: coin,
 		type: 'output',
@@ -78,10 +55,6 @@ const marketMap = {
 	[Coin.WETHx]: [Coin.USDCx, Coin.DAIx],
 	[Coin.RIC]: [Coin.USDCx],
 	[Coin.MATICx]: [Coin.USDCx, Coin.DAIx],
-	[Coin.StIbAlluoETH]: [Coin.StIbAlluoUSD],
-	[Coin.StIbAlluoUSD]: [Coin.StIbAlluoETH],
-	[Coin.StIbAlluoBTC]: [Coin.StIbAlluoUSD],
-	[Coin.StIbAlluoUSD]: [Coin.StIbAlluoBTC],
 };
 
 const addressesMap = {
@@ -91,9 +64,6 @@ const addressesMap = {
 	[Coin.WETHx]: WETHxAddress,
 	[Coin.RIC]: RICAddress,
 	[Coin.MATICx]: MATICxAddress,
-	[Coin.StIbAlluoETH]: StIbAlluoETHAddress,
-	[Coin.StIbAlluoUSD]: StIbAlluoUSDAddress,
-	[Coin.StIbAlluoBTC]: StIbAlluoBTCAddress,
 };
 
 const nodeColor: GetMiniMapNodeAttribute = (node: Node<any>) => {
