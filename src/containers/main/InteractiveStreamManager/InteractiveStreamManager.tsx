@@ -49,7 +49,7 @@ const targetCoins = [Coin.USDCx, Coin.DAIx, Coin.WBTCx, Coin.WETHx, Coin.RIC, Co
 });
 
 const marketMap = {
-	[Coin.USDCx]: [Coin.WBTCx, Coin.WETHx, Coin.RIC, Coin.MATICx, Coin.StIbAlluoUSD],
+	[Coin.USDCx]: [Coin.WBTCx, Coin.WETHx, Coin.RIC, Coin.MATICx],
 	[Coin.DAIx]: [Coin.WETHx, Coin.WBTCx, Coin.MATICx],
 	[Coin.WBTCx]: [Coin.USDCx, Coin.DAIx],
 	[Coin.WETHx]: [Coin.USDCx, Coin.DAIx],
