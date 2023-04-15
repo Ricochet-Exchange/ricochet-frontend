@@ -275,13 +275,12 @@ export const PanelChange: FC<IProps> = ({
 	// const date = generateDate(balanceA, personalFlow);
 
 	const fireIconsCheck = (coinA: string, coinB: string) => {
+		// TODO: This should check the subsidyRate, lastDistribution, and RIC balance to determine if the fire icon should be displayed
+		// If the subsidyRate is greater than 0 AND the contract has a balance about subsidyRate * (current_time - lastDistribution), the fire icon should be displayed
+
 		if (
-			(coinA === 'IbAlluoUSD' && coinB === 'IbAlluoETH') ||
-			(coinA === 'USDC' && coinB === 'IbAlluoUSD') ||
-			(coinA === 'IbAlluoUSD' && coinB === 'IbAlluoBTC') ||
 			(coinA === 'USDC' && coinB === 'ETH') ||
 			(coinA === 'USDC' && coinB === 'WBTC') ||
-			(coinA === 'DAI' && coinB === 'ETH') ||
 			(coinA === 'USDC' && coinB === 'MATIC')
 		) {
 			return true;
