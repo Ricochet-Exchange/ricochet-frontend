@@ -74,16 +74,6 @@ export type MainState = {
 		streamedSoFar?: number;
 		receivedSoFar?: number;
 	};
-	usdcxibAlluoUSDFlowQuery?: {
-		flowKey: string;
-		flowsReceived: number;
-		flowsOwned: string;
-		totalFlows: number;
-		placeholder: string;
-		subsidyRate: { perso: number; total: number; endDate: string };
-		streamedSoFar?: number;
-		receivedSoFar?: number;
-	};
 	usdcSlpEthFlowQuery?: {
 		flowKey: string;
 		flowsReceived: number;
@@ -104,26 +94,7 @@ export type MainState = {
 		streamedSoFar?: number;
 		receivedSoFar?: number;
 	};
-	daiMkrFlowQuery?: {
-		flowKey: string;
-		flowsReceived: number;
-		flowsOwned: string;
-		totalFlows: number;
-		placeholder: string;
-		subsidyRate: { perso: number; total: number; endDate: string };
-		streamedSoFar?: number;
-		receivedSoFar?: number;
-	};
-	mkrDaiFlowQuery?: {
-		flowKey: string;
-		flowsReceived: number;
-		flowsOwned: string;
-		totalFlows: number;
-		placeholder: string;
-		subsidyRate: { perso: number; total: number; endDate: string };
-		streamedSoFar?: number;
-		receivedSoFar?: number;
-	};
+
 	usdcMkrFlowQuery?: {
 		flowKey: string;
 		flowsReceived: number;
@@ -144,26 +115,7 @@ export type MainState = {
 		streamedSoFar?: number;
 		receivedSoFar?: number;
 	};
-	daiMaticFlowQuery?: {
-		flowKey: string;
-		flowsReceived: number;
-		flowsOwned: string;
-		totalFlows: number;
-		placeholder: string;
-		subsidyRate: { perso: number; total: number; endDate: string };
-		streamedSoFar?: number;
-		receivedSoFar?: number;
-	};
-	maticDaiFlowQuery?: {
-		flowKey: string;
-		flowsReceived: number;
-		flowsOwned: string;
-		totalFlows: number;
-		placeholder: string;
-		subsidyRate: { perso: number; total: number; endDate: string };
-		streamedSoFar?: number;
-		receivedSoFar?: number;
-	};
+
 	usdcMaticFlowQuery?: {
 		flowKey: string;
 		flowsReceived: number;
@@ -175,26 +127,6 @@ export type MainState = {
 		receivedSoFar?: number;
 	};
 	maticUsdcFlowQuery?: {
-		flowKey: string;
-		flowsReceived: number;
-		flowsOwned: string;
-		totalFlows: number;
-		placeholder: string;
-		subsidyRate: { perso: number; total: number; endDate: string };
-		streamedSoFar?: number;
-		receivedSoFar?: number;
-	};
-	daiEthFlowQuery?: {
-		flowKey: string;
-		flowsReceived: number;
-		flowsOwned: string;
-		totalFlows: number;
-		placeholder: string;
-		subsidyRate: { perso: number; total: number; endDate: string };
-		streamedSoFar?: number;
-		receivedSoFar?: number;
-	};
-	ethDaiFlowQuery?: {
 		flowKey: string;
 		flowsReceived: number;
 		flowsOwned: string;
@@ -284,26 +216,6 @@ export type MainState = {
 		streamedSoFar?: number;
 		receivedSoFar?: number;
 	};
-	twoWayDaiWethFlowQuery?: {
-		flowKey: string;
-		flowsReceived: number;
-		flowsOwned: string;
-		totalFlows: number;
-		placeholder: string;
-		subsidyRate: { perso: number; total: number; endDate: string };
-		streamedSoFar?: number;
-		receivedSoFar?: number;
-	};
-	twoWayWethDaiFlowQuery?: {
-		flowKey: string;
-		flowsReceived: number;
-		flowsOwned: string;
-		totalFlows: number;
-		placeholder: string;
-		subsidyRate: { perso: number; total: number; endDate: string };
-		streamedSoFar?: number;
-		receivedSoFar?: number;
-	};
 	twoWayRicUsdcFlowQuery?: {
 		flowKey: string;
 		flowsReceived: number;
@@ -335,86 +247,6 @@ export type MainState = {
 		receivedSoFar?: number;
 	};
 	twoWayUsdcMaticFlowQuery?: {
-		flowKey: string;
-		flowsReceived: number;
-		flowsOwned: string;
-		totalFlows: number;
-		placeholder: string;
-		subsidyRate: { perso: number; total: number; endDate: string };
-		streamedSoFar?: number;
-		receivedSoFar?: number;
-	};
-	twoWayMaticDaiFlowQuery?: {
-		flowKey: string;
-		flowsReceived: number;
-		flowsOwned: string;
-		totalFlows: number;
-		placeholder: string;
-		subsidyRate: { perso: number; total: number; endDate: string };
-		streamedSoFar?: number;
-		receivedSoFar?: number;
-	};
-	twoWayDaiMaticFlowQuery?: {
-		flowKey: string;
-		flowsReceived: number;
-		flowsOwned: string;
-		totalFlows: number;
-		placeholder: string;
-		subsidyRate: { perso: number; total: number; endDate: string };
-		streamedSoFar?: number;
-		receivedSoFar?: number;
-	};
-	twoWayWbtcDaiFlowQuery?: {
-		flowKey: string;
-		flowsReceived: number;
-		flowsOwned: string;
-		totalFlows: number;
-		placeholder: string;
-		subsidyRate: { perso: number; total: number; endDate: string };
-		streamedSoFar?: number;
-		receivedSoFar?: number;
-	};
-	twoWayDaiWbtcFlowQuery?: {
-		flowKey: string;
-		flowsReceived: number;
-		flowsOwned: string;
-		totalFlows: number;
-		placeholder: string;
-		subsidyRate: { perso: number; total: number; endDate: string };
-		streamedSoFar?: number;
-		receivedSoFar?: number;
-	};
-	twoWayIbUsdIbEthFlowQuery?: {
-		flowKey: string;
-		flowsReceived: number;
-		flowsOwned: string;
-		totalFlows: number;
-		placeholder: string;
-		subsidyRate: { perso: number; total: number; endDate: string };
-		streamedSoFar?: number;
-		receivedSoFar?: number;
-	};
-	twoWayIbEthIbUsdFlowQuery?: {
-		flowKey: string;
-		flowsReceived: number;
-		flowsOwned: string;
-		totalFlows: number;
-		placeholder: string;
-		subsidyRate: { perso: number; total: number; endDate: string };
-		streamedSoFar?: number;
-		receivedSoFar?: number;
-	};
-	twoWayIbUsdIbBTCFlowQuery?: {
-		flowKey: string;
-		flowsReceived: number;
-		flowsOwned: string;
-		totalFlows: number;
-		placeholder: string;
-		subsidyRate: { perso: number; total: number; endDate: string };
-		streamedSoFar?: number;
-		receivedSoFar?: number;
-	};
-	twoWayIbBTCIbUsdFlowQuery?: {
 		flowKey: string;
 		flowsReceived: number;
 		flowsOwned: string;
