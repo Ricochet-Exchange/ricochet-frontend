@@ -14,7 +14,7 @@ export const getShareScaler = async (
 
 	const { outputIndex } = indexIDA.filter((data) => data.input === tokenA && data.output === tokenB)[0];
 	return await contract.methods
-		.outputPool(outputIndex)
+		.outputPools(outputIndex)
 		.call()
 		.then((outputPool: any) => {
 			return outputPool.shareScaler;
