@@ -6,6 +6,7 @@ import { mainSetState } from '../actionCreators';
 import { selectMain } from '../selectors';
 
 export function* getBalances(address: string) {
+	console.log('getBalances', address);
 	const contractsAddress = tokenArray;
 
 	const main: ReturnType<typeof selectMain> = yield select(selectMain);

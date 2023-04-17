@@ -17,6 +17,7 @@ export const getShareScaler = async (
 		.outputPools(outputIndex)
 		.call()
 		.then((outputPool: any) => {
+			console.log('shareScaler1', outputPool.shareScaler, exchangeKey);
 			return outputPool.shareScaler;
 		})
 		// If it fails, use the `shareScaler` method available to REXUniswapV3Market contracts
@@ -25,9 +26,11 @@ export const getShareScaler = async (
 				.shareScaler()
 				.call()
 				.then((shareScaler: any) => {
+					console.log('shareScaler2', shareScaler, exchangeKey);
 					return shareScaler;
 				})
 				.catch((err: any) => {
+					console.log('shareScaler3', exchangeKey);
 					console.error(err);
 					return 1;
 				});

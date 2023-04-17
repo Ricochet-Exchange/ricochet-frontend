@@ -2,6 +2,9 @@ import { takeEvery, takeLeading } from 'redux-saga/effects';
 import { MainActionTypes } from '../actionTypes';
 import { downgradeMainSaga } from './downgradeSaga';
 import { loadData } from './loadData';
+import { readApprovalsSaga } from './readApprovalSaga';
+import { readBalancesSaga } from './readBalancesSaga';
+import { readCoinGeckoPricesSaga } from './readCoinGeckoPricesSaga';
 import { approveMainSaga } from './approveSaga';
 import { upgradeMainSaga } from './upgradeSaga';
 import { stopFlowSaga } from './stopFlow';
@@ -18,7 +21,13 @@ export default function* mainSaga() {
 	yield takeLeading(MainActionTypes.MAIN_CHECK, mainCheckSaga);
 	yield takeLeading(MainActionTypes.MAIN_SWITCH_NETWORK, switchNetworkSaga);
 	yield takeLeading(MainActionTypes.MAIN_SWITCH_NETWORK, switchNetworkSaga);
+
+	yield takeLeading(MainActionTypes.READ_APPROVALS, readApprovalsSaga);
+	yield takeLeading(MainActionTypes.READ_COINGECK_PRICES, readCoinGeckoPricesSaga);
+	yield takeLeading(MainActionTypes.READ_BALANCES, readBalancesSaga);
+
 	yield takeEvery(MainActionTypes.LOAD_DATA, loadData);
+
 	//@ts-ignore
 	yield takeLeading(MainActionTypes.ADD_REWARD, aggregatedRICRewards);
 	//@ts-ignore

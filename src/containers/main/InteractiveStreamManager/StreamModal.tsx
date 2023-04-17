@@ -125,6 +125,7 @@ export default function StreamModal({
 		const exchangeKey = flowKey.replace('FlowQuery', '') as ExchangeKeys;
 		getShareScaler(web3, exchangeKey, tokenA, tokenB)
 			.then((res) => {
+				console.log('res', res, exchangeKey, tokenA, tokenB);
 				if (isMounted) {
 					setShareScaler(res);
 				}
