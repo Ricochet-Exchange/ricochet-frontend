@@ -137,7 +137,7 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 		setFilteredList(filteredData);
 	}
 
-	function filterYeild() {
+	function filterYield() {
 		const filteredData = flowConfig.filter(
 			(item) => item.coinA === 'IbAlluoUSD' || item.coinA === 'IbAlluoETH' || item.coinA === 'IbAlluoBTC',
 		);
@@ -155,8 +155,8 @@ export const InvestMarket: FC<InvestMarketProps> = ({ handleStart, handleStop })
 					<button className={styles.filterSellButton} onClick={() => filterSell()}>
 						Sell
 					</button>
-					<button className={styles.filterYeildButton} onClick={() => filterYeild()}>
-						Yeild
+					<button className={styles.filterYieldButton} onClick={() => filterYield()}>
+						Yield
 					</button>
 				</div>
 				<TextInput

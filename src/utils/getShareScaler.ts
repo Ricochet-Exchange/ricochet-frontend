@@ -21,7 +21,7 @@ export const getShareScaler = async (
 		})
 		// If it fails, use the `shareScaler` method available to REXUniswapV3Market contracts
 		.catch((err: any) => {
-			contract.methods
+			return contract.methods
 				.shareScaler()
 				.call()
 				.then((shareScaler: any) => {
