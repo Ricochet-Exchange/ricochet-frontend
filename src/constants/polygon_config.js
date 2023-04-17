@@ -26,6 +26,10 @@ export const wbtcUsdcMarketAddress = '0x6249828939200A08F5EeB114B9D9Bf6ac10061CC
 export const usdcMaticMarketAddress = '0xf68C90d7E9348cB5fEAD9BA13B29BC013dA1EE96';
 export const maticUsdcMarketAddress = '0x0b8F6e3FcD78C0258ad4a69f11057E6586576d34';
 
+// USDC-RIC
+export const usdcRicMarketAddress = '0x9ad80c3E370D8073AeC0C0d04F8E41168FB300F4';
+export const ricUsdcMarketAddress = '0x98a2e76e6Bf3afcbf1F9a0e08097987c7fFA3953';
+
 // DAI-ETH
 export const daiEthMarketAddress = '0x6A2010fF236a0b753742684aEA078F72Bb04058E';
 export const ethDaiMarketAddress = '0x1cb1E93a485f6dd87a835B68A504173AaEC9Ab52';
@@ -38,7 +42,6 @@ export const wbtcDaiMarketAddress = '0x009f6822792Ebb47d8aAE25EB06499371Ab8096c'
 export const daiMaticMarketAddress = '0x3aD32478453A28b2cD74e4C440957c6079274D8c';
 export const maticDaiMarketAddress = '0x543090bEeCa42A9C8E8F05c11c710BBCd22f2Cfd';
 
-export const twoWayMarketRICUSDCAddress = '0x86c2B55bf5d3E9DAC2747389B38D41C6B1F34179';
 export const twoWayMarketibAlluoUSDETHAddress = '0x56aCA122d439365B455cECb14B4A39A9d1B54621';
 export const twoWayMarketibAlluoUSDBTCAddress = '0xbB5C64B929b1E60c085dcDf88dfe41c6b9dcf65B';
 
@@ -163,7 +166,8 @@ export const marketArray = [
 	wbtcDaiMarketAddress,
 	daiMaticMarketAddress,
 	maticDaiMarketAddress,
-	twoWayMarketRICUSDCAddress,
+	usdcRicMarketAddress,
+	ricUsdcMarketAddress,
 	ricRexShirtLaunchpadAddress,
 	ricRexHatLaunchpadAddress,
 ];
