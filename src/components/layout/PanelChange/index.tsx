@@ -182,6 +182,7 @@ export const PanelChange: FC<IProps> = ({
 		if (web3?.currentProvider === null || flowType !== FlowTypes.market) return;
 		getShareScaler(web3, exchangeKey, tokenA, tokenB)
 			.then((res) => {
+				console.log('ss', exchangeKey, tokenA, tokenB, res);
 				if (isMounted) {
 					setShareScaler(res);
 				}
