@@ -7,7 +7,7 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectUserStreams } from 'store/main/selectors';
 import gift from 'assets/images/gift.svg';
 import styles from './styles.module.scss';
-import { RICOCHET_V1_LINK, SUPPORT, TUTORIAL_LINK } from 'utils/helpers';
+import { RICOCHET_LEGACY_LINK, SUPPORT, TUTORIAL_LINK } from 'utils/helpers';
 
 export const InvestNav = () => {
 	const userStreams = useShallowSelector(selectUserStreams);
@@ -57,7 +57,6 @@ export const InvestNav = () => {
 					<img src={currency} alt="currency" width="16" height="16" style={{ filter: 'invert(1)' }} />
 					<div className={styles.nav_text}>{'Payments'}</div>
 				</NavLink>
-
 				<NavLink
 					className={styles.nav_link}
 					activeClassName={styles.nav_link_active}
@@ -92,8 +91,8 @@ export const InvestNav = () => {
 					<FontIcon name={FontIconName.External} size={16} />
 				</a>
 
-				<a href={RICOCHET_V1_LINK} className={styles.nav_link} target="_blank" rel={'noreferrer'}>
-					<div className={styles.nav_text_tutorial}>{'Ricochet V1'}</div>
+				<a href={RICOCHET_LEGACY_LINK} className={styles.nav_link} target="_blank" rel={'noreferrer'}>
+					<div className={styles.nav_text_tutorial}>{'Ricochet V2'}</div>
 					<FontIcon name={FontIconName.External} size={16} />
 				</a>
 			</div>

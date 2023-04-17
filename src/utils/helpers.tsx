@@ -60,5 +60,5 @@ export const getVaultTxCalcValues = (bank: any, activeTransaction: string, value
 
 export const DISCORD_LINK = 'https://discord.gg/HPUs46akfY';
 export const TUTORIAL_LINK = 'https://docs.ricochet.exchange/';
-export const RICOCHET_V1_LINK = 'https://v1.ricochet.exchange/';
+export const RICOCHET_LEGACY_LINK = 'https://legacy.ricochet.exchange/';
 export const SUPPORT = 'https://discord.com/channels/862796510604296263/864667072357597185';

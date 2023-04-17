@@ -3,7 +3,7 @@ import Link from 'components/common/Link';
 import { NavLink } from 'react-router-dom';
 import { Routes } from '../../../constants/routes';
 import styles from './styles.module.scss';
-import { RICOCHET_V1_LINK } from 'utils/helpers';
+import { RICOCHET_LEGACY_LINK } from 'utils/helpers';
 
 interface IProps {
 	closeMenu?: () => void;
@@ -46,7 +46,7 @@ export const MobileMenu: FC<IProps> = ({ closeMenu }) => {
 				<div className={styles.mobile_container}>
 					<div className={styles.mobile_styled_link}>
 						<div className={styles.anchor_container}>
-							<NavLink to={{ pathname: RICOCHET_V1_LINK }}>
+							<NavLink to={{ pathname: RICOCHET_LEGACY_LINK }}>
 								<div>{'Ricochet V1'}</div>
 							</NavLink>
 						</div>
