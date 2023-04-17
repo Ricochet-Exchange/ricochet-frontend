@@ -12,7 +12,6 @@ import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { upgradeTokensList } from 'constants/upgradeConfig';
 import { sortByColumn } from 'utils/sortByColumn';
-import { useTranslation } from 'i18n';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import axios from 'axios';
 import Big from 'big.js';
@@ -73,8 +72,6 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 	const [upgradeConfig, setUpgradeConfig] = useState<Token>();
 	const [upgradeValue, setUpgradeValue] = useState('');
 	const dispatch = useDispatch();
-
-	const { t } = useTranslation();
 
 	const callback = (e?: string) => {
 		if (e) {
@@ -272,35 +269,35 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 			<table className={styles.dextable}>
 				<thead>
 					<tr className={styles.tableHeaders}>
-						<td className={styles.currencyStyle}>{t('Currency')}</td>
+						<td className={styles.currencyStyle}>{'Currency'}</td>
 						<td>
-							{t('Wallet')} {t('Balance')}
+							{'Wallet'} {'Balance'}
 							<br />
 							<span>
-								{t('Total balance')}:{' '}
+								{'Total balance'}:{' '}
 								<b>${totalWalletBalance ? totalWalletBalance.toFixed(6) : '0.0000'}</b>
 							</span>
 						</td>
 						<td className={styles.section}>
-							<span>{t('Ricochet Balance')}</span>
+							<span>{'Ricochet Balance'}</span>
 							<br />
 							<span>
-								{t('Total balance')}:{' '}
+								{'Total balance'}:{' '}
 								<b>${totalRicochetBalance ? totalRicochetBalance.toFixed(6) : '0.0000'}</b>
 							</span>
 						</td>
 						<td className={styles.section}>
-							{t('Monthly net Flow')}
+							{'Monthly net Flow'}
 							<br />
 							in
 							<span className={styles.blue}> USD</span>
 						</td>
 						<td className={styles.upgrade_downgrade_head}>
-							{t('Deposit')}
+							{'Deposit'}
 							&nbsp;
-							{t('or')}
+							{'or'}
 							<br />
-							{t('Withdraw')}
+							{'Withdraw'}
 						</td>
 					</tr>
 					<tr className={styles.sortButtonsRow}>
@@ -486,7 +483,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 												<>
 													{selectType === 'upgrade' && (
 														<UpgradePanel
-															placeholder={t('Input Amount')}
+															placeholder={'Input Amount'}
 															balance={
 																balances &&
 																upgradeConfig &&
@@ -517,7 +514,7 @@ export const UpgradeContainer: FC<IProps> = ({ address, balance }) => {
 															onChange={handleDowngradeValue}
 															onClickDowngrade={handleDowngrade}
 															onClickMax={handleMaxDowngrade}
-															placeholder={t('Input Amount')}
+															placeholder={'Input Amount'}
 															value={downgradeValue}
 															isUpgrade={false}
 															isLoading={isLoading || isLoadingDowngrade}

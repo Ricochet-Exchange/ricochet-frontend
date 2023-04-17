@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { Dropdown } from 'components/common/Dropdown';
-import { useTranslation } from 'i18n';
 import { WalletButton } from 'components/common/WalletButton';
 import styles from './styles.module.scss';
 import { DISCORD_LINK } from 'utils/helpers';
@@ -13,8 +12,6 @@ interface IProps {
 }
 
 export const UserSettings: FC<IProps> = ({ ricBalance = '', account, className }) => {
-	const { t } = useTranslation();
-
 	return (
 		<div className={styles.user_settings}>
 			<WalletButton ricBalance={ricBalance} account={account} />
@@ -36,13 +33,13 @@ export const UserSettings: FC<IProps> = ({ ricBalance = '', account, className }
 										target="_blank"
 										rel="noreferrer"
 									>
-										<div>{t('Docs')}</div>
+										<div>{'Docs'}</div>
 										<FontIcon name={FontIconName.Book} size={16} />
 									</a>
 								</li>
 								<li className={styles.discord}>
 									<a className={styles.head} href={DISCORD_LINK} target="_blank" rel="noreferrer">
-										<div>{t('Discord')}</div>
+										<div>{'Discord'}</div>
 										<FontIcon name={FontIconName.Chat} size={16} />
 									</a>
 								</li>
@@ -53,7 +50,7 @@ export const UserSettings: FC<IProps> = ({ ricBalance = '', account, className }
 										target="_blank"
 										rel="noreferrer"
 									>
-										<div>{t('GitHub')}</div>
+										<div>{'GitHub'}</div>
 										<FontIcon name={FontIconName.GitHub} size={16} />
 									</a>
 								</li>
@@ -64,7 +61,7 @@ export const UserSettings: FC<IProps> = ({ ricBalance = '', account, className }
 										target="_blank"
 										rel="noreferrer"
 									>
-										<div>{t('Twitter')}</div>
+										<div>{'Twitter'}</div>
 										<FontIcon name={FontIconName.Twitter} size={16} />
 									</a>
 								</li>
@@ -75,7 +72,7 @@ export const UserSettings: FC<IProps> = ({ ricBalance = '', account, className }
 										target="_blank"
 										rel="noreferrer"
 									>
-										<div>{t('Terms')}</div>
+										<div>{'Terms'}</div>
 										<FontIcon name={FontIconName.Lock} size={16} />
 									</a>
 								</li>

@@ -6,7 +6,6 @@ import { selectMain } from 'store/main/selectors';
 import type { ActivityEvents } from 'types/activity';
 import { SignInButton } from 'components/banks/SignInButton';
 import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 import { connectWeb3Modal } from 'store/main/actionCreators';
 import { EmptyPage } from 'components/common/EmptyPage';
 import { LoadingPopUp } from 'components/common/LoadingPopUp';
@@ -23,8 +22,6 @@ export const RecentActivityContainer: FC = () => {
 	const [flowUpdatedEvents, setFlowUpdatedEvents] = useState<IStreamFlowUpdatedEvent[]>([]);
 	const [showDetails, setShowDetails] = useState<boolean>(false);
 	const [eventId, setEventId] = useState<string>('');
-
-	const { t } = useTranslation();
 
 	useEffect(() => {
 		let mounted = true;
@@ -97,7 +94,7 @@ export const RecentActivityContainer: FC = () => {
 		if (!account) {
 			return (
 				<div className={styles.connect_wallet_wrapper}>
-					<p>{t('Please connect wallet to see your recent activities.')}</p>
+					<p>{'Please connect wallet to see your recent activities.'}</p>
 					<SignInButton onClick={connectWallet} />
 				</div>
 			);

@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import cx from 'classnames';
-import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 type Props = {
@@ -26,12 +25,11 @@ export const EtherscanLink: FC<Props> = ({ path, hash, className }) => {
 			}
 		}
 	};
-	const { t } = useTranslation();
 
 	return (
 		<div className={cx(styles.etherscanLink, className)}>
 			<a href={`${uri()}${hash}`} target="_blank" rel="noopener noreferrer">
-				{t('view on Polygonscan')}
+				{'view on Polygonscan'}
 			</a>
 		</div>
 	);

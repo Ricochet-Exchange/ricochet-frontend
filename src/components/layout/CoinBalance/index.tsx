@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import ButtonNew from 'components/common/ButtonNew';
-import { useTranslation } from 'i18n';
 import { Coin, iconsCoin } from '../../../constants/coins';
 import styles from './styles.module.scss';
 
@@ -12,8 +11,6 @@ interface IProps {
 }
 
 export const CoinBalance: FC<IProps> = ({ nameCoin, balance, className, onClickMax }) => {
-	const { t } = useTranslation();
-
 	return (
 		<ButtonNew className={className}>
 			<div className={styles.container_balance}>
@@ -25,7 +22,7 @@ export const CoinBalance: FC<IProps> = ({ nameCoin, balance, className, onClickM
 						<div className={styles.name}>{nameCoin}</div>
 					</div>
 					<div className={styles.balance} onClick={onClickMax} aria-hidden="true">
-						<div className={styles.balance_name}>{t('Balance')}:</div>
+						<div className={styles.balance_name}>{'Balance'}:</div>
 						<div className={styles.balance_value_container}>
 							<div className={styles.balance_value}>{balance?.toFixed(2)}</div>
 						</div>

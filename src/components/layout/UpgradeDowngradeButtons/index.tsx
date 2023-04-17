@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import ReactTooltip from 'react-tooltip';
-import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import ButtonNew from '../../common/ButtonNew';
 
@@ -27,8 +26,6 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
 	isReadOnly,
 	val,
 }) => {
-	const { t } = useTranslation();
-
 	return (
 		<div>
 			{isUpgrade ? (
@@ -42,7 +39,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
 							onClick={onClickApprove}
 							className={styles.approve}
 						>
-							{t('Approve')}
+							{'Approve'}
 						</ButtonNew>
 					</div>
 					<div className={styles.upgrade_wrap}>
@@ -56,7 +53,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
 							onClick={onClickUpgrade}
 							className={styles.upgrade}
 						>
-							{t('Deposit')}
+							{'Deposit'}
 						</ButtonNew>
 					</div>
 				</div>
@@ -72,7 +69,7 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
 						onClick={onClickDowngrade}
 						className={styles.downgrade}
 					>
-						{showWarningToolTip ? `${t('Withdraw')} ⚠️` : t('Withdraw')}
+						{showWarningToolTip ? `${'Withdraw'} ⚠️` : 'Withdraw'}
 					</ButtonNew>
 					{showWarningToolTip && (
 						<ReactTooltip
@@ -83,9 +80,9 @@ export const UpgradeDowngradeButtons: FC<IProps> = ({
 							multiline
 						>
 							<span className={styles.downgrade_wrap_span}>
-								{t(
-									'Downgrading your tokens could lead to the ongoing stream running out of funds and you losing your deposit!',
-								)}
+								{
+									'Downgrading your tokens could lead to the ongoing stream running out of funds and you losing your deposit!'
+								}
 							</span>
 						</ReactTooltip>
 					)}
