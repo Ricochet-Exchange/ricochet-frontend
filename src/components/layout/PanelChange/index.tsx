@@ -5,7 +5,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { showErrorToast } from 'components/common/Toaster';
 import ReactTooltip from 'react-tooltip';
-import { ExchangeKeys } from 'utils/getExchangeAddress';
+import { ExchangeKeys, getExchangeAddressFromKey } from 'utils/getExchangeAddress';
 import { getLastDistributionOnPair } from 'utils/getLastDistributions';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { AddressLink } from 'components/common/AddressLink';
@@ -155,7 +155,6 @@ export const PanelChange: FC<IProps> = ({
 				}
 				if (contractAddressAllowed(contractAddress)) {
 					const marketContract = await getContract(contractAddress, streamExchangeABI, web3);
-
 					marketContract?.methods
 						.getOutputPool(3)
 						.call()
@@ -195,14 +194,32 @@ export const PanelChange: FC<IProps> = ({
 	useEffect(() => {
 		let isMounted = true;
 		if (web3?.currentProvider === null || !exchangeKey || !isMounted) return;
-		getLastDistributionOnPair(web3, exchangeKey!)
-			.then((p) => {
-				if (isMounted) {
-					setLastDistribution(p);
-				}
-			})
-			.catch((error: string) => console.log(error));
 
+		const contract = getContract(getExchangeAddressFromKey(exchangeKey), streamExchangeABI, web3);
+
+		contract.methods
+			.getLastDistributionAt()
+			.call()
+			.then((lastDist: any) => {
+				const p = new Date(lastDist * 1000);
+				setLastDistribution(p);
+			})
+			// If it fails, use the `lastDistributedAt` method available to REXUniswapV3Market contracts
+			.catch((err: any) => {
+				console.error("Handle when the contract doesn't have the `getLastDistributionAt` method");
+				contract.methods
+					.lastDistributedAt()
+					.call()
+					.then((lastDist: any) => {
+						console.log('lastDist', lastDist);
+						const p = new Date(lastDist * 1000);
+						setLastDistribution(p);
+					})
+					.catch((err: any) => {
+						console.log("Handle when the contract doesn't have the `lastDistributedAt` method");
+						console.error(err);
+					});
+			});
 		return () => {
 			isMounted = false;
 		};

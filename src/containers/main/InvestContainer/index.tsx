@@ -48,6 +48,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 	const handleStop = useCallback(
 		(config: { [key: string]: string }) => (callback: (e?: string) => void) => {
 			dispatch(stopFlowAction(config, callback));
+			debugger;
 		},
 		[dispatch],
 	);
