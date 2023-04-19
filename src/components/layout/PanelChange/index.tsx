@@ -427,32 +427,6 @@ export const PanelChange: FC<IProps> = ({
 											{`$${totalFlow && getFlowUSDValue(totalFlow)}`}
 										</span>
 										{t('per month')}
-										{fireIconsCheck(coinA, coinB) ? (
-											<span>
-												<span
-													data-tip
-													data-for={`depositTooltipTotal-${uuid}`}
-													style={{ marginLeft: '6px' }}
-												>
-													🔥
-												</span>
-												<ReactTooltip
-													id={`depositTooltipTotal-${uuid}`}
-													place="right"
-													effect="solid"
-													multiline
-													className={styles.depositTooltip}
-												>
-													<span className={styles.depositTooltip_span}>
-														Total rewards: {emissionRate} RIC/mo.
-														<br />
-														Your rewards: {userRewards} RIC/mo.
-													</span>
-												</ReactTooltip>
-											</span>
-										) : (
-											<span />
-										)}
 									</span>
 									<span className={styles.token_amounts}>
 										<span>{`${totalFlow && totalFlow} ${coinA}x / ${t('Month')}`}</span>

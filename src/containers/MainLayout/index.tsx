@@ -1,6 +1,7 @@
 import React from 'react';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
+import { Banner } from 'components/layout/Banner';
 import { HeaderContainer } from 'containers/main/HeaderContainer';
 import { InvestNav } from 'components/layout/InvestNav';
 import { RICAddress } from 'constants/polygon_config';
@@ -14,6 +15,7 @@ export const MainLayout: React.FC<IProps> = ({ children }) => {
 	return (
 		<div className={styles.container}>
 			<div className={styles.header}>
+				<Banner />
 				<HeaderContainer balance={balances && balances[RICAddress]} address={address || 'Connect Wallet'} />
 			</div>
 
