@@ -40,6 +40,7 @@ import {
 	twoWayMarketibAlluoUSDETHAddress,
 	twoWayMarketibAlluoUSDBTCAddress,
 	usdcxibAlluoUSDAddress,
+	usdcxRicExchangeAddress,
 } from 'constants/polygon_config';
 
 export enum ExchangeKeys {
@@ -129,6 +130,7 @@ export const getExchangeAddressFromKey = (exchangeKey: ExchangeKeys) => {
 		twoWayIbEthIbUsd: twoWayMarketibAlluoUSDETHAddress,
 		twoWayIbUsdIbBTC: twoWayMarketibAlluoUSDBTCAddress,
 		twoWayIbBTCIbUsd: twoWayMarketibAlluoUSDBTCAddress,
+		usdcRic: usdcxRicExchangeAddress,
 	};
 
 	//@ts-ignore
