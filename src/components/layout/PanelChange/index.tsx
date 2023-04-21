@@ -147,27 +147,27 @@ export const PanelChange: FC<IProps> = ({
 		if (address) {
 			(async () => {
 				const contract = await getContract(rexReferralAddress, referralABI, web3);
+
 				if (!contract) return;
+
 				const affiliateStatus = await getAffiliateStatus(contract!, address, web3);
 
 				if (isMounted && affiliateStatus === AFFILIATE_STATUS.ENABLED) {
 					setIsAffiliate(true);
 				}
-				if (contractAddressAllowed(contractAddress)) {
-					const marketContract = await getContract(contractAddress, streamExchangeABI, web3);
-					marketContract?.methods
-						.getOutputPool(3)
-						.call()
-						.then((res: any) => {
-							const finRate = ((Number(res.emissionRate) / 1e18) * 2592000).toFixed(4);
-							if (isMountedRef.current) {
-								setEmissionRate(finRate.toString());
-							}
-						})
-						.catch((error: any) => {
-							console.log('error', error);
-						});
-				}
+				const marketContract = await getContract(contractAddress, streamExchangeABI, web3);
+				marketContract?.methods
+					.outputPools(1)
+					.call()
+					.then((res: any) => {
+						const finRate = ((Number(res.emissionRate) / 1e18) * 2592000).toFixed(4);
+						if (isMountedRef.current) {
+							setEmissionRate(finRate.toString());
+						}
+					})
+					.catch((error: any) => {
+						console.log('error', error);
+					});
 			})();
 		}
 		return () => {

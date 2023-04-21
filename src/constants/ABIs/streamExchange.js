@@ -238,7 +238,7 @@ export const streamExchangeABI = [
 	},
 	{
 		inputs: [{ internalType: 'uint32', name: '_index', type: 'uint32' }],
-		name: 'getOutputPool',
+		name: 'outputPool',
 		outputs: [
 			{
 				components: [
