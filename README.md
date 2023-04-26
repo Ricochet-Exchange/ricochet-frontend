@@ -67,4 +67,4 @@ REACT_APP_CHAIN_ID=137
 
 -   `test your changes` - Check github actions, once all checks are successful, a new environment will be created in a few minutes, please check comments to get the complete url. It will look something like this:
     `a380c3be5e6284f4ca1dfc37a12b3033-851332533.eu-west-1.elb.amazonaws.com/your-branch-name`
-    the environment will be destroyed once the PR is merged or
+    the environment will be destroyed once the PR is merged
