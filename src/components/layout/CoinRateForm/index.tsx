@@ -58,16 +58,7 @@ export const CoinRateForm: FC<IProps> = ({
 							color="primary"
 							onClick={onClickStart}
 							className={styles.start}
-							disabled={
-								isReadOnly ||
-								isLoading ||
-								!Boolean(parseInt(coinBalanceA ?? '') > 0) ||
-								!value ||
-								((Math.floor(((parseFloat(value) / 2592000) * 1e18) / shareScaler) * shareScaler) /
-									1e18) *
-									2592000 ===
-									0
-							}
+							disabled={true}
 							isLoading={isLoading}
 						>
 							{t('Start')}/{t('Edit')}
@@ -75,18 +66,16 @@ export const CoinRateForm: FC<IProps> = ({
 					</span>
 				</div>
 				<div className={styles.stop_wrap}>
-					{parseFloat(personalFlow) > 0 && (
-						<ButtonNew
-							loaderColor="#363B55"
-							color="secondary"
-							onClick={onClickStop}
-							className={styles.stop}
-							disabled={isReadOnly || isLoading}
-							isLoading={isLoading}
-						>
-							{t('Stop')}
-						</ButtonNew>
-					)}
+					<ButtonNew
+						loaderColor="#363B55"
+						color="secondary"
+						onClick={onClickStop}
+						className={styles.stop}
+						disabled={isReadOnly || isLoading}
+						isLoading={isLoading}
+					>
+						{t('Stop')}
+					</ButtonNew>
 				</div>
 				<div style={{ flexBasis: '100%', height: '0' }}> </div>
 

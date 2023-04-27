@@ -4,6 +4,10 @@
 	width: 100%;
 }
 
+.header {
+	margin-top: 25px;
+}
+
 .content {
 	grid-area: content;
 	width: 100%;
@@ -16,6 +20,9 @@
 	.navbar {
 		height: 80px;
 		margin-top: 10vh;
+	}
+	.header {
+		margin-top: 25px;
 	}
 	.content {
 		max-width: 100vw;

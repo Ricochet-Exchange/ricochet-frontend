@@ -1,0 +1,32 @@
+@import "../../../assets/styles/mixins";
+
+.banner {
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 100000;
+  position: fixed;
+  background-color: var(--color-red);
+  color: var(--color-black-dark);
+  margin: auto;
+  padding: 4px;
+  -moz-box-flex: 1;
+  flex-grow: 1;
+  -moz-box-pack: center;
+  justify-content: center;
+  -moz-box-align: center;
+  align-items: center;
+  text-align: center;
+  display: block;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+
+  @include tablet {
+    padding: 8px 45px;
+  }
+
+  i {
+    margin-right: 5px;
+  }
+}
