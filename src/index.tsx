@@ -8,7 +8,6 @@ import { ConnectedRouter } from 'connected-react-router';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import App from 'containers/app/App';
-import 'i18n';
 import history from 'utils/history';
 import reportWebVitals from './reportWebVitals';
 import { store, persistor } from './store';

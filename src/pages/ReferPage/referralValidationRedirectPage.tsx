@@ -8,7 +8,6 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { selectMain } from 'store/main/selectors';
 import { REFERRAL_URL_PREFIX } from 'constants/routes';
 import { Loader } from 'components/common/Loader';
-import { useTranslation } from 'react-i18next';
 import styles from './stylesReferralValidationRedirectPage.module.scss';
 
 interface IProps {}
@@ -40,7 +39,6 @@ const ReferralValidationRedirectPage: FC<IProps> = () => {
 	const contract = getContract(rexReferralAddress, referralABI, web3);
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [cookies, setCookie] = useCookies(['referralId']);
-	const { t } = useTranslation();
 	useEffect(() => {
 		// check contract that this referralId is valid and redirect
 		if (referralId && referralIdMax32Bytes && web3 && web3.currentProvider) {
@@ -75,17 +73,17 @@ const ReferralValidationRedirectPage: FC<IProps> = () => {
 			{referrerVilidationStatus === ReferrerValidationStatusTypes.Loading && (
 				<>
 					<Loader size={128} loaderColor="#363B55" />
-					<div>{t('Validating this referral')}</div>
+					<div>{'Validating this referral'}</div>
 				</>
 			)}
 			{referrerVilidationStatus === ReferrerValidationStatusTypes.Error && (
 				<>
-					<div>{t('Error during validation of this referral id')}</div>
+					<div>{'Error during validation of this referral id'}</div>
 				</>
 			)}
 			{referrerVilidationStatus === ReferrerValidationStatusTypes.NotExisting && (
 				<>
-					<div>{t('This referral id does not exist')}</div>
+					<div>{'This referral id does not exist'}</div>
 				</>
 			)}
 		</div>
