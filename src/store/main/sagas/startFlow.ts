@@ -25,12 +25,12 @@ export function* startFlowSaga({ payload }: ReturnType<typeof startFlowAction>) 
 			config.tokenB,
 			normalizedAmount,
 			web3,
-			config.referralId,
+			config?.referralId ?? '',
 		);
 		payload.callback();
 		yield call(sweepQueryFlow);
 	} catch (e) {
-		console.error(e);
+		// console.error(e);
 		const error = transformError(e);
 		payload.callback(error);
 	}
