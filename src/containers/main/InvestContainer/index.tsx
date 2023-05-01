@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { UserSettings } from 'components/layout/UserSettings';
-import { useTranslation } from 'react-i18next';
 import { useShallowSelector } from 'hooks/useShallowSelector';
 import { selectMain } from 'store/main/selectors';
 import { RICAddress } from 'constants/polygon_config';
@@ -27,7 +26,6 @@ export enum TABS {
 
 interface IProps {}
 export const InvestContainer: React.FC<IProps> = () => {
-	const { t } = useTranslation();
 	const state = useShallowSelector(selectMain);
 	const { address, balances } = state;
 	const dispatch = useDispatch();
@@ -63,7 +61,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 				<UserSettings
 					className={styles.dot}
 					ricBalance={balances && balances[RICAddress]}
-					account={address || t('Connect Wallet')}
+					account={address || 'Connect Wallet'}
 				/>
 			</div>
 			<div className={styles.container}>
@@ -107,7 +105,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 									<InteractiveStreamManager handleStart={handleStart} handleStop={handleStop} />
 								) : (
 									<div className={styles.connectWalletContainer}>
-										<p>{t('Please connect your wallet')}</p>
+										<p>{'Please connect your wallet'}</p>
 										<SignInButton onClick={handleSignIn} />
 									</div>
 								)}
@@ -117,7 +115,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 									<TradeHistoryTable address={address} />
 								) : (
 									<div className={styles.connectWalletContainer}>
-										<p>{t('Please connect your wallet')}</p>
+										<p>{'Please connect your wallet'}</p>
 										<SignInButton onClick={handleSignIn} />
 									</div>
 								)}
@@ -129,7 +127,7 @@ export const InvestContainer: React.FC<IProps> = () => {
 				</div>
 
 				<div>
-					<span className={styles.fee_disclaimer}>{t('Ricochet takes a 2% fee on swaps.')}</span>
+					<span className={styles.fee_disclaimer}>{'Ricochet takes a 2% fee on swaps.'}</span>
 				</div>
 			</div>
 		</div>

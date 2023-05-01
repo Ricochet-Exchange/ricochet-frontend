@@ -1,6 +1,5 @@
 import React, { FC, HTMLProps } from 'react';
 import classNames from 'classnames';
-import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import { TextInputWrap } from '../TextInputWrap';
 import ButtonNew from '../ButtonNew';
@@ -42,7 +41,6 @@ const TextInput: FC<TextInputProps> = ({
 	dontBlockChar = false,
 	...props
 }) => {
-	const { t } = useTranslation();
 	const blockInvalidChar = (e: any) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
 	return (
 		<TextInputWrap error={hasError} className={containerClassName}>
@@ -68,7 +66,7 @@ const TextInput: FC<TextInputProps> = ({
 						onClick={onClickMax}
 						className={styles.max}
 					>
-						{t('Max')}
+						{'Max'}
 					</ButtonNew>
 				</div>
 			)}
