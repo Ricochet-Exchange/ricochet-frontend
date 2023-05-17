@@ -2,7 +2,6 @@ import ButtonNew from 'components/common/ButtonNew';
 import { FontIcon, FontIconName } from 'components/common/FontIcon';
 import { TextInput } from 'components/common/TextInput';
 import { UpgradeTokenConfig } from 'containers/main/ModalContainer';
-import { useTranslation } from 'i18n';
 import React, { ChangeEvent, FC } from 'react';
 import { Coin, iconsCoin } from '../../../constants/coins';
 import styles from './styles.module.scss';
@@ -26,14 +25,12 @@ export const ModalSelectToken: FC<IProps> = ({
 	filteredList,
 	balances,
 }) => {
-	const { t } = useTranslation();
-
 	return (
 		<>
 			<div className={styles.container}>
 				<div className={styles.modal}>
 					<div className={styles.select}>
-						<div className={styles.select_token_wrap}>{t('Select a token')}</div>
+						<div className={styles.select_token_wrap}>{'Select a token'}</div>
 						<div className={styles.close_wrap}>
 							<button className={styles.close_btn} onClick={onCloseModal}>
 								<FontIcon name={FontIconName.Close} className={styles.close} size={14} />
@@ -46,12 +43,12 @@ export const ModalSelectToken: FC<IProps> = ({
 							className={styles.input}
 							onChange={onChange}
 							containerClassName={styles.container_input}
-							placeholder={t('Search name or paste address')}
+							placeholder={'Search name or paste address'}
 							left={<FontIcon name={FontIconName.Search} className={styles.search} size={16} />}
 						/>
 					</div>
 					<div className={styles.common_wrap}>
-						<div className={styles.common}>{t('Common bases')}</div>
+						<div className={styles.common}>{'Common bases'}</div>
 					</div>
 					<div className={styles.icon_wrap}>
 						{tokensList.map(({ coin }) => (
@@ -72,7 +69,7 @@ export const ModalSelectToken: FC<IProps> = ({
 											<img className={styles.icon_size} src={iconsCoin[coin]} alt={coin} />
 											<div className={styles.coin_name_wrap}>
 												<div className={styles.coin_name}>{coin}</div>
-												<div className={styles.description}>{t('Ethereum')}</div>
+												<div className={styles.description}>{'Ethereum'}</div>
 											</div>
 										</ButtonNew>
 
@@ -86,7 +83,7 @@ export const ModalSelectToken: FC<IProps> = ({
 							</div>
 						</div>
 					) : (
-						<div className={styles.results}>{t('Results not found')}</div>
+						<div className={styles.results}>{'Results not found'}</div>
 					)}
 				</div>
 			</div>

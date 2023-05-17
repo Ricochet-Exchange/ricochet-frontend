@@ -5,7 +5,6 @@ import { numFormatter } from 'utils/balances';
 import { useDispatch } from 'react-redux';
 import { connectWeb3Modal } from 'store/main/actionCreators';
 import useENS from 'hooks/useENS';
-import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 interface IProps {
@@ -16,8 +15,7 @@ interface IProps {
 
 export const WalletButton: FC<IProps> = ({ ricBalance = '', account, mobile }) => {
 	const dispatch = useDispatch();
-	const { t } = useTranslation();
-	const preConnect = account === t('Connect Wallet');
+	const preConnect = account === 'Connect Wallet';
 	const [connecting, setConnecting] = useState(false);
 	const { ensName, ensAvatar } = useENS(account);
 	//this solution doesn't work properly, examples: if user has pop ups disabled

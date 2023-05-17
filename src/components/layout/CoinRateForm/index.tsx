@@ -1,6 +1,5 @@
 import { TextInput } from 'components/common/TextInput';
 import React, { ChangeEvent, FC } from 'react';
-import { useTranslation } from 'i18n';
 import ReactTooltip from 'react-tooltip';
 import ButtonNew from '../../common/ButtonNew';
 import { Coin } from '../../../constants/coins';
@@ -98,7 +97,6 @@ export const CoinRateForm: FC<IProps> = ({
 	indexVal,
 	coinBalanceA,
 }) => {
-	const { t } = useTranslation();
 	const [showLimitOrderSection, setShowLimitOrderSection] = React.useState(false);
 	const [limitValue, setLimitValue] = React.useState('');
 	const [expiresIn, setExpiresIn] = React.useState('');
@@ -177,7 +175,7 @@ export const CoinRateForm: FC<IProps> = ({
 								}
 								isLoading={isLoading}
 							>
-								{t('Start')}/{t('Edit')}
+								{'Start'}/{'Edit'}
 							</ButtonNew>
 						</span>
 					</div>
@@ -192,7 +190,7 @@ export const CoinRateForm: FC<IProps> = ({
 								disabled={isReadOnly || isLoading}
 								isLoading={isLoading}
 							>
-								{t('Stop')}
+								{'Stop'}
 							</ButtonNew>
 						)}
 					</div>

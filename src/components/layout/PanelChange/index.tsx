@@ -13,7 +13,6 @@ import { getAddressLink } from 'utils/getAddressLink';
 import { selectMain } from 'store/main/selectors';
 import ReactTimeAgo from 'react-time-ago';
 import TimeAgo from 'javascript-time-ago';
-import { useTranslation } from 'react-i18next';
 import en from 'javascript-time-ago/locale/en.json';
 import { getContract } from 'utils/getContract';
 import { rexReferralAddress } from 'constants/polygon_config';
@@ -96,7 +95,6 @@ export const PanelChange: FC<IProps> = ({
 	const [isAffiliate, setIsAffiliate] = useState(false);
 	const [userRewards, setUserRewards] = useState(0);
 	const [emissionRate, setEmissionRate] = useState('');
-	const { t } = useTranslation();
 	const personal_pool_rate = personalFlow ? personalFlow : 0;
 	const total_market_pool = totalFlow ? totalFlow : 0;
 	const subsidy_rate_static = emissionRate;
@@ -275,13 +273,12 @@ export const PanelChange: FC<IProps> = ({
 	// const date = generateDate(balanceA, personalFlow);
 
 	const fireIconsCheck = (coinA: string, coinB: string) => {
+		// TODO: This should check the subsidyRate, lastDistribution, and RIC balance to determine if the fire icon should be displayed
+		// If the subsidyRate is greater than 0 AND the contract has a balance about subsidyRate * (current_time - lastDistribution), the fire icon should be displayed
+
 		if (
-			(coinA === 'IbAlluoUSD' && coinB === 'IbAlluoETH') ||
-			(coinA === 'USDC' && coinB === 'IbAlluoUSD') ||
-			(coinA === 'IbAlluoUSD' && coinB === 'IbAlluoBTC') ||
 			(coinA === 'USDC' && coinB === 'ETH') ||
 			(coinA === 'USDC' && coinB === 'WBTC') ||
-			(coinA === 'DAI' && coinB === 'ETH') ||
 			(coinA === 'USDC' && coinB === 'MATIC')
 		) {
 			return true;
@@ -327,12 +324,12 @@ export const PanelChange: FC<IProps> = ({
 								<div className={styles.stream}>
 									<span>
 										<span className={styles.number}>
-											{`$${personalFlow && getFlowUSDValue(personalFlow)} ${t('per month')}`}
+											{`$${personalFlow && getFlowUSDValue(personalFlow)} ${'per month'}`}
 										</span>
 									</span>
 									<div>
 										<span className={styles.token_amounts}>
-											<span>{`${personalFlow && personalFlow} ${coinA}x / ${t('Month')}`}</span>
+											<span>{`${personalFlow && personalFlow} ${coinA}x / ${'Month'}`}</span>
 										</span>
 									</div>
 									{streamedSoFar && (
@@ -342,9 +339,7 @@ export const PanelChange: FC<IProps> = ({
 												data-tip
 												data-for={`streamed-so-far-${indexVal}`}
 											>
-												{`${t('Streamed')} ${streamedSoFar.toFixed(6)} ${coinA}x ${t(
-													'so far',
-												)}`}
+												{`${'Streamed'} ${streamedSoFar.toFixed(6)} ${coinA}x ${'so far'}`}
 											</span>
 											<ReactTooltip
 												id={`streamed-so-far-${indexVal}`}
@@ -353,10 +348,10 @@ export const PanelChange: FC<IProps> = ({
 												multiline
 											>
 												<span>
-													{`${t('Streamed')} $${getFlowUSDValue(
+													{`${'Streamed'} $${getFlowUSDValue(
 														streamedSoFar.toString(),
 														6,
-													)} ${t('so far')}`}
+													)} ${'so far'}`}
 												</span>
 											</ReactTooltip>
 										</>
@@ -368,9 +363,7 @@ export const PanelChange: FC<IProps> = ({
 												data-tip
 												data-for={`streamed-so-far-${indexVal}`}
 											>
-												{`${t('Received')} ${receivedSoFar.toFixed(6)} ${coinA}x ${t(
-													'so far',
-												)}`}
+												{`${'Received'} ${receivedSoFar.toFixed(6)} ${coinA}x ${'so far'}`}
 											</span>
 											<ReactTooltip
 												id={`streamed-so-far-${indexVal}`}
@@ -379,10 +372,10 @@ export const PanelChange: FC<IProps> = ({
 												multiline
 											>
 												<span>
-													{`${t('Received')} $${getFlowUSDValue(
+													{`${'Received'} $${getFlowUSDValue(
 														receivedSoFar.toString(),
 														6,
-													)} ${t('so far')}`}
+													)} ${'so far'}`}
 												</span>
 											</ReactTooltip>
 										</>
@@ -390,7 +383,7 @@ export const PanelChange: FC<IProps> = ({
 									<span>
 										{(personalFlow || 0) > 0 && (balanceA || 0) > 0 && (
 											<div className={styles.stream_values}>
-												{`${t('Runs out on')} ${streamEnd}`}
+												{`${'Runs out on'} ${streamEnd}`}
 											</div>
 										)}
 									</span>
@@ -426,7 +419,7 @@ export const PanelChange: FC<IProps> = ({
 										<span className={styles.number}>
 											{`$${totalFlow && getFlowUSDValue(totalFlow)}`}
 										</span>
-										{t('per month')}
+										{'per month'}
 										{fireIconsCheck(coinA, coinB) ? (
 											<span>
 												<span
@@ -455,14 +448,14 @@ export const PanelChange: FC<IProps> = ({
 										)}
 									</span>
 									<span className={styles.token_amounts}>
-										<span>{`${totalFlow && totalFlow} ${coinA}x / ${t('Month')}`}</span>
+										<span>{`${totalFlow && totalFlow} ${coinA}x / ${'Month'}`}</span>
 									</span>
 									<span>
 										<span className={styles.number}>{totalFlows}</span>
-										{t('total streams')}
+										{'total streams'}
 									</span>
 									<span className={styles.distributed_time}>
-										{t('Distributed')}{' '}
+										{'Distributed'}{' '}
 										<b>{lastDistribution && <ReactTimeAgo date={lastDistribution} />}</b>
 									</span>
 								</div>
