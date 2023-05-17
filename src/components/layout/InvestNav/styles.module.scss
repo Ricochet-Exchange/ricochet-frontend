@@ -89,7 +89,7 @@
 
 	.nav_link {
 		cursor: pointer;
-		@extend .link;
+		// @extend .link;
 		display: flex;
 		width: 100%;
 		direction: ltr;
@@ -131,7 +131,7 @@
 
 	.nav_link_desktop_only {
 		cursor: pointer;
-		@extend .link;
+		// @extend .link;
 		display: flex;
 		align-items: center;
 	}

@@ -15,6 +15,20 @@
 	}
 }
 
+.limit_order_section {
+	padding: 4px 0 27px 30px;
+	width: 100%;
+
+	@include tablet {
+		@include flexbox(center, center);
+
+		flex-direction: column;
+		padding: 10px 0 10px 0;
+		width: 90%;
+		margin: auto;
+	}
+}
+
 .input {
 	background: #484e51;
 	font-style: normal;
@@ -27,6 +41,18 @@
 	}
 }
 
+.dropdown_input {
+	background: #484e51 !important;
+	color: $dark-mode-lightblue !important;
+	font-size: 14px;
+	line-height: 140%;
+	border-radius: 8px;
+	margin: 0 20px 0 0;
+	border: 1px solid var(--color-blue);
+}
+// .dropdown_container {
+// 	width: 274px;
+// }
 .container_input {
 	background: #484e51;
 	border-radius: 8px;
@@ -44,6 +70,15 @@
 		width: 100%;
 		padding: 0;
 	}
+}
+
+.limit_order_row {
+	display: flex;
+	align-items: center;
+	margin-top: 10px;
+}
+.info_icon {
+	margin-left: 8px;
 }
 
 .right {
@@ -92,7 +127,7 @@
 }
 
 .depositTooltip_span {
-	width: 500px;
+	width: 300px;
 	display: block;
 	text-align: justify;
 	opacity: 0.8;
@@ -105,4 +140,8 @@
 .__react_component_tooltip::before,
 .__react_component_tooltip::after {
 	border-top: 5px solid #062e56 !important;
+}
+
+.custom_button {
+	margin-top: 16px;
 }
