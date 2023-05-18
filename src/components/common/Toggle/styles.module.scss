@@ -1,0 +1,31 @@
+@import 'assets/styles/_mixins.scss';
+
+.toggle-btn {
+	display: inline-block;
+	width: 50px;
+	height: 25px;
+	background-color: #ccc;
+	border-radius: 25px;
+	position: relative;
+	cursor: pointer;
+	transition: background-color 0.3s;
+
+	&__circle {
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		background-color: white;
+		position: absolute;
+		top: 2px;
+		left: 2px;
+		transition: transform 0.3s;
+	}
+
+	&.active {
+		background-color: #2196f3;
+
+		.toggle-btn__circle {
+			transform: translateX(25px);
+		}
+	}
+}
