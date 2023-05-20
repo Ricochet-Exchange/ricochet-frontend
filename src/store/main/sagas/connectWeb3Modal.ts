@@ -15,17 +15,21 @@ export function* connectWeb3Modal(): any {
 	try {
 		const providerOptions = {
 			walletconnect: {
-				package: WalletConnectProvider, // required
+				package: WalletConnectProvider,
 				options: {
 					rpc: {
 						137: process.env.REACT_APP_RPC_URLS,
+						10: process.env.REACT_APP_RPC_URLS_CHAIN_ID_10,
 					},
 				},
 			},
 			walletlink: {
 				package: WalletLink,
 				options: {
-					rpc: process.env.REACT_APP_RPC_URLS,
+					rpc: {
+						137: process.env.REACT_APP_RPC_URLS,
+						10: process.env.REACT_APP_RPC_URLS_CHAIN_ID_10,
+					},
 					chainId: 137,
 				},
 			},
@@ -37,52 +41,35 @@ export function* connectWeb3Modal(): any {
 					},
 				},
 			},
-			// "custom-gnosis": {
-			//   display: {
-			//     logo: "https://gnosis-safe.io/app/static/media/transition-logo.f4f66a24.gif?40",
-			//     name: "Example Provider",
-			//     description: "Connect to your example provider account"
-			//   },
-			//   package: SafeAppProvider,
-			//   options: {
-			//     networkParams: {
-			//       chainId: 137,
-			//     },
-			//   },
-			//   connector: async () => {
-			//     const provider = await getProvider();
-
-			//     console.log(provider)
-
-			//     await provider.connect();
-
-			//     return provider;
-			//   }
-			// }
+			torus10: {
+				package: Torus,
+				options: {
+					networkParams: {
+						chainId: 10,
+					},
+				},
+			},
 		};
-		// const web3Modal = new Web3Modal({
-		//   network: 'matic',
-		//   providerOptions,
-		//   cacheProvider: true,
-		// });
+
 		const web3Modal = new SafeAppWeb3Modal({
 			network: 'matic',
 			providerOptions,
 			cacheProvider: true,
 		});
 
-		// const provider = yield call(web3Modal.connect);
 		const provider = yield call(web3Modal.requestProvider);
 		const readWeb3 = new Web3(new Web3.providers.HttpProvider(process.env.REACT_APP_API_NODE_URL!));
 		const web3 = new Web3(provider);
 		const chainId = yield call(web3.eth.net.getId);
-		if (chainId === Number(process.env.REACT_APP_CHAIN_ID)) {
+
+		if (chainId === 137 || chainId === 10) {
 			yield put(modalHide());
 			yield put(mainGetData());
 		} else {
 			// Run modal switch network
 			yield put(modalShow(ModalType.Network));
 		}
+
 		provider?.on('chainChanged', () => store.dispatch(mainCheck()));
 		provider?.on('accountsChanged', () => store.dispatch(mainGetData()));
 		yield put(mainSetState({ web3, readWeb3 }));
