@@ -111,5 +111,6 @@
       "yarn lint",
       "bash -c tsc"
     ]
-  }
+  },
+  "description": " "
 }
